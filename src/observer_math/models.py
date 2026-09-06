@@ -1,0 +1,67 @@
+"""Reference systems used to test the proposed measures."""
+
+from __future__ import annotations
+
+import numpy as np
+from numpy.typing import NDArray
+
+FloatMatrix = NDArray[np.float64]
+
+
+def _scale_radius(matrix: FloatMatrix, target: float = 0.86) -> FloatMatrix:
+    radius = float(np.max(np.abs(np.linalg.eigvals(matrix))))
+    if radius == 0.0:
+        return matrix
+    return matrix * (target / radius)
+
+
+def ring_system(node_count: int = 6, coupling: float = 0.22) -> tuple[FloatMatrix, FloatMatrix]:
+    """Stable local dynamics on a ring with independent process noise."""
+    if node_count < 3:
+        raise ValueError("node_count must be at least three")
+    transition = np.eye(node_count) * 0.48
+    for node in range(node_count):
+        transition[node, (node - 1) % node_count] = coupling
+        transition[node, (node + 1) % node_count] = coupling
+    return _scale_radius(transition), np.eye(node_count) * 0.18
+
+
+def block_system(
+    block_sizes: tuple[int, ...] = (3, 3),
+    *,
+    internal_coupling: float = 0.25,
+    external_coupling: float = 0.015,
+) -> tuple[FloatMatrix, FloatMatrix]:
+    """Coupled modules with strong internal and weak external dynamics."""
+    if len(block_sizes) < 2 or any(size < 2 for size in block_sizes):
+        raise ValueError("provide at least two blocks, each containing at least two nodes")
+    node_count = sum(block_sizes)
+    transition = np.eye(node_count) * 0.42
+    labels = np.concatenate(
+        [np.full(size, block_index) for block_index, size in enumerate(block_sizes)]
+    )
+    for target in range(node_count):
+        for source in range(node_count):
+            if target == source:
+                continue
+            transition[target, source] = (
+                internal_coupling if labels[target] == labels[source] else external_coupling
+            )
+    noise = np.eye(node_count) * 0.16
+    return _scale_radius(transition), noise
+
+
+def correlated_but_uncoupled_system(
+    node_count: int = 4,
+    *,
+    memory: float = 0.65,
+    noise_correlation: float = 0.55,
+) -> tuple[FloatMatrix, FloatMatrix]:
+    """Static correlation without cross-node dynamical influence."""
+    if not 0 <= noise_correlation < 1:
+        raise ValueError("noise_correlation must lie in [0, 1)")
+    transition = np.eye(node_count) * memory
+    noise = np.full((node_count, node_count), noise_correlation)
+    np.fill_diagonal(noise, 1.0)
+    noise *= 0.2
+    return transition, noise
