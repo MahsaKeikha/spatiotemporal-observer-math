@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.13.0 - 2026-09-07
+
+- Added robust path recovery over exact candidate equivalence classes.
+- Kept separate covariance and eigenvalue envelopes for local classes and
+  ordered transport-class pairs.
+- Introduced a binary mismatch state that excludes the planted class path
+  without enumerating candidate paths.
+- Supported arbitrary-size Python integer multiplicities for combinatorial
+  candidate families.
+- Proved an \(O(TK^2)\) class-compressed certificate conditional on exact
+  within-class factors and uniform covariance envelopes.
+- Verified the class dynamic program against exhaustive class paths.
+- Added a 1,000-node overlap-class example representing more than eight
+  trillion candidates per time with six numerical states.
+
 ## 0.12.0 - 2026-09-07
 
 - Propagated deterministic candidate-local covariance radii through directed

@@ -613,6 +613,50 @@ the population path, adversarial competitor, robust slack, and sufficient
 recovery decision. This is a deterministic certificate. It does not assign a
 probability to the supplied perturbation envelope.
 
+### Class-compressed path recovery
+
+```python
+from observer_math import class_compressed_covariance_path_recovery_bound
+
+certificate = class_compressed_covariance_path_recovery_bound(
+    local_factors_by_class,
+    transport_factors_by_class_pair,
+    class_multiplicities,
+    planted_class_indices,
+    feasible_class_edges,
+    continuity_distance_lower_bounds,
+    planted_continuity_distances,
+    node_count,
+    subset_size,
+    covariance_spectral_errors=class_covariance_errors,
+    minimum_block_eigenvalues=class_minimum_eigenvalues,
+    maximum_block_eigenvalues=class_maximum_eigenvalues,
+    transport_covariance_spectral_errors=class_edge_covariance_errors,
+    minimum_transport_block_eigenvalues=class_edge_minimum_eigenvalues,
+    maximum_transport_block_eigenvalues=class_edge_maximum_eigenvalues,
+)
+```
+
+This entry point represents every candidate only through an exact equivalence
+class. `local_factors_by_class[t, k]` must be constant across class `k`, and
+the transport factors must be constant across every declared ordered class
+pair. Local covariance arrays must bound every member of a state class, and
+transport covariance arrays must separately bound every member of each ordered
+class pair. This distinction is required when a candidate changes overlap
+class between adjacent planted boundaries. The planted class at each time must
+have multiplicity one.
+
+`continuity_distance_lower_bounds[t, k, l]` may contain zero when no sharper
+uniform lower bound is known. `feasible_class_edges` excludes impossible class
+transitions. The returned adversarial class path is computed with a binary
+mismatch state, ensuring that the all-planted class path is not compared
+against itself.
+
+Class multiplicities may be arbitrary Python integers. The implementation
+therefore records candidate and path counts beyond fixed-width integer ranges.
+Its numerical dynamic program costs \(O(TK^2)\), where \(K\) is the class
+count, and does not depend on those multiplicities.
+
 ## Identifiability and symmetry
 
 ```python

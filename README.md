@@ -189,6 +189,13 @@ dynamic program. A positive robust slack certifies that every covariance
 sequence inside the declared moving-partition envelope has the same unique
 optimal path.
 
+An exact class-compressed version removes explicit candidate block-union lists
+when the population factors are symmetric within declared classes. It retains
+one binary mismatch state so the adversarial dynamic program excludes the
+planted path itself. The committed 1,000-node example evaluates six overlap
+classes while representing more than eight trillion candidates per time and
+an implicit five-step path count far beyond fixed-width integer ranges.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -200,7 +207,7 @@ optimal path.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-six proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-seven proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -231,6 +238,7 @@ python examples/block_sparse_recovery_experiment.py
 python examples/localized_influence_cone_experiment.py
 python examples/moving_partition_influence_experiment.py
 python examples/moving_partition_recovery_experiment.py
+python examples/class_compressed_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -253,8 +261,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.12 connects exact
-moving-partition influence radii to candidate-local score errors and a robust
-path-recovery certificate.
+This is an ongoing study, not a finished paper. Version 0.13 compresses robust
+path recovery into exact candidate symmetry classes while retaining
+covariance-to-score perturbation guarantees.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

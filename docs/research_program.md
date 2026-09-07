@@ -80,7 +80,10 @@ Rectangular comparisons between consecutive layers avoid a common refinement
 when blocks split, merge, or change membership. The next recovery theorem
 now connects these layered local radii directly to candidate-local score and
 action margins. The remaining scalable step is to combine this result with
-overlap classes without explicitly listing candidate block unions.
+overlap classes without explicitly listing candidate block unions. Proposition
+27 now performs that compression when factors are exactly class-constant. The
+next step is to replace exact within-class symmetry by rigorous factor ranges
+or within-class residual terms.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -182,6 +185,8 @@ stable and predictively useful, not whether it indicates consciousness.
   without common refinement or membership-history enumeration
 - deterministic propagation of moving-partition covariance radii through all
   observer-score factors and the adversarial path-recovery dynamic program
+- class-compressed robust recovery with a mismatch-state dynamic program and
+  arbitrary-size overlap multiplicities
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

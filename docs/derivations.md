@@ -592,7 +592,45 @@ path calculation certifies whether the remaining local error can change the
 optimizer. A zero influence radius is useful only because it becomes a zero
 score-error contribution at the corresponding state and incoming edges.
 
-## 22. Choices that are still choices
+## 22. Compressing the adversarial path by symmetry class
+
+When population factors and covariance envelopes depend only on a class label,
+the robust competitor calculation does not need candidate identities. Each
+class node receives its score plus its Proposition 26 error. Each class edge
+receives its weighted transport score, its weighted transport error, and the
+negative of a valid lower continuity-distance bound.
+
+Local and edge covariance envelopes remain separate. The local envelope is
+indexed by a state class at one joint time. The transport envelope is indexed
+by an ordered pair of classes and the edge's own joint time. Reusing a local
+class radius for an incoming edge is generally invalid when overlap classes
+change with the planted boundary.
+
+One extra binary state preserves uniqueness. The state is zero while a class
+path exactly follows the planted class sequence and becomes one after its first
+mismatch. Dynamic programming proceeds over the pair \((k,h)\), with class
+index \(k\) and mismatch flag \(h\). The final competitor is the best state
+with \(h=1\), so the planted class path itself is excluded without enumerating
+paths.
+
+For overlap classes of fixed-size candidates, the multiplicity at overlap
+\(q\) is
+
+\[
+\binom{s}{q}\binom{n-s}{s-q}.
+\]
+
+The overlap-\(s\) class is a singleton and contains the planted candidate.
+Consequently, the all-planted class path identifies one candidate path, while
+all other class paths can safely aggregate their members. The dynamic program
+depends on at most \(s+1\) states per layer even though the number of candidate
+paths grows as \(\binom ns^T\).
+
+This compression is exact only for quantities declared constant within each
+class and for edge bounds valid uniformly over each ordered class pair. It is
+not justified merely because two candidates have the same cardinality.
+
+## 23. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

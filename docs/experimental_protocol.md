@@ -275,6 +275,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_covariance_radius_certificate_recovers_separated_path` | Candidate-local covariance radii propagate through every score factor to a positive robust path slack |
 | `test_moving_envelope_propagates_through_scores_and_path_certificate` | Moving-envelope joint radii exactly equal those consumed by the path certificate |
 | `test_covariance_radius_certificate_marks_invalid_spectral_regime` | A covariance radius at the eigenvalue floor cannot produce a valid recovery guarantee |
+| `test_class_dynamic_program_matches_exhaustive_class_paths` | The mismatch-state class dynamic program equals exhaustive class-path maximization |
+| `test_overlap_multiplicities_scale_without_candidate_construction` | Six overlap classes represent all five-node candidates and their implicit paths on 1,000 nodes |
+| `test_class_certificate_requires_singleton_planted_classes` | A non-singleton planted class cannot certify a unique candidate path |
+| `test_class_certificate_checks_transport_spectral_regime_separately` | Invalid edge covariance radii cannot be hidden by valid local-state radii |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -309,6 +313,8 @@ Its limitations are concrete:
     still assumes valid block-norm comparisons are supplied at every layer.
 15. The moving-partition recovery example uses deliberately separated
     population factors and does not measure sharpness near the robust boundary.
+16. The class-compressed theorem requires exact within-class factor symmetry;
+    generic systems need additional within-class envelopes.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -331,6 +337,7 @@ python examples/block_sparse_recovery_experiment.py
 python examples/localized_influence_cone_experiment.py
 python examples/moving_partition_influence_experiment.py
 python examples/moving_partition_recovery_experiment.py
+python examples/class_compressed_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```

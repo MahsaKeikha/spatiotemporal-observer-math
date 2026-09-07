@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 58 tests. Continuous integration runs
+The automated suite currently contains 62 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -409,6 +409,35 @@ calculation from rectangular covariance comparisons through score errors and
 the adversarial path dynamic program. The deliberately separated factors make
 this an implementation check of Proposition 26, not a boundary-tightness
 experiment.
+
+## Experiment K: class-compressed robust recovery
+
+Command:
+
+```bash
+python examples/class_compressed_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Candidates per time | `8,250,291,250,200` |
+| Overlap classes per time | `6` |
+| Implicit paths | `38,224,903,791,340,352,895,816,928,931,546,866,094,388,102,127,330,000,320,000,000,000` |
+| Adversarial class path | `(5, 5, 5, 5, 4)` |
+| Planted action lower bound | `4.554664` |
+| Competitor action upper bound | `4.023003` |
+| Recovery slack | `0.531662` |
+| Sufficient condition | satisfied |
+
+The six classes are indexed by planted overlap \(q=0,\ldots,5\). Their exact
+multiplicities are
+\(\binom{5}{q}\binom{995}{5-q}\), which sum to the complete five-node
+candidate count. The optimizer operates only on the class arrays and a binary
+mismatch flag. Zero continuity lower bounds are used for competitor edges, so
+the result does not rely on a favorable unproved geometric penalty. The
+population factors are deliberately class-constant; this experiment tests the
+scope of Proposition 27 rather than claiming that arbitrary systems possess
+the required symmetry.
 
 ## Required next controls
 

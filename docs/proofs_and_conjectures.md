@@ -1813,6 +1813,78 @@ also requires each candidate's future coordinates to be represented exactly
 by its declared block union. Incorrect block membership or underestimated
 comparison entries invalidate the certificate.
 
+## Proposition 27: class-compressed robust path recovery
+
+At each time \(t\), partition an implicit candidate family among \(K\) declared
+classes, allowing zero multiplicity for an absent class. Suppose the three
+local factors are constant within each nonempty class, the
+two transport factors are constant within each ordered class pair. Suppose
+local covariance radii and spectral envelopes bound every member of each state
+class, while separate transport radii and envelopes bound every member of each
+ordered class pair.
+Let \(c_t^*\) be the class containing the planted candidate, and suppose that
+class has multiplicity one.
+
+Let \(e^\Omega_{tk}\) be obtained from the local class covariance radius, and
+let \(e^\Theta_{tkl}\) be obtained separately from the ordered class-pair
+transport radius, using the perturbation steps in Proposition 26. For each
+feasible ordered class pair, let \(d^-_{tkl}\) be a lower bound on the
+continuity distance of every member pair. Define the classwise upper rewards
+
+\[
+U_{tk}=\Omega_{tk}+e^\Omega_{tk},
+\]
+
+and
+
+\[
+V_{tkl}=\chi\Theta_{tkl}
++|\chi|e^\Theta_{tkl}-\lambda d^-_{tkl}.
+\]
+
+For the planted path, use its exact continuity distances and define
+
+\[
+L^*=A(p^*)-
+\sum_t e^\Omega_{t c_t^*}
+-|\chi|\sum_{t=0}^{T-2}
+e^\Theta_{t c_t^*c_{t+1}^*}.
+\]
+
+Let \(U^{\rm comp}\) be the maximum sum of the class rewards \(U_{tk}\) and
+\(V_{tkl}\) over every feasible class path other than
+\((c_0^*,\ldots,c_{T-1}^*)\). If
+
+\[
+L^*>U^{\rm comp},
+\]
+
+then the planted candidate path is the unique optimizer for every covariance
+sequence inside the declared class envelopes.
+
+**Proof.** Proposition 26 bounds the perturbed score of every candidate in
+class \(k\) by \(U_{tk}\). For any feasible edge from class \(k\) to class
+\(l\), the transport perturbation inequality and
+\(d\geq d^-_{tkl}\) bound its complete action contribution by \(V_{tkl}\).
+Thus every nonplanted candidate path is bounded above by its class path, and
+hence by \(U^{\rm comp}\). The planted class has multiplicity one at every
+time, so the all-planted class path represents only \(p^*\). Proposition 26
+bounds its perturbed action below by \(L^*\). The strict inequality proves
+uniqueness. \(\square\)
+
+The competitor maximum is evaluated by a dynamic program with state
+\((k,h)\), where \(h\) records whether a mismatch from the planted class path
+has occurred. The final maximum is restricted to \(h=1\). This costs
+\(O(TK^2)\) time and \(O(K)\) value storage, regardless of class
+multiplicities or the number of implicit paths. For fixed-size planted-overlap
+classes, \(K\leq s+1\), while the represented candidate count can be
+\(\binom ns\) at every time.
+
+The result requires genuine class symmetry for the supplied factor values. If
+factors vary inside a class, direct classwise score upper bounds or a further
+within-class error term are needed. A lower continuity bound of zero is always
+valid but can make the certificate conservative.
+
 ## Open conjectures
 
 ### C1. Sharper score stability under covariance perturbation

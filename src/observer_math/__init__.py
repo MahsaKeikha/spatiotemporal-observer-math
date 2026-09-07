@@ -33,6 +33,7 @@ from .nonstationary import (
     transport_metrics_from_covariances,
 )
 from .recovery import (
+    ClassCompressedPathRecoveryBound,
     ComponentwiseRecoveryBound,
     CovarianceRadiusPathRecoveryBound,
     FiniteSampleRecoveryBound,
@@ -40,6 +41,7 @@ from .recovery import (
     LocalizedGaussianPathRecoveryBound,
     NearCompetitorScreen,
     canonical_persistence_covariance_error_bound,
+    class_compressed_covariance_path_recovery_bound,
     componentwise_recovery_bound,
     covariance_radius_path_recovery_bound,
     finite_sample_recovery_bound,
@@ -90,6 +92,7 @@ __all__ = [
     "BlockSparseMovingCliqueRecoveryBound",
     "BlockSparseOverlapBudgets",
     "Candidate",
+    "ClassCompressedPathRecoveryBound",
     "ComponentwiseRecoveryBound",
     "CovarianceRadiusPathRecoveryBound",
     "FiniteSampleRecoveryBound",
@@ -119,6 +122,7 @@ __all__ = [
     "canonical_path_orbit",
     "canonical_persistence_covariance_error_bound",
     "certify_worldtube",
+    "class_compressed_covariance_path_recovery_bound",
     "componentwise_recovery_bound",
     "correlated_but_uncoupled_system",
     "covariance_preserving_moving_clique_bound",
