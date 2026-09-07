@@ -322,7 +322,37 @@ success probability is at most \((1+\tau)/2\). At \(\tau=0\), no observational
 algorithm can exceed one-half success on both models without additional
 assumptions or interventions.
 
-## 12. Choices that are still choices
+## 12. Near-competitor graph
+
+Given score-error radii, the population winner has the lower action
+\(L^*=A(p^*)-b(p^*)\). A forward-backward max-sum pass computes the largest
+inflated action \(U_{tj}\) of a path constrained to every state \((t,j)\), and
+similarly for every edge. States and edges with \(U<L^*\) cannot occur in an
+empirical winner on the error event. This converts an exponential path family
+into a sufficient time-indexed subgraph without enumerating paths.
+
+## 13. Closed-form moving-clique family
+
+For the structured transition in Proposition 16, choosing
+\(Q_t=I-A_tA_t^\mathsf T\) preserves \(\Sigma_t=I\). Every conditional
+information determinant becomes the determinant of an equicorrelated residual
+matrix. A \(k\)-row residual after conditioning on \(r\) active columns has
+determinant
+
+\[
+D(k,r)=(1-d_r+o_r)^{k-1}[1-d_r-(k-1)o_r],
+\]
+
+where \(d_r=\alpha^2+(r-1)\beta^2\) and
+\(o_r=2\alpha\beta+(r-2)\beta^2\). These determinants give the exact weakest-cut
+integration. Identity covariance also reduces persistence to normalized
+transition energy, \(\alpha^2+(s-1)\beta^2\). The final recovery inequality
+compares this closed-form local score with the maximum two incident-edge gain.
+For equal-size consecutive boundaries with overlap \(r\), their Jaccard distance
+is \(1-r/(2s-r)\), so the sufficient condition explicitly rewards smoothly
+overlapping motion.
+
+## 14. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

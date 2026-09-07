@@ -90,3 +90,36 @@ def moving_module_systems(
                     transition[target, source] = 0.18
         systems.append((_scale_radius(transition, 0.84), np.eye(node_count) * 0.18))
     return planted_path, tuple(systems)
+
+
+def covariance_preserving_moving_cliques(
+    node_count: int = 7,
+    module_size: int = 3,
+    step_count: int = 5,
+    *,
+    self_memory: float = 0.3,
+    internal_coupling: float = 0.2,
+) -> tuple[tuple[tuple[int, ...], ...], tuple[tuple[FloatMatrix, FloatMatrix], ...]]:
+    """Moving cliques with exact unit covariance at every time."""
+    if module_size < 2 or node_count < module_size:
+        raise ValueError("require 2 <= module_size <= node_count")
+    if step_count < 1 or step_count > node_count - module_size + 1:
+        raise ValueError("step_count exceeds the available contiguous module positions")
+    active_longitudinal = self_memory + (module_size - 1) * internal_coupling
+    active_transverse = self_memory - internal_coupling
+    if max(abs(self_memory), abs(active_longitudinal), abs(active_transverse)) >= 1.0:
+        raise ValueError("transition spectral norm must be below one")
+
+    planted_path = tuple(
+        tuple(range(start, start + module_size)) for start in range(step_count)
+    )
+    systems = []
+    for active in planted_path:
+        transition = np.eye(node_count) * self_memory
+        for target in active:
+            for source in active:
+                if source != target:
+                    transition[target, source] = internal_coupling
+        noise = np.eye(node_count) - transition @ transition.T
+        systems.append((transition, noise))
+    return planted_path, tuple(systems)

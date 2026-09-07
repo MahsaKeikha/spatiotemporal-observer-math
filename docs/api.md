@@ -199,6 +199,7 @@ from observer_math import (
     minimum_gaussian_sample_size,
     minimum_localized_gaussian_sample_size,
     product_root_error_bound,
+    screen_near_competitors,
 )
 
 population = componentwise_recovery_bound(
@@ -285,6 +286,17 @@ parameter_level = linear_gaussian_localized_recovery_bound(
     transport_weight=0.25,
     continuity_weight=0.08,
 )
+
+screen = screen_near_competitors(
+    local_scores,
+    transport_scores,
+    candidates,
+    local_score_errors,
+    transport_score_errors,
+    transport_weight=0.25,
+    continuity_weight=0.08,
+)
+print(screen.viable_states, screen.viable_edges)
 ```
 
 The functions progress from score-level checks to covariance perturbation and
@@ -294,6 +306,37 @@ an exact error-inflated competitor search. The parameter-level entry point
 constructs these quantities directly from linear dynamics. The sample-count
 searches return sufficient counts, which can remain extremely conservative.
 None of these functions estimates a confidence level from observed data.
+
+## Closed-form moving-clique theorem
+
+```python
+from observer_math import (
+    covariance_preserving_moving_clique_bound,
+    covariance_preserving_moving_cliques,
+)
+
+planted, systems = covariance_preserving_moving_cliques(
+    node_count=5,
+    module_size=2,
+    step_count=3,
+    self_memory=0.2,
+    internal_coupling=0.3,
+)
+symbolic = covariance_preserving_moving_clique_bound(
+    self_memory=0.2,
+    internal_coupling=0.3,
+    module_size=2,
+    minimum_consecutive_overlap=1,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(symbolic.per_mismatch_action_margin)
+```
+
+The constructor uses \(Q_t=I-A_tA_t^\mathsf T\), which preserves unit
+covariance exactly. The symbolic function evaluates Proposition 16 without
+enumerating candidates. A positive `per_mismatch_action_margin` is sufficient,
+not necessary, for unique planted-path recovery.
 
 ## Identifiability and symmetry
 

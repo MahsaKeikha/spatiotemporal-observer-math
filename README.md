@@ -119,6 +119,16 @@ models with incompatible boundary assignments cannot both be recovered with
 probability above one half. This prevents an optimization result from being
 mistaken for evidence that the underlying boundary is uniquely observable.
 
+For a covariance-preserving moving-clique family, the score and recovery margin
+now have closed forms in self-memory \(\alpha\), internal coupling \(\beta\),
+module size, boundary overlap, and the action weights. In the committed example,
+the symbolic margin lower bound is `0.130806`, the exact margin is `0.175335`,
+and both select the planted moving path. A forward-backward screen reduces the
+error-plausible graph at the localized threshold from 175 states and 4,900 edges
+to the five planted states and four planted edges.
+
+![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
+
 ## Read the project
 
 | Document | Contents |
@@ -126,7 +136,7 @@ mistaken for evidence that the underlying boundary is uniquely observable.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Fourteen proved statements and the remaining symbolic separation questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Sixteen proved statements and the remaining external-coupling questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -151,6 +161,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
+python examples/symbolic_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -173,8 +184,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.4 adds localized and
-parameter-level recovery certificates, symmetry-aware identifiability, and a
-matching impossibility result to the Gaussian baseline.
+This is an ongoing study, not a finished paper. Version 0.5 adds a sufficient
+near-competitor graph and a closed-form recovery theorem in dynamical coupling,
+noise, module size, and action weights.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

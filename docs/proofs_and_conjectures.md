@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first fourteen statements below are consequences of the current definitions.
+The first sixteen statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -674,22 +674,164 @@ method can establish. Interventions or additional structural assumptions are
 necessary when distinct physical decompositions generate identical trajectory
 laws.
 
+## Proposition 15: sufficient near-competitor graph
+
+Suppose deterministic score-error radii give
+
+\[
+|\widehat A(p)-A(p)|\leq b(p)
+\]
+
+simultaneously for every path. Let \(p^*\) maximize the population action and
+put \(L^*=A(p^*)-b(p^*)\). For state \(j\) at time \(t\), define
+
+\[
+U_{tj}=\max_{p:j_t=j}\{A(p)+b(p)\}.
+\]
+
+Retain the state when \(U_{tj}\geq L^*\). Define retained edges analogously by
+maximizing over paths that traverse a specified edge. On the simultaneous error
+event, every empirical maximizing path lies entirely in the retained state-edge
+graph.
+
+**Proof.** If a path \(p\) traverses a state with \(U_{tj}<L^*\), then
+
+\[
+\widehat A(p)
+\leq A(p)+b(p)
+\leq U_{tj}
+<L^*
+\leq\widehat A(p^*).
+\]
+
+Such a path cannot be an empirical maximizer. The same argument applies to an
+excluded edge. \(\square\)
+
+All \(U_{tj}\) and edge upper actions are computed by one forward and one
+backward max-sum pass. The screen therefore costs \(O(TC^2)\), not enumeration
+of \(C^T\) paths. The result is a sufficient screen: retained states are not
+asserted to be genuinely competitive, but discarded states provably cannot win
+under the supplied error event.
+
+## Proposition 16: symbolic recovery for covariance-preserving moving cliques
+
+Let every candidate be an \(s\)-node subset. At time \(t\), designate a planted
+subset \(S_t^*\). Define \(A_t\) to have diagonal coefficient \(\alpha\),
+off-diagonal coefficient \(\beta\) between ordered pairs in \(S_t^*\), and zero
+other off-diagonal coefficients. Let
+
+\[
+Q_t=I-A_tA_t^\mathsf T,
+\qquad \Sigma_0=I,
+\]
+
+and assume
+
+\[
+\max\{|\alpha|,|\alpha-\beta|,
+|\alpha+(s-1)\beta|\}<1.
+\]
+
+Then \(Q_t\succ0\) and \(\Sigma_t=I\) at every time. Define
+
+\[
+d_r=\alpha^2+(r-1)\beta^2,
+\qquad
+o_r=2\alpha\beta+(r-2)\beta^2,
+\]
+
+\[
+D(k,r)=
+(1-d_r+o_r)^{k-1}
+[1-d_r-(k-1)o_r].
+\]
+
+The planted directed-integration rate is
+
+\[
+J_*=
+\min_{1\leq k<s}
+\frac{1}{2s}
+\log_2
+\frac{D(k,k)D(s-k,s-k)}{D(k,s)D(s-k,s)}.
+\]
+
+Its insulation is \(K_*=1\), persistence and local score are
+
+\[
+P_*=\alpha^2+(s-1)\beta^2,
+\qquad
+\Omega_*=
+\left[(1-2^{-J_*})P_*\right]^{1/3}.
+\]
+
+Every incorrect \(s\)-node candidate has local score zero. Consequently, for
+bounded transport scores, \(\lambda\geq0\), and minimum consecutive planted
+overlap \(r_{\min}\), define
+
+\[
+d_*^{\max}=1-\frac{r_{\min}}{2s-r_{\min}}.
+\]
+
+The planted path is the unique action maximizer whenever
+
+\[
+\Omega_*>2(|\chi|+\lambda d_*^{\max}).
+\]
+
+Its action margin is at least
+
+\[
+\Omega_*-2(|\chi|+\lambda d_*^{\max}).
+\]
+
+**Proof.** The eigenvalues of the active block of \(A_t\) are
+\(\alpha+(s-1)\beta\) and \(\alpha-\beta\); outside it they are \(\alpha\).
+The spectral assumption makes \(I-A_tA_t^\mathsf T\) positive definite, and
+the covariance recursion gives \(\Sigma_{t+1}=I\).
+
+For \(k\) selected future rows and \(r\) active present columns, the Gram
+matrix has diagonal \(d_r\) and off-diagonal \(o_r\). Hence
+\(D(k,r)=\det(I-A_{k,r}A_{k,r}^\mathsf T)\). Substitution into the two Gaussian
+conditional-information determinants for a \(k:(s-k)\) split gives \(J_*\).
+No present environment coordinate enters a planted future coordinate, so the
+leakage is zero and \(K_*=1\). With identity source and target covariances, the
+mean squared canonical correlations equal \(\|A_{S_t^*,S_t^*}\|_F^2/s=P_*\).
+
+Any incorrect candidate contains a node outside \(S_t^*\). Isolating that node
+in the weakest bipartition gives zero directed information in both directions,
+so its integration strength and local score are zero. A path with \(h\geq1\)
+mismatched times therefore loses \(h\Omega_*\) in local action. Changing one
+time can affect at most two adjacent edges, and each affected edge can improve
+transport by at most \(|\chi|\). Its continuity advantage is no larger than the
+planted edge cost, which is at most \(\lambda d_*^{\max}\). The competitor's
+net gain is at most
+\(h[2(|\chi|+\lambda d_*^{\max})-\Omega_*]\), proving both statements.
+\(\square\)
+
+This family is deliberately exact. It supplies an interpretable theorem in
+\(\alpha,\beta,Q_t\), and the action weights, while also exposing its own
+limitation: the weakest-cut score makes every partially incorrect clique
+locally degenerate. Perturbing this family with nonzero external coupling is
+the next symbolic problem.
+
 ## Open conjectures
 
 ### C1. Parameter-level planted world-tube recovery
 
-For a moving linear Gaussian module with internal predictive strength separated
-from external drive by a parameter-level margin \(\delta>0\), the score-space
-conditions of Proposition 5 follow on a nonempty interval of regularization
-weights. Combined with Proposition 12, this would yield an interpretable
-finite-sample recovery guarantee stated directly through coupling and noise.
+For a perturbation of Proposition 16 with external coupling norm at most
+\(\gamma\) and anisotropic noise bounded between \(q_-I\) and \(q_+I\), a
+strict separation between internal coupling and \(\gamma\) preserves a positive
+path margin on a nonempty interval of action weights. This would extend the
+closed-form base case to wrong candidates with nonzero local scores.
 
 ### C2. Sharper score stability under covariance perturbation
 
-Propositions 10 and 11 exploit candidate spectra and positive factor margins,
-but they still union-bound over all candidate blocks. The remaining problem is
-to characterize the smaller set of paths capable of approaching the optimum
-and concentrate only the covariance directions that distinguish those paths.
+Proposition 15 constructs the sufficient near-competitor graph, but using a
+graph selected from the same finite sample can invalidate a naive reduced union
+bound. A sample-split, confidence-sequence, or deterministic population-screen
+argument should concentrate only the retained covariance directions while
+preserving the advertised coverage probability.
 
 ### C3. Gauge-consistent quantum lift
 

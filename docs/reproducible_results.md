@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 29 tests. Continuous integration runs
+The automated suite currently contains 32 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -187,6 +187,12 @@ This is approximately four million times smaller than the global result. It is
 still roughly ten orders of magnitude above the empirical recovery scale, so it
 should not be interpreted as a practical sample-size estimate.
 
+At the localized threshold, the forward-backward near-competitor screen retains
+`5 / 175` time-indexed candidate states and `4 / 4900` candidate edges. These are
+exactly the states and edges of the certified path. The screen does not improve
+the stated threshold by itself; it identifies the deterministic subgraph on
+which a subsequent, separately justified concentration refinement can focus.
+
 The rate calculation in Proposition 9 makes the main penalty explicit. In the
 absence of positive score-factor floors, the local-score error decays at the
 worst-case rate \(N^{-1/6}\), producing sixth-power dependence on the inverse
@@ -209,9 +215,43 @@ this same law designate paths in disjoint symmetry orbits, Proposition 14 caps
 the maximin success probability of every observational estimator at `0.500`.
 This is a constructed impossibility example, not a claim about biological data.
 
+## Experiment E: symbolic moving-clique recovery
+
+Command:
+
+```bash
+python examples/symbolic_recovery_experiment.py
+```
+
+The model uses \(\Sigma_0=I\), self-memory \(\alpha=0.2\), internal coupling
+\(\beta=0.3\), two-node moving cliques, and
+\(Q_t=I-A_tA_t^\mathsf T\). Transport and continuity weights are `0.02` and
+`0.01`. The closed-form and exact calculations give:
+
+| Quantity | Value |
+| --- | ---: |
+| Planted local score | 0.184140 |
+| Symbolic action-margin lower bound | 0.130806 |
+| Exact action margin | 0.175335 |
+| Boundaries recovered | 3 / 3 |
+
+The exact margin exceeds the symbolic lower bound, as required. This theorem is
+specific to zero external off-diagonal coupling and covariance-preserving noise.
+It establishes a parameter-level base case rather than a general modular-system
+result.
+
+![Symbolic recovery margin over self-memory and internal coupling](symbolic_recovery_region.png)
+
+The black contour is the zero lower-bound boundary. Points above it satisfy the
+sufficient condition for the fixed weights and one-node consecutive overlap;
+points below it are uncertified, not proven failures. Gray marks parameters that
+violate the covariance-preserving stability condition. The gold star is the
+committed numerical example.
+
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
+- symbolic recovery with nonzero external coupling and anisotropic noise
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

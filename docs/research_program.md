@@ -18,15 +18,16 @@ through conditional mutual information, canonical persistence, positive-factor
 score stability, and an exact adversarial-path comparison. Candidate-local
 spectra reduce the example's 95% sufficient count from
 \(1.263\times10^{19}\) to \(3.132\times10^{12}\). The bound remains roughly ten
-orders of magnitude above the empirical scale. The next derivation must identify
-a provably sufficient near-competitor set and avoid union-bounding over candidate
-blocks that cannot approach the optimum. A separate treatment is needed for one
-dependent time series because the current simulation uses independent
-trajectories.
+orders of magnitude above the empirical scale. Proposition 15 now identifies a
+provably sufficient near-competitor graph. The next statistical step is a
+two-stage or sample-split argument that uses this deterministic screen without
+reusing data invalidly, then concentrates only the retained covariance blocks.
+A separate treatment is needed for one dependent time series because the
+current simulation uses independent trajectories.
 
-Completion criterion: a theorem constructing a sufficient near-competitor set,
-numerical coverage checks across signal regimes, and a documented account of
-every remaining source of looseness.
+Completion criterion: a valid screened concentration theorem, numerical
+coverage checks across signal regimes, and a documented account of every
+remaining source of looseness.
 
 ## Immediate problem: a benchmark that is difficult to win
 
@@ -62,6 +63,11 @@ Proposition 5 now gives a transparent score-space sufficient condition, and the
 current example shows that it is not necessary. The useful next version must
 express separation in terms of \(A_t\), \(Q_t\), and candidate overlap rather
 than in terms of scores assumed after the fact.
+
+Proposition 16 completes that step for a covariance-preserving moving clique
+with zero external off-diagonal coupling. The next theorem should allow bounded
+external coupling, anisotropic process noise, and partially integrated wrong
+candidates rather than forcing their weakest-cut score to zero.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -145,6 +151,8 @@ stable and predictively useful, not whether it indicates consciousness.
 - direct parameter-to-certificate computation from \(A_t,Q_t,\Sigma_0\)
 - path identifiability modulo an admissible permutation group
 - total-variation impossibility bound for incompatible observational models
+- sufficient near-competitor state-edge graph with \(O(TC^2)\) screening
+- closed-form moving-clique score and action-margin theorem in \(\alpha,\beta,Q_t\)
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

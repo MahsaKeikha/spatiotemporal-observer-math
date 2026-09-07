@@ -11,6 +11,7 @@ from .metrics import ObserverMetrics, observer_metrics, observer_metrics_from_co
 from .models import (
     block_system,
     correlated_but_uncoupled_system,
+    covariance_preserving_moving_cliques,
     moving_module_systems,
     ring_system,
 )
@@ -26,6 +27,7 @@ from .recovery import (
     FiniteSampleRecoveryBound,
     GaussianPathRecoveryBound,
     LocalizedGaussianPathRecoveryBound,
+    NearCompetitorScreen,
     canonical_persistence_covariance_error_bound,
     componentwise_recovery_bound,
     finite_sample_recovery_bound,
@@ -36,6 +38,7 @@ from .recovery import (
     minimum_gaussian_sample_size,
     minimum_localized_gaussian_sample_size,
     product_root_error_bound,
+    screen_near_competitors,
 )
 from .sampling import (
     adjacent_sample_covariances,
@@ -43,6 +46,7 @@ from .sampling import (
     simulate_gaussian_ensemble,
 )
 from .search import Candidate, rank_subsystems
+from .symbolic import MovingCliqueRecoveryBound, covariance_preserving_moving_clique_bound
 from .worldtube import (
     WorldTubeCertificate,
     WorldTubeResult,
@@ -58,6 +62,8 @@ __all__ = [
     "FiniteSampleRecoveryBound",
     "GaussianPathRecoveryBound",
     "LocalizedGaussianPathRecoveryBound",
+    "MovingCliqueRecoveryBound",
+    "NearCompetitorScreen",
     "ObserverMetrics",
     "TransportMetrics",
     "TwoPointIdentifiabilityBound",
@@ -72,6 +78,8 @@ __all__ = [
     "certify_worldtube",
     "componentwise_recovery_bound",
     "correlated_but_uncoupled_system",
+    "covariance_preserving_moving_clique_bound",
+    "covariance_preserving_moving_cliques",
     "finite_sample_recovery_bound",
     "gaussian_cmi_covariance_error_bound",
     "gaussian_path_recovery_bound",
@@ -90,6 +98,7 @@ __all__ = [
     "rank_subsystems",
     "regularized_sample_covariance",
     "ring_system",
+    "screen_near_competitors",
     "simulate_gaussian_ensemble",
     "structural_transport",
     "transport_metrics",

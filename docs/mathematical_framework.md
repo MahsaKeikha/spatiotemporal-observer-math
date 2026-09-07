@@ -198,6 +198,8 @@ The repository currently establishes:
 - a computable certificate directly from linear-Gaussian parameters
 - labeled-path identifiability only modulo admissible symmetries
 - a two-model impossibility bound for observationally similar systems
+- a sufficient near-competitor state-edge graph
+- a closed-form moving-clique recovery theorem in dynamical parameters
 
 It does not establish:
 

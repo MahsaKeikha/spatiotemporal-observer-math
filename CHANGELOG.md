@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 - 2026-09-07
+
+- Added a forward-backward near-competitor screen that provably retains every
+  path capable of winning under supplied score-error radii.
+- Added a covariance-preserving moving-clique family with exact unit covariance.
+- Derived closed-form conditional-information, persistence, observer-score, and
+  action-margin expressions in self-memory, internal coupling, module size,
+  boundary overlap, and action weights.
+- Added a symbolic sufficient recovery condition and a matching numerical
+  experiment whose exact action margin exceeds the theorem's lower bound.
+
 ## 0.4.0 - 2026-09-07
 
 - Added positive-factor Lipschitz bounds for geometric observer and transport

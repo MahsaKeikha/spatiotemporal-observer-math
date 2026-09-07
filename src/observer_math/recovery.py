@@ -68,8 +68,23 @@ class LocalizedGaussianPathRecoveryBound:
     maximum_covariance_spectral_error: float
     maximum_local_score_error: float
     maximum_transport_score_error: float
+    viable_state_count: int
+    viable_edge_count: int
     all_blocks_valid: bool
     guarantees_population_path: bool
+
+
+@dataclass(frozen=True)
+class NearCompetitorScreen:
+    """State and edge graph that can still challenge a robust path lower bound."""
+
+    population_path: tuple[int, ...]
+    planted_lower_action: float
+    viable_states: tuple[tuple[int, ...], ...]
+    viable_edges: tuple[tuple[tuple[int, int], ...], ...]
+    state_upper_actions: tuple[tuple[float, ...], ...]
+    viable_state_count: int
+    viable_edge_count: int
 
 
 def componentwise_recovery_bound(
@@ -263,6 +278,124 @@ def product_root_error_bound(
     return min(1.0, holder_bound, lipschitz_bound)
 
 
+def screen_near_competitors(
+    local_scores: ArrayLike,
+    transport_scores: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    local_score_errors: ArrayLike,
+    transport_score_errors: ArrayLike,
+    *,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> NearCompetitorScreen:
+    """Find the state-edge graph containing every error-plausible winner.
+
+    A state or edge is retained when some path through it has an error-inflated
+    population action at least as large as the population winner's deflated
+    action. All empirical winners lie in the retained graph whenever the
+    supplied score-error bounds hold.
+    """
+    local = np.asarray(local_scores, dtype=float)
+    transport = np.asarray(transport_scores, dtype=float)
+    local_errors = np.asarray(local_score_errors, dtype=float)
+    transport_errors = np.asarray(transport_score_errors, dtype=float)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if local.ndim != 2 or local_errors.shape != local.shape:
+        raise ValueError("local scores and errors must have equal two-dimensional shapes")
+    time_count, candidate_count = local.shape
+    expected = (max(0, time_count - 1), candidate_count, candidate_count)
+    if transport.shape != expected or transport_errors.shape != expected:
+        raise ValueError(f"transport scores and errors must have shape {expected}")
+    if time_count < 1 or candidate_count != len(candidate_tuple):
+        raise ValueError("scores and candidates have incompatible shapes")
+    if (
+        np.any(~np.isfinite(local))
+        or np.any(~np.isfinite(transport))
+        or np.any(~np.isfinite(local_errors))
+        or np.any(~np.isfinite(transport_errors))
+        or np.any(local_errors < 0.0)
+        or np.any(transport_errors < 0.0)
+    ):
+        raise ValueError("scores must be finite and error bounds nonnegative")
+
+    continuity = np.empty((candidate_count, candidate_count), dtype=float)
+    for previous in range(candidate_count):
+        for current in range(candidate_count):
+            continuity[previous, current] = jaccard_distance(
+                candidate_tuple[previous], candidate_tuple[current]
+            )
+    inflated_local = local + local_errors
+    inflated_edges = (
+        transport_weight * transport
+        + abs(transport_weight) * transport_errors
+        - continuity_weight * continuity[None, :, :]
+    )
+    population = certify_worldtube(
+        local,
+        candidate_tuple,
+        transport_scores=transport,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    planted = population.result.candidate_indices
+    planted_error = float(
+        sum(local_errors[time, current] for time, current in enumerate(planted))
+        + abs(transport_weight)
+        * sum(
+            transport_errors[time, planted[time], planted[time + 1]]
+            for time in range(time_count - 1)
+        )
+    )
+    planted_lower = population.result.total_action - planted_error
+
+    forward = np.full((time_count, candidate_count), -np.inf)
+    forward[0] = inflated_local[0]
+    for time in range(1, time_count):
+        forward[time] = inflated_local[time] + np.max(
+            forward[time - 1, :, None] + inflated_edges[time - 1], axis=0
+        )
+    backward = np.zeros((time_count, candidate_count), dtype=float)
+    for time in range(time_count - 2, -1, -1):
+        backward[time] = np.max(
+            inflated_edges[time]
+            + inflated_local[time + 1, None, :]
+            + backward[time + 1, None, :],
+            axis=1,
+        )
+    state_upper = forward + backward
+    viable_state_mask = state_upper >= planted_lower
+
+    viable_edges: list[tuple[tuple[int, int], ...]] = []
+    for time in range(time_count - 1):
+        edge_upper = (
+            forward[time, :, None]
+            + inflated_edges[time]
+            + inflated_local[time + 1, None, :]
+            + backward[time + 1, None, :]
+        )
+        viable_edges.append(
+            tuple(
+                (previous, current)
+                for previous in range(candidate_count)
+                for current in range(candidate_count)
+                if edge_upper[previous, current] >= planted_lower
+            )
+        )
+    viable_states = tuple(
+        tuple(np.flatnonzero(viable_state_mask[time]).tolist())
+        for time in range(time_count)
+    )
+    return NearCompetitorScreen(
+        population_path=planted,
+        planted_lower_action=float(planted_lower),
+        viable_states=viable_states,
+        viable_edges=tuple(viable_edges),
+        state_upper_actions=tuple(tuple(row.tolist()) for row in state_upper),
+        viable_state_count=sum(len(states) for states in viable_states),
+        viable_edge_count=sum(len(edges) for edges in viable_edges),
+    )
+
+
 def localized_gaussian_path_recovery_bound(
     local_factors: ArrayLike,
     transport_factors: ArrayLike,
@@ -385,6 +518,15 @@ def localized_gaussian_path_recovery_bound(
 
     local_scores = np.prod(local, axis=2) ** (1.0 / 3.0)
     transport_scores = np.sqrt(np.prod(transport, axis=3))
+    near_competitors = screen_near_competitors(
+        local_scores,
+        transport_scores,
+        candidate_tuple,
+        local_errors,
+        transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
     population = certify_worldtube(
         local_scores,
         candidate_tuple,
@@ -431,6 +573,8 @@ def localized_gaussian_path_recovery_bound(
         maximum_covariance_spectral_error=float(np.max(covariance_errors)),
         maximum_local_score_error=float(np.max(local_errors)),
         maximum_transport_score_error=float(np.max(transport_errors, initial=0.0)),
+        viable_state_count=near_competitors.viable_state_count,
+        viable_edge_count=near_competitors.viable_edge_count,
         all_blocks_valid=all_valid,
         guarantees_population_path=all_valid and slack > 0.0,
     )

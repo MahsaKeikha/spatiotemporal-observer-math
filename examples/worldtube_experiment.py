@@ -158,6 +158,19 @@ def main():
         continuity_weight=0.08,
         maximum_sample_count=10**30,
     )
+    localized_threshold_bound = localized_gaussian_path_recovery_bound(
+        local_factors,
+        transport_factors,
+        candidates,
+        localized_sample_count,
+        node_count,
+        len(planted_path[0]),
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        confidence=0.95,
+        transport_weight=0.25,
+        continuity_weight=0.08,
+    )
     print("Joint covariance eigenvalue interval:", f"[{minimum_joint_eigenvalue:.6f}, {maximum_joint_eigenvalue:.6f}]")
     print(
         "640-sample end-to-end guarantee:",
@@ -174,6 +187,11 @@ def main():
     print(
         "Sufficient sample count from localized bound:",
         f"{localized_sample_count:.3e}",
+    )
+    print(
+        "Near-competitor graph at localized threshold:",
+        f"{localized_threshold_bound.viable_state_count}/{len(systems) * len(candidates)} states,",
+        f"{localized_threshold_bound.viable_edge_count}/{(len(systems) - 1) * len(candidates) ** 2} edges",
     )
 
     order = np.argsort(-local_scores.max(axis=0))[:12]

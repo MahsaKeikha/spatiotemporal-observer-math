@@ -1,6 +1,6 @@
 # Experimental protocol
 
-This document describes the four committed experiments closely enough to rebuild
+This document describes the five committed experiments closely enough to rebuild
 them without guessing from the figures.
 
 ## 1. Numerical regimes
@@ -126,7 +126,22 @@ symmetry-related scores. With transport weight `0.25` and continuity weight
 This checks the distinction between returning one representative and identifying
 a unique physical boundary.
 
-## 6. What the figures show
+## 6. Symbolic moving-clique experiment
+
+The fifth experiment sets \(\Sigma_0=I\), \(\alpha=0.2\), \(\beta=0.3\), and
+\(Q_t=I-A_tA_t^\mathsf T\) on a five-node system with a moving two-node clique.
+It ranks all ten two-node candidates at three times. Transport and continuity
+weights are `0.02` and `0.01`, chosen so the symbolic sufficient condition is
+satisfied. Consecutive planted boundaries overlap in one node, which enters the
+bound through their exact Jaccard distance. The experiment compares the
+theorem's closed-form score and margin lower bound against the general covariance
+implementation and exact dynamic program; it does not fit any parameter.
+The generated recovery-region figure scans 81 self-memory values and 91 internal
+couplings. Gray cells violate the transition stability condition, and the black
+zero contour separates positive from nonpositive theorem margins. The negative
+side is not interpreted as a necessary failure region.
+
+## 7. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
 candidates with the largest maximum score across time. Cyan outlines mark the
@@ -144,7 +159,7 @@ moved.
 includes Wilson intervals for exact-path recovery. Overlapping bands should not
 be interpreted as pairwise significance tests.
 
-## 7. Tests tied to scientific claims
+## 8. Tests tied to scientific claims
 
 | Test | Property checked |
 | --- | --- |
@@ -166,9 +181,12 @@ be interpreted as pairwise significance tests.
 | `test_path_equivalence_is_computed_over_permutation_orbits` | Relabeled paths are compared as symmetry orbits rather than raw labels |
 | `test_identical_observation_laws_limit_two_point_recovery_to_one_half` | Incompatible boundaries under identical laws have maximin success at most one half |
 | `test_exchangeable_dynamics_do_not_select_a_unique_boundary` | Fully exchangeable dynamics produce zero labeled-path margin |
+| `test_closed_form_moving_clique_score_matches_covariance_calculation` | Closed-form integration, persistence, and score equal the general covariance calculation |
+| `test_symbolic_margin_guarantees_moving_clique_path` | The planted path is recovered and its exact margin exceeds the symbolic lower bound |
+| `test_near_competitor_screen_removes_paths_below_robust_lower_action` | Forward-backward screening removes every state and edge below the robust winner lower action |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
-## 8. Known weaknesses of the current experiment
+## 9. Known weaknesses of the current experiment
 
 The moving example is a proof of implementation, not a demanding benchmark.
 Its limitations are concrete:
@@ -191,7 +209,7 @@ size, observation length, latent drive, and model misspecification. It should
 choose weights on separate training systems and evaluate them on held-out
 generative families.
 
-## 9. Reproduction commands
+## 10. Reproduction commands
 
 From the repository root:
 
@@ -201,6 +219,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
+python examples/symbolic_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```
