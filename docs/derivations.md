@@ -708,7 +708,41 @@ an independently audited deterministic bound. Estimating it from the same data
 used for the final confidence claim requires an additional statistical
 argument.
 
-## 25. Choices that are still choices
+## 25. Obtaining residuals from a moving block envelope
+
+The moving-partition covariance recursion stores more information than the
+scalar residual API needs. At each joint time, it provides a present covariance
+comparison, a future covariance comparison, and a rectangular cross comparison.
+Selecting all present blocks and the future blocks assigned to one class gives
+a small symmetric comparison matrix. Its spectral norm is the class residual
+radius required by Proposition 29.
+
+Transport does not require a new covariance recursion. For an edge ending in
+class \(l\), its source candidate and present environment together are contained
+in the full present selection, while its target lies in the future blocks for
+class \(l\). The same joint norm therefore bounds every previous class \(k\).
+The implementation records the repeated value in an ordered-pair array so the
+distinction between state and edge envelopes remains explicit.
+
+This creates the structural pipeline
+
+\[
+(B_t,G_t,R_t)
+\longrightarrow (D_t,C_t)
+\longrightarrow (r^\Omega_{tk},r^\Theta_{tkl})
+\longrightarrow \text{factor boxes}
+\longrightarrow \text{robust path slack}.
+\]
+
+The first arrow is nonnegative block comparison arithmetic. The second uses
+only selected spectral norms. The last two are Propositions 29 and 28. No
+candidate covariance matrices or candidate paths are constructed.
+
+The remaining representative factors are properties of the base model, not
+perturbation budgets. In analytically symmetric models they can be obtained in
+closed form. For a general base model they must still be computed or bounded.
+
+## 26. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

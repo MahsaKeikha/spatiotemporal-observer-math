@@ -742,6 +742,45 @@ radii must be strictly below their representative eigenvalue floors. A valid
 statistical use must establish the residual radii independently or account for
 their estimation in its coverage argument.
 
+### Block-structured residual class recovery
+
+```python
+from observer_math import structured_residual_class_path_recovery_bound
+
+result = structured_residual_class_path_recovery_bound(
+    moving_envelope,
+    future_class_blocks,
+    representative_local_factors,
+    representative_transport_factors,
+    class_multiplicities,
+    planted_class_indices,
+    feasible_class_edges,
+    continuity_distance_lower_bounds,
+    planted_continuity_distances,
+    node_count,
+    subset_size,
+    representative_minimum_block_eigenvalues=local_reference_minimum,
+    representative_maximum_block_eigenvalues=local_reference_maximum,
+    representative_minimum_transport_eigenvalues=edge_reference_minimum,
+    representative_maximum_transport_eigenvalues=edge_reference_maximum,
+    covariance_spectral_errors=local_observation_errors,
+    transport_covariance_spectral_errors=edge_observation_errors,
+)
+certificate = result.recovery.recovery
+```
+
+`future_class_blocks[t][k]` lists the blocks of partition `t + 1` whose union
+contains the future variables used by class `k`. The function selects every
+present block so environmental leakage remains covered, derives local residual
+radii from the corresponding joint comparison norm, and repeats the target
+class radius across incoming source classes for the transport array.
+
+The returned object exposes both derived covariance-residual arrays and the
+complete residual-derived result. The envelope can itself be constructed from
+primitive transition and noise perturbation comparisons with
+`moving_block_covariance_error_envelope`. The guarantee is invalid if a class
+selection omits variables used by its score.
+
 ## Identifiability and symmetry
 
 ```python

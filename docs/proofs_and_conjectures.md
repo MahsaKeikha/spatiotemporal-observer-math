@@ -2009,6 +2009,55 @@ perturbation of an individual member. Their roles are not interchangeable.
 Computing the certificate remains \(O(TK^2)\) after valid representatives and
 residual radii have been established.
 
+## Proposition 30: block-structural residual class recovery
+
+Let a moving block covariance-error envelope satisfy Proposition 25. At joint
+time \(t\), let \(F_{tk}\) be the future blocks whose union represents state
+class \(k\), and select every present block because the local leakage term may
+use the complete present environment. Form the nonnegative joint comparison
+
+\[
+J_{tk}=
+\begin{bmatrix}
+D_t[V_t,V_t] & C_t[F_{tk},V_t]^\mathsf T\\
+C_t[F_{tk},V_t] & D_{t+1}[F_{tk},F_{tk}]
+\end{bmatrix},
+\qquad
+r_{tk}=\|J_{tk}\|_2,
+\]
+
+where \(V_t\) contains all present blocks. Then \(r_{tk}\) bounds the spectral
+covariance residual for every local score represented by class \(k\).
+For a transport edge from class \(k\) to class \(l\), the same construction
+with future selection \(F_{tl}\) bounds every covariance used by its source,
+environment, and target factors. It therefore gives the valid ordered-pair
+radius
+
+\[
+r^\Theta_{tkl}=\|J_{tl}\|_2.
+\]
+
+Using these radii in Proposition 29 yields a uniform robust path-recovery
+certificate directly from the block transition, forcing, and cross-error
+comparisons. If its recovery slack is positive, the planted path is unique for
+every matrix-valued perturbation dominated by the declared block comparisons
+and every subsequent observation perturbation inside the second-stage radii.
+
+**Proof.** Proposition 25 bounds the norm of every selected covariance-error
+block by the spectral norm of its nonnegative comparison block. The local score
+uses only principal compressions of the joint selection containing all present
+variables and the candidate's future variables. A transport score from any
+source in class \(k\) to a target in class \(l\) uses a subblock of the same
+all-present plus future-\(l\) selection, so the stated edge radius is uniform in
+the source class. Proposition 29 converts these residuals into valid factor
+intervals and Proposition 28 completes the adversarial path comparison.
+\(\square\)
+
+The all-present selection is conservative but protects environmental leakage.
+A sharper theorem may introduce certified source-specific present selections.
+The result still requires representative factors and representative spectral
+envelopes; it removes the need to supply class covariance residuals manually.
+
 ## Open conjectures
 
 ### C1. Sharper score stability under covariance perturbation

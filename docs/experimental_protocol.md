@@ -286,6 +286,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_residual_wrapper_matches_direct_interval_certificate` | Residual-derived factor boxes reproduce the corresponding direct interval certificate |
 | `test_larger_covariance_residuals_cannot_improve_recovery_slack` | Increasing certified class heterogeneity cannot strengthen the sufficient margin |
 | `test_residual_wrapper_rejects_radius_at_representative_eigenvalue_floor` | A residual that destroys the representative spectral floor is rejected |
+| `test_structured_residuals_equal_direct_block_compressions` | Class residual arrays equal direct spectral norms of the selected moving-block comparisons |
+| `test_structured_wrapper_matches_explicit_residual_composition` | The structural wrapper exactly composes with the independently tested residual-level API |
+| `test_structured_wrapper_rejects_invalid_class_block_selection` | Future class selections cannot reference blocks outside their time layer |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -326,6 +329,9 @@ Its limitations are concrete:
 17. The residual-derived theorem constructs those intervals from covariance
     balls, but the residual radii are still assumptions that require a
     structural derivation or an independently valid statistical estimate.
+18. The structural class theorem derives residuals from block comparisons but
+    uses all present blocks to cover leakage. This can be conservative, and the
+    representative factors and spectra remain model inputs.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -351,6 +357,7 @@ python examples/moving_partition_recovery_experiment.py
 python examples/class_compressed_recovery_experiment.py
 python examples/heterogeneous_class_recovery_experiment.py
 python examples/residual_derived_class_recovery_experiment.py
+python examples/structured_residual_class_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```

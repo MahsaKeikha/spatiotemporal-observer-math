@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.16.0 - 2026-09-07
+
+- Derived local class and ordered transport-class covariance residuals from a
+  moving block comparison envelope.
+- Composed block transition, forcing, and cross-error structure with the
+  residual-to-factor and factor-to-path recovery theorems.
+- Preserved full-present environmental coverage while allowing class-specific
+  future block selections.
+- Added a structured residual recovery API and explicit intermediate radii.
+- Verified the derived radii against direct block compressions and the composed
+  result against the residual-level API.
+- Added a complete structural example representing more than eight trillion
+  candidates per time.
+
 ## 0.15.0 - 2026-09-07
 
 - Derived classwise factor intervals from representative covariance models and

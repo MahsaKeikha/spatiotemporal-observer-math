@@ -158,6 +158,15 @@ class ResidualClassPathRecoveryBound:
 
 
 @dataclass(frozen=True)
+class StructuredResidualClassPathRecoveryBound:
+    """Class recovery with residual radii derived from a block envelope."""
+
+    recovery: ResidualClassPathRecoveryBound
+    local_covariance_residual_bounds: np.ndarray
+    transport_covariance_residual_bounds: np.ndarray
+
+
+@dataclass(frozen=True)
 class NearCompetitorScreen:
     """State and edge graph that can still challenge a robust path lower bound."""
 
@@ -1419,6 +1428,108 @@ def residual_class_covariance_path_recovery_bound(
         maximum_member_block_eigenvalues=member_maximum,
         minimum_member_transport_eigenvalues=member_transport_minimum,
         maximum_member_transport_eigenvalues=member_transport_maximum,
+    )
+
+
+def structured_residual_class_path_recovery_bound(
+    envelope: MovingBlockCovarianceErrorEnvelope,
+    future_class_blocks: Sequence[Sequence[Sequence[int]]],
+    representative_local_factors: ArrayLike,
+    representative_transport_factors: ArrayLike,
+    class_multiplicities: ArrayLike,
+    planted_class_indices: Sequence[int],
+    feasible_class_edges: ArrayLike,
+    continuity_distance_lower_bounds: ArrayLike,
+    planted_continuity_distances: ArrayLike,
+    node_count: int,
+    subset_size: int,
+    *,
+    representative_minimum_block_eigenvalues: ArrayLike,
+    representative_maximum_block_eigenvalues: ArrayLike,
+    representative_minimum_transport_eigenvalues: ArrayLike,
+    representative_maximum_transport_eigenvalues: ArrayLike,
+    covariance_spectral_errors: ArrayLike,
+    transport_covariance_spectral_errors: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> StructuredResidualClassPathRecoveryBound:
+    """Derive class residuals from a moving block comparison envelope."""
+    local = np.asarray(representative_local_factors, dtype=float)
+    if local.ndim != 3 or local.shape[2] != 3:
+        raise ValueError("representative local factors must have shape (time, classes, 3)")
+    time_count, class_count, _ = local.shape
+    if envelope.time_count != time_count:
+        raise ValueError("envelope and representative factors must have equal time_count")
+    selections = tuple(
+        tuple(tuple(blocks) for blocks in time_selections)
+        for time_selections in future_class_blocks
+    )
+    if len(selections) != time_count or any(
+        len(time_selections) != class_count for time_selections in selections
+    ):
+        raise ValueError("future_class_blocks must have shape (time, classes, blocks)")
+
+    local_residuals = np.empty((time_count, class_count), dtype=float)
+    for time in range(time_count):
+        present_blocks = tuple(range(envelope.block_counts[time]))
+        for current in range(class_count):
+            local_residuals[time, current] = (
+                moving_block_joint_covariance_error_bound(
+                    envelope,
+                    time,
+                    present_blocks,
+                    selections[time][current],
+                )
+            )
+
+    transport_residuals = np.empty(
+        (max(0, time_count - 1), class_count, class_count),
+        dtype=float,
+    )
+    for time in range(time_count - 1):
+        present_blocks = tuple(range(envelope.block_counts[time]))
+        for current in range(class_count):
+            radius = moving_block_joint_covariance_error_bound(
+                envelope,
+                time,
+                present_blocks,
+                selections[time][current],
+            )
+            transport_residuals[time, :, current] = radius
+
+    recovery = residual_class_covariance_path_recovery_bound(
+        local,
+        representative_transport_factors,
+        class_multiplicities,
+        planted_class_indices,
+        feasible_class_edges,
+        continuity_distance_lower_bounds,
+        planted_continuity_distances,
+        node_count,
+        subset_size,
+        local_covariance_residual_bounds=local_residuals,
+        representative_minimum_block_eigenvalues=(
+            representative_minimum_block_eigenvalues
+        ),
+        representative_maximum_block_eigenvalues=(
+            representative_maximum_block_eigenvalues
+        ),
+        transport_covariance_residual_bounds=transport_residuals,
+        representative_minimum_transport_eigenvalues=(
+            representative_minimum_transport_eigenvalues
+        ),
+        representative_maximum_transport_eigenvalues=(
+            representative_maximum_transport_eigenvalues
+        ),
+        covariance_spectral_errors=covariance_spectral_errors,
+        transport_covariance_spectral_errors=transport_covariance_spectral_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return StructuredResidualClassPathRecoveryBound(
+        recovery=recovery,
+        local_covariance_residual_bounds=local_residuals,
+        transport_covariance_residual_bounds=transport_residuals,
     )
 
 

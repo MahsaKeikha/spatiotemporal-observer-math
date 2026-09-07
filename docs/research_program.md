@@ -85,10 +85,12 @@ class-constant. Proposition 28 replaces exact symmetry by componentwise factor
 intervals, expands them using separate local and edge covariance envelopes, and
 retains the \(O(TK^2)\) mismatch-state calculation. Proposition 29 now derives
 those intervals from representative covariance models and certified class
-residual radii. The remaining structural step is to obtain the residual radii
-from primitive sparsity, graph, or cluster-diameter assumptions rather than
-supplying them directly. In parallel, the statistical priority remains a
-sample-split version of the near-competitor screen in Conjecture C1.
+residual radii. Proposition 30 obtains the residual radii from moving block
+transition, forcing, and cross-error comparisons plus future class selections.
+The next sharpening step is source-specific present compression that retains a
+provably sufficient environmental set instead of selecting every present block.
+In parallel, the statistical priority remains a sample-split version of the
+near-competitor screen in Conjecture C1.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -196,6 +198,8 @@ stable and predictively useful, not whether it indicates consciousness.
   heterogeneity and signed transport weights
 - covariance-residual derivation of factor intervals with separate population
   heterogeneity and observation-error stages
+- structural derivation of class covariance residuals from moving block
+  comparison envelopes and declared future class geometry
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

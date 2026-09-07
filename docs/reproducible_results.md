@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 69 tests. Continuous integration runs
+The automated suite currently contains 72 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -494,6 +494,33 @@ starts with representative factors and covariance residual radii. Proposition
 spectral envelopes, and then applies a separate observation covariance error.
 The numerical result tests this complete composition. It remains conditional
 on the stated covariance residuals covering every represented class member.
+
+## Experiment N: block-structured residual class recovery
+
+Command:
+
+```bash
+python examples/structured_residual_class_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Candidates per time | `8,250,291,250,200` |
+| Maximum derived local covariance residual | `2.772e-07` |
+| Maximum derived transport covariance residual | `2.772e-07` |
+| Adversarial class path | `(0, 1, 1, 1, 1)` |
+| Planted action lower bound | `4.554591` |
+| Competitor action upper bound | `3.753083` |
+| Recovery slack | `0.801508` |
+| Sufficient condition | satisfied |
+
+The calculation begins with two-by-two transition, forcing, and cross-error
+comparison matrices. It propagates their blockwise covariance influence,
+compresses the resulting joint comparisons onto two declared classes, derives
+factor intervals, and evaluates the robust path dynamic program. No covariance
+residual or factor interval is supplied directly. The two classes are a
+singleton planted class and its complement, so the bound is deliberately
+coarse but covers the complete fixed-size candidate count.
 
 ## Required next controls
 
