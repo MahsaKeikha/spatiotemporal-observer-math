@@ -97,6 +97,16 @@ construction. That negative result is recorded because it defines the next
 test: a generative family in which local evidence is ambiguous and cross-time
 transport is necessary.
 
+The end-to-end 95% theorem is intentionally worst case. For the same population
+margin it gives a sufficient sample count of approximately
+\(1.263\times10^{19}\), compared with empirical recovery at hundreds of
+trajectories. This gap is reported as a limitation and a target for sharper,
+candidate-sensitive concentration bounds.
+
+The rate calculation isolates the main cause: allowing a score factor to
+approach zero changes the worst-case local-score rate from \(N^{-1/2}\) to
+\(N^{-1/6}\), creating sixth-power dependence on the inverse action margin.
+
 ## Read the project
 
 | Document | Contents |
@@ -104,7 +114,7 @@ transport is necessary.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Seven proved statements and the remaining parameter-level questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Nine proved statements and the remaining parameter-level questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -137,9 +147,10 @@ The automated checks run on Python 3.10, 3.11, and 3.12.
 The score is a tool for studying a sharply defined identification problem. A
 high value does not establish consciousness, sentience, agency, intelligence,
 or moral status. The current evidence consists of exact identities, unit tests,
-and small synthetic examples. A preliminary finite-sample simulation is
-included; analytical sampling bounds, broader null families, external-method
-comparisons, and the quantum construction remain open work.
+and small synthetic examples. A preliminary finite-sample simulation and a
+conservative analytical sampling bound are included; practically sharp bounds,
+broader null families, external-method comparisons, and the quantum
+construction remain open work.
 
 ## Primary reference
 

@@ -13,6 +13,9 @@
   check.
 - Added a finite-sample recovery theorem conditional on uniform score bounds.
 - Added an explicit spectral covariance-to-Gaussian-CMI error bound.
+- Added a canonical-persistence perturbation theorem and numerical bound.
+- Added an end-to-end Gaussian sample-complexity guarantee linking Wishart
+  concentration, all score factors, the path margin, and recovery probability.
 - Added empirical covariance estimation, Gaussian trajectory simulation, and
   model-free transport scoring from paired observations.
 - Added a 192-trial finite-sample benchmark with four internal baselines,

@@ -1,12 +1,15 @@
 import numpy as np
 
 from observer_math import (
+    canonical_persistence_covariance_error_bound,
     componentwise_recovery_bound,
     finite_sample_recovery_bound,
     gaussian_cmi_covariance_error_bound,
+    gaussian_path_recovery_bound,
+    minimum_gaussian_sample_size,
     optimize_worldtube,
 )
-from observer_math.gaussian import gaussian_conditional_mutual_information
+from observer_math.gaussian import canonical_persistence, gaussian_conditional_mutual_information
 
 
 def test_positive_componentwise_margins_imply_planted_optimum():
@@ -115,3 +118,88 @@ def test_cmi_covariance_error_bound_covers_direct_perturbation():
     )
 
     assert actual_error <= bound
+
+
+def test_canonical_persistence_bound_covers_direct_perturbation():
+    covariance = np.array(
+        [
+            [1.4, 0.1, 0.35, 0.05],
+            [0.1, 1.1, -0.02, 0.28],
+            [0.35, -0.02, 1.3, 0.08],
+            [0.05, 0.28, 0.08, 1.2],
+        ]
+    )
+    perturbation = np.array(
+        [
+            [0.008, 0.001, -0.003, 0.002],
+            [0.001, -0.006, 0.002, -0.001],
+            [-0.003, 0.002, 0.007, 0.001],
+            [0.002, -0.001, 0.001, -0.005],
+        ]
+    )
+    estimated = covariance + perturbation
+    population_value = canonical_persistence(
+        covariance[:2, :2], covariance[2:, 2:], covariance[:2, 2:]
+    )
+    estimated_value = canonical_persistence(
+        estimated[:2, :2], estimated[2:, 2:], estimated[:2, 2:]
+    )
+    bound = canonical_persistence_covariance_error_bound(
+        minimum_eigenvalue=float(np.linalg.eigvalsh(covariance)[0]),
+        maximum_eigenvalue=float(np.linalg.eigvalsh(covariance)[-1]),
+        covariance_spectral_error=float(np.linalg.norm(perturbation, ord=2)),
+    )
+
+    assert abs(estimated_value - population_value) <= bound
+
+
+def test_end_to_end_gaussian_bound_improves_with_sample_size():
+    small = gaussian_path_recovery_bound(
+        0.5,
+        2,
+        1,
+        2,
+        10_000,
+        minimum_joint_eigenvalue=0.5,
+        maximum_joint_eigenvalue=1.0,
+        confidence=0.95,
+        transport_weight=0.2,
+    )
+    large = gaussian_path_recovery_bound(
+        0.5,
+        2,
+        1,
+        2,
+        10**12,
+        minimum_joint_eigenvalue=0.5,
+        maximum_joint_eigenvalue=1.0,
+        confidence=0.95,
+        transport_weight=0.2,
+    )
+    minimum = minimum_gaussian_sample_size(
+        0.5,
+        2,
+        1,
+        2,
+        minimum_joint_eigenvalue=0.5,
+        maximum_joint_eigenvalue=1.0,
+        confidence=0.95,
+        transport_weight=0.2,
+    )
+
+    assert large.maximum_action_gap_error < small.maximum_action_gap_error
+    assert not small.guarantees_population_path
+    assert large.guarantees_population_path
+    assert minimum is not None
+    below = gaussian_path_recovery_bound(
+        0.5,
+        2,
+        1,
+        2,
+        minimum - 1,
+        minimum_joint_eigenvalue=0.5,
+        maximum_joint_eigenvalue=1.0,
+        confidence=0.95,
+        transport_weight=0.2,
+    )
+    assert not below.guarantees_population_path

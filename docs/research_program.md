@@ -3,25 +3,29 @@
 This page is a working queue. Items are ordered by what the present results need,
 not by how ambitious they sound.
 
-## Immediate problem: confidence bounds for finite data
+## Immediate problem: useful confidence bounds for finite data
 
-The first finite-sample benchmark now estimates adjacent covariances from
-independent trajectory ensembles. It provides an empirical recovery curve, but
-not an analytical confidence guarantee. The next question is:
+The first finite-sample benchmark estimates adjacent covariances from
+independent trajectory ensembles. Proposition 9 now gives an analytical
+end-to-end confidence guarantee, but its global worst-case constants are far too
+large to describe the observed recovery curve. The next question is:
 
-> How many observations are required before the recovered path and its
-> runner-up margin stabilize?
+> Which local spectral and score margins determine the practical number of
+> observations required for path recovery?
 
-Proposition 6 reduces that question to uniform local-score and transport-score
-errors. Proposition 7 now propagates a spectral covariance error through
-Gaussian conditional mutual information. The missing steps are canonical-
-correlation perturbation, the nonlinear bounded score maps, and a chosen
-sample-covariance concentration inequality. A separate treatment is needed for
-one dependent time series because the current simulation uses independent
-trajectories.
+Propositions 7 through 9 propagate Gaussian sample-covariance concentration
+through conditional mutual information, canonical persistence, the nonlinear
+score maps, and the complete path action. On the present example the resulting
+95% sufficient sample count is approximately \(1.263\times10^{19}\), while the
+empirical transition occurs at hundreds of trajectories. The next derivation
+must replace the global minimum eigenvalue and zero-safe Hölder bounds with
+candidate-specific principal-block spectra, positive factor floors, and a
+localized comparison set. A separate treatment is needed for one dependent
+time series because the current simulation uses independent trajectories.
 
-Completion criterion: computable \((\epsilon_L,\epsilon_\Theta,\alpha)\) bounds,
-coverage checks, and a documented regime in which the bound becomes vacuous.
+Completion criterion: a strictly sharper computable bound, numerical coverage
+checks across signal regimes, and a documented account of every remaining
+source of looseness.
 
 ## Immediate problem: a benchmark that is difficult to win
 
@@ -133,6 +137,8 @@ stable and predictively useful, not whether it indicates consciousness.
 - componentwise planted-path recovery theorem
 - finite-sample recovery theorem conditional on uniform score bounds
 - explicit covariance-to-Gaussian-CMI perturbation bound
+- explicit covariance-to-canonical-persistence perturbation bound
+- end-to-end Gaussian path-recovery guarantee with a computable sample threshold
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

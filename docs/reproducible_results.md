@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 21 tests. Continuous integration runs
+The automated suite currently contains 23 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -143,9 +143,51 @@ that local scoring already solves.
 The raw aggregated values, Wilson intervals, trial count, ridge, sample sizes,
 and root seed are stored in [`finite_sample_results.json`](finite_sample_results.json).
 
+## End-to-end theoretical guarantee
+
+The five population adjacent covariances have the eigenvalue envelope
+
+\[
+m=0.085512,
+\qquad
+M=1.125000,
+\qquad
+M/m\approx13.156.
+\]
+
+Using the exact population action margin `0.126422`, confidence `0.95`, and the
+worst-case bound of Proposition 9, 640 samples do not certify path recovery. The
+smallest certified ensemble size returned by the bound is approximately
+
+\[
+N_{\mathrm{sufficient}}=1.263\times10^{19}.
+\]
+
+This is a mathematically sufficient number, not an estimate of the practical
+sample requirement. The simulation recovered 30 of 32 complete paths at 320
+samples and 32 of 32 at 640. The gap of roughly seventeen orders of magnitude
+comes from several deliberately worst-case steps:
+
+1. spectral control of the complete 14-dimensional covariance
+2. a union bound over all five time-indexed covariances
+3. dependence on the global minimum eigenvalue
+4. uniform control of every candidate, partition, and edge
+5. cube-root Hölder continuity when a score factor can approach zero
+
+The result makes the next theorem target measurable: reduce this gap using
+candidate-sensitive perturbation bounds, localized eigenvalue envelopes, and
+positive lower bounds for factors along competitive paths.
+
+The rate calculation in Proposition 9 makes the main penalty explicit. In the
+absence of positive score-factor floors, the local-score error decays at the
+worst-case rate \(N^{-1/6}\), producing sixth-power dependence on the inverse
+path margin. Positive floors would make the product roots locally Lipschitz and
+can reduce that margin dependence from \(q^{-6}\) to \(q^{-2}\). This is the
+specific mathematical lever for the next refinement.
+
 ## Required next controls
 
-- analytical covariance-to-score concentration bounds
+- tighter candidate-sensitive covariance-to-score concentration bounds
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

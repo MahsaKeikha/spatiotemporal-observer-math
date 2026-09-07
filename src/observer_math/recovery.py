@@ -32,6 +32,21 @@ class FiniteSampleRecoveryBound:
     guarantees_population_path: bool
 
 
+@dataclass(frozen=True)
+class GaussianPathRecoveryBound:
+    """End-to-end Gaussian path-recovery guarantee at a fixed sample size."""
+
+    sample_count: int
+    confidence: float
+    covariance_spectral_error: float
+    canonical_persistence_error: float
+    local_score_error: float
+    transport_score_error: float
+    maximum_action_gap_error: float
+    valid_perturbation_regime: bool
+    guarantees_population_path: bool
+
+
 def componentwise_recovery_bound(
     local_scores: ArrayLike,
     candidates: Sequence[Sequence[int]],
@@ -162,3 +177,171 @@ def gaussian_cmi_covariance_error_bound(
     relative_error = covariance_spectral_error / minimum_eigenvalue
     logdet_factor = -np.log1p(-relative_error) / np.log(2.0)
     return float((x_dimension + y_dimension + 2 * given_dimension) * logdet_factor)
+
+
+def canonical_persistence_covariance_error_bound(
+    *,
+    minimum_eigenvalue: float,
+    maximum_eigenvalue: float,
+    covariance_spectral_error: float,
+) -> float:
+    """Bound mean-squared canonical-correlation error from covariance error."""
+    if minimum_eigenvalue <= 0 or maximum_eigenvalue < minimum_eigenvalue:
+        raise ValueError("require 0 < minimum_eigenvalue <= maximum_eigenvalue")
+    if not 0 <= covariance_spectral_error < minimum_eigenvalue:
+        raise ValueError("covariance_spectral_error must lie in [0, minimum_eigenvalue)")
+    eta = covariance_spectral_error
+    m = minimum_eigenvalue
+    upper = maximum_eigenvalue
+    perturbed_minimum = m - eta
+    inverse_sqrt_error = eta / (
+        np.sqrt(m)
+        * np.sqrt(perturbed_minimum)
+        * (np.sqrt(m) + np.sqrt(perturbed_minimum))
+    )
+    whitened_error = (
+        inverse_sqrt_error * (upper + eta) / np.sqrt(perturbed_minimum)
+        + eta / np.sqrt(m * perturbed_minimum)
+        + upper * inverse_sqrt_error / np.sqrt(m)
+    )
+    return float(min(1.0, 2.0 * whitened_error))
+
+
+def gaussian_path_recovery_bound(
+    population_action_margin: float,
+    node_count: int,
+    subset_size: int,
+    time_count: int,
+    sample_count: int,
+    *,
+    minimum_joint_eigenvalue: float,
+    maximum_joint_eigenvalue: float,
+    confidence: float = 0.95,
+    transport_weight: float = 0.35,
+) -> GaussianPathRecoveryBound:
+    """Give a sufficient Gaussian ensemble size for exact population-path recovery.
+
+    The estimator is the unbiased centered sample covariance from independent
+    trajectories. A Wishart singular-value bound is union-bounded over the
+    ``time_count`` adjacent covariance matrices.
+    """
+    if population_action_margin < 0:
+        raise ValueError("population_action_margin must be nonnegative")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if time_count < 1 or sample_count < 2:
+        raise ValueError("time_count must be positive and sample_count at least two")
+    if minimum_joint_eigenvalue <= 0 or maximum_joint_eigenvalue < minimum_joint_eigenvalue:
+        raise ValueError("require valid positive joint-covariance eigenvalue bounds")
+    if not 0 < confidence < 1:
+        raise ValueError("confidence must lie strictly between zero and one")
+
+    joint_dimension = 2 * node_count
+    degrees_of_freedom = sample_count - 1
+    failure_probability = 1.0 - confidence
+    deviation = (
+        np.sqrt(joint_dimension)
+        + np.sqrt(2.0 * np.log(2.0 * time_count / failure_probability))
+    ) / np.sqrt(degrees_of_freedom)
+    covariance_error = maximum_joint_eigenvalue * (2.0 * deviation + deviation**2)
+    valid = bool(covariance_error < minimum_joint_eigenvalue)
+
+    if valid:
+        persistence_error = canonical_persistence_covariance_error_bound(
+            minimum_eigenvalue=minimum_joint_eigenvalue,
+            maximum_eigenvalue=maximum_joint_eigenvalue,
+            covariance_spectral_error=covariance_error,
+        )
+        integration_error = (
+            4.0
+            * (-np.log1p(-covariance_error / minimum_joint_eigenvalue))
+            / np.log(2.0)
+        )
+        leakage_error = gaussian_cmi_covariance_error_bound(
+            subset_size,
+            node_count - subset_size,
+            subset_size,
+            minimum_eigenvalue=minimum_joint_eigenvalue,
+            covariance_spectral_error=covariance_error,
+        ) / subset_size
+        integration_factor_error = min(1.0, np.log(2.0) * integration_error)
+        independence_error = min(1.0, np.log(2.0) * leakage_error)
+        local_error = min(
+            1.0,
+            (integration_factor_error + independence_error + persistence_error)
+            ** (1.0 / 3.0),
+        )
+        transport_error = min(
+            1.0, np.sqrt(independence_error + persistence_error)
+        )
+    else:
+        persistence_error = 1.0
+        local_error = 1.0
+        transport_error = 1.0
+
+    action_bound = finite_sample_recovery_bound(
+        population_action_margin,
+        time_count,
+        local_score_error=local_error,
+        transport_score_error=transport_error,
+        transport_weight=transport_weight,
+    )
+    return GaussianPathRecoveryBound(
+        sample_count=sample_count,
+        confidence=confidence,
+        covariance_spectral_error=float(covariance_error),
+        canonical_persistence_error=float(persistence_error),
+        local_score_error=float(local_error),
+        transport_score_error=float(transport_error),
+        maximum_action_gap_error=action_bound.maximum_action_gap_error,
+        valid_perturbation_regime=valid,
+        guarantees_population_path=valid and action_bound.guarantees_population_path,
+    )
+
+
+def minimum_gaussian_sample_size(
+    population_action_margin: float,
+    node_count: int,
+    subset_size: int,
+    time_count: int,
+    *,
+    minimum_joint_eigenvalue: float,
+    maximum_joint_eigenvalue: float,
+    confidence: float = 0.95,
+    transport_weight: float = 0.35,
+    maximum_sample_count: int = 10**15,
+) -> int | None:
+    """Find the smallest integer sample count certified by the Gaussian bound."""
+    if maximum_sample_count < 2:
+        raise ValueError("maximum_sample_count must be at least two")
+    lower = 2
+    upper = 2
+
+    def certified(sample_count: int) -> bool:
+        return gaussian_path_recovery_bound(
+            population_action_margin,
+            node_count,
+            subset_size,
+            time_count,
+            sample_count,
+            minimum_joint_eigenvalue=minimum_joint_eigenvalue,
+            maximum_joint_eigenvalue=maximum_joint_eigenvalue,
+            confidence=confidence,
+            transport_weight=transport_weight,
+        ).guarantees_population_path
+
+    while upper <= maximum_sample_count and not certified(upper):
+        lower = upper + 1
+        upper *= 2
+    if upper > maximum_sample_count:
+        if not certified(maximum_sample_count):
+            return None
+        upper = maximum_sample_count
+
+    while lower < upper:
+        middle = (lower + upper) // 2
+        if certified(middle):
+            upper = middle
+        else:
+            lower = middle + 1
+    return lower

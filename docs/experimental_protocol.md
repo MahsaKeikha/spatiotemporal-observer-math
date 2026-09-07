@@ -1,14 +1,15 @@
 # Experimental protocol
 
-This document describes the two committed experiments closely enough to rebuild
+This document describes the three committed experiments closely enough to rebuild
 them without guessing from the figures.
 
-## 1. Deterministic computation
+## 1. Numerical regimes
 
-The current experiments use analytical covariances. They do not draw finite
-samples. Consequently, repeated runs on the same NumPy and SciPy numerical
-stack should agree up to floating-point roundoff. There is no fitted model and
-no random seed in either reported calculation.
+The fixed-system and moving-boundary population experiments use analytical
+covariances. They do not draw finite samples, so repeated runs on the same NumPy
+and SciPy numerical stack should agree up to floating-point roundoff. The
+finite-sample benchmark draws seeded independent trajectory ensembles as
+specified in Section 4.
 
 ## 2. Fixed modular system
 
@@ -137,6 +138,8 @@ be interpreted as pairwise significance tests.
 | `test_componentwise_condition_can_fail_when_path_is_still_optimal` | The sufficient recovery condition is not presented as necessary |
 | `test_finite_sample_bound_has_correct_threshold` | The path-level sampling error budget has the derived coefficient |
 | `test_cmi_covariance_error_bound_covers_direct_perturbation` | The analytical Gaussian CMI bound covers a direct covariance perturbation |
+| `test_canonical_persistence_bound_covers_direct_perturbation` | The canonical-persistence bound covers a direct joint-covariance perturbation |
+| `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 7. Known weaknesses of the current experiment

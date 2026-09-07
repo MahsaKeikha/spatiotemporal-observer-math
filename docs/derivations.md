@@ -294,8 +294,11 @@ For the conditional-information part, a spectral covariance error
 \left[-\ln\left(1-\frac{\eta}{m}\right)\right].
 \]
 
-The remaining statistical obstacle is a similarly explicit perturbation bound
-for mean squared canonical correlation, followed through the geometric means.
+Proposition 8 supplies the corresponding perturbation bound for mean squared
+canonical correlation. Proposition 9 combines both bounds with Gaussian
+sample-covariance concentration and the path margin. Its global cube-root bound
+is valid near zero-score candidates but extremely conservative in the current
+experiment.
 
 ## 11. Choices that are still choices
 

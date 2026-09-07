@@ -10,6 +10,8 @@ from observer_math import (
     adjacent_joint_covariance,
     certify_worldtube,
     componentwise_recovery_bound,
+    gaussian_path_recovery_bound,
+    minimum_gaussian_sample_size,
     moving_module_systems,
     observer_metrics_from_covariances,
     optimize_worldtube,
@@ -29,8 +31,10 @@ def main():
         stationary_covariance(*systems[0]),
     )
     local_scores = np.zeros((len(systems), len(candidates)))
+    joint_covariances = []
     for time, (transition, noise) in enumerate(systems):
         joint = adjacent_joint_covariance(covariances[time], transition, noise)
+        joint_covariances.append(joint)
         for index, candidate in enumerate(candidates):
             local_scores[time, index] = observer_metrics_from_covariances(
                 covariances[time], joint, candidate
@@ -73,6 +77,43 @@ def main():
         "satisfied" if recovery_bound.guarantees_unique_recovery else "not satisfied",
     )
     print("Minimum componentwise margin:", f"{recovery_bound.minimum_margin:.6f}")
+    minimum_joint_eigenvalue = min(
+        float(np.linalg.eigvalsh(joint)[0]) for joint in joint_covariances
+    )
+    maximum_joint_eigenvalue = max(
+        float(np.linalg.eigvalsh(joint)[-1]) for joint in joint_covariances
+    )
+    finite_bound = gaussian_path_recovery_bound(
+        certificate.action_margin,
+        node_count,
+        len(planted_path[0]),
+        len(planted_path),
+        640,
+        minimum_joint_eigenvalue=minimum_joint_eigenvalue,
+        maximum_joint_eigenvalue=maximum_joint_eigenvalue,
+        confidence=0.95,
+        transport_weight=0.25,
+    )
+    sufficient_sample_count = minimum_gaussian_sample_size(
+        certificate.action_margin,
+        node_count,
+        len(planted_path[0]),
+        len(planted_path),
+        minimum_joint_eigenvalue=minimum_joint_eigenvalue,
+        maximum_joint_eigenvalue=maximum_joint_eigenvalue,
+        confidence=0.95,
+        transport_weight=0.25,
+        maximum_sample_count=10**30,
+    )
+    print("Joint covariance eigenvalue interval:", f"[{minimum_joint_eigenvalue:.6f}, {maximum_joint_eigenvalue:.6f}]")
+    print(
+        "640-sample end-to-end guarantee:",
+        "certified" if finite_bound.guarantees_population_path else "not certified",
+    )
+    print(
+        "Sufficient sample count from worst-case bound:",
+        f"{sufficient_sample_count:.3e}",
+    )
 
     order = np.argsort(-local_scores.max(axis=0))[:12]
     display = local_scores[:, order].T

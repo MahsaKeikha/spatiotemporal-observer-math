@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first seven statements below are consequences of the current definitions.
+The first nine statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -206,9 +206,9 @@ difference is at least \(m>2B\), every empirical difference remains positive.
 The joint event occurs with probability at least \(1-\alpha\). \(\square\)
 
 This proposition reduces statistical recovery to uniform concentration of the
-score arrays. It does not itself supply \(\epsilon_L\), \(\epsilon_\Theta\), or
-\(\alpha\). Deriving those quantities from Gaussian sample-covariance
-concentration is still open.
+score arrays. Propositions 7 through 9 supply one explicit Gaussian route to
+\(\epsilon_L\), \(\epsilon_\Theta\), and \(\alpha\); sharpening that route is an
+open problem.
 
 ## Proposition 7: covariance perturbation bound for Gaussian CMI
 
@@ -251,7 +251,226 @@ nats to bits proves the result. \(\square\)
 
 The bound is implemented by `gaussian_cmi_covariance_error_bound`. It can be
 applied to mutual information by setting \(d_Z=0\). It does not yet control the
-canonical-correlation part of the score.
+canonical-correlation part of the score; that is the subject of Proposition 8.
+
+## Proposition 8: canonical-persistence perturbation bound
+
+Let \(\Gamma\) and \(\widehat\Gamma=\Gamma+E\) be positive-definite joint
+covariances for \((X,Y)\), with
+
+\[
+m\leq\lambda_{\min}(\Gamma),
+\qquad
+\lambda_{\max}(\Gamma)\leq M,
+\qquad
+\|E\|_2\leq\eta<m.
+\]
+
+Put \(a=m-\eta\),
+
+\[
+h=\frac{\eta}{\sqrt m\sqrt a(\sqrt m+\sqrt a)},
+\]
+
+and
+
+\[
+D=
+\frac{h(M+\eta)}{\sqrt a}
++\frac{\eta}{\sqrt{ma}}
++\frac{Mh}{\sqrt m}.
+\]
+
+If \(P\) and \(\widehat P\) are the mean squared canonical correlations computed
+from the two covariances, then
+
+\[
+|\widehat P-P|\leq\min(1,2D).
+\]
+
+**Proof.** Write
+
+\[
+W=\Sigma_X^{-1/2}\Sigma_{XY}\Sigma_Y^{-1/2}
+\]
+
+and define \(\widehat W\) analogously. The integral representation
+
+\[
+A^{-1/2}=\frac{2}{\pi}\int_0^\infty(A+t^2I)^{-1}\,dt
+\]
+
+and the resolvent identity give
+
+\[
+\|\widehat A^{-1/2}-A^{-1/2}\|_2
+\leq
+\frac{2\eta}{\pi}
+\int_0^\infty\frac{dt}{(m+t^2)(a+t^2)}
+=\frac{\eta}{\sqrt m\sqrt a(\sqrt m+\sqrt a)}=h
+\]
+
+for either marginal covariance. Principal-block compression gives
+\(\|\widehat\Sigma_{XY}-\Sigma_{XY}\|_2\leq\eta\), while
+\(\|\Sigma_{XY}\|_2\leq M\) and
+\(\|\widehat\Sigma_{XY}\|_2\leq M+\eta\). Expanding
+\(\widehat W-W\) into perturbations of the left inverse square root, cross block,
+and right inverse square root yields \(\|\widehat W-W\|_2\leq D\).
+
+Both \(W\) and \(\widehat W\) are contractions because they are whitened cross
+blocks of positive-semidefinite joint covariances. If
+\(r=\min(\dim X,\dim Y)\), then
+
+\[
+\begin{aligned}
+|\widehat P-P|
+&=\frac{1}{r}\left|
+\|\widehat W\|_F^2-\|W\|_F^2
+\right|\\
+&\leq\frac{1}{r}\|\widehat W-W\|_F
+\left(\|\widehat W\|_F+\|W\|_F\right)\\
+&\leq 2\|\widehat W-W\|_2
+\leq 2D.
+\end{aligned}
+\]
+
+Since both persistence values lie in \([0,1]\), the bound can be clipped at one.
+\(\square\)
+
+## Proposition 9: end-to-end Gaussian sample-complexity guarantee
+
+Assume \(N\) independent zero-mean Gaussian trajectories and use the centered,
+unbiased sample covariance at each of \(T\) adjacent-time pairs. Suppose every
+population joint covariance has dimension \(2n\) and eigenvalues in \([m,M]\).
+For failure probability \(\delta\), define
+
+\[
+u_N=
+\frac{\sqrt{2n}+\sqrt{2\ln(2T/\delta)}}{\sqrt{N-1}},
+\qquad
+\eta_N=M(2u_N+u_N^2).
+\]
+
+If \(\eta_N<m\), set
+
+\[
+c_N=\frac{-\ln(1-\eta_N/m)}{\ln 2},
+\]
+
+\[
+\epsilon_J=4c_N,
+\qquad
+\epsilon_{\mathrm{leak}}=\frac{n+2s}{s}c_N,
+\]
+
+\[
+\epsilon_G=\min(1,\ln 2\,\epsilon_J),
+\qquad
+\epsilon_K=\min(1,\ln 2\,\epsilon_{\mathrm{leak}}),
+\]
+
+and let \(\epsilon_P\) be the bound from Proposition 8 with
+\(\eta=\eta_N\). The local and transport score errors obey
+
+\[
+\epsilon_\Omega
+\leq
+\min\left(1,
+(\epsilon_G+\epsilon_K+\epsilon_P)^{1/3}
+\right),
+\]
+
+\[
+\epsilon_\Theta
+\leq
+\min\left(1,
+\sqrt{\epsilon_K+\epsilon_P}
+\right).
+\]
+
+Therefore a population path with action margin \(q>0\) is recovered with
+probability at least \(1-\delta\) whenever
+
+\[
+q>
+2\left[
+T\epsilon_\Omega+|\chi|(T-1)\epsilon_\Theta
+\right].
+\]
+
+**Proof.** For a centered Gaussian sample covariance,
+\((N-1)\widehat\Gamma\) is Wishart. The Gaussian extreme-singular-value bound of
+Davidson and Szarek [1, Theorem II.13] implies
+
+\[
+\|\widehat\Gamma_t-\Gamma_t\|_2
+\leq M(2u_N+u_N^2)=\eta_N
+\]
+
+at all \(T\) times with probability at least \(1-\delta\), after a union bound.
+On this event, Proposition 7 applies simultaneously to every principal block,
+candidate, and bipartition; no additional union over candidates is needed. The
+two directed CMI terms have total dimension coefficient \(4s\), giving
+\(\epsilon_J=4c_N\) after per-node normalization. Leakage has dimensions
+\((s,n-s,s)\), giving \(\epsilon_{\mathrm{leak}}=(n+2s)c_N/s\).
+
+The maps \(1-2^{-x}\) and \(2^{-x}\) are \(\ln 2\)-Lipschitz on the nonnegative
+line. For products in \([0,1]\), the product error is no greater than the sum of
+factor errors. Finally,
+
+\[
+|x^{1/3}-y^{1/3}|\leq|x-y|^{1/3},
+\qquad
+|\sqrt x-\sqrt y|\leq\sqrt{|x-y|}.
+\]
+
+These inequalities give \(\epsilon_\Omega\) and \(\epsilon_\Theta\).
+Proposition 6 then gives the path-recovery statement. \(\square\)
+
+The implemented guarantee assumes an unregularized centered covariance.
+A deterministic ridge can be included by adding its spectral norm to
+\(\eta_N\). The present finite-sample benchmark uses a ridge, so its Wilson
+intervals and this theorem answer related but not identical questions.
+
+### Rate interpretation
+
+Let \(\kappa=M/m\), hold \(n,s,T,\chi\) fixed, and consider the small-error
+regime. Then
+
+\[
+\eta_N/m
+=O\left(
+\kappa\sqrt{\frac{n+\ln(T/\delta)}{N}}
+\right).
+\]
+
+The canonical-persistence term adds another condition-number factor, so the
+factor-product error is
+
+\[
+O\left(
+\kappa^2\sqrt{\frac{n+\ln(T/\delta)}{N}}
+\right).
+\]
+
+Without a positive lower bound on the score factors, the cube-root map in the
+local score is only Hölder continuous. It makes the local-score error decay as
+\(N^{-1/6}\), rather than \(N^{-1/2}\). Consequently, the worst-case sufficient
+sample complexity has the scaling
+
+\[
+N
+=O\left(
+\kappa^4\,[n+\ln(T/\delta)]
+\left(\frac{T}{q}\right)^6
+\right),
+\]
+
+up to dimension-ratio and transport-weight constants. This sixth-power margin
+dependence explains much of the numerical looseness. If every competitive
+path has integration, independence, and persistence bounded away from zero,
+the product roots become locally Lipschitz and a candidate-sensitive analysis
+can in principle replace the \(q^{-6}\) dependence by \(q^{-2}\).
 
 ## Open conjectures
 
@@ -263,12 +482,12 @@ conditions of Proposition 5 follow on a nonempty interval of regularization
 weights. Combined with covariance concentration, Proposition 6 would then imply
 recovery probability approaching one as sample size grows.
 
-### C2. Complete score stability under covariance perturbation
+### C2. Sharper score stability under covariance perturbation
 
-Proposition 7 controls the Gaussian mutual-information terms. A corresponding
-bound for mean squared canonical correlation, followed through the nonlinear
-geometric means and minimum bipartition, would give an explicit finite-horizon
-world-tube action bound away from singular covariance blocks.
+Propositions 7 through 9 complete a worst-case route from covariance error to
+path recovery. The remaining problem is to replace the global Hölder bound with
+candidate-sensitive local bounds that use positive factor margins and avoid
+paying for irrelevant near-zero candidates.
 
 ### C3. Gauge-consistent quantum lift
 
@@ -284,3 +503,9 @@ that can maximize independence alone.
 
 Each conjecture remains open until its assumptions are fully specified and a
 proof or a counterexample is committed with a reproducible test.
+
+## Reference for the concentration step
+
+1. K. R. Davidson and S. J. Szarek, "Local operator theory, random matrices and
+   Banach spaces," in *Handbook of the Geometry of Banach Spaces*, vol. 1,
+   2001, pp. 317-366. [Author-hosted preprint](https://www.math.uwaterloo.ca/~krdavids/Preprints/DavSzHB.pdf).

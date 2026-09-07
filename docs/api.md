@@ -189,9 +189,12 @@ metrics = transport_metrics_from_covariances(
 
 ```python
 from observer_math import (
+    canonical_persistence_covariance_error_bound,
     componentwise_recovery_bound,
     finite_sample_recovery_bound,
     gaussian_cmi_covariance_error_bound,
+    gaussian_path_recovery_bound,
+    minimum_gaussian_sample_size,
 )
 
 population = componentwise_recovery_bound(
@@ -218,13 +221,42 @@ cmi_error = gaussian_cmi_covariance_error_bound(
     minimum_eigenvalue=0.2,
     covariance_spectral_error=0.01,
 )
+
+persistence_error = canonical_persistence_covariance_error_bound(
+    minimum_eigenvalue=0.2,
+    maximum_eigenvalue=1.4,
+    covariance_spectral_error=0.01,
+)
+
+end_to_end = gaussian_path_recovery_bound(
+    population_action_margin=0.126,
+    node_count=7,
+    subset_size=3,
+    time_count=5,
+    sample_count=640,
+    minimum_joint_eigenvalue=0.086,
+    maximum_joint_eigenvalue=1.125,
+    confidence=0.95,
+    transport_weight=0.25,
+)
+
+minimum_samples = minimum_gaussian_sample_size(
+    population_action_margin=0.126,
+    node_count=7,
+    subset_size=3,
+    time_count=5,
+    minimum_joint_eigenvalue=0.086,
+    maximum_joint_eigenvalue=1.125,
+    confidence=0.95,
+    transport_weight=0.25,
+    maximum_sample_count=10**30,
+)
 ```
 
-The first function checks a strong componentwise sufficient condition. The
-second evaluates the deterministic implication of user-supplied uniform error
-bounds. The third converts a spectral covariance error into a Gaussian
-conditional-mutual-information error bound. These functions do not infer a
-confidence level from data.
+The functions progress from score-level checks to covariance perturbation and
+then to an end-to-end independent-Gaussian-ensemble guarantee. The final search
+returns a sufficient sample count, which can be extremely conservative. None of
+these functions estimates a confidence level from observed data.
 
 ## Internal baselines
 
