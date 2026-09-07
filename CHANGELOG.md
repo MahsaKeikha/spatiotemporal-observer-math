@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.0 - 2026-09-07
+
+- Derived a two-type block comparison theorem from entry-magnitude and row and
+  column support-degree assumptions.
+- Added direct construction of every global, row-local, within-candidate, and
+  local-noise budget required by the overlap-class certificate.
+- Verified the structural budgets against all candidate compressions of random
+  sparse transition and symmetric noise perturbations.
+- Added a matrix-free 1,000-node example that represents more than eight
+  trillion candidates with six overlap classes and a positive sufficient
+  recovery margin.
+- Preserved the explicit limitation that coarse structural envelopes discard
+  cancellation and detailed support geometry.
+
 ## 0.8.0 - 2026-09-07
 
 - Derived an exact integer occupancy criterion for consecutive
@@ -7,7 +21,7 @@
 - Added a matrix-free recovery certificate driven by global radii and
   overlap-indexed row, within-candidate, and local-noise budgets.
 - Reduced complete-family certificate evaluation from \(\binom ns\) candidate
-  subsets to (O(Ts^2)) overlap-pair checks once valid budgets are supplied.
+  subsets to \(O(Ts^2)\) overlap-pair checks once valid budgets are supplied.
 - Verified the occupancy criterion by exhaustive enumeration and checked that
   every overlap-class radius dominates every corresponding matrix-level bound
   on the reference system and eight dense perturbation sequences.

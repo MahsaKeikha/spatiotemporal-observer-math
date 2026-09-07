@@ -1458,16 +1458,105 @@ they can be checked against the matrix-level theorem; in a scalable use they
 must instead follow from declared sparsity, degree, locality, or block-norm
 assumptions.
 
+## Proposition 23: structural budgets from block sparsity
+
+At each time, partition coordinates into type \(0=S_t^*\) and type
+\(1=[n]\setminus S_t^*\). Let \(M^{ab}\) denote the block of a matrix \(M\)
+with row type \(a\in\{0,1\}\) and column type \(b\in\{0,1\}\). Suppose
+
+\[
+|M_{ij}^{ab}|\leq\epsilon^{ab},\qquad
+\max_i|\operatorname{supp}M_{i,:}^{ab}|\leq d_{\rm r}^{ab},qquad
+\max_j|\operatorname{supp}M_{:,j}^{ab}|\leq d_{\rm c}^{ab}.
+\]
+
+For a row selection containing \(u_a\) coordinates of type \(a\) and a
+column selection containing \(v_b\) coordinates of type \(b\), define the
+nonnegative comparison matrix
+
+\[
+K_{ab}(u,v)=\epsilon^{ab}
+\sqrt{\min(d_{\rm r}^{ab},v_b)
+      \min(d_{\rm c}^{ab},u_a)}.
+\]
+
+Then
+
+\[
+\|\Pi_U M\Pi_V^\mathsf T\|_2\leq\|K(u,v)\|_2.
+\]
+
+Consequently, let \(N=(s,n-s)\) and \(c_q=(q,s-q)\). Applying the construction
+to the transition perturbation \(E_t\) gives valid Proposition 22 budgets
+
+\[
+\gamma_t=\|K_t^E(N,N)\|_2,
+\quad
+e^{\rm row}_{tq}=\|K_t^E(c_q,N)\|_2,
+\quad
+e^{\rm in}_{tq}=\|K_t^E(c_q,c_q)\|_2.
+\]
+
+Applying it to the noise perturbation \(F_t\) gives
+
+\[
+\nu_t=\|K_t^F(N,N)\|_2,
+\qquad
+f_{tq}=\|K_t^F(c_q,c_q)\|_2.
+\]
+
+If these derived budgets satisfy the spectral and mismatch-margin conditions
+of Proposition 22, its complete-family unique-recovery conclusion follows.
+
+**Proof.** For every compressed block \(B^{ab}=\Pi_{U_a}M^{ab}
+\Pi_{V_b}^\mathsf T\),
+
+\[
+\|B^{ab}\|_\infty
+\leq\epsilon^{ab}\min(d_{\rm r}^{ab},v_b),
+\qquad
+\|B^{ab}\|_1
+\leq\epsilon^{ab}\min(d_{\rm c}^{ab},u_a).
+\]
+
+The standard inequality
+
+\[
+\|B^{ab}\|_2\leq
+\sqrt{\|B^{ab}\|_1\|B^{ab}\|_\infty}
+\]
+
+therefore gives \(\|B^{ab}\|_2\leq K_{ab}(u,v)\). Split an input vector
+\(x=(x_0,x_1)\) by column type. The triangle inequality yields
+
+\[
+\|(Bx)_a\|_2\leq\sum_bK_{ab}(u,v)\|x_b\|_2.
+\]
+
+Taking the Euclidean norm over the two row groups proves
+\(\|B\|_2\leq\|K(u,v)\|_2\). A candidate with planted overlap \(q\) has row
+and column count vector \(c_q\); the full population has count vector \(N\).
+The five displayed substitutions are therefore valid uniformly over every
+candidate in its overlap class. Proposition 22 completes the argument.
+\(\square\)
+
+The structural certificate reads only \(O(T)\) two-by-two entry and degree
+tables. Budget construction takes \(O(Ts)\) arithmetic operations, and the
+complete recovery calculation takes \(O(Ts^2)\) because of consecutive
+overlap feasibility. These costs are independent of both \(n^2\) matrix
+storage and \(\binom ns\) candidate enumeration. The theorem is conditional on
+the declared envelopes actually holding. It does not estimate them from data,
+and coarse degree or entry bounds can make the sufficient margin vacuous.
+
 ## Open conjectures
 
-### C1. Analytic class budgets from graph structure
+### C1. Localized propagation without a global covariance radius
 
-Proposition 22 removes matrices and candidate enumeration from the certificate
-once valid overlap-class budgets are supplied. The next step is to derive
-those budgets directly from sparse or bounded-degree perturbation models. Such
-a theorem should expose scaling in perturbation support, horizon, and graph
-degree, and determine whether the remaining cube-root loss is intrinsic or an
-artifact of factorwise control.
+Proposition 23 derives class budgets from sparse two-type envelopes, but the
+state recursion still carries a global spectral radius. A stronger result
+would propagate influence through a finite neighborhood of each overlap class,
+with decay controlled by graph distance and time horizon. This may prevent a
+large remote perturbation from making every local score certificate vacuous.
 
 ### C2. Sharper score stability under covariance perturbation
 

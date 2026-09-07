@@ -5,6 +5,8 @@ import numpy as np
 from observer_math import (
     a_priori_support_moving_clique_recovery_bound,
     adjacent_joint_covariance,
+    block_sparse_moving_clique_recovery_bound,
+    block_sparse_overlap_budgets,
     certify_worldtube,
     covariance_preserving_moving_clique_bound,
     covariance_preserving_moving_cliques,
@@ -73,6 +75,32 @@ def _overlap_class_profile(transition_errors, noise_errors, planted):
         within_transition,
         local_noise,
     )
+
+
+def _two_type_envelopes(matrices, planted):
+    """Read entry and support envelopes from matrices for theorem audits."""
+    time_count = len(planted)
+    node_count = matrices[0].shape[0]
+    entries = np.zeros((time_count, 2, 2))
+    row_degrees = np.zeros((time_count, 2, 2), dtype=int)
+    column_degrees = np.zeros_like(row_degrees)
+    all_nodes = set(range(node_count))
+    for time, active in enumerate(planted):
+        groups = (tuple(active), tuple(sorted(all_nodes - set(active))))
+        for row_type, rows in enumerate(groups):
+            for column_type, columns in enumerate(groups):
+                block = matrices[time][np.ix_(rows, columns)]
+                entries[time, row_type, column_type] = np.max(
+                    np.abs(block), initial=0.0
+                )
+                support = block != 0.0
+                row_degrees[time, row_type, column_type] = np.max(
+                    np.sum(support, axis=1), initial=0
+                )
+                column_degrees[time, row_type, column_type] = np.max(
+                    np.sum(support, axis=0), initial=0
+                )
+    return entries, row_degrees, column_degrees
 
 
 def test_closed_form_moving_clique_score_matches_covariance_calculation():
@@ -932,7 +960,7 @@ def test_overlap_class_bound_scales_without_candidate_construction():
     )
     zeros = np.zeros((len(path), module_size + 1))
     bound = overlap_class_moving_clique_recovery_bound(
-        100,
+        1000,
         path,
         self_memory=0.2,
         internal_coupling=0.1,
@@ -945,6 +973,110 @@ def test_overlap_class_bound_scales_without_candidate_construction():
         continuity_weight=0.01,
     )
 
-    assert bound.candidate_count == 75_287_520
+    assert bound.candidate_count == 8_250_291_250_200
     assert bound.overlap_class_count == module_size + 1
     assert bound.guarantees_unique_planted_path
+
+
+def test_block_sparse_budgets_cover_every_matrix_compression():
+    rng = np.random.default_rng(161803)
+    node_count = 9
+    module_size = 3
+    planted = ((0, 1, 2), (1, 2, 3), (2, 3, 4))
+    transition_errors = []
+    noise_errors = []
+    for _ in planted:
+        transition_mask = rng.random((node_count, node_count)) < 0.28
+        transition_errors.append(
+            transition_mask * rng.uniform(-1e-6, 1e-6, (node_count, node_count))
+        )
+        upper_mask = np.triu(rng.random((node_count, node_count)) < 0.22)
+        noise_values = np.triu(
+            rng.uniform(-1e-7, 1e-7, (node_count, node_count))
+        )
+        upper_noise = upper_mask * noise_values
+        noise_errors.append(
+            upper_noise + upper_noise.T - np.diag(np.diag(upper_noise))
+        )
+    transition_envelopes = _two_type_envelopes(transition_errors, planted)
+    noise_envelopes = _two_type_envelopes(noise_errors, planted)
+    budgets = block_sparse_overlap_budgets(
+        node_count,
+        module_size,
+        len(planted),
+        transition_entry_bounds=transition_envelopes[0],
+        transition_row_degrees=transition_envelopes[1],
+        transition_column_degrees=transition_envelopes[2],
+        noise_entry_bounds=noise_envelopes[0],
+        noise_row_degrees=noise_envelopes[1],
+        noise_column_degrees=noise_envelopes[2],
+    )
+    candidates = tuple(combinations(range(node_count), module_size))
+    all_nodes = tuple(range(node_count))
+    for time, active in enumerate(planted):
+        assert np.linalg.norm(transition_errors[time], ord=2) <= (
+            budgets.global_transition_bounds[time] + 1e-14
+        )
+        assert np.linalg.norm(noise_errors[time], ord=2) <= (
+            budgets.global_noise_bounds[time] + 1e-14
+        )
+        for candidate in candidates:
+            overlap = len(set(candidate) & set(active))
+            assert np.linalg.norm(
+                transition_errors[time][np.ix_(candidate, all_nodes)], ord=2
+            ) <= budgets.row_transition_bounds[time][overlap] + 1e-14
+            assert np.linalg.norm(
+                transition_errors[time][np.ix_(candidate, candidate)], ord=2
+            ) <= budgets.within_transition_bounds[time][overlap] + 1e-14
+            assert np.linalg.norm(
+                noise_errors[time][np.ix_(candidate, candidate)], ord=2
+            ) <= budgets.local_noise_bounds[time][overlap] + 1e-14
+
+
+def test_block_sparse_structural_certificate_is_direct_and_nonvacuous():
+    node_count = 9
+    module_size = 3
+    planted = ((0, 1, 2), (1, 2, 3), (2, 3, 4))
+    time_count = len(planted)
+    transition_entries = np.full((time_count, 2, 2), 1e-7)
+    transition_degrees = np.full((time_count, 2, 2), 2, dtype=int)
+    noise_entries = np.full((time_count, 2, 2), 1e-8)
+    noise_degrees = np.full((time_count, 2, 2), 2, dtype=int)
+    direct = block_sparse_moving_clique_recovery_bound(
+        node_count,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transition_entry_bounds=transition_entries,
+        transition_row_degrees=transition_degrees,
+        transition_column_degrees=transition_degrees,
+        noise_entry_bounds=noise_entries,
+        noise_row_degrees=noise_degrees,
+        noise_column_degrees=noise_degrees,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+
+    assert direct.recovery.candidate_count == 84
+    assert direct.recovery.overlap_class_count == module_size + 1
+    assert direct.recovery.per_mismatch_action_margin > 0.0
+    assert direct.recovery.guarantees_unique_planted_path
+    assert direct.budgets.global_transition_bounds[0] < 1e-6
+
+
+def test_block_sparse_budget_validation_rejects_fractional_degrees():
+    entries = np.zeros((2, 2, 2))
+    fractional_degrees = np.full((2, 2, 2), 1.5)
+
+    with np.testing.assert_raises_regex(TypeError, "degrees must be integers"):
+        block_sparse_overlap_budgets(
+            6,
+            2,
+            2,
+            transition_entry_bounds=entries,
+            transition_row_degrees=fractional_degrees,
+            transition_column_degrees=np.ones((2, 2, 2), dtype=int),
+            noise_entry_bounds=entries,
+            noise_row_degrees=np.ones((2, 2, 2), dtype=int),
+            noise_column_degrees=np.ones((2, 2, 2), dtype=int),
+        )

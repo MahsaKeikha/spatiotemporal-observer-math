@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 46 tests. Continuous integration runs
+The automated suite currently contains 49 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -293,7 +293,7 @@ errors and that its score bounds cover every enumerated candidate.
 
 Proposition 22 receives five arrays of norm budgets rather than the
 perturbation matrices. In this example the complete family of ten candidates
-compresses to the three overlap values (q=0,1,2). Its `0.127900` lower
+compresses to the three overlap values \(q=0,1,2\). Its `0.127900` lower
 margin is more conservative than the matrix-level a priori margin because each
 class uses worst-case local budgets and the worst feasible preceding overlap.
 The tests verify both that the integer occupancy rule is exact and that each
@@ -307,10 +307,35 @@ certified by the sufficient action inequality; the cool region is uncertified.
 The plot does not classify the cool region as a failure region. The gold star
 marks the direct numerical check.
 
+## Experiment G: block-sparse structural recovery
+
+Command:
+
+```bash
+python examples/block_sparse_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Population size | `1,000` |
+| Implicit five-node candidates | `8,250,291,250,200` |
+| Overlap classes evaluated | `6` |
+| Global transition perturbation bound | `4.000e-08` |
+| Maximum incorrect-score upper bound | `0.000148` |
+| Action-margin lower bound | `0.045031` |
+| Sufficient condition | satisfied |
+
+The input consists only of two-by-two tables of entry magnitudes and integer
+row and column degrees. The transition envelope uses entry magnitude
+`1e-8` and degree two in every block; the noise envelope uses `1e-9` and
+degree two. No \(1000\times1000\) perturbation matrix is created. The example
+is a deterministic theorem evaluation, not an empirical scalability benchmark
+or evidence that a particular physical system satisfies these envelopes.
+
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- analytic overlap-class budgets from sparse or bounded-degree perturbations
+- graph-distance-local covariance propagation that avoids a global radius
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

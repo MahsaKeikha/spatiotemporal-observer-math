@@ -155,12 +155,18 @@ within that family.
 
 The overlap-class certificate removes the perturbation matrices and individual
 candidates from the final calculation. Given global radii and local budgets
-indexed only by (q=|C\cap S_t^*|), it certifies all (inom ns) candidates
-using (O(Ts^2)) overlap-pair checks. On the same example it reduces ten
+indexed only by \(q=|C\cap S_t^*|\), it certifies all \(\binom ns\) candidates
+using \(O(Ts^2)\) overlap-pair checks. On the same example it reduces ten
 candidate cases to three classes, retains a positive action margin of
 `0.127900`, and bounds every matrix-level candidate calculation. The example
-uses enumeration only to audit the supplied budgets; deriving such budgets
-from sparse or bounded-degree model assumptions is the next open step.
+uses enumeration only to audit the supplied budgets.
+
+A direct alternative is implemented for two-type block-sparse perturbations.
+Entry-magnitude and row/column-degree envelopes are converted into global and
+overlap-local operator-norm budgets by a two-by-two comparison matrix. The
+direct certificate does not store an \(n\times n\) perturbation or enumerate a
+candidate. A 1,000-node example represents `8,250,291,250,200` five-node
+candidates by six overlap classes and retains a certified margin of `0.045031`.
 
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
@@ -173,7 +179,7 @@ from sparse or bounded-degree model assumptions is the next open step.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-two proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-three proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -200,6 +206,7 @@ python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
 python examples/symbolic_recovery_experiment.py
 python examples/perturbed_symbolic_recovery_experiment.py
+python examples/block_sparse_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -222,8 +229,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.8 adds a matrix-free
-overlap-class recovery certificate for the complete fixed-size candidate
-family, together with exhaustive audits of its class compression.
+This is an ongoing study, not a finished paper. Version 0.9 derives the
+overlap-class budgets directly from block-sparse structural assumptions and
+includes a large-population calculation with no candidate construction.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

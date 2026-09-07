@@ -474,6 +474,48 @@ subsets. The caller is responsible for proving that the supplied class budgets
 cover their stated maxima. `overlap_class_multiplicities` records the number of
 candidates represented by each value in `overlap_values`.
 
+### Block-sparse structural certificate
+
+```python
+import numpy as np
+
+from observer_math import block_sparse_moving_clique_recovery_bound
+
+entries_e = np.full((time_count, 2, 2), 1e-8)
+degrees_e = np.full((time_count, 2, 2), 2, dtype=int)
+entries_f = np.full((time_count, 2, 2), 1e-9)
+degrees_f = np.full((time_count, 2, 2), 2, dtype=int)
+
+structural = block_sparse_moving_clique_recovery_bound(
+    node_count,
+    planted,
+    self_memory=0.2,
+    internal_coupling=0.1,
+    transition_entry_bounds=entries_e,
+    transition_row_degrees=degrees_e,
+    transition_column_degrees=degrees_e,
+    noise_entry_bounds=entries_f,
+    noise_row_degrees=degrees_f,
+    noise_column_degrees=degrees_f,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(structural.recovery.per_mismatch_action_margin)
+```
+
+Every envelope array has shape `(time_count, 2, 2)`. Index zero denotes the
+planted type and index one its complement; the final two axes select row and
+column type. Entry arrays bound absolute entry magnitude in each block. Degree
+arrays bound the number of nonzero entries in each block row or column. The
+function converts these declarations into Proposition 22 budgets without
+receiving a perturbation matrix. `structural.budgets` exposes the derived
+radii, and `structural.recovery` contains the complete overlap-class result.
+
+For symmetric noise perturbations, separate row and column degree arrays are
+still accepted so that the structural assumptions remain explicit. A positive
+certificate is conditional on the stated entry and degree envelopes being
+valid for the intended model.
+
 ## Identifiability and symmetry
 
 ```python

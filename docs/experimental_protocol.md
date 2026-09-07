@@ -187,6 +187,14 @@ nor constructs candidates. A separate occupancy test compares every feasible
 consecutive overlap pair with exhaustive enumeration on a seven-node,
 three-member system.
 
+The fifth certificate starts from entry-magnitude and row/column-degree
+envelopes for the four planted-inside/outside perturbation blocks. A
+two-by-two comparison matrix converts them to all required global and local
+operator-norm budgets. Random sparse matrices are used only for containment
+tests. The large deterministic example supplies the structural envelopes
+directly and evaluates six classes representing more than eight trillion
+candidates without constructing a perturbation matrix or candidate subset.
+
 ## 8. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
@@ -246,7 +254,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_overlap_class_occupancy_matches_exhaustive_candidates` | The integer occupancy criterion gives exactly the consecutive overlap pairs found by enumeration |
 | `test_overlap_class_bound_dominates_every_candidate_certificate` | Every matrix-level candidate radius and incorrect-score bound lies below its overlap-class counterpart |
 | `test_overlap_class_bound_rejects_inconsistent_local_budgets` | Local class budgets inconsistent with their global radii are rejected |
-| `test_overlap_class_bound_scales_without_candidate_construction` | A 75,287,520-candidate family is represented by six overlap classes without constructing its subsets |
+| `test_overlap_class_bound_scales_without_candidate_construction` | An 8,250,291,250,200-candidate family is represented by six overlap classes without constructing its subsets |
+| `test_block_sparse_budgets_cover_every_matrix_compression` | Derived structural budgets contain every global, row-local, and candidate-local norm of random sparse perturbations |
+| `test_block_sparse_structural_certificate_is_direct_and_nonvacuous` | Entry and degree envelopes alone produce a positive complete-family recovery certificate |
+| `test_block_sparse_budget_validation_rejects_fractional_degrees` | Structural support degrees must be nonnegative integers |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -275,6 +286,8 @@ Its limitations are concrete:
 12. The overlap-class theorem removes matrices and candidate enumeration from
     certificate evaluation, but obtaining rigorous class budgets from a
     general unstructured model can itself require exhaustive work.
+13. The block-sparse theorem obtains those budgets analytically, but discards
+    signs, cancellation, exact support geometry, and dependencies among blocks.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should

@@ -471,27 +471,47 @@ relative to that family unless it is complete.
 ## 17. Overlap classes as sufficient statistics for the bound
 
 For the covariance-preserving moving clique, a candidate's base transition
-norms depend only on (q=|C\cap S_t^*|). The same remains true for conservative
+norms depend only on \(q=|C\cap S_t^*|\). The same remains true for conservative
 perturbation control when row, within-candidate, and local-noise norms are
-supplied as class budgets. This converts a list of (inom ns) candidate
-radii into at most (s+1) rows per time.
+supplied as class budgets. This converts a list of \(\binom ns\) candidate
+radii into at most \(s+1\) rows per time.
 
 The only temporal complication is that the current covariance error was
 created under the preceding planted boundary. It therefore depends on a pair
-((p,q)) of consecutive overlaps. Four disjoint occupancy cells determine
+\((p,q)\) of consecutive overlaps. Four disjoint occupancy cells determine
 whether the pair is possible: the planted intersection, the previous-only and
 current-only regions, and the outside region. Proposition 22 eliminates the
 cell count to obtain a closed integer interval for the shared occupancy. A
 pair is feasible precisely when that interval contains an integer.
 
-The resulting certificate needs (O(Ts^2)) class-pair checks. This is a
+The resulting certificate needs \(O(Ts^2)\) class-pair checks. This is a
 complexity statement about evaluating valid budgets, not about obtaining them.
 Exact class maxima can still be expensive for unstructured matrices. Scalable
 applications must derive them from assumptions such as bounded row energy,
 sparsity, locality, or graph degree. The small committed example enumerates
 candidates only to audit that the compressed bound dominates every member.
 
-## 18. Choices that are still choices
+## 18. Two-type sparse comparison matrices
+
+An entry bound alone scales with block dimension, while a degree bound alone
+does not control amplitude. Proposition 23 combines them. For each block of a
+matrix, its maximum row sum is bounded by entry magnitude times row degree,
+and its maximum column sum is bounded by entry magnitude times column degree.
+Their geometric mean controls the block spectral norm.
+
+The four block norms form a nonnegative two-by-two comparison matrix. Its
+spectral norm bounds the full operator because the Euclidean norms of the two
+input groups behave as a two-dimensional vector under block multiplication.
+Substituting the population counts \((s,n-s)\) gives global bounds. Substituting
+the candidate counts \((q,s-q)\) on the row side or on both sides gives the
+row-local and within-candidate budgets required by Proposition 22.
+
+This step uses only entry envelopes and support degrees relative to the
+planted inside/outside partition. It does not inspect the matrices or list the
+candidates. The price is conservatism: signs, cancellation, detailed support
+geometry, and correlations among blocks are discarded.
+
+## 19. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

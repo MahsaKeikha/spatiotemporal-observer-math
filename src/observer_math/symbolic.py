@@ -158,6 +158,28 @@ class OverlapClassMovingCliqueRecoveryBound:
     guarantees_unique_planted_path: bool
 
 
+@dataclass(frozen=True)
+class BlockSparseOverlapBudgets:
+    """Norm budgets implied by two-type entry and degree envelopes."""
+
+    node_count: int
+    time_count: int
+    module_size: int
+    global_transition_bounds: tuple[float, ...]
+    global_noise_bounds: tuple[float, ...]
+    row_transition_bounds: tuple[tuple[float, ...], ...]
+    within_transition_bounds: tuple[tuple[float, ...], ...]
+    local_noise_bounds: tuple[tuple[float, ...], ...]
+
+
+@dataclass(frozen=True)
+class BlockSparseMovingCliqueRecoveryBound:
+    """Direct structural recovery certificate and its derived budgets."""
+
+    budgets: BlockSparseOverlapBudgets
+    recovery: OverlapClassMovingCliqueRecoveryBound
+
+
 def _residual_logdet(
     row_count: int,
     column_count: int,
@@ -1422,3 +1444,224 @@ def overlap_class_moving_clique_recovery_bound(
         all_local_covariance_bounds_valid=all_valid,
         guarantees_unique_planted_path=bool(all_valid and action_margin > 0.0),
     )
+
+
+def _block_sparse_envelope_arrays(
+    entry_bounds: ArrayLike,
+    row_degrees: ArrayLike,
+    column_degrees: ArrayLike,
+    time_count: int,
+    label: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Validate time-indexed two-type sparsity envelopes."""
+    entries = np.asarray(entry_bounds, dtype=float)
+    raw_row_degrees = np.asarray(row_degrees)
+    raw_column_degrees = np.asarray(column_degrees)
+    expected_shape = (time_count, 2, 2)
+    if (
+        entries.shape != expected_shape
+        or raw_row_degrees.shape != expected_shape
+        or raw_column_degrees.shape != expected_shape
+    ):
+        raise ValueError(f"{label} envelope arrays must have shape (time_count, 2, 2)")
+    if not np.issubdtype(raw_row_degrees.dtype, np.integer) or not np.issubdtype(
+        raw_column_degrees.dtype, np.integer
+    ):
+        raise TypeError(f"{label} degrees must be integers")
+    rows = raw_row_degrees.astype(int)
+    columns = raw_column_degrees.astype(int)
+    if np.any(~np.isfinite(entries)) or np.any(entries < 0.0):
+        raise ValueError(f"{label} entry bounds must be finite and nonnegative")
+    if np.any(rows < 0) or np.any(columns < 0):
+        raise ValueError(f"{label} degrees must be nonnegative")
+    return entries, rows, columns
+
+
+def _block_sparse_comparison_norm(
+    entry_bounds: np.ndarray,
+    row_degrees: np.ndarray,
+    column_degrees: np.ndarray,
+    row_counts: tuple[int, int],
+    column_counts: tuple[int, int],
+) -> float:
+    """Bound a two-by-two block operator by its comparison matrix."""
+    comparison = np.empty((2, 2), dtype=float)
+    for row_type in range(2):
+        for column_type in range(2):
+            maximum_row_support = min(
+                int(row_degrees[row_type, column_type]),
+                column_counts[column_type],
+            )
+            maximum_column_support = min(
+                int(column_degrees[row_type, column_type]),
+                row_counts[row_type],
+            )
+            comparison[row_type, column_type] = entry_bounds[
+                row_type, column_type
+            ] * np.sqrt(maximum_row_support * maximum_column_support)
+    return float(np.linalg.norm(comparison, ord=2))
+
+
+def block_sparse_overlap_budgets(
+    node_count: int,
+    module_size: int,
+    time_count: int,
+    *,
+    transition_entry_bounds: ArrayLike,
+    transition_row_degrees: ArrayLike,
+    transition_column_degrees: ArrayLike,
+    noise_entry_bounds: ArrayLike,
+    noise_row_degrees: ArrayLike,
+    noise_column_degrees: ArrayLike,
+) -> BlockSparseOverlapBudgets:
+    """Derive overlap-class norm budgets from block sparsity envelopes.
+
+    Type zero denotes coordinates inside the planted boundary at a given time;
+    type one denotes coordinates outside it. Every envelope array has shape
+    ``(time_count, 2, 2)`` and is indexed by row type and column type.
+    """
+    for value, name in (
+        (node_count, "node_count"),
+        (module_size, "module_size"),
+        (time_count, "time_count"),
+    ):
+        if isinstance(value, bool) or not isinstance(value, (int, np.integer)):
+            raise TypeError(f"{name} must be an integer")
+    if module_size < 2 or node_count <= module_size:
+        raise ValueError("require 2 <= module_size < node_count")
+    if time_count < 1:
+        raise ValueError("time_count must be positive")
+    transition_entries, transition_rows, transition_columns = (
+        _block_sparse_envelope_arrays(
+            transition_entry_bounds,
+            transition_row_degrees,
+            transition_column_degrees,
+            time_count,
+            "transition",
+        )
+    )
+    noise_entries, noise_rows, noise_columns = _block_sparse_envelope_arrays(
+        noise_entry_bounds,
+        noise_row_degrees,
+        noise_column_degrees,
+        time_count,
+        "noise",
+    )
+
+    population_counts = (module_size, node_count - module_size)
+    global_transition = []
+    global_noise = []
+    row_transition = []
+    within_transition = []
+    local_noise = []
+    for time in range(time_count):
+        global_transition.append(
+            _block_sparse_comparison_norm(
+                transition_entries[time],
+                transition_rows[time],
+                transition_columns[time],
+                population_counts,
+                population_counts,
+            )
+        )
+        global_noise.append(
+            _block_sparse_comparison_norm(
+                noise_entries[time],
+                noise_rows[time],
+                noise_columns[time],
+                population_counts,
+                population_counts,
+            )
+        )
+        row_values = []
+        within_values = []
+        noise_values = []
+        for overlap in range(module_size + 1):
+            candidate_counts = (overlap, module_size - overlap)
+            row_values.append(
+                _block_sparse_comparison_norm(
+                    transition_entries[time],
+                    transition_rows[time],
+                    transition_columns[time],
+                    candidate_counts,
+                    population_counts,
+                )
+            )
+            within_values.append(
+                _block_sparse_comparison_norm(
+                    transition_entries[time],
+                    transition_rows[time],
+                    transition_columns[time],
+                    candidate_counts,
+                    candidate_counts,
+                )
+            )
+            noise_values.append(
+                _block_sparse_comparison_norm(
+                    noise_entries[time],
+                    noise_rows[time],
+                    noise_columns[time],
+                    candidate_counts,
+                    candidate_counts,
+                )
+            )
+        row_transition.append(tuple(row_values))
+        within_transition.append(tuple(within_values))
+        local_noise.append(tuple(noise_values))
+
+    return BlockSparseOverlapBudgets(
+        node_count=node_count,
+        time_count=time_count,
+        module_size=module_size,
+        global_transition_bounds=tuple(global_transition),
+        global_noise_bounds=tuple(global_noise),
+        row_transition_bounds=tuple(row_transition),
+        within_transition_bounds=tuple(within_transition),
+        local_noise_bounds=tuple(local_noise),
+    )
+
+
+def block_sparse_moving_clique_recovery_bound(
+    node_count: int,
+    planted_path: Sequence[Sequence[int]],
+    *,
+    self_memory: float,
+    internal_coupling: float,
+    transition_entry_bounds: ArrayLike,
+    transition_row_degrees: ArrayLike,
+    transition_column_degrees: ArrayLike,
+    noise_entry_bounds: ArrayLike,
+    noise_row_degrees: ArrayLike,
+    noise_column_degrees: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> BlockSparseMovingCliqueRecoveryBound:
+    """Certify recovery directly from two-type entry and degree envelopes."""
+    if not planted_path:
+        raise ValueError("planted_path must be nonempty")
+    module_size = len(planted_path[0])
+    budgets = block_sparse_overlap_budgets(
+        node_count,
+        module_size,
+        len(planted_path),
+        transition_entry_bounds=transition_entry_bounds,
+        transition_row_degrees=transition_row_degrees,
+        transition_column_degrees=transition_column_degrees,
+        noise_entry_bounds=noise_entry_bounds,
+        noise_row_degrees=noise_row_degrees,
+        noise_column_degrees=noise_column_degrees,
+    )
+    recovery = overlap_class_moving_clique_recovery_bound(
+        node_count,
+        planted_path,
+        self_memory=self_memory,
+        internal_coupling=internal_coupling,
+        transition_perturbation_bounds=budgets.global_transition_bounds,
+        noise_perturbation_bounds=budgets.global_noise_bounds,
+        row_transition_perturbation_bounds=budgets.row_transition_bounds,
+        within_transition_perturbation_bounds=budgets.within_transition_bounds,
+        local_noise_perturbation_bounds=budgets.local_noise_bounds,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return BlockSparseMovingCliqueRecoveryBound(budgets=budgets, recovery=recovery)

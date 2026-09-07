@@ -49,11 +49,15 @@ from .sampling import (
 from .search import Candidate, rank_subsystems
 from .symbolic import (
     APrioriSupportMovingCliqueRecoveryBound,
+    BlockSparseMovingCliqueRecoveryBound,
+    BlockSparseOverlapBudgets,
     MovingCliqueRecoveryBound,
     OverlapClassMovingCliqueRecoveryBound,
     PerturbedMovingCliqueRecoveryBound,
     SupportResolvedMovingCliqueRecoveryBound,
     a_priori_support_moving_clique_recovery_bound,
+    block_sparse_moving_clique_recovery_bound,
+    block_sparse_overlap_budgets,
     covariance_preserving_moving_clique_bound,
     overlap_class_moving_clique_recovery_bound,
     perturbed_moving_clique_recovery_bound,
@@ -70,6 +74,8 @@ from .worldtube import (
 __all__ = [
     "APrioriSupportMovingCliqueRecoveryBound",
     "BaselinePath",
+    "BlockSparseMovingCliqueRecoveryBound",
+    "BlockSparseOverlapBudgets",
     "Candidate",
     "ComponentwiseRecoveryBound",
     "FiniteSampleRecoveryBound",
@@ -89,6 +95,8 @@ __all__ = [
     "adjacent_joint_covariance",
     "adjacent_sample_covariances",
     "best_fixed_boundary",
+    "block_sparse_moving_clique_recovery_bound",
+    "block_sparse_overlap_budgets",
     "block_system",
     "canonical_path_orbit",
     "canonical_persistence_covariance_error_bound",

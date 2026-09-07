@@ -169,7 +169,9 @@ stable and predictively useful, not whether it indicates consciousness.
 - a priori row-local recovery from structured perturbation matrices without
   actual covariance propagation
 - matrix-free recovery from overlap-indexed perturbation budgets with
-  (O(Ts^2)) certificate evaluation over the complete fixed-size family
+  \(O(Ts^2)\) certificate evaluation over the complete fixed-size family
+- direct derivation of those budgets from two-type entry bounds and bounded
+  row and column support, without storing perturbation matrices
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines
