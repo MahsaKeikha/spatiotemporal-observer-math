@@ -79,11 +79,14 @@ then propagate covariance errors on fixed or changing block partitions.
 Rectangular comparisons between consecutive layers avoid a common refinement
 when blocks split, merge, or change membership. The next recovery theorem
 now connects these layered local radii directly to candidate-local score and
-action margins. The remaining scalable step is to combine this result with
-overlap classes without explicitly listing candidate block unions. Proposition
-27 now performs that compression when factors are exactly class-constant. The
-next step is to replace exact within-class symmetry by rigorous factor ranges
-or within-class residual terms.
+action margins. Proposition 27 combines this result with overlap classes
+without explicitly listing candidate block unions when factors are exactly
+class-constant. Proposition 28 replaces exact symmetry by componentwise factor
+intervals, expands them using separate local and edge covariance envelopes, and
+retains the \(O(TK^2)\) mismatch-state calculation. The next structural step is
+to derive valid factor intervals automatically from class residual, sparsity,
+or cluster-diameter summaries. In parallel, the statistical priority remains a
+sample-split version of the near-competitor screen in Conjecture C1.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -187,6 +190,8 @@ stable and predictively useful, not whether it indicates consciousness.
   observer-score factors and the adversarial path-recovery dynamic program
 - class-compressed robust recovery with a mismatch-state dynamic program and
   arbitrary-size overlap multiplicities
+- interval-certified class recovery allowing bounded within-class factor
+  heterogeneity and signed transport weights
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 62 tests. Continuous integration runs
+The automated suite currently contains 66 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -438,6 +438,34 @@ the result does not rely on a favorable unproved geometric penalty. The
 population factors are deliberately class-constant; this experiment tests the
 scope of Proposition 27 rather than claiming that arbitrary systems possess
 the required symmetry.
+
+## Experiment L: heterogeneous interval-class recovery
+
+Command:
+
+```bash
+python examples/heterogeneous_class_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Candidates per time | `8,250,291,250,200` |
+| Maximum local factor interval width | `0.026` |
+| Maximum transport factor interval width | `0.020` |
+| Adversarial class path | `(5, 5, 5, 5, 4)` |
+| Planted action lower bound | `4.513864` |
+| Competitor action upper bound | `4.064802` |
+| Recovery slack | `0.449062` |
+| Sufficient condition | satisfied |
+
+This calculation uses the same six overlap classes as Experiment K but assigns
+nonzero factor intervals to every class and class pair. The local interval
+width also varies with overlap. Separate covariance radii enlarge those boxes
+before the local and transport geometric means are bounded. The positive slack
+therefore holds uniformly over the declared within-class heterogeneity rather
+than relying on exact equality of member factors. The example does not derive
+the intervals from a generative matrix model; that remains a separate modeling
+obligation.
 
 ## Required next controls
 

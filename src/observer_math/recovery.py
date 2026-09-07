@@ -118,6 +118,29 @@ class ClassCompressedPathRecoveryBound:
 
 
 @dataclass(frozen=True)
+class IntervalClassPathRecoveryBound:
+    """Class-compressed certificate with heterogeneous factor intervals."""
+
+    time_count: int
+    class_count: int
+    represented_state_count: int
+    implicit_path_count: int
+    planted_class_path: tuple[int, ...]
+    adversarial_class_path: tuple[int, ...] | None
+    planted_action_lower: float
+    competitor_action_upper: float
+    recovery_slack: float
+    local_factor_error_bounds: np.ndarray
+    transport_factor_error_bounds: np.ndarray
+    local_score_lower_bounds: np.ndarray
+    local_score_upper_bounds: np.ndarray
+    transport_score_lower_bounds: np.ndarray
+    transport_score_upper_bounds: np.ndarray
+    all_blocks_valid: bool
+    guarantees_population_path: bool
+
+
+@dataclass(frozen=True)
 class NearCompetitorScreen:
     """State and edge graph that can still challenge a robust path lower bound."""
 
@@ -657,6 +680,125 @@ def moving_partition_localized_recovery_bound(
     )
 
 
+def _maximum_mismatched_class_path(
+    local_upper: np.ndarray,
+    edge_upper: np.ndarray,
+    multiplicities: np.ndarray,
+    planted: tuple[int, ...],
+    feasible: np.ndarray,
+) -> tuple[float, tuple[int, ...] | None]:
+    """Maximize an upper action over class paths differing from planted."""
+    time_count, class_count = local_upper.shape
+    values = np.full((class_count, 2), -np.inf)
+    paths: list[list[tuple[int, ...] | None]] = [
+        [None, None] for _ in range(class_count)
+    ]
+    for current in range(class_count):
+        if multiplicities[0, current] == 0:
+            continue
+        mismatch = int(current != planted[0])
+        values[current, mismatch] = local_upper[0, current]
+        paths[current][mismatch] = (current,)
+    for time in range(1, time_count):
+        next_values = np.full((class_count, 2), -np.inf)
+        next_paths: list[list[tuple[int, ...] | None]] = [
+            [None, None] for _ in range(class_count)
+        ]
+        for previous in range(class_count):
+            for was_mismatch in range(2):
+                if not np.isfinite(values[previous, was_mismatch]):
+                    continue
+                for current in range(class_count):
+                    if multiplicities[time, current] == 0 or not feasible[
+                        time - 1, previous, current
+                    ]:
+                        continue
+                    mismatch = int(was_mismatch or current != planted[time])
+                    candidate_value = (
+                        values[previous, was_mismatch]
+                        + edge_upper[time - 1, previous, current]
+                        + local_upper[time, current]
+                    )
+                    if candidate_value > next_values[current, mismatch]:
+                        next_values[current, mismatch] = candidate_value
+                        previous_path = paths[previous][was_mismatch]
+                        if previous_path is None:
+                            raise RuntimeError("class dynamic program lost its prefix")
+                        next_paths[current][mismatch] = (*previous_path, current)
+        values = next_values
+        paths = next_paths
+
+    competitor_class = int(np.argmax(values[:, 1]))
+    competitor_upper = float(values[competitor_class, 1])
+    adversarial = paths[competitor_class][1] if np.isfinite(competitor_upper) else None
+    return competitor_upper, adversarial
+
+
+def _local_factor_errors_from_covariance(
+    covariance_errors: np.ndarray,
+    minimum: np.ndarray,
+    maximum: np.ndarray,
+    node_count: int,
+    subset_size: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return integration, insulation, and persistence error arrays."""
+    valid = covariance_errors < minimum
+    errors = np.ones((*covariance_errors.shape, 3), dtype=float)
+    for index in np.ndindex(covariance_errors.shape):
+        if not valid[index]:
+            continue
+        eta = float(covariance_errors[index])
+        lower = float(minimum[index])
+        upper = float(maximum[index])
+        logdet_factor = -np.log1p(-eta / lower) / np.log(2.0)
+        errors[index][0] = min(1.0, 4.0 * np.log(2.0) * logdet_factor)
+        errors[index][1] = min(
+            1.0,
+            np.log(2.0)
+            * (node_count + 2 * subset_size)
+            / subset_size
+            * logdet_factor,
+        )
+        errors[index][2] = canonical_persistence_covariance_error_bound(
+            minimum_eigenvalue=lower,
+            maximum_eigenvalue=upper,
+            covariance_spectral_error=eta,
+        )
+    return errors, valid
+
+
+def _transport_factor_errors_from_covariance(
+    covariance_errors: np.ndarray,
+    minimum: np.ndarray,
+    maximum: np.ndarray,
+    node_count: int,
+    subset_size: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return insulation and persistence error arrays for class edges."""
+    valid = covariance_errors < minimum
+    errors = np.ones((*covariance_errors.shape, 2), dtype=float)
+    for index in np.ndindex(covariance_errors.shape):
+        if not valid[index]:
+            continue
+        eta = float(covariance_errors[index])
+        lower = float(minimum[index])
+        upper = float(maximum[index])
+        logdet_factor = -np.log1p(-eta / lower) / np.log(2.0)
+        errors[index][0] = min(
+            1.0,
+            np.log(2.0)
+            * (node_count + 2 * subset_size)
+            / subset_size
+            * logdet_factor,
+        )
+        errors[index][1] = canonical_persistence_covariance_error_bound(
+            minimum_eigenvalue=lower,
+            maximum_eigenvalue=upper,
+            covariance_spectral_error=eta,
+        )
+    return errors, valid
+
+
 def class_compressed_covariance_path_recovery_bound(
     local_factors: ArrayLike,
     transport_factors: ArrayLike,
@@ -783,64 +925,37 @@ def class_compressed_covariance_path_recovery_bound(
     ):
         raise ValueError("require valid covariance errors and spectral envelopes")
 
-    valid_blocks = covariance_errors < minimum
+    local_factor_errors, valid_blocks = _local_factor_errors_from_covariance(
+        covariance_errors,
+        minimum,
+        maximum,
+        node_count,
+        subset_size,
+    )
     local_errors = np.ones(state_shape, dtype=float)
-    independence_errors = np.ones(state_shape, dtype=float)
-    persistence_errors = np.ones(state_shape, dtype=float)
     for time in range(time_count):
         for current in range(class_count):
-            if not valid_blocks[time, current]:
-                continue
-            eta = float(covariance_errors[time, current])
-            lower = float(minimum[time, current])
-            upper = float(maximum[time, current])
-            logdet_factor = -np.log1p(-eta / lower) / np.log(2.0)
-            integration_error = min(1.0, 4.0 * np.log(2.0) * logdet_factor)
-            independence_error = min(
-                1.0,
-                np.log(2.0)
-                * (node_count + 2 * subset_size)
-                / subset_size
-                * logdet_factor,
-            )
-            persistence_error = canonical_persistence_covariance_error_bound(
-                minimum_eigenvalue=lower,
-                maximum_eigenvalue=upper,
-                covariance_spectral_error=eta,
-            )
-            independence_errors[time, current] = independence_error
-            persistence_errors[time, current] = persistence_error
             local_errors[time, current] = product_root_error_bound(
                 local[time, current],
-                (integration_error, independence_error, persistence_error),
+                local_factor_errors[time, current],
             )
 
-    valid_transport_blocks = transport_covariance_errors < transport_minimum
+    transport_factor_errors, valid_transport_blocks = (
+        _transport_factor_errors_from_covariance(
+            transport_covariance_errors,
+            transport_minimum,
+            transport_maximum,
+            node_count,
+            subset_size,
+        )
+    )
     transport_errors = np.ones(edge_shape, dtype=float)
     for time in range(time_count - 1):
         for previous in range(class_count):
             for current in range(class_count):
-                if not valid_transport_blocks[time, previous, current]:
-                    continue
-                eta = float(transport_covariance_errors[time, previous, current])
-                lower = float(transport_minimum[time, previous, current])
-                upper = float(transport_maximum[time, previous, current])
-                logdet_factor = -np.log1p(-eta / lower) / np.log(2.0)
-                independence_error = min(
-                    1.0,
-                    np.log(2.0)
-                    * (node_count + 2 * subset_size)
-                    / subset_size
-                    * logdet_factor,
-                )
-                persistence_error = canonical_persistence_covariance_error_bound(
-                    minimum_eigenvalue=lower,
-                    maximum_eigenvalue=upper,
-                    covariance_spectral_error=eta,
-                )
                 transport_errors[time, previous, current] = product_root_error_bound(
                     transport[time, previous, current],
-                    (independence_error, persistence_error),
+                    transport_factor_errors[time, previous, current],
                 )
 
     local_scores = np.prod(local, axis=2) ** (1.0 / 3.0)
@@ -869,49 +984,13 @@ def class_compressed_covariance_path_recovery_bound(
         + abs(transport_weight) * transport_errors
         - continuity_weight * continuity_lower
     )
-
-    values = np.full((class_count, 2), -np.inf)
-    paths: list[list[tuple[int, ...] | None]] = [
-        [None, None] for _ in range(class_count)
-    ]
-    for current in range(class_count):
-        if multiplicities[0, current] == 0:
-            continue
-        mismatch = int(current != planted[0])
-        values[current, mismatch] = local_upper[0, current]
-        paths[current][mismatch] = (current,)
-    for time in range(1, time_count):
-        next_values = np.full((class_count, 2), -np.inf)
-        next_paths: list[list[tuple[int, ...] | None]] = [
-            [None, None] for _ in range(class_count)
-        ]
-        for previous in range(class_count):
-            for was_mismatch in range(2):
-                if not np.isfinite(values[previous, was_mismatch]):
-                    continue
-                for current in range(class_count):
-                    if multiplicities[time, current] == 0 or not feasible[
-                        time - 1, previous, current
-                    ]:
-                        continue
-                    mismatch = int(was_mismatch or current != planted[time])
-                    candidate_value = (
-                        values[previous, was_mismatch]
-                        + edge_upper[time - 1, previous, current]
-                        + local_upper[time, current]
-                    )
-                    if candidate_value > next_values[current, mismatch]:
-                        next_values[current, mismatch] = candidate_value
-                        previous_path = paths[previous][was_mismatch]
-                        if previous_path is None:
-                            raise RuntimeError("class dynamic program lost its prefix")
-                        next_paths[current][mismatch] = (*previous_path, current)
-        values = next_values
-        paths = next_paths
-
-    competitor_class = int(np.argmax(values[:, 1]))
-    competitor_upper = float(values[competitor_class, 1])
-    adversarial = paths[competitor_class][1] if np.isfinite(competitor_upper) else None
+    competitor_upper, adversarial = _maximum_mismatched_class_path(
+        local_upper,
+        edge_upper,
+        multiplicities,
+        planted,
+        feasible,
+    )
     slack = float(planted_lower - competitor_upper)
     active = multiplicities > 0
     active_edges = (
@@ -939,6 +1018,227 @@ def class_compressed_covariance_path_recovery_bound(
         recovery_slack=slack,
         local_score_errors=local_errors,
         transport_score_errors=transport_errors,
+        all_blocks_valid=all_valid,
+        guarantees_population_path=all_valid and slack > 0.0,
+    )
+
+
+def interval_class_covariance_path_recovery_bound(
+    local_factor_lower_bounds: ArrayLike,
+    local_factor_upper_bounds: ArrayLike,
+    transport_factor_lower_bounds: ArrayLike,
+    transport_factor_upper_bounds: ArrayLike,
+    class_multiplicities: ArrayLike,
+    planted_class_indices: Sequence[int],
+    feasible_class_edges: ArrayLike,
+    continuity_distance_lower_bounds: ArrayLike,
+    planted_continuity_distances: ArrayLike,
+    node_count: int,
+    subset_size: int,
+    *,
+    covariance_spectral_errors: ArrayLike,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    transport_covariance_spectral_errors: ArrayLike,
+    minimum_transport_block_eigenvalues: ArrayLike,
+    maximum_transport_block_eigenvalues: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> IntervalClassPathRecoveryBound:
+    """Certify heterogeneous classes using componentwise factor intervals."""
+    local_lower = np.asarray(local_factor_lower_bounds, dtype=float)
+    local_upper = np.asarray(local_factor_upper_bounds, dtype=float)
+    transport_lower = np.asarray(transport_factor_lower_bounds, dtype=float)
+    transport_upper = np.asarray(transport_factor_upper_bounds, dtype=float)
+    raw_multiplicities = np.asarray(class_multiplicities)
+    feasible = np.asarray(feasible_class_edges)
+    continuity_lower = np.asarray(continuity_distance_lower_bounds, dtype=float)
+    planted_distances = np.asarray(planted_continuity_distances, dtype=float)
+    covariance_errors = np.asarray(covariance_spectral_errors, dtype=float)
+    minimum = np.asarray(minimum_block_eigenvalues, dtype=float)
+    maximum = np.asarray(maximum_block_eigenvalues, dtype=float)
+    transport_covariance_errors = np.asarray(
+        transport_covariance_spectral_errors, dtype=float
+    )
+    transport_minimum = np.asarray(minimum_transport_block_eigenvalues, dtype=float)
+    transport_maximum = np.asarray(maximum_transport_block_eigenvalues, dtype=float)
+    planted = tuple(int(index) for index in planted_class_indices)
+
+    if local_lower.ndim != 3 or local_lower.shape[2] != 3:
+        raise ValueError("local factor bounds must have shape (time, classes, 3)")
+    if local_upper.shape != local_lower.shape:
+        raise ValueError("local lower and upper factor arrays must have equal shapes")
+    time_count, class_count, _ = local_lower.shape
+    state_shape = (time_count, class_count)
+    edge_shape = (max(0, time_count - 1), class_count, class_count)
+    if transport_lower.shape != (*edge_shape, 2) or (
+        transport_upper.shape != transport_lower.shape
+    ):
+        raise ValueError(
+            "transport factor bounds must have shape (time - 1, classes, classes, 2)"
+        )
+    if time_count < 1 or class_count < 1 or len(planted) != time_count:
+        raise ValueError("require one planted class for every nonempty time layer")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if not np.isfinite([transport_weight, continuity_weight]).all() or (
+        continuity_weight < 0.0
+    ):
+        raise ValueError("weights must be finite and continuity nonnegative")
+    factor_arrays = (local_lower, local_upper, transport_lower, transport_upper)
+    if any(np.any(~np.isfinite(array)) for array in factor_arrays) or any(
+        np.any((array < 0.0) | (array > 1.0)) for array in factor_arrays
+    ):
+        raise ValueError("factor bounds must be finite and lie in [0, 1]")
+    if np.any(local_lower > local_upper) or np.any(
+        transport_lower > transport_upper
+    ):
+        raise ValueError("factor lower bounds cannot exceed upper bounds")
+
+    if raw_multiplicities.shape != state_shape or any(
+        isinstance(value, (bool, np.bool_))
+        or not isinstance(value, (int, np.integer))
+        for value in raw_multiplicities.flat
+    ):
+        raise TypeError("class_multiplicities must be an integer (time, classes) array")
+    multiplicities = raw_multiplicities.astype(object)
+    if np.any(multiplicities < 0) or np.any(np.sum(multiplicities, axis=1) == 0):
+        raise ValueError("each layer must contain nonnegative, nonempty classes")
+    if any(not 0 <= index < class_count for index in planted):
+        raise ValueError("planted class indices lie outside the class arrays")
+    if any(multiplicities[time, index] != 1 for time, index in enumerate(planted)):
+        raise ValueError("each planted class must have multiplicity one")
+    if feasible.shape != edge_shape or feasible.dtype != np.bool_:
+        raise TypeError("feasible_class_edges must be a boolean edge array")
+    if continuity_lower.shape != edge_shape or planted_distances.shape != (
+        max(0, time_count - 1),
+    ):
+        raise ValueError("continuity arrays have incompatible shapes")
+    if (
+        np.any(~np.isfinite(continuity_lower))
+        or np.any((continuity_lower < 0.0) | (continuity_lower > 1.0))
+        or np.any(~np.isfinite(planted_distances))
+        or np.any((planted_distances < 0.0) | (planted_distances > 1.0))
+    ):
+        raise ValueError("continuity distances must be finite and lie in [0, 1]")
+    if any(
+        not feasible[time, planted[time], planted[time + 1]]
+        for time in range(time_count - 1)
+    ):
+        raise ValueError("every planted class edge must be feasible")
+
+    if not (
+        covariance_errors.shape == minimum.shape == maximum.shape == state_shape
+    ) or not (
+        transport_covariance_errors.shape
+        == transport_minimum.shape
+        == transport_maximum.shape
+        == edge_shape
+    ):
+        raise ValueError("state or transport spectral arrays have incompatible shapes")
+    spectral_arrays = (
+        covariance_errors,
+        minimum,
+        maximum,
+        transport_covariance_errors,
+        transport_minimum,
+        transport_maximum,
+    )
+    if any(np.any(~np.isfinite(array)) for array in spectral_arrays) or (
+        np.any(covariance_errors < 0.0)
+        or np.any(minimum <= 0.0)
+        or np.any(maximum < minimum)
+        or np.any(transport_covariance_errors < 0.0)
+        or np.any(transport_minimum <= 0.0)
+        or np.any(transport_maximum < transport_minimum)
+    ):
+        raise ValueError("require valid covariance errors and spectral envelopes")
+
+    local_errors, valid_local = _local_factor_errors_from_covariance(
+        covariance_errors,
+        minimum,
+        maximum,
+        node_count,
+        subset_size,
+    )
+    transport_errors, valid_transport = _transport_factor_errors_from_covariance(
+        transport_covariance_errors,
+        transport_minimum,
+        transport_maximum,
+        node_count,
+        subset_size,
+    )
+    perturbed_local_lower = np.clip(local_lower - local_errors, 0.0, 1.0)
+    perturbed_local_upper = np.clip(local_upper + local_errors, 0.0, 1.0)
+    local_score_lower = np.prod(perturbed_local_lower, axis=2) ** (1.0 / 3.0)
+    local_score_upper = np.prod(perturbed_local_upper, axis=2) ** (1.0 / 3.0)
+    perturbed_transport_lower = np.clip(
+        transport_lower - transport_errors, 0.0, 1.0
+    )
+    perturbed_transport_upper = np.clip(
+        transport_upper + transport_errors, 0.0, 1.0
+    )
+    transport_score_lower = np.sqrt(np.prod(perturbed_transport_lower, axis=3))
+    transport_score_upper = np.sqrt(np.prod(perturbed_transport_upper, axis=3))
+
+    planted_transport = (
+        transport_score_lower if transport_weight >= 0.0 else transport_score_upper
+    )
+    planted_lower = float(
+        sum(
+            local_score_lower[time, current]
+            for time, current in enumerate(planted)
+        )
+        + sum(
+            transport_weight
+            * planted_transport[time, planted[time], planted[time + 1]]
+            - continuity_weight * planted_distances[time]
+            for time in range(time_count - 1)
+        )
+    )
+    competitor_transport = (
+        transport_score_upper if transport_weight >= 0.0 else transport_score_lower
+    )
+    edge_upper = (
+        transport_weight * competitor_transport
+        - continuity_weight * continuity_lower
+    )
+    competitor_upper, adversarial = _maximum_mismatched_class_path(
+        local_score_upper,
+        edge_upper,
+        multiplicities,
+        planted,
+        feasible,
+    )
+    slack = float(planted_lower - competitor_upper)
+    active = multiplicities > 0
+    active_edges = (
+        feasible
+        & (multiplicities[:-1, :, None] > 0)
+        & (multiplicities[1:, None, :] > 0)
+    )
+    all_valid = bool(
+        np.all(valid_local[active]) and np.all(valid_transport[active_edges])
+    )
+    implicit_path_count = 1
+    for layer_count in np.sum(multiplicities, axis=1):
+        implicit_path_count *= int(layer_count)
+    return IntervalClassPathRecoveryBound(
+        time_count=time_count,
+        class_count=class_count,
+        represented_state_count=int(np.sum(multiplicities)),
+        implicit_path_count=implicit_path_count,
+        planted_class_path=planted,
+        adversarial_class_path=adversarial,
+        planted_action_lower=planted_lower,
+        competitor_action_upper=competitor_upper,
+        recovery_slack=slack,
+        local_factor_error_bounds=local_errors,
+        transport_factor_error_bounds=transport_errors,
+        local_score_lower_bounds=local_score_lower,
+        local_score_upper_bounds=local_score_upper,
+        transport_score_lower_bounds=transport_score_lower,
+        transport_score_upper_bounds=transport_score_upper,
         all_blocks_valid=all_valid,
         guarantees_population_path=all_valid and slack > 0.0,
     )

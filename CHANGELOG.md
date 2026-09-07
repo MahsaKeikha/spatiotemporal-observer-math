@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.0 - 2026-09-07
+
+- Replaced exact within-class factor symmetry by certified componentwise factor
+  intervals for state classes and ordered transport-class pairs.
+- Propagated separate local and edge covariance envelopes into lower and upper
+  score intervals.
+- Treated positive and negative transport weights with the correct reversal of
+  interval endpoints.
+- Reused the mismatch-state dynamic program to obtain an \(O(TK^2)\) uniform
+  recovery certificate over all admitted within-class heterogeneity.
+- Added randomized containment, interval monotonicity, signed-weight, and
+  invalid-bound tests.
+- Added a 1,000-node heterogeneous-class example with a positive robust slack.
+
 ## 0.13.0 - 2026-09-07
 
 - Added robust path recovery over exact candidate equivalence classes.

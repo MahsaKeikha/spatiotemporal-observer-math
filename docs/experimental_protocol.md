@@ -279,6 +279,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_overlap_multiplicities_scale_without_candidate_construction` | Six overlap classes represent all five-node candidates and their implicit paths on 1,000 nodes |
 | `test_class_certificate_requires_singleton_planted_classes` | A non-singleton planted class cannot certify a unique candidate path |
 | `test_class_certificate_checks_transport_spectral_regime_separately` | Invalid edge covariance radii cannot be hidden by valid local-state radii |
+| `test_interval_class_certificate_contains_random_heterogeneous_members` | Random member factors and perturbations inside every declared box remain between the certified planted and competitor actions |
+| `test_wider_factor_intervals_cannot_improve_recovery_slack` | Enlarging admissible heterogeneity cannot strengthen the sufficient margin |
+| `test_negative_transport_weight_reverses_interval_endpoints` | A negative transport weight uses the upper endpoint in the planted lower action |
+| `test_interval_class_certificate_rejects_reversed_bounds` | A componentwise lower factor bound cannot exceed its upper bound |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -313,8 +317,9 @@ Its limitations are concrete:
     still assumes valid block-norm comparisons are supplied at every layer.
 15. The moving-partition recovery example uses deliberately separated
     population factors and does not measure sharpness near the robust boundary.
-16. The class-compressed theorem requires exact within-class factor symmetry;
-    generic systems need additional within-class envelopes.
+16. The interval-class theorem removes exact within-class factor symmetry, but
+    the validity of every supplied factor interval must be established outside
+    the path optimizer. Coarse intervals can make the result vacuous.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -338,6 +343,7 @@ python examples/localized_influence_cone_experiment.py
 python examples/moving_partition_influence_experiment.py
 python examples/moving_partition_recovery_experiment.py
 python examples/class_compressed_recovery_experiment.py
+python examples/heterogeneous_class_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```

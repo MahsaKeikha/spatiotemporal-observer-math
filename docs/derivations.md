@@ -630,7 +630,47 @@ This compression is exact only for quantities declared constant within each
 class and for edge bounds valid uniformly over each ordered class pair. It is
 not justified merely because two candidates have the same cardinality.
 
-## 23. Choices that are still choices
+## 23. Replacing class symmetry by factor intervals
+
+Exact symmetry is stronger than the path calculation needs. For each state
+class, retain lower and upper bounds for integration, insulation, and
+persistence separately. For each ordered class pair, retain corresponding
+bounds for transport insulation and persistence. Covariance perturbation
+enlarges these factor boxes componentwise before any geometric mean is taken.
+
+For a \(d\)-factor score with population box \([\ell,u]\) and perturbation
+radii \(e\), monotonicity gives
+
+\[
+\left(\prod_{r=1}^d\max\{0,\ell_r-e_r\}\right)^{1/d}
+\leq \widehat S \leq
+\left(\prod_{r=1}^d\min\{1,u_r+e_r\}\right)^{1/d}.
+\]
+
+This order of operations matters. Replacing the factor box by a midpoint score
+and one scalar error can discard endpoint information and becomes especially
+loose near a zero factor. The interval construction remains valid at zero and
+does not require a positive factor floor.
+
+Local and transport covariance envelopes are still indexed separately. A
+state-class radius controls the three local factors. An ordered edge-class
+radius controls the two transport factors on that edge. The latter cannot in
+general be copied from the destination state class.
+
+The path calculation uses the local lower score on the planted path and local
+upper scores for competitors. A signed transport weight requires one extra
+care: multiplication by a negative weight reverses the transport interval.
+Continuity is subtracted with a nonnegative weight, so an exact planted
+distance gives its lower contribution and a class-pair distance lower bound
+gives a competitor upper contribution.
+
+The same mismatch-state dynamic program then computes the strongest competitor
+allowed by all intervals. Its complexity is unchanged at \(O(TK^2)\). Exact
+within-class factor equality is no longer required, but validity has moved into
+the interval declarations. A useful application must derive or audit those
+intervals from the model rather than select them after seeing the desired path.
+
+## 24. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

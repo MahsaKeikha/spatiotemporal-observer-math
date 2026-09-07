@@ -657,6 +657,51 @@ therefore records candidate and path counts beyond fixed-width integer ranges.
 Its numerical dynamic program costs \(O(TK^2)\), where \(K\) is the class
 count, and does not depend on those multiplicities.
 
+### Interval-certified class recovery
+
+```python
+from observer_math import interval_class_covariance_path_recovery_bound
+
+certificate = interval_class_covariance_path_recovery_bound(
+    local_factor_lower_bounds,
+    local_factor_upper_bounds,
+    transport_factor_lower_bounds,
+    transport_factor_upper_bounds,
+    class_multiplicities,
+    planted_class_indices,
+    feasible_class_edges,
+    continuity_distance_lower_bounds,
+    planted_continuity_distances,
+    node_count,
+    subset_size,
+    covariance_spectral_errors=class_covariance_errors,
+    minimum_block_eigenvalues=class_minimum_eigenvalues,
+    maximum_block_eigenvalues=class_maximum_eigenvalues,
+    transport_covariance_spectral_errors=class_edge_covariance_errors,
+    minimum_transport_block_eigenvalues=class_edge_minimum_eigenvalues,
+    maximum_transport_block_eigenvalues=class_edge_maximum_eigenvalues,
+)
+```
+
+The local factor arrays have shape `(time, classes, 3)` and bound integration,
+insulation, and persistence componentwise for every member of each class. The
+transport arrays have shape `(time - 1, classes, classes, 2)` and bound the two
+transport factors for every member edge of each ordered class pair. Bounds are
+inclusive, finite, and lie in `[0, 1]`.
+
+The function expands each factor interval using the supplied covariance and
+spectral envelopes, then takes the appropriate geometric-mean endpoints. It
+returns all factor-error arrays and score intervals, as well as the planted
+lower action, adversarial competitor upper action, robust slack, and sufficient
+decision. Negative transport weights are supported and reverse which endpoint
+is favorable.
+
+The guarantee is uniform over every population factor assignment inside the
+declared intervals and every covariance perturbation inside the declared
+envelopes. It does not prove that the intervals themselves cover a particular
+model. Class multiplicities and the singleton planted-class requirement have
+the same meaning as in the exact class API.
+
 ## Identifiability and symmetry
 
 ```python

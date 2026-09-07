@@ -1880,10 +1880,83 @@ multiplicities or the number of implicit paths. For fixed-size planted-overlap
 classes, \(K\leq s+1\), while the represented candidate count can be
 \(\binom ns\) at every time.
 
-The result requires genuine class symmetry for the supplied factor values. If
-factors vary inside a class, direct classwise score upper bounds or a further
-within-class error term are needed. A lower continuity bound of zero is always
-valid but can make the certificate conservative.
+The result requires genuine class symmetry for the supplied factor values. A
+lower continuity bound of zero is always valid but can make the certificate
+conservative. Proposition 28 replaces the symmetry assumption by certified
+componentwise factor intervals.
+
+## Proposition 28: interval-certified class recovery
+
+Use the candidate classes, multiplicities, feasible edges, planted singleton
+classes, and continuity bounds of Proposition 27, but do not assume constant
+factors within a class. Suppose instead that every member of state class \(k\)
+at time \(t\) has local factor vector in the componentwise interval
+
+\[
+\ell^\Omega_{tk}\leq (G,K,P)\leq u^\Omega_{tk},
+\]
+
+and every member of ordered edge class \((k,l)\) has transport factor vector in
+
+\[
+\ell^\Theta_{tkl}\leq (K^\Theta,P^\Theta)
+\leq u^\Theta_{tkl}.
+\]
+
+Let \(e^\Omega_{tk,r}\), \(r=1,2,3\), be the componentwise factor-error radii
+obtained from the state-class covariance envelope by Propositions 7 and 8.
+Let \(e^\Theta_{tkl,r}\), \(r=1,2\), be obtained separately from the ordered
+edge-class covariance envelope. Define
+
+\[
+\underline\Omega_{tk}
+=\left[\prod_{r=1}^3
+\max\{0,\ell^\Omega_{tk,r}-e^\Omega_{tk,r}\}\right]^{1/3},
+\qquad
+\overline\Omega_{tk}
+=\left[\prod_{r=1}^3
+\min\{1,u^\Omega_{tk,r}+e^\Omega_{tk,r}\}\right]^{1/3},
+\]
+
+with analogous two-factor geometric means
+\(\underline\Theta_{tkl}\) and \(\overline\Theta_{tkl}\).
+For the planted path, choose \(\underline\Theta\) when \(\chi\geq0\) and
+\(\overline\Theta\) when \(\chi<0\). For each competitor edge, choose the
+opposite endpoint. Thus
+
+\[
+L^*=\sum_t\underline\Omega_{t c_t^*}
++\sum_{t=0}^{T-2}
+\left(\chi\Theta^{\rm plant}_{t c_t^*c_{t+1}^*}
+-\lambda d_t^*\right)
+\]
+
+is a lower bound for the planted action. Let \(U^{\rm comp}\) be the maximum,
+over every feasible class path other than the planted class path, of the sum of
+\(\overline\Omega\), the sign-correct competitor transport endpoint weighted
+by \(\chi\), and \(-\lambda d^-_{tkl}\). If
+
+\[
+L^*>U^{\rm comp},
+\]
+
+then the planted candidate path is the unique optimizer for every choice of
+population factors in the declared intervals and every covariance sequence in
+the declared spectral envelopes.
+
+**Proof.** Componentwise monotonicity of the geometric mean maps each factor
+box to the displayed score interval. Propositions 7 and 8 enlarge each factor
+interval by a valid covariance-induced radius, with clipping to the factor
+range \([0,1]\). Multiplication by \(\chi\) preserves the transport endpoints
+when \(\chi\geq0\) and reverses them when \(\chi<0\). The exact planted
+distances give its lower action, while the class-pair distance lower bounds give
+an upper action for every competitor. The mismatch-state dynamic program from
+Proposition 27 returns the maximum of those competitor upper actions. Strict
+separation proves uniqueness. \(\square\)
+
+The calculation remains \(O(TK^2)\). Its conclusion is conditional on the
+factor intervals covering every represented class member. Wider valid
+intervals remain correct but can make the sufficient condition inconclusive.
 
 ## Open conjectures
 
