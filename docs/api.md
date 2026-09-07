@@ -411,6 +411,39 @@ incorrect-score array because its lower bound is stored separately. A positive
 guarantee is sufficient for the supplied matrices and planted path; it is not
 an inference procedure for an unknown planted path.
 
+### A priori support-aware certificate
+
+```python
+from observer_math import a_priori_support_moving_clique_recovery_bound
+
+transition_errors = tuple(
+    system[0] - base[0]
+    for system, base in zip(systems, base_systems, strict=True)
+)
+noise_errors = tuple(
+    system[1] - base[1]
+    for system, base in zip(systems, base_systems, strict=True)
+)
+a_priori = a_priori_support_moving_clique_recovery_bound(
+    transition_errors,
+    noise_errors,
+    planted,
+    self_memory=0.2,
+    internal_coupling=0.3,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(a_priori.per_mismatch_action_margin)
+```
+
+This function receives additive perturbations relative to the moving-clique
+base matrices. It bounds covariance errors using row-local transition norms
+and compressed forcing matrices, without propagating the actual covariance.
+By default it evaluates all fixed-size subsets. Passing `candidate_family`
+restricts the computation and the uniqueness claim to exactly that declared
+family. The family must be fixed independently of the data used to evaluate a
+statistical claim.
+
 ## Identifiability and symmetry
 
 ```python

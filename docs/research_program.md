@@ -71,9 +71,12 @@ zero-cut partial-correlation bound gives the correct quadratic local scaling,
 but still controls every incorrect candidate through one global covariance
 radius. Proposition 20 gives a realized-system refinement based on candidate
 overlap, local covariance compression, and exact incident edge penalties. The
-next theorem should derive these local errors directly from block-sparse
-perturbation radii, avoiding full covariance propagation and candidate
-enumeration when the graph structure permits it.
+row-local recursion in Proposition 21 derives conservative local errors from
+the structured perturbation matrices without propagating the actual
+covariance, and can operate on a declared reduced candidate family. The next
+theorem should replace the full perturbation matrices by block-radius, sparsity,
+or graph-degree summaries and identify equivalent candidate classes without
+enumeration.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -163,6 +166,8 @@ stable and predictively useful, not whether it indicates consciousness.
   transition coupling and anisotropic process noise
 - support-resolved recovery from candidate-local covariance blocks and exact
   incident planted-edge penalties
+- a priori row-local recovery from structured perturbation matrices without
+  actual covariance propagation
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

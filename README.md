@@ -145,6 +145,14 @@ certified action margin rises from `0.121550` to `0.129801`. This calculation
 enumerates all fixed-size candidates, so it is a sharper small-system
 certificate rather than a replacement for the global-radius theorem.
 
+An a priori support-aware certificate now obtains those local radii directly
+from row-restricted transition perturbations and compressed covariance
+forcing, without propagating the actual state covariance. It certifies an
+action margin of `0.129669` on the same example, compared with `0.129801` for
+the realized support-resolved calculation. It can evaluate a declared reduced
+candidate family, with the explicit limitation that uniqueness then holds only
+within that family.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -156,7 +164,7 @@ certificate rather than a replacement for the global-radius theorem.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-one proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -205,8 +213,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.6 adds global and
-support-resolved robust extensions of the closed-form recovery theorem for
-cross-boundary transition coupling and anisotropic process noise.
+This is an ongoing study, not a finished paper. Version 0.7 adds an a priori
+row-local recovery certificate for structured transition and noise
+perturbations, including declared reduced candidate families.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

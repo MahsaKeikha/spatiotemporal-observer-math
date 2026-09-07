@@ -430,7 +430,45 @@ The calculation needs the realized \(A_t,Q_t\) and enumerates
 \(\binom ns\) candidates. It is consequently an exact diagnostic for small
 families, not a scalable or purely radius-based guarantee.
 
-## 16. Choices that are still choices
+## 16. Row-local bounds before covariance propagation
+
+The realized compression can itself be bounded from the perturbation matrices.
+For \(\Delta_t=\Sigma_t-I\), the identity
+
+\[
+\Delta_{t+1}=A_t\Delta_tA_t^\mathsf T+H_t,
+\qquad
+H_t=A_tA_t^\mathsf T+Q_t-I,
+\]
+
+separates amplification of earlier covariance error from the new forcing. The
+global recursion
+
+\[
+\delta_{t+1}=\|A_t\|_2^2\delta_t+\|H_t\|_2
+\]
+
+controls the first term. After selecting rows \(D\), the sharper one-step
+quantity
+
+\[
+\|\Pi_DA_t\|_2^2\delta_t+
+\|\Pi_DH_t\Pi_D^\mathsf T\|_2
+\]
+
+controls the next state covariance only where candidate \(D\) will use it.
+Combining present, future, and cross-covariance block bounds through the
+largest eigenvalue of a two-by-two nonnegative matrix gives the complete
+candidate joint radius in Proposition 21.
+
+This procedure never computes \(\Sigma_t\). It still uses a global scalar
+\(\delta_t\) for influence arriving through unselected coordinates, but keeps
+row-local transition norms, local forcing, and within-candidate transition
+perturbations. A supplied candidate family reduces the calculation from
+\(\binom ns\) subsets to its declared members. The resulting claim is only
+relative to that family unless it is complete.
+
+## 17. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

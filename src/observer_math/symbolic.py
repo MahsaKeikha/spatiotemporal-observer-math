@@ -100,6 +100,33 @@ class SupportResolvedMovingCliqueRecoveryBound:
     guarantees_unique_planted_path: bool
 
 
+@dataclass(frozen=True)
+class APrioriSupportMovingCliqueRecoveryBound:
+    """Support-aware recovery bound obtained without covariance propagation."""
+
+    base: MovingCliqueRecoveryBound
+    node_count: int
+    time_count: int
+    candidate_count: int
+    candidates: tuple[tuple[int, ...], ...]
+    candidate_overlaps: tuple[tuple[int, ...], ...]
+    global_state_covariance_error_bounds: tuple[float, ...]
+    planted_local_joint_error_bounds: tuple[float, ...]
+    planted_leakage_joint_error_bounds: tuple[float, ...]
+    candidate_joint_error_bounds: tuple[tuple[float, ...], ...]
+    planted_score_lower_bounds: tuple[float, ...]
+    incorrect_score_upper_bounds: tuple[tuple[float, ...], ...]
+    maximum_incorrect_score_upper_bounds: tuple[float, ...]
+    local_separations: tuple[float, ...]
+    incident_edge_penalties: tuple[float, ...]
+    per_time_mismatch_margins: tuple[float, ...]
+    per_mismatch_action_margin: float
+    candidate_family_is_complete: bool
+    all_noise_covariances_positive_definite: bool
+    all_local_covariance_bounds_valid: bool
+    guarantees_unique_planted_path_in_candidate_family: bool
+
+
 def _residual_logdet(
     row_count: int,
     column_count: int,
@@ -400,6 +427,39 @@ def _zero_cut_integration_bound(
     return float(integration), True
 
 
+def _symmetric_block_norm_bound(
+    first_diagonal: float,
+    second_diagonal: float,
+    off_diagonal: float,
+) -> float:
+    """Bound a symmetric two-by-two operator block from its block norms."""
+    return float(
+        0.5
+        * (
+            first_diagonal
+            + second_diagonal
+            + np.sqrt(
+                (first_diagonal - second_diagonal) ** 2
+                + 4.0 * off_diagonal**2
+            )
+        )
+    )
+
+
+def _moving_clique_transition(
+    node_count: int,
+    planted: tuple[int, ...],
+    self_memory: float,
+    internal_coupling: float,
+) -> np.ndarray:
+    transition = np.eye(node_count) * float(self_memory)
+    for target in planted:
+        for source in planted:
+            if source != target:
+                transition[target, source] = float(internal_coupling)
+    return transition
+
+
 def support_resolved_moving_clique_recovery_bound(
     transitions: Sequence[ArrayLike],
     noise_covariances: Sequence[ArrayLike],
@@ -501,11 +561,9 @@ def support_resolved_moving_clique_recovery_bound(
     planted_leakage_errors = []
     all_valid = True
     for time, planted in enumerate(path):
-        base_transition = np.eye(node_count) * float(self_memory)
-        for target in planted:
-            for source in planted:
-                if source != target:
-                    base_transition[target, source] = float(internal_coupling)
+        base_transition = _moving_clique_transition(
+            node_count, planted, self_memory, internal_coupling
+        )
         base_joint = np.block(
             [
                 [np.eye(node_count), base_transition.T],
@@ -634,4 +692,320 @@ def support_resolved_moving_clique_recovery_bound(
         per_mismatch_action_margin=float(action_margin),
         all_local_covariance_bounds_valid=all_valid,
         guarantees_unique_planted_path=bool(all_valid and action_margin > 0.0),
+    )
+
+
+def a_priori_support_moving_clique_recovery_bound(
+    transition_perturbations: Sequence[ArrayLike],
+    noise_perturbations: Sequence[ArrayLike],
+    planted_path: Sequence[Sequence[int]],
+    *,
+    self_memory: float,
+    internal_coupling: float,
+    candidate_family: Sequence[Sequence[int]] | None = None,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> APrioriSupportMovingCliqueRecoveryBound:
+    """Certify structured perturbations without propagating actual covariances.
+
+    The inputs are the additive matrices ``E_t=A_t-A_t^0`` and
+    ``F_t=Q_t-Q_t^0`` around the covariance-preserving moving-clique family.
+    Candidate-local state and joint-covariance errors are bounded from row
+    restrictions of ``A_t`` and compressions of the covariance forcing. If a
+    candidate family is supplied, uniqueness is certified only within it.
+    """
+    time_count = len(planted_path)
+    if (
+        len(transition_perturbations) != time_count
+        or len(noise_perturbations) != time_count
+        or time_count < 1
+    ):
+        raise ValueError("perturbations and planted_path must have equal positive lengths")
+    transition_errors = tuple(
+        np.asarray(matrix, dtype=float) for matrix in transition_perturbations
+    )
+    noise_errors = tuple(
+        np.asarray(matrix, dtype=float) for matrix in noise_perturbations
+    )
+    if transition_errors[0].ndim != 2 or transition_errors[0].shape[0] != transition_errors[0].shape[1]:
+        raise ValueError("transition perturbations must be square matrices")
+    node_count = transition_errors[0].shape[0]
+    if any(
+        matrix.shape != (node_count, node_count)
+        for matrix in transition_errors + noise_errors
+    ):
+        raise ValueError("all perturbations must have equal square dimensions")
+    if any(np.any(~np.isfinite(matrix)) for matrix in transition_errors + noise_errors):
+        raise ValueError("perturbation matrices must be finite")
+    if any(not np.allclose(matrix, matrix.T) for matrix in noise_errors):
+        raise ValueError("noise perturbations must be symmetric")
+
+    path = tuple(tuple(sorted({int(node) for node in subset})) for subset in planted_path)
+    module_size = len(path[0])
+    if module_size < 2 or node_count <= module_size:
+        raise ValueError("require 2 <= module_size < node_count")
+    if any(
+        len(subset) != module_size
+        or subset[0] < 0
+        or subset[-1] >= node_count
+        for subset in path
+    ):
+        raise ValueError("planted boundaries must be valid and equal in size")
+    if continuity_weight < 0.0 or not np.isfinite(
+        [transport_weight, continuity_weight]
+    ).all():
+        raise ValueError("action weights must be finite and continuity nonnegative")
+
+    complete_candidates = tuple(combinations(range(node_count), module_size))
+    if candidate_family is None:
+        candidates = complete_candidates
+    else:
+        candidates = tuple(
+            tuple(sorted({int(node) for node in candidate}))
+            for candidate in candidate_family
+        )
+        if not candidates or len(set(candidates)) != len(candidates):
+            raise ValueError("candidate_family must contain distinct candidates")
+        if any(
+            len(candidate) != module_size
+            or candidate[0] < 0
+            or candidate[-1] >= node_count
+            for candidate in candidates
+        ):
+            raise ValueError("candidate boundaries must be valid and size matched")
+        if any(planted not in candidates for planted in path):
+            raise ValueError("candidate_family must contain every planted boundary")
+    family_complete = set(candidates) == set(complete_candidates)
+
+    overlaps = [
+        len(set(path[time]) & set(path[time + 1]))
+        for time in range(time_count - 1)
+    ]
+    base = covariance_preserving_moving_clique_bound(
+        self_memory,
+        internal_coupling,
+        module_size,
+        minimum_consecutive_overlap=min(overlaps, default=module_size),
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    base_transitions = tuple(
+        _moving_clique_transition(
+            node_count, planted, self_memory, internal_coupling
+        )
+        for planted in path
+    )
+    transitions = tuple(
+        base_transition + error
+        for base_transition, error in zip(
+            base_transitions, transition_errors, strict=True
+        )
+    )
+    base_noises = tuple(
+        np.eye(node_count) - transition @ transition.T
+        for transition in base_transitions
+    )
+    noises = tuple(
+        base_noise + error
+        for base_noise, error in zip(base_noises, noise_errors, strict=True)
+    )
+    valid_noises = all(np.linalg.eigvalsh(noise)[0] > 0.0 for noise in noises)
+    if not valid_noises:
+        raise ValueError("perturbed noise covariances must be positive definite")
+
+    forcings = tuple(
+        base_transition @ transition_error.T
+        + transition_error @ base_transition.T
+        + transition_error @ transition_error.T
+        + noise_error
+        for base_transition, transition_error, noise_error in zip(
+            base_transitions, transition_errors, noise_errors, strict=True
+        )
+    )
+    global_errors = [0.0]
+    for transition, forcing in zip(transitions, forcings, strict=True):
+        global_errors.append(
+            float(
+                np.linalg.norm(transition, ord=2) ** 2 * global_errors[-1]
+                + np.linalg.norm(forcing, ord=2)
+            )
+        )
+
+    def state_error_bound(time: int, subset: tuple[int, ...]) -> float:
+        if time == 0:
+            return 0.0
+        previous_transition = transitions[time - 1]
+        previous_forcing = forcings[time - 1]
+        row_norm = np.linalg.norm(previous_transition[np.ix_(subset, range(node_count))], ord=2)
+        forcing_norm = np.linalg.norm(previous_forcing[np.ix_(subset, subset)], ord=2)
+        return float(row_norm**2 * global_errors[time - 1] + forcing_norm)
+
+    planted_local_radii = []
+    planted_leakage_radii = []
+    candidate_radius_rows = []
+    planted_lowers = []
+    wrong_rows = []
+    wrong_maxima = []
+    local_separations = []
+    overlap_rows = []
+    all_valid = True
+    all_nodes = tuple(range(node_count))
+    for time, planted in enumerate(path):
+        base_transition = base_transitions[time]
+        transition = transitions[time]
+        transition_error = transition_errors[time]
+        base_joint = np.block(
+            [
+                [np.eye(node_count), base_transition.T],
+                [base_transition, np.eye(node_count)],
+            ]
+        )
+
+        current_local = state_error_bound(time, planted)
+        next_local = state_error_bound(time + 1, planted)
+        local_cross = float(
+            np.linalg.norm(transition[np.ix_(planted, all_nodes)], ord=2)
+            * global_errors[time]
+            + np.linalg.norm(transition_error[np.ix_(planted, planted)], ord=2)
+        )
+        local_radius = _symmetric_block_norm_bound(
+            current_local, next_local, local_cross
+        )
+        planted_local_radii.append(local_radius)
+
+        leakage_cross = float(
+            np.linalg.norm(transition[np.ix_(planted, all_nodes)], ord=2)
+            * global_errors[time]
+            + np.linalg.norm(transition_error[np.ix_(planted, all_nodes)], ord=2)
+        )
+        leakage_radius = _symmetric_block_norm_bound(
+            global_errors[time], next_local, leakage_cross
+        )
+        planted_leakage_radii.append(leakage_radius)
+
+        planted_indices = planted + tuple(node_count + node for node in planted)
+        planted_block = base_joint[np.ix_(planted_indices, planted_indices)]
+        planted_eigenvalues = np.linalg.eigvalsh(planted_block)
+        local_minimum = float(planted_eigenvalues[0])
+        local_maximum = float(planted_eigenvalues[-1])
+        leakage_indices = all_nodes + tuple(node_count + node for node in planted)
+        leakage_minimum = float(
+            np.linalg.eigvalsh(base_joint[np.ix_(leakage_indices, leakage_indices)])[0]
+        )
+        planted_valid = local_radius < local_minimum and leakage_radius < leakage_minimum
+        if planted_valid:
+            local_logdet = -np.log1p(-local_radius / local_minimum) / np.log(2.0)
+            leakage_logdet = (
+                -np.log1p(-leakage_radius / leakage_minimum) / np.log(2.0)
+            )
+            integration_error = min(1.0, 4.0 * np.log(2.0) * local_logdet)
+            independence_error = min(
+                1.0,
+                np.log(2.0)
+                * (node_count + 2 * module_size)
+                / module_size
+                * leakage_logdet,
+            )
+            persistence_error = canonical_persistence_covariance_error_bound(
+                minimum_eigenvalue=local_minimum,
+                maximum_eigenvalue=local_maximum,
+                covariance_spectral_error=local_radius,
+            )
+            planted_error = product_root_error_bound(
+                (base.integration_strength, 1.0, base.persistence),
+                (integration_error, independence_error, persistence_error),
+            )
+        else:
+            planted_error = 1.0
+        planted_lower = max(0.0, base.planted_local_score - planted_error)
+        planted_lowers.append(float(planted_lower))
+
+        radius_row = []
+        wrong_row = []
+        overlap_row = []
+        valid_row = planted_valid
+        for candidate in candidates:
+            overlap_row.append(len(set(candidate) & set(planted)))
+            current_candidate = state_error_bound(time, candidate)
+            next_candidate = state_error_bound(time + 1, candidate)
+            candidate_cross = float(
+                np.linalg.norm(transition[np.ix_(candidate, all_nodes)], ord=2)
+                * global_errors[time]
+                + np.linalg.norm(
+                    transition_error[np.ix_(candidate, candidate)], ord=2
+                )
+            )
+            candidate_radius = _symmetric_block_norm_bound(
+                current_candidate, next_candidate, candidate_cross
+            )
+            radius_row.append(candidate_radius)
+            if candidate == planted:
+                wrong_row.append(0.0)
+                continue
+            indices = candidate + tuple(node_count + node for node in candidate)
+            eigenvalues = np.linalg.eigvalsh(base_joint[np.ix_(indices, indices)])
+            integration_upper, valid = _zero_cut_integration_bound(
+                float(eigenvalues[0]),
+                float(eigenvalues[-1]),
+                candidate_radius,
+                module_size,
+            )
+            wrong_row.append(float(integration_upper ** (1.0 / 3.0)))
+            valid_row = valid_row and valid
+        maximum_wrong = max(wrong_row)
+        candidate_radius_rows.append(tuple(radius_row))
+        wrong_rows.append(tuple(wrong_row))
+        overlap_rows.append(tuple(overlap_row))
+        wrong_maxima.append(float(maximum_wrong))
+        local_separations.append(float(planted_lower - maximum_wrong))
+        all_valid = all_valid and valid_row
+
+    edge_penalties = [
+        abs(transport_weight)
+        + continuity_weight
+        * (
+            1.0
+            - len(set(path[time]) & set(path[time + 1]))
+            / len(set(path[time]) | set(path[time + 1]))
+        )
+        for time in range(time_count - 1)
+    ]
+    incident_penalties = tuple(
+        float(
+            (edge_penalties[time - 1] if time > 0 else 0.0)
+            + (edge_penalties[time] if time + 1 < time_count else 0.0)
+        )
+        for time in range(time_count)
+    )
+    mismatch_margins = tuple(
+        float(separation - penalty)
+        for separation, penalty in zip(
+            local_separations, incident_penalties, strict=True
+        )
+    )
+    action_margin = min(mismatch_margins)
+    return APrioriSupportMovingCliqueRecoveryBound(
+        base=base,
+        node_count=node_count,
+        time_count=time_count,
+        candidate_count=len(candidates),
+        candidates=candidates,
+        candidate_overlaps=tuple(overlap_rows),
+        global_state_covariance_error_bounds=tuple(global_errors),
+        planted_local_joint_error_bounds=tuple(planted_local_radii),
+        planted_leakage_joint_error_bounds=tuple(planted_leakage_radii),
+        candidate_joint_error_bounds=tuple(candidate_radius_rows),
+        planted_score_lower_bounds=tuple(planted_lowers),
+        incorrect_score_upper_bounds=tuple(wrong_rows),
+        maximum_incorrect_score_upper_bounds=tuple(wrong_maxima),
+        local_separations=tuple(local_separations),
+        incident_edge_penalties=incident_penalties,
+        per_time_mismatch_margins=mismatch_margins,
+        per_mismatch_action_margin=float(action_margin),
+        candidate_family_is_complete=family_complete,
+        all_noise_covariances_positive_definite=valid_noises,
+        all_local_covariance_bounds_valid=all_valid,
+        guarantees_unique_planted_path_in_candidate_family=bool(
+            all_valid and action_margin > 0.0
+        ),
     )

@@ -3,6 +3,7 @@ from itertools import combinations
 import numpy as np
 
 from observer_math import (
+    a_priori_support_moving_clique_recovery_bound,
     adjacent_joint_covariance,
     certify_worldtube,
     covariance_preserving_moving_clique_bound,
@@ -460,6 +461,196 @@ def test_support_resolved_bound_rejects_indefinite_noise():
         support_resolved_moving_clique_recovery_bound(
             transitions,
             noises,
+            planted,
+            self_memory=0.2,
+            internal_coupling=0.3,
+        )
+
+
+def test_a_priori_support_bound_is_nested_and_nonvacuous():
+    node_count = 5
+    planted, base_systems = covariance_preserving_moving_cliques(
+        node_count=node_count,
+        module_size=2,
+        step_count=3,
+        self_memory=0.2,
+        internal_coupling=0.3,
+    )
+    _, systems = perturbed_covariance_preserving_moving_cliques(
+        node_count=node_count,
+        module_size=2,
+        step_count=3,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        external_coupling_norm=1e-5,
+        noise_perturbation_norm=1e-6,
+    )
+    transition_errors = tuple(
+        system[0] - base[0]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    noise_errors = tuple(
+        system[1] - base[1]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    a_priori = a_priori_support_moving_clique_recovery_bound(
+        transition_errors,
+        noise_errors,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+    realized = support_resolved_moving_clique_recovery_bound(
+        tuple(system[0] for system in systems),
+        tuple(system[1] for system in systems),
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+
+    assert a_priori.candidate_family_is_complete
+    assert a_priori.all_local_covariance_bounds_valid
+    assert a_priori.guarantees_unique_planted_path_in_candidate_family
+    assert 0.0 < a_priori.per_mismatch_action_margin <= realized.per_mismatch_action_margin
+    assert np.all(
+        np.asarray(realized.planted_local_covariance_errors)
+        <= np.asarray(a_priori.planted_local_joint_error_bounds)
+    )
+    assert np.all(
+        np.asarray(realized.planted_leakage_covariance_errors)
+        <= np.asarray(a_priori.planted_leakage_joint_error_bounds)
+    )
+    assert np.all(
+        np.asarray(realized.candidate_covariance_errors)
+        <= np.asarray(a_priori.candidate_joint_error_bounds) + 1e-14
+    )
+    assert np.all(
+        np.asarray(a_priori.planted_score_lower_bounds)
+        <= np.asarray(realized.planted_score_lower_bounds)
+    )
+    assert np.all(
+        np.asarray(a_priori.incorrect_score_upper_bounds)
+        >= np.asarray(realized.incorrect_score_upper_bounds)
+    )
+
+    reduced = a_priori_support_moving_clique_recovery_bound(
+        transition_errors,
+        noise_errors,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        candidate_family=planted,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+    assert not reduced.candidate_family_is_complete
+    assert reduced.candidate_count == len(set(planted))
+    assert reduced.guarantees_unique_planted_path_in_candidate_family
+
+
+def test_a_priori_support_bounds_cover_random_dense_perturbations():
+    rng = np.random.default_rng(271828)
+    node_count = 5
+    planted, base_systems = covariance_preserving_moving_cliques(
+        node_count=node_count,
+        module_size=2,
+        step_count=3,
+        self_memory=0.2,
+        internal_coupling=0.3,
+    )
+
+    for _ in range(8):
+        transition_errors = []
+        noise_errors = []
+        systems = []
+        for base_transition, base_noise in base_systems:
+            transition_direction = rng.normal(size=(node_count, node_count))
+            transition_direction /= np.linalg.norm(transition_direction, ord=2)
+            noise_direction = rng.normal(size=(node_count, node_count))
+            noise_direction = (noise_direction + noise_direction.T) / 2.0
+            noise_direction /= np.linalg.norm(noise_direction, ord=2)
+            transition_error = 1e-5 * transition_direction
+            noise_error = 1e-6 * noise_direction
+            transition_errors.append(transition_error)
+            noise_errors.append(noise_error)
+            systems.append(
+                (base_transition + transition_error, base_noise + noise_error)
+            )
+        bound = a_priori_support_moving_clique_recovery_bound(
+            transition_errors,
+            noise_errors,
+            planted,
+            self_memory=0.2,
+            internal_coupling=0.3,
+            transport_weight=0.02,
+            continuity_weight=0.01,
+        )
+        covariances = propagate_covariances(
+            tuple(system[0] for system in systems),
+            tuple(system[1] for system in systems),
+            np.eye(node_count),
+        )
+        for time, (system, base_system) in enumerate(
+            zip(systems, base_systems, strict=True)
+        ):
+            joint = adjacent_joint_covariance(covariances[time], *system)
+            base_joint = adjacent_joint_covariance(
+                np.eye(node_count), *base_system
+            )
+            assert (
+                np.linalg.norm(covariances[time] - np.eye(node_count), ord=2)
+                <= bound.global_state_covariance_error_bounds[time] + 1e-14
+            )
+            for candidate_index, candidate in enumerate(bound.candidates):
+                indices = candidate + tuple(node_count + node for node in candidate)
+                actual_error = np.linalg.norm(
+                    (joint - base_joint)[np.ix_(indices, indices)], ord=2
+                )
+                assert actual_error <= (
+                    bound.candidate_joint_error_bounds[time][candidate_index]
+                    + 1e-14
+                )
+                score = observer_metrics_from_covariances(
+                    covariances[time], joint, candidate
+                ).observer_score
+                if candidate == planted[time]:
+                    assert score >= bound.planted_score_lower_bounds[time]
+                else:
+                    assert score <= bound.incorrect_score_upper_bounds[time][
+                        candidate_index
+                    ]
+
+
+def test_a_priori_support_bound_rejects_invalid_model_or_family():
+    planted, base_systems = covariance_preserving_moving_cliques(
+        node_count=5,
+        module_size=2,
+        step_count=2,
+        self_memory=0.2,
+        internal_coupling=0.3,
+    )
+    zero_errors = tuple(np.zeros((5, 5)) for _ in base_systems)
+
+    with np.testing.assert_raises_regex(ValueError, "every planted boundary"):
+        a_priori_support_moving_clique_recovery_bound(
+            zero_errors,
+            zero_errors,
+            planted,
+            self_memory=0.2,
+            internal_coupling=0.3,
+            candidate_family=((0, 1),),
+        )
+
+    invalid_noise_errors = list(zero_errors)
+    invalid_noise_errors[0] = -2.0 * np.eye(5)
+    with np.testing.assert_raises_regex(ValueError, "positive definite"):
+        a_priori_support_moving_clique_recovery_bound(
+            zero_errors,
+            invalid_noise_errors,
             planted,
             self_memory=0.2,
             internal_coupling=0.3,

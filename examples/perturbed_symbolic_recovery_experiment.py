@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib.colors import TwoSlopeNorm
 
 from observer_math import (
+    a_priori_support_moving_clique_recovery_bound,
     adjacent_joint_covariance,
     certify_worldtube,
     covariance_preserving_moving_cliques,
@@ -103,6 +104,23 @@ def main():
         transport_weight=transport_weight,
         continuity_weight=continuity_weight,
     )
+    transition_errors = tuple(
+        system[0] - base[0]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    noise_errors = tuple(
+        system[1] - base[1]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    a_priori_bound = a_priori_support_moving_clique_recovery_bound(
+        transition_errors,
+        noise_errors,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
 
     transition_norms = [
         np.linalg.norm(system[0] - base[0], ord=2)
@@ -140,6 +158,14 @@ def main():
     print(
         "Support-resolved action-margin lower bound:",
         f"{support_bound.per_mismatch_action_margin:.6f}",
+    )
+    print(
+        "A priori support-aware incorrect-score upper bound:",
+        f"{max(a_priori_bound.maximum_incorrect_score_upper_bounds):.6f}",
+    )
+    print(
+        "A priori support-aware action-margin lower bound:",
+        f"{a_priori_bound.per_mismatch_action_margin:.6f}",
     )
     print("Exact action margin:", f"{certificate.action_margin:.6f}")
     print(

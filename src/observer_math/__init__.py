@@ -48,9 +48,11 @@ from .sampling import (
 )
 from .search import Candidate, rank_subsystems
 from .symbolic import (
+    APrioriSupportMovingCliqueRecoveryBound,
     MovingCliqueRecoveryBound,
     PerturbedMovingCliqueRecoveryBound,
     SupportResolvedMovingCliqueRecoveryBound,
+    a_priori_support_moving_clique_recovery_bound,
     covariance_preserving_moving_clique_bound,
     perturbed_moving_clique_recovery_bound,
     support_resolved_moving_clique_recovery_bound,
@@ -64,6 +66,7 @@ from .worldtube import (
 )
 
 __all__ = [
+    "APrioriSupportMovingCliqueRecoveryBound",
     "BaselinePath",
     "Candidate",
     "ComponentwiseRecoveryBound",
@@ -79,6 +82,7 @@ __all__ = [
     "TwoPointIdentifiabilityBound",
     "WorldTubeCertificate",
     "WorldTubeResult",
+    "a_priori_support_moving_clique_recovery_bound",
     "adjacent_joint_covariance",
     "adjacent_sample_covariances",
     "best_fixed_boundary",

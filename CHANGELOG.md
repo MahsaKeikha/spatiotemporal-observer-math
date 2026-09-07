@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.0 - 2026-09-07
+
+- Derived a row-local covariance recursion from structured transition and noise
+  perturbations without propagating the realized state covariance.
+- Added an a priori support-aware recovery theorem for either the complete
+  fixed-size candidate family or a declared reduced family.
+- Verified that every a priori block radius contains its realized counterpart
+  on the reference system and across eight reproducible dense perturbation
+  sequences.
+- Added an executable comparison among global, realized support-resolved, and
+  a priori support-aware recovery margins.
+
 ## 0.6.0 - 2026-09-07
 
 - Derived a finite-horizon covariance recursion for transition and process-noise

@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 38 tests. Continuous integration runs
+The automated suite currently contains 41 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -270,8 +270,10 @@ is not imposed after the initial time.
 | Largest incorrect local score | `0.000063` |
 | Global incorrect-score upper bound | `0.007891` |
 | Support-resolved incorrect-score upper bound | `0.001002` |
+| A priori support-aware incorrect-score upper bound | `0.001096` |
 | Global action-margin lower bound | `0.121550` |
 | Support-resolved action-margin lower bound | `0.129801` |
+| A priori support-aware action-margin lower bound | `0.129669` |
 | Exact action margin | `0.175280` |
 | Boundaries recovered | 3 / 3 |
 
@@ -280,6 +282,12 @@ allowed by Proposition 19. Proposition 20 restricts the covariance error to
 each score's coordinates and uses time-specific edge penalties. Its upper
 bound remains larger than the observed score, but reduces the gap without
 changing the model or fitting a constant to the result.
+
+Proposition 21 does not propagate the actual covariance. Its row-local forcing
+recursion produces a margin only `0.000131` below the realized
+support-resolved result. Eight additional dense perturbation sequences verify
+that its state and candidate-joint radii contain the directly propagated
+errors and that its score bounds cover every enumerated candidate.
 
 ![Robust recovery margin over transition and noise perturbation radii](perturbed_recovery_region.png)
 
@@ -291,7 +299,7 @@ marks the direct numerical check.
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- a priori block-norm bounds from structured transition and noise perturbations
+- block-radius or graph-degree bounds that avoid full perturbation matrices
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

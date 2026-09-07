@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first twenty statements below are consequences of the current definitions.
+The first twenty-one statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -1183,16 +1183,147 @@ penalty. The result is deterministic and parameter-level: it requires the
 specified transition and noise matrices and enumerates all size-\(s\)
 candidates. It is not an a priori certificate from perturbation radii alone.
 
+## Proposition 21: a priori row-local recovery
+
+Let \(A_t^0,Q_t^0\) be the covariance-preserving moving-clique family and
+write
+
+\[
+A_t=A_t^0+E_t,\qquad Q_t=Q_t^0+F_t.
+\]
+
+Assume every \(Q_t\) is positive definite and \(\Sigma_0=I\). Define the
+covariance forcing and global scalar recursion
+
+\[
+H_t=A_t^0E_t^\mathsf T+E_t(A_t^0)^\mathsf T
+    +E_tE_t^\mathsf T+F_t,
+\]
+
+\[
+\delta_0=0,\qquad
+\delta_{t+1}=\|A_t\|_2^2\delta_t+\|H_t\|_2.
+\]
+
+For a coordinate set \(D\), put
+
+\[
+d_0(D)=0,
+\]
+
+\[
+d_t(D)=
+\|\Pi_DA_{t-1}\|_2^2\delta_{t-1}
++\|\Pi_DH_{t-1}\Pi_D^\mathsf T\|_2
+\quad (t\geq1).
+\]
+
+Define
+
+\[
+\Phi(u,w,v)=
+\frac{u+w+\sqrt{(u-w)^2+4v^2}}{2}.
+\]
+
+The adjacent-covariance error on \(D\) is bounded a priori by
+
+\[
+\bar\eta_t(D)=
+\Phi\left(
+d_t(D),
+d_{t+1}(D),
+\|\Pi_DA_t\|_2\delta_t+
+\|\Pi_DE_t\Pi_D^\mathsf T\|_2
+\right).
+\]
+
+For the planted leakage calculation, which uses every present coordinate and
+only the future coordinates in \(S_t^*\), use
+
+\[
+\bar\eta_t^{\rm leak}=
+\Phi\left(
+\delta_t,
+d_{t+1}(S_t^*),
+\|\Pi_{S_t^*}A_t\|_2\delta_t+
+\|\Pi_{S_t^*}E_t\|_2
+\right).
+\]
+
+Replace the realized block errors in Proposition 20 by
+\(\bar\eta_t(S_t^*)\), \(\bar\eta_t^{\rm leak}\), and
+\(\bar\eta_t(C)\). If the resulting local spectral conditions hold and the
+minimum mismatch margin is positive, then \(S^*\) is the unique action
+maximizer in any declared size-\(s\) candidate family \(\mathcal C\) that
+contains every \(S_t^*\). When
+\(\mathcal C=\{C\subset[n]:|C|=s\}\), the result is unique recovery over the
+complete fixed-size family.
+
+**Proof.** Write \(\Delta_t=\Sigma_t-I\). Since
+\(Q_t^0=I-A_t^0(A_t^0)^\mathsf T\), direct expansion of the covariance
+recursion gives
+
+\[
+\Delta_{t+1}=A_t\Delta_tA_t^\mathsf T+H_t.
+\]
+
+Taking operator norms inductively proves
+\(\|\Delta_t\|_2\leq\delta_t\). Principal compression of the same identity
+gives
+
+\[
+\|\Pi_D\Delta_t\Pi_D^\mathsf T\|_2\leq d_t(D).
+\]
+
+The cross block of the adjacent-covariance error restricted to present and
+future \(D\) is
+
+\[
+\Pi_D(A_t\Sigma_t-A_t^0)\Pi_D^\mathsf T
+=\Pi_DA_t\Delta_t\Pi_D^\mathsf T
+ \Pi_DE_t\Pi_D^\mathsf T,
+\]
+
+whose norm is bounded by the third argument of
+\(\bar\eta_t(D)\). For any symmetric block operator
+
+\[
+\begin{bmatrix}B&C^\mathsf T\\C&D\end{bmatrix}
+\]
+
+with \(\|B\|_2\leq u\), \(\|D\|_2\leq w\), and
+\(\|C\|_2\leq v\), its operator norm is at most the largest eigenvalue of
+\(\left[\begin{smallmatrix}u&v\\v&w\end{smallmatrix}\right]\), namely
+\(\Phi(u,w,v)\). This proves the candidate-local joint bound. Keeping all
+present coordinates changes the first diagonal bound to \(\delta_t\) and the
+cross-error term to
+\(\|\Pi_{S_t^*}A_t\|_2\delta_t+\|\Pi_{S_t^*}E_t\|_2\), proving the leakage
+bound.
+
+These a priori radii dominate the corresponding realized block errors.
+Propositions 7, 8, 10, and 18 therefore give the same planted lower and
+incorrect upper score construction as Proposition 20. Its mismatch-set edge
+charging proof applies without change to the declared candidate family.
+\(\square\)
+
+This theorem uses the spatial structure of the supplied perturbation matrices
+before any actual covariance is propagated. It can operate on a scientifically
+declared reduced candidate family, but its guarantee is then relative to that
+family. It does not justify selecting the family after inspecting the same
+data, and it does not yet replace the matrices \(E_t,F_t\) by only sparsity,
+degree, or block-radius summaries.
+
 ## Open conjectures
 
-### C1. A priori support-sensitive robust recovery
+### C1. Compressed recovery from perturbation classes
 
-Proposition 20 exploits realized candidate-local covariance errors. A stronger
-result would bound those quantities directly from sparse or block-structured
-transition and noise perturbations, without first propagating the full actual
-covariance. Such a theorem should expose scaling in candidate overlap,
-perturbation support, horizon, and graph degree, and determine whether the
-remaining cube-root loss is intrinsic or an artifact of factorwise control.
+Proposition 21 uses the full structured perturbation matrices but avoids actual
+covariance propagation. A stronger theorem would use only declared block
+radii, sparsity, or graph-degree constraints and would identify candidate
+equivalence classes whose bounds can be computed without enumeration. It
+should expose scaling in overlap, perturbation support, horizon, and graph
+degree, and determine whether the remaining cube-root loss is intrinsic or an
+artifact of factorwise control.
 
 ### C2. Sharper score stability under covariance perturbation
 

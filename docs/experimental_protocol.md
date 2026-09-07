@@ -171,6 +171,13 @@ bound against the directly computed scores. This comparison is fixed before
 inspection of the numerical margin; no parameter is tuned to improve the
 localized result.
 
+The third certificate is given only the transition and noise perturbation
+matrices relative to the base family. It does not receive or propagate the
+actual state covariance. Its global scalar recursion, row-local transition
+norms, and compressed forcing matrices must upper bound every realized
+candidate block. A separate deterministic random test repeats this containment
+and the resulting score inequalities for eight dense perturbation sequences.
+
 ## 8. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
@@ -224,6 +231,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_perturbed_factor_bounds_cover_random_dense_directions` | Covariance and local-score bounds cover twelve reproducible dense perturbation sequences |
 | `test_support_resolved_bound_covers_scores_and_improves_global_margin` | Every candidate-local bound covers its computed score and the resolved action margin improves on the global bound |
 | `test_support_resolved_bound_rejects_indefinite_noise` | The parameter-level certificate rejects an invalid process covariance |
+| `test_a_priori_support_bound_is_nested_and_nonvacuous` | A priori block radii contain realized radii, retain a positive margin, and support a declared reduced family |
+| `test_a_priori_support_bounds_cover_random_dense_perturbations` | State, joint-covariance, and score bounds cover eight reproducible dense perturbation sequences |
+| `test_a_priori_support_bound_rejects_invalid_model_or_family` | The certificate rejects missing planted boundaries and nonpositive process noise |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -246,6 +256,9 @@ Its limitations are concrete:
 10. The support-resolved theorem uses candidate overlap and perturbation
     location, but requires the realized matrices and exhaustive fixed-size
     candidate enumeration.
+11. The a priori theorem avoids actual covariance propagation, but it still
+    uses the full perturbation matrices and a global scalar error for influence
+    arriving through unselected coordinates.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
