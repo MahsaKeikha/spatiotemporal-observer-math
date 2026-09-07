@@ -6,7 +6,14 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-from observer_math import observer_metrics, optimize_worldtube, structural_transport
+from observer_math import (
+    adjacent_joint_covariance,
+    observer_metrics_from_covariances,
+    optimize_worldtube,
+    propagate_covariances,
+    transport_metrics,
+)
+from observer_math.gaussian import stationary_covariance
 
 
 def active_system(node_count, active):
@@ -27,21 +34,27 @@ def main():
     candidates = tuple(combinations(range(node_count), 3))
 
     systems = [active_system(node_count, active) for active in planted_path]
+    covariances = propagate_covariances(
+        [system[0] for system in systems[1:]],
+        [system[1] for system in systems[1:]],
+        stationary_covariance(*systems[0]),
+    )
     local_scores = np.zeros((len(systems), len(candidates)))
     for time, (transition, noise) in enumerate(systems):
+        joint = adjacent_joint_covariance(covariances[time], transition, noise)
         for index, candidate in enumerate(candidates):
-            local_scores[time, index] = observer_metrics(
-                transition, noise, candidate
+            local_scores[time, index] = observer_metrics_from_covariances(
+                covariances[time], joint, candidate
             ).observer_score
 
     transport = np.zeros((len(systems) - 1, len(candidates), len(candidates)))
     for time in range(len(systems) - 1):
-        next_transition = systems[time + 1][0]
+        next_transition, next_noise = systems[time + 1]
         for previous, source in enumerate(candidates):
             for current, target in enumerate(candidates):
-                transport[time, previous, current] = structural_transport(
-                    next_transition, source, target
-                )
+                transport[time, previous, current] = transport_metrics(
+                    covariances[time], next_transition, next_noise, source, target
+                ).transport_score
 
     result = optimize_worldtube(
         local_scores,
@@ -62,16 +75,56 @@ def main():
     axis.set_xlabel("Time step")
     axis.set_ylabel("Candidate subsystem")
     axis.set_yticks(np.arange(len(labels)), labels=labels)
-    axis.set_title("A persistent organization moving through physical nodes")
+    axis.set_title("Distributional world-tube through changing physical nodes")
     for time, subset in enumerate(result.path):
         if subset in [candidates[index] for index in order]:
             row = [candidates[index] for index in order].index(subset)
             axis.scatter(time, row, marker="s", facecolors="none", edgecolors="cyan", s=180)
-    figure.colorbar(image, ax=axis, label="Fixed-boundary observer score")
+    figure.colorbar(image, ax=axis, label="Local observer score")
     figure.tight_layout()
     output = Path(__file__).resolve().parents[1] / "docs" / "worldtube_baseline.png"
     figure.savefig(output, dpi=180)
     print("Figure:", output)
+
+    transport_weights = np.linspace(0.0, 0.6, 25)
+    continuity_weights = np.linspace(0.0, 0.8, 25)
+    recovery = np.zeros((len(continuity_weights), len(transport_weights)))
+    for row, continuity_weight in enumerate(continuity_weights):
+        for column, transport_weight in enumerate(transport_weights):
+            trial = optimize_worldtube(
+                local_scores,
+                candidates,
+                transport_scores=transport,
+                transport_weight=float(transport_weight),
+                continuity_weight=float(continuity_weight),
+            )
+            recovery[row, column] = np.mean(
+                [found == planted for found, planted in zip(trial.path, planted_path)]
+            )
+
+    phase_figure, phase_axis = plt.subplots(figsize=(8, 6))
+    phase_image = phase_axis.imshow(
+        recovery,
+        origin="lower",
+        aspect="auto",
+        extent=(
+            transport_weights[0],
+            transport_weights[-1],
+            continuity_weights[0],
+            continuity_weights[-1],
+        ),
+        cmap="viridis",
+        vmin=0,
+        vmax=1,
+    )
+    phase_axis.set_xlabel("Transport weight")
+    phase_axis.set_ylabel("Material-continuity weight")
+    phase_axis.set_title("Exact planted-boundary recovery across regularization")
+    phase_figure.colorbar(phase_image, ax=phase_axis, label="Fraction of boundaries recovered")
+    phase_figure.tight_layout()
+    phase_output = output.with_name("worldtube_phase_diagram.png")
+    phase_figure.savefig(phase_output, dpi=180)
+    print("Phase diagram:", phase_output)
 
 
 if __name__ == "__main__":

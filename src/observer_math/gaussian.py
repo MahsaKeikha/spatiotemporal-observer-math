@@ -9,6 +9,7 @@ from numpy.typing import ArrayLike, NDArray
 from scipy.linalg import solve_discrete_lyapunov
 
 FloatMatrix = NDArray[np.float64]
+FloatArray = NDArray[np.float64]
 _LOG_2 = np.log(2.0)
 
 
@@ -131,11 +132,50 @@ def predictive_persistence(
     future = _principal(covariance, future_indices)
     cross = covariance[np.ix_(np.asarray(subset), np.asarray(future_indices))]
 
-    def inverse_sqrt(matrix: FloatMatrix) -> FloatMatrix:
-        values, vectors = np.linalg.eigh(symmetrize(matrix))
-        floor = 1e-12 * max(1.0, float(values[-1]))
-        return (vectors * (1.0 / np.sqrt(np.clip(values, floor, None)))) @ vectors.T
+    return canonical_persistence(present, future, cross)
 
-    whitened = inverse_sqrt(present) @ cross @ inverse_sqrt(future)
-    correlations = np.linalg.svd(whitened, compute_uv=False)
-    return float(np.mean(np.clip(correlations, 0.0, 1.0) ** 2))
+
+def _inverse_sqrt(matrix: FloatMatrix) -> FloatMatrix:
+    values, vectors = np.linalg.eigh(symmetrize(matrix))
+    floor = 1e-12 * max(1.0, float(values[-1]))
+    return (vectors * (1.0 / np.sqrt(np.clip(values, floor, None)))) @ vectors.T
+
+
+def canonical_correlations(
+    source_covariance: ArrayLike,
+    target_covariance: ArrayLike,
+    cross_covariance: ArrayLike,
+) -> FloatArray:
+    """Canonical correlations between two Gaussian random vectors.
+
+    These singular values are invariant under invertible linear changes of
+    coordinates within either vector. This makes them suitable for comparing
+    representations whose bases change through time.
+    """
+    source_covariance = as_square(source_covariance, name="source_covariance")
+    target_covariance = as_square(target_covariance, name="target_covariance")
+    cross_covariance = np.asarray(cross_covariance, dtype=float)
+    expected = (source_covariance.shape[0], target_covariance.shape[0])
+    if cross_covariance.shape != expected:
+        raise ValueError(f"cross_covariance must have shape {expected}")
+    whitened = (
+        _inverse_sqrt(source_covariance)
+        @ cross_covariance
+        @ _inverse_sqrt(target_covariance)
+    )
+    values = np.linalg.svd(whitened, compute_uv=False)
+    return np.clip(values, 0.0, 1.0)
+
+
+def canonical_persistence(
+    source_covariance: ArrayLike,
+    target_covariance: ArrayLike,
+    cross_covariance: ArrayLike,
+) -> float:
+    """Mean squared canonical correlation, bounded in [0, 1]."""
+    correlations = canonical_correlations(
+        source_covariance, target_covariance, cross_covariance
+    )
+    if correlations.size == 0:
+        return 0.0
+    return float(np.mean(correlations**2))

@@ -7,19 +7,23 @@ space rather than assumed as a fixed set of physical degrees of freedom?
 
 ## Phase 1: exact Gaussian baseline
 
-- Reproduce fixed-partition integration and autonomy quantities.
-- Establish analytic Gaussian formulas.
-- Separate static correlation from directed internal integration.
-- Test planted modular systems and null controls.
+- [x] Reproduce fixed-partition integration and autonomy quantities.
+- [x] Establish analytic Gaussian formulas.
+- [x] Separate static correlation from directed internal integration.
+- [x] Test planted modular systems and null controls.
 
 ## Phase 2: moving-boundary classical systems
 
-- Define transport between subsystem representations at adjacent times.
-- Implement dynamic programming and differentiable relaxations for world-tube
-  inference.
-- Compare against fixed cuts, dynamic community detection, transfer entropy,
-  PhiID, and dynamical independence.
-- Prove recovery results in a planted moving-module model.
+- [x] Define distributional transport between subsystem representations at
+  adjacent times.
+- [x] Prove block-coordinate invariance of canonical transport.
+- [x] Implement exact nonstationary covariance propagation.
+- [x] Implement dynamic programming for world-tube inference.
+- [ ] Implement a differentiable relaxation for large candidate spaces.
+- [ ] Compare quantitatively against fixed cuts, dynamic community detection,
+  transfer entropy, PhiID, and dynamical independence.
+- [ ] Prove a recovery theorem for a planted moving-module model.
+- [ ] Test robustness to finite-sample covariance estimation and model error.
 
 ## Phase 3: factorization geometry
 
@@ -43,8 +47,9 @@ space rather than assumed as a fixed set of physical degrees of freedom?
 - Only then explore neural, biological, or artificial-agent time series.
 - Avoid interpreting a high score as evidence of phenomenal consciousness.
 
-## Publication standard
+## Research standard
 
 Every numerical figure should be generated from a versioned script. Every claim
-of novelty should be checked against the literature. The manuscript should state
-which claims are theorems, numerical findings, conjectures, or interpretations.
+of novelty should be checked against the literature. The documentation should
+state which claims are theorems, numerical findings, conjectures, or
+interpretations.

@@ -23,11 +23,15 @@ membership of the same physical components.
 
 ![Observer world-tube baseline](docs/worldtube_baseline.png)
 
-The first baseline combines:
+![Regularization phase diagram](docs/worldtube_phase_diagram.png)
+
+The current baseline combines:
 
 - directed integration across an internal minimum-information partition
 - conditional insulation from the environment
 - predictive persistence across time
+- nonstationary covariance propagation
+- representation-invariant transport across changing boundaries
 
 The current score is a candidate measure of observer-like organization. It is
 not a test for phenomenal consciousness.
@@ -41,6 +45,8 @@ not a test for phenomenal consciousness.
 | `tests/` | Mathematical and numerical invariants |
 | `docs/mathematical_framework.md` | Definitions, proposed action, and open proofs |
 | `docs/research_program.md` | Staged path from baseline to quantum formulation |
+| `docs/proofs_and_conjectures.md` | Proved properties and explicitly open claims |
+| `docs/novelty_audit.md` | Living comparison with the nearest research programs |
 | `notebooks/` | Explanatory and exploratory computations |
 
 ## Run the baseline
@@ -51,6 +57,7 @@ source .venv/bin/activate
 python -m pip install -e ".[dev,viz]"
 pytest
 python examples/baseline_experiment.py
+python examples/worldtube_experiment.py
 ```
 
 ## Research discipline
@@ -74,6 +81,7 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-Version 0.1 is an ongoing research study. The Gaussian baseline is implemented.
-The time-dependent factorization geometry is a defined research target and is
-not presented as a completed theory or finished paper.
+Version 0.2 is an ongoing research study. Exact nonstationary Gaussian transport
+and discrete changing-boundary inference are implemented. The time-dependent
+quantum factorization geometry is a defined research target and is not presented
+as a completed theory or finished paper.

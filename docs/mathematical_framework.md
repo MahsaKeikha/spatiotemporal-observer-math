@@ -88,7 +88,47 @@ between \(X^t_S\) and \(X^{t+\tau}_S\). The fixed-boundary baseline score is
 This score is not proposed as a consciousness meter. It is a reproducible test
 of three necessary properties for an observer-like process.
 
-## 3. Proposed contribution: observer world-tubes
+## 3. Nonstationary extension
+
+For time-varying dynamics,
+
+\[
+X_{t+1}=A_tX_t+\varepsilon_t,
+\qquad
+\Sigma_{t+1}=A_t\Sigma_tA_t^\mathsf T+Q_t.
+\]
+
+No equilibrium covariance is assumed. For a source boundary \(S_t\) and target
+boundary \(S_{t+1}\), define transport persistence by the mean squared canonical
+correlations between \(X^t_{S_t}\) and \(X^{t+1}_{S_{t+1}}\):
+
+\[
+P_t(S_t\to S_{t+1})
+=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
+\qquad r=\min(|S_t|,|S_{t+1}|).
+\]
+
+This quantity is invariant under any invertible linear reparameterization made
+separately within the source and target representations. Transition leakage is
+
+\[
+L_t(S_t\to S_{t+1})
+=\frac{1}{|S_{t+1}|}
+I(X^{t+1}_{S_{t+1}};X^t_{\bar S_t}\mid X^t_{S_t}).
+\]
+
+The implemented bounded transition score is
+
+\[
+\Theta_t(S_t\to S_{t+1})
+=\sqrt{P_t(S_t\to S_{t+1})2^{-L_t(S_t\to S_{t+1})}}.
+\]
+
+Unlike a coefficient-energy comparison, \(\Theta_t\) depends on the joint law
+of the process and does not reward prediction imported from outside the source
+boundary.
+
+## 4. Proposed contribution: observer world-tubes
 
 A fixed factorization assumes that the material or informational components of
 an observer remain unchanged. That assumption is too strong for organisms,
@@ -116,18 +156,16 @@ We propose to infer \(\mathcal W\) through a regularized variational objective:
 \mathcal A(\mathcal W)=
 \sum_{t=0}^{T-\tau}
 \left[
-\alpha\mathcal J_\tau(S_t,S_{t+\tau})
--\beta\mathcal L_\tau(S_t,S_{t+\tau})
-+\chi\mathcal P_\tau(S_t,S_{t+\tau})
+\alpha\Omega_t(S_t)
++\chi\Theta_t(S_t\to S_{t+\tau})
 \right]
 -\lambda\sum_{t=0}^{T-1}d_{\mathfrak F}(S_t,S_{t+1}).
 \]
 
-The first term rewards integration that actually crosses time. The second
-penalizes predictive dependence on the environment. The third rewards the
-transport of internal organization rather than the retention of identical
-material components. The final term is a geometric regularizer on movement
-through factorization space.
+The local term jointly rewards directed integration, insulation, and predictive
+persistence. The transition term rewards transport of an insulated
+representation rather than retention of identical material components. The
+final term is a geometric regularizer on movement through factorization space.
 
 The quantum formulation replaces subset distance with a gauge-invariant metric
 on a quotient of unitary space. A candidate form is
@@ -147,7 +185,7 @@ This geometric statement is a research proposal, not yet a theorem. Establishing
 the exact quotient, stabilizers, metric, and existence conditions is part of the
 study.
 
-## 4. Falsifiable hypotheses
+## 5. Falsifiable hypotheses
 
 1. On a system containing a coherent module that moves between physical nodes,
    world-tube optimization will recover the moving module while every fixed-cut
@@ -159,9 +197,10 @@ study.
 4. In systems with no persistent organizational boundary, the inferred action
    will not contain a stable optimum across lags or regularization scales.
 
-## 5. What remains to prove
+## 6. What remains to prove
 
-- Invariance under coordinate changes and local gauge transformations.
+- Invariance under coordinate changes that mix candidate and environment
+  variables, and under local quantum gauge transformations.
 - Bounds relating directed integration, entropy production, and autonomy time.
 - Conditions for existence and uniqueness of a maximizing world-tube.
 - Recovery guarantees for planted moving modules.

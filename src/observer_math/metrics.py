@@ -5,10 +5,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from itertools import combinations
 
-import numpy as np
 from numpy.typing import ArrayLike
 
 from .gaussian import (
+    as_square,
     gaussian_conditional_mutual_information,
     gaussian_mutual_information,
     predictive_persistence,
@@ -60,16 +60,39 @@ def observer_metrics(
     over internal bipartitions. Conditioning on each part's own present prevents
     static correlation alone from being counted as continuing integration.
     """
-    transition = np.asarray(transition, dtype=float)
-    node_count = transition.shape[0]
+    if lag < 1:
+        raise ValueError("lag must be positive")
+
+    present_covariance = stationary_covariance(transition, noise_covariance)
+    joint_covariance = two_time_covariance(transition, noise_covariance, lag=lag)
+    return observer_metrics_from_covariances(
+        present_covariance, joint_covariance, subset, lag=lag
+    )
+
+
+def observer_metrics_from_covariances(
+    present_covariance: ArrayLike,
+    joint_covariance: ArrayLike,
+    subset: tuple[int, ...] | list[int],
+    *,
+    lag: int = 1,
+) -> ObserverMetrics:
+    """Evaluate a candidate from supplied present and two-time covariances.
+
+    Unlike :func:`observer_metrics`, this function makes no stationarity
+    assumption and can be used at every step of a time-varying process.
+    """
+    present_covariance = as_square(present_covariance, name="present_covariance")
+    joint_covariance = as_square(joint_covariance, name="joint_covariance")
+    node_count = present_covariance.shape[0]
+    if joint_covariance.shape != (2 * node_count, 2 * node_count):
+        raise ValueError("joint_covariance must have twice the present dimension")
     subset = tuple(sorted({int(node) for node in subset}))
     if not subset or subset[0] < 0 or subset[-1] >= node_count:
         raise ValueError("subset must contain valid node indices")
     if lag < 1:
         raise ValueError("lag must be positive")
 
-    present_covariance = stationary_covariance(transition, noise_covariance)
-    joint_covariance = two_time_covariance(transition, noise_covariance, lag=lag)
     def future(nodes: tuple[int, ...]) -> tuple[int, ...]:
         return tuple(node_count + node for node in nodes)
 
