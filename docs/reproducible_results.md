@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 49 tests. Continuous integration runs
+The automated suite currently contains 52 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -332,10 +332,36 @@ degree two. No \(1000\times1000\) perturbation matrix is created. The example
 is a deterministic theorem evaluation, not an empirical scalability benchmark
 or evidence that a particular physical system satisfies these envelopes.
 
+## Experiment H: localized influence cone
+
+Command:
+
+```bash
+python examples/localized_influence_cone_experiment.py
+```
+
+| Time | Global state-error bound | Block-zero joint-error bound |
+| ---: | ---: | ---: |
+| 0 | `0.000e+00` | `0.000e+00` |
+| 1 | `1.000e-02` | `0.000e+00` |
+| 2 | `5.000e-04` | `0.000e+00` |
+| 3 | `4.200e-05` | `0.000e+00` |
+| 4 | `4.290e-06` | `0.000e+00` |
+| 5 | `4.862e-07` | `0.000e+00` |
+| 6 | `5.879e-08` | `0.000e+00` |
+| 7 | `7.429e-09` | `1.000e-16` |
+
+The transition comparison graph is a line with self coefficient `0.2` and
+nearest-neighbor coefficient `0.1`. A covariance forcing of `0.01` is applied
+only to block seven at time zero. Block zero is seven graph edges away. Its
+local joint bound is therefore exactly zero until the time-seven calculation,
+even though the global bound is positive from time one. The final small value
+is the propagated bound, not a numerical zero threshold.
+
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- graph-distance-local covariance propagation that avoids a global radius
+- moving-partition influence cones without exponential partition refinement
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

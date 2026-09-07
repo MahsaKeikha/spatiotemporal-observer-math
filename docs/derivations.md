@@ -511,7 +511,37 @@ planted inside/outside partition. It does not inspect the matrices or list the
 candidates. The price is conservatism: signs, cancellation, detailed support
 geometry, and correlations among blocks are discarded.
 
-## 19. Choices that are still choices
+## 19. Block-local covariance propagation
+
+The scalar covariance radius in Propositions 19 through 23 forgets where an
+error originates. A block comparison matrix retains that information. Its
+entry \(D_t(a,b)\) bounds the spectral norm of the covariance-error block
+between coordinate groups \(V_a\) and \(V_b\).
+
+If \(B_t(a,b)\) bounds the corresponding block of the transition, block
+multiplication gives
+
+\[
+D_{t+1}=B_tD_tB_t^\mathsf T+G_t.
+\]
+
+This is ordinary nonnegative matrix arithmetic on the block graph. Zeros are
+meaningful: multiplication cannot create support outside time-respecting paths.
+A forcing term at a remote graph block therefore has an exact finite influence
+cone. The global spectral bound can become positive immediately while a local
+joint-covariance bound remains zero until that cone arrives.
+
+The cross-covariance error uses one transition rather than two, giving
+\(C_t=B_tD_t+R_t\). Present and future block restrictions are assembled into
+one comparison matrix whose spectral norm bounds the local adjacent-joint
+error. This makes the output directly usable by the covariance-to-score
+perturbation results.
+
+The current implementation uses a fixed coordinate partition. Refining the
+partition by membership history is one route to a moving-boundary version, but
+an unrestricted refinement can grow exponentially with the horizon.
+
+## 20. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

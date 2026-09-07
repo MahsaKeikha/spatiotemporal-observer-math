@@ -172,6 +172,8 @@ stable and predictively useful, not whether it indicates consciousness.
   \(O(Ts^2)\) certificate evaluation over the complete fixed-size family
 - direct derivation of those budgets from two-type entry bounds and bounded
   row and column support, without storing perturbation matrices
+- block-local covariance and adjacent-joint perturbation propagation with an
+  exact finite-horizon influence-cone guarantee
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

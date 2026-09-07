@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.10.0 - 2026-09-07
+
+- Derived a block comparison recursion for covariance and adjacent-joint
+  perturbation errors.
+- Proved an exact finite-horizon influence-cone statement on sparse comparison
+  graphs.
+- Added local joint-error bounds with different present and future block
+  selections.
+- Verified every blockwise bound against direct random matrix propagation.
+- Added an eight-block line-graph example in which remote forcing is excluded
+  from the local certificate until its graph path reaches the observed block.
+
 ## 0.9.0 - 2026-09-07
 
 - Derived a two-type block comparison theorem from entry-magnitude and row and

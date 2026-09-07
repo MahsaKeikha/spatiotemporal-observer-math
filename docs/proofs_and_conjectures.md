@@ -1548,15 +1548,106 @@ storage and \(\binom ns\) candidate enumeration. The theorem is conditional on
 the declared envelopes actually holding. It does not estimate them from data,
 and coarse degree or entry bounds can make the sufficient margin vacuous.
 
+## Proposition 24: block-local covariance influence cones
+
+Fix a coordinate partition \(V_1,\ldots,V_m\). For a matrix \(M\), write
+\(M^{ab}=\Pi_{V_a}M\Pi_{V_b}^{\mathsf T}\). Retain
+
+\[
+\Delta_{t+1}=A_t\Delta_tA_t^\mathsf T+H_t,
+\qquad
+A_t=A_t^0+E_t.
+\]
+
+Suppose nonnegative comparison matrices \(B_t,G_t,R_t\) satisfy
+
+\[
+(B_t)_{ab}\geq\|A_t^{ab}\|_2,\qquad
+(G_t)_{ab}\geq\|H_t^{ab}\|_2,\qquad
+(R_t)_{ab}\geq\|E_t^{ab}\|_2.
+\]
+
+Let \(D_0\) be a symmetric nonnegative matrix with
+\((D_0)_{ab}\geq\|\Delta_0^{ab}\|_2\), and define
+
+\[
+D_{t+1}=B_tD_tB_t^\mathsf T+G_t,
+\qquad
+C_t=B_tD_t+R_t.
+\]
+
+Then, for every pair of blocks,
+
+\[
+\|\Delta_t^{ab}\|_2\leq(D_t)_{ab},
+\qquad
+\|(A_t\Delta_t+E_t)^{ab}\|_2\leq(C_t)_{ab}.
+\]
+
+For present block indices \(I\) and future block indices \(J\), form
+
+\[
+\mathcal D_t(I,J)=
+\begin{bmatrix}
+D_t[I,I] & C_t[J,I]^\mathsf T\\
+C_t[J,I] & D_{t+1}[J,J]
+\end{bmatrix}.
+\]
+
+The adjacent-joint covariance error compressed to present blocks \(I\) and
+future blocks \(J\) has operator norm at most
+\(\|\mathcal D_t(I,J)\|_2\).
+
+**Proof.** Assume the claim for \(D_t\). Block multiplication and the triangle
+inequality give
+
+\[
+\begin{aligned}
+\|\Delta_{t+1}^{ab}\|_2
+&\leq
+\sum_{c,d}\|A_t^{ac}\|_2
+             \|\Delta_t^{cd}\|_2
+             \|A_t^{bd}\|_2
+ +\|H_t^{ab}\|_2\\
+&\leq(B_tD_tB_t^\mathsf T+G_t)_{ab}.
+\end{aligned}
+\]
+
+The same argument with one transition factor gives the bound \(C_t\) for the
+cross-covariance error. Proposition 23's block comparison argument, applied to
+the two-time partition, bounds the complete symmetric joint operator by
+\(\|\mathcal D_t(I,J)\|_2\). Induction from \(D_0\) proves the result.
+\(\square\)
+
+The recursion also gives a finite-horizon support statement. With
+\(P_{t:\tau+1}=B_{t-1}\cdots B_{\tau+1}\),
+
+\[
+D_t=P_{t:0}D_0P_{t:0}^\mathsf T+
+\sum_{\tau=0}^{t-1}
+P_{t:\tau+1}G_\tau P_{t:\tau+1}^\mathsf T.
+\]
+
+Here \(P_{t:0}=B_{t-1}\cdots B_0\), and a product with no factors is the
+identity.
+
+All matrices are nonnegative. Therefore an entry of \(D_t\) is exactly zero
+whenever no pair of time-respecting paths in the comparison graph connects a
+nonzero initial or forcing block to that entry. In a nearest-neighbor graph,
+influence from a block at graph distance \(d\) cannot enter a local covariance
+block in fewer than \(d\) transition steps. This is a support theorem, not a
+small-value approximation.
+
 ## Open conjectures
 
-### C1. Localized propagation without a global covariance radius
+### C1. Influence cones for moving candidate partitions
 
-Proposition 23 derives class budgets from sparse two-type envelopes, but the
-state recursion still carries a global spectral radius. A stronger result
-would propagate influence through a finite neighborhood of each overlap class,
-with decay controlled by graph distance and time horizon. This may prevent a
-large remote perturbation from making every local score certificate vacuous.
+Proposition 24 removes the global covariance radius for a fixed block
+partition. A complete moving-boundary theorem must transport these blocks
+between consecutive planted partitions without expanding to individual nodes.
+Membership-history classes or a controlled partition refinement may preserve
+finite-speed influence while keeping complexity independent of
+\(\binom ns\).
 
 ### C2. Sharper score stability under covariance perturbation
 

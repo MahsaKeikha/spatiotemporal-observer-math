@@ -195,6 +195,14 @@ tests. The large deterministic example supplies the structural envelopes
 directly and evaluates six classes representing more than eight trillion
 candidates without constructing a perturbation matrix or candidate subset.
 
+The sixth certificate uses a fixed eight-block line graph. A single forcing
+term is placed at block seven and the reported local joint bound is evaluated
+at block zero. The global covariance bound responds at time one. The local
+bound remains exactly zero through time six and becomes positive at time seven,
+matching the graph distance. A separate random-matrix test verifies every
+state block and a mixed present/future joint compression against direct matrix
+propagation.
+
 ## 8. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
@@ -258,6 +266,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_block_sparse_budgets_cover_every_matrix_compression` | Derived structural budgets contain every global, row-local, and candidate-local norm of random sparse perturbations |
 | `test_block_sparse_structural_certificate_is_direct_and_nonvacuous` | Entry and degree envelopes alone produce a positive complete-family recovery certificate |
 | `test_block_sparse_budget_validation_rejects_fractional_degrees` | Structural support degrees must be nonnegative integers |
+| `test_block_covariance_envelope_covers_exact_matrix_recursion` | Every blockwise state and mixed adjacent-joint bound contains direct matrix propagation |
+| `test_block_covariance_envelope_has_finite_graph_influence_speed` | Remote forcing cannot enter a local joint bound before a time-respecting graph path reaches it |
+| `test_block_covariance_envelope_rejects_invalid_comparisons` | Negative comparison entries are rejected |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -288,6 +299,8 @@ Its limitations are concrete:
     general unstructured model can itself require exhaustive work.
 13. The block-sparse theorem obtains those budgets analytically, but discards
     signs, cancellation, exact support geometry, and dependencies among blocks.
+14. The localized covariance theorem uses a fixed block partition; a scalable
+    common refinement for moving candidate partitions remains open.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should

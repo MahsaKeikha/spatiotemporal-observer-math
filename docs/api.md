@@ -516,6 +516,38 @@ still accepted so that the structural assumptions remain explicit. A positive
 certificate is conditional on the stated entry and degree envelopes being
 valid for the intended model.
 
+### Block-local covariance influence
+
+```python
+from observer_math import (
+    block_covariance_error_envelope_from_perturbations,
+    block_joint_covariance_error_bound,
+)
+
+envelope = block_covariance_error_envelope_from_perturbations(
+    base_transition_comparisons,
+    transition_perturbation_comparisons,
+    noise_perturbation_comparisons,
+)
+local_radius = block_joint_covariance_error_bound(
+    envelope,
+    time=3,
+    present_blocks=(0,),
+    future_blocks=(0,),
+)
+```
+
+Every comparison sequence has shape `(time_count, block_count, block_count)`.
+An entry bounds the operator norm of the corresponding matrix block. The
+recursion retains the location of covariance forcing and exposes both
+blockwise state-error matrices and adjacent cross-error matrices. Unlike a
+global scalar radius, an unreachable block remains exactly zero.
+
+`block_joint_covariance_error_bound` permits different present and future
+block selections. The partition is fixed over the supplied horizon; changing
+partitions must first be refined to a common coordinate partition. Supplying
+an underestimated comparison entry invalidates the guarantee.
+
 ## Identifiability and symmetry
 
 ```python

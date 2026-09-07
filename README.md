@@ -168,6 +168,13 @@ direct certificate does not store an \(n\times n\) perturbation or enumerate a
 candidate. A 1,000-node example represents `8,250,291,250,200` five-node
 candidates by six overlap classes and retains a certified margin of `0.045031`.
 
+A block-local covariance recursion now preserves the location of perturbation
+forcing across a fixed graph partition. In the committed eight-block line
+example, a remote perturbation makes the global covariance radius positive at
+the first step, while the local observer joint radius remains exactly zero
+until the graph-distance-seven influence cone reaches it. This replaces a
+global-norm artifact with a finite-horizon support statement.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -179,7 +186,7 @@ candidates by six overlap classes and retains a certified margin of `0.045031`.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-three proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-four proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -207,6 +214,7 @@ python examples/identifiability_counterexample.py
 python examples/symbolic_recovery_experiment.py
 python examples/perturbed_symbolic_recovery_experiment.py
 python examples/block_sparse_recovery_experiment.py
+python examples/localized_influence_cone_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -229,8 +237,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.9 derives the
-overlap-class budgets directly from block-sparse structural assumptions and
-includes a large-population calculation with no candidate construction.
+This is an ongoing study, not a finished paper. Version 0.10 adds block-local
+covariance propagation and an exact finite-horizon influence-cone theorem for
+sparse comparison graphs.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

@@ -7,6 +7,12 @@ from .identifiability import (
     paths_equivalent_under_permutations,
     two_point_identifiability_bound,
 )
+from .localization import (
+    BlockCovarianceErrorEnvelope,
+    block_covariance_error_envelope,
+    block_covariance_error_envelope_from_perturbations,
+    block_joint_covariance_error_bound,
+)
 from .metrics import ObserverMetrics, observer_metrics, observer_metrics_from_covariances
 from .models import (
     block_system,
@@ -74,6 +80,7 @@ from .worldtube import (
 __all__ = [
     "APrioriSupportMovingCliqueRecoveryBound",
     "BaselinePath",
+    "BlockCovarianceErrorEnvelope",
     "BlockSparseMovingCliqueRecoveryBound",
     "BlockSparseOverlapBudgets",
     "Candidate",
@@ -95,6 +102,9 @@ __all__ = [
     "adjacent_joint_covariance",
     "adjacent_sample_covariances",
     "best_fixed_boundary",
+    "block_covariance_error_envelope",
+    "block_covariance_error_envelope_from_perturbations",
+    "block_joint_covariance_error_bound",
     "block_sparse_moving_clique_recovery_bound",
     "block_sparse_overlap_budgets",
     "block_system",
