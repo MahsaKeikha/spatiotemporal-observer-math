@@ -39,7 +39,7 @@ def unique_bipartitions(subset: tuple[int, ...]):
         return
     anchor = subset[0]
     remainder = subset[1:]
-    for size in range(0, len(remainder)):
+    for size in range(len(remainder)):
         for selection in combinations(remainder, size):
             left = (anchor,) + selection
             right = tuple(node for node in subset if node not in left)
@@ -62,7 +62,7 @@ def observer_metrics(
     """
     transition = np.asarray(transition, dtype=float)
     node_count = transition.shape[0]
-    subset = tuple(sorted(set(int(node) for node in subset)))
+    subset = tuple(sorted({int(node) for node in subset}))
     if not subset or subset[0] < 0 or subset[-1] >= node_count:
         raise ValueError("subset must contain valid node indices")
     if lag < 1:

@@ -25,7 +25,6 @@ def main():
     node_count = 7
     planted_path = tuple(tuple(range(start, start + 3)) for start in range(5))
     candidates = tuple(combinations(range(node_count), 3))
-    candidate_index = {candidate: index for index, candidate in enumerate(candidates)}
 
     systems = [active_system(node_count, active) for active in planted_path]
     local_scores = np.zeros((len(systems), len(candidates)))

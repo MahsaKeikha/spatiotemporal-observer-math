@@ -2,13 +2,13 @@
 
 An open research project led by **Mahsa Keikha, PhD**.
 
-This repository studies a question motivated by Max Tegmark's
+This repository studies a question motivated by the mathematical framework in
 *Consciousness as a State of Matter*:
 
 > Can an observer be identified from mathematics alone when its boundary and
 > internal representation are allowed to change through time?
 
-Tegmark's framework connects information, integration, independence, dynamics,
+The source framework connects information, integration, independence, dynamics,
 and tensor factorization. This project begins by reproducing those ideas in
 tractable models, then extends the factorization problem from a static choice to
 a path through factorization space.

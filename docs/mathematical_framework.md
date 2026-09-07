@@ -2,7 +2,7 @@
 
 ## 1. Starting point
 
-Tegmark studies a density matrix \(\rho\), a Hamiltonian \(H\), and candidate
+The source framework studies a density matrix \(\rho\), a Hamiltonian \(H\), and candidate
 factorizations
 
 \[

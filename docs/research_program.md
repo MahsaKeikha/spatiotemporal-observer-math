@@ -31,7 +31,7 @@ space rather than assumed as a fixed set of physical degrees of freedom?
 
 ## Phase 4: quantum models
 
-- Reproduce Tegmark's two-qubit and Hamiltonian-separability examples.
+- Reproduce the cited two-qubit and Hamiltonian-separability examples.
 - Replace fixed unitary optimization with path optimization over factorizations.
 - Test whether the dynamics term removes the energy-eigenbasis degeneracy.
 - Compare Hilbert-Schmidt, Bures, and quantum Fisher metrics.
