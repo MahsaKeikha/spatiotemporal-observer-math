@@ -261,7 +261,43 @@ This bound concerns errors in already-computed scores. Turning it into a
 confidence statement about finite data requires a separate perturbation bound
 from estimated covariances to information scores.
 
-## 10. Choices that are still choices
+## 10. Recovery conditions
+
+Two different recovery statements are implemented.
+
+The componentwise condition asks the planted initial state and every planted
+edge to beat all alternatives separately. If the smallest component margin is
+positive, the sum of those components is uniquely maximized by the planted
+path. This condition is easy to inspect but can fail even when the planted path
+is the correct global optimum.
+
+The finite-sample condition begins with the exact population action margin
+\(m\). If estimated scores have uniform errors \(\epsilon_L\) and
+\(\epsilon_\Theta\), then any action difference changes by at most
+
+\[
+2\left[T\epsilon_L+|\chi|(T-1)\epsilon_\Theta\right].
+\]
+
+The population path is therefore retained when \(m\) is larger than this
+quantity. If the uniform error event has probability at least \(1-\alpha\), the
+same probability lower bound applies to path recovery. Full statements and
+proofs are in [Proved results and open problems](proofs_and_conjectures.md).
+
+For the conditional-information part, a spectral covariance error
+\(\eta<m=\lambda_{\min}(\Gamma)\) gives the explicit bound
+
+\[
+|\widehat I(X;Y\mid Z)-I(X;Y\mid Z)|
+\leq
+\frac{d_X+d_Y+2d_Z}{\ln 2}
+\left[-\ln\left(1-\frac{\eta}{m}\right)\right].
+\]
+
+The remaining statistical obstacle is a similarly explicit perturbation bound
+for mean squared canonical correlation, followed through the geometric means.
+
+## 11. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

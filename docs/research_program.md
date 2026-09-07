@@ -3,29 +3,33 @@
 This page is a working queue. Items are ordered by what the present results need,
 not by how ambitious they sound.
 
-## Immediate problem: recovery from finite data
+## Immediate problem: confidence bounds for finite data
 
-The current calculation starts from exact covariances. Real data provide a
-finite trajectory, so \(A_t\), \(Q_t\), or the joint covariance must be
-estimated. The next experiment should answer a concrete question:
+The first finite-sample benchmark now estimates adjacent covariances from
+independent trajectory ensembles. It provides an empirical recovery curve, but
+not an analytical confidence guarantee. The next question is:
 
 > How many observations are required before the recovered path and its
 > runner-up margin stabilize?
 
-The experiment should vary sample length, dimension, condition number, and
-regularization. Bootstrap path frequencies can be reported, but they must not be
-confused with the deterministic radius already implemented. A useful theoretical
-result would propagate a covariance concentration bound through log determinant,
-conditional mutual information, canonical correlation, and finally the path
-margin.
+Proposition 6 reduces that question to uniform local-score and transport-score
+errors. Proposition 7 now propagates a spectral covariance error through
+Gaussian conditional mutual information. The missing steps are canonical-
+correlation perturbation, the nonlinear bounded score maps, and a chosen
+sample-covariance concentration inequality. A separate treatment is needed for
+one dependent time series because the current simulation uses independent
+trajectories.
 
-Completion criterion: recovery curves with uncertainty bands on held-out random
-systems, plus a documented regime in which the method fails.
+Completion criterion: computable \((\epsilon_L,\epsilon_\Theta,\alpha)\) bounds,
+coverage checks, and a documented regime in which the bound becomes vacuous.
 
 ## Immediate problem: a benchmark that is difficult to win
 
-The existing moving module is smooth, fixed in size, and analytically observed.
-A credible benchmark needs at least the following axes:
+The existing moving module is smooth, fixed in size, and easy to distinguish
+locally once covariance estimates stabilize. The finite-sample comparison shows
+that independent local selection can outperform the full transport objective on
+this family. A benchmark that tests transport itself therefore needs at least
+the following axes:
 
 | Axis | Cases to include |
 | --- | --- |
@@ -49,11 +53,10 @@ The natural theorem is not simply that dynamic programming returns an optimum;
 that part is exact already. The harder statement is that the intended path is the
 optimum under interpretable assumptions on the dynamics.
 
-One route is to derive a local separation condition. Let \(p^*\) be the planted
-path. If every deviation segment loses more local and transport score than it
-can gain by reducing continuity cost, then \(p^*\) is the unique maximizer. The
-useful version must express that separation in terms of \(A_t\), \(Q_t\), and
-candidate overlap rather than in terms of scores assumed after the fact.
+Proposition 5 now gives a transparent score-space sufficient condition, and the
+current example shows that it is not necessary. The useful next version must
+express separation in terms of \(A_t\), \(Q_t\), and candidate overlap rather
+than in terms of scores assumed after the fact.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -127,5 +130,11 @@ stable and predictively useful, not whether it indicates consciousness.
 - environmental leakage across a changing boundary
 - exact global and runner-up world-tube inference
 - deterministic perturbation certificate
+- componentwise planted-path recovery theorem
+- finite-sample recovery theorem conditional on uniform score bounds
+- explicit covariance-to-Gaussian-CMI perturbation bound
+- empirical covariance estimation from independent trajectory ensembles
+- finite-sample recovery curves with Wilson intervals across 192 trials
+- fixed, independent-local, continuity-only, and coefficient-transport baselines
 - correlation-only and external-drive controls
 - one planted moving-boundary calculation and regularization scan

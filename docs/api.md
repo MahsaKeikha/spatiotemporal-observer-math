@@ -139,8 +139,101 @@ both weights as exact.
 ## Reference model constructors
 
 ```python
-from observer_math import block_system, correlated_but_uncoupled_system, ring_system
+from observer_math import (
+    block_system,
+    correlated_but_uncoupled_system,
+    moving_module_systems,
+    ring_system,
+)
 ```
 
 These functions construct small deterministic systems for tests and examples.
 They are not empirical models.
+
+## Sampling and empirical covariances
+
+```python
+import numpy as np
+
+from observer_math import adjacent_sample_covariances, simulate_gaussian_ensemble
+
+states = simulate_gaussian_ensemble(
+    transitions,
+    noise_covariances,
+    initial_covariance,
+    sample_count=320,
+    rng=np.random.default_rng(7),
+)
+present, joint = adjacent_sample_covariances(states[0], states[1], ridge=1e-5)
+```
+
+The simulator returns independent trajectories rather than one long dependent
+time series. `adjacent_sample_covariances` preserves consistency by taking the
+present covariance as the leading principal block of the regularized joint
+covariance.
+
+Empirical transport is evaluated without supplying \(A_t\) or \(Q_t\):
+
+```python
+from observer_math import transport_metrics_from_covariances
+
+metrics = transport_metrics_from_covariances(
+    present,
+    joint,
+    source=(0, 1, 2),
+    target=(1, 2, 3),
+)
+```
+
+## Recovery bounds
+
+```python
+from observer_math import (
+    componentwise_recovery_bound,
+    finite_sample_recovery_bound,
+    gaussian_cmi_covariance_error_bound,
+)
+
+population = componentwise_recovery_bound(
+    local_scores,
+    candidates,
+    planted_indices,
+    transport_scores=transport_scores,
+    transport_weight=0.25,
+    continuity_weight=0.08,
+)
+
+sample_bound = finite_sample_recovery_bound(
+    population_action_margin=0.126,
+    time_count=5,
+    local_score_error=0.005,
+    transport_score_error=0.005,
+    transport_weight=0.25,
+)
+
+cmi_error = gaussian_cmi_covariance_error_bound(
+    x_dimension=3,
+    y_dimension=4,
+    given_dimension=3,
+    minimum_eigenvalue=0.2,
+    covariance_spectral_error=0.01,
+)
+```
+
+The first function checks a strong componentwise sufficient condition. The
+second evaluates the deterministic implication of user-supplied uniform error
+bounds. The third converts a spectral covariance error into a Gaussian
+conditional-mutual-information error bound. These functions do not infer a
+confidence level from data.
+
+## Internal baselines
+
+```python
+from observer_math import best_fixed_boundary, independent_local_path
+
+local_path = independent_local_path(local_scores, candidates)
+fixed_path = best_fixed_boundary(local_scores, candidates)
+```
+
+These functions answer deliberately simple comparison questions. They are not
+surrogates for external published methods.

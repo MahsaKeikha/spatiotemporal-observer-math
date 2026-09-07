@@ -79,7 +79,33 @@ These weights were chosen for the initial construction and must not be treated
 as universal constants. The phase diagram scans \(\chi\in[0,0.6]\) and
 \(\lambda\in[0,0.8]\) on a 25 by 25 grid.
 
-## 4. What the figures show
+## 4. Finite-sample benchmark
+
+`finite_sample_benchmark.py` draws independent trajectory ensembles through all
+five transitions, producing six observed states per trajectory. It estimates
+the covariance of each stacked pair \([X_t,X_{t+1}]\) with a diagonal ridge equal
+to `1e-5` times the larger of one and the mean sample variance.
+
+The committed run uses sample sizes `20, 40, 80, 160, 320, 640`, 32 independently
+seeded trials at each size, and root `SeedSequence` value `20260907`. Child seeds
+are generated before parallel execution, so changing the worker count does not
+change the sampled systems.
+
+Five procedures receive the same estimated local scores:
+
+| Procedure | Temporal information used |
+| --- | --- |
+| Distributional world-tube | Conditional-information transport and Jaccard continuity |
+| Independent local choices | No temporal linking; maximize each time separately |
+| Local score plus continuity | Jaccard continuity but no transport reward |
+| Coefficient-based transport | Transport energy from a least-squares transition estimate |
+| Best fixed boundary | One boundary maximizing summed local score at all times |
+
+These are internal baselines, not implementations of named external methods.
+The script reports mean boundary accuracy, its standard error, exact path
+recovery, and a Wilson 95% interval for the exact-recovery proportion.
+
+## 5. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
 candidates with the largest maximum score across time. Cyan outlines mark the
@@ -93,7 +119,11 @@ recovery at large continuity weight is expected: sufficiently strong Jaccard
 penalization favors retaining physical members even when the active module has
 moved.
 
-## 5. Tests tied to scientific claims
+`finite_sample_benchmark.png` shows recovery from estimated covariances and
+includes Wilson intervals for exact-path recovery. Overlapping bands should not
+be interpreted as pairwise significance tests.
+
+## 6. Tests tied to scientific claims
 
 | Test | Property checked |
 | --- | --- |
@@ -103,26 +133,34 @@ moved.
 | `test_static_correlation_is_not_mistaken_for_directed_integration` | Common correlated noise does not create directed integration |
 | `test_certificate_finds_exact_runner_up_and_positive_radius` | The two-best dynamic program agrees with hand-enumerated path scores |
 | `test_perturbation_below_certificate_radius_preserves_path` | A bounded perturbation inside the certificate leaves the optimum unchanged |
+| `test_positive_componentwise_margins_imply_planted_optimum` | Positive component margins imply the planted global optimum |
+| `test_componentwise_condition_can_fail_when_path_is_still_optimal` | The sufficient recovery condition is not presented as necessary |
+| `test_finite_sample_bound_has_correct_threshold` | The path-level sampling error budget has the derived coefficient |
+| `test_cmi_covariance_error_bound_covers_direct_perturbation` | The analytical Gaussian CMI bound covers a direct covariance perturbation |
+| `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
-## 6. Known weaknesses of the current experiment
+## 7. Known weaknesses of the current experiment
 
 The moving example is a proof of implementation, not a demanding benchmark.
 Its limitations are concrete:
 
 1. Ground truth is encoded directly in the transition matrices.
-2. Covariances are known exactly rather than estimated from data.
+2. The population figure uses exact covariances; the sampled benchmark covers
+   only one estimator and one ridge value.
 3. Candidate size is fixed and supplied in advance.
 4. The active module moves smoothly with two of three members retained.
 5. There are no latent confounders, missing observations, or nonlinearities.
 6. Hyperparameters are scanned against the same construction used for display.
-7. No competing method is evaluated in the current script.
+7. The comparisons are internal baselines rather than complete external methods.
+8. The full transport objective is less sample-efficient than local-only
+   selection on the current easy construction.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
 choose weights on separate training systems and evaluate them on held-out
 generative families.
 
-## 7. Reproduction commands
+## 8. Reproduction commands
 
 From the repository root:
 
@@ -130,6 +168,7 @@ From the repository root:
 python -m pip install -e ".[dev,viz]"
 python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
+python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

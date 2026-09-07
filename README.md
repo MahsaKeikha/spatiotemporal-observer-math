@@ -82,6 +82,21 @@ noise produces nonzero static integration, while the directed integration and
 the combined score remain zero. This checks that correlation by itself is not
 being mistaken for continuing internal organization.
 
+### Recovery from estimated covariances
+
+A second benchmark replaces analytical covariances with estimates from sampled
+trajectories. Across 32 trials per sample size, exact world-tube recovery rises
+from `0.313` at 80 trajectories to `0.750` at 160, `0.938` at 320, and `1.000`
+at 640.
+
+![Finite-sample recovery and baseline comparison](docs/finite_sample_benchmark.png)
+
+The comparison is not uniformly favorable to the full method. Independent
+local selection performs better at intermediate sample sizes on this easy
+construction. That negative result is recorded because it defines the next
+test: a generative family in which local evidence is ambiguous and cross-time
+transport is necessary.
+
 ## Read the project
 
 | Document | Contents |
@@ -89,14 +104,14 @@ being mistaken for continuing internal organization.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proofs and conjectures](docs/proofs_and_conjectures.md) | Results proved here and statements still open |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Seven proved statements and the remaining parameter-level questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
 | [API guide](docs/api.md) | Public functions and minimal examples |
 | [Research program](docs/research_program.md) | Completed work and next tests |
 
-The implementation lives in [`src/observer_math`](src/observer_math), the two
+The implementation lives in [`src/observer_math`](src/observer_math), the
 experiments are in [`examples`](examples), and each mathematical invariant used
 by the code has a corresponding test in [`tests`](tests).
 
@@ -112,6 +127,7 @@ python -m pytest
 python -m ruff check .
 python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
+python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -121,8 +137,9 @@ The automated checks run on Python 3.10, 3.11, and 3.12.
 The score is a tool for studying a sharply defined identification problem. A
 high value does not establish consciousness, sentience, agency, intelligence,
 or moral status. The current evidence consists of exact identities, unit tests,
-and small synthetic examples. Finite-sample estimation, broader null families,
-baseline comparisons, and the quantum construction remain open work.
+and small synthetic examples. A preliminary finite-sample simulation is
+included; analytical sampling bounds, broader null families, external-method
+comparisons, and the quantum construction remain open work.
 
 ## Primary reference
 
@@ -132,6 +149,7 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.2 implements the exact
-Gaussian baseline and discrete world-tube search. The repository will change as
-counterexamples, comparisons, and stronger proofs are added.
+This is an ongoing study, not a finished paper. Version 0.3 adds score-space
+recovery theorems and finite-sample experiments to the exact Gaussian baseline.
+The repository will change as counterexamples, comparisons, and stronger proofs
+are added.

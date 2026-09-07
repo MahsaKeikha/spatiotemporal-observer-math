@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 - 2026-09-07
 
 - Added exact second-best world-tube inference and an optimality margin.
 - Added a theorem-backed uniform score-perturbation certificate.
@@ -9,6 +9,14 @@
   chronological transition index in the moving-boundary experiment.
 - Added full derivations, an experimental protocol, an API guide, and a precise
   account of the proposed space-time-observer connection.
+- Added a componentwise planted-path recovery theorem and executable margin
+  check.
+- Added a finite-sample recovery theorem conditional on uniform score bounds.
+- Added an explicit spectral covariance-to-Gaussian-CMI error bound.
+- Added empirical covariance estimation, Gaussian trajectory simulation, and
+  model-free transport scoring from paired observations.
+- Added a 192-trial finite-sample benchmark with four internal baselines,
+  Wilson intervals, raw JSON results, and a recorded negative comparison.
 
 ## 0.2.0 - 2026-09-07
 

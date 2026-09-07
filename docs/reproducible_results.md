@@ -53,11 +53,18 @@ world-tube action, which also includes transport and continuity terms.
 | Runner-up action | 1.127902 |
 | Exact action margin | 0.126422 |
 | Certified uniform score radius | 0.010535 |
+| Componentwise sufficient condition | Not satisfied |
+| Minimum componentwise margin | -0.046147 |
 
 The radius means that if every local score and every raw transport score changes
 by less than `0.010535` in absolute value, the inferred path is guaranteed not
 to change under the assumptions of Proposition 4. This is a deterministic
 score-space guarantee, not yet a sampling-error confidence interval.
+
+The negative componentwise margin does not contradict recovery. Proposition 5
+is deliberately sufficient but not necessary: it requires the planted path to
+win every edge separately, whereas the global action can recover a path through
+tradeoffs accumulated across several times.
 
 ## Regularization result
 
@@ -78,12 +85,67 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 14 tests. Continuous integration runs
+The automated suite currently contains 21 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
+
+## Experiment C: finite-sample recovery
+
+Command used for the committed result:
+
+```bash
+python examples/finite_sample_benchmark.py --trials 32 --jobs 6
+```
+
+Each trial draws a fresh ensemble of independent trajectories through the same
+nonstationary system. Adjacent covariances are estimated from paired samples
+with scale-relative ridge `1e-5`. Neither the analytical covariance nor the true
+transition matrix is supplied to the distributional world-tube method.
+
+![Finite-sample benchmark](finite_sample_benchmark.png)
+
+For the distributional world-tube:
+
+| Trajectories | Mean boundary accuracy | Standard error | Exact path recovery | Wilson 95% interval |
+| ---: | ---: | ---: | ---: | ---: |
+| 20 | 0.094 | 0.022 | 0.000 | [0.000, 0.107] |
+| 40 | 0.313 | 0.038 | 0.000 | [0.000, 0.107] |
+| 80 | 0.706 | 0.048 | 0.313 | [0.180, 0.486] |
+| 160 | 0.944 | 0.018 | 0.750 | [0.579, 0.867] |
+| 320 | 0.988 | 0.009 | 0.938 | [0.799, 0.983] |
+| 640 | 1.000 | 0.000 | 1.000 | [0.893, 1.000] |
+
+The curve is consistent with convergence toward the population solution on
+this model. Thirty-two trials per point are enough to expose the transition but
+not enough for a precise tail estimate.
+
+### Internal baseline comparison
+
+At 160 trajectories:
+
+| Procedure | Mean boundary accuracy | Exact path recovery |
+| --- | ---: | ---: |
+| Distributional world-tube | 0.944 | 0.750 |
+| Independent local choices | 0.994 | 0.969 |
+| Local score plus continuity | 0.975 | 0.875 |
+| Coefficient-based transport | 0.894 | 0.594 |
+| Best fixed boundary | 0.194 | 0.000 |
+
+This benchmark does not show an advantage for the full transport objective.
+Independent local choices and local score plus continuity perform better at
+intermediate sample sizes. The fixed-boundary baseline cannot follow the moving
+module and reaches its maximum possible accuracy of one boundary out of five.
+
+The comparison identifies a design requirement for the next benchmark: local
+evidence must be ambiguous while cross-time organizational transport remains
+informative. Otherwise the transport term adds estimation variance to a problem
+that local scoring already solves.
+
+The raw aggregated values, Wilson intervals, trial count, ridge, sample sizes,
+and root seed are stored in [`finite_sample_results.json`](finite_sample_results.json).
 
 ## Required next controls
 
-- finite-sample covariance estimation with confidence intervals
+- analytical covariance-to-score concentration bounds
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

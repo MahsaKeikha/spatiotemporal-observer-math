@@ -1,0 +1,345 @@
+{
+  "seed": 20260907,
+  "trials_per_sample_size": 32,
+  "ridge": 1e-05,
+  "sample_sizes": [
+    20,
+    40,
+    80,
+    160,
+    320,
+    640
+  ],
+  "records": [
+    {
+      "sample_count": 20,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 0.09375,
+      "standard_error_boundary_accuracy": 0.0219684065670857,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 20,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 0.10625000000000001,
+      "standard_error_boundary_accuracy": 0.025375208564215178,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 20,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 0.1,
+      "standard_error_boundary_accuracy": 0.023759548165574573,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 20,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 0.09375,
+      "standard_error_boundary_accuracy": 0.0219684065670857,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 20,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.06875,
+      "standard_error_boundary_accuracy": 0.017061026611322607,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 40,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 0.3125,
+      "standard_error_boundary_accuracy": 0.03803383468236093,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 40,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 0.30625,
+      "standard_error_boundary_accuracy": 0.03358231941690976,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 40,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 0.32500000000000007,
+      "standard_error_boundary_accuracy": 0.03329971422913319,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 40,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 0.2625,
+      "standard_error_boundary_accuracy": 0.03291913356755778,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 40,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.10625000000000001,
+      "standard_error_boundary_accuracy": 0.01792541671806067,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 80,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 0.70625,
+      "standard_error_boundary_accuracy": 0.0483471777539723,
+      "exact_recovery_rate": 0.3125,
+      "exact_recovery_wilson_95": [
+        0.17952541633609734,
+        0.4856667830095541
+      ]
+    },
+    {
+      "sample_count": 80,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 0.8125,
+      "standard_error_boundary_accuracy": 0.033525988956090026,
+      "exact_recovery_rate": 0.375,
+      "exact_recovery_wilson_95": [
+        0.22933887309454212,
+        0.5474559264692255
+      ]
+    },
+    {
+      "sample_count": 80,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 0.7124999999999999,
+      "standard_error_boundary_accuracy": 0.04746603199708595,
+      "exact_recovery_rate": 0.34375,
+      "exact_recovery_wilson_95": [
+        0.20410437924433172,
+        0.5168891202103778
+      ]
+    },
+    {
+      "sample_count": 80,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 0.6124999999999999,
+      "standard_error_boundary_accuracy": 0.05231534345954657,
+      "exact_recovery_rate": 0.25,
+      "exact_recovery_wilson_95": [
+        0.1325240091850904,
+        0.4210655899424448
+      ]
+    },
+    {
+      "sample_count": 80,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.17500000000000002,
+      "standard_error_boundary_accuracy": 0.011879774082787287,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 160,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 0.94375,
+      "standard_error_boundary_accuracy": 0.01847922765806811,
+      "exact_recovery_rate": 0.75,
+      "exact_recovery_wilson_95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ]
+    },
+    {
+      "sample_count": 160,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 0.99375,
+      "standard_error_boundary_accuracy": 0.006249999999999999,
+      "exact_recovery_rate": 0.96875,
+      "exact_recovery_wilson_95": [
+        0.8425573617998744,
+        0.9944621398359969
+      ]
+    },
+    {
+      "sample_count": 160,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 0.9750000000000001,
+      "standard_error_boundary_accuracy": 0.011879774082787285,
+      "exact_recovery_rate": 0.875,
+      "exact_recovery_wilson_95": [
+        0.7193169451834978,
+        0.9502986561251991
+      ]
+    },
+    {
+      "sample_count": 160,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 0.89375,
+      "standard_error_boundary_accuracy": 0.025375208564215178,
+      "exact_recovery_rate": 0.59375,
+      "exact_recovery_wilson_95": [
+        0.42260024875382873,
+        0.7448036515733456
+      ]
+    },
+    {
+      "sample_count": 160,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.19375,
+      "standard_error_boundary_accuracy": 0.00625,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 320,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 0.9875,
+      "standard_error_boundary_accuracy": 0.008695104295503152,
+      "exact_recovery_rate": 0.9375,
+      "exact_recovery_wilson_95": [
+        0.7985287685584542,
+        0.982689432968359
+      ]
+    },
+    {
+      "sample_count": 320,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 320,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 320,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 0.975,
+      "standard_error_boundary_accuracy": 0.011879774082787283,
+      "exact_recovery_rate": 0.875,
+      "exact_recovery_wilson_95": [
+        0.7193169451834978,
+        0.9502986561251991
+      ]
+    },
+    {
+      "sample_count": 320,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.2,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    },
+    {
+      "sample_count": 640,
+      "method": "world_tube",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 640,
+      "method": "independent_local",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 640,
+      "method": "continuity_only",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 640,
+      "method": "coefficient_transport",
+      "mean_boundary_accuracy": 1.0,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 1.0,
+      "exact_recovery_wilson_95": [
+        0.8928208017449293,
+        1.0
+      ]
+    },
+    {
+      "sample_count": 640,
+      "method": "fixed_boundary",
+      "mean_boundary_accuracy": 0.2,
+      "standard_error_boundary_accuracy": 0.0,
+      "exact_recovery_rate": 0.0,
+      "exact_recovery_wilson_95": [
+        0.0,
+        0.1071791982550706
+      ]
+    }
+  ]
+}

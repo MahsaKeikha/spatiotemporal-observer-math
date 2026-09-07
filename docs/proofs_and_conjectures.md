@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first four statements below are consequences of the current definitions.
+The first seven statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -136,20 +136,139 @@ with \(O(TC^2)\) time for \(C\) candidates. The reported radius is conservative:
 it protects against all simultaneous bounded entrywise perturbations, including
 the worst possible sign pattern.
 
+## Proposition 5: componentwise planted-path recovery
+
+For candidate indices \(j_0^*,\ldots,j_{T-1}^*\), write
+
+\[
+e_t(i,j)=\ell_t(j)+\chi\theta_{t-1}(i,j)-\lambda d(i,j),
+\qquad t\geq 1.
+\]
+
+Define the initial and edge margins
+
+\[
+\delta_0=\ell_0(j_0^*)-\max_{j\neq j_0^*}\ell_0(j)
+\]
+
+and
+
+\[
+\delta_t=e_t(j_{t-1}^*,j_t^*)
+-\max_{(i,j)\neq(j_{t-1}^*,j_t^*)}e_t(i,j).
+\]
+
+If every \(\delta_t>0\), the planted path is the unique global maximizer and
+its action margin is at least \(\min_t\delta_t\).
+
+**Proof.** The path action decomposes into one initial term and \(T-1\) edge
+terms. By assumption, the planted path maximizes every term separately. Any
+distinct path must differ either at its initial state or on at least one edge.
+It therefore loses at least the corresponding positive component margin and
+cannot gain on any other component. \(\square\)
+
+This condition is sufficient, not necessary. The committed moving-module
+example has the correct unique global optimum but fails the componentwise test,
+with minimum component margin `-0.046147`. In that example, smaller losses and
+gains cancel across time in favor of the complete planted path.
+
+## Proposition 6: finite-sample recovery from uniform score bounds
+
+Suppose a population action has unique maximizing path \(p^*\) with margin
+\(m>0\), with candidate distances and action weights held fixed. Let estimated
+local and transport scores obey, jointly with probability at least
+\(1-\alpha\),
+
+\[
+\max_{t,j}|\widehat\ell_t(j)-\ell_t(j)|\leq\epsilon_L,
+\qquad
+\max_{t,i,j}|\widehat\theta_t(i,j)-\theta_t(i,j)|\leq\epsilon_\Theta.
+\]
+
+If
+
+\[
+m>2\left[T\epsilon_L+|\chi|(T-1)\epsilon_\Theta\right],
+\]
+
+then the empirical maximizer equals \(p^*\) with probability at least
+\(1-\alpha\).
+
+**Proof.** On the stated joint event, the action error of any path is at most
+
+\[
+B=T\epsilon_L+|\chi|(T-1)\epsilon_\Theta.
+\]
+
+The empirical action difference between \(p^*\) and any competitor can be at
+most \(2B\) smaller than its population difference. Since every population
+difference is at least \(m>2B\), every empirical difference remains positive.
+The joint event occurs with probability at least \(1-\alpha\). \(\square\)
+
+This proposition reduces statistical recovery to uniform concentration of the
+score arrays. It does not itself supply \(\epsilon_L\), \(\epsilon_\Theta\), or
+\(\alpha\). Deriving those quantities from Gaussian sample-covariance
+concentration is still open.
+
+## Proposition 7: covariance perturbation bound for Gaussian CMI
+
+Let \(\Gamma\) be positive definite with
+\(\lambda_{\min}(\Gamma)\geq m>0\), and let
+\(\widehat\Gamma=\Gamma+E\) satisfy
+\(\|E\|_2\leq\eta<m\). For Gaussian subvectors of dimensions \(d_X,d_Y,d_Z\),
+
+\[
+\left|
+\widehat I(X;Y\mid Z)-I(X;Y\mid Z)
+\right|
+\leq
+\frac{d_X+d_Y+2d_Z}{\ln 2}
+\left[-\ln\left(1-\frac{\eta}{m}\right)\right].
+\]
+
+**Proof.** Consider any \(k\)-dimensional principal covariance block \(B\).
+Cauchy interlacing gives \(\lambda_{\min}(B)\geq m\), and the corresponding
+error block \(E_B\) obeys \(\|E_B\|_2\leq\eta\). Therefore
+
+\[
+R=B^{-1/2}E_BB^{-1/2}
+\quad\text{satisfies}\quad
+\|R\|_2\leq q=\eta/m<1.
+\]
+
+Every eigenvalue of \(R\) lies in \([-q,q]\), so
+
+\[
+|\ln\det(B+E_B)-\ln\det B|
+=|\ln\det(I+R)|
+\leq -k\ln(1-q).
+\]
+
+Gaussian conditional mutual information is one half of the signed sum of log
+determinants for blocks \(XZ\), \(YZ\), \(Z\), and \(XYZ\). Their dimensions
+sum to \(2(d_X+d_Y+2d_Z)\). Applying the triangle inequality and converting
+nats to bits proves the result. \(\square\)
+
+The bound is implemented by `gaussian_cmi_covariance_error_bound`. It can be
+applied to mutual information by setting \(d_Z=0\). It does not yet control the
+canonical-correlation part of the score.
+
 ## Open conjectures
 
-### C1. Planted world-tube recovery
+### C1. Parameter-level planted world-tube recovery
 
 For a moving linear Gaussian module with internal predictive strength separated
-from external drive by margin \(\delta>0\), there exists an interval of
-regularization weights for which the global action uniquely recovers the
-planted boundary path with probability approaching one as sample size grows.
+from external drive by a parameter-level margin \(\delta>0\), the score-space
+conditions of Proposition 5 follow on a nonempty interval of regularization
+weights. Combined with covariance concentration, Proposition 6 would then imply
+recovery probability approaching one as sample size grows.
 
-### C2. Stability under covariance perturbation
+### C2. Complete score stability under covariance perturbation
 
-If all relevant covariance blocks have eigenvalues bounded below by
-\(m>0\), then the finite-horizon world-tube action is locally Lipschitz in the
-transition and noise matrices away from path-score ties.
+Proposition 7 controls the Gaussian mutual-information terms. A corresponding
+bound for mean squared canonical correlation, followed through the nonlinear
+geometric means and minimum bipartition, would give an explicit finite-horizon
+world-tube action bound away from singular covariance blocks.
 
 ### C3. Gauge-consistent quantum lift
 

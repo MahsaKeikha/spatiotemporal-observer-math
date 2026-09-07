@@ -65,3 +65,28 @@ def correlated_but_uncoupled_system(
     np.fill_diagonal(noise, 1.0)
     noise *= 0.2
     return transition, noise
+
+
+def moving_module_systems(
+    node_count: int = 7,
+    module_size: int = 3,
+    step_count: int = 5,
+) -> tuple[tuple[tuple[int, ...], ...], tuple[tuple[FloatMatrix, FloatMatrix], ...]]:
+    """Time-varying systems with a contiguous planted active module."""
+    if module_size < 2 or node_count < module_size:
+        raise ValueError("require 2 <= module_size <= node_count")
+    if step_count < 1 or step_count > node_count - module_size + 1:
+        raise ValueError("step_count exceeds the available contiguous module positions")
+    planted_path = tuple(
+        tuple(range(start, start + module_size)) for start in range(step_count)
+    )
+    systems = []
+    for active in planted_path:
+        transition = np.eye(node_count) * 0.32
+        for target in active:
+            transition[target, target] = 0.46
+            for source in active:
+                if source != target:
+                    transition[target, source] = 0.18
+        systems.append((_scale_radius(transition, 0.84), np.eye(node_count) * 0.18))
+    return planted_path, tuple(systems)

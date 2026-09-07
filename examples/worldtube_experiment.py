@@ -9,6 +9,8 @@ import numpy as np
 from observer_math import (
     adjacent_joint_covariance,
     certify_worldtube,
+    componentwise_recovery_bound,
+    moving_module_systems,
     observer_metrics_from_covariances,
     optimize_worldtube,
     propagate_covariances,
@@ -17,24 +19,10 @@ from observer_math import (
 from observer_math.gaussian import stationary_covariance
 
 
-def active_system(node_count, active):
-    transition = np.eye(node_count) * 0.32
-    for target in active:
-        transition[target, target] = 0.46
-        for source in active:
-            if source != target:
-                transition[target, source] = 0.18
-    radius = np.max(np.abs(np.linalg.eigvals(transition)))
-    transition *= 0.84 / radius
-    return transition, np.eye(node_count) * 0.18
-
-
 def main():
     node_count = 7
-    planted_path = tuple(tuple(range(start, start + 3)) for start in range(5))
+    planted_path, systems = moving_module_systems(node_count=node_count)
     candidates = tuple(combinations(range(node_count), 3))
-
-    systems = [active_system(node_count, active) for active in planted_path]
     covariances = propagate_covariances(
         [system[0] for system in systems[:-1]],
         [system[1] for system in systems[:-1]],
@@ -65,12 +53,26 @@ def main():
         continuity_weight=0.08,
     )
     result = certificate.result
+    planted_indices = tuple(candidates.index(subset) for subset in planted_path)
+    recovery_bound = componentwise_recovery_bound(
+        local_scores,
+        candidates,
+        planted_indices,
+        transport_scores=transport,
+        transport_weight=0.25,
+        continuity_weight=0.08,
+    )
     print("Planted path:", planted_path)
     print("Recovered path:", result.path)
     print("Total action:", f"{result.total_action:.6f}")
     print("Runner-up action:", f"{certificate.runner_up_action:.6f}")
     print("Optimality margin:", f"{certificate.action_margin:.6f}")
     print("Certified uniform score radius:", f"{certificate.uniform_score_radius:.6f}")
+    print(
+        "Componentwise sufficient condition:",
+        "satisfied" if recovery_bound.guarantees_unique_recovery else "not satisfied",
+    )
+    print("Minimum componentwise margin:", f"{recovery_bound.minimum_margin:.6f}")
 
     order = np.argsort(-local_scores.max(axis=0))[:12]
     display = local_scores[:, order].T

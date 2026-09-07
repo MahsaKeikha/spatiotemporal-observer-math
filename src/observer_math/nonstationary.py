@@ -80,7 +80,26 @@ def transport_metrics(
     environment predicts the future target after conditioning on the source.
     """
     current = as_square(current_covariance, name="current_covariance")
+    joint = adjacent_joint_covariance(current, transition, noise_covariance)
+    return transport_metrics_from_covariances(current, joint, source, target)
+
+
+def transport_metrics_from_covariances(
+    current_covariance: ArrayLike,
+    joint_covariance: ArrayLike,
+    source: Sequence[int],
+    target: Sequence[int],
+) -> TransportMetrics:
+    """Score transport from supplied current and adjacent-time covariances.
+
+    This is the model-free entry point for empirical covariance estimates. The
+    joint covariance must order variables as ``[X_t, X_(t+1)]``.
+    """
+    current = as_square(current_covariance, name="current_covariance")
+    joint = as_square(joint_covariance, name="joint_covariance")
     node_count = current.shape[0]
+    if joint.shape != (2 * node_count, 2 * node_count):
+        raise ValueError("joint_covariance must have twice the current dimension")
     source = tuple(sorted({int(node) for node in source}))
     target = tuple(sorted({int(node) for node in target}))
     if not source or not target:
@@ -88,7 +107,6 @@ def transport_metrics(
     if min(source + target) < 0 or max(source + target) >= node_count:
         raise ValueError("source and target must contain valid node indices")
 
-    joint = adjacent_joint_covariance(current, transition, noise_covariance)
     future_target = tuple(node_count + node for node in target)
     source_covariance = current[np.ix_(source, source)]
     target_covariance = joint[np.ix_(future_target, future_target)]
