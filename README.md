@@ -225,6 +225,13 @@ the committed example, the screened covariance radius is `2.500e-08`, compared
 with `6.250e-05` for the full environment, while the robust slack remains
 `0.799524`.
 
+Independent sample splitting now closes the confidence-accounting loop for a
+screen whose safety probability has been established. One split selects at
+most a declared number of blocks; the other supplies fresh covariance estimates
+for certification. The implementation reports both stagewise confidence levels,
+their combined guarantee, and refuses certification when the same data are
+reused.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -238,7 +245,7 @@ with `6.250e-05` for the full environment, while the robust slack remains
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-one proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-two proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -274,6 +281,7 @@ python examples/heterogeneous_class_recovery_experiment.py
 python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
 python examples/screened_environment_recovery_experiment.py
+python examples/sample_split_screening_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -296,8 +304,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.17 adds certified
-source-specific environmental screening and an explicit omitted-information
-penalty, together with a complete reader guide and assumption ledger.
+This is an ongoing study, not a finished paper. Version 0.18 composes a
+probabilistically safe screening stage with an independent Gaussian
+certification stage and makes the remaining screen-learning assumption explicit.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

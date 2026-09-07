@@ -779,7 +779,41 @@ simultaneous confidence bounds, or an independent structural argument. That is
 why the code requires the neighborhood and tail certificate as inputs rather
 than selecting them opportunistically.
 
-## 27. Choices that are still choices
+## 27. Independent screening and certification
+
+The reduced block count in a screened concentration bound is legitimate only
+after conditioning on a screen chosen independently of the covariance estimates
+used for certification. The first split may select a random graph. Conditional
+on that split, however, the graph is fixed and contains at most \(R\) retained
+blocks. A union bound over \(R\), rather than the complete family, is then valid
+for the second split.
+
+The two confidence statements have different meanings. Screening confidence
+controls the event that no relevant challenger was discarded. Certification
+confidence controls simultaneous covariance error on the retained blocks. If
+the stages use independent data and their confidence levels are \(c_s\) and
+\(c_c\), the complete lower confidence is \(c_sc_c\).
+
+The covariance radius for certification is
+
+\[
+\eta_c=M\left(2u_c+u_c^2\right),
+\qquad
+u_c=\frac{\sqrt d+\sqrt{2\ln(2R/(1-c_c))}}{\sqrt{N_c-1}}.
+\]
+
+This radius is compared with a deterministic threshold \(\eta_*\) obtained
+from the downstream covariance-to-score and adversarial-path calculation. The
+threshold is strict because the perturbation theorems require separation from
+the spectral boundary.
+
+The implementation also returns the smallest integer \(N_c\) meeting the
+strict inequality. Replacing \(R\) by the unscreened block count provides an
+auditable comparison. Screening usually improves only a logarithmic term, so a
+large reduction in graph size need not produce a comparably large reduction in
+sample size.
+
+## 28. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

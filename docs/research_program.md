@@ -88,9 +88,12 @@ those intervals from representative covariance models and certified class
 residual radii. Proposition 30 obtains the residual radii from moving block
 transition, forcing, and cross-error comparisons plus future class selections.
 Proposition 31 now permits source-specific present compression while charging
-a certified conditional-information tail for the omitted environment. The next
-statistical priority is a sample-split selection theorem that learns these
-screens without reusing the certification sample, as required by Conjecture C1.
+a certified conditional-information tail for the omitted environment.
+Proposition 32 composes any proved first-stage screening event with an
+independent certification sample and reports the product confidence. The next
+priority is to derive the first-stage safety event from screening-sample
+covariance bounds, then measure its coverage and retained-graph size across
+signal regimes.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -202,6 +205,8 @@ stable and predictively useful, not whether it indicates consciousness.
   comparison envelopes and declared future class geometry
 - source-specific environmental screening with an explicit omitted conditional
   information penalty
+- independent sample-split confidence composition with explicit stagewise
+  failure budgets and a minimal certification-sample threshold
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

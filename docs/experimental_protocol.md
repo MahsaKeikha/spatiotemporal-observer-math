@@ -295,6 +295,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_screened_residuals_equal_source_specific_joint_compressions` | Local and ordered edge residuals equal their declared source-specific block compressions |
 | `test_omitted_leakage_tail_has_exact_insulation_multiplier` | The conditional-information tail produces the exact exponential lower correction to insulation |
 | `test_screened_certificate_rejects_negative_omitted_leakage` | Omitted conditional information cannot have a negative upper bound |
+| `test_sample_split_bound_reports_stagewise_and_combined_confidence` | Wishart radius and product confidence agree with the stated independent-stage calculation |
+| `test_same_data_refuses_sample_split_guarantee` | Reusing observations across selection and certification cannot produce a sample-split guarantee |
+| `test_screening_reduction_and_more_samples_tighten_certification_radius` | Fewer retained blocks and more certification observations reduce the covariance radius |
+| `test_minimum_sample_split_size_is_first_certified_integer` | The returned certification threshold is the first integer satisfying the strict radius condition |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -342,6 +346,9 @@ Its limitations are concrete:
     valid omitted conditional-leakage bound is supplied. It is not yet a
     statistically valid procedure for selecting neighborhoods from the same
     observations used to certify them.
+20. The sample-split theorem composes an advertised first-stage safety
+    probability but does not yet derive that probability from the screening
+    observations or validate its coverage empirically.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -369,6 +376,7 @@ python examples/heterogeneous_class_recovery_experiment.py
 python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
 python examples/screened_environment_recovery_experiment.py
+python examples/sample_split_screening_experiment.py
 python -m pytest
 python -m ruff check .
 ```

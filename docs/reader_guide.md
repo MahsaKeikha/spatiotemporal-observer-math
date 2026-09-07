@@ -138,8 +138,8 @@ implementation.
 ## Current frontier
 
 The deterministic chain from block structure to robust class recovery is now
-implemented. The main unresolved statistical issue is how to select a reduced
-competitor or environmental graph from data without invalidly reusing the same
-sample for selection and certification. The planned route is sample splitting
-or simultaneous confidence control, followed by coverage simulations and
-comparison against alternative boundary-tracking methods.
+implemented. Independent sample-split confidence composition is also explicit.
+The main unresolved statistical issue is constructing the first-split screen
+and proving its safety probability from finite data while retaining a useful
+fraction of the original graph. This requires coverage simulations before the
+screen can be treated as an empirical procedure.

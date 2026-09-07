@@ -51,6 +51,10 @@ read before applying a certificate to a new model or dataset.
 | Confidence parameters and covariance dimensions match the tested blocks | Sample-complexity calculations | The advertised coverage probability may be wrong |
 | Any ridge contribution is included in the spectral error budget | Regularized empirical covariance | The analytical radius understates total error |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
+| The first-stage screen has a proved safety probability | Proposition 32 | Combined confidence cannot be inferred from sample counts alone |
+| The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |
+| Screening and certification observations are independent | Proposition 32 | Conditioning does not turn the selected block family into a valid fixed-family test |
+| The admissible covariance radius comes from a valid deterministic recovery certificate | Proposition 32 | Covariance concentration alone does not imply path recovery |
 
 ## Interpretation rules
 

@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 75 tests. Continuous integration runs
+The automated suite currently contains 79 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -548,6 +548,36 @@ covariance comparison, but the calculation does not declare it irrelevant for
 free: every local and transport insulation lower bound is reduced using an
 omitted conditional-leakage budget of `0.002 bits/node`. This is a controlled
 test of Proposition 31, not an empirical procedure for learning the screen.
+
+## Experiment P: independent sample-split confidence accounting
+
+Command:
+
+```bash
+python examples/sample_split_screening_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Screening sample count | `2,000` |
+| Retained covariance blocks | `25` |
+| Unscreened covariance blocks | `10,000` |
+| Minimum screened certification sample | `80,182` |
+| Minimum unscreened certification sample | `107,350` |
+| Covariance radius at threshold | `0.119999` |
+| Maximum admissible radius | `0.120000` |
+| Screening confidence | `0.975000` |
+| Certification confidence | `0.975000` |
+| Combined confidence | `0.950625` |
+| Independent-split guarantee | satisfied |
+| Same-data guarantee | refused |
+
+The first-stage confidence and deterministic admissible radius are inputs, not
+outputs learned by this experiment. The calculation demonstrates the valid
+conditional union bound on an independent second split and the exact integer
+sample threshold. It also records the more modest unscreened threshold, making
+clear that reducing the block count improves a logarithmic concentration term
+rather than changing the rate itself.
 
 ## Required next controls
 

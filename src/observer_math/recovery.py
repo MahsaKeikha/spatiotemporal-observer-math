@@ -182,6 +182,24 @@ class ScreenedStructuralClassPathRecoveryBound:
 
 
 @dataclass(frozen=True)
+class SampleSplitScreenedRecoveryBound:
+    """Confidence accounting for independent screening and certification."""
+
+    screening_sample_count: int
+    certification_sample_count: int
+    screening_confidence: float
+    certification_confidence: float
+    overall_confidence: float
+    retained_block_count: int
+    block_dimension: int
+    covariance_spectral_error: float
+    maximum_admissible_covariance_error: float
+    independent_splits: bool
+    certification_radius_valid: bool
+    guarantees_population_path: bool
+
+
+@dataclass(frozen=True)
 class NearCompetitorScreen:
     """State and edge graph that can still challenge a robust path lower bound."""
 
@@ -1867,6 +1885,128 @@ def localized_gaussian_path_recovery_bound(
         all_blocks_valid=deterministic.all_blocks_valid,
         guarantees_population_path=deterministic.guarantees_population_path,
     )
+
+
+def sample_split_screened_recovery_bound(
+    screening_sample_count: int,
+    certification_sample_count: int,
+    retained_block_count: int,
+    block_dimension: int,
+    maximum_block_eigenvalue: float,
+    maximum_admissible_covariance_error: float,
+    *,
+    screening_confidence: float = 0.975,
+    certification_confidence: float = 0.975,
+    independent_splits: bool,
+) -> SampleSplitScreenedRecoveryBound:
+    """Compose a safe screening event with independent Gaussian certification.
+
+    The screening procedure must retain every path capable of challenging the
+    population winner on its advertised event. The deterministic downstream
+    certificate must hold whenever every retained covariance block has error
+    below ``maximum_admissible_covariance_error``.
+    """
+    counts = (
+        screening_sample_count,
+        certification_sample_count,
+        retained_block_count,
+        block_dimension,
+    )
+    if any(isinstance(value, bool) or not isinstance(value, (int, np.integer)) for value in counts):
+        raise TypeError("sample, block-count, and dimension inputs must be integers")
+    if screening_sample_count < 2 or certification_sample_count < 2:
+        raise ValueError("both sample splits must contain at least two observations")
+    if retained_block_count < 1 or block_dimension < 1:
+        raise ValueError("retained_block_count and block_dimension must be positive")
+    if not (
+        np.isfinite(maximum_block_eigenvalue)
+        and maximum_block_eigenvalue > 0.0
+        and np.isfinite(maximum_admissible_covariance_error)
+        and maximum_admissible_covariance_error > 0.0
+    ):
+        raise ValueError("eigenvalue and admissible-error bounds must be positive")
+    if not 0.0 < screening_confidence < 1.0 or not (
+        0.0 < certification_confidence < 1.0
+    ):
+        raise ValueError("stage confidence levels must lie strictly between zero and one")
+    if not isinstance(independent_splits, (bool, np.bool_)):
+        raise TypeError("independent_splits must be boolean")
+
+    certification_failure = 1.0 - certification_confidence
+    deviation = (
+        np.sqrt(block_dimension)
+        + np.sqrt(
+            2.0
+            * np.log(2.0 * retained_block_count / certification_failure)
+        )
+    ) / np.sqrt(certification_sample_count - 1)
+    covariance_error = maximum_block_eigenvalue * (
+        2.0 * deviation + deviation**2
+    )
+    radius_valid = bool(covariance_error < maximum_admissible_covariance_error)
+    overall_confidence = float(screening_confidence * certification_confidence)
+    return SampleSplitScreenedRecoveryBound(
+        screening_sample_count=int(screening_sample_count),
+        certification_sample_count=int(certification_sample_count),
+        screening_confidence=float(screening_confidence),
+        certification_confidence=float(certification_confidence),
+        overall_confidence=overall_confidence,
+        retained_block_count=int(retained_block_count),
+        block_dimension=int(block_dimension),
+        covariance_spectral_error=float(covariance_error),
+        maximum_admissible_covariance_error=float(
+            maximum_admissible_covariance_error
+        ),
+        independent_splits=bool(independent_splits),
+        certification_radius_valid=radius_valid,
+        guarantees_population_path=bool(independent_splits) and radius_valid,
+    )
+
+
+def minimum_sample_split_certification_size(
+    screening_sample_count: int,
+    retained_block_count: int,
+    block_dimension: int,
+    maximum_block_eigenvalue: float,
+    maximum_admissible_covariance_error: float,
+    *,
+    screening_confidence: float = 0.975,
+    certification_confidence: float = 0.975,
+    maximum_sample_count: int = 10**15,
+) -> int | None:
+    """Find the smallest independent certification split meeting the radius."""
+    if maximum_sample_count < 2:
+        raise ValueError("maximum_sample_count must be at least two")
+
+    def certified(sample_count: int) -> bool:
+        return sample_split_screened_recovery_bound(
+            screening_sample_count,
+            sample_count,
+            retained_block_count,
+            block_dimension,
+            maximum_block_eigenvalue,
+            maximum_admissible_covariance_error,
+            screening_confidence=screening_confidence,
+            certification_confidence=certification_confidence,
+            independent_splits=True,
+        ).guarantees_population_path
+
+    lower = 2
+    upper = 2
+    while upper <= maximum_sample_count and not certified(upper):
+        lower = upper + 1
+        upper *= 2
+    if upper > maximum_sample_count:
+        if not certified(maximum_sample_count):
+            return None
+        upper = maximum_sample_count
+    while lower < upper:
+        middle = (lower + upper) // 2
+        if certified(middle):
+            upper = middle
+        else:
+            lower = middle + 1
+    return lower
 
 
 def minimum_localized_gaussian_sample_size(

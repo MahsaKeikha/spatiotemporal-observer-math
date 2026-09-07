@@ -822,6 +822,48 @@ conditional-information chain rule. A zero tail is a substantive conditional
 irrelevance claim, not a default. This API currently certifies population
 heterogeneity only and intentionally applies no sampling-error radius.
 
+### Independent sample-split certification
+
+```python
+from observer_math import (
+    minimum_sample_split_certification_size,
+    sample_split_screened_recovery_bound,
+)
+
+bound = sample_split_screened_recovery_bound(
+    screening_sample_count=2_000,
+    certification_sample_count=100_000,
+    retained_block_count=25,
+    block_dimension=20,
+    maximum_block_eigenvalue=2.0,
+    maximum_admissible_covariance_error=0.12,
+    screening_confidence=0.975,
+    certification_confidence=0.975,
+    independent_splits=True,
+)
+
+minimum = minimum_sample_split_certification_size(
+    screening_sample_count=2_000,
+    retained_block_count=25,
+    block_dimension=20,
+    maximum_block_eigenvalue=2.0,
+    maximum_admissible_covariance_error=0.12,
+)
+```
+
+`screening_confidence` is the externally justified probability that the first
+split retains every path capable of challenging the population winner under the
+downstream budget. `certification_confidence` controls simultaneous Gaussian
+covariance concentration over at most `retained_block_count` blocks in the
+independent second split. The reported overall confidence is their product.
+
+`maximum_admissible_covariance_error` is the strict deterministic radius below
+which the downstream recovery certificate succeeds. This function accounts for
+confidence composition; it does not infer the admissible radius or prove the
+first-stage screening confidence. Set `independent_splits=False` whenever the
+same observations influence both stages. In that case the function reports no
+recovery guarantee even if the numerical covariance radius is small enough.
+
 ## Identifiability and symmetry
 
 ```python

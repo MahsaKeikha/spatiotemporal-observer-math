@@ -611,9 +611,10 @@ formulas determine all score factors. Exact dynamic programming determines the
 population path and the adversarial upper path. Proposition 11 then supplies
 the probability statement. \(\square\)
 
-This is a computable parameter-level result, not yet a symbolic separation
-condition stated only through internal coupling and external drive. Deriving
-such an interpretable condition remains Conjecture C1.
+This is a computable parameter-level result, not a general symbolic separation
+condition stated only through internal coupling and external drive. The
+moving-clique results below provide such a condition for one structured model
+family; extending it to broader dynamics remains open.
 
 ## Proposition 13: objective identifiability modulo symmetry
 
@@ -2112,15 +2113,70 @@ procedure. Setting it to zero asserts conditional irrelevance; it is not a
 default assumption. Observation-error concentration for data-dependent
 screening remains open in Conjecture C1.
 
+## Proposition 32: independent sample-split confidence composition
+
+Split the observations into independent screening and certification samples.
+Suppose the screening procedure returns at most \(R\) covariance blocks and has
+a safety event \(\mathcal S\), with
+
+\[
+\Pr(\mathcal S)\geq 1-\delta_s,
+\]
+
+on which every path capable of challenging the population winner under the
+downstream error budget is retained. Suppose each retained certification block
+has dimension at most \(d\), population maximum eigenvalue at most \(M\), and
+is estimated by an unbiased covariance from \(N_c\) independent centered
+Gaussian observations. Put
+
+\[
+u_c=\frac{\sqrt d+\sqrt{2\ln(2R/\delta_c)}}{\sqrt{N_c-1}},
+\qquad
+\eta_c=M(2u_c+u_c^2).
+\]
+
+Let \(\eta_*\) be a deterministic admissible covariance radius: whenever all
+retained certification blocks have error strictly below \(\eta_*\), the robust
+path certificate succeeds. If \(\eta_c<\eta_*\), then the screened estimator
+recovers the population path with probability at least
+
+\[
+(1-\delta_s)(1-\delta_c).
+\]
+
+**Proof.** Conditional on any realized screening sample, the retained family
+contains at most \(R\) fixed blocks. Independence makes the certification sample
+fresh relative to that realized family. The Gaussian singular-value inequality
+and a union bound over the retained blocks give simultaneous covariance error
+at most \(\eta_c\) with conditional probability at least \(1-\delta_c\).
+On \(\mathcal S\), this event triggers the deterministic certificate. Therefore
+
+\[
+\Pr(\text{recovery})
+\geq \mathbb E\left[
+\mathbf 1_{\mathcal S}
+\Pr(\text{certification event}\mid\text{screening sample})
+\right]
+\geq (1-\delta_s)(1-\delta_c).
+\]
+
+\(\square\)
+
+The theorem is conditional on a valid screening safety guarantee. It does not
+derive \(\delta_s\) from the screening sample size. If the same observations
+are used for screening and certification, the conditional fixed-family step is
+unavailable and this proposition gives no guarantee.
+
 ## Open conjectures
 
-### C1. Sharper score stability under covariance perturbation
+### C1. Data-derived screening safety
 
-Proposition 15 constructs the sufficient near-competitor graph, but using a
-graph selected from the same finite sample can invalidate a naive reduced union
-bound. A sample-split, confidence-sequence, or deterministic population-screen
-argument should concentrate only the retained covariance directions while
-preserving the advertised coverage probability.
+Proposition 32 composes a valid screening event with an independent
+certification sample. The unresolved step is to construct a useful screen from
+finite data and prove its safety probability \(1-\delta_s\) without assuming the
+population scores. A confidence-sequence or first-split perturbation argument
+should retain every path that can challenge the population winner while keeping
+the graph substantially smaller than the complete candidate graph.
 
 ### C2. Gauge-consistent quantum lift
 

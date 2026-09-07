@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.18.0 - 2026-09-07
+
+- Added independent sample-split confidence accounting for random screening and
+  fixed conditional certification.
+- Exposed screening, certification, and combined confidence levels separately.
+- Derived the retained-block Gaussian covariance radius and compared it with a
+  deterministic admissible recovery radius.
+- Refused to issue a guarantee when screening and certification reuse data.
+- Added a minimal certification-sample search and checked integer minimality.
+- Reframed the remaining conjecture as deriving the first-stage screening
+  safety probability rather than composing it with certification.
+
 ## 0.17.0 - 2026-09-07
 
 - Replaced the full-present structural compression by explicit class-specific
