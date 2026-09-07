@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.11.0 - 2026-09-07
+
+- Generalized the block covariance recursion to arbitrary time-indexed
+  partitions using rectangular transition comparisons.
+- Proved that finite-horizon influence cones survive block splits, merges, and
+  membership reassignment without a common refinement.
+- Added a moving-partition joint covariance-error API with time-specific block
+  validation.
+- Verified the bound against exact random matrix propagation through block
+  counts `3 -> 2 -> 4 -> 3`.
+- Added a layered influence example with block counts `4 -> 3 -> 4 -> 2 -> 3`.
+
 ## 0.10.0 - 2026-09-07
 
 - Derived a block comparison recursion for covariance and adjacent-joint

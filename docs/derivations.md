@@ -537,11 +537,30 @@ one comparison matrix whose spectral norm bounds the local adjacent-joint
 error. This makes the output directly usable by the covariance-to-score
 perturbation results.
 
-The current implementation uses a fixed coordinate partition. Refining the
-partition by membership history is one route to a moving-boundary version, but
-an unrestricted refinement can grow exponentially with the horizon.
+## 20. Moving partitions as a layered block graph
 
-## 20. Choices that are still choices
+A common refinement is unnecessary when the partition changes. At time \(t\),
+let \(D_t\) be square on the current \(m_t\) blocks and let \(B_t\) be a
+rectangular \(m_{t+1}\times m_t\) comparison from current blocks to future
+blocks. The same recursion remains conformable:
+
+\[
+D_{t+1}=B_tD_tB_t^\mathsf T+G_t.
+\]
+
+This construction works directly on a layered graph. A split is represented
+by several future rows receiving edges from one present column. A merge is
+represented by one future row receiving edges from several present columns.
+Reassignment changes only the edges between two adjacent layers. None of these
+operations requires tracking a node's complete membership history.
+
+The support expansion is a sum over paired directed paths through this layered
+graph. Consequently, a local covariance block can become nonzero only after
+both sides of the forcing block have a time-respecting route to it. The
+rectangular cross recursion \(C_t=B_tD_t+R_t\) supplies the corresponding
+present-to-future joint bound.
+
+## 21. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

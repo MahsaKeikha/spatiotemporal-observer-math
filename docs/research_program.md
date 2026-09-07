@@ -74,9 +74,12 @@ overlap, local covariance compression, and exact incident edge penalties. The
 row-local recursion in Proposition 21 derives conservative local errors from
 the structured perturbation matrices without propagating the actual
 covariance, and can operate on a declared reduced candidate family. The next
-theorem should replace the full perturbation matrices by block-radius, sparsity,
-or graph-degree summaries and identify equivalent candidate classes without
-enumeration.
+two results replace full perturbation matrices by graph-degree summaries and
+then propagate covariance errors on fixed or changing block partitions.
+Rectangular comparisons between consecutive layers avoid a common refinement
+when blocks split, merge, or change membership. The next recovery theorem
+should connect these layered local radii directly to overlap-class score and
+action margins.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -174,6 +177,8 @@ stable and predictively useful, not whether it indicates consciousness.
   row and column support, without storing perturbation matrices
 - block-local covariance and adjacent-joint perturbation propagation with an
   exact finite-horizon influence-cone guarantee
+- moving-partition covariance influence cones using rectangular comparisons,
+  without common refinement or membership-history enumeration
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

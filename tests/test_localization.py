@@ -3,6 +3,8 @@ import numpy as np
 from observer_math import (
     block_covariance_error_envelope_from_perturbations,
     block_joint_covariance_error_bound,
+    moving_block_covariance_error_envelope,
+    moving_block_joint_covariance_error_bound,
 )
 
 
@@ -135,3 +137,171 @@ def test_block_covariance_envelope_rejects_invalid_comparisons():
             transition_errors,
             noise_errors,
         )
+
+
+def test_moving_partition_envelope_covers_exact_matrix_recursion():
+    rng = np.random.default_rng(173205)
+    node_count = 6
+    partitions = (
+        ((0, 1), (2, 3), (4, 5)),
+        ((0, 2, 4), (1, 3, 5)),
+        ((0,), (1, 2), (3,), (4, 5)),
+        ((0, 1, 2), (3, 4), (5,)),
+    )
+    base_transitions = [
+        rng.normal(scale=0.05, size=(node_count, node_count))
+        for _ in range(len(partitions) - 1)
+    ]
+    transition_errors = [
+        rng.normal(scale=8e-4, size=(node_count, node_count))
+        for _ in range(len(partitions) - 1)
+    ]
+    noise_errors = []
+    for _ in range(len(partitions) - 1):
+        raw = rng.normal(scale=1e-4, size=(node_count, node_count))
+        noise_errors.append((raw + raw.T) / 2.0)
+
+    transition_comparisons = []
+    perturbation_comparisons = []
+    forcing_comparisons = []
+    exact_forcings = []
+    for time, (base, error, noise) in enumerate(
+        zip(base_transitions, transition_errors, noise_errors, strict=True)
+    ):
+        present = partitions[time]
+        future = partitions[time + 1]
+        transition = base + error
+        forcing = base @ error.T + error @ base.T + error @ error.T + noise
+        exact_forcings.append(forcing)
+        transition_comparisons.append(
+            np.array(
+                [
+                    [
+                        np.linalg.norm(transition[np.ix_(rows, columns)], ord=2)
+                        for columns in present
+                    ]
+                    for rows in future
+                ]
+            )
+        )
+        perturbation_comparisons.append(
+            np.array(
+                [
+                    [
+                        np.linalg.norm(error[np.ix_(rows, columns)], ord=2)
+                        for columns in present
+                    ]
+                    for rows in future
+                ]
+            )
+        )
+        forcing_comparisons.append(_block_norm_comparison(forcing, future))
+
+    envelope = moving_block_covariance_error_envelope(
+        transition_comparisons,
+        forcing_comparisons,
+        perturbation_comparisons,
+    )
+    assert envelope.block_counts == (3, 2, 4, 3)
+
+    exact_states = [np.zeros((node_count, node_count))]
+    exact_crosses = []
+    for base, error, forcing in zip(
+        base_transitions, transition_errors, exact_forcings, strict=True
+    ):
+        transition = base + error
+        exact_crosses.append(transition @ exact_states[-1] + error)
+        exact_states.append(
+            transition @ exact_states[-1] @ transition.T + forcing
+        )
+
+    for time, (state, groups) in enumerate(zip(exact_states, partitions, strict=True)):
+        for row_block, rows in enumerate(groups):
+            for column_block, columns in enumerate(groups):
+                assert np.linalg.norm(
+                    state[np.ix_(rows, columns)], ord=2
+                ) <= envelope.state_error_comparisons[time][
+                    row_block, column_block
+                ] + 1e-14
+
+    for time in range(len(partitions) - 1):
+        present_blocks = (0,)
+        future_blocks = tuple(range(min(2, len(partitions[time + 1]))))
+        present_nodes = partitions[time][0]
+        future_nodes = tuple(
+            node
+            for block in future_blocks
+            for node in partitions[time + 1][block]
+        )
+        exact_joint = np.block(
+            [
+                [
+                    exact_states[time][np.ix_(present_nodes, present_nodes)],
+                    exact_crosses[time][np.ix_(future_nodes, present_nodes)].T,
+                ],
+                [
+                    exact_crosses[time][np.ix_(future_nodes, present_nodes)],
+                    exact_states[time + 1][np.ix_(future_nodes, future_nodes)],
+                ],
+            ]
+        )
+        assert np.linalg.norm(exact_joint, ord=2) <= (
+            moving_block_joint_covariance_error_bound(
+                envelope, time, present_blocks, future_blocks
+            )
+            + 1e-14
+        )
+
+
+def test_moving_partition_envelope_rejects_misaligned_layers():
+    transitions = (np.zeros((2, 3)), np.zeros((4, 5)))
+    forcings = (np.zeros((2, 2)), np.zeros((4, 4)))
+    perturbations = (np.zeros((2, 3)), np.zeros((4, 5)))
+
+    with np.testing.assert_raises_regex(ValueError, "do not align"):
+        moving_block_covariance_error_envelope(
+            transitions,
+            forcings,
+            perturbations,
+        )
+
+
+def test_moving_partition_envelope_has_layered_influence_speed():
+    block_counts = (4, 3, 4, 2, 3)
+    transitions = [
+        np.zeros((block_counts[time + 1], block_counts[time]))
+        for time in range(len(block_counts) - 1)
+    ]
+    transitions[1][3, 2] = 0.2
+    transitions[2][1, 3] = 0.2
+    transitions[3][0, 1] = 0.2
+    forcings = [np.zeros((count, count)) for count in block_counts[1:]]
+    forcings[0][2, 2] = 0.01
+    perturbations = [np.zeros_like(matrix) for matrix in transitions]
+
+    envelope = moving_block_covariance_error_envelope(
+        transitions,
+        forcings,
+        perturbations,
+    )
+
+    assert envelope.global_state_error_bounds[1] == 0.01
+    assert all(
+        moving_block_joint_covariance_error_bound(
+            envelope,
+            time,
+            (0,),
+            (0,),
+        )
+        == 0.0
+        for time in range(3)
+    )
+    np.testing.assert_allclose(
+        moving_block_joint_covariance_error_bound(
+            envelope,
+            3,
+            (0,),
+            (0,),
+        ),
+        6.4e-7,
+    )

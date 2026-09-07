@@ -1638,18 +1638,88 @@ influence from a block at graph distance \(d\) cannot enter a local covariance
 block in fewer than \(d\) transition steps. This is a support theorem, not a
 small-value approximation.
 
+## Proposition 25: moving-partition covariance influence cones
+
+Let
+
+\[
+\mathcal P_t=\{V_{t,1},\ldots,V_{t,m_t}\}
+\]
+
+be an arbitrary coordinate partition at each time. Define rectangular
+transition blocks from the present partition to the future partition by
+
+\[
+A_t^{ab}=\Pi_{V_{t+1,a}}A_t\Pi_{V_{t,b}}^\mathsf T,
+\qquad
+E_t^{ab}=\Pi_{V_{t+1,a}}E_t\Pi_{V_{t,b}}^\mathsf T.
+\]
+
+Suppose
+
+\[
+B_t\in\mathbb R_+^{m_{t+1}\times m_t},\quad
+G_t\in\mathbb R_+^{m_{t+1}\times m_{t+1}},\quad
+R_t\in\mathbb R_+^{m_{t+1}\times m_t}
+\]
+
+bound the corresponding blocks of \(A_t\), \(H_t\), and \(E_t\) in operator
+norm. If \(D_t\in\mathbb R_+^{m_t\times m_t}\) bounds every covariance-error
+block under \(\mathcal P_t\), then
+
+\[
+D_{t+1}=B_tD_tB_t^\mathsf T+G_t,
+\qquad
+C_t=B_tD_t+R_t
+\]
+
+bound the next covariance error under \(\mathcal P_{t+1}\) and the adjacent
+cross-covariance error between \(\mathcal P_t\) and
+\(\mathcal P_{t+1}\), respectively. For index sets
+\(I\subseteq\{1,\ldots,m_t\}\) and
+\(J\subseteq\{1,\ldots,m_{t+1}\}\), the compressed adjacent-joint error is at
+most
+
+\[
+\left\|
+\begin{bmatrix}
+D_t[I,I] & C_t[J,I]^\mathsf T\\
+C_t[J,I] & D_{t+1}[J,J]
+\end{bmatrix}
+\right\|_2.
+\]
+
+**Proof.** The proof of Proposition 24 uses only conformable block
+multiplication, submultiplicativity, and the triangle inequality. None of
+those steps requires the row and column partitions of \(A_t\) to coincide.
+Applying the same argument with row partition \(\mathcal P_{t+1}\) and column
+partition \(\mathcal P_t\) gives the two rectangular recursions. Applying the
+block comparison inequality to the selected present and future blocks gives
+the joint bound. Induction over the time layers completes the proof.
+\(\square\)
+
+The support graph is now a layered directed graph with \(m_t\) vertices in
+layer \(t\). A zero entry remains zero unless it is reachable from an initial
+or forcing entry by the paired time-respecting paths in the covariance
+recursion. Thus the finite-speed statement survives arbitrary split, merge,
+and reassignment of partition blocks.
+
+No common refinement is formed. Dense evaluation costs
+
+\[
+O\!\left(\sum_t
+  m_{t+1}m_t^2+m_{t+1}^2m_t
+\right)
+\]
+
+arithmetic operations and stores only the declared rectangular comparisons
+and time-local covariance comparisons. Sparse multiplication can reduce this
+cost further. The guarantee is still conditional on valid block-norm
+envelopes; changing a partition does not by itself supply those envelopes.
+
 ## Open conjectures
 
-### C1. Influence cones for moving candidate partitions
-
-Proposition 24 removes the global covariance radius for a fixed block
-partition. A complete moving-boundary theorem must transport these blocks
-between consecutive planted partitions without expanding to individual nodes.
-Membership-history classes or a controlled partition refinement may preserve
-finite-speed influence while keeping complexity independent of
-\(\binom ns\).
-
-### C2. Sharper score stability under covariance perturbation
+### C1. Sharper score stability under covariance perturbation
 
 Proposition 15 constructs the sufficient near-competitor graph, but using a
 graph selected from the same finite sample can invalidate a naive reduced union
@@ -1657,13 +1727,13 @@ bound. A sample-split, confidence-sequence, or deterministic population-screen
 argument should concentrate only the retained covariance directions while
 preserving the advertised coverage probability.
 
-### C3. Gauge-consistent quantum lift
+### C2. Gauge-consistent quantum lift
 
 A quantum transport functional can be defined on equivalence classes of tensor
 factorizations so that local unitaries within observer and environment factors
 have zero path length, while changes that mix the factors have positive length.
 
-### C4. Anti-triviality
+### C3. Anti-triviality
 
 Under explicit nondegeneracy conditions, jointly requiring integration,
 insulation, and predictive transport excludes the dynamically frozen solutions

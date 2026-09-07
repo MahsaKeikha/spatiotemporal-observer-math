@@ -545,8 +545,40 @@ global scalar radius, an unreachable block remains exactly zero.
 
 `block_joint_covariance_error_bound` permits different present and future
 block selections. The partition is fixed over the supplied horizon; changing
-partitions must first be refined to a common coordinate partition. Supplying
-an underestimated comparison entry invalidates the guarantee.
+partitions are handled by the separate rectangular API below. Supplying an
+underestimated comparison entry invalidates the guarantee.
+
+### Moving-partition covariance influence
+
+```python
+from observer_math import (
+    moving_block_covariance_error_envelope,
+    moving_block_joint_covariance_error_bound,
+)
+
+envelope = moving_block_covariance_error_envelope(
+    transition_comparisons,
+    forcing_comparisons,
+    perturbation_comparisons,
+)
+local_radius = moving_block_joint_covariance_error_bound(
+    envelope,
+    time=2,
+    present_blocks=(0,),
+    future_blocks=(0, 1),
+)
+```
+
+The transition and perturbation matrix at time \(t\) has shape
+`(block_counts[t + 1], block_counts[t])`; its rows use the future partition
+and its columns use the present partition. The forcing matrix is square on the
+future partition. The number of blocks may change at every time. The returned
+`block_counts`, state comparisons, and cross comparisons retain those shapes.
+
+This API does not build a common refinement. It therefore permits explicit
+split, merge, and membership-reassignment layers without exponential growth in
+membership histories. The caller remains responsible for providing valid
+operator-norm bounds for every time-indexed block.
 
 ## Identifiability and symmetry
 

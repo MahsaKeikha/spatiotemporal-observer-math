@@ -358,10 +358,33 @@ local joint bound is therefore exactly zero until the time-seven calculation,
 even though the global bound is positive from time one. The final small value
 is the propagated bound, not a numerical zero threshold.
 
+## Experiment I: moving-partition influence cone
+
+Command:
+
+```bash
+python examples/moving_partition_influence_experiment.py
+```
+
+The block counts change as `4 -> 3 -> 4 -> 2 -> 3`. A forcing of `0.01` is
+placed in block two of the first future layer. The only route to observed block
+zero passes through block three, then block one, then block zero in consecutive
+layers.
+
+| Time | Global next-state bound | Observed joint bound |
+| ---: | ---: | ---: |
+| 0 | `1.000e-02` | `0.000e+00` |
+| 1 | `4.000e-04` | `0.000e+00` |
+| 2 | `1.600e-05` | `0.000e+00` |
+| 3 | `6.400e-07` | `6.400e-07` |
+
+The calculation uses four rectangular transition comparisons and never forms
+a common refinement. The final equality is specific to this single-path
+construction; Proposition 25 provides an upper bound in general.
+
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- moving-partition influence cones without exponential partition refinement
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

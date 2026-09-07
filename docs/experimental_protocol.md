@@ -269,6 +269,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_block_covariance_envelope_covers_exact_matrix_recursion` | Every blockwise state and mixed adjacent-joint bound contains direct matrix propagation |
 | `test_block_covariance_envelope_has_finite_graph_influence_speed` | Remote forcing cannot enter a local joint bound before a time-respecting graph path reaches it |
 | `test_block_covariance_envelope_rejects_invalid_comparisons` | Negative comparison entries are rejected |
+| `test_moving_partition_envelope_covers_exact_matrix_recursion` | Rectangular block comparisons cover exact propagation across changing partitions and block counts |
+| `test_moving_partition_envelope_has_layered_influence_speed` | A forcing block remains excluded until its layered path reaches the observed block |
+| `test_moving_partition_envelope_rejects_misaligned_layers` | Consecutive rectangular comparison layers must have conformable block counts |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -299,8 +302,8 @@ Its limitations are concrete:
     general unstructured model can itself require exhaustive work.
 13. The block-sparse theorem obtains those budgets analytically, but discards
     signs, cancellation, exact support geometry, and dependencies among blocks.
-14. The localized covariance theorem uses a fixed block partition; a scalable
-    common refinement for moving candidate partitions remains open.
+14. The moving-partition covariance theorem avoids common refinement, but it
+    still assumes valid block-norm comparisons are supplied at every layer.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -319,6 +322,9 @@ python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
 python examples/symbolic_recovery_experiment.py
 python examples/perturbed_symbolic_recovery_experiment.py
+python examples/block_sparse_recovery_experiment.py
+python examples/localized_influence_cone_experiment.py
+python examples/moving_partition_influence_experiment.py
 python -m pytest
 python -m ruff check .
 ```

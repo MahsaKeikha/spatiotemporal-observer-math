@@ -9,9 +9,12 @@ from .identifiability import (
 )
 from .localization import (
     BlockCovarianceErrorEnvelope,
+    MovingBlockCovarianceErrorEnvelope,
     block_covariance_error_envelope,
     block_covariance_error_envelope_from_perturbations,
     block_joint_covariance_error_bound,
+    moving_block_covariance_error_envelope,
+    moving_block_joint_covariance_error_bound,
 )
 from .metrics import ObserverMetrics, observer_metrics, observer_metrics_from_covariances
 from .models import (
@@ -88,6 +91,7 @@ __all__ = [
     "FiniteSampleRecoveryBound",
     "GaussianPathRecoveryBound",
     "LocalizedGaussianPathRecoveryBound",
+    "MovingBlockCovarianceErrorEnvelope",
     "MovingCliqueRecoveryBound",
     "NearCompetitorScreen",
     "ObserverMetrics",
@@ -123,6 +127,8 @@ __all__ = [
     "localized_gaussian_path_recovery_bound",
     "minimum_gaussian_sample_size",
     "minimum_localized_gaussian_sample_size",
+    "moving_block_covariance_error_envelope",
+    "moving_block_joint_covariance_error_bound",
     "moving_module_systems",
     "observer_metrics",
     "observer_metrics_from_covariances",
