@@ -218,6 +218,13 @@ forcing, and cross-error bounds to the residual, factor-interval, and path
 layers. The structural example certifies a slack of `0.801508` over the same
 candidate count.
 
+A screened-environment extension permits smaller source-specific present
+neighborhoods. It uses the conditional-information chain rule to charge every
+omitted environmental contribution through an explicit leakage-tail bound. In
+the committed example, the screened covariance radius is `2.500e-08`, compared
+with `6.250e-05` for the full environment, while the robust slack remains
+`0.799524`.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -226,10 +233,12 @@ candidate count.
 
 | Document | Contents |
 | --- | --- |
+| [Reader guide](docs/reader_guide.md) | Recommended reading order, notation, theorem map, and interpretation |
+| [Assumption ledger](docs/assumption_ledger.md) | Conditions required by each result and consequences of violation |
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-one proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -264,6 +273,7 @@ python examples/class_compressed_recovery_experiment.py
 python examples/heterogeneous_class_recovery_experiment.py
 python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
+python examples/screened_environment_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -286,8 +296,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.16 derives class
-covariance residuals from moving block comparison structure and composes the
-result with factor-interval and observation-error certificates.
+This is an ongoing study, not a finished paper. Version 0.17 adds certified
+source-specific environmental screening and an explicit omitted-information
+penalty, together with a complete reader guide and assumption ledger.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

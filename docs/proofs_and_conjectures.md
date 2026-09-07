@@ -1,8 +1,10 @@
 # Proved results and open problems
 
-The first twenty-one statements below are consequences of the current definitions.
-The remaining statements are targets. They are not used as assumptions in the
-reported experiments.
+The numbered propositions below are proved under their stated assumptions and
+implemented where a computational counterpart is claimed. Open targets are
+listed separately as conjectures. See the [reader guide](reader_guide.md) for
+the dependency map and the [assumption ledger](assumption_ledger.md) before
+applying a result outside the committed constructions.
 
 ## Proposition 1: nonstationary adjacent covariance
 
@@ -2057,6 +2059,58 @@ The all-present selection is conservative but protects environmental leakage.
 A sharper theorem may introduce certified source-specific present selections.
 The result still requires representative factors and representative spectral
 envelopes; it removes the need to supply class covariance residuals manually.
+
+## Proposition 31: screened-environment structural recovery
+
+At joint time \(t\), replace the full present selection of Proposition 30 by a
+class-specific selection containing the candidate \(S_{tk}\) and a retained
+environmental neighborhood \(H_{tk}\). It must contain every present variable
+needed for integration and persistence. Let \(U_{tk}\) denote the omitted
+present environmental variables and let \(Y_{tk}\) be the future candidate
+variables. Suppose the omitted conditional leakage obeys
+
+\[
+0\leq I(U_{tk};Y_{tk}\mid S_{tk},H_{tk})/s\leq \tau_{tk}.
+\]
+
+Let \(K^H_{tk}\) be the insulation factor computed with the retained
+environment. Then the full-environment insulation factor satisfies
+
+\[
+2^{-\tau_{tk}}K^H_{tk}\leq K_{tk}\leq K^H_{tk}.
+\]
+
+Apply the selected block comparison of Proposition 30 to \(S_{tk}\cup H_{tk}\)
+and the future class blocks. After expanding the screened representative factors by
+the resulting covariance-residual factor errors, multiply the lower insulation
+endpoint by \(2^{-\tau_{tk}}\). Make the same construction for each ordered
+transport class pair using source-specific present and target-specific future
+selections. If the resulting Proposition 28 slack is positive, the planted
+population path is the unique optimizer for every class member satisfying the
+selected block comparisons and omitted-leakage bounds.
+
+**Proof.** Write the full environment as the disjoint union of retained and
+omitted variables. The conditional mutual-information chain rule gives
+
+\[
+I(H_{tk},U_{tk};Y_{tk}\mid S_{tk})
+=I(H_{tk};Y_{tk}\mid S_{tk})
++I(U_{tk};Y_{tk}\mid S_{tk},H_{tk}).
+\]
+
+The insulation map is \(K=2^{-L}\), with leakage \(L\) measured in bits per
+node. Exponentiating the tail interval \([0,\tau_{tk}]\) gives the displayed
+multiplicative bounds. The selected joint comparison controls the integration,
+retained-environment insulation, and persistence factors under covariance
+heterogeneity. Combining its componentwise error with the multiplicative tail
+bound gives a valid factor box for the full score. Proposition 28 then proves
+the path statement. \(\square\)
+
+This proposition is deterministic and population-level. The omitted-leakage
+bound must be proved from the model or established with an independent valid
+procedure. Setting it to zero asserts conditional irrelevance; it is not a
+default assumption. Observation-error concentration for data-dependent
+screening remains open in Conjecture C1.
 
 ## Open conjectures
 

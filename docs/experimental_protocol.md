@@ -1,7 +1,10 @@
 # Experimental protocol
 
-This document describes the five committed experiments closely enough to rebuild
-them without guessing from the figures.
+This document records the construction rules, controls, validation tests, and
+limitations needed to interpret the committed experiments. Exact numerical
+outputs and commands are maintained in
+[Reproducible results](reproducible_results.md); theorem assumptions are indexed
+in the [Assumption ledger](assumption_ledger.md).
 
 ## 1. Numerical regimes
 
@@ -289,6 +292,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_structured_residuals_equal_direct_block_compressions` | Class residual arrays equal direct spectral norms of the selected moving-block comparisons |
 | `test_structured_wrapper_matches_explicit_residual_composition` | The structural wrapper exactly composes with the independently tested residual-level API |
 | `test_structured_wrapper_rejects_invalid_class_block_selection` | Future class selections cannot reference blocks outside their time layer |
+| `test_screened_residuals_equal_source_specific_joint_compressions` | Local and ordered edge residuals equal their declared source-specific block compressions |
+| `test_omitted_leakage_tail_has_exact_insulation_multiplier` | The conditional-information tail produces the exact exponential lower correction to insulation |
+| `test_screened_certificate_rejects_negative_omitted_leakage` | Omitted conditional information cannot have a negative upper bound |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -332,6 +338,10 @@ Its limitations are concrete:
 18. The structural class theorem derives residuals from block comparisons but
     uses all present blocks to cover leakage. This can be conservative, and the
     representative factors and spectra remain model inputs.
+19. The screened-environment theorem reduces that conservatism only when a
+    valid omitted conditional-leakage bound is supplied. It is not yet a
+    statistically valid procedure for selecting neighborhoods from the same
+    observations used to certify them.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -358,6 +368,7 @@ python examples/class_compressed_recovery_experiment.py
 python examples/heterogeneous_class_recovery_experiment.py
 python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
+python examples/screened_environment_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```

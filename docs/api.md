@@ -781,6 +781,47 @@ primitive transition and noise perturbation comparisons with
 `moving_block_covariance_error_envelope`. The guarantee is invalid if a class
 selection omits variables used by its score.
 
+### Screened-environment structural recovery
+
+```python
+from observer_math import screened_structural_class_path_recovery_bound
+
+result = screened_structural_class_path_recovery_bound(
+    moving_envelope,
+    local_present_class_blocks,
+    local_future_class_blocks,
+    transport_present_class_blocks,
+    transport_future_class_blocks,
+    screened_representative_local_factors,
+    screened_representative_transport_factors,
+    local_omitted_leakage_bits_per_node,
+    transport_omitted_leakage_bits_per_node,
+    class_multiplicities,
+    planted_class_indices,
+    feasible_class_edges,
+    continuity_distance_lower_bounds,
+    planted_continuity_distances,
+    node_count,
+    subset_size,
+    representative_minimum_block_eigenvalues=local_reference_minimum,
+    representative_maximum_block_eigenvalues=local_reference_maximum,
+    representative_minimum_transport_eigenvalues=edge_reference_minimum,
+    representative_maximum_transport_eigenvalues=edge_reference_maximum,
+)
+```
+
+Local block selections have shape `(time, classes, blocks)`. Transport
+selections have shape `(time - 1, source classes, target classes, blocks)` and
+may differ for every ordered pair. Each present selection must contain every
+variable used by its screened integration, leakage, and persistence factors;
+each future selection must contain every target variable.
+
+The omitted-leakage arrays are nonnegative upper bounds in bits per node. The
+function multiplies the lower insulation endpoint by `2**(-tail)` using the
+conditional-information chain rule. A zero tail is a substantive conditional
+irrelevance claim, not a default. This API currently certifies population
+heterogeneity only and intentionally applies no sampling-error radius.
+
 ## Identifiability and symmetry
 
 ```python

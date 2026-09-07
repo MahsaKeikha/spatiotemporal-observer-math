@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 72 tests. Continuous integration runs
+The automated suite currently contains 75 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -521,6 +521,33 @@ factor intervals, and evaluates the robust path dynamic program. No covariance
 residual or factor interval is supplied directly. The two classes are a
 singleton planted class and its complement, so the bound is deliberately
 coarse but covers the complete fixed-size candidate count.
+
+## Experiment O: screened-environment structural recovery
+
+Command:
+
+```bash
+python examples/screened_environment_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Candidates per time | `8,250,291,250,200` |
+| Full-environment residual radius | `6.250e-05` |
+| Maximum screened local residual radius | `2.500e-08` |
+| Omitted leakage bound | `0.002 bits/node` |
+| Adversarial class path | `(0, 1, 1, 1, 1)` |
+| Planted action lower bound | `4.552532` |
+| Competitor action upper bound | `3.753008` |
+| Recovery slack | `0.799524` |
+| Sufficient condition | satisfied |
+
+The third block carries a comparatively large but dynamically disconnected
+forcing residual. The screened selections exclude that block from the local
+covariance comparison, but the calculation does not declare it irrelevant for
+free: every local and transport insulation lower bound is reduced using an
+omitted conditional-leakage budget of `0.002 bits/node`. This is a controlled
+test of Proposition 31, not an empirical procedure for learning the screen.
 
 ## Required next controls
 

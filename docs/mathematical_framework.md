@@ -1,5 +1,9 @@
 # Mathematical framework
 
+For a recommended reading order and notation table, begin with the
+[reader guide](reader_guide.md). Conditions required by the results are listed
+in the [assumption ledger](assumption_ledger.md).
+
 ## The boundary is part of the problem
 
 Suppose the complete state of a model is \(X_t\). Before asking what a subsystem

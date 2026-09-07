@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.17.0 - 2026-09-07
+
+- Replaced the full-present structural compression by explicit class-specific
+  present and future block selections.
+- Derived a multiplicative insulation correction from a certified upper bound
+  on conditional information omitted outside the screened environment.
+- Added genuinely ordered source-target transport residuals rather than
+  repeating one destination radius across all source classes.
+- Kept the new result population-level so data-dependent screening is not
+  mistaken for a valid finite-sample guarantee.
+- Added a reader guide and assumption ledger for independent expert review.
+- Added three regression tests and a screened-environment experiment.
+
 ## 0.16.0 - 2026-09-07
 
 - Derived local class and ordered transport-class covariance residuals from a

@@ -167,6 +167,21 @@ class StructuredResidualClassPathRecoveryBound:
 
 
 @dataclass(frozen=True)
+class ScreenedStructuralClassPathRecoveryBound:
+    """Population certificate using screened present environments."""
+
+    recovery: IntervalClassPathRecoveryBound
+    local_covariance_residual_bounds: np.ndarray
+    transport_covariance_residual_bounds: np.ndarray
+    local_factor_lower_bounds: np.ndarray
+    local_factor_upper_bounds: np.ndarray
+    transport_factor_lower_bounds: np.ndarray
+    transport_factor_upper_bounds: np.ndarray
+    local_heterogeneity_factor_errors: np.ndarray
+    transport_heterogeneity_factor_errors: np.ndarray
+
+
+@dataclass(frozen=True)
 class NearCompetitorScreen:
     """State and edge graph that can still challenge a robust path lower bound."""
 
@@ -1530,6 +1545,223 @@ def structured_residual_class_path_recovery_bound(
         recovery=recovery,
         local_covariance_residual_bounds=local_residuals,
         transport_covariance_residual_bounds=transport_residuals,
+    )
+
+
+def screened_structural_class_path_recovery_bound(
+    envelope: MovingBlockCovarianceErrorEnvelope,
+    local_present_class_blocks: Sequence[Sequence[Sequence[int]]],
+    local_future_class_blocks: Sequence[Sequence[Sequence[int]]],
+    transport_present_class_blocks: Sequence[
+        Sequence[Sequence[Sequence[int]]]
+    ],
+    transport_future_class_blocks: Sequence[
+        Sequence[Sequence[Sequence[int]]]
+    ],
+    screened_representative_local_factors: ArrayLike,
+    screened_representative_transport_factors: ArrayLike,
+    local_omitted_leakage_bits_per_node: ArrayLike,
+    transport_omitted_leakage_bits_per_node: ArrayLike,
+    class_multiplicities: ArrayLike,
+    planted_class_indices: Sequence[int],
+    feasible_class_edges: ArrayLike,
+    continuity_distance_lower_bounds: ArrayLike,
+    planted_continuity_distances: ArrayLike,
+    node_count: int,
+    subset_size: int,
+    *,
+    representative_minimum_block_eigenvalues: ArrayLike,
+    representative_maximum_block_eigenvalues: ArrayLike,
+    representative_minimum_transport_eigenvalues: ArrayLike,
+    representative_maximum_transport_eigenvalues: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> ScreenedStructuralClassPathRecoveryBound:
+    """Certify population recovery with bounded omitted environmental leakage."""
+    local = np.asarray(screened_representative_local_factors, dtype=float)
+    transport = np.asarray(screened_representative_transport_factors, dtype=float)
+    if local.ndim != 3 or local.shape[2] != 3:
+        raise ValueError("screened local factors must have shape (time, classes, 3)")
+    time_count, class_count, _ = local.shape
+    state_shape = (time_count, class_count)
+    edge_shape = (max(0, time_count - 1), class_count, class_count)
+    if transport.shape != (*edge_shape, 2):
+        raise ValueError(
+            "screened transport factors must have shape "
+            "(time - 1, classes, classes, 2)"
+        )
+    if envelope.time_count < time_count:
+        raise ValueError("envelope does not cover every factor time")
+
+    local_present = tuple(
+        tuple(tuple(blocks) for blocks in layer)
+        for layer in local_present_class_blocks
+    )
+    local_future = tuple(
+        tuple(tuple(blocks) for blocks in layer)
+        for layer in local_future_class_blocks
+    )
+    if len(local_present) != time_count or len(local_future) != time_count or any(
+        len(local_present[time]) != class_count
+        or len(local_future[time]) != class_count
+        for time in range(time_count)
+    ):
+        raise ValueError("local block selections must have shape (time, classes, blocks)")
+
+    transport_present = tuple(
+        tuple(tuple(tuple(blocks) for blocks in row) for row in layer)
+        for layer in transport_present_class_blocks
+    )
+    transport_future = tuple(
+        tuple(tuple(tuple(blocks) for blocks in row) for row in layer)
+        for layer in transport_future_class_blocks
+    )
+    if len(transport_present) != edge_shape[0] or len(transport_future) != edge_shape[
+        0
+    ] or any(
+        len(transport_present[time]) != class_count
+        or len(transport_future[time]) != class_count
+        or any(
+            len(transport_present[time][previous]) != class_count
+            or len(transport_future[time][previous]) != class_count
+            for previous in range(class_count)
+        )
+        for time in range(edge_shape[0])
+    ):
+        raise ValueError(
+            "transport block selections must have shape "
+            "(time - 1, classes, classes, blocks)"
+        )
+
+    local_tail = np.asarray(local_omitted_leakage_bits_per_node, dtype=float)
+    transport_tail = np.asarray(
+        transport_omitted_leakage_bits_per_node, dtype=float
+    )
+    if local_tail.shape != state_shape or transport_tail.shape != edge_shape:
+        raise ValueError("omitted leakage bounds have incompatible shapes")
+    if (
+        np.any(~np.isfinite(local_tail))
+        or np.any(local_tail < 0.0)
+        or np.any(~np.isfinite(transport_tail))
+        or np.any(transport_tail < 0.0)
+    ):
+        raise ValueError("omitted leakage bounds must be finite and nonnegative")
+
+    local_minimum = np.asarray(
+        representative_minimum_block_eigenvalues, dtype=float
+    )
+    local_maximum = np.asarray(
+        representative_maximum_block_eigenvalues, dtype=float
+    )
+    transport_minimum = np.asarray(
+        representative_minimum_transport_eigenvalues, dtype=float
+    )
+    transport_maximum = np.asarray(
+        representative_maximum_transport_eigenvalues, dtype=float
+    )
+    if not (
+        local_minimum.shape == local_maximum.shape == state_shape
+    ) or not (
+        transport_minimum.shape == transport_maximum.shape == edge_shape
+    ):
+        raise ValueError("representative spectral arrays have incompatible shapes")
+
+    local_residuals = np.empty(state_shape, dtype=float)
+    for time in range(time_count):
+        for current in range(class_count):
+            local_residuals[time, current] = (
+                moving_block_joint_covariance_error_bound(
+                    envelope,
+                    time,
+                    local_present[time][current],
+                    local_future[time][current],
+                )
+            )
+    transport_residuals = np.empty(edge_shape, dtype=float)
+    for time in range(edge_shape[0]):
+        for previous in range(class_count):
+            for current in range(class_count):
+                transport_residuals[time, previous, current] = (
+                    moving_block_joint_covariance_error_bound(
+                        envelope,
+                        time,
+                        transport_present[time][previous][current],
+                        transport_future[time][previous][current],
+                    )
+                )
+
+    spectral_arrays = (
+        local_minimum,
+        local_maximum,
+        transport_minimum,
+        transport_maximum,
+    )
+    if any(np.any(~np.isfinite(array)) for array in spectral_arrays) or (
+        np.any(local_minimum <= 0.0)
+        or np.any(local_maximum < local_minimum)
+        or np.any(local_residuals >= local_minimum)
+        or np.any(transport_minimum <= 0.0)
+        or np.any(transport_maximum < transport_minimum)
+        or np.any(transport_residuals >= transport_minimum)
+    ):
+        raise ValueError("selected residuals must preserve representative eigenvalue floors")
+
+    local_errors, _ = _local_factor_errors_from_covariance(
+        local_residuals,
+        local_minimum,
+        local_maximum,
+        node_count,
+        subset_size,
+    )
+    transport_errors, _ = _transport_factor_errors_from_covariance(
+        transport_residuals,
+        transport_minimum,
+        transport_maximum,
+        node_count,
+        subset_size,
+    )
+    local_lower = np.clip(local - local_errors, 0.0, 1.0)
+    local_upper = np.clip(local + local_errors, 0.0, 1.0)
+    transport_lower = np.clip(transport - transport_errors, 0.0, 1.0)
+    transport_upper = np.clip(transport + transport_errors, 0.0, 1.0)
+    local_lower[:, :, 1] *= np.exp2(-local_tail)
+    transport_lower[:, :, :, 0] *= np.exp2(-transport_tail)
+
+    recovery = interval_class_covariance_path_recovery_bound(
+        local_lower,
+        local_upper,
+        transport_lower,
+        transport_upper,
+        class_multiplicities,
+        planted_class_indices,
+        feasible_class_edges,
+        continuity_distance_lower_bounds,
+        planted_continuity_distances,
+        node_count,
+        subset_size,
+        covariance_spectral_errors=np.zeros(state_shape),
+        minimum_block_eigenvalues=local_minimum - local_residuals,
+        maximum_block_eigenvalues=local_maximum + local_residuals,
+        transport_covariance_spectral_errors=np.zeros(edge_shape),
+        minimum_transport_block_eigenvalues=(
+            transport_minimum - transport_residuals
+        ),
+        maximum_transport_block_eigenvalues=(
+            transport_maximum + transport_residuals
+        ),
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return ScreenedStructuralClassPathRecoveryBound(
+        recovery=recovery,
+        local_covariance_residual_bounds=local_residuals,
+        transport_covariance_residual_bounds=transport_residuals,
+        local_factor_lower_bounds=local_lower,
+        local_factor_upper_bounds=local_upper,
+        transport_factor_lower_bounds=transport_lower,
+        transport_factor_upper_bounds=transport_upper,
+        local_heterogeneity_factor_errors=local_errors,
+        transport_heterogeneity_factor_errors=transport_errors,
     )
 
 

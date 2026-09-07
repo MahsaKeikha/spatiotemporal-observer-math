@@ -4,6 +4,10 @@ This note fixes the notation used by the code. All random variables are real,
 all logarithms in information quantities are base two, and covariance matrices
 are assumed positive definite unless a limiting argument is stated.
 
+The [reader guide](reader_guide.md) provides the dependency map. The
+[assumption ledger](assumption_ledger.md) should be consulted before carrying a
+bound into a different model or dataset.
+
 ## 1. Time-varying Gaussian dynamics
 
 Let \(X_t\in\mathbb R^n\) obey
@@ -742,7 +746,40 @@ The remaining representative factors are properties of the base model, not
 perturbation budgets. In analytically symmetric models they can be obtained in
 closed form. For a general base model they must still be computed or bounded.
 
-## 26. Choices that are still choices
+## 26. Screening the present environment with a leakage tail
+
+Selecting every present block protects the leakage calculation but may import a
+large residual from a dynamically remote region. A smaller present neighborhood
+is valid only when the omitted predictive contribution is charged explicitly.
+
+Partition the present environment into retained variables \(H\) and omitted
+variables \(U\). For future candidate variables \(Y\) and present candidate
+variables \(S\), the chain rule is
+
+\[
+I(H,U;Y\mid S)=I(H;Y\mid S)+I(U;Y\mid S,H).
+\]
+
+If the last term is at most \(\tau\) bits per node, the full insulation factor
+lies between \(2^{-\tau}K^H\) and \(K^H\). This asymmetry is important: omitted
+environmental information can lower insulation, but cannot raise it relative
+to the screened calculation.
+
+The covariance part can now use source-specific present blocks and
+target-specific future blocks. Ordered transport pairs receive their own joint
+compression rather than a radius repeated across every source class. The
+factor interval combines two distinct uncertainties:
+
+1. additive covariance-induced error on the screened factors;
+2. a multiplicative lower correction on insulation from omitted leakage.
+
+The current result is population-level. A data-dependent rule for choosing
+\(H\) would reuse evidence unless it is protected by sample splitting,
+simultaneous confidence bounds, or an independent structural argument. That is
+why the code requires the neighborhood and tail certificate as inputs rather
+than selecting them opportunistically.
+
+## 27. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
