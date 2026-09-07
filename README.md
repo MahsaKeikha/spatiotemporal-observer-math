@@ -41,13 +41,7 @@ not a test for phenomenal consciousness.
 | `tests/` | Mathematical and numerical invariants |
 | `docs/mathematical_framework.md` | Definitions, proposed action, and open proofs |
 | `docs/research_program.md` | Staged path from baseline to quantum formulation |
-| `manuscript/` | Paper source and bibliography |
 | `notebooks/` | Explanatory and exploratory computations |
-
-## Working paper
-
-Read the current manuscript:
-[`The Observer World-Tube Principle`](manuscript/observer-world-tube-principle.pdf).
 
 ## Run the baseline
 
@@ -80,6 +74,6 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-Version 0.1 is a research scaffold. The Gaussian baseline is implemented. The
-time-dependent factorization geometry is a defined research target and is not
-yet presented as a completed theory.
+Version 0.1 is an ongoing research study. The Gaussian baseline is implemented.
+The time-dependent factorization geometry is a defined research target and is
+not presented as a completed theory or finished paper.
