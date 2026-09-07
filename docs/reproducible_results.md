@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 23 tests. Continuous integration runs
+The automated suite currently contains 29 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -174,9 +174,18 @@ comes from several deliberately worst-case steps:
 4. uniform control of every candidate, partition, and edge
 5. cube-root Hölder continuity when a score factor can approach zero
 
-The result makes the next theorem target measurable: reduce this gap using
-candidate-sensitive perturbation bounds, localized eigenvalue envelopes, and
-positive lower bounds for factors along competitive paths.
+The localized certificate of Propositions 10 through 12 uses the
+\((n+s)\)-dimensional covariance block associated with each target candidate,
+positive factor floors where they are available, and an exact dynamic program
+for the strongest error-inflated competing path. Its sufficient count is
+
+\[
+N_{\mathrm{localized}}=3.132\times10^{12}.
+\]
+
+This is approximately four million times smaller than the global result. It is
+still roughly ten orders of magnitude above the empirical recovery scale, so it
+should not be interpreted as a practical sample-size estimate.
 
 The rate calculation in Proposition 9 makes the main penalty explicit. In the
 absence of positive score-factor floors, the local-score error decays at the
@@ -185,9 +194,24 @@ path margin. Positive floors would make the product roots locally Lipschitz and
 can reduce that margin dependence from \(q^{-6}\) to \(q^{-2}\). This is the
 specific mathematical lever for the next refinement.
 
+## Experiment D: exchangeable non-identifiability
+
+Command:
+
+```bash
+python examples/identifiability_counterexample.py
+```
+
+The process has \(A=0.5I\) and \(Q=0.2I\), so every node permutation preserves
+its complete trajectory law. Distinct constant two-node paths have equal
+action, and the exact labeled-path margin is zero. If two interpretations of
+this same law designate paths in disjoint symmetry orbits, Proposition 14 caps
+the maximin success probability of every observational estimator at `0.500`.
+This is a constructed impossibility example, not a claim about biological data.
+
 ## Required next controls
 
-- tighter candidate-sensitive covariance-to-score concentration bounds
+- concentration over a provably sufficient near-competitor set
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

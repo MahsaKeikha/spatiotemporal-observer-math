@@ -1,6 +1,6 @@
 # Experimental protocol
 
-This document describes the three committed experiments closely enough to rebuild
+This document describes the four committed experiments closely enough to rebuild
 them without guessing from the figures.
 
 ## 1. Numerical regimes
@@ -106,7 +106,27 @@ These are internal baselines, not implementations of named external methods.
 The script reports mean boundary accuracy, its standard error, exact path
 recovery, and a Wilson 95% interval for the exact-recovery proportion.
 
-## 5. What the figures show
+### Analytical certificates
+
+The global certificate controls each complete 14-dimensional adjacent
+covariance with one spectral envelope. The localized certificate instead uses
+the 10-dimensional principal block containing all seven present variables and
+the three future variables of each target candidate. It union-bounds over the
+five times and 35 targets, propagates the resulting errors through the actual
+population score factors, and uses dynamic programming to find the strongest
+error-inflated competing path. Both calculations use confidence `0.95`.
+
+## 5. Exchangeable identifiability counterexample
+
+The fourth experiment uses four independent, identically distributed Gaussian
+coordinates with \(A=0.5I\) and \(Q=0.2I\). Every coordinate permutation leaves
+the full trajectory law unchanged. All two-node candidates therefore have
+symmetry-related scores. With transport weight `0.25` and continuity weight
+`0.08`, multiple constant paths tie and the exact labeled-path margin is zero.
+This checks the distinction between returning one representative and identifying
+a unique physical boundary.
+
+## 6. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
 candidates with the largest maximum score across time. Cyan outlines mark the
@@ -124,7 +144,7 @@ moved.
 includes Wilson intervals for exact-path recovery. Overlapping bands should not
 be interpreted as pairwise significance tests.
 
-## 6. Tests tied to scientific claims
+## 7. Tests tied to scientific claims
 
 | Test | Property checked |
 | --- | --- |
@@ -140,9 +160,15 @@ be interpreted as pairwise significance tests.
 | `test_cmi_covariance_error_bound_covers_direct_perturbation` | The analytical Gaussian CMI bound covers a direct covariance perturbation |
 | `test_canonical_persistence_bound_covers_direct_perturbation` | The canonical-persistence bound covers a direct joint-covariance perturbation |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
+| `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
+| `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
+| `test_linear_gaussian_parameters_produce_recovery_certificate` | Linear transition and noise parameters generate the planted-path certificate directly |
+| `test_path_equivalence_is_computed_over_permutation_orbits` | Relabeled paths are compared as symmetry orbits rather than raw labels |
+| `test_identical_observation_laws_limit_two_point_recovery_to_one_half` | Incompatible boundaries under identical laws have maximin success at most one half |
+| `test_exchangeable_dynamics_do_not_select_a_unique_boundary` | Fully exchangeable dynamics produce zero labeled-path margin |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
-## 7. Known weaknesses of the current experiment
+## 8. Known weaknesses of the current experiment
 
 The moving example is a proof of implementation, not a demanding benchmark.
 Its limitations are concrete:
@@ -157,13 +183,15 @@ Its limitations are concrete:
 7. The comparisons are internal baselines rather than complete external methods.
 8. The full transport objective is less sample-efficient than local-only
    selection on the current easy construction.
+9. The localized analytical threshold remains roughly ten orders of magnitude
+   above the empirical recovery scale.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
 choose weights on separate training systems and evaluate them on held-out
 generative families.
 
-## 8. Reproduction commands
+## 9. Reproduction commands
 
 From the repository root:
 
@@ -172,6 +200,7 @@ python -m pip install -e ".[dev,viz]"
 python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
+python examples/identifiability_counterexample.py
 python -m pytest
 python -m ruff check .
 ```

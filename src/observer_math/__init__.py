@@ -1,6 +1,12 @@
 """Mathematical tools for detecting spatiotemporal observer-like subsystems."""
 
 from .baselines import BaselinePath, best_fixed_boundary, independent_local_path
+from .identifiability import (
+    TwoPointIdentifiabilityBound,
+    canonical_path_orbit,
+    paths_equivalent_under_permutations,
+    two_point_identifiability_bound,
+)
 from .metrics import ObserverMetrics, observer_metrics, observer_metrics_from_covariances
 from .models import (
     block_system,
@@ -19,12 +25,17 @@ from .recovery import (
     ComponentwiseRecoveryBound,
     FiniteSampleRecoveryBound,
     GaussianPathRecoveryBound,
+    LocalizedGaussianPathRecoveryBound,
     canonical_persistence_covariance_error_bound,
     componentwise_recovery_bound,
     finite_sample_recovery_bound,
     gaussian_cmi_covariance_error_bound,
     gaussian_path_recovery_bound,
+    linear_gaussian_localized_recovery_bound,
+    localized_gaussian_path_recovery_bound,
     minimum_gaussian_sample_size,
+    minimum_localized_gaussian_sample_size,
+    product_root_error_bound,
 )
 from .sampling import (
     adjacent_sample_covariances,
@@ -46,14 +57,17 @@ __all__ = [
     "ComponentwiseRecoveryBound",
     "FiniteSampleRecoveryBound",
     "GaussianPathRecoveryBound",
+    "LocalizedGaussianPathRecoveryBound",
     "ObserverMetrics",
     "TransportMetrics",
+    "TwoPointIdentifiabilityBound",
     "WorldTubeCertificate",
     "WorldTubeResult",
     "adjacent_joint_covariance",
     "adjacent_sample_covariances",
     "best_fixed_boundary",
     "block_system",
+    "canonical_path_orbit",
     "canonical_persistence_covariance_error_bound",
     "certify_worldtube",
     "componentwise_recovery_bound",
@@ -62,11 +76,16 @@ __all__ = [
     "gaussian_cmi_covariance_error_bound",
     "gaussian_path_recovery_bound",
     "independent_local_path",
+    "linear_gaussian_localized_recovery_bound",
+    "localized_gaussian_path_recovery_bound",
     "minimum_gaussian_sample_size",
+    "minimum_localized_gaussian_sample_size",
     "moving_module_systems",
     "observer_metrics",
     "observer_metrics_from_covariances",
     "optimize_worldtube",
+    "paths_equivalent_under_permutations",
+    "product_root_error_bound",
     "propagate_covariances",
     "rank_subsystems",
     "regularized_sample_covariance",
@@ -75,4 +94,5 @@ __all__ = [
     "structural_transport",
     "transport_metrics",
     "transport_metrics_from_covariances",
+    "two_point_identifiability_bound",
 ]

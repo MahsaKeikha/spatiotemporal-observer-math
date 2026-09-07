@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0 - 2026-09-07
+
+- Added positive-factor Lipschitz bounds for geometric observer and transport
+  scores.
+- Added a candidate-local covariance certificate with exact adversarial-path
+  optimization, reducing the example's sufficient sample threshold by roughly
+  four million times.
+- Added a parameter-level entry point from \(A_t,Q_t,\Sigma_0\) to the localized
+  finite-sample recovery certificate.
+- Added path equivalence classes under admissible node-permutation groups.
+- Added a total-variation two-model impossibility theorem and an exchangeable
+  dynamics test showing when no unique labeled boundary is identifiable.
+- Added a reproducible exchangeable-system counterexample with zero action
+  margin and a one-half observational maximin ceiling.
+
 ## 0.3.0 - 2026-09-07
 
 - Added exact second-best world-tube inference and an optimality margin.

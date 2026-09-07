@@ -1,3 +1,5 @@
+from itertools import combinations
+
 import numpy as np
 
 from observer_math import (
@@ -6,10 +8,19 @@ from observer_math import (
     finite_sample_recovery_bound,
     gaussian_cmi_covariance_error_bound,
     gaussian_path_recovery_bound,
+    linear_gaussian_localized_recovery_bound,
+    localized_gaussian_path_recovery_bound,
     minimum_gaussian_sample_size,
+    minimum_localized_gaussian_sample_size,
+    moving_module_systems,
     optimize_worldtube,
+    product_root_error_bound,
 )
-from observer_math.gaussian import canonical_persistence, gaussian_conditional_mutual_information
+from observer_math.gaussian import (
+    canonical_persistence,
+    gaussian_conditional_mutual_information,
+    stationary_covariance,
+)
 
 
 def test_positive_componentwise_margins_imply_planted_optimum():
@@ -203,3 +214,90 @@ def test_end_to_end_gaussian_bound_improves_with_sample_size():
         transport_weight=0.2,
     )
     assert not below.guarantees_population_path
+
+
+def test_positive_factor_bound_improves_on_zero_safe_holder_bound():
+    factors = np.array([0.8, 0.7, 0.6])
+    errors = np.array([0.01, 0.02, 0.01])
+    estimated = factors + np.array([-0.01, 0.02, -0.005])
+    actual_error = abs(np.prod(estimated) ** (1 / 3) - np.prod(factors) ** (1 / 3))
+    bound = product_root_error_bound(factors, errors)
+    holder_bound = np.sum(errors) ** (1 / 3)
+
+    assert actual_error <= bound
+    assert bound < holder_bound
+
+
+def test_localized_gaussian_certificate_has_minimal_threshold():
+    local_factors = np.array(
+        [
+            [[0.8, 0.9, 0.8], [0.2, 0.9, 0.3]],
+            [[0.2, 0.9, 0.3], [0.8, 0.9, 0.8]],
+        ]
+    )
+    transport_factors = np.full((1, 2, 2, 2), 0.2)
+    transport_factors[0, 0, 1] = (0.9, 0.8)
+    minimum_eigenvalues = np.full((2, 2), 0.5)
+    maximum_eigenvalues = np.ones((2, 2))
+    candidates = ((0,), (1,))
+    minimum = minimum_localized_gaussian_sample_size(
+        local_factors,
+        transport_factors,
+        candidates,
+        2,
+        1,
+        minimum_block_eigenvalues=minimum_eigenvalues,
+        maximum_block_eigenvalues=maximum_eigenvalues,
+        transport_weight=0.2,
+        continuity_weight=0.0,
+        maximum_sample_count=10**8,
+    )
+
+    assert minimum is not None
+    certified = localized_gaussian_path_recovery_bound(
+        local_factors,
+        transport_factors,
+        candidates,
+        minimum,
+        2,
+        1,
+        minimum_block_eigenvalues=minimum_eigenvalues,
+        maximum_block_eigenvalues=maximum_eigenvalues,
+        transport_weight=0.2,
+        continuity_weight=0.0,
+    )
+    below = localized_gaussian_path_recovery_bound(
+        local_factors,
+        transport_factors,
+        candidates,
+        minimum - 1,
+        2,
+        1,
+        minimum_block_eigenvalues=minimum_eigenvalues,
+        maximum_block_eigenvalues=maximum_eigenvalues,
+        transport_weight=0.2,
+        continuity_weight=0.0,
+    )
+
+    assert certified.guarantees_population_path
+    assert certified.population_path == (0, 1)
+    assert not below.guarantees_population_path
+
+
+def test_linear_gaussian_parameters_produce_recovery_certificate():
+    planted, systems = moving_module_systems(
+        node_count=4, module_size=2, step_count=2
+    )
+    candidates = tuple(combinations(range(4), 2))
+    bound = linear_gaussian_localized_recovery_bound(
+        [system[0] for system in systems],
+        [system[1] for system in systems],
+        stationary_covariance(*systems[0]),
+        candidates,
+        10**12,
+        transport_weight=0.25,
+        continuity_weight=0.08,
+    )
+
+    assert tuple(candidates[index] for index in bound.population_path) == planted
+    assert bound.guarantees_population_path

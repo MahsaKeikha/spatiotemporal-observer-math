@@ -194,12 +194,16 @@ The repository currently establishes:
 - exact global and runner-up path inference on a finite candidate set
 - a deterministic score-perturbation certificate
 - recovery in one small planted moving-module construction
+- global and candidate-local Gaussian finite-sample recovery certificates
+- a computable certificate directly from linear-Gaussian parameters
+- labeled-path identifiability only modulo admissible symmetries
+- a two-model impossibility bound for observationally similar systems
 
 It does not establish:
 
 - that the score identifies consciousness
 - that the chosen functional is unique
-- recovery from finite data
+- a practically sharp finite-sample recovery threshold
 - robustness to hidden common causes or nonlinear observation maps
 - a preferred metric on quantum factorization space
 - equivalence or superiority relative to existing integration and emergence

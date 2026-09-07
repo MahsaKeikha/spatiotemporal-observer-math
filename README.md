@@ -107,6 +107,18 @@ The rate calculation isolates the main cause: allowing a score factor to
 approach zero changes the worst-case local-score rate from \(N^{-1/2}\) to
 \(N^{-1/6}\), creating sixth-power dependence on the inverse action margin.
 
+A localized certificate now uses candidate-specific covariance blocks,
+positive score-factor floors, and an exact adversarial-path dynamic program.
+On the same construction it lowers the sufficient sample count to approximately
+\(3.132\times10^{12}\). This is a reduction by a factor of about four million,
+but it remains far above the empirical scale and is reported as such.
+
+The identifiability results also mark a hard boundary: paths are recoverable
+only up to scientifically admissible symmetries, and observationally identical
+models with incompatible boundary assignments cannot both be recovered with
+probability above one half. This prevents an optimization result from being
+mistaken for evidence that the underlying boundary is uniquely observable.
+
 ## Read the project
 
 | Document | Contents |
@@ -114,7 +126,7 @@ approach zero changes the worst-case local-score rate from \(N^{-1/2}\) to
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Nine proved statements and the remaining parameter-level questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Fourteen proved statements and the remaining symbolic separation questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -138,6 +150,7 @@ python -m ruff check .
 python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
+python examples/identifiability_counterexample.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -160,7 +173,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.3 adds score-space
-recovery theorems and finite-sample experiments to the exact Gaussian baseline.
+This is an ongoing study, not a finished paper. Version 0.4 adds localized and
+parameter-level recovery certificates, symmetry-aware identifiability, and a
+matching impossibility result to the Gaussian baseline.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.

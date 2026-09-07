@@ -8,7 +8,13 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike
 
-from .worldtube import jaccard_distance
+from .metrics import observer_metrics_from_covariances
+from .nonstationary import (
+    adjacent_joint_covariance,
+    propagate_covariances,
+    transport_metrics,
+)
+from .worldtube import certify_worldtube, jaccard_distance
 
 
 @dataclass(frozen=True)
@@ -44,6 +50,25 @@ class GaussianPathRecoveryBound:
     transport_score_error: float
     maximum_action_gap_error: float
     valid_perturbation_regime: bool
+    guarantees_population_path: bool
+
+
+@dataclass(frozen=True)
+class LocalizedGaussianPathRecoveryBound:
+    """Candidate-local Gaussian recovery certificate."""
+
+    sample_count: int
+    confidence: float
+    population_path: tuple[int, ...]
+    adversarial_competitor: tuple[int, ...] | None
+    population_action_margin: float
+    planted_lower_action: float
+    competitor_upper_action: float
+    recovery_slack: float
+    maximum_covariance_spectral_error: float
+    maximum_local_score_error: float
+    maximum_transport_score_error: float
+    all_blocks_valid: bool
     guarantees_population_path: bool
 
 
@@ -205,6 +230,352 @@ def canonical_persistence_covariance_error_bound(
         + upper * inverse_sqrt_error / np.sqrt(m)
     )
     return float(min(1.0, 2.0 * whitened_error))
+
+
+def product_root_error_bound(
+    population_factors: ArrayLike,
+    factor_error_bounds: ArrayLike,
+) -> float:
+    """Bound a geometric-mean error, using positive factor floors when possible.
+
+    The zero-safe Holder bound is always valid. If every population factor is
+    separated from zero by more than its error radius, a local Lipschitz bound
+    is also evaluated and the tighter certificate is returned.
+    """
+    factors = np.asarray(population_factors, dtype=float)
+    errors = np.asarray(factor_error_bounds, dtype=float)
+    if factors.ndim != 1 or factors.size < 1 or errors.shape != factors.shape:
+        raise ValueError("population_factors and factor_error_bounds must be equal vectors")
+    if np.any(~np.isfinite(factors)) or np.any(~np.isfinite(errors)):
+        raise ValueError("factors and error bounds must be finite")
+    if np.any((factors < 0.0) | (factors > 1.0)) or np.any(errors < 0.0):
+        raise ValueError("factors must lie in [0, 1] and errors must be nonnegative")
+
+    degree = factors.size
+    holder_bound = min(1.0, float(np.sum(errors)) ** (1.0 / degree))
+    lower_factors = factors - errors
+    if np.any(lower_factors <= 0.0):
+        return holder_bound
+    exponent = (degree - 1.0) / degree
+    lipschitz_bound = float(
+        np.sum(errors / lower_factors**exponent) / degree
+    )
+    return min(1.0, holder_bound, lipschitz_bound)
+
+
+def localized_gaussian_path_recovery_bound(
+    local_factors: ArrayLike,
+    transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    confidence: float = 0.95,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> LocalizedGaussianPathRecoveryBound:
+    """Certify a path with candidate-local spectra and factor-aware errors.
+
+    ``local_factors[t, j]`` contains integration strength, independence, and
+    persistence. ``transport_factors[t, i, j]`` contains independence and
+    persistence. Spectral envelopes correspond to the principal covariance of
+    all present nodes together with the future nodes in candidate ``j``.
+    """
+    local = np.asarray(local_factors, dtype=float)
+    transport = np.asarray(transport_factors, dtype=float)
+    minimum = np.asarray(minimum_block_eigenvalues, dtype=float)
+    maximum = np.asarray(maximum_block_eigenvalues, dtype=float)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if local.ndim != 3 or local.shape[2] != 3:
+        raise ValueError("local_factors must have shape (time, candidates, 3)")
+    time_count, candidate_count, _ = local.shape
+    if time_count < 1 or candidate_count < 1:
+        raise ValueError("at least one time and candidate are required")
+    expected_transport = (max(0, time_count - 1), candidate_count, candidate_count, 2)
+    if transport.shape != expected_transport:
+        raise ValueError(f"transport_factors must have shape {expected_transport}")
+    if len(candidate_tuple) != candidate_count:
+        raise ValueError("candidates and factor arrays have incompatible shapes")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if any(
+        len(candidate) != subset_size
+        or len(set(candidate)) != subset_size
+        or min(candidate) < 0
+        or max(candidate) >= node_count
+        for candidate in candidate_tuple
+    ):
+        raise ValueError("candidates must contain distinct valid nodes of subset_size")
+    if minimum.shape != (time_count, candidate_count) or maximum.shape != minimum.shape:
+        raise ValueError("spectral envelopes must have shape (time, candidates)")
+    if np.any(~np.isfinite(local)) or np.any(~np.isfinite(transport)):
+        raise ValueError("all population score factors must be finite")
+    if np.any((local < 0.0) | (local > 1.0)) or np.any(
+        (transport < 0.0) | (transport > 1.0)
+    ):
+        raise ValueError("all population score factors must lie in [0, 1]")
+    if sample_count < 2 or not 0.0 < confidence < 1.0:
+        raise ValueError("require sample_count >= 2 and confidence in (0, 1)")
+    if (
+        np.any(~np.isfinite(minimum))
+        or np.any(~np.isfinite(maximum))
+        or np.any(minimum <= 0.0)
+        or np.any(maximum < minimum)
+    ):
+        raise ValueError("require valid positive block-covariance eigenvalue bounds")
+
+    block_count = time_count * candidate_count
+    block_dimension = node_count + subset_size
+    deviation = (
+        np.sqrt(block_dimension)
+        + np.sqrt(2.0 * np.log(2.0 * block_count / (1.0 - confidence)))
+    ) / np.sqrt(sample_count - 1)
+    covariance_errors = maximum * (2.0 * deviation + deviation**2)
+    valid_blocks = covariance_errors < minimum
+
+    local_errors = np.ones((time_count, candidate_count), dtype=float)
+    integration_errors = np.ones_like(minimum)
+    independence_errors = np.ones_like(minimum)
+    persistence_errors = np.ones_like(minimum)
+    for time in range(time_count):
+        for current in range(candidate_count):
+            if not valid_blocks[time, current]:
+                continue
+            eta = float(covariance_errors[time, current])
+            m = float(minimum[time, current])
+            upper = float(maximum[time, current])
+            logdet_factor = -np.log1p(-eta / m) / np.log(2.0)
+            integration_errors[time, current] = min(
+                1.0, np.log(2.0) * 4.0 * logdet_factor
+            )
+            leakage_error = (node_count + 2 * subset_size) * logdet_factor / subset_size
+            independence_errors[time, current] = min(
+                1.0, np.log(2.0) * leakage_error
+            )
+            persistence_errors[time, current] = (
+                canonical_persistence_covariance_error_bound(
+                    minimum_eigenvalue=m,
+                    maximum_eigenvalue=upper,
+                    covariance_spectral_error=eta,
+                )
+            )
+            local_errors[time, current] = product_root_error_bound(
+                local[time, current],
+                (
+                    integration_errors[time, current],
+                    independence_errors[time, current],
+                    persistence_errors[time, current],
+                ),
+            )
+
+    transport_errors = np.ones(expected_transport[:-1], dtype=float)
+    for time in range(time_count - 1):
+        for previous in range(candidate_count):
+            for current in range(candidate_count):
+                transport_errors[time, previous, current] = product_root_error_bound(
+                    transport[time, previous, current],
+                    (
+                        independence_errors[time, current],
+                        persistence_errors[time, current],
+                    ),
+                )
+
+    local_scores = np.prod(local, axis=2) ** (1.0 / 3.0)
+    transport_scores = np.sqrt(np.prod(transport, axis=3))
+    population = certify_worldtube(
+        local_scores,
+        candidate_tuple,
+        transport_scores=transport_scores,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    planted = population.result.candidate_indices
+    planted_error = float(
+        sum(local_errors[time, current] for time, current in enumerate(planted))
+        + abs(transport_weight)
+        * sum(
+            transport_errors[time, planted[time], planted[time + 1]]
+            for time in range(time_count - 1)
+        )
+    )
+    planted_lower = population.result.total_action - planted_error
+
+    direction = 0.0 if transport_weight == 0.0 else np.sign(transport_weight)
+    upper_result = certify_worldtube(
+        local_scores + local_errors,
+        candidate_tuple,
+        transport_scores=transport_scores + direction * transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    if upper_result.result.candidate_indices == planted:
+        competitor_upper = upper_result.runner_up_action
+        adversarial_competitor = upper_result.runner_up_indices
+    else:
+        competitor_upper = upper_result.result.total_action
+        adversarial_competitor = upper_result.result.candidate_indices
+    slack = float(planted_lower - competitor_upper)
+    all_valid = bool(np.all(valid_blocks))
+    return LocalizedGaussianPathRecoveryBound(
+        sample_count=sample_count,
+        confidence=confidence,
+        population_path=planted,
+        adversarial_competitor=adversarial_competitor,
+        population_action_margin=population.action_margin,
+        planted_lower_action=float(planted_lower),
+        competitor_upper_action=float(competitor_upper),
+        recovery_slack=slack,
+        maximum_covariance_spectral_error=float(np.max(covariance_errors)),
+        maximum_local_score_error=float(np.max(local_errors)),
+        maximum_transport_score_error=float(np.max(transport_errors, initial=0.0)),
+        all_blocks_valid=all_valid,
+        guarantees_population_path=all_valid and slack > 0.0,
+    )
+
+
+def minimum_localized_gaussian_sample_size(
+    local_factors: ArrayLike,
+    transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    node_count: int,
+    subset_size: int,
+    *,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    confidence: float = 0.95,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+    maximum_sample_count: int = 10**15,
+) -> int | None:
+    """Find the first sample count certified by the localized path bound."""
+    if maximum_sample_count < 2:
+        raise ValueError("maximum_sample_count must be at least two")
+
+    def certified(sample_count: int) -> bool:
+        return localized_gaussian_path_recovery_bound(
+            local_factors,
+            transport_factors,
+            candidates,
+            sample_count,
+            node_count,
+            subset_size,
+            minimum_block_eigenvalues=minimum_block_eigenvalues,
+            maximum_block_eigenvalues=maximum_block_eigenvalues,
+            confidence=confidence,
+            transport_weight=transport_weight,
+            continuity_weight=continuity_weight,
+        ).guarantees_population_path
+
+    lower = 2
+    upper = 2
+    while upper <= maximum_sample_count and not certified(upper):
+        lower = upper + 1
+        upper *= 2
+    if upper > maximum_sample_count:
+        if not certified(maximum_sample_count):
+            return None
+        upper = maximum_sample_count
+    while lower < upper:
+        middle = (lower + upper) // 2
+        if certified(middle):
+            upper = middle
+        else:
+            lower = middle + 1
+    return lower
+
+
+def linear_gaussian_localized_recovery_bound(
+    transitions: Sequence[ArrayLike],
+    noise_covariances: Sequence[ArrayLike],
+    initial_covariance: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    sample_count: int,
+    *,
+    confidence: float = 0.95,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> LocalizedGaussianPathRecoveryBound:
+    """Construct the localized certificate directly from linear dynamics.
+
+    There is one transition per candidate time. The final transition supplies
+    the future state used by the final local score; transitions before it also
+    supply transport between successive candidate times.
+    """
+    transition_tuple = tuple(transitions)
+    noise_tuple = tuple(noise_covariances)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if not transition_tuple or len(transition_tuple) != len(noise_tuple):
+        raise ValueError("require equal nonzero transition and noise sequences")
+    if not candidate_tuple:
+        raise ValueError("at least one candidate is required")
+    subset_size = len(candidate_tuple[0])
+    if subset_size < 1 or any(len(candidate) != subset_size for candidate in candidate_tuple):
+        raise ValueError("all candidates must have the same nonzero size")
+
+    time_count = len(transition_tuple)
+    candidate_count = len(candidate_tuple)
+    initial = np.asarray(initial_covariance, dtype=float)
+    if initial.ndim != 2 or initial.shape[0] != initial.shape[1]:
+        raise ValueError("initial_covariance must be square")
+    node_count = initial.shape[0]
+    covariances = propagate_covariances(
+        transition_tuple[:-1], noise_tuple[:-1], initial
+    )
+    local_factors = np.empty((time_count, candidate_count, 3), dtype=float)
+    transport_factors = np.empty(
+        (max(0, time_count - 1), candidate_count, candidate_count, 2), dtype=float
+    )
+    minimum = np.empty((time_count, candidate_count), dtype=float)
+    maximum = np.empty_like(minimum)
+
+    for time, (transition, noise) in enumerate(
+        zip(transition_tuple, noise_tuple, strict=True)
+    ):
+        joint = adjacent_joint_covariance(covariances[time], transition, noise)
+        for current, candidate in enumerate(candidate_tuple):
+            metrics = observer_metrics_from_covariances(
+                covariances[time], joint, candidate
+            )
+            local_factors[time, current] = (
+                metrics.integration_strength,
+                metrics.independence,
+                metrics.persistence,
+            )
+            block_indices = tuple(range(node_count)) + tuple(
+                node_count + node for node in candidate
+            )
+            eigenvalues = np.linalg.eigvalsh(
+                joint[np.ix_(block_indices, block_indices)]
+            )
+            minimum[time, current] = eigenvalues[0]
+            maximum[time, current] = eigenvalues[-1]
+        if time < time_count - 1:
+            for previous, source in enumerate(candidate_tuple):
+                for current, target in enumerate(candidate_tuple):
+                    metrics = transport_metrics(
+                        covariances[time], transition, noise, source, target
+                    )
+                    transport_factors[time, previous, current] = (
+                        metrics.independence,
+                        metrics.persistence,
+                    )
+
+    return localized_gaussian_path_recovery_bound(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        sample_count,
+        node_count,
+        subset_size,
+        minimum_block_eigenvalues=minimum,
+        maximum_block_eigenvalues=maximum,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
 
 
 def gaussian_path_recovery_bound(

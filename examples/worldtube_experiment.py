@@ -11,7 +11,9 @@ from observer_math import (
     certify_worldtube,
     componentwise_recovery_bound,
     gaussian_path_recovery_bound,
+    localized_gaussian_path_recovery_bound,
     minimum_gaussian_sample_size,
+    minimum_localized_gaussian_sample_size,
     moving_module_systems,
     observer_metrics_from_covariances,
     optimize_worldtube,
@@ -31,23 +33,48 @@ def main():
         stationary_covariance(*systems[0]),
     )
     local_scores = np.zeros((len(systems), len(candidates)))
+    local_factors = np.zeros((len(systems), len(candidates), 3))
+    minimum_block_eigenvalues = np.zeros((len(systems), len(candidates)))
+    maximum_block_eigenvalues = np.zeros((len(systems), len(candidates)))
     joint_covariances = []
     for time, (transition, noise) in enumerate(systems):
         joint = adjacent_joint_covariance(covariances[time], transition, noise)
         joint_covariances.append(joint)
         for index, candidate in enumerate(candidates):
-            local_scores[time, index] = observer_metrics_from_covariances(
+            metrics = observer_metrics_from_covariances(
                 covariances[time], joint, candidate
-            ).observer_score
+            )
+            local_scores[time, index] = metrics.observer_score
+            local_factors[time, index] = (
+                metrics.integration_strength,
+                metrics.independence,
+                metrics.persistence,
+            )
+            block_indices = tuple(range(node_count)) + tuple(
+                node_count + node for node in candidate
+            )
+            block_eigenvalues = np.linalg.eigvalsh(
+                joint[np.ix_(block_indices, block_indices)]
+            )
+            minimum_block_eigenvalues[time, index] = block_eigenvalues[0]
+            maximum_block_eigenvalues[time, index] = block_eigenvalues[-1]
 
     transport = np.zeros((len(systems) - 1, len(candidates), len(candidates)))
+    transport_factors = np.zeros(
+        (len(systems) - 1, len(candidates), len(candidates), 2)
+    )
     for time in range(len(systems) - 1):
         transition, noise = systems[time]
         for previous, source in enumerate(candidates):
             for current, target in enumerate(candidates):
-                transport[time, previous, current] = transport_metrics(
+                metrics = transport_metrics(
                     covariances[time], transition, noise, source, target
-                ).transport_score
+                )
+                transport[time, previous, current] = metrics.transport_score
+                transport_factors[time, previous, current] = (
+                    metrics.independence,
+                    metrics.persistence,
+                )
 
     certificate = certify_worldtube(
         local_scores,
@@ -105,6 +132,32 @@ def main():
         transport_weight=0.25,
         maximum_sample_count=10**30,
     )
+    localized_bound = localized_gaussian_path_recovery_bound(
+        local_factors,
+        transport_factors,
+        candidates,
+        640,
+        node_count,
+        len(planted_path[0]),
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        confidence=0.95,
+        transport_weight=0.25,
+        continuity_weight=0.08,
+    )
+    localized_sample_count = minimum_localized_gaussian_sample_size(
+        local_factors,
+        transport_factors,
+        candidates,
+        node_count,
+        len(planted_path[0]),
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        confidence=0.95,
+        transport_weight=0.25,
+        continuity_weight=0.08,
+        maximum_sample_count=10**30,
+    )
     print("Joint covariance eigenvalue interval:", f"[{minimum_joint_eigenvalue:.6f}, {maximum_joint_eigenvalue:.6f}]")
     print(
         "640-sample end-to-end guarantee:",
@@ -113,6 +166,14 @@ def main():
     print(
         "Sufficient sample count from worst-case bound:",
         f"{sufficient_sample_count:.3e}",
+    )
+    print(
+        "640-sample localized guarantee:",
+        "certified" if localized_bound.guarantees_population_path else "not certified",
+    )
+    print(
+        "Sufficient sample count from localized bound:",
+        f"{localized_sample_count:.3e}",
     )
 
     order = np.argsort(-local_scores.max(axis=0))[:12]

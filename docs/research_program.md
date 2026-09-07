@@ -13,19 +13,20 @@ large to describe the observed recovery curve. The next question is:
 > Which local spectral and score margins determine the practical number of
 > observations required for path recovery?
 
-Propositions 7 through 9 propagate Gaussian sample-covariance concentration
-through conditional mutual information, canonical persistence, the nonlinear
-score maps, and the complete path action. On the present example the resulting
-95% sufficient sample count is approximately \(1.263\times10^{19}\), while the
-empirical transition occurs at hundreds of trajectories. The next derivation
-must replace the global minimum eigenvalue and zero-safe Hölder bounds with
-candidate-specific principal-block spectra, positive factor floors, and a
-localized comparison set. A separate treatment is needed for one dependent
-time series because the current simulation uses independent trajectories.
+Propositions 7 through 12 propagate Gaussian sample-covariance concentration
+through conditional mutual information, canonical persistence, positive-factor
+score stability, and an exact adversarial-path comparison. Candidate-local
+spectra reduce the example's 95% sufficient count from
+\(1.263\times10^{19}\) to \(3.132\times10^{12}\). The bound remains roughly ten
+orders of magnitude above the empirical scale. The next derivation must identify
+a provably sufficient near-competitor set and avoid union-bounding over candidate
+blocks that cannot approach the optimum. A separate treatment is needed for one
+dependent time series because the current simulation uses independent
+trajectories.
 
-Completion criterion: a strictly sharper computable bound, numerical coverage
-checks across signal regimes, and a documented account of every remaining
-source of looseness.
+Completion criterion: a theorem constructing a sufficient near-competitor set,
+numerical coverage checks across signal regimes, and a documented account of
+every remaining source of looseness.
 
 ## Immediate problem: a benchmark that is difficult to win
 
@@ -139,6 +140,11 @@ stable and predictively useful, not whether it indicates consciousness.
 - explicit covariance-to-Gaussian-CMI perturbation bound
 - explicit covariance-to-canonical-persistence perturbation bound
 - end-to-end Gaussian path-recovery guarantee with a computable sample threshold
+- positive-factor geometric-score perturbation theorem
+- candidate-local exact adversarial-path recovery certificate
+- direct parameter-to-certificate computation from \(A_t,Q_t,\Sigma_0\)
+- path identifiability modulo an admissible permutation group
+- total-variation impossibility bound for incompatible observational models
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

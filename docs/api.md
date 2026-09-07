@@ -194,7 +194,11 @@ from observer_math import (
     finite_sample_recovery_bound,
     gaussian_cmi_covariance_error_bound,
     gaussian_path_recovery_bound,
+    linear_gaussian_localized_recovery_bound,
+    localized_gaussian_path_recovery_bound,
     minimum_gaussian_sample_size,
+    minimum_localized_gaussian_sample_size,
+    product_root_error_bound,
 )
 
 population = componentwise_recovery_bound(
@@ -251,12 +255,71 @@ minimum_samples = minimum_gaussian_sample_size(
     transport_weight=0.25,
     maximum_sample_count=10**30,
 )
+
+factor_error = product_root_error_bound(
+    population_factors=(0.7, 0.9, 0.8),
+    factor_error_bounds=(0.01, 0.01, 0.02),
+)
+
+localized = localized_gaussian_path_recovery_bound(
+    local_factors,
+    transport_factors,
+    candidates,
+    sample_count=640,
+    node_count=7,
+    subset_size=3,
+    minimum_block_eigenvalues=minimum_block_eigenvalues,
+    maximum_block_eigenvalues=maximum_block_eigenvalues,
+    confidence=0.95,
+    transport_weight=0.25,
+    continuity_weight=0.08,
+)
+
+parameter_level = linear_gaussian_localized_recovery_bound(
+    transitions,
+    noise_covariances,
+    initial_covariance,
+    candidates,
+    sample_count=640,
+    confidence=0.95,
+    transport_weight=0.25,
+    continuity_weight=0.08,
+)
 ```
 
 The functions progress from score-level checks to covariance perturbation and
-then to an end-to-end independent-Gaussian-ensemble guarantee. The final search
-returns a sufficient sample count, which can be extremely conservative. None of
-these functions estimates a confidence level from observed data.
+then to end-to-end independent-Gaussian-ensemble guarantees. The localized
+version uses candidate-specific covariance spectra, positive factor floors, and
+an exact error-inflated competitor search. The parameter-level entry point
+constructs these quantities directly from linear dynamics. The sample-count
+searches return sufficient counts, which can remain extremely conservative.
+None of these functions estimates a confidence level from observed data.
+
+## Identifiability and symmetry
+
+```python
+from observer_math import (
+    canonical_path_orbit,
+    paths_equivalent_under_permutations,
+    two_point_identifiability_bound,
+)
+
+permutation_group = ((0, 1, 2), (2, 1, 0))
+representative = canonical_path_orbit(path, permutation_group)
+equivalent = paths_equivalent_under_permutations(
+    path, relabeled_path, permutation_group
+)
+impossibility = two_point_identifiability_bound(
+    total_variation_distance=0.0
+)
+print(impossibility.maximin_success_probability)  # 0.5
+```
+
+The permutation collection must be the full finite group of relabelings that
+the application regards as scientifically equivalent. The two-point bound
+applies when two models assign correct paths to disjoint such orbits. It is an
+upper bound for every estimator using only the stated observations, not just
+the world-tube optimizer.
 
 ## Internal baselines
 

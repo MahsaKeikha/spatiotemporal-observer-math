@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first nine statements below are consequences of the current definitions.
+The first fourteen statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -472,6 +472,208 @@ path has integration, independence, and persistence bounded away from zero,
 the product roots become locally Lipschitz and a candidate-sensitive analysis
 can in principle replace the \(q^{-6}\) dependence by \(q^{-2}\).
 
+## Proposition 10: positive-factor stability of geometric scores
+
+For \(x,y\in[0,1]^r\), define
+
+\[
+F(x)=\left(\prod_{i=1}^r x_i\right)^{1/r},
+\qquad |x_i-y_i|\leq e_i.
+\]
+
+The zero-safe bound
+
+\[
+|F(x)-F(y)|\leq\left(\sum_{i=1}^r e_i\right)^{1/r}
+\]
+
+always holds. If \(a_i=x_i-e_i>0\) for every factor, then the sharper local
+bound
+
+\[
+|F(x)-F(y)|
+\leq
+\frac{1}{r}\sum_{i=1}^r\frac{e_i}{a_i^{(r-1)/r}}
+\]
+
+also holds.
+
+**Proof.** A telescoping product expansion gives
+
+\[
+\left|\prod_i x_i-\prod_i y_i\right|\leq\sum_i e_i.
+\]
+
+The first result follows from
+\(|u^{1/r}-v^{1/r}|\leq|u-v|^{1/r}\). For the second, every point on the
+line segment between \(x\) and \(y\) has coordinate \(i\) at least \(a_i\).
+On that segment,
+
+\[
+\left|\frac{\partial F}{\partial x_i}\right|
+=\frac{1}{r}
+\left(\prod_{k\ne i}x_k\right)^{1/r}x_i^{-(r-1)/r}
+\leq\frac{1}{r a_i^{(r-1)/r}}.
+\]
+
+The multivariate mean-value inequality proves the claim. \(\square\)
+
+For the local observer score, \(r=3\); for transport, \(r=2\). Unlike the
+global Hölder step in Proposition 9, this result recovers ordinary Lipschitz
+behavior on candidates whose factors remain separated from zero.
+
+## Proposition 11: localized finite-sample path certificate
+
+Let there be \(C\) candidates of size \(s\). For time \(t\) and target candidate
+\(j\), let \(B_{tj}\) be the covariance block containing all \(n\) present
+variables and the \(s\) future variables in candidate \(j\). Suppose its
+eigenvalues lie in \([m_{tj},M_{tj}]\). Define
+
+\[
+u_N^{\mathrm{loc}}
+=\frac{
+\sqrt{n+s}+\sqrt{2\ln(2TC/\delta)}
+}{\sqrt{N-1}},
+\qquad
+\eta_{tj}=M_{tj}\left(2u_N^{\mathrm{loc}}+(u_N^{\mathrm{loc}})^2\right).
+\]
+
+When every \(\eta_{tj}<m_{tj}\), Propositions 7 and 8 give factor-error radii
+for each local candidate and every transport edge entering that candidate.
+Apply Proposition 10 to obtain candidate-dependent score errors
+\(e^\Omega_{tj}\) and edge-dependent errors \(e^\Theta_{tij}\).
+
+For a path \(p=(j_0,\ldots,j_{T-1})\), put
+
+\[
+b(p)=
+\sum_{t=0}^{T-1}e^\Omega_{t j_t}
++|\chi|\sum_{t=0}^{T-2}e^\Theta_{t j_t j_{t+1}}.
+\]
+
+If the population optimizer \(p^*\) satisfies
+
+\[
+A(p^*)-b(p^*)
+>
+\max_{p\ne p^*}\{A(p)+b(p)\},
+\]
+
+then the empirical optimizer equals \(p^*\) with probability at least
+\(1-\delta\).
+
+**Proof.** Apply the Gaussian singular-value inequality separately to the
+\(TC\) blocks and take a union bound. Each block then obeys its stated spectral
+error simultaneously with probability at least \(1-\delta\). It contains every
+principal covariance required for the target candidate's local score and for
+all incoming transport scores. Propositions 7, 8, and 10 therefore imply
+
+\[
+|\widehat A(p)-A(p)|\leq b(p)
+\]
+
+for every path on the same event. Thus
+\(\widehat A(p^*)\geq A(p^*)-b(p^*)\), while every competitor obeys
+\(\widehat A(p)\leq A(p)+b(p)\). The strict displayed inequality separates
+the two sets. \(\square\)
+
+The right-hand maximum is not enumerated. It is another dynamic program with
+local rewards \(\Omega+e^\Omega\) and transport rewards chosen so that their
+weighted value is \(\chi\Theta+|\chi|e^\Theta\). This retains
+\(O(TC^2)\) complexity.
+
+## Proposition 12: parameter-level linear-Gaussian certificate
+
+Consider a finite sequence
+
+\[
+X_{t+1}=A_tX_t+\varepsilon_t,
+\qquad \varepsilon_t\sim\mathcal N(0,Q_t),
+\]
+
+with specified \(\Sigma_0\), candidate family, and action weights. The
+population optimizer, every factor in Propositions 10 and 11, and every local
+spectral envelope \((m_{tj},M_{tj})\) are deterministic functions of
+
+\[
+\Sigma_0,\quad \{A_t,Q_t\}_{t=0}^{T-1},\quad \text{and the candidate family}.
+\]
+
+Consequently, a positive localized slack in Proposition 11 is an end-to-end
+parameter-level certificate of finite-sample path recovery.
+
+**Proof.** Proposition 1 recursively determines \(\Sigma_t\) and each adjacent
+joint covariance from \(\Sigma_0,A_t,Q_t\). Principal submatrices determine the
+local spectral envelopes. The Gaussian information and canonical-correlation
+formulas determine all score factors. Exact dynamic programming determines the
+population path and the adversarial upper path. Proposition 11 then supplies
+the probability statement. \(\square\)
+
+This is a computable parameter-level result, not yet a symbolic separation
+condition stated only through internal coupling and external drive. Deriving
+such an interpretable condition remains Conjecture C1.
+
+## Proposition 13: objective identifiability modulo symmetry
+
+Let a permutation group \(G\) act on node labels and therefore on candidate
+paths. Suppose the population action is equivariant:
+
+\[
+A(gp;gP)=A(p;P),\qquad g\in G,
+\]
+
+where \(P\) is the trajectory law. If \(P\) is invariant under \(G\), every
+path in the orbit \([p]=\{gp:g\in G\}\) has the same population action.
+Consequently, labeled paths inside one orbit are not distinguishable by this
+objective. The maximizing boundary is identifiable modulo \(G\) precisely when
+all population maximizers belong to one orbit.
+
+**Proof.** Invariance gives \(gP=P\), and equivariance then gives
+\(A(gp;P)=A(gp;gP)=A(p;P)\). Thus the action is constant on every orbit. If all
+maximizers share one orbit, that orbit is uniquely determined by the population
+objective. If two maximizing paths occupy different orbits, the objective
+cannot select between their equivalence classes. \(\square\)
+
+The implementation computes canonical orbit representatives for an explicitly
+supplied finite permutation group. The user must specify which relabelings are
+scientifically admissible; treating every coordinate permutation as a symmetry
+would erase physically meaningful labels.
+
+## Proposition 14: two-model impossibility bound
+
+Let models \(P_0\) and \(P_1\) have correct boundary paths in disjoint admissible
+orbits, and let their observation laws have total-variation distance
+\(\tau=\operatorname{TV}(P_0,P_1)\). For every estimator \(\widehat p\) based
+only on those observations,
+
+\[
+\min\left\{
+P_0(\widehat p\in[p_0]),
+P_1(\widehat p\in[p_1])
+\right\}
+\leq\frac{1+\tau}{2}.
+\]
+
+In particular, observationally identical models with incompatible correct
+orbits cannot both be recovered with probability greater than \(1/2\).
+
+**Proof.** Let \(E=\{\widehat p\in[p_0]\}\). Since the two correct orbits are
+disjoint,
+
+\[
+P_1(\widehat p\in[p_1])\leq1-P_1(E).
+\]
+
+By the definition of total variation,
+\(P_0(E)-P_1(E)\leq\tau\). Therefore the sum of the two success probabilities
+is at most \(1+\tau\), so at least one is no greater than
+\((1+\tau)/2\). \(\square\)
+
+This result places an explicit ceiling on what any observational boundary
+method can establish. Interventions or additional structural assumptions are
+necessary when distinct physical decompositions generate identical trajectory
+laws.
+
 ## Open conjectures
 
 ### C1. Parameter-level planted world-tube recovery
@@ -479,15 +681,15 @@ can in principle replace the \(q^{-6}\) dependence by \(q^{-2}\).
 For a moving linear Gaussian module with internal predictive strength separated
 from external drive by a parameter-level margin \(\delta>0\), the score-space
 conditions of Proposition 5 follow on a nonempty interval of regularization
-weights. Combined with covariance concentration, Proposition 6 would then imply
-recovery probability approaching one as sample size grows.
+weights. Combined with Proposition 12, this would yield an interpretable
+finite-sample recovery guarantee stated directly through coupling and noise.
 
 ### C2. Sharper score stability under covariance perturbation
 
-Propositions 7 through 9 complete a worst-case route from covariance error to
-path recovery. The remaining problem is to replace the global Hölder bound with
-candidate-sensitive local bounds that use positive factor margins and avoid
-paying for irrelevant near-zero candidates.
+Propositions 10 and 11 exploit candidate spectra and positive factor margins,
+but they still union-bound over all candidate blocks. The remaining problem is
+to characterize the smaller set of paths capable of approaching the optimum
+and concentrate only the covariance directions that distinguish those paths.
 
 ### C3. Gauge-consistent quantum lift
 

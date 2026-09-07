@@ -300,7 +300,29 @@ sample-covariance concentration and the path margin. Its global cube-root bound
 is valid near zero-score candidates but extremely conservative in the current
 experiment.
 
-## 11. Choices that are still choices
+Proposition 10 replaces the cube-root or square-root Hölder step by a local
+Lipschitz bound whenever the relevant population factors remain above their
+error radii. Proposition 11 assigns these errors to individual candidates and
+compares the population path's lower action against the exact maximum upper
+action of every competitor. Proposition 12 constructs the entire certificate
+from \(A_t,Q_t,\Sigma_0\), the candidate family, and the action weights.
+
+## 11. Identifiability rather than label recovery
+
+A coordinate label is not automatically a physical identity. The implemented
+orbit map takes a finite group \(G\) of admissible node relabelings and replaces
+a path \(p\) by a canonical representative of \([p]=\{gp:g\in G\}\). If the
+trajectory law and action are invariant under \(G\), only this orbit can be
+identified from the objective.
+
+The stronger obstruction is distributional. If two models have incompatible
+correct path orbits but observation laws within total variation \(\tau\), the
+sum of their recovery probabilities is at most \(1+\tau\). Thus the maximin
+success probability is at most \((1+\tau)/2\). At \(\tau=0\), no observational
+algorithm can exceed one-half success on both models without additional
+assumptions or interventions.
+
+## 12. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
