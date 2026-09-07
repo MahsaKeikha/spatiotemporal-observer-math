@@ -468,7 +468,30 @@ perturbations. A supplied candidate family reduces the calculation from
 \(\binom ns\) subsets to its declared members. The resulting claim is only
 relative to that family unless it is complete.
 
-## 17. Choices that are still choices
+## 17. Overlap classes as sufficient statistics for the bound
+
+For the covariance-preserving moving clique, a candidate's base transition
+norms depend only on (q=|C\cap S_t^*|). The same remains true for conservative
+perturbation control when row, within-candidate, and local-noise norms are
+supplied as class budgets. This converts a list of (inom ns) candidate
+radii into at most (s+1) rows per time.
+
+The only temporal complication is that the current covariance error was
+created under the preceding planted boundary. It therefore depends on a pair
+((p,q)) of consecutive overlaps. Four disjoint occupancy cells determine
+whether the pair is possible: the planted intersection, the previous-only and
+current-only regions, and the outside region. Proposition 22 eliminates the
+cell count to obtain a closed integer interval for the shared occupancy. A
+pair is feasible precisely when that interval contains an integer.
+
+The resulting certificate needs (O(Ts^2)) class-pair checks. This is a
+complexity statement about evaluating valid budgets, not about obtaining them.
+Exact class maxima can still be expensive for unstructured matrices. Scalable
+applications must derive them from assumptions such as bounded row energy,
+sparsity, locality, or graph degree. The small committed example enumerates
+candidates only to audit that the compressed bound dominates every member.
+
+## 18. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

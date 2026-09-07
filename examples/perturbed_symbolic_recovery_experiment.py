@@ -13,12 +13,61 @@ from observer_math import (
     certify_worldtube,
     covariance_preserving_moving_cliques,
     observer_metrics_from_covariances,
+    overlap_class_moving_clique_recovery_bound,
     perturbed_covariance_preserving_moving_cliques,
     perturbed_moving_clique_recovery_bound,
     propagate_covariances,
     support_resolved_moving_clique_recovery_bound,
     transport_metrics_from_covariances,
 )
+
+
+def overlap_class_profile(transition_errors, noise_errors, planted, candidates):
+    """Compute tight class budgets for this finite audit example."""
+    time_count = len(planted)
+    node_count = transition_errors[0].shape[0]
+    module_size = len(planted[0])
+    global_transition = np.array(
+        [np.linalg.norm(error, ord=2) for error in transition_errors]
+    )
+    global_noise = np.array(
+        [np.linalg.norm(error, ord=2) for error in noise_errors]
+    )
+    row_transition = np.zeros((time_count, module_size + 1))
+    within_transition = np.zeros_like(row_transition)
+    local_noise = np.zeros_like(row_transition)
+    all_nodes = tuple(range(node_count))
+    for time, active in enumerate(planted):
+        for candidate in candidates:
+            overlap = len(set(candidate) & set(active))
+            row_transition[time, overlap] = max(
+                row_transition[time, overlap],
+                np.linalg.norm(
+                    transition_errors[time][np.ix_(candidate, all_nodes)],
+                    ord=2,
+                ),
+            )
+            within_transition[time, overlap] = max(
+                within_transition[time, overlap],
+                np.linalg.norm(
+                    transition_errors[time][np.ix_(candidate, candidate)],
+                    ord=2,
+                ),
+            )
+            local_noise[time, overlap] = max(
+                local_noise[time, overlap],
+                np.linalg.norm(
+                    noise_errors[time][np.ix_(candidate, candidate)],
+                    ord=2,
+                ),
+            )
+    return (
+        global_transition,
+        global_noise,
+        row_transition,
+        within_transition,
+        local_noise,
+    )
 
 
 def main():
@@ -121,6 +170,22 @@ def main():
         transport_weight=transport_weight,
         continuity_weight=continuity_weight,
     )
+    class_profile = overlap_class_profile(
+        transition_errors, noise_errors, planted, candidates
+    )
+    overlap_bound = overlap_class_moving_clique_recovery_bound(
+        node_count,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transition_perturbation_bounds=class_profile[0],
+        noise_perturbation_bounds=class_profile[1],
+        row_transition_perturbation_bounds=class_profile[2],
+        within_transition_perturbation_bounds=class_profile[3],
+        local_noise_perturbation_bounds=class_profile[4],
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
 
     transition_norms = [
         np.linalg.norm(system[0] - base[0], ord=2)
@@ -166,6 +231,19 @@ def main():
     print(
         "A priori support-aware action-margin lower bound:",
         f"{a_priori_bound.per_mismatch_action_margin:.6f}",
+    )
+    print(
+        "Overlap-class incorrect-score upper bound:",
+        f"{max(overlap_bound.maximum_incorrect_score_upper_bounds):.6f}",
+    )
+    print(
+        "Overlap-class action-margin lower bound:",
+        f"{overlap_bound.per_mismatch_action_margin:.6f}",
+    )
+    print(
+        "Candidate count and overlap classes:",
+        overlap_bound.candidate_count,
+        overlap_bound.overlap_class_count,
     )
     print("Exact action margin:", f"{certificate.action_margin:.6f}")
     print(

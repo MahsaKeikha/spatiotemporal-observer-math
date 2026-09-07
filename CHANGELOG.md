@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.0 - 2026-09-07
+
+- Derived an exact integer occupancy criterion for consecutive
+  candidate-planted overlap pairs.
+- Added a matrix-free recovery certificate driven by global radii and
+  overlap-indexed row, within-candidate, and local-noise budgets.
+- Reduced complete-family certificate evaluation from \(\binom ns\) candidate
+  subsets to (O(Ts^2)) overlap-pair checks once valid budgets are supplied.
+- Verified the occupancy criterion by exhaustive enumeration and checked that
+  every overlap-class radius dominates every corresponding matrix-level bound
+  on the reference system and eight dense perturbation sequences.
+- Recorded the limitation that constructing valid class budgets is a separate
+  task and can remain combinatorial without additional structural assumptions.
+
 ## 0.7.0 - 2026-09-07
 
 - Derived a row-local covariance recursion from structured transition and noise

@@ -50,10 +50,12 @@ from .search import Candidate, rank_subsystems
 from .symbolic import (
     APrioriSupportMovingCliqueRecoveryBound,
     MovingCliqueRecoveryBound,
+    OverlapClassMovingCliqueRecoveryBound,
     PerturbedMovingCliqueRecoveryBound,
     SupportResolvedMovingCliqueRecoveryBound,
     a_priori_support_moving_clique_recovery_bound,
     covariance_preserving_moving_clique_bound,
+    overlap_class_moving_clique_recovery_bound,
     perturbed_moving_clique_recovery_bound,
     support_resolved_moving_clique_recovery_bound,
 )
@@ -76,6 +78,7 @@ __all__ = [
     "MovingCliqueRecoveryBound",
     "NearCompetitorScreen",
     "ObserverMetrics",
+    "OverlapClassMovingCliqueRecoveryBound",
     "PerturbedMovingCliqueRecoveryBound",
     "SupportResolvedMovingCliqueRecoveryBound",
     "TransportMetrics",
@@ -106,6 +109,7 @@ __all__ = [
     "observer_metrics",
     "observer_metrics_from_covariances",
     "optimize_worldtube",
+    "overlap_class_moving_clique_recovery_bound",
     "paths_equivalent_under_permutations",
     "perturbed_covariance_preserving_moving_cliques",
     "perturbed_moving_clique_recovery_bound",

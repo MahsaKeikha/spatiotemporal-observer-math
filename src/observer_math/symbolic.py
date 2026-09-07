@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 from itertools import combinations
+from math import comb
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -125,6 +126,36 @@ class APrioriSupportMovingCliqueRecoveryBound:
     all_noise_covariances_positive_definite: bool
     all_local_covariance_bounds_valid: bool
     guarantees_unique_planted_path_in_candidate_family: bool
+
+
+@dataclass(frozen=True)
+class OverlapClassMovingCliqueRecoveryBound:
+    """Matrix-free recovery bound indexed by planted-candidate overlap."""
+
+    base: MovingCliqueRecoveryBound
+    node_count: int
+    time_count: int
+    module_size: int
+    candidate_count: int
+    overlap_class_count: int
+    overlap_values: tuple[int, ...]
+    overlap_class_multiplicities: tuple[int, ...]
+    feasible_consecutive_overlap_pairs: tuple[tuple[tuple[int, int], ...], ...]
+    global_state_covariance_error_bounds: tuple[float, ...]
+    local_next_state_error_bounds: tuple[tuple[float, ...], ...]
+    planted_local_joint_error_bounds: tuple[float, ...]
+    planted_leakage_joint_error_bounds: tuple[float, ...]
+    overlap_class_joint_error_bounds: tuple[tuple[float, ...], ...]
+    planted_score_lower_bounds: tuple[float, ...]
+    incorrect_score_upper_bounds: tuple[tuple[float, ...], ...]
+    maximum_incorrect_score_upper_bounds: tuple[float, ...]
+    local_separations: tuple[float, ...]
+    incident_edge_penalties: tuple[float, ...]
+    per_time_mismatch_margins: tuple[float, ...]
+    per_mismatch_action_margin: float
+    all_noise_covariance_classes_valid: bool
+    all_local_covariance_bounds_valid: bool
+    guarantees_unique_planted_path: bool
 
 
 def _residual_logdet(
@@ -1008,4 +1039,386 @@ def a_priori_support_moving_clique_recovery_bound(
         guarantees_unique_planted_path_in_candidate_family=bool(
             all_valid and action_margin > 0.0
         ),
+    )
+
+
+def _feasible_overlap_pairs(
+    node_count: int,
+    module_size: int,
+    planted_overlap: int,
+) -> tuple[tuple[int, int], ...]:
+    """Feasible overlaps of one candidate with two planted boundaries."""
+    pairs = []
+    for previous_overlap in range(module_size + 1):
+        for current_overlap in range(module_size + 1):
+            shared_lower = max(
+                0,
+                previous_overlap - (module_size - planted_overlap),
+                current_overlap - (module_size - planted_overlap),
+                previous_overlap + current_overlap - module_size,
+            )
+            shared_upper = min(
+                planted_overlap,
+                previous_overlap,
+                current_overlap,
+                node_count
+                - 3 * module_size
+                + planted_overlap
+                + previous_overlap
+                + current_overlap,
+            )
+            if shared_lower <= shared_upper:
+                pairs.append((previous_overlap, current_overlap))
+    return tuple(pairs)
+
+
+def _moving_clique_row_norm(
+    self_memory: float,
+    internal_coupling: float,
+    module_size: int,
+    planted_overlap: int,
+) -> float:
+    """Norm of base-transition rows selected by an overlap class."""
+    alpha = float(self_memory)
+    beta = float(internal_coupling)
+    if planted_overlap == 0:
+        return abs(alpha)
+    diagonal = alpha**2 + (module_size - 1) * beta**2
+    off_diagonal = 2.0 * alpha * beta + (module_size - 2) * beta**2
+    eigenvalues = [diagonal + (planted_overlap - 1) * off_diagonal]
+    if planted_overlap > 1:
+        eigenvalues.append(diagonal - off_diagonal)
+    if planted_overlap < module_size:
+        eigenvalues.append(alpha**2)
+    return float(np.sqrt(max(0.0, *eigenvalues)))
+
+
+def _moving_clique_within_norm(
+    self_memory: float,
+    internal_coupling: float,
+    module_size: int,
+    planted_overlap: int,
+) -> float:
+    """Norm of the base transition compressed to an overlap class."""
+    alpha = float(self_memory)
+    beta = float(internal_coupling)
+    values = [abs(alpha)]
+    if planted_overlap > 1:
+        values.extend(
+            [
+                abs(alpha - beta),
+                abs(alpha + (planted_overlap - 1) * beta),
+            ]
+        )
+    return float(max(values))
+
+
+def overlap_class_moving_clique_recovery_bound(
+    node_count: int,
+    planted_path: Sequence[Sequence[int]],
+    *,
+    self_memory: float,
+    internal_coupling: float,
+    transition_perturbation_bounds: ArrayLike,
+    noise_perturbation_bounds: ArrayLike,
+    row_transition_perturbation_bounds: ArrayLike,
+    within_transition_perturbation_bounds: ArrayLike,
+    local_noise_perturbation_bounds: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> OverlapClassMovingCliqueRecoveryBound:
+    """Certify all fixed-size candidates from overlap-indexed norm budgets.
+
+    Local radius tables have shape ``(time_count, module_size + 1)``. Entry
+    ``[t, q]`` must bound every size-matched candidate whose overlap with the
+    planted boundary at time ``t`` is ``q``. The function evaluates overlap
+    classes and never constructs the individual candidates.
+    """
+    if isinstance(node_count, bool) or not isinstance(node_count, (int, np.integer)):
+        raise TypeError("node_count must be an integer")
+    time_count = len(planted_path)
+    if time_count < 1:
+        raise ValueError("planted_path must be nonempty")
+    path = tuple(tuple(sorted({int(node) for node in subset})) for subset in planted_path)
+    module_size = len(path[0])
+    if module_size < 2 or node_count <= module_size:
+        raise ValueError("require 2 <= module_size < node_count")
+    if any(
+        len(subset) != module_size
+        or subset[0] < 0
+        or subset[-1] >= node_count
+        for subset in path
+    ):
+        raise ValueError("planted boundaries must be valid and equal in size")
+    if continuity_weight < 0.0 or not np.isfinite(
+        [transport_weight, continuity_weight]
+    ).all():
+        raise ValueError("action weights must be finite and continuity nonnegative")
+
+    global_transition = np.asarray(transition_perturbation_bounds, dtype=float)
+    global_noise = np.asarray(noise_perturbation_bounds, dtype=float)
+    row_transition = np.asarray(row_transition_perturbation_bounds, dtype=float)
+    within_transition = np.asarray(
+        within_transition_perturbation_bounds, dtype=float
+    )
+    local_noise = np.asarray(local_noise_perturbation_bounds, dtype=float)
+    if global_transition.shape != (time_count,) or global_noise.shape != (time_count,):
+        raise ValueError("global perturbation bounds must have shape (time_count,)")
+    local_shape = (time_count, module_size + 1)
+    if any(
+        table.shape != local_shape
+        for table in (row_transition, within_transition, local_noise)
+    ):
+        raise ValueError(
+            "local perturbation tables must have shape "
+            "(time_count, module_size + 1)"
+        )
+    radius_arrays = (
+        global_transition,
+        global_noise,
+        row_transition,
+        within_transition,
+        local_noise,
+    )
+    if any(np.any(~np.isfinite(array)) or np.any(array < 0.0) for array in radius_arrays):
+        raise ValueError("perturbation bounds must be finite and nonnegative")
+    if np.any(row_transition > global_transition[:, None] + 1e-15):
+        raise ValueError("row transition bounds cannot exceed global bounds")
+    if np.any(within_transition > row_transition + 1e-15):
+        raise ValueError("within transition bounds cannot exceed row bounds")
+    if np.any(local_noise > global_noise[:, None] + 1e-15):
+        raise ValueError("local noise bounds cannot exceed global bounds")
+
+    consecutive_overlaps = [
+        len(set(path[time]) & set(path[time + 1]))
+        for time in range(time_count - 1)
+    ]
+    base = covariance_preserving_moving_clique_bound(
+        self_memory,
+        internal_coupling,
+        module_size,
+        minimum_consecutive_overlap=min(consecutive_overlaps, default=module_size),
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    alpha = float(self_memory)
+    beta = float(internal_coupling)
+    base_norm = max(
+        abs(alpha),
+        abs(alpha - beta),
+        abs(alpha + (module_size - 1) * beta),
+    )
+    base_noise_minimum = 1.0 - base_norm**2
+    valid_noise_classes = bool(np.all(global_noise < base_noise_minimum))
+
+    overlap_minimum = max(0, 2 * module_size - node_count)
+    overlap_values = tuple(range(overlap_minimum, module_size + 1))
+    multiplicities = tuple(
+        comb(module_size, overlap)
+        * comb(node_count - module_size, module_size - overlap)
+        for overlap in overlap_values
+    )
+    feasible_pairs = tuple(
+        _feasible_overlap_pairs(node_count, module_size, overlap)
+        for overlap in consecutive_overlaps
+    )
+    base_row_norms = tuple(
+        _moving_clique_row_norm(alpha, beta, module_size, overlap)
+        for overlap in range(module_size + 1)
+    )
+    base_within_norms = tuple(
+        _moving_clique_within_norm(alpha, beta, module_size, overlap)
+        for overlap in range(module_size + 1)
+    )
+
+    global_errors = [0.0]
+    local_next_errors = []
+    for time in range(time_count):
+        gamma = float(global_transition[time])
+        nu = float(global_noise[time])
+        global_forcing = 2.0 * base_norm * gamma + gamma**2 + nu
+        global_errors.append(
+            float((base_norm + gamma) ** 2 * global_errors[-1] + global_forcing)
+        )
+        local_row = []
+        for overlap in range(module_size + 1):
+            row_error = float(row_transition[time, overlap])
+            local_forcing = (
+                2.0 * base_row_norms[overlap] * row_error
+                + row_error**2
+                + float(local_noise[time, overlap])
+            )
+            local_row.append(
+                float(
+                    (base_row_norms[overlap] + row_error) ** 2
+                    * global_errors[time]
+                    + local_forcing
+                )
+            )
+        local_next_errors.append(tuple(local_row))
+
+    def current_class_error(time: int, overlap: int) -> float:
+        if time == 0:
+            return 0.0
+        previous_values = [
+            local_next_errors[time - 1][previous_overlap]
+            for previous_overlap, current_overlap in feasible_pairs[time - 1]
+            if current_overlap == overlap
+        ]
+        if not previous_values:
+            raise RuntimeError("overlap occupancy calculation produced an empty class")
+        return float(max(previous_values))
+
+    planted_local_radii = []
+    planted_leakage_radii = []
+    class_radius_rows = []
+    planted_lowers = []
+    wrong_rows = []
+    wrong_maxima = []
+    local_separations = []
+    all_valid = valid_noise_classes
+    for time in range(time_count):
+        if time == 0:
+            planted_current = 0.0
+        else:
+            planted_current = local_next_errors[time - 1][
+                consecutive_overlaps[time - 1]
+            ]
+        planted_next = local_next_errors[time][module_size]
+        planted_cross = (
+            (base_row_norms[module_size] + row_transition[time, module_size])
+            * global_errors[time]
+            + within_transition[time, module_size]
+        )
+        planted_radius = _symmetric_block_norm_bound(
+            planted_current, planted_next, float(planted_cross)
+        )
+        planted_local_radii.append(planted_radius)
+        leakage_cross = (
+            (base_row_norms[module_size] + row_transition[time, module_size])
+            * global_errors[time]
+            + row_transition[time, module_size]
+        )
+        leakage_radius = _symmetric_block_norm_bound(
+            global_errors[time], planted_next, float(leakage_cross)
+        )
+        planted_leakage_radii.append(leakage_radius)
+
+        planted_minimum = 1.0 - base_within_norms[module_size]
+        planted_maximum = 1.0 + base_within_norms[module_size]
+        planted_valid = (
+            planted_radius < planted_minimum
+            and leakage_radius < 1.0 - base_norm
+        )
+        if planted_valid:
+            local_logdet = -np.log1p(-planted_radius / planted_minimum) / np.log(2.0)
+            leakage_logdet = (
+                -np.log1p(-leakage_radius / (1.0 - base_norm)) / np.log(2.0)
+            )
+            integration_error = min(1.0, 4.0 * np.log(2.0) * local_logdet)
+            independence_error = min(
+                1.0,
+                np.log(2.0)
+                * (node_count + 2 * module_size)
+                / module_size
+                * leakage_logdet,
+            )
+            persistence_error = canonical_persistence_covariance_error_bound(
+                minimum_eigenvalue=planted_minimum,
+                maximum_eigenvalue=planted_maximum,
+                covariance_spectral_error=planted_radius,
+            )
+            planted_error = product_root_error_bound(
+                (base.integration_strength, 1.0, base.persistence),
+                (integration_error, independence_error, persistence_error),
+            )
+        else:
+            planted_error = 1.0
+        planted_lower = max(0.0, base.planted_local_score - planted_error)
+        planted_lowers.append(float(planted_lower))
+
+        class_radii = []
+        class_scores = []
+        valid_row = planted_valid
+        for overlap in overlap_values:
+            current_error = current_class_error(time, overlap)
+            next_error = local_next_errors[time][overlap]
+            cross_error = (
+                (base_row_norms[overlap] + row_transition[time, overlap])
+                * global_errors[time]
+                + within_transition[time, overlap]
+            )
+            class_radius = _symmetric_block_norm_bound(
+                current_error, next_error, float(cross_error)
+            )
+            class_radii.append(class_radius)
+            if overlap == module_size:
+                class_scores.append(0.0)
+                continue
+            class_minimum = 1.0 - base_within_norms[overlap]
+            class_maximum = 1.0 + base_within_norms[overlap]
+            integration_upper, valid = _zero_cut_integration_bound(
+                class_minimum, class_maximum, class_radius, module_size
+            )
+            class_scores.append(float(integration_upper ** (1.0 / 3.0)))
+            valid_row = valid_row and valid
+        maximum_wrong = max(
+            score
+            for overlap, score in zip(overlap_values, class_scores, strict=True)
+            if overlap < module_size
+        )
+        class_radius_rows.append(tuple(class_radii))
+        wrong_rows.append(tuple(class_scores))
+        wrong_maxima.append(float(maximum_wrong))
+        local_separations.append(float(planted_lower - maximum_wrong))
+        all_valid = all_valid and valid_row
+
+    edge_penalties = [
+        abs(transport_weight)
+        + continuity_weight
+        * (
+            1.0
+            - overlap / (2 * module_size - overlap)
+        )
+        for overlap in consecutive_overlaps
+    ]
+    incident_penalties = tuple(
+        float(
+            (edge_penalties[time - 1] if time > 0 else 0.0)
+            + (edge_penalties[time] if time + 1 < time_count else 0.0)
+        )
+        for time in range(time_count)
+    )
+    mismatch_margins = tuple(
+        float(separation - penalty)
+        for separation, penalty in zip(
+            local_separations, incident_penalties, strict=True
+        )
+    )
+    action_margin = min(mismatch_margins)
+    return OverlapClassMovingCliqueRecoveryBound(
+        base=base,
+        node_count=node_count,
+        time_count=time_count,
+        module_size=module_size,
+        candidate_count=comb(node_count, module_size),
+        overlap_class_count=len(overlap_values),
+        overlap_values=overlap_values,
+        overlap_class_multiplicities=multiplicities,
+        feasible_consecutive_overlap_pairs=feasible_pairs,
+        global_state_covariance_error_bounds=tuple(global_errors),
+        local_next_state_error_bounds=tuple(local_next_errors),
+        planted_local_joint_error_bounds=tuple(planted_local_radii),
+        planted_leakage_joint_error_bounds=tuple(planted_leakage_radii),
+        overlap_class_joint_error_bounds=tuple(class_radius_rows),
+        planted_score_lower_bounds=tuple(planted_lowers),
+        incorrect_score_upper_bounds=tuple(wrong_rows),
+        maximum_incorrect_score_upper_bounds=tuple(wrong_maxima),
+        local_separations=tuple(local_separations),
+        incident_edge_penalties=incident_penalties,
+        per_time_mismatch_margins=mismatch_margins,
+        per_mismatch_action_margin=float(action_margin),
+        all_noise_covariance_classes_valid=valid_noise_classes,
+        all_local_covariance_bounds_valid=all_valid,
+        guarantees_unique_planted_path=bool(all_valid and action_margin > 0.0),
     )

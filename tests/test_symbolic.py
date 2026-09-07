@@ -10,6 +10,7 @@ from observer_math import (
     covariance_preserving_moving_cliques,
     observer_metrics,
     observer_metrics_from_covariances,
+    overlap_class_moving_clique_recovery_bound,
     perturbed_covariance_preserving_moving_cliques,
     perturbed_moving_clique_recovery_bound,
     propagate_covariances,
@@ -18,6 +19,60 @@ from observer_math import (
     transport_metrics,
     transport_metrics_from_covariances,
 )
+from observer_math.symbolic import (
+    _feasible_overlap_pairs,
+    _moving_clique_row_norm,
+    _moving_clique_transition,
+    _moving_clique_within_norm,
+)
+
+
+def _overlap_class_profile(transition_errors, noise_errors, planted):
+    """Aggregate exact matrix norms into overlap-indexed audit budgets."""
+    node_count = transition_errors[0].shape[0]
+    module_size = len(planted[0])
+    candidates = tuple(combinations(range(node_count), module_size))
+    global_transition = np.array(
+        [np.linalg.norm(error, ord=2) for error in transition_errors]
+    )
+    global_noise = np.array(
+        [np.linalg.norm(error, ord=2) for error in noise_errors]
+    )
+    row_transition = np.zeros((len(planted), module_size + 1))
+    within_transition = np.zeros_like(row_transition)
+    local_noise = np.zeros_like(row_transition)
+    all_nodes = tuple(range(node_count))
+    for time, active in enumerate(planted):
+        for candidate in candidates:
+            overlap = len(set(candidate) & set(active))
+            row_transition[time, overlap] = max(
+                row_transition[time, overlap],
+                np.linalg.norm(
+                    transition_errors[time][np.ix_(candidate, all_nodes)],
+                    ord=2,
+                ),
+            )
+            within_transition[time, overlap] = max(
+                within_transition[time, overlap],
+                np.linalg.norm(
+                    transition_errors[time][np.ix_(candidate, candidate)],
+                    ord=2,
+                ),
+            )
+            local_noise[time, overlap] = max(
+                local_noise[time, overlap],
+                np.linalg.norm(
+                    noise_errors[time][np.ix_(candidate, candidate)],
+                    ord=2,
+                ),
+            )
+    return (
+        global_transition,
+        global_noise,
+        row_transition,
+        within_transition,
+        local_noise,
+    )
 
 
 def test_closed_form_moving_clique_score_matches_covariance_calculation():
@@ -589,6 +644,26 @@ def test_a_priori_support_bounds_cover_random_dense_perturbations():
             transport_weight=0.02,
             continuity_weight=0.01,
         )
+        profile = _overlap_class_profile(
+            transition_errors, noise_errors, planted
+        )
+        class_bound = overlap_class_moving_clique_recovery_bound(
+            node_count,
+            planted,
+            self_memory=0.2,
+            internal_coupling=0.3,
+            transition_perturbation_bounds=profile[0],
+            noise_perturbation_bounds=profile[1],
+            row_transition_perturbation_bounds=profile[2],
+            within_transition_perturbation_bounds=profile[3],
+            local_noise_perturbation_bounds=profile[4],
+            transport_weight=0.02,
+            continuity_weight=0.01,
+        )
+        overlap_indices = {
+            overlap: index
+            for index, overlap in enumerate(class_bound.overlap_values)
+        }
         covariances = propagate_covariances(
             tuple(system[0] for system in systems),
             tuple(system[1] for system in systems),
@@ -612,6 +687,15 @@ def test_a_priori_support_bounds_cover_random_dense_perturbations():
                 )
                 assert actual_error <= (
                     bound.candidate_joint_error_bounds[time][candidate_index]
+                    + 1e-14
+                )
+                overlap = bound.candidate_overlaps[time][candidate_index]
+                assert bound.candidate_joint_error_bounds[time][
+                    candidate_index
+                ] <= (
+                    class_bound.overlap_class_joint_error_bounds[time][
+                        overlap_indices[overlap]
+                    ]
                     + 1e-14
                 )
                 score = observer_metrics_from_covariances(
@@ -655,3 +739,212 @@ def test_a_priori_support_bound_rejects_invalid_model_or_family():
             self_memory=0.2,
             internal_coupling=0.3,
         )
+
+
+def test_overlap_class_occupancy_matches_exhaustive_candidates():
+    for node_count in range(3, 11):
+        for module_size in range(2, min(5, node_count - 1) + 1):
+            minimum_overlap = max(0, 2 * module_size - node_count)
+            previous = tuple(range(module_size))
+            for planted_overlap in range(minimum_overlap, module_size + 1):
+                current = tuple(range(planted_overlap)) + tuple(
+                    range(module_size, 2 * module_size - planted_overlap)
+                )
+                exhaustive_pairs = {
+                    (
+                        len(set(candidate) & set(previous)),
+                        len(set(candidate) & set(current)),
+                    )
+                    for candidate in combinations(range(node_count), module_size)
+                }
+                assert set(
+                    _feasible_overlap_pairs(
+                        node_count, module_size, planted_overlap
+                    )
+                ) == exhaustive_pairs
+
+    path = ((0, 1, 2), (1, 2, 3))
+    zeros = np.zeros((2, 4))
+    bound = overlap_class_moving_clique_recovery_bound(
+        7,
+        path,
+        self_memory=0.2,
+        internal_coupling=0.15,
+        transition_perturbation_bounds=np.zeros(2),
+        noise_perturbation_bounds=np.zeros(2),
+        row_transition_perturbation_bounds=zeros,
+        within_transition_perturbation_bounds=zeros,
+        local_noise_perturbation_bounds=zeros,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+    assert sum(bound.overlap_class_multiplicities) == bound.candidate_count
+    assert bound.candidate_count == 35
+    assert bound.overlap_class_count == 4
+
+
+def test_overlap_class_base_norm_formulas_match_direct_matrices():
+    node_count = 8
+    module_size = 4
+    planted = tuple(range(module_size))
+    for self_memory, internal_coupling in ((0.2, 0.1), (-0.1, 0.12), (0.3, -0.08)):
+        transition = _moving_clique_transition(
+            node_count,
+            planted,
+            self_memory,
+            internal_coupling,
+        )
+        for overlap in range(module_size + 1):
+            candidate = tuple(range(overlap)) + tuple(
+                range(module_size, 2 * module_size - overlap)
+            )
+            assert np.isclose(
+                _moving_clique_row_norm(
+                    self_memory, internal_coupling, module_size, overlap
+                ),
+                np.linalg.norm(transition[candidate, :], ord=2),
+            )
+            assert np.isclose(
+                _moving_clique_within_norm(
+                    self_memory, internal_coupling, module_size, overlap
+                ),
+                np.linalg.norm(transition[np.ix_(candidate, candidate)], ord=2),
+            )
+
+
+def test_overlap_class_bound_dominates_every_candidate_certificate():
+    node_count = 5
+    module_size = 2
+    planted, base_systems = covariance_preserving_moving_cliques(
+        node_count=node_count,
+        module_size=module_size,
+        step_count=3,
+        self_memory=0.2,
+        internal_coupling=0.3,
+    )
+    _, systems = perturbed_covariance_preserving_moving_cliques(
+        node_count=node_count,
+        module_size=module_size,
+        step_count=3,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        external_coupling_norm=1e-5,
+        noise_perturbation_norm=1e-6,
+    )
+    transition_errors = tuple(
+        system[0] - base[0]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    noise_errors = tuple(
+        system[1] - base[1]
+        for system, base in zip(systems, base_systems, strict=True)
+    )
+    profile = _overlap_class_profile(transition_errors, noise_errors, planted)
+    class_bound = overlap_class_moving_clique_recovery_bound(
+        node_count,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transition_perturbation_bounds=profile[0],
+        noise_perturbation_bounds=profile[1],
+        row_transition_perturbation_bounds=profile[2],
+        within_transition_perturbation_bounds=profile[3],
+        local_noise_perturbation_bounds=profile[4],
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+    candidate_bound = a_priori_support_moving_clique_recovery_bound(
+        transition_errors,
+        noise_errors,
+        planted,
+        self_memory=0.2,
+        internal_coupling=0.3,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+    overlap_indices = {
+        overlap: index for index, overlap in enumerate(class_bound.overlap_values)
+    }
+
+    assert class_bound.candidate_count == candidate_bound.candidate_count
+    assert class_bound.overlap_class_count == 3
+    assert class_bound.all_local_covariance_bounds_valid
+    assert class_bound.guarantees_unique_planted_path
+    assert 0.0 < class_bound.per_mismatch_action_margin
+    assert (
+        class_bound.per_mismatch_action_margin
+        <= candidate_bound.per_mismatch_action_margin
+    )
+    assert np.all(
+        np.asarray(class_bound.global_state_covariance_error_bounds)
+        >= np.asarray(candidate_bound.global_state_covariance_error_bounds) - 1e-14
+    )
+    assert np.all(
+        np.asarray(class_bound.planted_local_joint_error_bounds)
+        >= np.asarray(candidate_bound.planted_local_joint_error_bounds) - 1e-14
+    )
+    assert np.all(
+        np.asarray(class_bound.planted_leakage_joint_error_bounds)
+        >= np.asarray(candidate_bound.planted_leakage_joint_error_bounds) - 1e-14
+    )
+    for time, candidates in enumerate(candidate_bound.candidate_joint_error_bounds):
+        for candidate_index, candidate_radius in enumerate(candidates):
+            overlap = candidate_bound.candidate_overlaps[time][candidate_index]
+            class_index = overlap_indices[overlap]
+            assert candidate_radius <= (
+                class_bound.overlap_class_joint_error_bounds[time][class_index]
+                + 1e-14
+            )
+            assert candidate_bound.incorrect_score_upper_bounds[time][
+                candidate_index
+            ] <= (
+                class_bound.incorrect_score_upper_bounds[time][class_index]
+                + 1e-14
+            )
+
+
+def test_overlap_class_bound_rejects_inconsistent_local_budgets():
+    planted = ((0, 1), (1, 2))
+    zeros = np.zeros((2, 3))
+    invalid_rows = zeros.copy()
+    invalid_rows[0, 1] = 0.2
+
+    with np.testing.assert_raises_regex(ValueError, "cannot exceed global"):
+        overlap_class_moving_clique_recovery_bound(
+            5,
+            planted,
+            self_memory=0.2,
+            internal_coupling=0.3,
+            transition_perturbation_bounds=np.array([0.1, 0.1]),
+            noise_perturbation_bounds=np.zeros(2),
+            row_transition_perturbation_bounds=invalid_rows,
+            within_transition_perturbation_bounds=zeros,
+            local_noise_perturbation_bounds=zeros,
+        )
+
+
+def test_overlap_class_bound_scales_without_candidate_construction():
+    module_size = 5
+    path = (
+        (0, 1, 2, 3, 4),
+        (1, 2, 3, 4, 5),
+        (2, 3, 4, 5, 6),
+    )
+    zeros = np.zeros((len(path), module_size + 1))
+    bound = overlap_class_moving_clique_recovery_bound(
+        100,
+        path,
+        self_memory=0.2,
+        internal_coupling=0.1,
+        transition_perturbation_bounds=np.zeros(len(path)),
+        noise_perturbation_bounds=np.zeros(len(path)),
+        row_transition_perturbation_bounds=zeros,
+        within_transition_perturbation_bounds=zeros,
+        local_noise_perturbation_bounds=zeros,
+        transport_weight=0.02,
+        continuity_weight=0.01,
+    )
+
+    assert bound.candidate_count == 75_287_520
+    assert bound.overlap_class_count == module_size + 1
+    assert bound.guarantees_unique_planted_path

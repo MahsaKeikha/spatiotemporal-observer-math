@@ -178,6 +178,15 @@ norms, and compressed forcing matrices must upper bound every realized
 candidate block. A separate deterministic random test repeats this containment
 and the resulting score inequalities for eight dense perturbation sequences.
 
+The fourth certificate receives only global radii and three tables indexed by
+candidate-planted overlap: row-transition, within-candidate transition, and
+local-noise budgets. For this finite audit, the tables are formed by exhaustive
+maximization so that their relation to every matrix-level candidate can be
+tested directly. The certificate itself neither receives perturbation matrices
+nor constructs candidates. A separate occupancy test compares every feasible
+consecutive overlap pair with exhaustive enumeration on a seven-node,
+three-member system.
+
 ## 8. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
@@ -234,6 +243,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_a_priori_support_bound_is_nested_and_nonvacuous` | A priori block radii contain realized radii, retain a positive margin, and support a declared reduced family |
 | `test_a_priori_support_bounds_cover_random_dense_perturbations` | State, joint-covariance, and score bounds cover eight reproducible dense perturbation sequences |
 | `test_a_priori_support_bound_rejects_invalid_model_or_family` | The certificate rejects missing planted boundaries and nonpositive process noise |
+| `test_overlap_class_occupancy_matches_exhaustive_candidates` | The integer occupancy criterion gives exactly the consecutive overlap pairs found by enumeration |
+| `test_overlap_class_bound_dominates_every_candidate_certificate` | Every matrix-level candidate radius and incorrect-score bound lies below its overlap-class counterpart |
+| `test_overlap_class_bound_rejects_inconsistent_local_budgets` | Local class budgets inconsistent with their global radii are rejected |
+| `test_overlap_class_bound_scales_without_candidate_construction` | A 75,287,520-candidate family is represented by six overlap classes without constructing its subsets |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -256,9 +269,12 @@ Its limitations are concrete:
 10. The support-resolved theorem uses candidate overlap and perturbation
     location, but requires the realized matrices and exhaustive fixed-size
     candidate enumeration.
-11. The a priori theorem avoids actual covariance propagation, but it still
-    uses the full perturbation matrices and a global scalar error for influence
-    arriving through unselected coordinates.
+11. The a priori matrix-level theorem still uses the full perturbation
+    matrices and a global scalar error for influence arriving through
+    unselected coordinates.
+12. The overlap-class theorem removes matrices and candidate enumeration from
+    certificate evaluation, but obtaining rigorous class budgets from a
+    general unstructured model can itself require exhaustive work.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should

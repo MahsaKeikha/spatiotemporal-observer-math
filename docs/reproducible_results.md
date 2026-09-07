@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 41 tests. Continuous integration runs
+The automated suite currently contains 46 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -271,9 +271,11 @@ is not imposed after the initial time.
 | Global incorrect-score upper bound | `0.007891` |
 | Support-resolved incorrect-score upper bound | `0.001002` |
 | A priori support-aware incorrect-score upper bound | `0.001096` |
+| Overlap-class incorrect-score upper bound | `0.002357` |
 | Global action-margin lower bound | `0.121550` |
 | Support-resolved action-margin lower bound | `0.129801` |
 | A priori support-aware action-margin lower bound | `0.129669` |
+| Overlap-class action-margin lower bound | `0.127900` |
 | Exact action margin | `0.175280` |
 | Boundaries recovered | 3 / 3 |
 
@@ -289,6 +291,15 @@ support-resolved result. Eight additional dense perturbation sequences verify
 that its state and candidate-joint radii contain the directly propagated
 errors and that its score bounds cover every enumerated candidate.
 
+Proposition 22 receives five arrays of norm budgets rather than the
+perturbation matrices. In this example the complete family of ten candidates
+compresses to the three overlap values (q=0,1,2). Its `0.127900` lower
+margin is more conservative than the matrix-level a priori margin because each
+class uses worst-case local budgets and the worst feasible preceding overlap.
+The tests verify both that the integer occupancy rule is exact and that each
+class bound contains every candidate-level Proposition 21 bound, including
+across the eight dense perturbation sequences.
+
 ![Robust recovery margin over transition and noise perturbation radii](perturbed_recovery_region.png)
 
 The black contour is the zero lower-bound boundary. The warm region is
@@ -299,7 +310,7 @@ marks the direct numerical check.
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- block-radius or graph-degree bounds that avoid full perturbation matrices
+- analytic overlap-class budgets from sparse or bounded-degree perturbations
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

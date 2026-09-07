@@ -168,6 +168,8 @@ stable and predictively useful, not whether it indicates consciousness.
   incident planted-edge penalties
 - a priori row-local recovery from structured perturbation matrices without
   actual covariance propagation
+- matrix-free recovery from overlap-indexed perturbation budgets with
+  (O(Ts^2)) certificate evaluation over the complete fixed-size family
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

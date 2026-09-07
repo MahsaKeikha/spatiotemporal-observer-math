@@ -444,6 +444,36 @@ restricts the computation and the uniqueness claim to exactly that declared
 family. The family must be fixed independently of the data used to evaluate a
 statistical claim.
 
+### Overlap-class certificate
+
+```python
+from observer_math import overlap_class_moving_clique_recovery_bound
+
+overlap = overlap_class_moving_clique_recovery_bound(
+    node_count=5,
+    planted_path=planted,
+    self_memory=0.2,
+    internal_coupling=0.3,
+    transition_perturbation_bounds=global_transition,
+    noise_perturbation_bounds=global_noise,
+    row_transition_perturbation_bounds=row_transition,
+    within_transition_perturbation_bounds=within_transition,
+    local_noise_perturbation_bounds=local_noise,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(overlap.candidate_count, overlap.overlap_class_count)
+print(overlap.per_mismatch_action_margin)
+```
+
+Each local table has shape `(time_count, module_size + 1)`, with column `q`
+bounding all candidates whose intersection with the planted boundary has size
+`q`. The global arrays have shape `(time_count,)`. The certificate checks
+feasible consecutive overlap pairs and does not construct any candidate
+subsets. The caller is responsible for proving that the supplied class budgets
+cover their stated maxima. `overlap_class_multiplicities` records the number of
+candidates represented by each value in `overlap_values`.
+
 ## Identifiability and symmetry
 
 ```python

@@ -1281,7 +1281,7 @@ future \(D\) is
 \[
 \Pi_D(A_t\Sigma_t-A_t^0)\Pi_D^\mathsf T
 =\Pi_DA_t\Delta_t\Pi_D^\mathsf T
- \Pi_DE_t\Pi_D^\mathsf T,
+ +\Pi_DE_t\Pi_D^\mathsf T,
 \]
 
 whose norm is bounded by the third argument of
@@ -1313,15 +1313,159 @@ family. It does not justify selecting the family after inspecting the same
 data, and it does not yet replace the matrices \(E_t,F_t\) by only sparsity,
 degree, or block-radius summaries.
 
+## Proposition 22: overlap-class recovery without candidate enumeration
+
+Retain the setting of Proposition 21, let \(s=|S_t^*|\), and put
+\(q_t(C)=|C\cap S_t^*|\). Suppose the following nonnegative numbers are known:
+
+\[
+\gamma_t\geq\|E_t\|_2,\qquad \nu_t\geq\|F_t\|_2,
+\]
+
+\[
+e^{\rm row}_{tq}\geq
+ \max_{q_t(C)=q}\|\Pi_CE_t\|_2,
+\quad
+e^{\rm in}_{tq}\geq
+ \max_{q_t(C)=q}\|\Pi_CE_t\Pi_C^\mathsf T\|_2,
+\quad
+f_{tq}\geq
+ \max_{q_t(C)=q}\|\Pi_CF_t\Pi_C^\mathsf T\|_2.
+\]
+
+The maxima range over all \(s\)-subsets. These are assumptions on supplied
+budgets; the theorem does not require the matrices \(E_t,F_t\) themselves.
+Define
+
+\[
+\rho=\max\{|\alpha|,|\alpha-\beta|,
+                 |\alpha+(s-1)\beta|\},
+\]
+
+and, with \(d=\alpha^2+(s-1)\beta^2\) and
+\(o=2\alpha\beta+(s-2)\beta^2\), let \(r_q\) be the square root of the
+largest applicable member of
+
+\[
+\{d+(q-1)o\}\cup
+\{d-o:q\geq2\}\cup
+\{\alpha^2:q<s\}.
+\]
+
+For \(q=0\), set \(r_0=|\alpha|\). Thus \(r_q\) is exactly
+\(\|\Pi_CA_t^0\|_2\) for every candidate in overlap class \(q\). Likewise,
+
+\[
+b_q=\|\Pi_CA_t^0\Pi_C^\mathsf T\|_2
+\]
+
+is \(|\alpha|\) for \(q\leq1\), and for \(q\geq2\) it is
+
+\[
+\max\{|\alpha|,|\alpha-\beta|,
+              |\alpha+(q-1)\beta|\}.
+\]
+
+Use the scalar recursion
+
+\[
+\delta_0=0,\qquad
+\delta_{t+1}=(\rho+\gamma_t)^2\delta_t
+             +2\rho\gamma_t+\gamma_t^2+\nu_t,
+\]
+
+and the class-local next-state bounds
+
+\[
+d_{t+1,q}=(r_q+e^{\rm row}_{tq})^2\delta_t
+ +2r_qe^{\rm row}_{tq}+(e^{\rm row}_{tq})^2+f_{tq}.
+\]
+
+To bound a present-state error at time \(t>0\), a current overlap \(q\) must
+be coupled to a feasible previous overlap \(p\). Write
+\(r=|S_{t-1}^*\cap S_t^*|\). The pair \((p,q)\) is feasible exactly when
+there is an integer \(x\) satisfying
+
+\[
+\max\{0,p-s+r,q-s+r,p+q-s\}
+\leq x\leq
+\min\{r,p,q,n-3s+r+p+q\}.
+\]
+
+Here \(x\) counts candidate nodes in the intersection of the two planted
+boundaries. Define
+
+\[
+d^-_{tq}=\max\{d_{t,p}:(p,q)\text{ is feasible}\},
+\qquad d^-_{0q}=0,
+\]
+
+and the overlap-class joint radius
+
+\[
+\eta_{tq}=\Phi\left(
+d^-_{tq},d_{t+1,q},
+(r_q+e^{\rm row}_{tq})\delta_t+e^{\rm in}_{tq}
+\right).
+\]
+
+For the planted local radius, use \(q=s\) and the actual preceding planted
+overlap rather than maximizing over feasible \(p\). For the planted leakage
+radius, replace the first argument by \(\delta_t\) and the last perturbation
+term by \(e^{\rm row}_{ts}\). If \(\nu_t<1-\rho^2\), all score-domain
+conditions of Propositions 18 and 20 hold for these radii, and every resulting
+per-time mismatch margin is positive, then the planted path is the unique
+maximizer over all \(\binom ns\) fixed-size candidates.
+
+**Proof.** The row and compressed forcing terms satisfy
+
+\[
+\|\Pi_CH_t\Pi_C^\mathsf T\|_2
+\leq 2r_qe^{\rm row}_{tq}+(e^{\rm row}_{tq})^2+f_{tq}.
+\]
+
+Also \(\|A_t\|_2\leq\rho+\gamma_t\),
+\(\|\Pi_CA_t\|_2\leq r_q+e^{\rm row}_{tq}\), and the within-candidate
+cross perturbation is at most \(e^{\rm in}_{tq}\). Hence the recursions above
+dominate every corresponding quantity in Proposition 21.
+
+It remains to show that no candidate is lost by class compression. Partition
+the node set into \(S_{t-1}^*\cap S_t^*\), the two one-sided differences, and
+the complement of their union. Their capacities are respectively
+\(r,s-r,s-r,n-2s+r\). Writing the candidate occupancies as
+\(x,p-x,q-x,s-p-q+x\) gives exactly the displayed lower and upper limits on
+\(x\). Thus the feasible-pair maximum contains the present-state error of
+every candidate with current overlap \(q\).
+
+There are
+
+\[
+N_q=\binom{s}{q}\binom{n-s}{s-q}
+\]
+
+candidates in class \(q\), and \(\sum_qN_q=\binom ns\). Every incorrect
+candidate has \(q<s\), so its base model has the zero cut used in Proposition
+18 and base joint eigenvalue interval \([1-b_q,1+b_q]\). Applying the same
+score perturbation and mismatch-set argument as Proposition 20 proves the
+claim. \(\square\)
+
+The certificate evaluates at most \(s+1\) overlap classes per time and at most
+\((s+1)^2\) consecutive class pairs. Its time is \(O(Ts^2)\), its stored
+class-pair representation is \(O(Ts^2)\), and neither depends on
+\(\binom ns\). Obtaining valid class budgets remains a separate modeling
+obligation. In the finite audit example they are computed by enumeration so
+they can be checked against the matrix-level theorem; in a scalable use they
+must instead follow from declared sparsity, degree, locality, or block-norm
+assumptions.
+
 ## Open conjectures
 
-### C1. Compressed recovery from perturbation classes
+### C1. Analytic class budgets from graph structure
 
-Proposition 21 uses the full structured perturbation matrices but avoids actual
-covariance propagation. A stronger theorem would use only declared block
-radii, sparsity, or graph-degree constraints and would identify candidate
-equivalence classes whose bounds can be computed without enumeration. It
-should expose scaling in overlap, perturbation support, horizon, and graph
+Proposition 22 removes matrices and candidate enumeration from the certificate
+once valid overlap-class budgets are supplied. The next step is to derive
+those budgets directly from sparse or bounded-degree perturbation models. Such
+a theorem should expose scaling in perturbation support, horizon, and graph
 degree, and determine whether the remaining cube-root loss is intrinsic or an
 artifact of factorwise control.
 

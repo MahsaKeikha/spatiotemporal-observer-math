@@ -153,6 +153,15 @@ the realized support-resolved calculation. It can evaluate a declared reduced
 candidate family, with the explicit limitation that uniqueness then holds only
 within that family.
 
+The overlap-class certificate removes the perturbation matrices and individual
+candidates from the final calculation. Given global radii and local budgets
+indexed only by (q=|C\cap S_t^*|), it certifies all (inom ns) candidates
+using (O(Ts^2)) overlap-pair checks. On the same example it reduces ten
+candidate cases to three classes, retains a positive action margin of
+`0.127900`, and bounds every matrix-level candidate calculation. The example
+uses enumeration only to audit the supplied budgets; deriving such budgets
+from sparse or bounded-degree model assumptions is the next open step.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -164,7 +173,7 @@ within that family.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-one proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-two proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -213,8 +222,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.7 adds an a priori
-row-local recovery certificate for structured transition and noise
-perturbations, including declared reduced candidate families.
+This is an ongoing study, not a finished paper. Version 0.8 adds a matrix-free
+overlap-class recovery certificate for the complete fixed-size candidate
+family, together with exhaustive audits of its class compression.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.
