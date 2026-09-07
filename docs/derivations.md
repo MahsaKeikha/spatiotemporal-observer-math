@@ -352,7 +352,85 @@ For equal-size consecutive boundaries with overlap \(r\), their Jaccard distance
 is \(1-r/(2s-r)\), so the sufficient condition explicitly rewards smoothly
 overlapping motion.
 
-## 14. Choices that are still choices
+## 14. Perturbation neighborhood of the moving-clique family
+
+Write the actual dynamics as \(A_t=A_t^0+E_t\) and
+\(Q_t=Q_t^0+F_t\), with operator-norm radii \(\gamma\) and \(\nu\). The base
+covariance remains the identity, but the actual covariance need not. If
+\(\rho=\|A_t^0\|_2\), \(a=\rho+\gamma<1\), and
+
+\[
+c=2\rho\gamma+\gamma^2+\nu,
+\]
+
+then its deviation is controlled by the finite-horizon recursion
+
+\[
+\delta_0=0,
+\qquad
+\delta_{t+1}=a^2\delta_t+c.
+\]
+
+The cross-covariance block differs from its base value by at most
+\(a\delta_t+\gamma\). Combining this with the two diagonal-block bounds gives
+an explicit operator-norm radius \(\eta_t\) for each adjacent covariance. This
+single radius can be propagated through all principal covariance blocks used by
+the score.
+
+The resulting robust theorem uses three factor errors: \(e_G\) for directed
+integration, \(e_K\) for insulation, and \(e_P\) for canonical persistence.
+The planted score is lower bounded through the positive-factor result. For an
+incorrect candidate, isolating one outside node gives a cut whose base
+conditional cross-covariances vanish in both directions. Perturbing the
+conditional covariance formula and whitening its two residual blocks gives a
+partial canonical-correlation bound \(z_\eta\). The incorrect integration and
+score are then bounded by
+
+\[
+G_{\mathrm{wrong}}\leq1-(1-z_\eta^2)^{1/s},
+\qquad
+\Omega_{\mathrm{wrong}}leq G_{\mathrm{wrong}}^{1/3}.
+\]
+
+The integration bound is second order in \(z_\eta\) near zero. This asymmetry
+is why the proof uses a positive-factor perturbation bound for the planted score
+and a zero-cut partial-correlation bound for incorrect scores.
+
+The derivation is finite horizon and deterministic. It does not assume that the
+perturbations are random, independent across time, or aligned with the planted
+module. Its cost is conservatism: arbitrary operator-norm directions are
+protected simultaneously.
+
+## 15. Candidate-local covariance compression
+
+The global radius \(\eta_t\) protects directions that a particular candidate
+score never uses. For a coordinate set \(D\), principal compression gives
+
+\[
+\|\Pi_D(\Gamma_t-\Gamma_t^0)\Pi_D^\mathsf T\|_2
+\leq \|\Gamma_t-\Gamma_t^0\|_2.
+\]
+
+The inequality can be strict when the perturbation is spatially structured.
+The support-resolved certificate therefore recomputes the spectral error on
+three kinds of blocks: the planted present-future block used by integration and
+persistence, the planted present-population/future-subset block used by
+leakage, and each incorrect candidate's present-future block. The same
+log-determinant and partial-correlation lemmas then apply without changing
+their proofs.
+
+This localization also retains the candidate's base-block spectrum. That
+spectrum depends on \(|C\cap S_t^*|\), so candidates with different planted
+overlap need not receive the same bound. Finally, the path proof charges the
+actual planted-edge bound to its incident mismatched times. Endpoints incur one
+charge and interior times at most two, instead of imposing the worst two-edge
+charge at every time.
+
+The calculation needs the realized \(A_t,Q_t\) and enumerates
+\(\binom ns\) candidates. It is consequently an exact diagnostic for small
+families, not a scalable or purely radius-based guarantee.
+
+## 16. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

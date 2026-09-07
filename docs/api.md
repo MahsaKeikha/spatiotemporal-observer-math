@@ -338,6 +338,79 @@ covariance exactly. The symbolic function evaluates Proposition 16 without
 enumerating candidates. A positive `per_mismatch_action_margin` is sufficient,
 not necessary, for unique planted-path recovery.
 
+### Robust perturbation certificate
+
+```python
+from observer_math import (
+    perturbed_covariance_preserving_moving_cliques,
+    perturbed_moving_clique_recovery_bound,
+)
+
+planted, systems = perturbed_covariance_preserving_moving_cliques(
+    node_count=5,
+    module_size=2,
+    step_count=3,
+    self_memory=0.2,
+    internal_coupling=0.3,
+    external_coupling_norm=1e-5,
+    noise_perturbation_norm=1e-6,
+)
+robust = perturbed_moving_clique_recovery_bound(
+    self_memory=0.2,
+    internal_coupling=0.3,
+    module_size=2,
+    node_count=5,
+    time_count=3,
+    transition_perturbation=1e-5,
+    noise_perturbation=1e-6,
+    minimum_consecutive_overlap=1,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(robust.guarantees_unique_planted_path)
+print(robust.per_mismatch_action_margin)
+```
+
+The two perturbation arguments are upper bounds in spectral norm. Transition
+perturbations may connect the planted module to its complement. Noise
+perturbations may be anisotropic. The certificate assumes \(\Sigma_0=I\), a
+finite horizon, equal candidate size, and the moving-clique base family. A
+false value is inconclusive; it does not imply failed recovery. Proposition 18
+uses the base model's zero conditional cross-covariance to obtain a quadratic
+upper bound for incorrect-candidate integration. Proposition 19 propagates this
+bound through the complete path action.
+
+### Support-resolved perturbation certificate
+
+```python
+from observer_math import support_resolved_moving_clique_recovery_bound
+
+transitions = tuple(system[0] for system in systems)
+noises = tuple(system[1] for system in systems)
+support = support_resolved_moving_clique_recovery_bound(
+    transitions,
+    noises,
+    planted,
+    self_memory=0.2,
+    internal_coupling=0.3,
+    transport_weight=0.02,
+    continuity_weight=0.01,
+)
+print(support.maximum_incorrect_score_upper_bound)
+print(support.per_mismatch_action_margin)
+```
+
+This version propagates the specified system from \(\Sigma_0=I\), restricts
+the resulting covariance error to each candidate's score coordinates, and
+uses the exact incident planted-edge budget at every time. It enumerates all
+size-matched candidates. The fields `candidate_overlaps` and
+`incorrect_score_upper_bounds`, together with the recorded covariance errors
+and base eigenvalue bounds, are indexed first by time and then by the common
+`candidates` tuple. The planted candidate has a zero placeholder in the
+incorrect-score array because its lower bound is stored separately. A positive
+guarantee is sufficient for the supplied matrices and planted path; it is not
+an inference procedure for an unknown planted path.
+
 ## Identifiability and symmetry
 
 ```python

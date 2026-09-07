@@ -1,6 +1,6 @@
 # Proved results and open problems
 
-The first sixteen statements below are consequences of the current definitions.
+The first twenty statements below are consequences of the current definitions.
 The remaining statements are targets. They are not used as assumptions in the
 reported experiments.
 
@@ -812,18 +812,387 @@ net gain is at most
 This family is deliberately exact. It supplies an interpretable theorem in
 \(\alpha,\beta,Q_t\), and the action weights, while also exposing its own
 limitation: the weakest-cut score makes every partially incorrect clique
-locally degenerate. Perturbing this family with nonzero external coupling is
-the next symbolic problem.
+locally degenerate.
+
+## Proposition 17: covariance propagation around the moving-clique family
+
+Use the base matrices \(A_t^0,Q_t^0\) from Proposition 16 and write
+
+\[
+A_t=A_t^0+E_t,
+\qquad
+Q_t=Q_t^0+F_t,
+\qquad
+\|E_t\|_2\leq\gamma,
+\qquad
+\|F_t\|_2\leq\nu.
+\]
+
+The matrices \(F_t\) are symmetric, but need not be diagonal or isotropic. Put
+
+\[
+\rho=\max\{|\alpha|,|\alpha-\beta|,
+|\alpha+(s-1)\beta|\},
+\qquad a=\rho+\gamma<1,
+\]
+
+\[
+c=2\rho\gamma+\gamma^2+\nu,
+\qquad
+\delta_0=0,
+\qquad
+\delta_{t+1}=a^2\delta_t+c,
+\]
+
+and
+
+\[
+\kappa_t=a\delta_t+\gamma.
+\]
+
+If \(\Sigma_0=I\), then
+
+\[
+\|\Sigma_t-I\|_2\leq\delta_t.
+\]
+
+For the actual adjacent covariance \(\Gamma_t\) and the base adjacent
+covariance \(\Gamma_t^0\), define
+
+\[
+\eta_t=\frac{1}{2}\left[
+\delta_t+\delta_{t+1}
++\sqrt{(\delta_t-\delta_{t+1})^2+4\kappa_t^2}
+\right].
+\]
+
+Then
+
+\[
+\|\Gamma_t-\Gamma_t^0\|_2\leq\eta_t.
+\]
+
+Moreover, \(Q_t\succ0\) is guaranteed whenever
+\(\nu<1-\rho^2\).
+
+**Proof.** Let \(\Delta_t=\Sigma_t-I\). Since
+\(Q_t^0=I-A_t^0(A_t^0)^\mathsf T\), expansion of the covariance recursion gives
+
+\[
+\Delta_{t+1}
+=A_t\Delta_tA_t^\mathsf T
++E_t(A_t^0)^\mathsf T+A_t^0E_t^\mathsf T
++E_tE_t^\mathsf T+F_t.
+\]
+
+Because \(\|A_t^0\|_2=\rho\) and \(\|A_t\|_2\leq a\), induction gives
+
+\[
+\|\Delta_{t+1}\|_2
+\leq a^2\|\Delta_t\|_2+2\rho\gamma+\gamma^2+\nu
+\leq\delta_{t+1}.
+\]
+
+The upper-right cross-covariance error is
+
+\[
+\Sigma_tA_t^\mathsf T-(A_t^0)^\mathsf T
+=\Delta_tA_t^\mathsf T+E_t^\mathsf T,
+\]
+
+whose norm is at most \(\kappa_t\). For a symmetric block operator, its norm is
+bounded by the norm of the two-by-two matrix of block norms. Applying this to
+the diagonal bounds \(\delta_t,\delta_{t+1}\) and the cross bound \(\kappa_t\)
+gives its largest eigenvalue, which is \(\eta_t\). Finally,
+\(\lambda_{\min}(Q_t^0)=1-\rho^2\), so Weyl's inequality gives
+\(\lambda_{\min}(Q_t)\geq1-\rho^2-\nu>0\). \(\square\)
+
+The recursion also has the closed form
+
+\[
+\delta_t=c\frac{1-a^{2t}}{1-a^2}.
+\]
+
+The implementation uses the recursion because it exposes the largest error over
+the stated finite horizon directly.
+
+## Proposition 18: quadratic CMI bound at a zero conditional cross-covariance
+
+Let \(\Gamma^0\) and \(\Gamma\) be positive-definite joint covariances for
+\((X,Y,Z)\), where
+
+\[
+mI\preceq\Gamma^0\preceq MI,
+\qquad
+\|\Gamma-\Gamma^0\|_2\leq\eta<m.
+\]
+
+Assume the base conditional cross-covariance vanishes:
+
+\[
+C^0_{XY\mid Z}
+=\Sigma^0_{XY}
+-\Sigma^0_{XZ}(\Sigma^0_{ZZ})^{-1}\Sigma^0_{ZY}=0.
+\]
+
+Put \(a=m-\eta\) and
+
+\[
+c_\eta=\eta\left[
+1+\frac{M+\eta}{a}
++\frac{M(M+\eta)}{ma}
++\frac{M}{m}
+\right],
+\qquad
+z_\eta=\frac{c_\eta}{a}.
+\]
+
+If \(z_\eta<1\), then, for
+\(r=\min\{\dim X,\dim Y\}\),
+
+\[
+I_\Gamma(X;Y\mid Z)
+\leq-\frac{r}{2\ln2}\ln(1-z_\eta^2).
+\]
+
+**Proof.** Write
+
+\[
+C_{XY\mid Z}
+=\Sigma_{XY}-\Sigma_{XZ}\Sigma_{ZZ}^{-1}\Sigma_{ZY}.
+\]
+
+Every covariance block perturbation has norm at most \(\eta\). The actual
+inverse obeys \(\|\Sigma_{ZZ}^{-1}\|_2\leq1/a\), while the resolvent identity
+gives
+
+\[
+\|\Sigma_{ZZ}^{-1}-(\Sigma^0_{ZZ})^{-1}\|_2
+\leq\frac{\eta}{ma}.
+\]
+
+Expanding \(C_{XY\mid Z}-C^0_{XY\mid Z}\) into perturbations of its four
+covariance factors, and using base and actual block norms \(M\) and
+\(M+\eta\), gives \(\|C_{XY\mid Z}\|_2\leq c_\eta\).
+
+The two actual conditional covariance Schur complements have minimum
+eigenvalue at least \(a\). Consequently, the largest partial canonical
+correlation is at most \(z_\eta\). If their \(r\) partial canonical
+correlations are \(\rho_i\), Gaussian conditional mutual information satisfies
+
+\[
+I_\Gamma(X;Y\mid Z)
+=-\frac{1}{2}\sum_{i=1}^r\log_2(1-\rho_i^2)
+\leq-\frac{r}{2\ln2}\ln(1-z_\eta^2).
+\]
+
+This proves the result. \(\square\)
+
+The bound is quadratic in \(z_\eta\) near zero. This is the appropriate local
+behavior when the base partial correlation vanishes, in contrast with a
+general log-determinant perturbation bound that is first order in \(\eta\).
+
+## Proposition 19: robust recovery with external coupling and anisotropic noise
+
+Retain the assumptions and notation of Proposition 17. Let
+
+\[
+\eta=\max_{0\leq t<T}\eta_t,
+\qquad m=1-\rho,
+\qquad M=1+\rho,
+\]
+
+and require \(\eta<m\). Define
+
+\[
+L_\eta=\frac{-\ln(1-\eta/m)}{\ln 2},
+\]
+
+\[
+e_G=\min\{1,4\ln(2)L_\eta\},
+\qquad
+e_K=\min\left\{1,\ln(2)\frac{n+2s}{s}L_\eta\right\},
+\]
+
+and let \(e_P\) be the canonical-persistence bound in Proposition 8 evaluated
+at \((m,M,\eta)\). Let \(z_\eta\) be defined by Proposition 18 and put
+
+\[
+G_{\mathrm{wrong}}^{\max}
+=1-(1-z_\eta^2)^{1/s}.
+\]
+
+Let
+
+\[
+e_*=B_3\big((G_*,1,P_*),(e_G,e_K,e_P)\big),
+\]
+
+where \(B_3\) denotes the smaller of the zero-safe and positive-factor
+geometric-mean bounds in Proposition 10. Every planted local score is at least
+\(\Omega_*-e_*\), while every incorrect local score is at most
+\((G_{\mathrm{wrong}}^{\max})^{1/3}\).
+Consequently, put
+
+\[
+\Delta_\Omega
+=\Omega_*-e_*-(G_{\mathrm{wrong}}^{\max})^{1/3}.
+\]
+
+For minimum consecutive planted overlap \(r_{\min}\), the perturbed planted
+path is the unique action maximizer whenever
+
+\[
+\nu<1-\rho^2,
+\qquad z_\eta<1,
+\quad\text{and}\quad
+\Delta_\Omega>2(|\chi|+\lambda d_*^{\max}).
+\]
+
+Its action margin is at least
+
+\[
+\Delta_\Omega-2(|\chi|+\lambda d_*^{\max}).
+\]
+
+**Proof.** Each \(\Gamma_t^0\) has eigenvalues in \([1-\rho,1+\rho]\).
+Proposition 17 supplies a uniform perturbation of at most \(\eta<m\), so the
+log-determinant argument of Proposition 7 applies to every relevant principal
+block. Across the two directed conditional mutual informations, the dimension
+coefficients sum to \(4s\); after division by \(s\), the integration-rate error
+is at most \(4L_\eta\). The map \(1-2^{-x}\) is \(\ln 2\)-Lipschitz, which
+gives \(e_G\). The leakage dimensions are \((s,n-s,s)\), giving the rate error
+\((n+2s)L_\eta/s\) and hence \(e_K\). Proposition 8 gives \(e_P\), and
+Proposition 10 then gives the planted score error \(e_*\).
+
+An incorrect candidate contains a base-model outside node. Isolate that node in
+the candidate's weakest-cut minimization. Both directed conditional
+cross-covariances across this cut vanish in the base model. Proposition 18, with
+canonical rank one for each direction, bounds their sum per node by
+
+\[
+-\frac{1}{s\ln2}\ln(1-z_\eta^2).
+\]
+
+Applying \(G=1-2^{-J}\) gives
+\(G\leq G_{\mathrm{wrong}}^{\max}\). Since insulation and persistence do not
+exceed one, the complete incorrect local score is at most
+\((G_{\mathrm{wrong}}^{\max})^{1/3}\). Thus every mismatched time loses at least
+\(\Delta_\Omega\) in local action. The edge comparison from Proposition 16
+permits at most two incident-edge gains of
+\(|\chi|+\lambda d_*^{\max}\) per mismatch. The stated strict inequality makes
+every nonplanted path worse. \(\square\)
+
+This result admits nonzero coupling between the planted set and its complement,
+and permits incorrect candidates to have positive integration scores. It is a
+uniform operator-norm neighborhood of Proposition 16. It is not a theorem for
+arbitrary modular dynamics. The cube root still limits the certified
+neighborhood, but Proposition 18 replaces the earlier first-order control of the
+wrong integration factor by a second-order bound.
+
+## Proposition 20: support-resolved finite-horizon recovery
+
+Keep the moving-clique reference family of Proposition 19, but now fix the
+actual matrices \(A_t,Q_t\), propagate their covariance from
+\(\Sigma_0=I\), and write \(\Gamma_t^0,\Gamma_t\) for the base and actual
+adjacent covariances. Let \(\Pi_D\) select a coordinate set \(D\). For the
+planted boundary \(S_t^*\), define the local and leakage block errors
+
+\[
+\eta_t^{\rm loc}=\|\Pi_{S_t^*\cup(S_t^*+n)}
+(\Gamma_t-\Gamma_t^0)\Pi_{S_t^*\cup(S_t^*+n)}^\mathsf T\|_2,
+\]
+
+\[
+\eta_t^{\rm leak}=\|\Pi_{[n]\cup(S_t^*+n)}
+(\Gamma_t-\Gamma_t^0)\Pi_{[n]\cup(S_t^*+n)}^\mathsf T\|_2.
+\]
+
+Use the minimum and maximum eigenvalues of the corresponding base blocks with
+Propositions 7, 8, and 10 to obtain a planted-score error \(e_t^*\). Thus
+
+\[
+L_t=\max\{0,\Omega_*-e_t^*\}
+\]
+
+is a valid planted-score lower bound. For every incorrect size-\(s\) candidate
+\(C\), set
+
+\[
+\eta_t(C)=\|\Pi_{C\cup(C+n)}
+(\Gamma_t-\Gamma_t^0)\Pi_{C\cup(C+n)}^\mathsf T\|_2,
+\]
+
+and let \(m_t(C),M_t(C)\) be the extreme eigenvalues of the corresponding base
+block. Apply Proposition 18 with these three local quantities to obtain
+\(z_t(C)<1\), and define
+
+\[
+U_t(C)=\left[1-\{1-z_t(C)^2\}^{1/s}\right]^{1/3},
+\qquad U_t=\max_{C\ne S_t^*}U_t(C).
+\]
+
+Let \(g_t=L_t-U_t\). For each planted edge define
+
+\[
+b_t^{\rm edge}=|\chi|+\lambda d_J(S_t^*,S_{t+1}^*),
+\]
+
+and let \(b_t^{\rm inc}\) be the sum of the one or two planted-edge bounds
+incident to time \(t\). If every local covariance condition required above is
+valid and
+
+\[
+\delta_{\rm supp}=\min_t\{g_t-b_t^{\rm inc}\}>0,
+\]
+
+then the planted path is the unique action maximizer. Its action margin is at
+least \(\delta_{\rm supp}\).
+
+**Proof.** The planted block errors are restrictions of the full covariance
+error, so the log-determinant and canonical-correlation arguments in
+Propositions 7 and 8 apply with the displayed block-specific spectra. Their
+factor errors pass through the complete planted score by Proposition 10.
+
+Every incorrect candidate contains a node outside the planted clique. Isolate
+one such node in its weakest cut. The two base conditional cross-covariances
+for that cut vanish. Proposition 18, applied only to
+\(C\cup(C+n)\), bounds its directed integration factor by
+\(1-(1-z_t(C)^2)^{1/s}\). The other two factors are at most one, giving the
+stated bound \(U_t(C)\) for the complete score.
+
+Consider any competing path and let \(M\) be its nonempty set of mismatched
+times. Its local-action deficit is at least \(\sum_{t\in M}g_t\). An edge can
+improve on the planted edge only if at least one endpoint is in \(M\), and its
+improvement is at most \(b_t^{\rm edge}\). Charging that edge to all incident
+mismatched endpoints can only overcount the possible gain. The competitor's
+action deficit is therefore at least
+
+\[
+\sum_{t\in M}(g_t-b_t^{\rm inc})
+\geq |M|\delta_{\rm supp}\geq\delta_{\rm supp}>0.
+\]
+
+This proves uniqueness and the margin claim. \(\square\)
+
+The certificate is support-resolved in two distinct senses. The perturbation
+is compressed to the coordinates used by each score, and the base spectrum of
+an incorrect candidate depends on its overlap with the planted clique. It also
+uses the exact planted edge penalty at each time instead of a uniform two-edge
+penalty. The result is deterministic and parameter-level: it requires the
+specified transition and noise matrices and enumerates all size-\(s\)
+candidates. It is not an a priori certificate from perturbation radii alone.
 
 ## Open conjectures
 
-### C1. Parameter-level planted world-tube recovery
+### C1. A priori support-sensitive robust recovery
 
-For a perturbation of Proposition 16 with external coupling norm at most
-\(\gamma\) and anisotropic noise bounded between \(q_-I\) and \(q_+I\), a
-strict separation between internal coupling and \(\gamma\) preserves a positive
-path margin on a nonempty interval of action weights. This would extend the
-closed-form base case to wrong candidates with nonzero local scores.
+Proposition 20 exploits realized candidate-local covariance errors. A stronger
+result would bound those quantities directly from sparse or block-structured
+transition and noise perturbations, without first propagating the full actual
+covariance. Such a theorem should expose scaling in candidate overlap,
+perturbation support, horizon, and graph degree, and determine whether the
+remaining cube-root loss is intrinsic or an artifact of factorwise control.
 
 ### C2. Sharper score stability under covariance perturbation
 

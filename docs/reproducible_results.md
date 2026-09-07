@@ -50,8 +50,8 @@ world-tube action, which also includes transport and continuity terms.
 | --- | ---: |
 | Boundaries recovered | 5 / 5 |
 | Winning action | 1.254324 |
-| Runner-up action | 1.127902 |
-| Exact action margin | 0.126422 |
+| Runner-up action | 1.127903 |
+| Exact action margin | 0.126421 |
 | Certified uniform score radius | 0.010535 |
 | Componentwise sufficient condition | Not satisfied |
 | Minimum componentwise margin | -0.046147 |
@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 32 tests. Continuous integration runs
+The automated suite currently contains 38 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -155,7 +155,7 @@ M=1.125000,
 M/m\approx13.156.
 \]
 
-Using the exact population action margin `0.126422`, confidence `0.95`, and the
+Using the exact population action margin `0.126421`, confidence `0.95`, and the
 worst-case bound of Proposition 9, 640 samples do not certify path recovery. The
 smallest certified ensemble size returned by the bound is approximately
 
@@ -248,10 +248,50 @@ points below it are uncertified, not proven failures. Gray marks parameters that
 violate the covariance-preserving stability condition. The gold star is the
 committed numerical example.
 
+## Experiment F: robust symbolic recovery
+
+Command:
+
+```bash
+python examples/perturbed_symbolic_recovery_experiment.py
+```
+
+This experiment perturbs every transition by a matrix of operator norm
+\(\gamma=10^{-5}\) whose support crosses the planted boundary. It also perturbs
+every process covariance by an anisotropic diagonal matrix of operator norm
+\(\nu=10^{-6}\). Covariances are propagated from \(\Sigma_0=I\); unit covariance
+is not imposed after the initial time.
+
+| Quantity | Value |
+| --- | ---: |
+| Maximum transition perturbation norm | `1.000e-05` |
+| Maximum noise perturbation norm | `1.000e-06` |
+| Largest incorrect integration factor | `6.489e-12` |
+| Largest incorrect local score | `0.000063` |
+| Global incorrect-score upper bound | `0.007891` |
+| Support-resolved incorrect-score upper bound | `0.001002` |
+| Global action-margin lower bound | `0.121550` |
+| Support-resolved action-margin lower bound | `0.129801` |
+| Exact action margin | `0.175280` |
+| Boundaries recovered | 3 / 3 |
+
+Incorrect candidates have positive integration in the numerical model, as
+allowed by Proposition 19. Proposition 20 restricts the covariance error to
+each score's coordinates and uses time-specific edge penalties. Its upper
+bound remains larger than the observed score, but reduces the gap without
+changing the model or fitting a constant to the result.
+
+![Robust recovery margin over transition and noise perturbation radii](perturbed_recovery_region.png)
+
+The black contour is the zero lower-bound boundary. The warm region is
+certified by the sufficient action inequality; the cool region is uncertified.
+The plot does not classify the cool region as a failure region. The gold star
+marks the direct numerical check.
+
 ## Required next controls
 
 - concentration over a provably sufficient near-competitor set
-- symbolic recovery with nonzero external coupling and anisotropic noise
+- a priori block-norm bounds from structured transition and noise perturbations
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

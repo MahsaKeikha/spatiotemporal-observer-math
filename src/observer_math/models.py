@@ -123,3 +123,63 @@ def covariance_preserving_moving_cliques(
         noise = np.eye(node_count) - transition @ transition.T
         systems.append((transition, noise))
     return planted_path, tuple(systems)
+
+
+def perturbed_covariance_preserving_moving_cliques(
+    node_count: int = 7,
+    module_size: int = 3,
+    step_count: int = 5,
+    *,
+    self_memory: float = 0.3,
+    internal_coupling: float = 0.2,
+    external_coupling_norm: float = 1e-5,
+    noise_perturbation_norm: float = 1e-6,
+) -> tuple[tuple[tuple[int, ...], ...], tuple[tuple[FloatMatrix, FloatMatrix], ...]]:
+    """Perturb moving cliques by external coupling and anisotropic noise.
+
+    At each time, the transition perturbation connects the planted module to
+    its complement and is scaled to the requested operator norm. The diagonal
+    noise perturbation has the requested operator norm and is not isotropic.
+    This deterministic construction is intended for theorem checks, not as a
+    general benchmark model.
+    """
+    if not np.isfinite(external_coupling_norm) or not np.isfinite(
+        noise_perturbation_norm
+    ):
+        raise ValueError("perturbation norms must be finite")
+    if external_coupling_norm < 0.0 or noise_perturbation_norm < 0.0:
+        raise ValueError("perturbation norms must be nonnegative")
+    planted_path, base_systems = covariance_preserving_moving_cliques(
+        node_count,
+        module_size,
+        step_count,
+        self_memory=self_memory,
+        internal_coupling=internal_coupling,
+    )
+    if external_coupling_norm > 0.0 and node_count == module_size:
+        raise ValueError("positive external coupling requires an outside node")
+
+    systems = []
+    anisotropy = np.linspace(-1.0, 1.0, node_count)
+    for time, (active, (base_transition, base_noise)) in enumerate(
+        zip(planted_path, base_systems, strict=True)
+    ):
+        outside = tuple(node for node in range(node_count) if node not in active)
+        direction = np.zeros((node_count, node_count))
+        for target in active:
+            for source in outside:
+                direction[target, source] = 1.0 + 0.1 * (target + source + time)
+                direction[source, target] = -0.4
+        direction_norm = float(np.linalg.norm(direction, ord=2))
+        transition_perturbation = (
+            np.zeros_like(direction)
+            if direction_norm == 0.0
+            else external_coupling_norm * direction / direction_norm
+        )
+        noise_perturbation = noise_perturbation_norm * np.diag(anisotropy)
+        transition = base_transition + transition_perturbation
+        noise = base_noise + noise_perturbation
+        if np.linalg.eigvalsh(noise)[0] <= 0.0:
+            raise ValueError("noise perturbation makes a process covariance singular")
+        systems.append((transition, noise))
+    return planted_path, tuple(systems)

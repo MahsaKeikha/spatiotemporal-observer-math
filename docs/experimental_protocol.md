@@ -141,7 +141,37 @@ couplings. Gray cells violate the transition stability condition, and the black
 zero contour separates positive from nonpositive theorem margins. The negative
 side is not interpreted as a necessary failure region.
 
-## 7. What the figures show
+## 7. Perturbed symbolic recovery experiment
+
+The sixth experiment keeps the five-node, two-node, three-time construction and
+adds two deterministic perturbations at every time:
+
+- a cross-boundary transition matrix scaled to spectral norm `1e-5`
+- an anisotropic diagonal noise perturbation scaled to spectral norm `1e-6`
+
+The transition direction is fixed by node and time indices, so the result is
+fully reproducible and uses no fitted parameter. The process covariance is
+checked for positive definiteness. Actual state covariances are propagated from
+the identity, and all local and transport scores are recomputed from the
+resulting adjacent covariances.
+
+The theorem check has two parts. First, the exact dynamic program must recover
+the planted path with a margin no smaller than the symbolic lower bound. Second,
+at least one incorrect candidate must acquire positive integration, while all
+incorrect scores remain below the theorem's uniform upper bound. The associated
+figure scans 110 logarithmically spaced transition radii and 110 noise radii.
+The zero contour separates positive and nonpositive sufficient margins, not
+empirical success and failure.
+
+A second certificate uses the same realized matrices but compresses each
+adjacent-covariance error to the coordinates required by a particular score.
+It enumerates every two-node candidate and records its overlap with the planted
+pair. The test verifies every planted lower bound and every incorrect upper
+bound against the directly computed scores. This comparison is fixed before
+inspection of the numerical margin; no parameter is tuned to improve the
+localized result.
+
+## 8. What the figures show
 
 `worldtube_baseline.png` displays local fixed-boundary scores for the twelve
 candidates with the largest maximum score across time. Cyan outlines mark the
@@ -159,7 +189,11 @@ moved.
 includes Wilson intervals for exact-path recovery. Overlapping bands should not
 be interpreted as pairwise significance tests.
 
-## 8. Tests tied to scientific claims
+`perturbed_recovery_region.png` shows the Proposition 19 lower bound as a
+function of two operator-norm radii. Its logarithmic axes resolve the small
+certified neighborhood created by the zero-factor cube-root term.
+
+## 9. Tests tied to scientific claims
 
 | Test | Property checked |
 | --- | --- |
@@ -184,9 +218,15 @@ be interpreted as pairwise significance tests.
 | `test_closed_form_moving_clique_score_matches_covariance_calculation` | Closed-form integration, persistence, and score equal the general covariance calculation |
 | `test_symbolic_margin_guarantees_moving_clique_path` | The planted path is recovered and its exact margin exceeds the symbolic lower bound |
 | `test_near_competitor_screen_removes_paths_below_robust_lower_action` | Forward-backward screening removes every state and edge below the robust winner lower action |
+| `test_perturbed_generator_has_requested_norms_and_nonzero_external_entries` | The construction has the requested spectral radii, cross-boundary support, and positive process covariance |
+| `test_perturbed_symbolic_margin_guarantees_numerical_path` | Positive incorrect scores remain bounded and the exact perturbed path margin exceeds the theorem's lower bound |
+| `test_perturbed_bound_rejects_nonfinite_radius_and_extends_certified_radius` | Invalid radii are rejected, the quadratic bound certifies `1e-4`, and a larger unresolved radius remains inconclusive |
+| `test_perturbed_factor_bounds_cover_random_dense_directions` | Covariance and local-score bounds cover twelve reproducible dense perturbation sequences |
+| `test_support_resolved_bound_covers_scores_and_improves_global_margin` | Every candidate-local bound covers its computed score and the resolved action margin improves on the global bound |
+| `test_support_resolved_bound_rejects_indefinite_noise` | The parameter-level certificate rejects an invalid process covariance |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
-## 9. Known weaknesses of the current experiment
+## 10. Known weaknesses of the current experiment
 
 The moving example is a proof of implementation, not a demanding benchmark.
 Its limitations are concrete:
@@ -203,13 +243,16 @@ Its limitations are concrete:
    selection on the current easy construction.
 9. The localized analytical threshold remains roughly ten orders of magnitude
    above the empirical recovery scale.
+10. The support-resolved theorem uses candidate overlap and perturbation
+    location, but requires the realized matrices and exhaustive fixed-size
+    candidate enumeration.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
 choose weights on separate training systems and evaluate them on held-out
 generative families.
 
-## 10. Reproduction commands
+## 11. Reproduction commands
 
 From the repository root:
 
@@ -220,9 +263,10 @@ python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
 python examples/symbolic_recovery_experiment.py
+python examples/perturbed_symbolic_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```
 
-Both figures are overwritten by the world-tube experiment so that committed
-images can always be traced back to the current script.
+Each committed figure is regenerated by its corresponding experiment script so
+that the plotted result can be traced to the current code.

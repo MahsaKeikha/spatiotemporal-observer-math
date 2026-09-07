@@ -200,6 +200,10 @@ The repository currently establishes:
 - a two-model impossibility bound for observationally similar systems
 - a sufficient near-competitor state-edge graph
 - a closed-form moving-clique recovery theorem in dynamical parameters
+- a finite-horizon recovery theorem under bounded external coupling and
+  anisotropic process noise
+- a quadratic conditional-information bound when the base partial correlation
+  vanishes
 
 It does not establish:
 

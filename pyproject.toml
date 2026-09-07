@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spatiotemporal-observer-math"
-version = "0.5.0"
+version = "0.6.0"
 description = "Reproducible mathematics for spatiotemporal observer-like organization"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [{name = "Mahsa Keikha"}]
 dependencies = [
   "numpy>=1.24",

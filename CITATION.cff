@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Keikha
     given-names: Mahsa
-version: 0.5.0
+version: 0.6.0
 date-released: 2026-09-07
 license: MIT
 repository-code: "https://github.com/MahsaKeikha/spatiotemporal-observer-math"

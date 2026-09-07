@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.6.0 - 2026-09-07
+
+- Derived a finite-horizon covariance recursion for transition and process-noise
+  perturbations around the covariance-preserving moving-clique family.
+- Propagated the resulting adjacent-covariance radius through directed
+  integration, environmental insulation, canonical persistence, and the local
+  geometric score.
+- Added a zero-conditional-cross-covariance theorem that gives quadratic rather
+  than first-order control of incorrect-candidate integration near the base
+  model.
+- Added a sufficient planted-path theorem that permits nonzero external
+  coupling, anisotropic noise, and positive scores for incorrect candidates.
+- Added a support-resolved theorem that uses candidate-local covariance blocks,
+  overlap-sensitive base spectra, and exact incident planted-edge penalties.
+- Added a deterministic perturbed-system generator, an end-to-end numerical
+  theorem check, a perturbation-region figure, and five regression tests.
+
 ## 0.5.0 - 2026-09-07
 
 - Added a forward-backward near-competitor screen that provably retains every

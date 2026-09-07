@@ -13,6 +13,7 @@ from .models import (
     correlated_but_uncoupled_system,
     covariance_preserving_moving_cliques,
     moving_module_systems,
+    perturbed_covariance_preserving_moving_cliques,
     ring_system,
 )
 from .nonstationary import (
@@ -46,7 +47,14 @@ from .sampling import (
     simulate_gaussian_ensemble,
 )
 from .search import Candidate, rank_subsystems
-from .symbolic import MovingCliqueRecoveryBound, covariance_preserving_moving_clique_bound
+from .symbolic import (
+    MovingCliqueRecoveryBound,
+    PerturbedMovingCliqueRecoveryBound,
+    SupportResolvedMovingCliqueRecoveryBound,
+    covariance_preserving_moving_clique_bound,
+    perturbed_moving_clique_recovery_bound,
+    support_resolved_moving_clique_recovery_bound,
+)
 from .worldtube import (
     WorldTubeCertificate,
     WorldTubeResult,
@@ -65,6 +73,8 @@ __all__ = [
     "MovingCliqueRecoveryBound",
     "NearCompetitorScreen",
     "ObserverMetrics",
+    "PerturbedMovingCliqueRecoveryBound",
+    "SupportResolvedMovingCliqueRecoveryBound",
     "TransportMetrics",
     "TwoPointIdentifiabilityBound",
     "WorldTubeCertificate",
@@ -93,6 +103,8 @@ __all__ = [
     "observer_metrics_from_covariances",
     "optimize_worldtube",
     "paths_equivalent_under_permutations",
+    "perturbed_covariance_preserving_moving_cliques",
+    "perturbed_moving_clique_recovery_bound",
     "product_root_error_bound",
     "propagate_covariances",
     "rank_subsystems",
@@ -101,6 +113,7 @@ __all__ = [
     "screen_near_competitors",
     "simulate_gaussian_ensemble",
     "structural_transport",
+    "support_resolved_moving_clique_recovery_bound",
     "transport_metrics",
     "transport_metrics_from_covariances",
     "two_point_identifiability_bound",

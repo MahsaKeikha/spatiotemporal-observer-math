@@ -64,10 +64,16 @@ current example shows that it is not necessary. The useful next version must
 express separation in terms of \(A_t\), \(Q_t\), and candidate overlap rather
 than in terms of scores assumed after the fact.
 
-Proposition 16 completes that step for a covariance-preserving moving clique
-with zero external off-diagonal coupling. The next theorem should allow bounded
-external coupling, anisotropic process noise, and partially integrated wrong
-candidates rather than forcing their weakest-cut score to zero.
+Propositions 17 through 19 extend the exact moving-clique result to a uniform
+finite-horizon neighborhood with bounded external coupling and anisotropic
+process noise. Incorrect candidates may now have positive local scores. The
+zero-cut partial-correlation bound gives the correct quadratic local scaling,
+but still controls every incorrect candidate through one global covariance
+radius. Proposition 20 gives a realized-system refinement based on candidate
+overlap, local covariance compression, and exact incident edge penalties. The
+next theorem should derive these local errors directly from block-sparse
+perturbation radii, avoiding full covariance propagation and candidate
+enumeration when the graph structure permits it.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -153,6 +159,10 @@ stable and predictively useful, not whether it indicates consciousness.
 - total-variation impossibility bound for incompatible observational models
 - sufficient near-competitor state-edge graph with \(O(TC^2)\) screening
 - closed-form moving-clique score and action-margin theorem in \(\alpha,\beta,Q_t\)
+- covariance propagation and planted-path recovery under bounded external
+  transition coupling and anisotropic process noise
+- support-resolved recovery from candidate-local covariance blocks and exact
+  incident planted-edge penalties
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

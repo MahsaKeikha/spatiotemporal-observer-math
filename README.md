@@ -66,8 +66,8 @@ The optimizer recovers all five boundaries in this construction.
 | --- | ---: |
 | Recovered boundaries | 5 / 5 |
 | Winning action | 1.254324 |
-| Runner-up action | 1.127902 |
-| Action margin | 0.126422 |
+| Runner-up action | 1.127903 |
+| Action margin | 0.126421 |
 | Certified uniform score radius | 0.010535 |
 
 This is a controlled calculation with known ground truth. It is not yet a
@@ -127,7 +127,27 @@ and both select the planted moving path. A forward-backward screen reduces the
 error-plausible graph at the localized threshold from 175 states and 4,900 edges
 to the five planted states and four planted edges.
 
+The closed-form result now has a finite-horizon perturbation extension. It
+allows nonzero transition coupling across the planted boundary and anisotropic
+process noise, propagates their spectral errors through the state covariance and
+all three score factors, and gives a complete action-margin condition. With
+transition and noise radii `1e-5` and `1e-6`, the committed construction has a
+symbolic lower margin of `0.121550` and an exact margin of `0.175280`. Incorrect
+candidates acquire small positive integration scores, so this check no longer
+depends on exact zero-score degeneracy. A zero-cut partial-correlation argument
+makes the incorrect-integration bound quadratic near the base model.
+
+A second, parameter-level certificate compresses the covariance error to the
+coordinates used by each candidate. It also charges the exact planted-edge
+budget incident to each mismatched time. On the same deterministic example,
+the maximum incorrect-score bound falls from `0.007891` to `0.001002`, and the
+certified action margin rises from `0.121550` to `0.129801`. This calculation
+enumerates all fixed-size candidates, so it is a sharper small-system
+certificate rather than a replacement for the global-radius theorem.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
+
+![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
 
 ## Read the project
 
@@ -136,7 +156,7 @@ to the five planted states and four planted edges.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Sixteen proved statements and the remaining external-coupling questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -162,6 +182,7 @@ python examples/worldtube_experiment.py
 python examples/finite_sample_benchmark.py --trials 32 --jobs 6
 python examples/identifiability_counterexample.py
 python examples/symbolic_recovery_experiment.py
+python examples/perturbed_symbolic_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -184,8 +205,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.5 adds a sufficient
-near-competitor graph and a closed-form recovery theorem in dynamical coupling,
-noise, module size, and action weights.
+This is an ongoing study, not a finished paper. Version 0.6 adds global and
+support-resolved robust extensions of the closed-form recovery theorem for
+cross-boundary transition coupling and anisotropic process noise.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.
