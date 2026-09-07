@@ -5,6 +5,10 @@
 - Added exact second-best world-tube inference and an optimality margin.
 - Added a theorem-backed uniform score-perturbation certificate.
 - Added adversarial perturbation tests for certified path stability.
+- Aligned local scoring, transport, and covariance propagation to a single
+  chronological transition index in the moving-boundary experiment.
+- Added full derivations, an experimental protocol, an API guide, and a precise
+  account of the proposed space-time-observer connection.
 
 ## 0.2.0 - 2026-09-07
 

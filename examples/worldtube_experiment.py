@@ -36,8 +36,8 @@ def main():
 
     systems = [active_system(node_count, active) for active in planted_path]
     covariances = propagate_covariances(
-        [system[0] for system in systems[1:]],
-        [system[1] for system in systems[1:]],
+        [system[0] for system in systems[:-1]],
+        [system[1] for system in systems[:-1]],
         stationary_covariance(*systems[0]),
     )
     local_scores = np.zeros((len(systems), len(candidates)))
@@ -50,11 +50,11 @@ def main():
 
     transport = np.zeros((len(systems) - 1, len(candidates), len(candidates)))
     for time in range(len(systems) - 1):
-        next_transition, next_noise = systems[time + 1]
+        transition, noise = systems[time]
         for previous, source in enumerate(candidates):
             for current, target in enumerate(candidates):
                 transport[time, previous, current] = transport_metrics(
-                    covariances[time], next_transition, next_noise, source, target
+                    covariances[time], transition, noise, source, target
                 ).transport_score
 
     certificate = certify_worldtube(

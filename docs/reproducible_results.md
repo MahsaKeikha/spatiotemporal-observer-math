@@ -41,16 +41,21 @@ The planted and recovered paths are identical:
 (0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
 ```
 
+![Local candidate scores with the selected path outlined](worldtube_baseline.png)
+
+The heat map contains local scores. The cyan outline comes from the complete
+world-tube action, which also includes transport and continuity terms.
+
 | Quantity | Value |
 | --- | ---: |
 | Boundaries recovered | 5 / 5 |
-| Winning action | 1.275235 |
-| Runner-up action | 1.138004 |
-| Exact action margin | 0.137231 |
-| Certified uniform score radius | 0.011436 |
+| Winning action | 1.254324 |
+| Runner-up action | 1.127902 |
+| Exact action margin | 0.126422 |
+| Certified uniform score radius | 0.010535 |
 
 The radius means that if every local score and every raw transport score changes
-by less than `0.011436` in absolute value, the inferred path is guaranteed not
+by less than `0.010535` in absolute value, the inferred path is guaranteed not
 to change under the assumptions of Proposition 4. This is a deterministic
 score-space guarantee, not yet a sampling-error confidence interval.
 

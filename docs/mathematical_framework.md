@@ -1,208 +1,208 @@
 # Mathematical framework
 
-## 1. Starting point
+## The boundary is part of the problem
 
-The source framework studies a density matrix \(\rho\), a Hamiltonian \(H\), and candidate
-factorizations
-
-\[
-\mathcal H \cong \mathcal H_S \otimes \mathcal H_E.
-\]
-
-For a chosen factorization, the Hamiltonian can be written as
+Suppose the complete state of a model is \(X_t\). Before asking what a subsystem
+does, one normally chooses which variables belong to it. This project makes that
+choice variable. A candidate boundary at time \(t\) is \(S_t\), and a candidate
+identity is the entire sequence
 
 \[
-H = H_S \otimes I_E + I_S \otimes H_E + H_{SE}.
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
 \]
 
-Small interaction \(H_{SE}\) supports independence. Exact maximization of this
-independence, however, can select an energy basis with no nontrivial dynamics.
-This is the Quantum Zeno tension identified in the source paper.
+The term *observer world-tube* refers to \(\mathcal W\). It does not assume that
+the selected process is conscious. The immediate mathematical problem is
+subsystem identification under changing membership.
 
-## 2. Baseline classical model
+This shift matters whenever organization persists while its physical support
+changes. A fixed cut can describe each time separately, but it cannot by itself
+say which cut at \(t+1\) continues a cut at \(t\).
 
-Version 0.1 begins with a stationary Gaussian process
+## Connection to the factorization problem
+
+The source framework begins with a quantum factorization
 
 \[
-X_{t+1}=AX_t+\varepsilon_t,
-\qquad
-\varepsilon_t\sim\mathcal N(0,Q),
-\qquad
-\rho(A)<1.
+\mathcal H\cong\mathcal H_S\otimes\mathcal H_E
 \]
 
-Its stationary covariance is the solution of
+and decomposes the Hamiltonian as
 
 \[
-\Sigma=A\Sigma A^\mathsf{T}+Q.
+H=H_S\otimes I_E+I_S\otimes H_E+H_{SE}.
 \]
 
-This model is deliberately modest. It lets us compute every information term
-exactly before moving to nonlinear or quantum systems.
+Weak \(H_{SE}\) favors independence, but independence alone can favor a basis in
+which the dynamics becomes trivial. That tension suggests that a useful
+subsystem criterion must retain both insulation and nontrivial internal change.
 
-For candidate subsystem \(S\) and internal bipartition \(S=U\sqcup V\), define
-bidirectional directed integration at lag \(\tau\):
+The present code does not solve the quantum factorization problem. It isolates a
+classical version in which every term can be calculated exactly, then asks what
+must be added when the factorization itself becomes a function of time.
 
-\[
-J_\tau(U,V)=
-I(X^{t+\tau}_U;X^t_V\mid X^t_U)
-+
-I(X^{t+\tau}_V;X^t_U\mid X^t_V).
-\]
+## Exact classical setting
 
-The subsystem's directed integration is its weakest normalized internal cut:
-
-\[
-\mathcal J_\tau(S)=
-\frac{1}{|S|}
-\min_{U\sqcup V=S}J_\tau(U,V).
-\]
-
-Conditioning on each part's own present matters. It prevents common static
-correlation from automatically counting as continuing internal organization.
-
-Environmental leakage is
-
-\[
-\mathcal L_\tau(S)=
-\frac{1}{|S|}
-I(X^{t+\tau}_S;X^t_{\bar S}\mid X^t_S).
-\]
-
-The current bounded factors are
-
-\[
-G_\tau(S)=1-2^{-\mathcal J_\tau(S)},
-\qquad
-K_\tau(S)=2^{-\mathcal L_\tau(S)}.
-\]
-
-Predictive persistence \(P_\tau(S)\) is the mean squared canonical correlation
-between \(X^t_S\) and \(X^{t+\tau}_S\). The fixed-boundary baseline score is
-
-\[
-\Omega_\tau(S)=
-\left[G_\tau(S)K_\tau(S)P_\tau(S)\right]^{1/3}.
-\]
-
-This score is not proposed as a consciousness meter. It is a reproducible test
-of three necessary properties for an observer-like process.
-
-## 3. Nonstationary extension
-
-For time-varying dynamics,
+The working model is
 
 \[
 X_{t+1}=A_tX_t+\varepsilon_t,
 \qquad
+\varepsilon_t\sim\mathcal N(0,Q_t),
+\qquad
+\varepsilon_t\perp X_t.
+\]
+
+The covariance is propagated without a stationarity assumption:
+
+\[
 \Sigma_{t+1}=A_t\Sigma_tA_t^\mathsf T+Q_t.
 \]
 
-No equilibrium covariance is assumed. For a source boundary \(S_t\) and target
-boundary \(S_{t+1}\), define transport persistence by the mean squared canonical
-correlations between \(X^t_{S_t}\) and \(X^{t+1}_{S_{t+1}}\):
+For a boundary \(S\), three questions are asked.
+
+### Does the boundary contain irreducible cross-prediction?
+
+For each internal bipartition \(S=U\sqcup V\),
 
 \[
-P_t(S_t\to S_{t+1})
-=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
-\qquad r=\min(|S_t|,|S_{t+1}|).
+J_t(U,V)=
+I(X_U^{t+1};X_V^t\mid X_U^t)
++I(X_V^{t+1};X_U^t\mid X_V^t).
 \]
 
-This quantity is invariant under any invertible linear reparameterization made
-separately within the source and target representations. Transition leakage is
+The internal term \(\mathcal J_t(S)\) is the smallest \(J_t(U,V)\), divided by
+\(|S|\). A boundary scores poorly if it contains even one cut across which the
+parts do not dynamically inform one another.
+
+### How much prediction enters from outside?
 
 \[
-L_t(S_t\to S_{t+1})
-=\frac{1}{|S_{t+1}|}
-I(X^{t+1}_{S_{t+1}};X^t_{\bar S_t}\mid X^t_{S_t}).
+\mathcal L_t(S)=\frac{1}{|S|}
+I(X_S^{t+1};X_{\bar S}^t\mid X_S^t).
 \]
 
-The implemented bounded transition score is
+This term is zero when the present environment adds no prediction of the
+subsystem's next state after the subsystem's own present is known.
+
+### Does the representation persist?
+
+Let \(\rho_1,\ldots,\rho_r\) be the canonical correlations between \(X_S^t\)
+and \(X_S^{t+1}\). Then
 
 \[
-\Theta_t(S_t\to S_{t+1})
-=\sqrt{P_t(S_t\to S_{t+1})2^{-L_t(S_t\to S_{t+1})}}.
+P_t(S)=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2.
 \]
 
-Unlike a coefficient-energy comparison, \(\Theta_t\) depends on the joint law
-of the process and does not reward prediction imported from outside the source
-boundary.
-
-## 4. Proposed contribution: observer world-tubes
-
-A fixed factorization assumes that the material or informational components of
-an observer remain unchanged. That assumption is too strong for organisms,
-adaptive machines, and changing representations.
-
-Let \(\mathfrak F_{d,n}\) denote the space of factorizations with observer
-dimension \(d\) inside total dimension \(n\). An identity candidate is a curve
+The local score combines bounded versions of these terms:
 
 \[
-\gamma:t\mapsto F_t\in\mathfrak F_{d,n},
+\Omega_t(S)=
+\left[
+\left(1-2^{-\mathcal J_t(S)}\right)
+2^{-\mathcal L_t(S)}
+P_t(S)
+\right]^{1/3}.
 \]
 
-not a single fixed factorization. In a discrete classical model, the analogous
-object is a sequence of subsets \(S_0,S_1,\ldots,S_T\). Its spacetime support
+The geometric mean is deliberately strict: zero directed integration makes the
+whole score zero. Equal weighting is provisional and exposed as a modeling
+choice.
+
+## Crossing a changing boundary
+
+Local scores do not decide whether \(S_t\) continues as \(S_{t+1}\). For a
+source boundary \(S\) and a possibly different target boundary \(R\), define
 
 \[
-\mathcal W=\{(i,t):i\in S_t\}
+P_t(S\to R)=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
 \]
 
-is an observer world-tube.
+where the canonical correlations now compare \(X_S^t\) with \(X_R^{t+1}\).
+The source-conditioned leakage is
 
-We propose to infer \(\mathcal W\) through a regularized variational objective:
+\[
+L_t(S\to R)=\frac{1}{|R|}
+I(X_R^{t+1};X_{\bar S}^t\mid X_S^t),
+\]
+
+and the transition score is
+
+\[
+\Theta_t(S\to R)=
+\sqrt{P_t(S\to R)2^{-L_t(S\to R)}}.
+\]
+
+Canonical correlations make the persistence term invariant under invertible
+linear changes of coordinates made independently inside the source and target.
+The leakage factor prevents a target from receiving full credit when its
+predictability is imported from outside the proposed source.
+
+## The discrete world-tube action
+
+For a finite candidate set \(\mathcal C\), choose one boundary \(S_t\in\mathcal
+C\) at every time and maximize
 
 \[
 \mathcal A(\mathcal W)=
-\sum_{t=0}^{T-\tau}
-\left[
-\alpha\Omega_t(S_t)
-+\chi\Theta_t(S_t\to S_{t+\tau})
-\right]
--\lambda\sum_{t=0}^{T-1}d_{\mathfrak F}(S_t,S_{t+1}).
+\sum_{t=0}^{T-1}\Omega_t(S_t)
++\chi\sum_{t=0}^{T-2}\Theta_t(S_t\to S_{t+1})
+-\lambda\sum_{t=0}^{T-2}d_J(S_t,S_{t+1}),
 \]
 
-The local term jointly rewards directed integration, insulation, and predictive
-persistence. The transition term rewards transport of an insulated
-representation rather than retention of identical material components. The
-final term is a geometric regularizer on movement through factorization space.
-
-The quantum formulation replaces subset distance with a gauge-invariant metric
-on a quotient of unitary space. A candidate form is
+with Jaccard distance
 
 \[
-\mathfrak F_{d,n}
-\simeq
-U(n) / \bigl(U(d)\otimes U(n/d)\bigr),
+d_J(S,R)=1-\frac{|S\cap R|}{|S\cup R|}.
 \]
 
-with local changes of basis treated as gauge transformations. The horizontal
-component of \(U_t^\dagger\dot U_t\) then measures genuine factorization drift,
-while vertical motion represents a relabeling internal to observer or
-environment.
+The last term favors some material continuity without imposing a fixed set of
+components. The global optimum and exact runner-up are found in \(O(TC^2)\)
+time for \(C\) candidates. The full recurrence and perturbation certificate are
+derived in [Derivations](derivations.md).
 
-This geometric statement is a research proposal, not yet a theorem. Establishing
-the exact quotient, stabilizers, metric, and existence conditions is part of the
-study.
+## A possible geometric lift
 
-## 5. Falsifiable hypotheses
+In a quantum model, a boundary is not merely a subset of labeled variables. It
+is a tensor-product structure. A path should therefore live in a space of
+factorizations modulo changes of basis made separately within the factors.
+A preliminary homogeneous-space candidate is
 
-1. On a system containing a coherent module that moves between physical nodes,
-   world-tube optimization will recover the moving module while every fixed-cut
-   method will fragment it.
-2. Correlated but dynamically uncoupled controls will have nonzero static mutual
-   information but near-zero directed integration.
-3. Maximizing independence alone will favor dynamically trivial solutions, while
-   the full action will retain nontrivial predictive dynamics.
-4. In systems with no persistent organizational boundary, the inferred action
-   will not contain a stable optimum across lags or regularization scales.
+\[
+\mathfrak F_{d,n}\sim
+U(n)\big/\left(U(d)\otimes U(n/d)\right).
+\]
 
-## 6. What remains to prove
+This expression is only a starting point. A complete construction must identify
+stabilizers and discrete equivalences, specify a metric, and show that vertical
+motion corresponds exactly to local basis changes. Only then is it meaningful
+to speak of a horizontal velocity, geodesic distance, curvature, or holonomy of
+a factorization path.
 
-- Invariance under coordinate changes that mix candidate and environment
-  variables, and under local quantum gauge transformations.
-- Bounds relating directed integration, entropy production, and autonomy time.
-- Conditions for existence and uniqueness of a maximizing world-tube.
-- Recovery guarantees for planted moving modules.
-- Relationship to geometric integrated information, PhiID, dynamical
-  independence, causal emergence, and computational mechanics.
+The intended role of the geometric term is clear even before that construction
+is complete: it should charge for genuine mixing of system and environment, but
+assign zero length to relabeling within either one.
+
+## What has and has not been shown
+
+The repository currently establishes:
+
+- the exact adjacent covariance for the nonstationary Gaussian model
+- invariance of canonical transport under separate invertible source and target
+  coordinate changes
+- boundedness of the transition score
+- exact global and runner-up path inference on a finite candidate set
+- a deterministic score-perturbation certificate
+- recovery in one small planted moving-module construction
+
+It does not establish:
+
+- that the score identifies consciousness
+- that the chosen functional is unique
+- recovery from finite data
+- robustness to hidden common causes or nonlinear observation maps
+- a preferred metric on quantum factorization space
+- equivalence or superiority relative to existing integration and emergence
+  measures
+
+Those distinctions define the next work rather than a disclaimer around it.

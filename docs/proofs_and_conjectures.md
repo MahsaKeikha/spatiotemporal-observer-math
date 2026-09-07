@@ -1,7 +1,8 @@
-# Proof ledger and conjecture register
+# Proved results and open problems
 
-This file separates mathematical results that already follow from the
-definitions from claims that still require proof or experiment.
+The first four statements below are consequences of the current definitions.
+The remaining statements are targets. They are not used as assumptions in the
+reported experiments.
 
 ## Proposition 1: nonstationary adjacent covariance
 
@@ -44,7 +45,7 @@ C=\Sigma_X^{-1/2}\Sigma_{XY}\Sigma_Y^{-1/2}.
 For any invertible maps \(R\) and \(T\), replacing \(X\) by \(RX\) and \(Y\)
 by \(TY\) leaves the canonical correlations unchanged.
 
-**Proof sketch.** The squared canonical correlations are the generalized
+**Proof.** The squared canonical correlations are the generalized
 eigenvalues of
 
 \[
@@ -52,10 +53,35 @@ eigenvalues of
 =\rho^2\Sigma_Xv.
 \]
 
-Under the two coordinate maps, the matrix pencil is transformed by invertible
-congruences. With \(v'=R^{-\mathsf T}v\), the generalized eigenvalue equation
-has the same \(\rho^2\). Thus the multiset of canonical correlations, and its
-mean square used here, is unchanged. \(\square\)
+Write \(X'=RX\) and \(Y'=TY\). Their covariance blocks are
+
+\[
+\Sigma_{X'}=R\Sigma_XR^\mathsf T,
+\quad
+\Sigma_{Y'}=T\Sigma_YT^\mathsf T,
+\quad
+\Sigma_{X'Y'}=R\Sigma_{XY}T^\mathsf T.
+\]
+
+Using invertibility of \(T\), the left matrix in the transformed generalized
+eigenproblem reduces to
+
+\[
+\Sigma_{X'Y'}\Sigma_{Y'}^{-1}\Sigma_{Y'X'}
+=R\Sigma_{XY}\Sigma_Y^{-1}\Sigma_{YX}R^\mathsf T.
+\]
+
+Set \(v'=R^{-\mathsf T}v\). Multiplying the original generalized eigenvalue
+equation by \(R\) shows
+
+\[
+\Sigma_{X'Y'}\Sigma_{Y'}^{-1}\Sigma_{Y'X'}v'
+=\rho^2\Sigma_{X'}v'.
+\]
+
+The transformed problem therefore has the same generalized eigenvalues
+\(\rho^2\), including multiplicity. Its canonical correlations and their mean
+square are unchanged. \(\square\)
 
 This is a block-coordinate invariance result. It is not yet invariance under an
 arbitrary mixing of observer and environment coordinates.

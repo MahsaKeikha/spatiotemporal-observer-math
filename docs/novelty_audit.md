@@ -1,88 +1,151 @@
-# Novelty audit and nearest-neighbor map
+# Relation to existing work
 
-This is a living audit, not a claim of priority. Its purpose is to make the
-candidate contribution precise enough to disprove, narrow, or strengthen.
+This note records the comparison that motivated the current construction. It is
+not a priority claim. If an equivalent objective over changing subsystem paths
+already exists, the scope of this project should be revised accordingly.
 
-## Candidate contribution under test
+## The comparison being tested
 
-The project asks whether a persistent observer-like process can be inferred as
-a **path of changing subsystem boundaries**, rather than as one fixed partition.
-The present candidate objective combines four ingredients in one optimization:
+Four ingredients appear together in the implemented optimization:
 
-1. dynamical integration across the weakest internal cut
-2. conditional predictive insulation from the current environment
-3. representation-invariant transport from one boundary to the next
-4. an explicit regularizer on motion through boundary or factorization space
+1. a weakest-cut measure of internal dynamical cross-prediction
+2. conditional prediction entering from outside the proposed source boundary
+3. basis-invariant predictive transport from one boundary to the next
+4. a path cost for changing physical membership
 
-The potentially distinctive object is therefore not any individual information
-measure. It is the variational world-tube formed by their joint optimization.
+None of these ingredients is new by itself. The narrower question is whether
+their combination defines a useful subsystem-identification problem when the
+identity of the subsystem is allowed to move.
 
-## Closest research programs
+## State-of-matter and factorization approach
 
-| Research program | What it already supplies | Difference to test here |
-| --- | --- | --- |
-| State-of-matter framework | Integration, independence, dynamics, and a factorization problem | Replaces a single factorization with a regularized time-indexed path |
-| Geometric integrated information | A differential-geometric distance from partitioned models | Current baseline uses a predictive weakest-cut functional and permits the boundary to move |
-| Integrated information decomposition | Temporal atoms of redundant, unique, and synergistic information | The atoms analyze a specified multivariate process; this project also searches over changing subsystem identity |
-| Dynamical independence | Information closure and emergence of macroscopic processes | The present objective adds internal minimum-cut integration and cross-boundary representation transport |
-| Causal emergence | Comparison of causal descriptions across scales | The present search is over temporally linked boundaries, not only a fixed coarse-graining |
-| Multilayer community detection | Communities whose memberships vary across network layers | The coupling is usually graph-structural; here transition rewards are distributional and conditional-information based |
-| Quantum subsystem relativity | Tensor-product structure depends on observables or reference frame | This project seeks a dynamical selection functional for a path of such structures |
-| Factorization and emergent time | Relations between Hilbert-space decomposition, locality, and time | The proposed path geometry treats changing factorization as an inferred identity trajectory, with explicit falsification tests |
-| Classical-subsystem search | Hamiltonian-dependent tensor structures supporting robust classical states | The target here is persistence of integrated organization across different factorizations, not only classicality of a fixed structure |
+The primary reference organizes the problem around information, integration,
+independence, dynamics, utility, and the choice of tensor factorization. It also
+shows why optimizing independence alone can lead to a dynamically unhelpful
+basis. The present project takes that tension as its starting constraint.
 
-## Current evidence boundary
+The change made here is to optimize a sequence of subsystem choices rather than
+one factorization. The current Gaussian implementation is classical and should
+not be read as a derivation of the proposed quantum geometry.
 
-Implemented now:
+## Geometric integrated information
 
-- exact covariance propagation for nonstationary linear Gaussian dynamics
-- exact Gaussian conditional mutual information across changing boundaries
-- canonical-correlation transport invariant under invertible linear changes of
-  coordinates within source and target blocks
-- discrete global world-tube optimization by dynamic programming
-- null tests for static correlation and environmental drive
+Geometric integrated information measures departure from a partitioned model
+using information geometry. That supplies a principled way to compare intact
+and disconnected dynamics. The weakest-cut conditional-information term used
+here is not the same quantity. Its role is narrower: it supplies one local score
+inside a larger path problem.
 
-Not established:
+A useful future comparison would replace the present local integration term with
+a geometric integrated-information term while leaving transport and path
+regularization unchanged. If the selected paths are stable under that
+replacement, the world-tube result may not depend strongly on the particular
+local integration measure.
 
-- priority over every equivalent formulation in the literature
-- a unique or universally correct observer functional
-- any sufficient condition for consciousness
-- a quantum recovery theorem
-- empirical validity in neural, biological, or artificial systems
+## Dynamical independence and information closure
 
-## How the audit can fail the proposal
+Dynamical independence asks when a macroscopic process is informationally closed
+with respect to microscopic dynamics. This is the closest conceptual neighbor
+to the leakage term. Both are concerned with whether the proposed process has
+predictive dependence on variables outside it.
 
-The candidate contribution should be narrowed or rejected if a prior method is
-found that jointly optimizes the same four ingredients over a time-dependent
-subsystem or tensor-factorization path, up to a mathematical equivalence. It
-should also be rejected if the inferred path is unstable under innocuous
-reparameterization, wins on structureless nulls, or cannot recover planted
-moving processes outside a hand-tuned regime.
+The present construction additionally requires internal cross-prediction and
+links different source and target boundaries through time. The substantive
+comparison is whether a dynamically independent macroscopic process, evaluated
+at consecutive times, already induces the same path. That has not been tested.
 
-## Primary references
+## Integrated information decomposition
+
+Integrated information decomposition separates temporal information into
+redundant, unique, and synergistic atoms. It offers a much finer account of how
+information is shared than the scalar score used here. The current project does
+not reproduce or replace those atoms.
+
+One open route is to define transport not from mean squared canonical
+correlation, but from the subset of temporal atoms that can be assigned to a
+source representation and recovered in a target representation. That may expose
+cases in which a high canonical correlation is mostly redundant rather than
+structurally informative.
+
+## Time-dependent community detection
+
+Multilayer community methods infer communities whose node membership changes
+across network layers. Their interlayer coupling plays a role similar to the
+Jaccard continuity penalty. The important difference is the source of the edge
+score: the current transition reward is computed from a joint probability law
+and explicitly conditions on variables outside the source boundary.
+
+This distinction needs an experiment, not an assertion. Both methods should be
+run on the same moving-module families, including cases where graph weight and
+conditional predictive dependence disagree.
+
+## Causal emergence and coarse-graining
+
+Causal-emergence methods compare descriptions at different scales and can favor
+a macro-level causal model over a micro-level one. The current candidate family
+selects subsets rather than arbitrary coarse-grainings. It therefore searches a
+smaller and differently structured space.
+
+Allowing learned coarse-graining maps in place of subsets could connect these
+problems. It would also remove the simple Jaccard geometry, so the path cost
+would need to be defined on representations rather than memberships.
+
+## Relativity and selection of quantum subsystems
+
+Work on virtual subsystems, observable-induced tensor-product structures, and
+quantum reference frames makes clear that subsystem structure is not generally
+fixed by a bare Hilbert space. Recent searches for classical subsystems ask
+which factorizations make robust quasi-classical behavior possible for a given
+Hamiltonian.
+
+The proposed geometric extension asks a different question: how should one
+compare factorizations at adjacent times, after quotienting out local basis
+changes? This remains an open construction. Until the quotient, metric, and
+transport law are explicit, it is only a research direction.
+
+## What would narrow or end this line of work
+
+The present formulation should be narrowed if prior work is found that is
+mathematically equivalent after a change of notation. It should be abandoned or
+substantially altered if any of the following persist under careful testing:
+
+- the path changes under an invertible reparameterization internal to a source
+  or target
+- structureless or externally driven nulls score as strongly as planted paths
+- recovery requires choosing weights with knowledge of the answer
+- the moving-boundary objective adds no predictive or recovery value over a
+  fixed boundary
+- the quantum path length depends on local basis labels that should be gauge
+  equivalent
+
+## References used in this comparison
 
 1. Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons &
-   Fractals* 76 (2015), 238-270. [doi:10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
+   Fractals* 76 (2015), 238-270.
+   [doi:10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
 2. M. Oizumi, N. Tsuchiya, and S. Amari, "Unified framework for information
-   integration based on information geometry," *PNAS* 113 (2016).
+   integration based on information geometry," *PNAS* 113 (2016), 14817-14822.
    [doi:10.1073/pnas.1603583113](https://doi.org/10.1073/pnas.1603583113)
 3. L. Barnett and A. K. Seth, "Dynamical independence: Discovering emergent
    macroscopic processes in complex dynamical systems," *Physical Review E*
-   108 (2023). [doi:10.1103/PhysRevE.108.014304](https://doi.org/10.1103/PhysRevE.108.014304)
-4. P. A. M. Mediano et al., "Integrated information decomposition unveils
-   major structural and dynamical differences among cortical areas," *PNAS*
-   122 (2025). [doi:10.1073/pnas.2423297122](https://doi.org/10.1073/pnas.2423297122)
-5. P. J. Mucha et al., "Community structure in time-dependent, multiscale,
-   and multiplex networks," *Science* 328 (2010).
+   108 (2023), 014304.
+   [doi:10.1103/PhysRevE.108.014304](https://doi.org/10.1103/PhysRevE.108.014304)
+4. P. A. M. Mediano et al., "Integrated information decomposition unveils major
+   structural and dynamical differences among cortical areas," *PNAS* 122
+   (2025), e2423297122.
+   [doi:10.1073/pnas.2423297122](https://doi.org/10.1073/pnas.2423297122)
+5. P. J. Mucha et al., "Community structure in time-dependent, multiscale, and
+   multiplex networks," *Science* 328 (2010), 876-878.
    [doi:10.1126/science.1184819](https://doi.org/10.1126/science.1184819)
-6. A. Vanrietvelde et al., "Quantum relativity of subsystems," *Physical
-   Review Letters* 128 (2022).
-   [doi:10.1103/PhysRevLett.128.170401](https://doi.org/10.1103/PhysRevLett.128.170401)
-7. S. Harshman and K. Ranade, "Observables can be tailored to change the
-   entanglement of any pure state," *Physical Review A* 84 (2011).
-   [doi:10.1103/PhysRevA.84.012303](https://doi.org/10.1103/PhysRevA.84.012303)
-8. "A Search for Classical Subsystems in Quantum Worlds," arXiv:2403.10895.
+6. E. I. Hoel, "When the map is better than the territory," *Entropy* 19
+   (2017), 188. [doi:10.3390/e19050188](https://doi.org/10.3390/e19050188)
+7. A. Vanrietvelde et al., "A change of perspective: switching quantum reference
+   frames via a perspective-neutral framework," *Quantum* 4 (2020), 225.
+   [doi:10.22331/q-2020-01-27-225](https://doi.org/10.22331/q-2020-01-27-225)
+8. P. Zanardi, D. A. Lidar, and S. Lloyd, "Quantum tensor product structures are
+   observable induced," *Physical Review Letters* 92 (2004), 060402.
+   [doi:10.1103/PhysRevLett.92.060402](https://doi.org/10.1103/PhysRevLett.92.060402)
+9. "A Search for Classical Subsystems in Quantum Worlds," arXiv:2403.10895.
    [arXiv](https://arxiv.org/abs/2403.10895)
-9. "Decompositions of Hilbert Space as Instances of Time," arXiv:1609.01295.
-   [arXiv](https://arxiv.org/abs/1609.01295)
-
+10. "Decompositions of Hilbert Space as Instances of Time," arXiv:1609.01295.
+    [arXiv](https://arxiv.org/abs/1609.01295)

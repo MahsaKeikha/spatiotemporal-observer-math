@@ -2,96 +2,136 @@
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
 
-An open research project led by **Mahsa Keikha, PhD**.
+An open research project by **Mahsa Keikha, PhD**.
 
-This repository studies a question motivated by the mathematical framework in
-*Consciousness as a State of Matter*:
+## The question
 
-> Can an observer be identified from mathematics alone when its boundary and
-> internal representation are allowed to change through time?
+Most mathematical treatments begin by choosing a system and its environment.
+That is often the right place to start, but it leaves a prior question
+unanswered: what makes one boundary persist as the system changes?
 
-The source framework connects information, integration, independence, dynamics,
-and tensor factorization. This project begins by reproducing those ideas in
-tractable models, then extends the factorization problem from a static choice to
-a path through factorization space.
+Here the boundary is allowed to move. At time \(t\), a candidate observer is a
+subset \(S_t\) of the available variables. Its history is the path
 
-The current work uses nonstationary linear Gaussian dynamical systems,
-conditional mutual information, canonical correlation, and globally optimized
-time-dependent subsystem boundaries. Every implemented result is paired with a
-test or a reproducible experiment, and open quantum extensions remain labeled
-as conjectures.
+\[
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+\]
 
-## Proposed contribution
+I call this path an **observer world-tube**. The name is operational. It means a
+temporally linked sequence of subsystem boundaries, not a claim about subjective
+experience.
 
-The core object is an **observer world-tube**. Instead of representing an observer
-as one fixed subsystem \(S\), we represent it as a sequence of factorizations
-\(F_t\), or a sequence of classical subsystem boundaries \(S_t\). Persistent
-identity is then organizational continuity along this path, not permanent
-membership of the same physical components.
+The working question is:
 
-![Observer world-tube baseline](docs/worldtube_baseline.png)
+> Can a changing boundary be inferred from internal dynamical integration,
+> insulation from external drive, and transport of predictive structure?
+
+## What is implemented
+
+The present model is a time-varying linear Gaussian process,
+
+\[
+X_{t+1}=A_tX_t+\varepsilon_t,
+\qquad \varepsilon_t\sim\mathcal N(0,Q_t).
+\]
+
+This setting is limited, but useful: the covariance evolves exactly, every
+information quantity has a closed form, and failures cannot be blamed on a
+neural estimator.
+
+For each candidate boundary the code measures:
+
+- cross-prediction across its weakest internal bipartition
+- prediction imported from the present environment
+- canonical-correlation persistence into the next state
+- transport from one candidate boundary to another
+
+A dynamic program then finds the globally maximizing path. A second dynamic
+program finds the exact runner-up and reports the action margin. That margin
+gives a deterministic radius within which bounded score perturbations cannot
+change the selected path.
+
+## Current numerical result
+
+The first nonstationary test contains a planted three-variable module whose
+membership shifts by one variable at every step:
+
+```text
+(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
+```
+
+The optimizer recovers all five boundaries in this construction.
+
+| Quantity | Value |
+| --- | ---: |
+| Recovered boundaries | 5 / 5 |
+| Winning action | 1.254324 |
+| Runner-up action | 1.127902 |
+| Action margin | 0.126422 |
+| Certified uniform score radius | 0.010535 |
+
+This is a controlled calculation with known ground truth. It is not yet a
+general recovery result. The phase diagram below is included because it shows
+both success and failure: too much penalty on changing physical membership
+forces the optimizer away from the moving process.
 
 ![Regularization phase diagram](docs/worldtube_phase_diagram.png)
 
-The current baseline combines:
+The fixed-boundary control is also intentionally simple. Correlated process
+noise produces nonzero static integration, while the directed integration and
+the combined score remain zero. This checks that correlation by itself is not
+being mistaken for continuing internal organization.
 
-- directed integration across an internal minimum-information partition
-- conditional insulation from the environment
-- predictive persistence across time
-- nonstationary covariance propagation
-- representation-invariant transport across changing boundaries
-- an exact runner-up margin and finite-perturbation robustness certificate
+## Read the project
 
-The current score is a candidate measure of observer-like organization. It is
-not a test for phenomenal consciousness.
-
-## Repository map
-
-| Path | Purpose |
+| Document | Contents |
 | --- | --- |
-| `src/observer_math/` | Exact Gaussian information measures and subsystem search |
-| `examples/` | Reproducible numerical experiments |
-| `tests/` | Mathematical and numerical invariants |
-| `docs/mathematical_framework.md` | Definitions, proposed action, and open proofs |
-| `docs/research_program.md` | Staged path from baseline to quantum formulation |
-| `docs/proofs_and_conjectures.md` | Proved properties and explicitly open claims |
-| `docs/novelty_audit.md` | Living comparison with the nearest research programs |
-| `docs/reproducible_results.md` | Numerical results, certificates, and required controls |
-| `notebooks/` | Explanatory and exploratory computations |
+| [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
+| [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
+| [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
+| [Proofs and conjectures](docs/proofs_and_conjectures.md) | Results proved here and statements still open |
+| [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
+| [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
+| [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
+| [API guide](docs/api.md) | Public functions and minimal examples |
+| [Research program](docs/research_program.md) | Completed work and next tests |
 
-## Run the baseline
+The implementation lives in [`src/observer_math`](src/observer_math), the two
+experiments are in [`examples`](examples), and each mathematical invariant used
+by the code has a corresponding test in [`tests`](tests).
+
+## Reproduce the calculations
 
 ```bash
+git clone https://github.com/MahsaKeikha/spatiotemporal-observer-math.git
+cd spatiotemporal-observer-math
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev,viz]"
-pytest
+python -m pytest
+python -m ruff check .
 python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-## Research discipline
+The automated checks run on Python 3.10, 3.11, and 3.12.
 
-The repository separates four levels of statement:
+## Interpretation boundary
 
-1. established results reproduced from cited work
-2. definitions introduced in this project
-3. numerical evidence
-4. conjectures requiring proof or experiment
-
-Novelty is not asserted until comparisons with temporal integrated information,
-PhiID, dynamical independence, causal emergence, and dynamic community methods
-are complete.
+The score is a tool for studying a sharply defined identification problem. A
+high value does not establish consciousness, sentience, agency, intelligence,
+or moral status. The current evidence consists of exact identities, unit tests,
+and small synthetic examples. Finite-sample estimation, broader null families,
+baseline comparisons, and the quantum construction remain open work.
 
 ## Primary reference
 
 Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 76 (2015), 238-270. [arXiv:1401.1219](https://arxiv.org/abs/1401.1219),
-[journal DOI](https://doi.org/10.1016/j.chaos.2015.03.014).
+[doi:10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014).
 
 ## Status
 
-Version 0.2 is an ongoing research study. Exact nonstationary Gaussian transport
-and discrete changing-boundary inference are implemented. The time-dependent
-quantum factorization geometry is a defined research target and is not presented
-as a completed theory or finished paper.
+This is an ongoing study, not a finished paper. Version 0.2 implements the exact
+Gaussian baseline and discrete world-tube search. The repository will change as
+counterexamples, comparisons, and stronger proofs are added.
