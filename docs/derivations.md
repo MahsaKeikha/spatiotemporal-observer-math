@@ -670,7 +670,45 @@ within-class factor equality is no longer required, but validity has moved into
 the interval declarations. A useful application must derive or audit those
 intervals from the model rather than select them after seeing the desired path.
 
-## 24. Choices that are still choices
+## 24. Deriving intervals from covariance residuals
+
+Factor intervals can be produced from a representative covariance rather than
+specified directly. Let a class representative have spectral range \([m,M]\),
+and place every population member inside a covariance ball of radius \(r<m\).
+The covariance-to-factor perturbation maps already used for sampling error can
+be applied first with radius \(r\). This creates a componentwise population
+factor box around the representative factors.
+
+The two perturbation stages must retain different spectral envelopes. Weyl's
+inequalities place every population member in \([m-r,M+r]\). A later sampling
+or model perturbation of radius \(\eta\) is therefore bounded using the member
+floor \(m-r\), not the representative floor \(m\). The required regime is
+\(\eta<m-r\).
+
+Schematically, the composition is
+
+\[
+\text{representative covariance}
+\xrightarrow{\ r\ }
+\text{population factor interval}
+\xrightarrow{\ \eta\ }
+\text{observed score interval}
+\xrightarrow{\ \mathrm{DP}\ }
+\text{path certificate}.
+\]
+
+State-class and ordered edge-class residuals remain separate throughout. This
+matters because a transport factor can use a different joint block from the
+local factors at its destination. Once the derived arrays are formed, the
+mismatch-state dynamic program is unchanged.
+
+The residual ball is a scientifically testable modeling assumption, not a free
+parameter. It may come from matrix structure, analytical cluster diameter, or
+an independently audited deterministic bound. Estimating it from the same data
+used for the final confidence claim requires an additional statistical
+argument.
+
+## 25. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

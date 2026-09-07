@@ -702,6 +702,46 @@ envelopes. It does not prove that the intervals themselves cover a particular
 model. Class multiplicities and the singleton planted-class requirement have
 the same meaning as in the exact class API.
 
+### Residual-derived class recovery
+
+```python
+from observer_math import residual_class_covariance_path_recovery_bound
+
+result = residual_class_covariance_path_recovery_bound(
+    representative_local_factors,
+    representative_transport_factors,
+    class_multiplicities,
+    planted_class_indices,
+    feasible_class_edges,
+    continuity_distance_lower_bounds,
+    planted_continuity_distances,
+    node_count,
+    subset_size,
+    local_covariance_residual_bounds=local_residuals,
+    representative_minimum_block_eigenvalues=local_reference_minimum,
+    representative_maximum_block_eigenvalues=local_reference_maximum,
+    transport_covariance_residual_bounds=edge_residuals,
+    representative_minimum_transport_eigenvalues=edge_reference_minimum,
+    representative_maximum_transport_eigenvalues=edge_reference_maximum,
+    covariance_spectral_errors=local_observation_errors,
+    transport_covariance_spectral_errors=edge_observation_errors,
+)
+certificate = result.recovery
+```
+
+This entry point derives the Proposition 28 factor boxes. Each residual radius
+bounds the spectral distance between a representative covariance and every
+population covariance represented by its state class or ordered edge class.
+The observation-error arrays are separate second-stage radii around those
+population members.
+
+The returned `ResidualClassPathRecoveryBound` exposes the derived lower and
+upper factor arrays, heterogeneity factor-error radii, Weyl-adjusted member
+eigenvalue envelopes, and the complete interval recovery result. Residual
+radii must be strictly below their representative eigenvalue floors. A valid
+statistical use must establish the residual radii independently or account for
+their estimation in its coverage argument.
+
 ## Identifiability and symmetry
 
 ```python

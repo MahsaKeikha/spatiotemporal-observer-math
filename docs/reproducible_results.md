@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 66 tests. Continuous integration runs
+The automated suite currently contains 69 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -466,6 +466,34 @@ therefore holds uniformly over the declared within-class heterogeneity rather
 than relying on exact equality of member factors. The example does not derive
 the intervals from a generative matrix model; that remains a separate modeling
 obligation.
+
+## Experiment M: covariance-residual-derived class intervals
+
+Command:
+
+```bash
+python examples/residual_derived_class_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Candidates per time | `8,250,291,250,200` |
+| Maximum local covariance residual | `7.000e-06` |
+| Maximum transport covariance residual | `4.000e-06` |
+| Maximum derived local factor width | `0.002828` |
+| Maximum derived transport factor width | `0.001616` |
+| Adversarial class path | `(5, 5, 5, 5, 4)` |
+| Planted action lower bound | `4.553926` |
+| Competitor action upper bound | `4.023811` |
+| Recovery slack | `0.530115` |
+| Sufficient condition | satisfied |
+
+Unlike Experiment L, this calculation does not specify factor widths. It
+starts with representative factors and covariance residual radii. Proposition
+29 converts the residuals to population factor intervals, adjusts the member
+spectral envelopes, and then applies a separate observation covariance error.
+The numerical result tests this complete composition. It remains conditional
+on the stated covariance residuals covering every represented class member.
 
 ## Required next controls
 

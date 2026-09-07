@@ -141,6 +141,23 @@ class IntervalClassPathRecoveryBound:
 
 
 @dataclass(frozen=True)
+class ResidualClassPathRecoveryBound:
+    """Interval certificate derived from representative class residuals."""
+
+    recovery: IntervalClassPathRecoveryBound
+    local_factor_lower_bounds: np.ndarray
+    local_factor_upper_bounds: np.ndarray
+    transport_factor_lower_bounds: np.ndarray
+    transport_factor_upper_bounds: np.ndarray
+    local_heterogeneity_factor_errors: np.ndarray
+    transport_heterogeneity_factor_errors: np.ndarray
+    minimum_member_block_eigenvalues: np.ndarray
+    maximum_member_block_eigenvalues: np.ndarray
+    minimum_member_transport_eigenvalues: np.ndarray
+    maximum_member_transport_eigenvalues: np.ndarray
+
+
+@dataclass(frozen=True)
 class NearCompetitorScreen:
     """State and edge graph that can still challenge a robust path lower bound."""
 
@@ -1241,6 +1258,167 @@ def interval_class_covariance_path_recovery_bound(
         transport_score_upper_bounds=transport_score_upper,
         all_blocks_valid=all_valid,
         guarantees_population_path=all_valid and slack > 0.0,
+    )
+
+
+def residual_class_covariance_path_recovery_bound(
+    representative_local_factors: ArrayLike,
+    representative_transport_factors: ArrayLike,
+    class_multiplicities: ArrayLike,
+    planted_class_indices: Sequence[int],
+    feasible_class_edges: ArrayLike,
+    continuity_distance_lower_bounds: ArrayLike,
+    planted_continuity_distances: ArrayLike,
+    node_count: int,
+    subset_size: int,
+    *,
+    local_covariance_residual_bounds: ArrayLike,
+    representative_minimum_block_eigenvalues: ArrayLike,
+    representative_maximum_block_eigenvalues: ArrayLike,
+    transport_covariance_residual_bounds: ArrayLike,
+    representative_minimum_transport_eigenvalues: ArrayLike,
+    representative_maximum_transport_eigenvalues: ArrayLike,
+    covariance_spectral_errors: ArrayLike,
+    transport_covariance_spectral_errors: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> ResidualClassPathRecoveryBound:
+    """Derive factor boxes from covariance residuals and certify recovery.
+
+    Each representative covariance is the center of a classwise spectral-norm
+    ball. The resulting factor errors define population factor intervals. A
+    second covariance radius then controls perturbation of each class member.
+    """
+    local = np.asarray(representative_local_factors, dtype=float)
+    transport = np.asarray(representative_transport_factors, dtype=float)
+    local_residuals = np.asarray(local_covariance_residual_bounds, dtype=float)
+    local_minimum = np.asarray(
+        representative_minimum_block_eigenvalues, dtype=float
+    )
+    local_maximum = np.asarray(
+        representative_maximum_block_eigenvalues, dtype=float
+    )
+    transport_residuals = np.asarray(
+        transport_covariance_residual_bounds, dtype=float
+    )
+    transport_minimum = np.asarray(
+        representative_minimum_transport_eigenvalues, dtype=float
+    )
+    transport_maximum = np.asarray(
+        representative_maximum_transport_eigenvalues, dtype=float
+    )
+
+    if local.ndim != 3 or local.shape[2] != 3:
+        raise ValueError("representative local factors must have shape (time, classes, 3)")
+    time_count, class_count, _ = local.shape
+    state_shape = (time_count, class_count)
+    edge_shape = (max(0, time_count - 1), class_count, class_count)
+    if transport.shape != (*edge_shape, 2):
+        raise ValueError(
+            "representative transport factors must have shape "
+            "(time - 1, classes, classes, 2)"
+        )
+    if not (
+        local_residuals.shape
+        == local_minimum.shape
+        == local_maximum.shape
+        == state_shape
+    ) or not (
+        transport_residuals.shape
+        == transport_minimum.shape
+        == transport_maximum.shape
+        == edge_shape
+    ):
+        raise ValueError("representative residual and spectral arrays have wrong shapes")
+    if (
+        np.any(~np.isfinite(local))
+        or np.any(~np.isfinite(transport))
+        or np.any((local < 0.0) | (local > 1.0))
+        or np.any((transport < 0.0) | (transport > 1.0))
+    ):
+        raise ValueError("representative factors must be finite and lie in [0, 1]")
+    spectral_arrays = (
+        local_residuals,
+        local_minimum,
+        local_maximum,
+        transport_residuals,
+        transport_minimum,
+        transport_maximum,
+    )
+    if any(np.any(~np.isfinite(array)) for array in spectral_arrays) or (
+        np.any(local_residuals < 0.0)
+        or np.any(local_minimum <= 0.0)
+        or np.any(local_maximum < local_minimum)
+        or np.any(local_residuals >= local_minimum)
+        or np.any(transport_residuals < 0.0)
+        or np.any(transport_minimum <= 0.0)
+        or np.any(transport_maximum < transport_minimum)
+        or np.any(transport_residuals >= transport_minimum)
+    ):
+        raise ValueError(
+            "residual radii must be smaller than valid representative eigenvalue floors"
+        )
+
+    local_heterogeneity_errors, _ = _local_factor_errors_from_covariance(
+        local_residuals,
+        local_minimum,
+        local_maximum,
+        node_count,
+        subset_size,
+    )
+    transport_heterogeneity_errors, _ = _transport_factor_errors_from_covariance(
+        transport_residuals,
+        transport_minimum,
+        transport_maximum,
+        node_count,
+        subset_size,
+    )
+    local_lower = np.clip(local - local_heterogeneity_errors, 0.0, 1.0)
+    local_upper = np.clip(local + local_heterogeneity_errors, 0.0, 1.0)
+    transport_lower = np.clip(
+        transport - transport_heterogeneity_errors, 0.0, 1.0
+    )
+    transport_upper = np.clip(
+        transport + transport_heterogeneity_errors, 0.0, 1.0
+    )
+
+    member_minimum = local_minimum - local_residuals
+    member_maximum = local_maximum + local_residuals
+    member_transport_minimum = transport_minimum - transport_residuals
+    member_transport_maximum = transport_maximum + transport_residuals
+    recovery = interval_class_covariance_path_recovery_bound(
+        local_lower,
+        local_upper,
+        transport_lower,
+        transport_upper,
+        class_multiplicities,
+        planted_class_indices,
+        feasible_class_edges,
+        continuity_distance_lower_bounds,
+        planted_continuity_distances,
+        node_count,
+        subset_size,
+        covariance_spectral_errors=covariance_spectral_errors,
+        minimum_block_eigenvalues=member_minimum,
+        maximum_block_eigenvalues=member_maximum,
+        transport_covariance_spectral_errors=transport_covariance_spectral_errors,
+        minimum_transport_block_eigenvalues=member_transport_minimum,
+        maximum_transport_block_eigenvalues=member_transport_maximum,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return ResidualClassPathRecoveryBound(
+        recovery=recovery,
+        local_factor_lower_bounds=local_lower,
+        local_factor_upper_bounds=local_upper,
+        transport_factor_lower_bounds=transport_lower,
+        transport_factor_upper_bounds=transport_upper,
+        local_heterogeneity_factor_errors=local_heterogeneity_errors,
+        transport_heterogeneity_factor_errors=transport_heterogeneity_errors,
+        minimum_member_block_eigenvalues=member_minimum,
+        maximum_member_block_eigenvalues=member_maximum,
+        minimum_member_transport_eigenvalues=member_transport_minimum,
+        maximum_member_transport_eigenvalues=member_transport_maximum,
     )
 
 

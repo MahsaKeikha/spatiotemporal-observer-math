@@ -1958,6 +1958,57 @@ The calculation remains \(O(TK^2)\). Its conclusion is conditional on the
 factor intervals covering every represented class member. Wider valid
 intervals remain correct but can make the sufficient condition inconclusive.
 
+## Proposition 29: covariance-residual derivation of class intervals
+
+For each local state class \((t,k)\), let \(\Gamma^0_{tk}\) be a representative
+joint covariance with spectrum in \([m_{tk},M_{tk}]\). Suppose every population
+member covariance \(\Gamma_{tk}^{(a)}\) in that class satisfies
+
+\[
+\left\|\Gamma_{tk}^{(a)}-\Gamma^0_{tk}\right\|_2\leq r_{tk}<m_{tk}.
+\]
+
+Make the analogous declaration for every ordered transport class pair, using
+separate representatives, spectral envelopes, and residual radii. Evaluate the
+three local factors and two transport factors at the representatives. Apply the
+factor-error construction of Propositions 7 and 8 with covariance error \(r\)
+to obtain vectors \(e^{\rm het}\). Then every population factor vector lies in
+
+\[
+\left[\max\{0,f^0-e^{\rm het}\},
+      \min\{1,f^0+e^{\rm het}\}\right]
+\]
+
+componentwise. Moreover, every member covariance has spectral bounds
+
+\[
+m^{\rm member}=m-r,
+\qquad
+M^{\rm member}=M+r.
+\]
+
+If an additional member-to-observation covariance error \(\eta\) satisfies
+\(\eta<m-r\), Proposition 28 applied to the derived factor intervals and the
+member spectral envelope gives a uniform path-recovery certificate. A positive
+result certifies the planted path simultaneously for every represented class
+member and every admitted observation perturbation.
+
+**Proof.** Proposition 7 bounds both Gaussian information factors under the
+representative-to-member residual. Proposition 8 bounds canonical persistence.
+The minimum over internal bipartitions preserves the uniform integration bound,
+because the minimum of functions is nonexpansive under a common sup-norm error.
+The bounded information-to-factor maps give \(e^{\rm het}\), and clipping gives
+the displayed factor box. Weyl's eigenvalue inequalities give \(m-r\) and
+\(M+r\). The second perturbation is therefore evaluated relative to a valid
+member covariance envelope. Proposition 28 completes the path comparison.
+\(\square\)
+
+This is a two-stage deterministic construction. The residual \(r\) describes
+population heterogeneity around a representative; \(\eta\) describes a further
+perturbation of an individual member. Their roles are not interchangeable.
+Computing the certificate remains \(O(TK^2)\) after valid representatives and
+residual radii have been established.
+
 ## Open conjectures
 
 ### C1. Sharper score stability under covariance perturbation

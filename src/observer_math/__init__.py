@@ -41,6 +41,7 @@ from .recovery import (
     IntervalClassPathRecoveryBound,
     LocalizedGaussianPathRecoveryBound,
     NearCompetitorScreen,
+    ResidualClassPathRecoveryBound,
     canonical_persistence_covariance_error_bound,
     class_compressed_covariance_path_recovery_bound,
     componentwise_recovery_bound,
@@ -55,6 +56,7 @@ from .recovery import (
     minimum_localized_gaussian_sample_size,
     moving_partition_localized_recovery_bound,
     product_root_error_bound,
+    residual_class_covariance_path_recovery_bound,
     screen_near_competitors,
 )
 from .sampling import (
@@ -107,6 +109,7 @@ __all__ = [
     "ObserverMetrics",
     "OverlapClassMovingCliqueRecoveryBound",
     "PerturbedMovingCliqueRecoveryBound",
+    "ResidualClassPathRecoveryBound",
     "SupportResolvedMovingCliqueRecoveryBound",
     "TransportMetrics",
     "TwoPointIdentifiabilityBound",
@@ -155,6 +158,7 @@ __all__ = [
     "propagate_covariances",
     "rank_subsystems",
     "regularized_sample_covariance",
+    "residual_class_covariance_path_recovery_bound",
     "ring_system",
     "screen_near_competitors",
     "simulate_gaussian_ensemble",

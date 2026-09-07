@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.15.0 - 2026-09-07
+
+- Derived classwise factor intervals from representative covariance models and
+  certified spectral-norm residual radii.
+- Separated population heterogeneity from subsequent observation covariance
+  error as two auditable perturbation stages.
+- Used Weyl eigenvalue bounds to construct the spectral envelopes required for
+  the second stage automatically.
+- Added a public residual-derived class recovery API and result record.
+- Verified equivalence with the direct interval API, monotonic degradation with
+  residual radius, and rejection at the representative eigenvalue floor.
+- Added a 1,000-node example with automatically derived factor intervals and a
+  positive complete-path recovery slack.
+
 ## 0.14.0 - 2026-09-07
 
 - Replaced exact within-class factor symmetry by certified componentwise factor

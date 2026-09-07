@@ -83,9 +83,11 @@ action margins. Proposition 27 combines this result with overlap classes
 without explicitly listing candidate block unions when factors are exactly
 class-constant. Proposition 28 replaces exact symmetry by componentwise factor
 intervals, expands them using separate local and edge covariance envelopes, and
-retains the \(O(TK^2)\) mismatch-state calculation. The next structural step is
-to derive valid factor intervals automatically from class residual, sparsity,
-or cluster-diameter summaries. In parallel, the statistical priority remains a
+retains the \(O(TK^2)\) mismatch-state calculation. Proposition 29 now derives
+those intervals from representative covariance models and certified class
+residual radii. The remaining structural step is to obtain the residual radii
+from primitive sparsity, graph, or cluster-diameter assumptions rather than
+supplying them directly. In parallel, the statistical priority remains a
 sample-split version of the near-competitor screen in Conjecture C1.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
@@ -192,6 +194,8 @@ stable and predictively useful, not whether it indicates consciousness.
   arbitrary-size overlap multiplicities
 - interval-certified class recovery allowing bounded within-class factor
   heterogeneity and signed transport weights
+- covariance-residual derivation of factor intervals with separate population
+  heterogeneity and observation-error stages
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

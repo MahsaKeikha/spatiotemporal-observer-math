@@ -204,6 +204,13 @@ action. The heterogeneous 1,000-node example retains a robust slack of
 `0.449062` while using nonzero factor intervals and the same six-state dynamic
 program.
 
+The factor intervals can now be derived from representative covariance models
+and certified within-class spectral residuals. A two-stage theorem separates
+population heterogeneity from subsequent observation error and automatically
+adjusts each member's eigenvalue envelope. In the committed large-family
+example, this construction gives a robust slack of `0.530115` without supplying
+factor widths by hand.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -215,7 +222,7 @@ program.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-eight proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Twenty-nine proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -248,6 +255,7 @@ python examples/moving_partition_influence_experiment.py
 python examples/moving_partition_recovery_experiment.py
 python examples/class_compressed_recovery_experiment.py
 python examples/heterogeneous_class_recovery_experiment.py
+python examples/residual_derived_class_recovery_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -270,8 +278,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.14 extends
-class-compressed robust path recovery to certified within-class factor
-intervals while retaining covariance-to-score perturbation guarantees.
+This is an ongoing study, not a finished paper. Version 0.15 derives
+within-class factor intervals from representative covariance residuals and
+composes them with a separate observation-error certificate.
 The repository will change as counterexamples, comparisons, and stronger proofs
 are added.
