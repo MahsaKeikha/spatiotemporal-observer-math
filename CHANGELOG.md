@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added exact second-best world-tube inference and an optimality margin.
+- Added a theorem-backed uniform score-perturbation certificate.
+- Added adversarial perturbation tests for certified path stability.
+
 ## 0.2.0 - 2026-09-07
 
 - Added exact covariance propagation for nonstationary Gaussian dynamics.

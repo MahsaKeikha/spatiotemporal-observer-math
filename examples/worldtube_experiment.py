@@ -8,6 +8,7 @@ import numpy as np
 
 from observer_math import (
     adjacent_joint_covariance,
+    certify_worldtube,
     observer_metrics_from_covariances,
     optimize_worldtube,
     propagate_covariances,
@@ -56,16 +57,20 @@ def main():
                     covariances[time], next_transition, next_noise, source, target
                 ).transport_score
 
-    result = optimize_worldtube(
+    certificate = certify_worldtube(
         local_scores,
         candidates,
         transport_scores=transport,
         transport_weight=0.25,
         continuity_weight=0.08,
     )
+    result = certificate.result
     print("Planted path:", planted_path)
     print("Recovered path:", result.path)
     print("Total action:", f"{result.total_action:.6f}")
+    print("Runner-up action:", f"{certificate.runner_up_action:.6f}")
+    print("Optimality margin:", f"{certificate.action_margin:.6f}")
+    print("Certified uniform score radius:", f"{certificate.uniform_score_radius:.6f}")
 
     order = np.argsort(-local_scores.max(axis=0))[:12]
     display = local_scores[:, order].T

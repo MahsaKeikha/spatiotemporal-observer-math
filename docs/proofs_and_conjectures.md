@@ -81,6 +81,35 @@ in \([0,1]\). Conditional mutual information is nonnegative, so \(K\in(0,1]\).
 The result follows by closure of \([0,1]\) under multiplication and square
 root. \(\square\)
 
+## Proposition 4: finite-horizon path robustness certificate
+
+Let a path \(p=(j_0,\ldots,j_{T-1})\) have action
+
+\[
+A(p)=\sum_{t=0}^{T-1}\ell_t(j_t)
++\chi\sum_{t=0}^{T-2}\theta_t(j_t,j_{t+1})
+-\lambda\sum_{t=0}^{T-2}d(j_t,j_{t+1}).
+\]
+
+Suppose the unique maximizing path has margin \(m>0\) over the exact runner-up.
+If every local score and every raw transport score is perturbed in absolute
+value by at most \(\epsilon\), while distances and weights remain fixed, the
+maximizer cannot change whenever
+
+\[
+\epsilon < \frac{m}{2[T+|\chi|(T-1)]}.
+\]
+
+**Proof.** The action of any one path changes by at most
+\(B\epsilon=[T+|\chi|(T-1)]\epsilon\). Therefore the difference between the
+winning path and any competitor changes by at most \(2B\epsilon\). If
+\(2B\epsilon<m\), every perturbed difference remains positive. \(\square\)
+
+The implementation obtains the exact runner-up using a two-best dynamic program
+with \(O(TC^2)\) time for \(C\) candidates. The reported radius is conservative:
+it protects against all simultaneous bounded entrywise perturbations, including
+the worst possible sign pattern.
+
 ## Open conjectures
 
 ### C1. Planted world-tube recovery

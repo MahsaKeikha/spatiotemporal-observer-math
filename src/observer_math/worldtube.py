@@ -23,6 +23,18 @@ class WorldTubeResult:
     continuity_cost: float
 
 
+@dataclass(frozen=True)
+class WorldTubeCertificate:
+    """Exact runner-up comparison and a uniform perturbation certificate."""
+
+    result: WorldTubeResult
+    runner_up_path: tuple[tuple[int, ...], ...] | None
+    runner_up_indices: tuple[int, ...] | None
+    runner_up_action: float
+    action_margin: float
+    uniform_score_radius: float
+
+
 def jaccard_distance(left: Sequence[int], right: Sequence[int]) -> float:
     """Distance between material memberships, bounded in [0, 1]."""
     left_set, right_set = set(left), set(right)
@@ -126,4 +138,120 @@ def optimize_worldtube(
         local_score=local_total,
         transport_reward=transport_total,
         continuity_cost=continuity_total,
+    )
+
+
+def certify_worldtube(
+    local_scores: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    *,
+    transport_scores: ArrayLike | None = None,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> WorldTubeCertificate:
+    """Return the optimum, exact runner-up, margin, and robustness radius.
+
+    The radius certifies the winning path against simultaneous entrywise
+    perturbations of at most epsilon in both local and raw transport scores.
+    Continuity distances and weights are treated as exact. If epsilon is less
+    than ``uniform_score_radius``, no competing path can overtake the winner.
+    """
+    local = np.asarray(local_scores, dtype=float)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if local.ndim != 2:
+        raise ValueError("local_scores must have shape (time, candidates)")
+    time_count, candidate_count = local.shape
+    if time_count < 1 or candidate_count != len(candidate_tuple):
+        raise ValueError("local_scores and candidates have incompatible shapes")
+
+    if transport_scores is None:
+        transport = np.zeros((max(0, time_count - 1), candidate_count, candidate_count))
+    else:
+        transport = np.asarray(transport_scores, dtype=float)
+        expected = (time_count - 1, candidate_count, candidate_count)
+        if transport.shape != expected:
+            raise ValueError(f"transport_scores must have shape {expected}")
+
+    continuity = np.empty((candidate_count, candidate_count), dtype=float)
+    for previous in range(candidate_count):
+        for current in range(candidate_count):
+            continuity[previous, current] = jaccard_distance(
+                candidate_tuple[previous], candidate_tuple[current]
+            )
+
+    # rank 0 and rank 1 hold the two best distinct histories ending at each state.
+    values = np.full((time_count, candidate_count, 2), -np.inf)
+    parent_node = np.full((time_count, candidate_count, 2), -1, dtype=int)
+    parent_rank = np.full((time_count, candidate_count, 2), -1, dtype=int)
+    values[0, :, 0] = local[0]
+
+    for time in range(1, time_count):
+        for current in range(candidate_count):
+            options: list[tuple[float, int, int]] = []
+            for previous in range(candidate_count):
+                edge = (
+                    transport_weight * transport[time - 1, previous, current]
+                    - continuity_weight * continuity[previous, current]
+                )
+                for rank in range(2):
+                    previous_value = values[time - 1, previous, rank]
+                    if np.isfinite(previous_value):
+                        options.append(
+                            (float(previous_value + edge + local[time, current]), previous, rank)
+                        )
+            options.sort(key=lambda item: item[0], reverse=True)
+            for rank, (score, previous, previous_rank) in enumerate(options[:2]):
+                values[time, current, rank] = score
+                parent_node[time, current, rank] = previous
+                parent_rank[time, current, rank] = previous_rank
+
+    endings = [
+        (float(values[-1, node, rank]), node, rank)
+        for node in range(candidate_count)
+        for rank in range(2)
+        if np.isfinite(values[-1, node, rank])
+    ]
+    endings.sort(key=lambda item: item[0], reverse=True)
+
+    def reconstruct(node: int, rank: int) -> tuple[int, ...]:
+        path = [node]
+        for time in range(time_count - 1, 0, -1):
+            previous_node = int(parent_node[time, node, rank])
+            previous_rank = int(parent_rank[time, node, rank])
+            path.append(previous_node)
+            node, rank = previous_node, previous_rank
+        path.reverse()
+        return tuple(path)
+
+    result = optimize_worldtube(
+        local,
+        candidate_tuple,
+        transport_scores=transport,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    if len(endings) < 2:
+        return WorldTubeCertificate(
+            result=result,
+            runner_up_path=None,
+            runner_up_indices=None,
+            runner_up_action=-np.inf,
+            action_margin=np.inf,
+            uniform_score_radius=np.inf,
+        )
+
+    runner_up_action, runner_up_node, runner_up_rank = endings[1]
+    runner_up_indices = reconstruct(runner_up_node, runner_up_rank)
+    margin = max(0.0, float(result.total_action - runner_up_action))
+    error_budget = 2.0 * (
+        time_count + abs(transport_weight) * max(0, time_count - 1)
+    )
+    radius = margin / error_budget
+    return WorldTubeCertificate(
+        result=result,
+        runner_up_path=tuple(candidate_tuple[index] for index in runner_up_indices),
+        runner_up_indices=runner_up_indices,
+        runner_up_action=runner_up_action,
+        action_margin=margin,
+        uniform_score_radius=radius,
     )

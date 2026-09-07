@@ -9,15 +9,23 @@ from .nonstationary import (
     transport_metrics,
 )
 from .search import Candidate, rank_subsystems
-from .worldtube import WorldTubeResult, optimize_worldtube, structural_transport
+from .worldtube import (
+    WorldTubeCertificate,
+    WorldTubeResult,
+    certify_worldtube,
+    optimize_worldtube,
+    structural_transport,
+)
 
 __all__ = [
     "Candidate",
     "ObserverMetrics",
     "TransportMetrics",
+    "WorldTubeCertificate",
     "WorldTubeResult",
     "adjacent_joint_covariance",
     "block_system",
+    "certify_worldtube",
     "correlated_but_uncoupled_system",
     "observer_metrics",
     "observer_metrics_from_covariances",

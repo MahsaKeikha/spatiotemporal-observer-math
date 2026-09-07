@@ -1,5 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
+[![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
+
 An open research project led by **Mahsa Keikha, PhD**.
 
 This repository studies a question motivated by the mathematical framework in
@@ -12,6 +14,12 @@ The source framework connects information, integration, independence, dynamics,
 and tensor factorization. This project begins by reproducing those ideas in
 tractable models, then extends the factorization problem from a static choice to
 a path through factorization space.
+
+The current work uses nonstationary linear Gaussian dynamical systems,
+conditional mutual information, canonical correlation, and globally optimized
+time-dependent subsystem boundaries. Every implemented result is paired with a
+test or a reproducible experiment, and open quantum extensions remain labeled
+as conjectures.
 
 ## Proposed contribution
 
@@ -32,6 +40,7 @@ The current baseline combines:
 - predictive persistence across time
 - nonstationary covariance propagation
 - representation-invariant transport across changing boundaries
+- an exact runner-up margin and finite-perturbation robustness certificate
 
 The current score is a candidate measure of observer-like organization. It is
 not a test for phenomenal consciousness.
@@ -47,6 +56,7 @@ not a test for phenomenal consciousness.
 | `docs/research_program.md` | Staged path from baseline to quantum formulation |
 | `docs/proofs_and_conjectures.md` | Proved properties and explicitly open claims |
 | `docs/novelty_audit.md` | Living comparison with the nearest research programs |
+| `docs/reproducible_results.md` | Numerical results, certificates, and required controls |
 | `notebooks/` | Explanatory and exploratory computations |
 
 ## Run the baseline
