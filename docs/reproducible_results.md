@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 52 tests. Continuous integration runs
+The automated suite currently contains 58 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -381,6 +381,34 @@ layers.
 The calculation uses four rectangular transition comparisons and never forms
 a common refinement. The final equality is specific to this single-path
 construction; Proposition 25 provides an upper bound in general.
+
+## Experiment J: moving-partition recovery certificate
+
+Command:
+
+```bash
+python examples/moving_partition_recovery_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Partition block counts | `2 -> 3 -> 4 -> 2` |
+| Population path | `(0, 1, 0)` |
+| Adversarial competitor | `(1, 1, 0)` |
+| Population action margin | `0.935000` |
+| Maximum covariance radius | `1.000e-10` |
+| Maximum local-score error | `3.438e-09` |
+| Maximum transport-score error | `2.236e-09` |
+| Recovery slack | `0.935000` |
+| Sufficient condition | satisfied |
+
+Candidate zero splits into two future blocks at the first layer, both
+candidates split into singleton blocks at the second layer, and each candidate
+merges back to one block at the final layer. The example verifies the complete
+calculation from rectangular covariance comparisons through score errors and
+the adversarial path dynamic program. The deliberately separated factors make
+this an implementation check of Proposition 26, not a boundary-tightness
+experiment.
 
 ## Required next controls
 

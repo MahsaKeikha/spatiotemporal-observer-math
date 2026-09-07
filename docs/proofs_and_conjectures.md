@@ -1717,6 +1717,102 @@ and time-local covariance comparisons. Sparse multiplication can reduce this
 cost further. The guarantee is still conditional on valid block-norm
 envelopes; changing a partition does not by itself supply those envelopes.
 
+## Proposition 26: moving-partition path-recovery certificate
+
+Let there be \(C\) candidates of equal size \(s\) on \(n\) variables. For each
+time \(t\), suppose candidate \(j\)'s future coordinates are a union
+\(J_{tj}\) of blocks in \(\mathcal P_{t+1}\). Select all present blocks and
+these future blocks in Proposition 25, and call the resulting adjacent-joint
+covariance radius
+
+\[
+\eta_{tj}=\left\|
+\begin{bmatrix}
+D_t & C_t[J_{tj},:]^\mathsf T\\
+C_t[J_{tj},:] & D_{t+1}[J_{tj},J_{tj}]
+\end{bmatrix}
+\right\|_2.
+\]
+
+Suppose the corresponding population covariance block has spectrum in
+\([m_{tj},M_{tj}]\), with \(0\leq\eta_{tj}<m_{tj}\), and define
+
+\[
+L_{tj}=-\log_2\!\left(1-\frac{\eta_{tj}}{m_{tj}}\right).
+\]
+
+Valid factor-error radii are
+
+\[
+e^G_{tj}=\min\{1,4\ln(2)L_{tj}\},
+\qquad
+e^K_{tj}=\min\!\left\{1,
+\ln(2)\frac{n+2s}{s}L_{tj}\right\},
+\]
+
+together with the canonical-persistence error \(e^P_{tj}\) from Proposition 8
+evaluated at \((m_{tj},M_{tj},\eta_{tj})\). Proposition 10 converts these into
+a local-score error
+
+\[
+e^\Omega_{tj}=R_3\!\left(
+(G_{tj},K_{tj},P_{tj}),
+(e^G_{tj},e^K_{tj},e^P_{tj})
+\right)
+\]
+
+and, for every edge entering candidate \(j\), a transport-score error
+
+\[
+e^\Theta_{tij}=R_2\!\left(
+(K^\Theta_{tij},P^\Theta_{tij}),
+(e^K_{tj},e^P_{tj})
+\right),
+\]
+
+where \(R_d\) denotes the positive-factor geometric-mean bound of Proposition
+10. For a candidate path \(p=(j_0,\ldots,j_{T-1})\), let
+
+\[
+b(p)=\sum_t e^\Omega_{t j_t}
++|\chi|\sum_{t=0}^{T-2}e^\Theta_{t j_tj_{t+1}}.
+\]
+
+If the population optimizer \(p^*\) satisfies
+
+\[
+A(p^*)-b(p^*)>
+\max_{p\ne p^*}\{A(p)+b(p)\},
+\]
+
+then every covariance sequence inside the declared moving-partition envelope
+has the same unique optimal path \(p^*\).
+
+**Proof.** Proposition 25 bounds the complete block containing all present
+variables and candidate \(j\)'s future variables. Every covariance used by the
+candidate's directed integration, leakage, and canonical persistence is a
+principal compression of this block and therefore has spectral error at most
+\(\eta_{tj}\). Proposition 7 gives the two Gaussian-information bounds. The
+two directed terms have total log-determinant dimension at most \(4s\), while
+the leakage term has dimension \(n+2s\). The maps from information in bits to
+the integration and independence factors have slopes bounded by \(\ln 2\),
+which gives \(e^G_{tj}\) and \(e^K_{tj}\). Propositions 8 and 10 give the
+remaining factor and score errors. Hence
+
+\[
+|\widehat A(p)-A(p)|\leq b(p)
+\]
+
+for every path. The strict robust-action inequality separates the lower action
+of \(p^*\) from the upper action of every competitor. The competitor maximum is
+computed by the same dynamic program with error-inflated rewards, so path
+enumeration is unnecessary. \(\square\)
+
+This is a deterministic perturbation theorem, not a sampling statement. It
+also requires each candidate's future coordinates to be represented exactly
+by its declared block union. Incorrect block membership or underestimated
+comparison entries invalidate the certificate.
+
 ## Open conjectures
 
 ### C1. Sharper score stability under covariance perturbation

@@ -580,6 +580,39 @@ split, merge, and membership-reassignment layers without exponential growth in
 membership histories. The caller remains responsible for providing valid
 operator-norm bounds for every time-indexed block.
 
+### Moving-partition path recovery
+
+```python
+from observer_math import moving_partition_localized_recovery_bound
+
+certificate = moving_partition_localized_recovery_bound(
+    envelope,
+    future_candidate_blocks,
+    local_factors,
+    transport_factors,
+    candidates,
+    node_count,
+    subset_size,
+    minimum_block_eigenvalues=minimum_eigenvalues,
+    maximum_block_eigenvalues=maximum_eigenvalues,
+)
+print(certificate.recovery_slack)
+```
+
+`future_candidate_blocks[t][j]` lists the blocks of partition `t + 1` whose
+union is candidate `j`'s future coordinate set. The function selects all
+present blocks and only that future union from the moving covariance envelope.
+It propagates the resulting candidate-local radius through Gaussian
+information, canonical persistence, geometric score stability, and the robust
+world-tube dynamic program.
+
+For applications that already have candidate-local covariance radii, call
+`covariance_radius_path_recovery_bound` directly. Both functions return the
+complete covariance, local-score, and transport-score error arrays, as well as
+the population path, adversarial competitor, robust slack, and sufficient
+recovery decision. This is a deterministic certificate. It does not assign a
+probability to the supplied perturbation envelope.
+
 ## Identifiability and symmetry
 
 ```python

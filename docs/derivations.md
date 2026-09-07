@@ -560,7 +560,39 @@ both sides of the forcing block have a time-respecting route to it. The
 rectangular cross recursion \(C_t=B_tD_t+R_t\) supplies the corresponding
 present-to-future joint bound.
 
-## 21. Choices that are still choices
+## 21. From layered covariance radii to path recovery
+
+For candidate \(j\) at time \(t\), take every present block and only the future
+blocks whose union represents that candidate. Proposition 25 returns one
+spectral radius \(\eta_{tj}\) for this compressed adjacent covariance. This
+single block contains every principal covariance required by the local score
+and every transport edge entering the candidate.
+
+The log-determinant perturbation factor is
+
+\[
+L_{tj}=-\log_2(1-\eta_{tj}/m_{tj}),
+\]
+
+where \(m_{tj}\) is a lower population eigenvalue bound. The two directions in
+the weakest internal cut have total dimension factor \(4s\). Environmental
+leakage has dimension factor \(n+2s\). After per-node normalization and the
+information-to-factor maps, these give explicit integration and insulation
+errors. The whitened cross-covariance argument supplies the persistence error.
+
+Candidate-dependent score errors are retained rather than replaced by their
+global maximum. A second dynamic program maximizes the population action plus
+these errors. Comparing that adversarial upper action with the population
+winner's error-deflated action proves path stability for every covariance
+sequence inside the envelope.
+
+The construction separates two issues that should not be conflated. The
+layered recursion certifies where covariance error can propagate. The robust
+path calculation certifies whether the remaining local error can change the
+optimizer. A zero influence radius is useful only because it becomes a zero
+score-error contribution at the corresponding state and incoming edges.
+
+## 22. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

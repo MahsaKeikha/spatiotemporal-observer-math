@@ -272,6 +272,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_moving_partition_envelope_covers_exact_matrix_recursion` | Rectangular block comparisons cover exact propagation across changing partitions and block counts |
 | `test_moving_partition_envelope_has_layered_influence_speed` | A forcing block remains excluded until its layered path reaches the observed block |
 | `test_moving_partition_envelope_rejects_misaligned_layers` | Consecutive rectangular comparison layers must have conformable block counts |
+| `test_covariance_radius_certificate_recovers_separated_path` | Candidate-local covariance radii propagate through every score factor to a positive robust path slack |
+| `test_moving_envelope_propagates_through_scores_and_path_certificate` | Moving-envelope joint radii exactly equal those consumed by the path certificate |
+| `test_covariance_radius_certificate_marks_invalid_spectral_regime` | A covariance radius at the eigenvalue floor cannot produce a valid recovery guarantee |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -304,6 +307,8 @@ Its limitations are concrete:
     signs, cancellation, exact support geometry, and dependencies among blocks.
 14. The moving-partition covariance theorem avoids common refinement, but it
     still assumes valid block-norm comparisons are supplied at every layer.
+15. The moving-partition recovery example uses deliberately separated
+    population factors and does not measure sharpness near the robust boundary.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -325,6 +330,7 @@ python examples/perturbed_symbolic_recovery_experiment.py
 python examples/block_sparse_recovery_experiment.py
 python examples/localized_influence_cone_experiment.py
 python examples/moving_partition_influence_experiment.py
+python examples/moving_partition_recovery_experiment.py
 python -m pytest
 python -m ruff check .
 ```

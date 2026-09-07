@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.12.0 - 2026-09-07
+
+- Propagated deterministic candidate-local covariance radii through directed
+  integration, environmental insulation, and canonical persistence.
+- Added candidate-specific local-score and transport-score error arrays.
+- Connected moving-partition block selections to an adversarial world-tube
+  recovery dynamic program.
+- Proved a robust path certificate for every covariance sequence inside the
+  declared layered envelope.
+- Refactored the finite-sample localized certificate to use the same
+  deterministic covariance-radius core.
+- Added three regression tests and a split/merge recovery example.
+
 ## 0.11.0 - 2026-09-07
 
 - Generalized the block covariance recursion to arbitrary time-indexed

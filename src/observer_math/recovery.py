@@ -8,6 +8,10 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike
 
+from .localization import (
+    MovingBlockCovarianceErrorEnvelope,
+    moving_block_joint_covariance_error_bound,
+)
 from .metrics import observer_metrics_from_covariances
 from .nonstationary import (
     adjacent_joint_covariance,
@@ -68,6 +72,25 @@ class LocalizedGaussianPathRecoveryBound:
     maximum_covariance_spectral_error: float
     maximum_local_score_error: float
     maximum_transport_score_error: float
+    viable_state_count: int
+    viable_edge_count: int
+    all_blocks_valid: bool
+    guarantees_population_path: bool
+
+
+@dataclass(frozen=True)
+class CovarianceRadiusPathRecoveryBound:
+    """Deterministic path certificate from candidate-local covariance radii."""
+
+    population_path: tuple[int, ...]
+    adversarial_competitor: tuple[int, ...] | None
+    population_action_margin: float
+    planted_lower_action: float
+    competitor_upper_action: float
+    recovery_slack: float
+    covariance_spectral_errors: np.ndarray
+    local_score_errors: np.ndarray
+    transport_score_errors: np.ndarray
     viable_state_count: int
     viable_edge_count: int
     all_blocks_valid: bool
@@ -396,6 +419,224 @@ def screen_near_competitors(
     )
 
 
+def covariance_radius_path_recovery_bound(
+    local_factors: ArrayLike,
+    transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    node_count: int,
+    subset_size: int,
+    *,
+    covariance_spectral_errors: ArrayLike,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> CovarianceRadiusPathRecoveryBound:
+    """Certify path recovery from deterministic candidate-local radii."""
+    local = np.asarray(local_factors, dtype=float)
+    transport = np.asarray(transport_factors, dtype=float)
+    covariance_errors = np.asarray(covariance_spectral_errors, dtype=float)
+    minimum = np.asarray(minimum_block_eigenvalues, dtype=float)
+    maximum = np.asarray(maximum_block_eigenvalues, dtype=float)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if local.ndim != 3 or local.shape[2] != 3:
+        raise ValueError("local_factors must have shape (time, candidates, 3)")
+    time_count, candidate_count, _ = local.shape
+    expected_transport = (max(0, time_count - 1), candidate_count, candidate_count, 2)
+    if transport.shape != expected_transport:
+        raise ValueError(f"transport_factors must have shape {expected_transport}")
+    if time_count < 1 or candidate_count != len(candidate_tuple):
+        raise ValueError("factor arrays and candidates have incompatible shapes")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if any(
+        len(candidate) != subset_size
+        or len(set(candidate)) != subset_size
+        or min(candidate) < 0
+        or max(candidate) >= node_count
+        for candidate in candidate_tuple
+    ):
+        raise ValueError("candidates must contain distinct valid nodes of subset_size")
+    spectral_shape = (time_count, candidate_count)
+    if not (
+        covariance_errors.shape == minimum.shape == maximum.shape == spectral_shape
+    ):
+        raise ValueError("spectral arrays must have shape (time, candidates)")
+    if (
+        np.any(~np.isfinite(local))
+        or np.any(~np.isfinite(transport))
+        or np.any((local < 0.0) | (local > 1.0))
+        or np.any((transport < 0.0) | (transport > 1.0))
+    ):
+        raise ValueError("population factors must be finite and lie in [0, 1]")
+    if (
+        np.any(~np.isfinite(covariance_errors))
+        or np.any(~np.isfinite(minimum))
+        or np.any(~np.isfinite(maximum))
+        or np.any(covariance_errors < 0.0)
+        or np.any(minimum <= 0.0)
+        or np.any(maximum < minimum)
+    ):
+        raise ValueError("require valid covariance errors and spectral envelopes")
+
+    valid_blocks = covariance_errors < minimum
+    local_errors = np.ones(spectral_shape, dtype=float)
+    independence_errors = np.ones(spectral_shape, dtype=float)
+    persistence_errors = np.ones(spectral_shape, dtype=float)
+    for time in range(time_count):
+        for current in range(candidate_count):
+            if not valid_blocks[time, current]:
+                continue
+            eta = float(covariance_errors[time, current])
+            lower = float(minimum[time, current])
+            upper = float(maximum[time, current])
+            logdet_factor = -np.log1p(-eta / lower) / np.log(2.0)
+            integration_error = min(1.0, np.log(2.0) * 4.0 * logdet_factor)
+            leakage_error = (node_count + 2 * subset_size) * logdet_factor / subset_size
+            independence_error = min(1.0, np.log(2.0) * leakage_error)
+            persistence_error = canonical_persistence_covariance_error_bound(
+                minimum_eigenvalue=lower,
+                maximum_eigenvalue=upper,
+                covariance_spectral_error=eta,
+            )
+            independence_errors[time, current] = independence_error
+            persistence_errors[time, current] = persistence_error
+            local_errors[time, current] = product_root_error_bound(
+                local[time, current],
+                (integration_error, independence_error, persistence_error),
+            )
+
+    transport_errors = np.ones(expected_transport[:-1], dtype=float)
+    for time in range(time_count - 1):
+        for previous in range(candidate_count):
+            for current in range(candidate_count):
+                transport_errors[time, previous, current] = product_root_error_bound(
+                    transport[time, previous, current],
+                    (
+                        independence_errors[time, current],
+                        persistence_errors[time, current],
+                    ),
+                )
+
+    local_scores = np.prod(local, axis=2) ** (1.0 / 3.0)
+    transport_scores = np.sqrt(np.prod(transport, axis=3))
+    near_competitors = screen_near_competitors(
+        local_scores,
+        transport_scores,
+        candidate_tuple,
+        local_errors,
+        transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    population = certify_worldtube(
+        local_scores,
+        candidate_tuple,
+        transport_scores=transport_scores,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    planted = population.result.candidate_indices
+    planted_error = float(
+        sum(local_errors[time, current] for time, current in enumerate(planted))
+        + abs(transport_weight)
+        * sum(
+            transport_errors[time, planted[time], planted[time + 1]]
+            for time in range(time_count - 1)
+        )
+    )
+    planted_lower = population.result.total_action - planted_error
+    direction = 0.0 if transport_weight == 0.0 else np.sign(transport_weight)
+    upper_result = certify_worldtube(
+        local_scores + local_errors,
+        candidate_tuple,
+        transport_scores=transport_scores + direction * transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    if upper_result.result.candidate_indices == planted:
+        competitor_upper = upper_result.runner_up_action
+        adversarial_competitor = upper_result.runner_up_indices
+    else:
+        competitor_upper = upper_result.result.total_action
+        adversarial_competitor = upper_result.result.candidate_indices
+    slack = float(planted_lower - competitor_upper)
+    all_valid = bool(np.all(valid_blocks))
+    return CovarianceRadiusPathRecoveryBound(
+        population_path=planted,
+        adversarial_competitor=adversarial_competitor,
+        population_action_margin=population.action_margin,
+        planted_lower_action=float(planted_lower),
+        competitor_upper_action=float(competitor_upper),
+        recovery_slack=slack,
+        covariance_spectral_errors=covariance_errors.copy(),
+        local_score_errors=local_errors,
+        transport_score_errors=transport_errors,
+        viable_state_count=near_competitors.viable_state_count,
+        viable_edge_count=near_competitors.viable_edge_count,
+        all_blocks_valid=all_valid,
+        guarantees_population_path=all_valid and slack > 0.0,
+    )
+
+
+def moving_partition_localized_recovery_bound(
+    envelope: MovingBlockCovarianceErrorEnvelope,
+    future_candidate_blocks: Sequence[Sequence[Sequence[int]]],
+    local_factors: ArrayLike,
+    transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    node_count: int,
+    subset_size: int,
+    *,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> CovarianceRadiusPathRecoveryBound:
+    """Certify path recovery using a moving block covariance envelope."""
+    local = np.asarray(local_factors, dtype=float)
+    if local.ndim != 3:
+        raise ValueError("local_factors must have three dimensions")
+    time_count, candidate_count, _ = local.shape
+    selections = tuple(
+        tuple(tuple(blocks) for blocks in time_selections)
+        for time_selections in future_candidate_blocks
+    )
+    if envelope.time_count != time_count:
+        raise ValueError("envelope and factor arrays must have the same time_count")
+    if len(selections) != time_count or any(
+        len(time_selections) != candidate_count for time_selections in selections
+    ):
+        raise ValueError(
+            "future_candidate_blocks must have shape (time, candidates, blocks)"
+        )
+
+    covariance_errors = np.empty((time_count, candidate_count), dtype=float)
+    for time in range(time_count):
+        present_blocks = tuple(range(envelope.block_counts[time]))
+        for current in range(candidate_count):
+            covariance_errors[time, current] = (
+                moving_block_joint_covariance_error_bound(
+                    envelope,
+                    time,
+                    present_blocks,
+                    selections[time][current],
+                )
+            )
+    return covariance_radius_path_recovery_bound(
+        local,
+        transport_factors,
+        candidates,
+        node_count,
+        subset_size,
+        covariance_spectral_errors=covariance_errors,
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+
+
 def localized_gaussian_path_recovery_bound(
     local_factors: ArrayLike,
     transport_factors: ArrayLike,
@@ -467,116 +708,36 @@ def localized_gaussian_path_recovery_bound(
         + np.sqrt(2.0 * np.log(2.0 * block_count / (1.0 - confidence)))
     ) / np.sqrt(sample_count - 1)
     covariance_errors = maximum * (2.0 * deviation + deviation**2)
-    valid_blocks = covariance_errors < minimum
-
-    local_errors = np.ones((time_count, candidate_count), dtype=float)
-    integration_errors = np.ones_like(minimum)
-    independence_errors = np.ones_like(minimum)
-    persistence_errors = np.ones_like(minimum)
-    for time in range(time_count):
-        for current in range(candidate_count):
-            if not valid_blocks[time, current]:
-                continue
-            eta = float(covariance_errors[time, current])
-            m = float(minimum[time, current])
-            upper = float(maximum[time, current])
-            logdet_factor = -np.log1p(-eta / m) / np.log(2.0)
-            integration_errors[time, current] = min(
-                1.0, np.log(2.0) * 4.0 * logdet_factor
-            )
-            leakage_error = (node_count + 2 * subset_size) * logdet_factor / subset_size
-            independence_errors[time, current] = min(
-                1.0, np.log(2.0) * leakage_error
-            )
-            persistence_errors[time, current] = (
-                canonical_persistence_covariance_error_bound(
-                    minimum_eigenvalue=m,
-                    maximum_eigenvalue=upper,
-                    covariance_spectral_error=eta,
-                )
-            )
-            local_errors[time, current] = product_root_error_bound(
-                local[time, current],
-                (
-                    integration_errors[time, current],
-                    independence_errors[time, current],
-                    persistence_errors[time, current],
-                ),
-            )
-
-    transport_errors = np.ones(expected_transport[:-1], dtype=float)
-    for time in range(time_count - 1):
-        for previous in range(candidate_count):
-            for current in range(candidate_count):
-                transport_errors[time, previous, current] = product_root_error_bound(
-                    transport[time, previous, current],
-                    (
-                        independence_errors[time, current],
-                        persistence_errors[time, current],
-                    ),
-                )
-
-    local_scores = np.prod(local, axis=2) ** (1.0 / 3.0)
-    transport_scores = np.sqrt(np.prod(transport, axis=3))
-    near_competitors = screen_near_competitors(
-        local_scores,
-        transport_scores,
+    deterministic = covariance_radius_path_recovery_bound(
+        local,
+        transport,
         candidate_tuple,
-        local_errors,
-        transport_errors,
+        node_count,
+        subset_size,
+        covariance_spectral_errors=covariance_errors,
+        minimum_block_eigenvalues=minimum,
+        maximum_block_eigenvalues=maximum,
         transport_weight=transport_weight,
         continuity_weight=continuity_weight,
     )
-    population = certify_worldtube(
-        local_scores,
-        candidate_tuple,
-        transport_scores=transport_scores,
-        transport_weight=transport_weight,
-        continuity_weight=continuity_weight,
-    )
-    planted = population.result.candidate_indices
-    planted_error = float(
-        sum(local_errors[time, current] for time, current in enumerate(planted))
-        + abs(transport_weight)
-        * sum(
-            transport_errors[time, planted[time], planted[time + 1]]
-            for time in range(time_count - 1)
-        )
-    )
-    planted_lower = population.result.total_action - planted_error
-
-    direction = 0.0 if transport_weight == 0.0 else np.sign(transport_weight)
-    upper_result = certify_worldtube(
-        local_scores + local_errors,
-        candidate_tuple,
-        transport_scores=transport_scores + direction * transport_errors,
-        transport_weight=transport_weight,
-        continuity_weight=continuity_weight,
-    )
-    if upper_result.result.candidate_indices == planted:
-        competitor_upper = upper_result.runner_up_action
-        adversarial_competitor = upper_result.runner_up_indices
-    else:
-        competitor_upper = upper_result.result.total_action
-        adversarial_competitor = upper_result.result.candidate_indices
-    slack = float(planted_lower - competitor_upper)
-    all_valid = bool(np.all(valid_blocks))
     return LocalizedGaussianPathRecoveryBound(
         sample_count=sample_count,
         confidence=confidence,
-        population_path=planted,
-        adversarial_competitor=adversarial_competitor,
-        population_action_margin=population.action_margin,
-        planted_lower_action=float(planted_lower),
-        competitor_upper_action=float(competitor_upper),
-        recovery_slack=slack,
+        population_path=deterministic.population_path,
+        adversarial_competitor=deterministic.adversarial_competitor,
+        population_action_margin=deterministic.population_action_margin,
+        planted_lower_action=deterministic.planted_lower_action,
+        competitor_upper_action=deterministic.competitor_upper_action,
+        recovery_slack=deterministic.recovery_slack,
         maximum_covariance_spectral_error=float(np.max(covariance_errors)),
-        maximum_local_score_error=float(np.max(local_errors)),
-        maximum_transport_score_error=float(np.max(transport_errors, initial=0.0)),
-        viable_state_count=near_competitors.viable_state_count,
-        viable_edge_count=near_competitors.viable_edge_count,
-        all_blocks_valid=all_valid,
-        guarantees_population_path=all_valid and slack > 0.0,
+        maximum_local_score_error=float(np.max(deterministic.local_score_errors)),
+        maximum_transport_score_error=float(
+            np.max(deterministic.transport_score_errors, initial=0.0)
+        ),
+        viable_state_count=deterministic.viable_state_count,
+        viable_edge_count=deterministic.viable_edge_count,
+        all_blocks_valid=deterministic.all_blocks_valid,
+        guarantees_population_path=deterministic.guarantees_population_path,
     )
 
 

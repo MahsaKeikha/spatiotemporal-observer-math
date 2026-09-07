@@ -78,8 +78,9 @@ two results replace full perturbation matrices by graph-degree summaries and
 then propagate covariance errors on fixed or changing block partitions.
 Rectangular comparisons between consecutive layers avoid a common refinement
 when blocks split, merge, or change membership. The next recovery theorem
-should connect these layered local radii directly to overlap-class score and
-action margins.
+now connects these layered local radii directly to candidate-local score and
+action margins. The remaining scalable step is to combine this result with
+overlap classes without explicitly listing candidate block unions.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -179,6 +180,8 @@ stable and predictively useful, not whether it indicates consciousness.
   exact finite-horizon influence-cone guarantee
 - moving-partition covariance influence cones using rectangular comparisons,
   without common refinement or membership-history enumeration
+- deterministic propagation of moving-partition covariance radii through all
+  observer-score factors and the adversarial path-recovery dynamic program
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines
