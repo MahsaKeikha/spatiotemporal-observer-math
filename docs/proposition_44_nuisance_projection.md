@@ -163,7 +163,7 @@ The nuisance coefficients \(B\) can be arbitrarily large. They do not enter the 
 
 ## Experiment AD
 
-[![Experiment AD: nuisance-projected covariance calibration](nuisance_projection_calibration.png)](nuisance_projection_calibration.png)
+[![Experiment AD: nuisance-projected covariance calibration](nuisance_projection_calibration.svg)](nuisance_projection_calibration.svg)
 
 Experiment AD uses four-dimensional Gaussian spatial covariance, stationary AR(1) temporal dependence with \(\phi=0.4\), \(N=800\), and an unknown affine mean. Across 96 trials at each of five trend amplitudes:
 
