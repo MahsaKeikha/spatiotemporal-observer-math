@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+<rect width="100%" height="100%" fill="#f7f9fc"/>
+<text x="60.0" y="58.0" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="#162033">Proposition 53: exact irregular-grid Markov factorization</text>
+<text x="60.0" y="92.0" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#162033">The exponential physical-time kernel is dense in covariance form but local in precision form.</text>
+<rect x="60.0" y="116.0" width="1320.0" height="64.0" rx="16" fill="#eaf2ff" stroke="#b9d1f6" stroke-width="1.4"/>
+<text x="86.0" y="156.0" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#162033">Same physical relaxation time: tau = 0.800 s</text>
+<text x="760.0" y="156.0" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#162033">alpha_i = exp(-Delta t_i / tau)</text>
+<rect x="60.0" y="205.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.4"/>
+<text x="84.0" y="243.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">A. Irregular gaps create local step correlations</text>
+<text x="84.0" y="271.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">Longer elapsed time gives a smaller alpha_i.</text>
+<line x1="130.0" y1="443.0" x2="663.0" y2="443.0" stroke="#9aa8ba" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="130.0" y1="443.0" x2="130.0" y2="301.0" stroke="#9aa8ba" stroke-width="1.5" stroke-linecap="round"/>
+<text x="84.0" y="307.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">1.0</text>
+<text x="84.0" y="448.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">0.5</text>
+<text x="318.0" y="473.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#162033">elapsed step dt (s)</text>
+<line x1="130.0" y1="314.9" x2="170.0" y2="324.8" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="170.0" y1="324.8" x2="183.3" y2="328.0" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="183.3" y1="328.0" x2="263.2" y2="346.6" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="263.2" y1="346.6" x2="329.9" y2="361.0" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="329.9" y1="361.0" x2="396.5" y2="374.6" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="396.5" y1="374.6" x2="409.8" y2="377.2" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="409.8" y1="377.2" x2="449.8" y2="384.9" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="449.8" y1="384.9" x2="463.1" y2="387.4" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="463.1" y1="387.4" x2="529.7" y2="399.3" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="529.7" y1="399.3" x2="596.4" y2="410.6" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="596.4" y1="410.6" x2="663.0" y2="421.1" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="130.0" cy="314.9" r="5.5" fill="#2563eb"/>
+<circle cx="170.0" cy="324.8" r="5.5" fill="#2563eb"/>
+<circle cx="183.3" cy="328.0" r="5.5" fill="#2563eb"/>
+<circle cx="263.2" cy="346.6" r="5.5" fill="#2563eb"/>
+<circle cx="329.9" cy="361.0" r="5.5" fill="#2563eb"/>
+<circle cx="396.5" cy="374.6" r="5.5" fill="#2563eb"/>
+<circle cx="409.8" cy="377.2" r="5.5" fill="#2563eb"/>
+<circle cx="449.8" cy="384.9" r="5.5" fill="#2563eb"/>
+<circle cx="463.1" cy="387.4" r="5.5" fill="#2563eb"/>
+<circle cx="529.7" cy="399.3" r="5.5" fill="#2563eb"/>
+<circle cx="596.4" cy="410.6" r="5.5" fill="#2563eb"/>
+<circle cx="663.0" cy="421.1" r="5.5" fill="#2563eb"/>
+<rect x="745.0" y="205.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.4"/>
+<text x="769.0" y="243.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">B. Exact precision matrix is tridiagonal</text>
+<text x="769.0" y="271.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">Only adjacent timestamps couple conditionally.</text>
+<rect x="837.0" y="293.0" width="169.0" height="169.0" fill="#edf2f7"/>
+<line x1="837.0" y1="293.0" x2="837.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="293.0" x2="1006.0" y2="293.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="850.0" y1="293.0" x2="850.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="306.0" x2="1006.0" y2="306.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="863.0" y1="293.0" x2="863.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="319.0" x2="1006.0" y2="319.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="876.0" y1="293.0" x2="876.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="332.0" x2="1006.0" y2="332.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="889.0" y1="293.0" x2="889.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="345.0" x2="1006.0" y2="345.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="902.0" y1="293.0" x2="902.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="358.0" x2="1006.0" y2="358.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="915.0" y1="293.0" x2="915.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="371.0" x2="1006.0" y2="371.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="928.0" y1="293.0" x2="928.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="384.0" x2="1006.0" y2="384.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="941.0" y1="293.0" x2="941.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="397.0" x2="1006.0" y2="397.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="954.0" y1="293.0" x2="954.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="410.0" x2="1006.0" y2="410.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="967.0" y1="293.0" x2="967.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="423.0" x2="1006.0" y2="423.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="980.0" y1="293.0" x2="980.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="436.0" x2="1006.0" y2="436.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="993.0" y1="293.0" x2="993.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="449.0" x2="1006.0" y2="449.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="1006.0" y1="293.0" x2="1006.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<line x1="837.0" y1="462.0" x2="1006.0" y2="462.0" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round"/>
+<rect x="837.7" y="293.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="850.7" y="293.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="837.7" y="306.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="850.7" y="306.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="863.7" y="306.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="850.7" y="319.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="863.7" y="319.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="876.7" y="319.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="863.7" y="332.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="876.7" y="332.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="889.7" y="332.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="876.7" y="345.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="889.7" y="345.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="902.7" y="345.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="889.7" y="358.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="902.7" y="358.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="915.7" y="358.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="902.7" y="371.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="915.7" y="371.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="928.7" y="371.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="915.7" y="384.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="928.7" y="384.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="941.7" y="384.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="928.7" y="397.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="941.7" y="397.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="954.7" y="397.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="941.7" y="410.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="954.7" y="410.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="967.7" y="410.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="954.7" y="423.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="967.7" y="423.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="980.7" y="423.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="967.7" y="436.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="980.7" y="436.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="993.7" y="436.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="980.7" y="449.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<rect x="993.7" y="449.7" width="11.6" height="11.6" fill="#2b6cb0"/>
+<text x="1045.0" y="323.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">37 nonzero entries</text>
+<text x="1045.0" y="353.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">out of 169 total entries</text>
+<text x="1045.0" y="392.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">Dense covariance</text>
+<text x="1045.0" y="419.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">Sparse conditional structure</text>
+<text x="1045.0" y="455.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#162033">No long-range precision edges appear.</text>
+<rect x="60.0" y="525.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.4"/>
+<text x="84.0" y="563.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">C. Innovation whitening is exact</text>
+<text x="84.0" y="592.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">W K_tau W^T = I and Q = W^T W</text>
+<text x="100.0" y="633.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">covariance products</text>
+<text x="360.0" y="633.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">1.11e-16</text>
+<circle cx="612.0" cy="627.0" r="6.0" fill="#0f9d78"/>
+<text x="100.0" y="673.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">precision inverse</text>
+<text x="360.0" y="673.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">1.90e-15</text>
+<circle cx="612.0" cy="667.0" r="6.0" fill="#0f9d78"/>
+<text x="100.0" y="713.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">whitening identity</text>
+<text x="360.0" y="713.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">8.32e-16</text>
+<circle cx="612.0" cy="707.0" r="6.0" fill="#0f9d78"/>
+<text x="100.0" y="753.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">precision Gram</text>
+<text x="360.0" y="753.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">1.78e-15</text>
+<circle cx="612.0" cy="747.0" r="6.0" fill="#0f9d78"/>
+<text x="100.0" y="790.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">All identities hold at floating-point precision.</text>
+<rect x="745.0" y="525.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.4"/>
+<text x="769.0" y="563.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">D. Local innovations factor the determinant</text>
+<text x="769.0" y="600.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#162033">det(K_tau) = product_i (1 - alpha_i^2)</text>
+<text x="769.0" y="641.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">log det from innovations</text>
+<text x="1067.0" y="641.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">-12.428066890445</text>
+<text x="769.0" y="679.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">dense log det</text>
+<text x="1067.0" y="679.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">-12.428066890445</text>
+<text x="769.0" y="717.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">absolute difference</text>
+<text x="1067.0" y="717.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">1.78e-15</text>
+<text x="769.0" y="767.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#162033">Likelihood geometry can be evaluated from local steps.</text>
+<rect x="60.0" y="835.0" width="1320.0" height="42.0" rx="16" fill="#eef7f3" stroke="#b8ddcf" stroke-width="1.4"/>
+<text x="84.0" y="862.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#162033">Physical reading: irregular sampling changes local transition coefficients, not the underlying tau.</text>
+</svg>
