@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.37.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.38.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one question:
@@ -10,78 +10,96 @@ An open mathematical research program by **Mahsa Keikha, PhD** built around one 
 
 The repository develops that question through exact Gaussian identities, moving-boundary optimization, identifiability results, deterministic robustness certificates, finite-sample concentration, and reproducible numerical studies.
 
-> **Interpretation boundary.** The word "observer" is used here as an operational mathematical name for a persistent moving subsystem boundary. The results do not prove consciousness, subjective experience, or a unique metaphysical observer.
+> **Interpretation boundary.** The word "observer" is used here as an operational mathematical name for a persistent moving subsystem boundary. The results do not prove consciousness, subjective experience, or a unique metaphysical observer. Any future observer-to-consciousness bridge must be stated and tested separately; see the [interpretation protocol](docs/interpretation_protocol.md).
 
 ## Verified research state
 
 | Research record | Current state |
 | --- | ---: |
-| Proved statements | **49 propositions** |
-| Reproducible studies | **35 experiments, A-Z and AA-AI** |
-| Committed scientific figures | **22 figures** |
-| Claim-level tests | **161 / 161 passing before release integration** |
+| Proved statements | **50 propositions** |
+| Reproducible studies | **36 experiments, A-Z and AA-AJ** |
+| Committed scientific figures | **23 figures** |
+| Claim-level tests | **166 / 166 passing before final release integration** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software release | **0.37.0** |
+| Research-software release | **0.38.0** |
 
 ### Start here
 
 **New reader:** [Research overview](docs/research_overview.md)  
 **Complete theorem and experiment map:** [Research index](docs/research_index.md)  
 **Detailed proofs 1-43:** [Proved results and open problems](docs/proofs_and_conjectures.md)  
-**Latest proofs 44-49:** [P44](docs/proposition_44_nuisance_projection.md) · [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [P46](docs/proposition_46_design_specific_ar1_envelope.md) · [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md) · [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md) · [P49](docs/proposition_49_compact_temporal_family.md)  
+**Latest proofs 44-50:** [P44](docs/proposition_44_nuisance_projection.md) · [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [P46](docs/proposition_46_design_specific_ar1_envelope.md) · [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md) · [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md) · [P49](docs/proposition_49_compact_temporal_family.md) · [P50](docs/proposition_50_calibrated_temporal_family.md)  
 **Numerical record:** [Experiments A-AC](docs/reproducible_results.md) · [latest experiments](docs/research_index.md)  
-**Assumptions and limits:** [Assumption ledger](docs/assumption_ledger.md)
+**Assumptions and limits:** [Assumption ledger](docs/assumption_ledger.md)  
+**Observer-to-consciousness bridge rules:** [Interpretation protocol](docs/interpretation_protocol.md)
 
 ---
 
-# Latest result: direct matrix concentration beyond a one-parameter temporal model
+# Latest result: learning a two-parameter temporal family from data
 
-## Proposition 49 and Experiment AI
+## Proposition 50 and Experiment AJ
 
-[![Experiment AI: compact temporal family concentration](docs/compact_temporal_family.svg)](docs/proposition_49_compact_temporal_family.md)
+[![Experiment AJ: observable temporal-family calibration](docs/calibrated_temporal_family.svg)](docs/proposition_50_calibrated_temporal_family.md)
 
-Proposition 48 made the direct matrix concentration theorem uniform over an unknown AR(1) coefficient. Proposition 49 changes the architecture of that argument.
+Proposition 49 can certify covariance uniformly over a compact temporal covariance family once a deterministic cover of that family is supplied. Proposition 50 adds an observable statistical layer in front of it.
 
-**The concentration theorem no longer assumes AR(1), or even a parameterization.** It starts from a deterministic finite cover of any declared compact temporal covariance family. If every admissible projected temporal covariance is close to some cover point in operator norm and projected normalization, Weyl's inequality controls every ordered temporal eigenvalue. The exact Gaussian matrix-mgf factors from Proposition 47 are monotone in those nonnegative eigenvalues, so the finite cover produces one valid family-wide matrix Chernoff envelope.
-
-The important probability point is explicit:
-
-> **There is no stochastic union bound over temporal cover points.** The cover is deterministic geometry used to construct one worst-case mgf before the probability inequality is applied.
-
-Experiment AI uses the two-parameter temporal family
+The calibration family is
 
 \[
 R_{\phi,\eta}=(1-\eta)R_\phi+\eta I,
 \]
 
-with
+where \(R_\phi\) is stationary AR(1) covariance and \(\eta\) is a white-noise fraction. Independent standardized Gaussian calibration channels may each have an arbitrary constant mean.
+
+The lag correlations satisfy
 
 \[
-\phi\in[0.45,0.72],
+r_1=(1-\eta)\phi,
 \qquad
-\eta\in[0,0.05].
+r_2=(1-\eta)\phi^2,
 \]
 
-Here `eta` is a white-noise fraction. The target record length is `N=400`, the covariance block dimension is four, the nuisance design is affine, and the covariance confidence is 97.5%.
+so, when positive,
 
-| Product cover | Cover points | Proposition 49 radius | Sphere-net family radius | Reduction |
-| --- | ---: | ---: | ---: | ---: |
-| `5 x 3` | 15 | `1.104` | `3.002` | 63.2% |
-| `9 x 5` | 45 | **`0.957`** | `2.572` | 62.8% |
-| `17 x 9` | 153 | **`0.891`** | `2.358` | 62.2% |
+\[
+\phi=\frac{r_2}{r_1},
+\qquad
+\eta=1-\frac{r_1^2}{r_2}.
+\]
 
-The transition is scientifically useful. The temporal family, sample count, confidence, nuisance design, and spatial dimension are held fixed. Only the deterministic family cover is refined. The certified radius moves from above one to below one, while the corresponding sphere-net family certificate remains above two.
+Proposition 50 estimates simultaneous finite-sample intervals for \(r_1\) and \(r_2\) from lagged increment energies, maps them into a conservative confidence rectangle for \((\phi,\eta)\), then conditions on the independent calibration record and applies Proposition 49 to a separate target record.
 
-Two seeded target-record checks with a large unknown affine mean also remained inside the final `0.891` radius:
+The main sharpening is structural: the theorem analyzes the **increment covariance spectrum itself** rather than multiplying the raw temporal spectral norm by a generic difference-operator bound. For lag 1, the AR(1) increment spectral peak is
 
-| True temporal parameters | Trials covered | Median error | Maximum error |
-| --- | ---: | ---: | ---: |
-| `(phi, eta) = (0.60, 0.02)` | 96 / 96 | 0.250 | 0.403 |
-| `(phi, eta) = (0.70, 0.04)` | 96 / 96 | 0.272 | 0.660 |
+\[
+4\frac{1-\phi}{1+\phi},
+\]
 
-These simulations make the scale visible. They are not the proof.
+and for lag 2 it is
 
-[Read Proposition 49](docs/proposition_49_compact_temporal_family.md) · [JSON results](docs/compact_temporal_family.json) · [reproduce Experiment AI](examples/compact_temporal_family.py) · [claim-level tests](tests/test_compact_temporal_family.py)
+\[
+4(1-\phi^2).
+\]
+
+Thus the low-frequency persistence that makes the raw AR(1) level spectrum large is strongly suppressed by the statistic used to estimate it.
+
+Experiment AJ fixes the target problem and changes only the number of independent calibration channels:
+
+| Calibration channels | Calibrated `phi` interval | Proposition 50 radius | Full-family Proposition 49 radius |
+| ---: | --- | ---: | ---: |
+| 16 | `[0.487, 0.750]` | `1.117` | `1.142` |
+| 32 | `[0.504, 0.737]` | `1.054` | `1.142` |
+| 64 | `[0.517, 0.679]` | **`0.871`** | `1.142` |
+| 128 | `[0.545, 0.659]` | **`0.814`** | `1.142` |
+| 256 | `[0.559, 0.640]` | **`0.772`** | `1.142` |
+
+The target sample count, spatial dimension, nuisance design, confidence split, cover resolution, and controlled temporal parameters remain fixed. Learning the temporal uncertainty alone moves the rigorous covariance radius from above one to below one at 64 calibration channels.
+
+At 64 channels, the lag-1 increment-specific correlation radius is about `0.021`, compared with about `0.091` from a generic raw-spectrum product bound. For lag 2, the corresponding comparison is about `0.035` versus `0.108`.
+
+Two independent 96-trial target-record visibility checks recorded maximum relative covariance errors `0.438` and `0.409`, below theorem radii `0.871` and `0.772`. These simulations make scale visible. They are not the proof.
+
+[Read Proposition 50](docs/proposition_50_calibrated_temporal_family.md) · [JSON results](docs/calibrated_temporal_family.json) · [reproduce Experiment AJ](examples/calibrated_temporal_family.py) · [render figure](examples/render_calibrated_temporal_family.py) · [claim-level tests](tests/test_calibrated_temporal_family.py) · [release record](docs/release_0_38.md)
 
 ---
 
@@ -100,6 +118,7 @@ The newest statistical sequence removes one restriction at a time.
 | 47 | sphere-net operator-norm reduction | direct weighted-Wishart matrix concentration using the full temporal spectrum |
 | 48 | known projected spectrum in P47 | interval-uniform direct matrix concentration with observable AR(1) calibration |
 | 49 | one-dimensional AR(1) family | direct matrix concentration over any compact temporal family with a certified finite cover |
+| 50 | deterministic multi-parameter family in P49 | observable two-parameter confidence family learned from independent calibration data |
 
 The progression is:
 
@@ -110,6 +129,8 @@ unknown AR(1) coefficient in a calibrated interval
         -> Proposition 48
 arbitrary compact temporal family with a deterministic cover
         -> Proposition 49
+random two-parameter confidence family learned from independent data
+        -> Proposition 50
 ```
 
 ---
@@ -151,6 +172,12 @@ The full projected eigenvalue profile is controlled between AR(1) grid points. I
 [![Experiment AI](docs/compact_temporal_family.svg)](docs/proposition_49_compact_temporal_family.md)
 
 The temporal geometry layer is modularized. Any family with a valid deterministic spectral and normalization cover can reuse the direct Gaussian matrix-concentration layer.
+
+## Proposition 50: data-calibrated compact family
+
+[![Experiment AJ](docs/calibrated_temporal_family.svg)](docs/proposition_50_calibrated_temporal_family.md)
+
+Independent calibration data now learns a finite-sample two-parameter temporal confidence rectangle before the compact-family covariance theorem is applied to an independent target record.
 
 ---
 
@@ -205,22 +232,30 @@ A high objective value is not automatically evidence of an identifiable physical
 
 None of the implemented scores is a measurement or proof of phenomenal consciousness.
 
+The project now maintains a separate [interpretation protocol](docs/interpretation_protocol.md) for any future attempt to connect observer structure to consciousness hypotheses. Such a bridge would require additional assumptions and tests, including representation invariance, causal discriminability, temporal identity, counterfactual robustness, empirical anchoring, and falsifiability.
+
 ---
 
 # What is established, and what is not
 
-Under its stated assumptions, the repository contains a conditional mathematical pipeline from time-varying Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed covariance layer now handles temporally dependent Gaussian sampling, fixed-subspace time-varying nuisance means, estimated AR(1) dependence, design-specific temporal geometry, direct matrix concentration, and compact multi-parameter temporal families supplied through deterministic covers.
+Under its stated assumptions, the repository contains a conditional mathematical pipeline from time-varying Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed covariance layer now handles temporally dependent Gaussian sampling, fixed-subspace time-varying nuisance means, estimated AR(1) dependence, design-specific temporal geometry, direct matrix concentration, compact multi-parameter temporal families, and an independently data-calibrated two-parameter temporal confidence family.
 
 Important restrictions remain:
 
 - Gaussianity in the current sharp statistical concentration layer;
 - temporal-spatial separability;
 - nuisance designs fixed before inspecting the target record;
-- deterministic temporal-family covers justified independently of the target record;
-- no general theorem yet for a data-calibrated multi-parameter or nonparametric temporal confidence set;
-- no claim that every real system has one intrinsic observer boundary.
+- exact standardized independent calibration channels in Proposition 50;
+- independence between Proposition 50 calibration data and the target covariance record;
+- a stationary AR(1) plus white-noise family for the current two-parameter calibration theorem;
+- the conservative rectangular propagation from lag correlations to parameter space;
+- no general finite-sample theorem yet for nonparametric temporal spectral uncertainty;
+- no claim that every real system has one intrinsic observer boundary;
+- no theorem connecting the observer objective by itself to phenomenal consciousness.
 
-The next major statistical frontier is to construct a **data-calibrated confidence set for a broader temporal covariance family** and compose that random family with Proposition 49 while keeping confidence accounting explicit.
+The next statistical frontier is a **sharper joint confidence region for the temporal parameters**, followed by finite-sample spectral-density confidence sets that can reuse Proposition 49.
+
+In parallel, the structural frontier is to develop **intervention-sensitive and representation-invariant observer quantities** before treating any consciousness bridge as a formal hypothesis.
 
 ---
 
@@ -243,6 +278,8 @@ python examples/design_specific_ar1_envelope.py
 python examples/weighted_wishart_matrix_chernoff.py
 python examples/uniform_matrix_chernoff_ar1.py
 python examples/compact_temporal_family.py
+python examples/calibrated_temporal_family.py
+python examples/render_calibrated_temporal_family.py
 ```
 
 Every numerical claim is expected to have a committed script, a machine-readable result file, a visible figure when useful, and claim-level test coverage.
@@ -258,14 +295,17 @@ Every numerical claim is expected to have a committed script, a machine-readable
 - [`docs/proposition_47_weighted_wishart_matrix_chernoff.md`](docs/proposition_47_weighted_wishart_matrix_chernoff.md): Proposition 47
 - [`docs/proposition_48_uniform_matrix_chernoff_ar1.md`](docs/proposition_48_uniform_matrix_chernoff_ar1.md): Proposition 48
 - [`docs/proposition_49_compact_temporal_family.md`](docs/proposition_49_compact_temporal_family.md): Proposition 49
+- [`docs/proposition_50_calibrated_temporal_family.md`](docs/proposition_50_calibrated_temporal_family.md): Proposition 50
+- [`docs/interpretation_protocol.md`](docs/interpretation_protocol.md): rules for any future observer-to-consciousness bridge hypothesis
 - [`docs/assumption_ledger.md`](docs/assumption_ledger.md): assumptions and failure conditions
+- [`docs/release_0_38.md`](docs/release_0_38.md): release 0.38.0 record
 - [`src/observer_math/`](src/observer_math/): mathematical implementation
 - [`tests/`](tests/): claim-level tests
 - [`examples/`](examples/): reproducible studies
 
 ## Citation
 
-Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). Current research-software release: **0.37.0**.
+Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). Current research-software release: **0.38.0**.
 
 ## License
 

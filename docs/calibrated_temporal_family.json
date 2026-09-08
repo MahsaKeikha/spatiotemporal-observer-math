@@ -1,0 +1,139 @@
+{
+  "seed": 20261201,
+  "target_sample_count": 400,
+  "calibration_sample_count": 400,
+  "dimension": 4,
+  "nuisance_design": "intercept + predeclared linear trend",
+  "calibration_confidence": 0.9875,
+  "covariance_confidence": 0.9875,
+  "combined_confidence_lower_bound": 0.9751562500000001,
+  "theta_grid_size": 1024,
+  "temporal_family": "R(phi, eta) = (1 - eta) R_phi + eta I",
+  "declared_autocorrelation_interval": [
+    0.45,
+    0.75
+  ],
+  "declared_white_noise_fraction_interval": [
+    0.0,
+    0.05
+  ],
+  "true_autocorrelation": 0.6,
+  "true_white_noise_fraction": 0.02,
+  "full_prior_matrix_radius": 1.1418867594276643,
+  "calibration_refinement": [
+    {
+      "channel_count": 16,
+      "lag_one_estimate": 0.6015743649428801,
+      "lag_one_error_radius": 0.042691458380332434,
+      "lag_two_estimate": 0.3852500985001681,
+      "lag_two_error_radius": 0.07167710912279689,
+      "autocorrelation_lower": 0.4867136793938847,
+      "autocorrelation_upper": 0.75,
+      "white_noise_fraction_lower": 0.0,
+      "white_noise_fraction_upper": 0.05,
+      "matrix_radius": 1.1174814827880932,
+      "full_prior_matrix_radius": 1.1418867594276643,
+      "combined_confidence_lower_bound": 0.9751562500000001,
+      "cover_point_count": 45,
+      "lag_one_generic_error_radius": 0.1954998392905174,
+      "lag_two_generic_error_radius": 0.22776861032345502
+    },
+    {
+      "channel_count": 32,
+      "lag_one_estimate": 0.5884981691078803,
+      "lag_one_error_radius": 0.029880263145021943,
+      "lag_two_estimate": 0.36181306861068574,
+      "lag_two_error_radius": 0.05007731716174858,
+      "autocorrelation_lower": 0.5041180856085301,
+      "autocorrelation_upper": 0.7373383154671383,
+      "white_noise_fraction_lower": 0.0,
+      "white_noise_fraction_upper": 0.05,
+      "matrix_radius": 1.0543387669072986,
+      "full_prior_matrix_radius": 1.1418867594276643,
+      "combined_confidence_lower_bound": 0.9751562500000001,
+      "cover_point_count": 45,
+      "lag_one_generic_error_radius": 0.13299953228368916,
+      "lag_two_generic_error_radius": 0.15580383395138536
+    },
+    {
+      "channel_count": 64,
+      "lag_one_estimate": 0.588223356784283,
+      "lag_one_error_radius": 0.020974958406256305,
+      "lag_two_estimate": 0.3502880914294003,
+      "lag_two_error_radius": 0.03510698417128727,
+      "autocorrelation_lower": 0.5173702871445626,
+      "autocorrelation_upper": 0.6794114830516488,
+      "white_noise_fraction_lower": 0.0,
+      "white_noise_fraction_upper": 0.05,
+      "matrix_radius": 0.8710230801463203,
+      "full_prior_matrix_radius": 1.1418867594276643,
+      "combined_confidence_lower_bound": 0.9751562500000001,
+      "cover_point_count": 45,
+      "lag_one_generic_error_radius": 0.0914250062726778,
+      "lag_two_generic_error_radius": 0.10754350004700446
+    },
+    {
+      "channel_count": 128,
+      "lag_one_estimate": 0.5891507984421237,
+      "lag_one_error_radius": 0.014754746180556015,
+      "lag_two_estimate": 0.3537318755335219,
+      "lag_two_error_radius": 0.024672873385818705,
+      "autocorrelation_lower": 0.5448848832035469,
+      "autocorrelation_upper": 0.6587871685911644,
+      "white_noise_fraction_lower": 0.0,
+      "white_noise_fraction_upper": 0.05,
+      "matrix_radius": 0.8140370532055141,
+      "full_prior_matrix_radius": 1.1418867594276643,
+      "combined_confidence_lower_bound": 0.9751562500000001,
+      "cover_point_count": 45,
+      "lag_one_generic_error_radius": 0.06333730945555413,
+      "lag_two_generic_error_radius": 0.07473151441833116
+    },
+    {
+      "channel_count": 256,
+      "lag_one_estimate": 0.5863977369568741,
+      "lag_one_error_radius": 0.010394786507150673,
+      "lag_two_estimate": 0.3512689433382573,
+      "lag_two_error_radius": 0.01737059948811584,
+      "autocorrelation_lower": 0.5594881482630859,
+      "autocorrelation_upper": 0.6399959280391739,
+      "white_noise_fraction_lower": 0.0,
+      "white_noise_fraction_upper": 0.05,
+      "matrix_radius": 0.7721945757344553,
+      "full_prior_matrix_radius": 1.1418867594276643,
+      "combined_confidence_lower_bound": 0.9751562500000001,
+      "cover_point_count": 45,
+      "lag_one_generic_error_radius": 0.044131274793193676,
+      "lag_two_generic_error_radius": 0.05218654874482147
+    }
+  ],
+  "finite_sample_checks": [
+    {
+      "calibration_channel_count": 64,
+      "trial_count": 96,
+      "median_relative_error": 0.23667815949772802,
+      "q95_relative_error": 0.36702957489192356,
+      "max_relative_error": 0.43813770984654793,
+      "theorem_radius": 0.8710230801463203,
+      "coverage_rate": 1.0,
+      "coverage_wilson_95": [
+        0.9615244121423243,
+        1.0
+      ]
+    },
+    {
+      "calibration_channel_count": 256,
+      "trial_count": 96,
+      "median_relative_error": 0.2241448335313163,
+      "q95_relative_error": 0.3690046392627021,
+      "max_relative_error": 0.40935546138615364,
+      "theorem_radius": 0.7721945757344553,
+      "coverage_rate": 1.0,
+      "coverage_wilson_95": [
+        0.9615244121423243,
+        1.0
+      ]
+    }
+  ],
+  "interpretation": "The calibration channels are independent of every target record. The simulations are visibility checks; Proposition 50 is proved analytically."
+}

@@ -17,8 +17,10 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | Audit Proposition 47 | [Weighted-Wishart matrix concentration](proposition_47_weighted_wishart_matrix_chernoff.md) |
 | Audit Proposition 48 | [Uniform matrix concentration over calibrated AR(1)](proposition_48_uniform_matrix_chernoff_ar1.md) |
 | Audit Proposition 49 | [Compact temporal-family matrix concentration](proposition_49_compact_temporal_family.md) |
+| Audit Proposition 50 | [Data-calibrated two-parameter temporal family](proposition_50_calibrated_temporal_family.md) |
 | Reproduce Experiments A-AC | [Reproducible results](reproducible_results.md) |
 | Inspect assumptions and interpretation limits | [Assumption ledger](assumption_ledger.md) |
+| Inspect requirements for any future consciousness interpretation | [Interpretation protocol](interpretation_protocol.md) |
 
 ---
 
@@ -71,7 +73,7 @@ Detailed statements and proofs: [Propositions 15-31](proofs_and_conjectures.md).
 
 Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
-## Dependent Gaussian sampling: Propositions 41-49
+## Dependent Gaussian sampling: Propositions 41-50
 
 | No. | What changed | Direct source |
 | ---: | --- | --- |
@@ -84,6 +86,7 @@ Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 | 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
 | 48 | Makes Proposition 47 uniform over the calibrated AR(1) interval by controlling every projected temporal eigenvalue between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
 | 49 | Replaces the one-dimensional AR(1) continuum by any compact temporal covariance family with a certified finite operator and normalization cover. | [Proof](proposition_49_compact_temporal_family.md) |
+| 50 | Learns a random two-parameter temporal confidence rectangle from independent calibration data and composes it with Proposition 49 for an independent target record. | [Proof](proposition_50_calibrated_temporal_family.md) |
 
 The latest progression is:
 
@@ -100,6 +103,8 @@ Can the matrix bound survive an unknown AR(1) coefficient?
         -> Proposition 48
 Can the concentration theorem stop depending on AR(1) geometry entirely?
         -> Proposition 49
+Can a multi-parameter temporal family be learned from data before certification?
+        -> Proposition 50
 ```
 
 ---
@@ -130,7 +135,7 @@ Gaussian screening calibration, structural-null refinements, trajectory-coupled 
 
 Full commands and numerical records: [Experiments A-AC](reproducible_results.md).
 
-## Latest experiments AD-AI
+## Latest experiments AD-AJ
 
 | ID | Result | What to notice | Proof, data, code |
 | --- | --- | --- | --- |
@@ -140,8 +145,9 @@ Full commands and numerical records: [Experiments A-AC](reproducible_results.md)
 | AG | Weighted-Wishart matrix concentration | Direct matrix concentration cuts tested covariance radii by roughly 52% to 60%. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
 | AH | Interval-uniform matrix concentration | An unknown AR(1) coefficient no longer forces the strong-correlation matrix certificate above one in the displayed regimes. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
 | AI | Compact temporal-family concentration | A two-parameter temporal family crosses below radius one under deterministic cover refinement, while the sphere-net family certificate stays above two. | [Proof](proposition_49_compact_temporal_family.md) · [JSON](compact_temporal_family.json) · [script](../examples/compact_temporal_family.py) |
+| AJ | Observable two-parameter temporal calibration | Increasing only independent calibration information contracts the temporal family and moves the target covariance certificate below one at 64 channels. | [Proof](proposition_50_calibrated_temporal_family.md) · [JSON](calibrated_temporal_family.json) · [script](../examples/calibrated_temporal_family.py) |
 
-### Six newest figures
+### Seven newest figures
 
 [![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
@@ -155,23 +161,29 @@ Full commands and numerical records: [Experiments A-AC](reproducible_results.md)
 
 [![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
+[![Experiment AJ](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
+
 ---
 
 # What the repository currently establishes
 
-Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, direct matrix concentration, and compact temporal covariance families represented by deterministic finite covers.
+Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, direct matrix concentration, compact temporal covariance families represented by deterministic finite covers, and an independently data-calibrated two-parameter temporal confidence family.
 
-Proposition 49 does not infer a temporal-family confidence set from the target data. It assumes the family and its deterministic cover are valid before the covariance concentration argument is applied.
+Proposition 50 does not infer arbitrary temporal dependence. It assumes independent standardized Gaussian calibration channels, a stationary AR(1) plus white-noise family, a declared parameter box, and an independent target record sharing the same temporal parameters. The resulting parameter rectangle is conservative and can remain prior-limited in the white-noise direction.
 
 The repository does not establish that every real system has an identifiable observer boundary. It does not establish consciousness. It does not eliminate assumptions about Gaussianity, separability, nuisance-design validity, or temporal-family calibration.
 
-## Immediate next proof target
+## Immediate next proof targets
 
-The next major statistical step is:
+The next statistical step is:
 
-> **Construct a data-calibrated confidence set for a multi-parameter or nonparametric temporal covariance family, then compose that random set with Proposition 49 using explicit confidence accounting.**
+> **Replace rectangular lag-interval propagation by a sharper joint confidence region for the temporal parameters, then extend toward finite-sample spectral-density confidence sets that can reuse Proposition 49.**
 
-That would move the current compact-family theorem from deterministic family uncertainty toward observable multi-parameter temporal calibration.
+A parallel structural step is:
+
+> **Develop intervention-sensitive and representation-invariant observer quantities, together with impossibility theorems that state what cannot be identified from passive observations alone.**
+
+Any later consciousness interpretation must be introduced as a separate bridge hypothesis under the [interpretation protocol](interpretation_protocol.md), not as a hidden consequence of the observer notation.
 
 ---
 

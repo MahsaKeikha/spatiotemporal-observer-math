@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+<title id="title">Experiment AJ: data-calibrated two-parameter temporal family</title>
+<desc id="desc">Proposition 50 uses lag-1 and lag-2 increment energies from independent calibration channels to learn a confidence rectangle for temporal dependence, then composes it with Proposition 49. The displayed covariance radius drops below one at 64 calibration channels.</desc>
+<rect width="1200" height="900" fill="#ffffff"/>
+<style>.title{font:700 28px Arial,sans-serif;fill:#111827}.sub{font:400 15px Arial,sans-serif;fill:#4b5563}.panel{fill:#f8fafc;stroke:#d1d5db;stroke-width:1.2}.h{font:700 17px Arial,sans-serif;fill:#111827}.lab{font:400 12px Arial,sans-serif;fill:#4b5563}.num{font:700 20px Arial,sans-serif;fill:#111827}.small{font:400 11px Arial,sans-serif;fill:#6b7280}.grid{stroke:#e5e7eb;stroke-width:1}.axis{stroke:#9ca3af;stroke-width:1.2}.main{fill:none;stroke:#2563eb;stroke-width:4}.bound{fill:none;stroke:#7c3aed;stroke-width:3}.low{fill:none;stroke:#059669;stroke-width:3}.truth{stroke:#dc2626;stroke-width:2;stroke-dasharray:7 5}.full{stroke:#6b7280;stroke-width:2;stroke-dasharray:8 5}.threshold{stroke:#d97706;stroke-width:2;stroke-dasharray:3 5}</style>
+<text x="60" y="55" class="title">Experiment AJ | Observable calibration of temporal uncertainty</text>
+<text x="60" y="83" class="sub">Lag-specific Gaussian concentration + nonlinear parameter map + compact-family matrix Chernoff bound</text>
+<rect x="60" y="100" width="1080" height="70" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+<text x="85" y="128" class="lab">Full declared family radius</text><text x="85" y="155" class="num">1.142</text>
+<text x="360" y="128" class="lab">64-channel calibrated radius</text><text x="360" y="155" class="num">0.871</text>
+<text x="650" y="128" class="lab">256-channel calibrated radius</text><text x="650" y="155" class="num">0.772</text>
+<text x="940" y="128" class="lab">Combined confidence lower bound</text><text x="940" y="155" class="num">97.52%</text>
+<rect x="60" y="190" width="520" height="300" rx="12" class="panel"/><text x="85" y="222" class="h">A. Covariance certificate becomes usable</text>
+<line x1="90" y1="350.0" x2="555" y2="350.0" class="grid"/><text x="65" y="354.0" class="small">0.7</text>
+<line x1="90" y1="304.0" x2="555" y2="304.0" class="grid"/><text x="65" y="308.0" class="small">0.8</text>
+<line x1="90" y1="258.0" x2="555" y2="258.0" class="grid"/><text x="65" y="262.0" class="small">0.9</text>
+<line x1="90" y1="212.0" x2="555" y2="212.0" class="grid"/><text x="65" y="216.0" class="small">1.0</text>
+<line x1="90" y1="166.0" x2="555" y2="166.0" class="grid"/><text x="65" y="170.0" class="small">1.1</text>
+<line x1="90" y1="120.0" x2="555" y2="120.0" class="grid"/><text x="65" y="124.0" class="small">1.2</text>
+<line x1="90" y1="146.7" x2="555" y2="146.7" class="full"/><line x1="90" y1="212.0" x2="555" y2="212.0" class="threshold"/>
+<polyline points="110,158.0 215,187.0 320,271.3 425,297.5 530,316.8" class="main"/>
+<circle cx="110" cy="158.0" r="5" fill="#2563eb"/><text x="100" y="378" class="small">16</text>
+<circle cx="215" cy="187.0" r="5" fill="#2563eb"/><text x="205" y="378" class="small">32</text>
+<circle cx="320" cy="271.3" r="5" fill="#2563eb"/><text x="310" y="378" class="small">64</text>
+<circle cx="425" cy="297.5" r="5" fill="#2563eb"/><text x="415" y="378" class="small">128</text>
+<circle cx="530" cy="316.8" r="5" fill="#2563eb"/><text x="520" y="378" class="small">256</text>
+<text x="200" y="402" class="lab">independent calibration channels</text>
+<text x="105" y="462" class="small">gray: full prior family     orange: relative-error threshold 1</text>
+<rect x="600" y="190" width="540" height="300" rx="12" class="panel"/><text x="625" y="222" class="h">B. The AR(1) interval contracts</text>
+<line x1="635" y1="350.0" x2="1110" y2="350.0" class="grid"/><text x="605" y="354.0" class="small">0.45</text>
+<line x1="635" y1="312.9" x2="1110" y2="312.9" class="grid"/><text x="605" y="316.9" class="small">0.50</text>
+<line x1="635" y1="275.8" x2="1110" y2="275.8" class="grid"/><text x="605" y="279.8" class="small">0.55</text>
+<line x1="635" y1="238.7" x2="1110" y2="238.7" class="grid"/><text x="605" y="242.7" class="small">0.60</text>
+<line x1="635" y1="201.6" x2="1110" y2="201.6" class="grid"/><text x="605" y="205.6" class="small">0.65</text>
+<line x1="635" y1="164.5" x2="1110" y2="164.5" class="grid"/><text x="605" y="168.5" class="small">0.70</text>
+<line x1="635" y1="127.4" x2="1110" y2="127.4" class="grid"/><text x="605" y="131.4" class="small">0.75</text>
+<polyline points="690,322.8 785,309.8 880,300.0 975,279.6 1070,268.8" class="low"/><polyline points="690,127.4 785,136.8 880,179.8 975,195.1 1070,209.0" class="bound"/><line x1="635" y1="238.7" x2="1110" y2="238.7" class="truth"/>
+<circle cx="690" cy="322.8" r="4" fill="#059669"/><circle cx="690" cy="127.4" r="4" fill="#7c3aed"/><text x="680" y="378" class="small">16</text>
+<circle cx="785" cy="309.8" r="4" fill="#059669"/><circle cx="785" cy="136.8" r="4" fill="#7c3aed"/><text x="775" y="378" class="small">32</text>
+<circle cx="880" cy="300.0" r="4" fill="#059669"/><circle cx="880" cy="179.8" r="4" fill="#7c3aed"/><text x="870" y="378" class="small">64</text>
+<circle cx="975" cy="279.6" r="4" fill="#059669"/><circle cx="975" cy="195.1" r="4" fill="#7c3aed"/><text x="965" y="378" class="small">128</text>
+<circle cx="1070" cy="268.8" r="4" fill="#059669"/><circle cx="1070" cy="209.0" r="4" fill="#7c3aed"/><text x="1060" y="378" class="small">256</text>
+<text x="755" y="402" class="lab">independent calibration channels</text><text x="645" y="462" class="small">green: lower bound     purple: upper bound     red: controlled-study truth</text>
+<rect x="60" y="515" width="520" height="300" rx="12" class="panel"/><text x="85" y="547" class="h">C. Increment-specific bounds remove the dependence penalty</text>
+<line x1="90" y1="730.0" x2="555" y2="730.0" class="grid"/><text x="65" y="734.0" class="small">0.00</text>
+<line x1="90" y1="680.0" x2="555" y2="680.0" class="grid"/><text x="65" y="684.0" class="small">0.03</text>
+<line x1="90" y1="630.0" x2="555" y2="630.0" class="grid"/><text x="65" y="634.0" class="small">0.06</text>
+<line x1="90" y1="580.0" x2="555" y2="580.0" class="grid"/><text x="65" y="584.0" class="small">0.09</text>
+<line x1="90" y1="530.0" x2="555" y2="530.0" class="grid"/><text x="65" y="534.0" class="small">0.12</text>
+<rect x="95" y="695.0" width="60" height="35.0" rx="5" fill="#2563eb"/><text x="83" y="755" class="small">lag 1 specific</text><text x="105" y="687.0" class="small">0.021</text>
+<rect x="205" y="577.6" width="60" height="152.4" rx="5" fill="#9ca3af"/><text x="193" y="755" class="small">lag 1 generic</text><text x="215" y="569.6" class="small">0.091</text>
+<rect x="335" y="671.5" width="60" height="58.5" rx="5" fill="#2563eb"/><text x="323" y="755" class="small">lag 2 specific</text><text x="345" y="663.5" class="small">0.035</text>
+<rect x="445" y="550.8" width="60" height="179.2" rx="5" fill="#9ca3af"/><text x="433" y="755" class="small">lag 2 generic</text><text x="455" y="542.8" class="small">0.108</text>
+<text x="88" y="795" class="small">64-channel comparison. Generic uses ||D||^2 ||R||; specific uses the increment spectrum itself.</text>
+<rect x="600" y="515" width="540" height="300" rx="12" class="panel"/><text x="625" y="547" class="h">D. Independent target-record visibility checks</text>
+<line x1="640" y1="730.0" x2="1110" y2="730.0" class="grid"/><text x="610" y="734.0" class="small">0.0</text>
+<line x1="640" y1="687.9" x2="1110" y2="687.9" class="grid"/><text x="610" y="691.9" class="small">0.2</text>
+<line x1="640" y1="645.8" x2="1110" y2="645.8" class="grid"/><text x="610" y="649.8" class="small">0.4</text>
+<line x1="640" y1="603.7" x2="1110" y2="603.7" class="grid"/><text x="610" y="607.7" class="small">0.6</text>
+<line x1="640" y1="561.6" x2="1110" y2="561.6" class="grid"/><text x="610" y="565.6" class="small">0.8</text>
+<line x1="640" y1="519.5" x2="1110" y2="519.5" class="grid"/><text x="610" y="523.5" class="small">1.0</text>
+<rect x="705" y="637.8" width="45" height="92.2" rx="4" fill="#059669"/><rect x="770" y="546.6" width="45" height="183.4" rx="4" fill="#7c3aed"/>
+<text x="716" y="629.8" class="small">0.438</text><text x="776" y="538.6" class="small">0.871</text><text x="720" y="755" class="lab">64 channels</text>
+<rect x="915" y="643.8" width="45" height="86.2" rx="4" fill="#059669"/><rect x="980" y="567.4" width="45" height="162.6" rx="4" fill="#7c3aed"/>
+<text x="926" y="635.8" class="small">0.409</text><text x="986" y="559.4" class="small">0.772</text><text x="930" y="755" class="lab">256 channels</text>
+<text x="665" y="790" class="small">green: maximum observed error     purple: theorem radius     all 192 trials covered</text>
+<text x="60" y="858" class="sub">Proof and simulation are separate: the probability guarantee comes from Proposition 50; the seeded trials only show numerical scale.</text>
+<text x="60" y="882" class="small">Reproduce data: python examples/calibrated_temporal_family.py   |   Render publication SVG: python examples/render_calibrated_temporal_family.py</text>
+</svg>
