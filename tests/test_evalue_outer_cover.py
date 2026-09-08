@@ -139,10 +139,6 @@ def test_outer_cover_is_invariant_to_arbitrary_constant_channel_offsets():
 
 
 def test_certified_exclusion_implies_rejection_throughout_sampled_cell_points():
-    # A deterministic zero-residual record gives a stable regression case with
-    # nonempty certified exclusions. The theorem does not require a random
-    # dataset to exclude any cell; it only requires every certified exclusion
-    # to be valid throughout its cell.
     values = np.zeros((36, 20))
     model = gaussian_ar1_white_noise_evalue_model(
         values,
@@ -226,6 +222,36 @@ def test_outer_cover_composes_with_proposition_49_and_preserves_nuisance_invaria
     assert bound.target_eigenvalue_covering_radius > 0.0
     assert bound.target_normalization_covering_radius > 0.0
     assert bound.requires_independent_target_record
+
+    basis, _ = np.linalg.qr(design, mode="complete")
+    complement = basis[:, design.shape[1] :]
+    projector = complement @ complement.T
+    half_phi = 0.5 * bound.outer_cover.maximum_autocorrelation_spacing
+    half_eta = 0.5 * bound.outer_cover.maximum_white_noise_fraction_spacing
+    for center_phi, center_eta in bound.outer_cover.retained_parameter_centers[:8]:
+        center_temporal = _temporal_covariance(target_count, center_phi, center_eta)
+        for phi_sign, eta_sign in ((-1.0, -1.0), (1.0, 1.0)):
+            phi = float(
+                np.clip(
+                    center_phi + phi_sign * half_phi,
+                    model.declared_autocorrelation_lower_bound,
+                    model.declared_autocorrelation_upper_bound,
+                )
+            )
+            eta = float(
+                np.clip(
+                    center_eta + eta_sign * half_eta,
+                    model.declared_white_noise_fraction_lower_bound,
+                    model.declared_white_noise_fraction_upper_bound,
+                )
+            )
+            temporal = _temporal_covariance(target_count, phi, eta)
+            difference = temporal - center_temporal
+            compressed = complement.T @ difference @ complement
+            eigenvalue_error = float(np.linalg.norm(compressed, ord=2))
+            normalization_error = abs(float(np.trace(projector @ difference)))
+            assert eigenvalue_error <= bound.target_eigenvalue_covering_radius + 1e-10
+            assert normalization_error <= bound.target_normalization_covering_radius + 1e-10
 
     target = rng.normal(size=(target_count, 3))
     nuisance_coefficients = np.array([[100.0, -30.0, 12.0], [80.0, 20.0, -50.0]])
