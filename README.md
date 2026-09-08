@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.33.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.34.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research project by **Mahsa Keikha, PhD** on whether a changing subsystem boundary can be identified from dynamical integration, environmental insulation, persistence, and transport across time.
@@ -12,20 +12,38 @@ An open mathematical research project by **Mahsa Keikha, PhD** on whether a chan
 
 | Research record | Verified state |
 | --- | ---: |
-| Proved statements | **45 propositions** |
-| Reproducible numerical studies | **31 experiments, A–Z and AA–AE** |
-| Committed scientific figures | **18 figures** |
-| Claim-level tests | **140 / 140 passing** |
+| Proved statements | **46 propositions** |
+| Reproducible numerical studies | **32 experiments, A–Z and AA–AF** |
+| Committed scientific figures | **19 figures** |
+| Claim-level tests | **145 / 145 passing** |
 | Continuous integration | **Python 3.10, 3.11, 3.12** |
-| Current release | **0.33.0** |
+| Current release | **0.34.0** |
 
-**Best entry points:** [research overview](docs/research_overview.md) · [proof record](docs/proofs_and_conjectures.md) · [reproducible results](docs/reproducible_results.md) · [experimental protocol](docs/experimental_protocol.md) · [latest Proposition 45 proof](docs/proposition_45_estimated_ar1_nuisance_projection.md)
+**Best entry points:** [research overview](docs/research_overview.md) · [proof record](docs/proofs_and_conjectures.md) · [reproducible results](docs/reproducible_results.md) · [experimental protocol](docs/experimental_protocol.md) · [latest Proposition 46 proof](docs/proposition_46_design_specific_ar1_envelope.md)
 
 ---
 
 # Latest results — visible first
 
-The newest work attacks a practical weakness of the earlier finite-sample theory: real records can have unknown time-varying means and unknown temporal dependence. Propositions 44–45 remove those two restrictions under an explicit Gaussian separable AR(1) model.
+The newest work attacks practical weaknesses of finite-sample covariance certification for real time series: unknown time-varying means, unknown temporal dependence, and overly pessimistic treatment of nuisance geometry. Propositions 44–46 address those restrictions under an explicit Gaussian separable AR(1) model.
+
+## Experiment AF — the actual nuisance geometry can rescue a certificate
+
+[![Experiment AF: design-specific versus rank-only AR(1) envelopes](docs/design_specific_ar1_envelope.svg)](docs/proposition_46_design_specific_ar1_envelope.md)
+
+**Proposition 46** replaces Proposition 45's rank-only worst case with a continuum certificate that uses the actual predeclared nuisance design `H`. It evaluates projected temporal geometry on a finite AR(1) grid and then proves coverage between the grid points using analytic Lipschitz bounds. The grid is therefore a computational device, not an unsupported discretization assumption.
+
+Experiment AF fixes `N=300`, the calibrated interval `phi in [0.75, 0.85]`, and a predeclared low-frequency cosine nuisance basis. As the nuisance rank grows:
+
+- at `q=2`, the covariance radius improves from `4.865` to `4.561`;
+- at `q=8`, it improves from `7.764` to `5.021`;
+- at `q=16`, it improves from `18.966` to `5.348`;
+- at `q=24`, the rank-only normalization collapses to `4`, producing a radius near `629.1`, while the design-specific proof retains normalization above `103.6` and radius about `5.833`;
+- at `q=25`, the rank-only lower normalization becomes negative (`-8.33`) and Proposition 45 cannot certify at all, while Proposition 46 retains a positive lower normalization about `99.75` and a finite radius about `5.904`.
+
+The scientific point is structural: **the covariance did not become unidentified merely because the rank-only proof became vacuous.** The proof had discarded the geometry of the nuisance subspace.
+
+[Proof and continuum derivation](docs/proposition_46_design_specific_ar1_envelope.md) · [machine-readable results](docs/design_specific_ar1_envelope.json) · [reproducible script](examples/design_specific_ar1_envelope.py) · [claim-level tests](tests/test_design_interval.py)
 
 ## Experiment AE — estimated temporal dependence + time-varying nuisance projection
 
@@ -41,7 +59,7 @@ In Experiment AE, 20 standardized calibration channels estimate the common nonne
 - the inaccessible oracle errors were almost identical: `0.109`, `0.140`, and `0.169`;
 - ordinary constant mean-centering failed under the affine drift, with median relative covariance error above `61` in every tested regime.
 
-The figure also exposes the current limitation rather than hiding it: at correlation `0.65`, the median Proposition 45 radius is about `1.217`. The covariance statement remains valid, but downstream perturbation results that require relative error below one cannot use that regime yet.
+Experiment AE also exposed the next concentration problem: at correlation `0.65`, the median Proposition 45 radius is about `1.217`. Proposition 46 fixes nuisance-geometry pessimism, but the remaining sphere-net covariance constant is still conservative.
 
 [Proof and derivation](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [machine-readable results](docs/estimated_ar1_nuisance_projection.json) · [reproducible script](examples/estimated_ar1_nuisance_projection.py) · [claim-level tests](tests/test_estimated_nuisance.py)
 
@@ -86,15 +104,16 @@ Experiment AD uses affine drift amplitudes from `0` to `10`. The projected estim
 
 The most recent propositions form a deliberate sequence rather than isolated numerical claims.
 
-| Proposition | What assumption is removed | Result |
+| Proposition | What assumption or pessimism is removed | Result |
 | --- | --- | --- |
 | **41** | i.i.d. temporal sampling | finite-sample covariance screening for separably dependent Gaussian observations |
 | **42** | known constant mean | exact mean-centered normalization under dependent Gaussian sampling |
 | **43** | known AR(1) coefficient | same-record finite-sample estimation of a shared nonnegative AR(1) coefficient |
 | **44** | constant target mean | arbitrary unknown target mean inside a fixed temporal nuisance subspace |
 | **45** | known temporal dependence in Proposition 44 | estimated AR(1) dependence + nuisance projection + normalization uncertainty |
+| **46** | rank-only nuisance geometry in Proposition 45 | design-specific continuum envelope over the calibrated AR(1) interval |
 
-The rank-one case of Proposition 45 is regression-tested against Proposition 43. This is useful structurally: the newer theorem does not replace the older result with an unrelated approximation; it reduces to it exactly when the nuisance space contains only the constant vector.
+The rank-one case of Proposition 45 is regression-tested against Proposition 43. Proposition 46 is separately tested against dense continuum checks: the certified interval envelope contains exact projected temporal quantities at 101 intermediate AR(1) values, not just at the grid nodes.
 
 ## Earlier dependence-calibration results
 
@@ -205,27 +224,19 @@ This matters for the interpretation of every numerical success in the repository
 
 # What is solved here, and what is not
 
-The project has now established a substantial **conditional mathematical pipeline**: population observer-like scores, exact path optimization, deterministic margin certificates, finite-sample Gaussian covariance control, candidate screening, temporal dependence correction, unknown constant-mean correction, time-varying nuisance projection, and observable AR(1) calibration.
+The project has now established a substantial **conditional mathematical pipeline**: population observer-like scores, exact path optimization, deterministic margin certificates, finite-sample Gaussian covariance control, candidate screening, temporal dependence correction, unknown constant-mean correction, time-varying nuisance projection, observable AR(1) calibration, and a design-specific continuum treatment of nuisance geometry.
 
 It has **not** solved the unrestricted boundary-identification problem. The current frontier is explicit:
 
-- Proposition 45 still assumes stationary Gaussian AR(1) temporal dependence;
-- the calibration channels require known marginal standardization and the assumptions of Proposition 43;
+- the latest covariance layer still assumes stationary Gaussian AR(1) temporal dependence;
+- calibration channels require known marginal standardization and the assumptions of Proposition 43;
 - the nuisance design must be fixed before inspecting the same target record;
 - the covariance model remains temporally/spatially separable;
-- the rank-only normalization bound in Proposition 45 becomes loose at strong temporal correlation;
+- the current covariance concentration step still uses a conservative sphere-net reduction;
 - non-Gaussian, nonseparable, adaptive-design, and fully data-driven spatial-whitening guarantees remain open;
 - mathematical observer-like organization is not equivalent to consciousness.
 
-The next proof target is to use the **actual declared nuisance geometry `H`**, rather than only its rank, to bound
-
-\[
-\operatorname{tr}(P_HR_\phi),\qquad
-\|P_HR_\phi P_H\|_F,\qquad
-\|P_HR_\phi P_H\|_2
-\]
-
-uniformly over the calibrated AR(1) interval. This should tighten the high-correlation regime without reintroducing oracle knowledge of `φ`.
+Proposition 46 resolves the rank-only nuisance-geometry gap that was previously listed here. The next proof target is the **matrix concentration layer itself**: exploit the full eigenvalue profile of the projected temporal covariance instead of reducing the Gaussian quadratic-form event through a `1/4` sphere net. A sharper weighted-Wishart matrix bound is the most direct route to reducing the valid radius below one in strongly correlated regimes.
 
 ---
 
@@ -239,11 +250,12 @@ pytest
 ruff check .
 ```
 
-Run the two newest experiments directly:
+Run the three newest experiments directly:
 
 ```bash
 python examples/nuisance_projection_calibration.py
 python examples/estimated_ar1_nuisance_projection.py
+python examples/design_specific_ar1_envelope.py
 ```
 
 Each experiment keeps the numerical output in machine-readable JSON alongside a committed figure and a claim-level test file.
@@ -256,15 +268,17 @@ Each experiment keeps the numerical output in machine-readable JSON alongside a 
 - [`docs/proofs_and_conjectures.md`](docs/proofs_and_conjectures.md) — central proof record through Proposition 43
 - [`docs/proposition_44_nuisance_projection.md`](docs/proposition_44_nuisance_projection.md) — time-varying nuisance projection theorem
 - [`docs/proposition_45_estimated_ar1_nuisance_projection.md`](docs/proposition_45_estimated_ar1_nuisance_projection.md) — estimated-dependence extension
+- [`docs/proposition_46_design_specific_ar1_envelope.md`](docs/proposition_46_design_specific_ar1_envelope.md) — design-specific continuum theorem
 - [`docs/reproducible_results.md`](docs/reproducible_results.md) — Experiments A–AC
 - [`docs/nuisance_projection_calibration.json`](docs/nuisance_projection_calibration.json) — Experiment AD data
 - [`docs/estimated_ar1_nuisance_projection.json`](docs/estimated_ar1_nuisance_projection.json) — Experiment AE data
+- [`docs/design_specific_ar1_envelope.json`](docs/design_specific_ar1_envelope.json) — Experiment AF data
 - [`docs/research_overview.md`](docs/research_overview.md) — broader research narrative
 - [`docs/experimental_protocol.md`](docs/experimental_protocol.md) — reproducibility and claim-testing protocol
 
 ## Citation
 
-Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). The current research-software release is **0.33.0**.
+Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). The current research-software release is **0.34.0**.
 
 ## License
 
