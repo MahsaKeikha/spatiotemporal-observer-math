@@ -138,9 +138,12 @@ def test_outer_cover_is_invariant_to_arbitrary_constant_channel_offsets():
     assert np.array_equal(base_cover.retained_cell_mask, shifted_cover.retained_cell_mask)
 
 
-def test_certified_excluded_cells_reject_sampled_interior_points():
-    rng = np.random.default_rng(20261113)
-    values = _simulate_channels(36, 192, 0.51, 0.02, rng)
+def test_certified_exclusion_implies_rejection_throughout_sampled_cell_points():
+    # A deterministic zero-residual record gives a stable regression case with
+    # nonempty certified exclusions. The theorem does not require a random
+    # dataset to exclude any cell; it only requires every certified exclusion
+    # to be valid throughout its cell.
+    values = np.zeros((36, 20))
     model = gaussian_ar1_white_noise_evalue_model(
         values,
         lower_autocorrelation=0.40,
