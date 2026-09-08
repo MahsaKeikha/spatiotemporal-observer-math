@@ -59,6 +59,21 @@ New behavior needs a test. Numerical tests should use tolerances justified by
 the conditioning of the matrices rather than broad tolerances chosen only to
 make a test pass. Keep example outputs deterministic whenever possible.
 
+## Documentation style
+
+Write for a reader who was not present while the result was developed. State
+what problem a proposition solves, what assumptions it needs, what is proved,
+and what a numerical experiment only illustrates. Keep proof, implementation,
+and empirical evidence visibly distinct.
+
+Do not use Unicode en dash or em dash characters in Markdown documentation.
+Use ordinary hyphens, commas, colons, semicolons, or parentheses instead. CI
+enforces this rule across the repository documentation.
+
+Prefer natural technical prose over repetitive templates. A figure or table
+should have a clear scientific purpose, a reproducible source, and enough
+context to be understood without reconstructing the development history.
+
 ## Language and interpretation
 
 Use *observer-like process* or *candidate boundary* for the implemented object.

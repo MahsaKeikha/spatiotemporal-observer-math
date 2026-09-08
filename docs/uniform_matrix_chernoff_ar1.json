@@ -1,0 +1,94 @@
+{
+  "seed": 20261030,
+  "sample_count": 500,
+  "dimension": 4,
+  "block_count": 1,
+  "nuisance_design": "intercept + predeclared linear trend",
+  "confidence": 0.975,
+  "phi_grid_size": 17,
+  "theta_grid_size": 1024,
+  "interval_comparison": [
+    {
+      "lower_autocorrelation": 0.05,
+      "upper_autocorrelation": 0.15,
+      "midpoint_autocorrelation": 0.10,
+      "sphere_net_interval_radius": 0.8118310778702463,
+      "uniform_matrix_radius": 0.3783923974758978,
+      "uniform_oracle_normalized_radius": 0.3776814155916311,
+      "known_midpoint_oracle_matrix_radius": 0.36913934481549393,
+      "relative_radius_reduction": 0.5339025472287036,
+      "projected_degrees_lower": 497.29411764705884,
+      "projected_degrees_upper": 497.8076611482763,
+      "projected_spectral_norm_bound": 1.352941176470588,
+      "eigenvalue_covering_radius": 0.00865051903114187
+    },
+    {
+      "lower_autocorrelation": 0.35,
+      "upper_autocorrelation": 0.45,
+      "midpoint_autocorrelation": 0.40,
+      "sphere_net_interval_radius": 1.0856022283603302,
+      "uniform_matrix_radius": 0.47273163280217845,
+      "uniform_oracle_normalized_radius": 0.47098915872836994,
+      "known_midpoint_oracle_matrix_radius": 0.44179649176199565,
+      "relative_radius_reduction": 0.5645443418846128,
+      "projected_degrees_lower": 494.72727272727275,
+      "projected_degrees_upper": 495.90073046631267,
+      "projected_spectral_norm_bound": 2.6363636363636362,
+      "eigenvalue_covering_radius": 0.0206611570247934
+    },
+    {
+      "lower_autocorrelation": 0.60,
+      "upper_autocorrelation": 0.70,
+      "midpoint_autocorrelation": 0.65,
+      "sphere_net_interval_radius": 1.73964548159546,
+      "uniform_matrix_radius": 0.7048960036389231,
+      "uniform_oracle_normalized_radius": 0.6987784898488953,
+      "known_midpoint_oracle_matrix_radius": 0.6192372696899389,
+      "relative_radius_reduction": 0.5948047972438325,
+      "projected_degrees_lower": 488.6666666666667,
+      "projected_degrees_upper": 492.19888618887813,
+      "projected_spectral_norm_bound": 5.666666666666666,
+      "eigenvalue_covering_radius": 0.0694444444444444
+    },
+    {
+      "lower_autocorrelation": 0.70,
+      "upper_autocorrelation": 0.80,
+      "midpoint_autocorrelation": 0.75,
+      "sphere_net_interval_radius": 2.409476235199553,
+      "uniform_matrix_radius": 0.9314230276442874,
+      "uniform_oracle_normalized_radius": 0.9174119691267152,
+      "known_midpoint_oracle_matrix_radius": 0.770053863792452,
+      "relative_radius_reduction": 0.61343340347694,
+      "projected_degrees_lower": 482.00742319969277,
+      "projected_degrees_upper": 489.1035994962499,
+      "projected_spectral_norm_bound": 9.000000000000002,
+      "eigenvalue_covering_radius": 0.1562500000000002
+    }
+  ],
+  "finite_sample_checks": [
+    {
+      "true_autocorrelation": 0.65,
+      "declared_interval": [0.60, 0.70],
+      "trial_count": 96,
+      "mean_relative_error": 0.23221360748053854,
+      "median_relative_error": 0.22577239838751367,
+      "q95_relative_error": 0.3479474411973651,
+      "max_relative_error": 0.4572375031439724,
+      "uniform_matrix_radius": 0.7048960036389231,
+      "coverage_rate": 1.0,
+      "coverage_wilson_95": [0.9615244121423243, 1.0]
+    },
+    {
+      "true_autocorrelation": 0.75,
+      "declared_interval": [0.70, 0.80],
+      "trial_count": 96,
+      "mean_relative_error": 0.28012870418544095,
+      "median_relative_error": 0.26871965859395097,
+      "q95_relative_error": 0.46020103234007204,
+      "max_relative_error": 0.573739506980834,
+      "uniform_matrix_radius": 0.9314230276442874,
+      "coverage_rate": 1.0,
+      "coverage_wilson_95": [0.9615244121423243, 1.0]
+    }
+  ]
+}
