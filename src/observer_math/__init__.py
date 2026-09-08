@@ -157,6 +157,13 @@ from .symbolic import (
     perturbed_moving_clique_recovery_bound,
     support_resolved_moving_clique_recovery_bound,
 )
+from .uniform_matrix_chernoff import (
+    GaussianAR1UniformMatrixChernoffBound,
+    GaussianCalibratedAR1UniformMatrixChernoffBound,
+    gaussian_ar1_uniform_matrix_chernoff_bound,
+    gaussian_calibrated_ar1_uniform_matrix_chernoff_bound,
+    separable_gaussian_calibrated_ar1_uniform_matrix_covariance,
+)
 from .worldtube import (
     WorldTubeCertificate,
     WorldTubeResult,
@@ -178,6 +185,8 @@ __all__ = [
     "FiniteSampleRecoveryBound",
     "GaussianAR1AutocorrelationInterval",
     "GaussianAR1DesignUniformEnvelope",
+    "GaussianAR1UniformMatrixChernoffBound",
+    "GaussianCalibratedAR1UniformMatrixChernoffBound",
     "GaussianCalibratedDriftRelativeNearCompetitorScreen",
     "GaussianCalibratedPopulationDrift",
     "GaussianCenteredDependentRelativeNearCompetitorScreen",
@@ -241,8 +250,10 @@ __all__ = [
     "gaussian_ar1_increment_autocorrelation_interval",
     "gaussian_ar1_projected_temporal_envelope",
     "gaussian_ar1_temporal_correlation_envelope",
+    "gaussian_ar1_uniform_matrix_chernoff_bound",
     "gaussian_calibrated_ar1_design_projected_covariance_bound",
     "gaussian_calibrated_ar1_projected_covariance_bound",
+    "gaussian_calibrated_ar1_uniform_matrix_chernoff_bound",
     "gaussian_calibrated_drift_relative_near_competitor_screen",
     "gaussian_calibrated_population_drift_bound",
     "gaussian_cmi_covariance_error_bound",
@@ -299,6 +310,7 @@ __all__ = [
     "sample_split_screened_recovery_bound",
     "screen_near_competitors",
     "screened_structural_class_path_recovery_bound",
+    "separable_gaussian_calibrated_ar1_uniform_matrix_covariance",
     "separable_gaussian_centered_covariance",
     "separable_gaussian_estimated_ar1_design_projected_covariance",
     "separable_gaussian_estimated_ar1_projected_covariance",
