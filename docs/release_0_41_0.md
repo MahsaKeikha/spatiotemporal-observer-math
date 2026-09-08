@@ -1,6 +1,6 @@
 # Release 0.41.0 research record
 
-Release 0.41.0 adds Proposition 53 and Experiment AM.
+Release 0.41.0 adds Proposition 53, Experiment AM, and a first-class bibliography and citation architecture.
 
 ## Research state
 
@@ -84,6 +84,24 @@ The release makes one hierarchy explicit:
 \]
 
 This matters because a parameter intended to describe the physical process should not change merely because the same process is recorded at a different sampling rate.
+
+## Bibliography and citation architecture
+
+Release 0.41.0 also makes literature attribution a first-class part of the research record.
+
+The README now states explicitly that Max Tegmark's 2015 paper *Consciousness as a State of Matter* is the primary conceptual source and starting point for the research question developed in this repository.
+
+A dedicated [Bibliography and Citation Map](bibliography.md) distinguishes:
+
+1. the primary conceptual source;
+2. direct mathematical or statistical sources materially used in proofs or algorithms;
+3. background scientific lineage that provides context without being claimed as the source of a proposition.
+
+The bibliography includes the relevant Tegmark and integrated-information lineage, classical information theory and canonical correlation, dynamic programming, Wishart and matrix analysis, Gaussian concentration, matrix-Laplace concentration, e-value statistics, and the Ornstein-Uhlenbeck relaxation lineage used to contextualize Proposition 53.
+
+Machine-readable citation records are maintained in [`references.bib`](../references.bib), while repository citation metadata remain in [`CITATION.cff`](../CITATION.cff).
+
+The contribution standard now requires future results to update these citation records whenever an external theorem, statistical construction, or physical model is materially used.
 
 ## Scope and nonclaims
 
