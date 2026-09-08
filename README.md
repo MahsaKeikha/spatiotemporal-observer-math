@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.36.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.37.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one question:
@@ -16,150 +16,147 @@ The repository develops that question through exact Gaussian identities, moving-
 
 | Research record | Current state |
 | --- | ---: |
-| Proved statements | **48 propositions** |
-| Reproducible studies | **34 experiments, A-Z and AA-AH** |
-| Committed scientific figures | **21 figures** |
-| Claim-level tests | **156 / 156 passing** |
+| Proved statements | **49 propositions** |
+| Reproducible studies | **35 experiments, A-Z and AA-AI** |
+| Committed scientific figures | **22 figures** |
+| Claim-level tests | **161 / 161 passing before release integration** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software release | **0.36.0** |
+| Research-software release | **0.37.0** |
 
 ### Start here
 
 **New reader:** [Research overview](docs/research_overview.md)  
 **Complete theorem and experiment map:** [Research index](docs/research_index.md)  
 **Detailed proofs 1-43:** [Proved results and open problems](docs/proofs_and_conjectures.md)  
-**Latest proofs 44-48:** [P44](docs/proposition_44_nuisance_projection.md) · [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [P46](docs/proposition_46_design_specific_ar1_envelope.md) · [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md) · [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md)  
-**Numerical record:** [Experiments A-AC](docs/reproducible_results.md) · [Experiments AD-AH](docs/research_index.md#latest-experiments-ad-ah)  
+**Latest proofs 44-49:** [P44](docs/proposition_44_nuisance_projection.md) · [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [P46](docs/proposition_46_design_specific_ar1_envelope.md) · [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md) · [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md) · [P49](docs/proposition_49_compact_temporal_family.md)  
+**Numerical record:** [Experiments A-AC](docs/reproducible_results.md) · [latest experiments](docs/research_index.md)  
 **Assumptions and limits:** [Assumption ledger](docs/assumption_ledger.md)
 
 ---
 
-# Latest result: matrix concentration with unknown AR(1) dependence
+# Latest result: direct matrix concentration beyond a one-parameter temporal model
 
-## Experiment AH: a uniform matrix certificate over the calibrated interval
+## Proposition 49 and Experiment AI
 
-[![Experiment AH: interval-uniform matrix concentration](docs/uniform_matrix_chernoff_ar1.svg)](docs/proposition_48_uniform_matrix_chernoff_ar1.md)
+[![Experiment AI: compact temporal family concentration](docs/compact_temporal_family.svg)](docs/proposition_49_compact_temporal_family.md)
 
-Proposition 47 removed the sphere-net bottleneck when the projected temporal spectrum was known. That left one important oracle assumption: the exact AR(1) coefficient, and therefore the exact projected spectrum, still had to be supplied.
+Proposition 48 made the direct matrix concentration theorem uniform over an unknown AR(1) coefficient. Proposition 49 changes the architecture of that argument.
 
-**Proposition 48 removes that oracle requirement inside the current stationary nonnegative AR(1) model class.** It combines observable AR(1) calibration, the actual declared nuisance geometry, Weyl control of every projected temporal eigenvalue between grid points, and the direct matrix Chernoff argument from Proposition 47.
+**The concentration theorem no longer assumes AR(1), or even a parameterization.** It starts from a deterministic finite cover of any declared compact temporal covariance family. If every admissible projected temporal covariance is close to some cover point in operator norm and projected normalization, Weyl's inequality controls every ordered temporal eigenvalue. The exact Gaussian matrix-mgf factors from Proposition 47 are monotone in those nonnegative eigenvalues, so the finite cover produces one valid family-wide matrix Chernoff envelope.
 
-The continuum step is explicit. If `A(phi) = P R_phi P`, Proposition 46 gives a spectral Lipschitz bound for `A(phi)`. Weyl's inequality then bounds every ordered eigenvalue between neighboring AR(1) grid points. Because the exact Gaussian matrix-mgf factors are monotone in each nonnegative temporal eigenvalue, an inflated neighboring grid spectrum dominates the complete between-grid matrix mgf.
+The important probability point is explicit:
 
-Experiment AH uses `N=500`, a four-dimensional covariance block, an affine nuisance design, 97.5% covariance confidence, 17 AR(1) grid points, and 1024 deterministic Chernoff parameters per tail.
+> **There is no stochastic union bound over temporal cover points.** The cover is deterministic geometry used to construct one worst-case mgf before the probability inequality is applied.
 
-| AR(1) interval | Proposition 46 sphere-net radius | Proposition 48 matrix radius | Known midpoint Proposition 47 | Reduction from P46 |
+Experiment AI uses the two-parameter temporal family
+
+\[
+R_{\phi,\eta}=(1-\eta)R_\phi+\eta I,
+\]
+
+with
+
+\[
+\phi\in[0.45,0.72],
+\qquad
+\eta\in[0,0.05].
+\]
+
+Here `eta` is a white-noise fraction. The target record length is `N=400`, the covariance block dimension is four, the nuisance design is affine, and the covariance confidence is 97.5%.
+
+| Product cover | Cover points | Proposition 49 radius | Sphere-net family radius | Reduction |
 | --- | ---: | ---: | ---: | ---: |
-| `[0.05, 0.15]` | `0.812` | **`0.378`** | `0.369` | 53.4% |
-| `[0.35, 0.45]` | `1.086` | **`0.473`** | `0.442` | 56.5% |
-| `[0.60, 0.70]` | `1.740` | **`0.705`** | `0.619` | 59.5% |
-| `[0.70, 0.80]` | `2.409` | **`0.931`** | `0.770` | 61.3% |
+| `5 x 3` | 15 | `1.104` | `3.002` | 63.2% |
+| `9 x 5` | 45 | **`0.957`** | `2.572` | 62.8% |
+| `17 x 9` | 153 | **`0.891`** | `2.358` | 62.2% |
 
-The last row is the main practical transition. The previous interval certificate is above one at `2.409`. Proposition 48 stays below one at `0.931` without supplying the exact coefficient. This matters because several downstream relative-covariance perturbation arguments require a certified radius below one.
+The transition is scientifically useful. The temporal family, sample count, confidence, nuisance design, and spatial dimension are held fixed. Only the deterministic family cover is refined. The certified radius moves from above one to below one, while the corresponding sphere-net family certificate remains above two.
 
-Two seeded finite-sample visibility checks were also run with a large unknown affine target mean. All 96 recorded target errors were below the Proposition 48 radius at true `phi=0.65`, and all 96 were below it at true `phi=0.75`. Those simulations show numerical scale. They are not the proof.
+Two seeded target-record checks with a large unknown affine mean also remained inside the final `0.891` radius:
 
-[Read Proposition 48](docs/proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON results](docs/uniform_matrix_chernoff_ar1.json) · [reproduce Experiment AH](examples/uniform_matrix_chernoff_ar1.py) · [claim-level tests](tests/test_uniform_matrix_chernoff.py)
+| True temporal parameters | Trials covered | Median error | Maximum error |
+| --- | ---: | ---: | ---: |
+| `(phi, eta) = (0.60, 0.02)` | 96 / 96 | 0.250 | 0.403 |
+| `(phi, eta) = (0.70, 0.04)` | 96 / 96 | 0.272 | 0.660 |
 
----
+These simulations make the scale visible. They are not the proof.
 
-# The current proof frontier
-
-The latest five propositions solve five different problems in the dependent Gaussian covariance layer.
-
-## Proposition 44: remove an unknown time-varying mean
-
-[![Experiment AD: nuisance-projected covariance calibration](docs/nuisance_projection_calibration.svg)](docs/proposition_44_nuisance_projection.md)
-
-For
-
-\[
-X=HB+R^{1/2}Z\Sigma^{1/2},
-\]
-
-with a fixed, predeclared temporal nuisance design `H`, Proposition 44 projects the nuisance subspace away with
-
-\[
-P_H=I-H(H^\mathsf TH)^{-1}H^\mathsf T.
-\]
-
-The estimator
-
-\[
-\widehat\Sigma_H=
-\frac{X^\mathsf TP_HX}{\operatorname{tr}(P_HR)}
-\]
-
-is exactly unbiased for the spatial covariance. In Experiment AD, affine drift amplitude grows from 0 to 10 while the projected estimator remains near **0.14 median relative error**. Ordinary constant mean-centering reaches **121.76**.
-
-[Proof](docs/proposition_44_nuisance_projection.md) · [data](docs/nuisance_projection_calibration.json) · [script](examples/nuisance_projection_calibration.py)
-
-## Proposition 45: estimate the temporal dependence
-
-[![Experiment AE: estimated AR(1) dependence with affine nuisance projection](docs/estimated_ar1_nuisance_projection.svg)](docs/proposition_45_estimated_ar1_nuisance_projection.md)
-
-Proposition 45 combines observable increment-energy calibration of a shared nonnegative AR(1) coefficient with nuisance projection and uncertainty in the projected covariance normalization. In Experiment AE, all **192 / 192** AR(1) intervals contained the true coefficient and all **192 / 192** calibrated covariance errors lay below the stated radius.
-
-The calibrated estimator tracked the inaccessible oracle closely. The experiment also exposed the next problem: at strong correlation, the theorem radius could exceed one even though the estimator itself remained accurate.
-
-[Proof](docs/proposition_45_estimated_ar1_nuisance_projection.md) · [data](docs/estimated_ar1_nuisance_projection.json) · [script](examples/estimated_ar1_nuisance_projection.py)
-
-## Proposition 46: use the actual nuisance geometry
-
-[![Experiment AF: design-specific versus rank-only AR(1) envelopes](docs/design_specific_ar1_envelope.svg)](docs/proposition_46_design_specific_ar1_envelope.md)
-
-Proposition 45 used a rank-only worst case for the nuisance subspace. Proposition 46 instead certifies
-
-\[
-\operatorname{tr}(P_HR_\phi),\qquad
-\|P_HR_\phi P_H\|_F,\qquad
-\|P_HR_\phi P_H\|_2
-\]
-
-uniformly over an estimated AR(1) interval using the actual declared design `H`. A finite grid is made rigorous between grid points with analytic Lipschitz bounds.
-
-Experiment AF exposes a false-vacuity regime. At nuisance rank `q=25`, the rank-only lower normalization is negative and cannot certify at all, while the design-specific theorem retains a positive lower normalization near **99.75**.
-
-[Proof](docs/proposition_46_design_specific_ar1_envelope.md) · [data](docs/design_specific_ar1_envelope.json) · [script](examples/design_specific_ar1_envelope.py)
-
-## Proposition 47: remove the operator-norm sphere net
-
-[![Experiment AG: matrix concentration](docs/weighted_wishart_matrix_chernoff.svg)](docs/proposition_47_weighted_wishart_matrix_chernoff.md)
-
-Proposition 47 operates on a known projected temporal spectrum and replaces the `1/4`-net argument by a direct matrix tail bound. In Experiment AG, the tested covariance radii fall by roughly 52% to 60%, and several strong-correlation cases move back below one.
-
-[Proof](docs/proposition_47_weighted_wishart_matrix_chernoff.md) · [data](docs/weighted_wishart_matrix_chernoff.json) · [script](examples/weighted_wishart_matrix_chernoff.py)
-
-## Proposition 48: make the matrix bound observable over the AR(1) interval
-
-[![Experiment AH: interval-uniform matrix concentration](docs/uniform_matrix_chernoff_ar1.svg)](docs/proposition_48_uniform_matrix_chernoff_ar1.md)
-
-Proposition 48 controls the full projected eigenvalue profile between AR(1) grid points and composes that continuum matrix bound with the observable calibration interval and normalization uncertainty. This closes the known-spectrum gap left by Proposition 47 for the current AR(1) model class.
-
-[Proof](docs/proposition_48_uniform_matrix_chernoff_ar1.md) · [data](docs/uniform_matrix_chernoff_ar1.json) · [script](examples/uniform_matrix_chernoff_ar1.py)
+[Read Proposition 49](docs/proposition_49_compact_temporal_family.md) · [JSON results](docs/compact_temporal_family.json) · [reproduce Experiment AI](examples/compact_temporal_family.py) · [claim-level tests](tests/test_compact_temporal_family.py)
 
 ---
 
-# The theorem ladder
+# The current dependent-Gaussian theorem ladder
 
-| Proposition | Restriction or conservatism addressed | Result |
+The newest statistical sequence removes one restriction at a time.
+
+| Proposition | Restriction addressed | Result |
 | ---: | --- | --- |
 | 41 | i.i.d. temporal sampling | separably dependent Gaussian covariance screening |
-| 42 | known constant mean | exact covariance normalization after mean removal |
+| 42 | known constant mean | exact normalization after same-record mean removal |
 | 43 | known AR(1) coefficient | observable same-record AR(1) calibration |
-| 44 | constant target mean | arbitrary fixed-subspace time-varying nuisance mean |
-| 45 | known temporal dependence in P44 | estimated AR(1) plus nuisance projection and normalization uncertainty |
-| 46 | rank-only nuisance pessimism in P45 | design-specific continuum envelope over the calibrated interval |
+| 44 | constant target mean | projection away from any fixed declared nuisance subspace |
+| 45 | known temporal dependence in P44 | estimated AR(1), nuisance projection, and normalization uncertainty |
+| 46 | rank-only nuisance pessimism | design-specific continuum geometry over the calibrated interval |
 | 47 | sphere-net operator-norm reduction | direct weighted-Wishart matrix concentration using the full temporal spectrum |
-| 48 | known projected spectrum in P47 | interval-uniform matrix concentration with observable AR(1) calibration |
+| 48 | known projected spectrum in P47 | interval-uniform direct matrix concentration with observable AR(1) calibration |
+| 49 | one-dimensional AR(1) family | direct matrix concentration over any compact temporal family with a certified finite cover |
 
-The full map of Propositions **1-48**, with plain-language descriptions and proof links, is in the [research index](docs/research_index.md).
+The progression is:
+
+```text
+known temporal covariance
+        -> Proposition 47
+unknown AR(1) coefficient in a calibrated interval
+        -> Proposition 48
+arbitrary compact temporal family with a deterministic cover
+        -> Proposition 49
+```
+
+---
+
+# Recent visual proof frontier
+
+## Proposition 44: unknown time-varying nuisance mean
+
+[![Experiment AD](docs/nuisance_projection_calibration.svg)](docs/proposition_44_nuisance_projection.md)
+
+A fixed temporal nuisance design is projected away exactly. Experiment AD shows ordinary mean-centering failing under large affine drift while the declared nuisance projection remains stable.
+
+## Proposition 45: estimated temporal dependence
+
+[![Experiment AE](docs/estimated_ar1_nuisance_projection.svg)](docs/proposition_45_estimated_ar1_nuisance_projection.md)
+
+Observable increment-energy calibration supplies an AR(1) interval and propagates its uncertainty through nuisance-projected covariance estimation.
+
+## Proposition 46: actual nuisance geometry
+
+[![Experiment AF](docs/design_specific_ar1_envelope.svg)](docs/proposition_46_design_specific_ar1_envelope.md)
+
+The actual declared nuisance design replaces a rank-only worst case. A regime that is vacuous under rank-only control remains certifiable with design-specific geometry.
+
+## Proposition 47: direct matrix concentration
+
+[![Experiment AG](docs/weighted_wishart_matrix_chernoff.svg)](docs/proposition_47_weighted_wishart_matrix_chernoff.md)
+
+The operator-norm sphere net is removed. Direct matrix concentration cuts the displayed covariance radii by roughly 52% to 60%.
+
+## Proposition 48: unknown AR(1) coefficient without losing the matrix bound
+
+[![Experiment AH](docs/uniform_matrix_chernoff_ar1.svg)](docs/proposition_48_uniform_matrix_chernoff_ar1.md)
+
+The full projected eigenvalue profile is controlled between AR(1) grid points. In the strongest displayed interval, the previous interval certificate is `2.409` while Proposition 48 is `0.931`.
+
+## Proposition 49: compact temporal families
+
+[![Experiment AI](docs/compact_temporal_family.svg)](docs/proposition_49_compact_temporal_family.md)
+
+The temporal geometry layer is modularized. Any family with a valid deterministic spectral and normalization cover can reuse the direct Gaussian matrix-concentration layer.
 
 ---
 
 # What is being optimized?
 
-At each time `t`, a candidate subsystem is a coordinate subset `S_t`. A candidate history
+At each time `t`, a candidate subsystem is a coordinate set `S_t`. A changing candidate history
 
 \[
 \mathcal W=(S_0,S_1,\ldots,S_{T-1})
@@ -167,7 +164,7 @@ At each time `t`, a candidate subsystem is a coordinate subset `S_t`. A candidat
 
 is called an **observer world-tube**.
 
-For the implemented nonstationary linear Gaussian process
+For the implemented nonstationary linear Gaussian dynamics
 
 \[
 X_{t+1}=A_tX_t+\varepsilon_t,
@@ -177,32 +174,26 @@ X_{t+1}=A_tX_t+\varepsilon_t,
 
 each candidate receives evidence from four ingredients:
 
-1. **internal integration**: predictive interaction across its weakest internal cut;
-2. **environmental insulation**: predictive information that must be imported from outside;
-3. **persistence**: continuity of predictive structure into the next state;
-4. **transport**: continuity of organization when physical membership changes.
+1. **integration:** predictive interaction across the weakest internal cut;
+2. **insulation:** how little predictive information must be imported from outside;
+3. **persistence:** survival of predictive structure into the next state;
+4. **transport:** continuity of organization when physical membership changes.
 
-A dynamic program returns the exact maximizing world-tube within the declared candidate family, plus the exact runner-up. Their action difference is the margin used by the deterministic robustness theorems.
+A dynamic program returns the exact maximizing path in the declared candidate family and the exact runner-up. Their action difference is the margin used by the robustness theorems.
 
-## Controlled moving-boundary example
+A controlled moving-boundary example recovers
 
 ```text
 (0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
 ```
 
-| Quantity | Value |
-| --- | ---: |
-| Planted boundaries recovered | 5 / 5 |
-| Winning action | 1.254324 |
-| Runner-up action | 1.127903 |
-| Exact action margin | 0.126421 |
-| Certified uniform score radius | 0.010535 |
+at all five times, with winning action `1.254324`, runner-up `1.127903`, and exact action margin `0.126421`.
 
 | Selected moving path | Regularization and failure region |
 | --- | --- |
 | [![Candidate scores over time](docs/worldtube_baseline.png)](docs/reproducible_results.md#experiment-b-changing-boundary-world-tube) | [![World-tube phase diagram](docs/worldtube_phase_diagram.png)](docs/reproducible_results.md#regularization-result) |
 
-The phase diagram includes a failure region deliberately. A scientific record is more useful when it shows where the method stops working than when it only displays successful parameter choices.
+The failure region is intentionally part of the record.
 
 ---
 
@@ -210,28 +201,26 @@ The phase diagram includes a failure region deliberately. A scientific record is
 
 A high objective value is not automatically evidence of an identifiable physical boundary. Proposition 14 constructs observationally identical models that assign incompatible boundary labels, producing a one-half maximin ceiling for any observational estimator in that setting.
 
-That result sets the interpretation rule for the project:
+> **Recovery is always relative to declared observables, model assumptions, candidate families, and admissible symmetries.**
 
-> **The repository studies recovery under declared observables, symmetries, and model assumptions. It does not assume that every system possesses one representation-independent intrinsic boundary.**
-
-See the [proof record](docs/proofs_and_conjectures.md) and the [assumption ledger](docs/assumption_ledger.md).
+None of the implemented scores is a measurement or proof of phenomenal consciousness.
 
 ---
 
-# What is established and what is still open
+# What is established, and what is not
 
-The repository now contains a substantial conditional mathematical pipeline from time-varying Gaussian dynamics to moving-boundary optimization and finite-sample certification. Depending on the theorem layer, it can account for localized covariance perturbations, structural nulls, adaptive screening, population drift, temporally dependent observations, unknown constant means, declared time-varying nuisance means, estimated AR(1) dependence, design-specific nuisance geometry, direct matrix concentration, and interval-uniform control of the full projected temporal spectrum.
+Under its stated assumptions, the repository contains a conditional mathematical pipeline from time-varying Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed covariance layer now handles temporally dependent Gaussian sampling, fixed-subspace time-varying nuisance means, estimated AR(1) dependence, design-specific temporal geometry, direct matrix concentration, and compact multi-parameter temporal families supplied through deterministic covers.
 
-It does not yet provide an unrestricted boundary-identification theorem. Important assumptions remain:
+Important restrictions remain:
 
-- Gaussian observation structure in the statistical concentration layer;
-- separable temporal and spatial covariance in the newest dependent-sampling results;
-- stationary nonnegative AR(1) temporal dependence for the calibrated interval layer;
-- valid standardized calibration channels for estimating that AR(1) coefficient;
-- a nuisance design selected before inspecting the same target record;
-- no general non-Gaussian, nonseparable, adaptive-nuisance, or fully data-driven spatial-whitening theorem yet.
+- Gaussianity in the current sharp statistical concentration layer;
+- temporal-spatial separability;
+- nuisance designs fixed before inspecting the target record;
+- deterministic temporal-family covers justified independently of the target record;
+- no general theorem yet for a data-calibrated multi-parameter or nonparametric temporal confidence set;
+- no claim that every real system has one intrinsic observer boundary.
 
-The immediate statistical frontier is no longer the single-parameter AR(1) composition. A natural next target is a broader stationary dependence class, for example a multi-parameter temporal model or a certified spectral-density envelope, while retaining finite-sample matrix concentration and explicit nuisance projection.
+The next major statistical frontier is to construct a **data-calibrated confidence set for a broader temporal covariance family** and compose that random family with Proposition 49 while keeping confidence accounting explicit.
 
 ---
 
@@ -253,21 +242,22 @@ python examples/estimated_ar1_nuisance_projection.py
 python examples/design_specific_ar1_envelope.py
 python examples/weighted_wishart_matrix_chernoff.py
 python examples/uniform_matrix_chernoff_ar1.py
+python examples/compact_temporal_family.py
 ```
 
-Every new numerical claim is expected to have a committed script, machine-readable result file, visible figure when useful, and claim-level test coverage. The repository-wide standard is documented in the [research index](docs/research_index.md#reproduction-and-audit-rule).
+Every numerical claim is expected to have a committed script, a machine-readable result file, a visible figure when useful, and claim-level test coverage.
 
 ## Repository map
 
-- [`docs/research_overview.md`](docs/research_overview.md): human-readable research narrative
-- [`docs/research_index.md`](docs/research_index.md): canonical theorem and experiment navigation
+- [`docs/research_overview.md`](docs/research_overview.md): research narrative
+- [`docs/research_index.md`](docs/research_index.md): theorem and experiment navigation
 - [`docs/proofs_and_conjectures.md`](docs/proofs_and_conjectures.md): detailed Propositions 1-43
 - [`docs/proposition_44_nuisance_projection.md`](docs/proposition_44_nuisance_projection.md): Proposition 44
 - [`docs/proposition_45_estimated_ar1_nuisance_projection.md`](docs/proposition_45_estimated_ar1_nuisance_projection.md): Proposition 45
 - [`docs/proposition_46_design_specific_ar1_envelope.md`](docs/proposition_46_design_specific_ar1_envelope.md): Proposition 46
 - [`docs/proposition_47_weighted_wishart_matrix_chernoff.md`](docs/proposition_47_weighted_wishart_matrix_chernoff.md): Proposition 47
 - [`docs/proposition_48_uniform_matrix_chernoff_ar1.md`](docs/proposition_48_uniform_matrix_chernoff_ar1.md): Proposition 48
-- [`docs/reproducible_results.md`](docs/reproducible_results.md): Experiments A-AC
+- [`docs/proposition_49_compact_temporal_family.md`](docs/proposition_49_compact_temporal_family.md): Proposition 49
 - [`docs/assumption_ledger.md`](docs/assumption_ledger.md): assumptions and failure conditions
 - [`src/observer_math/`](src/observer_math/): mathematical implementation
 - [`tests/`](tests/): claim-level tests
@@ -275,7 +265,7 @@ Every new numerical claim is expected to have a committed script, machine-readab
 
 ## Citation
 
-Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). Current research-software release: **0.36.0**.
+Citation metadata is maintained in [`CITATION.cff`](CITATION.cff). Current research-software release: **0.37.0**.
 
 ## License
 

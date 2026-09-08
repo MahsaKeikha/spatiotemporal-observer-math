@@ -2,7 +2,7 @@
 
 This page explains the project as a research story rather than as a list of files. For the complete numbered map of theorems and experiments, use the [research index](research_index.md).
 
-The current verified record is 48 propositions, 34 reproducible experiments, 21 committed figures, and 156 passing claim-level tests across Python 3.10, 3.11, and 3.12.
+The current release record is 49 propositions, 35 reproducible experiments, 22 committed figures, and 161 claim-level tests, with the release candidate checked across Python 3.10, 3.11, and 3.12 before merge.
 
 ## The question
 
@@ -22,7 +22,7 @@ The central question is:
 
 The word "observer" is operational. It is not a claim about consciousness or subjective experience.
 
-## The exact population model
+## The population model
 
 The main exact theory uses a nonstationary linear Gaussian process
 
@@ -32,46 +32,13 @@ X_{t+1}=A_tX_t+\varepsilon_t,
 \varepsilon_t\sim\mathcal N(0,Q_t).
 \]
 
-This setting makes adjacent covariances, Gaussian conditional mutual information, and canonical correlations analytically tractable. It allows the repository to separate three questions that are often mixed together:
+This setting makes adjacent covariances, Gaussian conditional mutual information, and canonical correlations analytically tractable. It allows the repository to separate three questions:
 
 1. what score should a candidate boundary receive?
 2. which moving path maximizes the declared objective?
 3. how much estimation or model error can occur before the winner changes?
 
-## What the score measures
-
-The implemented path objective combines four ideas:
-
-- **integration**: predictive interaction across the candidate's weakest internal cut;
-- **insulation**: how little predictive information must be imported from outside;
-- **persistence**: survival of predictive structure into the next state;
-- **transport**: continuity of organization even when physical membership changes.
-
-A dynamic program computes the exact maximizing path in the declared candidate family. A second exact calculation finds the runner-up. Their difference is the action margin used by the robustness theorems.
-
-## A controlled moving-boundary example
-
-The planted path
-
-```text
-(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
-```
-
-is recovered at all five times in the controlled example.
-
-| Quantity | Value |
-| --- | ---: |
-| Boundaries recovered | 5 / 5 |
-| Winning action | 1.254324 |
-| Runner-up action | 1.127903 |
-| Action margin | 0.126421 |
-| Certified uniform score radius | 0.010535 |
-
-| Selected path | Failure region |
-| --- | --- |
-| [![Candidate scores over time](worldtube_baseline.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube) | [![World-tube phase diagram](worldtube_phase_diagram.png)](reproducible_results.md#regularization-result) |
-
-The failure region is part of the scientific record. If material continuity is weighted too heavily, the optimizer leaves the planted moving process.
+The implemented path objective combines integration, insulation, persistence, and transport. A dynamic program computes the exact maximizing path in the declared candidate family. A second exact calculation finds the runner-up. Their difference is the action margin used by the robustness theorems.
 
 ## Identifiability comes first
 
@@ -79,11 +46,9 @@ Optimization alone cannot establish an identifiable physical boundary. Propositi
 
 This sets the interpretation rule for the project:
 
-> **Recovery is always relative to declared observables, model assumptions, and admissible symmetries.**
+> **Recovery is always relative to declared observables, model assumptions, candidate families, and admissible symmetries.**
 
 ## How the proof program developed
-
-The theorem sequence has five broad stages.
 
 ### Population mathematics
 
@@ -91,11 +56,11 @@ Propositions 1-8 establish covariance identities, information quantities, transp
 
 ### Finite-sample recovery
 
-Proposition 9 gives the first complete Gaussian sample-complexity theorem. Later results localize covariance blocks, exploit positive factor floors, derive candidate-specific budgets, and propagate them through the path optimization problem.
+Proposition 9 gives the first complete Gaussian sample-complexity theorem. Later results localize covariance blocks, exploit positive factor floors, derive candidate-specific budgets, and propagate them through path optimization.
 
 ### Structural compression
 
-Propositions 15-31 use near-competitor graphs, overlap classes, block sparsity, influence cones, moving partitions, factor intervals, and screened environment structure. The goal is to make the certificate respect the same structural sparsity that makes the model interpretable.
+Propositions 15-31 use near-competitor graphs, overlap classes, block sparsity, influence cones, moving partitions, factor intervals, and screened environment structure.
 
 ### Statistically safe screening and drift
 
@@ -103,74 +68,104 @@ Propositions 32-40 add sample splitting, Gaussian screening guarantees, structur
 
 ### Temporally dependent observations
 
-Propositions 41-48 address the fact that time-series observations are not i.i.d. This is the current frontier.
+Propositions 41-49 address the fact that time-series observations are not i.i.d. This is the current proof frontier.
 
-## The recent sequence
+---
 
-### Proposition 41: temporal dependence changes effective sample size
+# The recent sequence
 
-[![Experiment AA](dependent_gaussian_calibration.png)](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration)
+## Proposition 41: temporal dependence changes effective sample size
 
-The covariance radius now depends on temporal Frobenius and spectral norms rather than treating record length as an i.i.d. sample count.
+The covariance radius begins to depend on temporal Frobenius and spectral norms rather than treating record length as an i.i.d. sample count.
 
-### Proposition 42: mean removal changes normalization
-
-[![Experiment AB](dependent_centered_gaussian_calibration.png)](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration)
+## Proposition 42: mean removal changes normalization
 
 Under temporal dependence, removing an unknown constant mean changes the quadratic form and its exact normalization.
 
-### Proposition 43: estimate the AR(1) coefficient
-
-[![Experiment AC](estimated_ar1_calibration.png)](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration)
+## Proposition 43: estimate the AR(1) coefficient
 
 Increment energy produces an observable confidence interval for a shared nonnegative AR(1) coefficient, and that uncertainty is propagated into the covariance certificate.
 
-### Proposition 44: allow a time-varying nuisance mean
+## Proposition 44: allow a time-varying nuisance mean
 
 [![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
-A fixed declared temporal design `H` is projected away exactly. Experiment AD shows why this matters: the projected estimator stays near 0.14 median relative error while ordinary mean-centering reaches 121.76 under large affine drift.
+A fixed declared temporal design `H` is projected away exactly. Experiment AD shows why this matters: the projected estimator remains stable while ordinary mean-centering fails under large affine drift.
 
-### Proposition 45: combine temporal calibration with nuisance projection
+## Proposition 45: combine temporal calibration with nuisance projection
 
 [![Experiment AE](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
 
-Observable AR(1) calibration and time-varying nuisance removal are combined in one finite-sample covariance bound. The estimator tracks the oracle closely, but the radius becomes conservative at stronger correlation.
+Observable AR(1) calibration and time-varying nuisance removal are combined in one finite-sample covariance bound.
 
-### Proposition 46: use the actual nuisance geometry
+## Proposition 46: use the actual nuisance geometry
 
 [![Experiment AF](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
 
-The rank-only normalization bound is replaced by a continuum certificate that uses the actual design. Experiment AF shows a regime where rank-only control becomes vacuous while the design-specific theorem remains finite.
+A rank-only normalization bound is replaced by a continuum certificate that uses the actual declared nuisance design.
 
-### Proposition 47: use direct matrix concentration
+## Proposition 47: use direct matrix concentration
 
 [![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
 
-The sphere-net operator-norm reduction is replaced by an exact Gaussian matrix exponential moment and a matrix-Laplace bound. At `N=850`, the tested radius falls from 1.077 to 0.459 at `phi=0.65`, and from 1.630 to 0.653 at `phi=0.80`.
+The sphere-net operator-norm reduction is replaced by an exact Gaussian matrix exponential moment and a matrix-Laplace bound.
 
-### Proposition 48: make the matrix result uniform over estimated dependence
+## Proposition 48: make the direct matrix bound uniform over unknown AR(1)
 
 [![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
 
-Proposition 48 removes the known-spectrum requirement from Proposition 47 inside the current stationary nonnegative AR(1) model class. Proposition 46 controls the spectral movement of `P R_phi P` between AR(1) grid points. Weyl's inequality turns that matrix movement into a bound on every ordered projected temporal eigenvalue. The exact Proposition 47 matrix-mgf factors are monotone in those nonnegative eigenvalues, so an inflated neighboring grid spectrum gives a valid continuum matrix bound.
+The complete projected eigenvalue profile is controlled between AR(1) grid points. The matrix bound therefore survives uncertainty in the coefficient itself.
 
-Experiment AH fixes `N=500` and compares the older sphere-net interval certificate with the new interval-uniform matrix certificate. For the strong-dependence interval `[0.70, 0.80]`, the radius falls from 2.409 to 0.931. The exact coefficient is not supplied to Proposition 48.
+## Proposition 49: separate temporal-family geometry from matrix probability
 
-The experiment also contains two seeded target-record checks with a large unknown affine mean. All recorded errors remain below the stated Proposition 48 radii. Those simulations illustrate scale and implementation behavior. The proof is the continuum eigenvalue and matrix-mgf argument.
+[![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
-## What the project has established
+Proposition 49 replaces the one-dimensional AR(1) continuum by an arbitrary compact temporal covariance family with a certified finite cover. The theorem requires two deterministic cover controls:
 
-Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed statistical layer handles temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, design-specific nuisance geometry, direct matrix concentration, and interval-uniform control of the full projected temporal eigenvalue profile.
+\[
+\|U^\mathsf T(R-R_j)U\|_2\le\delta_\lambda
+\]
 
-Within that model class, the covariance certificate no longer requires the exact projected temporal spectrum to be supplied as an oracle input.
+and
+
+\[
+|\operatorname{tr}(P(R-R_j))|\le\delta_d.
+\]
+
+Weyl's inequality then controls every ordered projected eigenvalue, and the monotone exact Gaussian matrix-mgf factors produce one family-wide matrix Chernoff envelope.
+
+The cover points do not consume a probability union bound. They are deterministic geometry used to build the mgf envelope before probability enters.
+
+Experiment AI uses the two-parameter family
+
+\[
+R_{\phi,\eta}=(1-\eta)R_\phi+\eta I
+\]
+
+with `phi in [0.45, 0.72]` and `eta in [0, 0.05]`. At `N=400`, refining the deterministic product cover gives:
+
+| Cover | Proposition 49 | Sphere-net family |
+| --- | ---: | ---: |
+| `5 x 3` | 1.104 | 3.002 |
+| `9 x 5` | **0.957** | 2.572 |
+| `17 x 9` | **0.891** | 2.358 |
+
+The same temporal family crosses below the critical relative-error threshold one without changing sample count or confidence. Two seeded target regimes also produced 192 of 192 covariance errors below the final theorem radius. The simulations show scale; the proof is the deterministic cover plus the matrix-mgf argument.
+
+---
+
+# What the project has established
+
+Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed covariance layer can handle temporally dependent sampling, unknown fixed-subspace nuisance means, estimated AR(1) dependence, design-specific geometry, direct matrix concentration, and compact multi-parameter temporal covariance families supplied through deterministic covers.
 
 ## What remains open
 
-The current results still assume important structure. The newest statistical theorems rely on Gaussianity, temporal and spatial separability, stationary nonnegative AR(1) dependence for the calibrated interval layer, valid standardized calibration channels, and a nuisance design fixed before inspecting the target record.
+The newest theorems still rely on Gaussian temporal-spatial separability, valid nuisance structure, and temporal-family information justified independently of the target covariance record.
 
-The next statistical question is broader than Proposition 48:
+Proposition 49 solves the concentration problem once a deterministic family cover is supplied. It does not yet solve how that broader family should be calibrated from data.
 
-> **Can the interval-uniform matrix concentration strategy be extended beyond a single AR(1) coefficient to a richer stationary dependence class without losing finite-sample auditability?**
+The immediate next statistical target is therefore:
 
-Natural directions are a multi-parameter temporal family, a certified spectral-density envelope, or a nonparametric dependence class with a valid operator-norm matrix concentration theorem. A separate frontier is careful sample splitting for adaptive nuisance structure or data-driven whitening.
+> **Construct an observable finite-sample confidence set for a multi-parameter or nonparametric temporal covariance family, then compose its calibration failure probability with Proposition 49.**
+
+That would extend the observable calibration logic of Proposition 43 from one AR(1) coefficient to a genuinely broader dependence class.

@@ -1,12 +1,6 @@
 # Research index
 
-This page is the navigation layer for the repository. It is written for a reader who did not participate in the development and should not have to guess how the pieces fit together.
-
-The project keeps three kinds of evidence separate:
-
-1. **proved statements**: mathematical results under explicit assumptions;
-2. **reproducible experiments**: numerical studies that show scale, tightness, failure modes, or implementation behavior;
-3. **software checks**: tests tied to specific mathematical claims.
+This page is the navigation layer for the repository. It separates proved mathematics, reproducible numerical evidence, and software verification so a reader can audit each layer independently.
 
 A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness.
 
@@ -22,15 +16,13 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | Audit Proposition 46 | [Design-specific AR(1) interval geometry](proposition_46_design_specific_ar1_envelope.md) |
 | Audit Proposition 47 | [Weighted-Wishart matrix concentration](proposition_47_weighted_wishart_matrix_chernoff.md) |
 | Audit Proposition 48 | [Uniform matrix concentration over calibrated AR(1)](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| Audit Proposition 49 | [Compact temporal-family matrix concentration](proposition_49_compact_temporal_family.md) |
 | Reproduce Experiments A-AC | [Reproducible results](reproducible_results.md) |
-| Reproduce Experiments AD-AH | [Latest experiments](#latest-experiments-ad-ah) |
 | Inspect assumptions and interpretation limits | [Assumption ledger](assumption_ledger.md) |
 
 ---
 
 # The theorem chain
-
-The propositions are cumulative. Later results remove specific restrictions or sources of conservatism from the earlier pipeline.
 
 ## Foundations: Propositions 1-14
 
@@ -79,20 +71,21 @@ Detailed statements and proofs: [Propositions 15-31](proofs_and_conjectures.md).
 
 Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
-## Dependent Gaussian sampling: Propositions 41-48
+## Dependent Gaussian sampling: Propositions 41-49
 
 | No. | What changed | Direct source |
 | ---: | --- | --- |
-| 41 | Replaces i.i.d. sampling by separably dependent Gaussian sampling. | [Proof record](proofs_and_conjectures.md) |
+| 41 | Replaces i.i.d. temporal sampling by separably dependent Gaussian sampling. | [Proof record](proofs_and_conjectures.md) |
 | 42 | Corrects normalization after removing an unknown constant mean. | [Proof record](proofs_and_conjectures.md) |
 | 43 | Estimates a shared nonnegative AR(1) coefficient and propagates its uncertainty. | [Proof record](proofs_and_conjectures.md) |
 | 44 | Replaces constant mean removal by projection away from any fixed declared nuisance subspace. | [Proof](proposition_44_nuisance_projection.md) |
 | 45 | Combines observable AR(1) calibration with nuisance projection and normalization uncertainty. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
 | 46 | Uses the actual nuisance design over the full calibrated AR(1) interval instead of only its rank. | [Proof](proposition_46_design_specific_ar1_envelope.md) |
 | 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| 48 | Makes the Proposition 47 matrix bound uniform over an observable AR(1) interval by controlling every projected temporal eigenvalue between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| 48 | Makes Proposition 47 uniform over the calibrated AR(1) interval by controlling every projected temporal eigenvalue between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| 49 | Replaces the one-dimensional AR(1) continuum by any compact temporal covariance family with a certified finite operator and normalization cover. | [Proof](proposition_49_compact_temporal_family.md) |
 
-The newest chain can be read as a sequence of questions:
+The latest progression is:
 
 ```text
 Can the mean vary with time?
@@ -103,49 +96,52 @@ Can we use the actual nuisance geometry?
         -> Proposition 46
 Can we remove the sphere-net concentration bottleneck?
         -> Proposition 47
-Can that sharper matrix bound survive uncertainty in the AR(1) coefficient?
+Can the matrix bound survive an unknown AR(1) coefficient?
         -> Proposition 48
+Can the concentration theorem stop depending on AR(1) geometry entirely?
+        -> Proposition 49
 ```
 
 ---
 
 # Experiment index
 
-Experiments are organized by what they test. Failure regions and conservative gaps remain part of the record.
+Experiments are organized by the mathematical question they expose. Failure regions and conservative gaps remain part of the record.
 
 ## Experiments A-J
 
-These establish the basic objective behavior, a changing-boundary world-tube, finite-sample recovery, an identifiability counterexample, symbolic moving-clique recovery, robust perturbation regions, block-sparse recovery, and covariance influence cones.
+Basic objective behavior, changing-boundary world-tubes, finite-sample recovery, identifiability counterexamples, symbolic moving-clique recovery, robust perturbation regions, block-sparse recovery, and covariance influence cones.
 
 ## Experiments K-R
 
-These test class compression, interval classes, covariance-residual classes, block-structural residuals, screened environmental recovery, sample-split confidence accounting, and safe Gaussian screening.
+Class compression, interval classes, covariance-residual classes, block-structural residuals, screened environmental recovery, sample-split confidence accounting, and safe Gaussian screening.
 
 ## Experiments S-Z
 
-These study Gaussian screening calibration, structural-null refinements, trajectory-coupled sampling, covariance-normalized screening, reusable pilot geometry, population drift, and empirical drift calibration.
+Gaussian screening calibration, structural-null refinements, trajectory-coupled sampling, covariance-normalized screening, reusable pilot geometry, population drift, and empirical drift calibration.
 
 ## Experiments AA-AC
 
 | ID | Main purpose |
 | --- | --- |
 | AA | Quantifies how temporal correlation reduces effective sample size. |
-| AB | Verifies the exact normalization after removing an unknown constant mean. |
+| AB | Verifies exact normalization after removing an unknown constant mean. |
 | AC | Estimates temporal dependence and checks joint interval and covariance coverage. |
 
 Full commands and numerical records: [Experiments A-AC](reproducible_results.md).
 
-## Latest experiments AD-AH
+## Latest experiments AD-AI
 
 | ID | Result | What to notice | Proof, data, code |
 | --- | --- | --- | --- |
 | AD | Time-varying nuisance projection | Ordinary centering fails under affine drift while declared nuisance projection remains stable. | [Proof](proposition_44_nuisance_projection.md) · [JSON](nuisance_projection_calibration.json) · [script](../examples/nuisance_projection_calibration.py) |
 | AE | Estimated AR(1) plus affine nuisance mean | Observable calibration tracks the oracle, but the earlier concentration radius becomes loose at stronger correlation. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) · [JSON](estimated_ar1_nuisance_projection.json) · [script](../examples/estimated_ar1_nuisance_projection.py) |
 | AF | Design-specific interval geometry | A rank-only certificate can become vacuous even when the actual nuisance geometry retains substantial covariance information. | [Proof](proposition_46_design_specific_ar1_envelope.md) · [JSON](design_specific_ar1_envelope.json) · [script](../examples/design_specific_ar1_envelope.py) |
-| AG | Weighted-Wishart matrix concentration | Direct matrix concentration cuts the tested covariance radii by roughly 52% to 60% and restores several strong-correlation cases to radius below one. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
-| AH | Interval-uniform matrix concentration | The sharper matrix certificate remains valid when the AR(1) coefficient is only known through an interval. In the `[0.70, 0.80]` case, the radius falls from 2.409 to 0.931. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
+| AG | Weighted-Wishart matrix concentration | Direct matrix concentration cuts tested covariance radii by roughly 52% to 60%. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
+| AH | Interval-uniform matrix concentration | An unknown AR(1) coefficient no longer forces the strong-correlation matrix certificate above one in the displayed regimes. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
+| AI | Compact temporal-family concentration | A two-parameter temporal family crosses below radius one under deterministic cover refinement, while the sphere-net family certificate stays above two. | [Proof](proposition_49_compact_temporal_family.md) · [JSON](compact_temporal_family.json) · [script](../examples/compact_temporal_family.py) |
 
-### Five newest figures
+### Six newest figures
 
 [![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
@@ -157,26 +153,25 @@ Full commands and numerical records: [Experiments A-AC](reproducible_results.md)
 
 [![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
 
+[![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
+
 ---
 
 # What the repository currently establishes
 
-Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, direct matrix concentration, and continuum control of the full projected temporal eigenvalue profile over the calibrated AR(1) interval.
+Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, direct matrix concentration, and compact temporal covariance families represented by deterministic finite covers.
 
-It does not establish that every real system has an identifiable observer boundary. It does not establish consciousness. It does not eliminate assumptions about Gaussianity, separability, stationarity, calibration-channel validity, or predeclared nuisance structure.
+Proposition 49 does not infer a temporal-family confidence set from the target data. It assumes the family and its deterministic cover are valid before the covariance concentration argument is applied.
+
+The repository does not establish that every real system has an identifiable observer boundary. It does not establish consciousness. It does not eliminate assumptions about Gaussianity, separability, nuisance-design validity, or temporal-family calibration.
 
 ## Immediate next proof target
 
-Proposition 48 closes the current single-parameter AR(1) composition. The next statistical target should broaden the temporal dependence class while keeping the same auditability standard.
+The next major statistical step is:
 
-Natural directions include:
+> **Construct a data-calibrated confidence set for a multi-parameter or nonparametric temporal covariance family, then compose that random set with Proposition 49 using explicit confidence accounting.**
 
-- a multi-parameter stationary temporal family with a certified parameter region;
-- a finite-sample spectral-density envelope;
-- a nonparametric dependence class with an operator-norm matrix concentration theorem;
-- a carefully sample-split route to data-driven nuisance structure or spatial whitening.
-
-The next proposition should be chosen only when one of these directions yields a statement that is both mathematically explicit and testable at claim level.
+That would move the current compact-family theorem from deterministic family uncertainty toward observable multi-parameter temporal calibration.
 
 ---
 
@@ -194,4 +189,4 @@ A result is considered complete in this repository when the relevant pieces exis
 - a visible figure when a figure improves understanding;
 - a front-page or index link so the result is discoverable.
 
-The repository also enforces a prose-style check that rejects en dash and em dash Unicode characters in Markdown documentation. Ordinary punctuation is used instead.
+The repository also enforces a prose-style check that rejects Unicode en dash and em dash characters in Markdown documentation. Ordinary punctuation is used instead.
