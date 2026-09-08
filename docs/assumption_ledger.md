@@ -60,7 +60,7 @@ A theorem can be correct while an application is invalid because one of its assu
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| The covariance is separable as temporal factor times spatial covariance where the weighted Gaussian reduction is used | Propositions 41 through 52 | The weighted Wishart or quadratic-form law no longer describes the estimator |
+| The covariance is separable as temporal factor times spatial covariance where the weighted Gaussian reduction is used | Propositions 41 through 53 | The weighted Wishart or quadratic-form law no longer describes the estimator |
 | Deterministic bounds supplied for temporal Frobenius and spectral norms are valid | Proposition 41 | The effective-sample-size covariance radius can be too small |
 | An unknown mean is constant when ordinary temporal centering is used | Proposition 42 | Mean removal can leave uncontrolled time-varying structure |
 | The corrected centering normalization \(\operatorname{tr}(PR)\) is valid | Proposition 42 | The covariance estimator can be biased by the wrong normalization |
@@ -71,9 +71,9 @@ A theorem can be correct while an application is invalid because one of its assu
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| The target mean lies exactly in a fixed full-rank temporal nuisance subspace selected before target inspection | Propositions 44 through 52 | Projection can leave uncontrolled mean structure or become data dependent |
-| The projected covariance normalization remains strictly positive | Propositions 44 through 52 | The observable covariance normalization is not certified |
-| The nuisance design used by design-specific bounds is the same design used by the estimator | Propositions 46, 48, and 52 | The projected spectral envelope can describe the wrong subspace |
+| The target mean lies exactly in a fixed full-rank temporal nuisance subspace selected before target inspection | Propositions 44 through 53 | Projection can leave uncontrolled mean structure or become data dependent |
+| The projected covariance normalization remains strictly positive | Propositions 44 through 53 | The observable covariance normalization is not certified |
+| The nuisance design used by design-specific bounds is the same design used by the estimator | Propositions 46, 48, 52, and 53 | The projected spectral envelope can describe the wrong subspace |
 
 ## Matrix concentration assumptions
 
@@ -81,10 +81,10 @@ A theorem can be correct while an application is invalid because one of its assu
 | --- | --- | --- |
 | Proposition 47 receives the actual nonnegative projected temporal eigenvalue profile when temporal covariance is treated as known | Proposition 47 | The exact matrix-mgf calculation is applied to the wrong weighted Gaussian law |
 | Proposition 48 inflates every ordered projected eigenvalue by a valid between-grid Weyl radius | Proposition 48 | A between-grid temporal spectrum can have a larger matrix mgf than the certificate allows |
-| Proposition 49 receives a deterministic finite temporal-family cover whose operator and normalization radii dominate every admissible family member | Proposition 49 | An uncovered temporal covariance can invalidate the family-wide matrix bound |
+| Proposition 49 receives a deterministic finite temporal-family cover whose operator and normalization radii dominate every admissible family member | Proposition 49 and Proposition 53 composition | An uncovered temporal covariance can invalidate the family-wide matrix bound |
 | Proposition 49 treats its finite cover as deterministic geometry, not as a set of stochastic events | Proposition 49 | Probability accounting can be misstated |
-| Numerical Chernoff theta grids remain inside their admissible domains and are fixed independently of the target data | Propositions 47 through 52 | An invalid or data-selected theta can break the mgf argument |
-| Chernoff theta grids are interpreted as numerical tightness devices rather than statistical discretizations | Propositions 47 through 52 | Numerical optimization error can be confused with probability coverage |
+| Numerical Chernoff theta grids remain inside their admissible domains and are fixed independently of the target data | Propositions 47 through 53 | An invalid or data-selected theta can break the mgf argument |
+| Chernoff theta grids are interpreted as numerical tightness devices rather than statistical discretizations | Propositions 47 through 53 | Numerical optimization error can be confused with probability coverage |
 
 ## Proposition 50 assumptions
 
@@ -127,6 +127,32 @@ A theorem can be correct while an application is invalid because one of its assu
 | The retained outer cover is nonempty before a target certificate is issued | Proposition 52 implementation | An empty retained family is evidence of incompatibility or numerical failure, not a valid covariance certificate |
 | The target record satisfies Proposition 49's separable Gaussian assumptions | Proposition 52 target matrix concentration | The family-wide matrix Chernoff bound need not describe the target covariance estimator |
 
+## Proposition 53 assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| Temporal covariance is modeled by the single exponential kernel \(K_\tau(t,s)=\exp(-|t-s|/\tau)\) | Proposition 53 | Multiple timescales, oscillatory memory, nonstationarity, or other kernel shapes can make \(\tau\) an inadequate description |
+| Physical sample times are known, finite, and strictly increasing | Irregular-time covariance construction | The elapsed-time covariance matrix is not defined as implemented |
+| \(\tau>0\) and the declared interval satisfies \(0<\tau_-\le\tau_+\) | Relaxation-time inversion and continuum cover | The exponential model or derivative bounds are undefined |
+| A single \(\tau\) is intended to describe the same temporal law across sampling schedules being compared | Sampling-consistency interpretation | Different recovered \(\tau\) values can indicate model failure or a changed physical regime rather than sampling invariance |
+| Time-unit changes rescale both timestamps and \(\tau\) by the same positive factor | Time-unit invariance statement | Rescaling only one side changes the physical model rather than merely changing units |
+| The analytic operator-Lipschitz constant is computed over the full declared \(\tau\)-interval and actual timestamp grid | Continuum cover | An understated constant can leave between-grid covariance matrices uncovered |
+| The nuisance design is fixed and the equal-trace correlation-family identity is used for the normalization radius | Proposition 53 composition with Proposition 49 | Projected normalization uncertainty can be understated |
+| Dense Experiment AM grid evaluation is treated as a numerical scale check, not as the continuum proof | Experiment AM | A finite visualization grid can be mistaken for the theorem |
+
+### Proposition 53 physical model diagnostics
+
+A real application should test whether the single exponential relaxation model is adequate. Useful checks include:
+
+1. fit or calibrate the model at more than one sampling interval and compare the implied \(\tau\) values;
+2. inspect residual autocorrelation for unexplained structure;
+3. inspect the spectrum for oscillatory or multi-timescale behavior;
+4. compare predictions on held-out irregular time separations;
+5. test stationarity across time blocks;
+6. widen or replace the kernel family when these diagnostics fail.
+
+Systematic violation of \(\phi_{k\Delta t}=\phi_{\Delta t}^k\) beyond uncertainty is evidence against one common exponential relaxation time.
+
 ## Physical diagnostics for the temporal model
 
 The mathematical temporal family should be checked against the physical record before interpreting a certificate. Useful diagnostics include residual autocorrelation, spectral structure, stationarity across time blocks, cross-channel dependence, and sensitivity to the declared nuisance design.
@@ -141,6 +167,7 @@ Evidence for oscillatory memory, multiple relaxation times, changing parameters,
 | Multiply confidence levels only when the conditioning and independence argument is explicit | Propositions 50 and 52 | Product confidence can be invalid under data reuse |
 | Proposition 51 needs no parameterwise union bound because the confidence set is defined by one e-value at the true parameter | Proposition 51 | Adding a grid union penalty would describe a different and unnecessarily weaker procedure |
 | Proposition 52 needs no stochastic union penalty over retained cells because cell retention is used in a deterministic containment argument | Proposition 52 | Treating cells as separate tests would confuse geometric certification with probability accounting |
+| Proposition 53's relaxation-time grid is deterministic geometry, not a family of stochastic tests | Proposition 53 | Adding a probability penalty would confuse numerical covering with confidence accounting |
 
 ## Interpretation rules
 
@@ -150,7 +177,7 @@ Evidence for oscillatory memory, multiple relaxation times, changing parameters,
 - Symmetry can make labeled recovery impossible even when an optimizer returns one representative.
 - None of the scores is a measurement or proof of phenomenal consciousness.
 - A future consciousness interpretation requires an explicit bridge hypothesis; observer structure alone does not supply that bridge.
-- Any such bridge should meet the requirements in the [interpretation protocol](interpretation_protocol.md), including identifiability, representation invariance, causal discriminability, temporal identity, falsifiability, competing explanations, and independent empirical anchoring.
+- Any such bridge should meet the requirements in the [Interpretation Protocol](interpretation_protocol.md), including identifiability, representation invariance, causal discriminability, temporal identity, falsifiability, competing explanations, and independent empirical anchoring.
 
 ## Application checklist
 
@@ -167,5 +194,6 @@ Before reporting a certificate or confidence set, record:
 9. for Proposition 50, the calibration-target independence argument and declared parameter box;
 10. for Proposition 51, the contrast, mixture construction, declared family, and distinction between the continuum confidence set and its plotted grid view;
 11. for Proposition 52, the fixed cell geometry, continuum containment check, separate eigenvalue and normalization radii, and independent-target conditioning argument;
-12. the physical units, sampling interval, preprocessing, nuisance interpretation, and residual diagnostics relevant to the application;
-13. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.
+12. for Proposition 53, the physical timestamp units, declared \(\tau\)-interval, sampling-consistency diagnostics, and evidence for or against a single exponential timescale;
+13. the physical units, sampling interval, preprocessing, nuisance interpretation, and residual diagnostics relevant to the application;
+14. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.
