@@ -1,6 +1,6 @@
 # Research index
 
-This page is the navigation layer for the repository. It separates proved mathematics, reproducible numerical evidence, software verification, assumptions, and interpretation so each layer can be audited independently.
+This page is the navigation layer for the repository. It separates physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, and consciousness interpretation so each layer can be audited independently.
 
 A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness.
 
@@ -8,18 +8,22 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **51** |
-| Reproducible experiments | **37, A-Z and AA-AK** |
-| Committed scientific figures | **24** |
-| Claim-level tests | **171** |
-| Research-software version | **0.39.0** |
+| Propositions | **52** |
+| Reproducible experiments | **38, A-Z and AA-AL** |
+| Scientific result figures | **25** |
+| Claim-level tests | **177** |
+| Research-software version | **0.40.0** |
+
+The physics pipeline is an explanatory diagram and is not included in the scientific-result figure count.
 
 ## Where to start
 
 | Reader goal | Best page |
 | --- | --- |
-| Understand the scientific question without reading all proofs | [Research overview](research_overview.md) |
-| See the newest results and figures first | [Repository front page](../README.md) |
+| Understand what the equations mean physically | [Physics Guide](physics_guide.md) |
+| Learn how to interpret the figures and theorem radii | [Figure Reading Guide](figure_reading_guide.md) |
+| Understand the research story without reading every proof | [Research Overview](research_overview.md) |
+| See the newest result first | [Repository front page](../README.md) |
 | Audit Propositions 1-43 | [Proved results and open problems](proofs_and_conjectures.md) |
 | Audit Proposition 44 | [Time-varying nuisance projection](proposition_44_nuisance_projection.md) |
 | Audit Proposition 45 | [Estimated AR(1) plus nuisance projection](proposition_45_estimated_ar1_nuisance_projection.md) |
@@ -29,9 +33,9 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | Audit Proposition 49 | [Compact temporal-family matrix concentration](proposition_49_compact_temporal_family.md) |
 | Audit Proposition 50 | [Data-calibrated two-parameter temporal family](proposition_50_calibrated_temporal_family.md) |
 | Audit Proposition 51 | [Finite-sample e-value confidence set](proposition_51_evalue_temporal_confidence_set.md) |
-| Reproduce Experiments A-AC | [Reproducible results](reproducible_results.md) |
-| Inspect assumptions and failure conditions | [Assumption ledger](assumption_ledger.md) |
-| Inspect requirements for any future consciousness interpretation | [Interpretation protocol](interpretation_protocol.md) |
+| Audit Proposition 52 | [Certified e-value outer cover](proposition_52_certified_evalue_outer_cover.md) |
+| Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
+| Inspect requirements for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
 
 ---
 
@@ -44,7 +48,7 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | 1 | Computes adjacent-state covariance for time-varying linear Gaussian dynamics. |
 | 2 | Shows canonical transport is invariant to invertible reparameterization inside declared blocks. |
 | 3 | Proves the implemented transport factors remain in the unit interval. |
-| 4 | Converts an action margin into a deterministic score-error radius that preserves the winner. |
+| 4 | Converts an optimization margin into a deterministic score-error radius that preserves the winner. |
 | 5 | Gives a componentwise planted-path recovery condition. |
 | 6 | Connects a simultaneous score event to path-recovery probability. |
 | 7 | Controls Gaussian conditional mutual information from covariance error. |
@@ -84,41 +88,34 @@ Detailed statements and proofs: [Propositions 15-31](proofs_and_conjectures.md).
 
 Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
-## Dependent Gaussian sampling and temporal calibration: Propositions 41-51
+## Dependent measurements and temporal calibration: Propositions 41-52
 
-| No. | What changed | Direct source |
-| ---: | --- | --- |
-| 41 | Replaces independent temporal sampling by separably dependent Gaussian sampling. | [Proof record](proofs_and_conjectures.md) |
-| 42 | Corrects normalization after removing an unknown constant mean. | [Proof record](proofs_and_conjectures.md) |
-| 43 | Estimates a shared nonnegative AR(1) coefficient and propagates its uncertainty. | [Proof record](proofs_and_conjectures.md) |
-| 44 | Replaces constant mean removal by projection away from any fixed declared nuisance subspace. | [Proof](proposition_44_nuisance_projection.md) |
-| 45 | Combines observable AR(1) calibration with nuisance projection and normalization uncertainty. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
-| 46 | Uses the actual nuisance design over the full calibrated AR(1) interval instead of only its rank. | [Proof](proposition_46_design_specific_ar1_envelope.md) |
-| 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| 48 | Makes Proposition 47 uniform over a calibrated AR(1) interval by controlling projected temporal eigenvalues between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
-| 49 | Replaces the one-dimensional AR(1) continuum by any compact temporal covariance family with a certified finite cover. | [Proof](proposition_49_compact_temporal_family.md) |
-| 50 | Learns a random two-parameter temporal confidence rectangle from independent calibration data and composes it with Proposition 49. | [Proof](proposition_50_calibrated_temporal_family.md) |
-| 51 | Uses the complete residual Gaussian likelihood to construct a finite-sample continuum e-value confidence set directly in two-parameter space. | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
+| No. | Mathematical role | Physical role | Direct source |
+| ---: | --- | --- | --- |
+| 41 | Dependent Gaussian covariance concentration | Corrects the information budget when samples have memory | [Proof record](proofs_and_conjectures.md) |
+| 42 | Mean-centered temporal normalization | Accounts for removing an unknown baseline | [Proof record](proofs_and_conjectures.md) |
+| 43 | Observable AR(1) calibration | Learns persistence instead of assuming it | [Proof record](proofs_and_conjectures.md) |
+| 44 | Fixed nuisance-subspace projection | Removes declared drift shapes before covariance estimation | [Proof](proposition_44_nuisance_projection.md) |
+| 45 | Estimated dependence plus nuisance projection | Handles memory uncertainty and drift together | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
+| 46 | Design-specific temporal geometry | Uses the actual removed drift geometry rather than only its rank | [Proof](proposition_46_design_specific_ar1_envelope.md) |
+| 47 | Direct matrix concentration | Uses the complete projected temporal fluctuation spectrum | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
+| 48 | Uniform matrix concentration over AR(1) uncertainty | Keeps the covariance guarantee valid across uncertain relaxation time | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| 49 | Compact temporal-family cover | Propagates a complete family of admissible memory kernels | [Proof](proposition_49_compact_temporal_family.md) |
+| 50 | Two-parameter temporal calibration | Learns persistence and fast uncorrelated variance from independent calibration | [Proof](proposition_50_calibrated_temporal_family.md) |
+| 51 | Continuum e-value confidence set | Uses the full calibration residual likelihood to retain compatible temporal models | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
+| 52 | Certified finite outer cover plus target composition | Carries every still-compatible temporal model into an independent target covariance certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) |
 
-The latest progression is:
+The newest sequence can be read as one physical measurement problem:
 
 ```text
-Can the mean vary with time?
-        -> Proposition 44
-Can temporal dependence be estimated?
-        -> Proposition 45
-Can we use the actual nuisance geometry?
-        -> Proposition 46
-Can we remove the sphere-net concentration bottleneck?
-        -> Proposition 47
-Can the matrix bound survive an unknown AR(1) coefficient?
-        -> Proposition 48
-Can the concentration theorem stop depending on AR(1) geometry?
-        -> Proposition 49
-Can a multi-parameter temporal family be learned from data?
-        -> Proposition 50
-Can the full likelihood learn joint parameter geometry without rectangular lag propagation?
-        -> Proposition 51
+Physical record has memory and drift
+        -> P41-P46: calibrate effective information and nuisance geometry
+Need a tight covariance guarantee
+        -> P47-P49: direct matrix concentration over temporal families
+Temporal family is not known
+        -> P50-P51: learn a finite-sample parameter confidence set
+A continuum confidence set must be used by a finite target theorem
+        -> P52: certify an outer cover and propagate it to an independent target record
 ```
 
 ---
@@ -127,78 +124,47 @@ Can the full likelihood learn joint parameter geometry without rectangular lag p
 
 Experiments are organized by the mathematical question they expose. Failure regions and conservative gaps remain part of the record.
 
-## Experiments A-J
+## Experiments A-AC
 
-Basic objective behavior, changing-boundary world-tubes, finite-sample recovery, identifiability counterexamples, symbolic moving-clique recovery, robust perturbation regions, block-sparse recovery, and covariance influence cones.
+These cover the original boundary objective, changing-boundary world-tubes, finite-sample recovery, identifiability counterexamples, structural compression, Gaussian screening, drift calibration, dependent sampling, and the first observable AR(1) calibration results.
 
-## Experiments K-R
+Full commands and numerical records: [Reproducible results](reproducible_results.md).
 
-Class compression, interval classes, covariance-residual classes, block-structural residuals, screened environmental recovery, sample-split confidence accounting, and safe Gaussian screening.
+## Recent experiments AD-AL
 
-## Experiments S-Z
+| ID | Proposition | What it tests | Physical reading | Proof, data, code |
+| --- | ---: | --- | --- | --- |
+| AD | 44 | Time-varying nuisance projection | Large deterministic drift should not masquerade as fluctuation covariance | [Proof](proposition_44_nuisance_projection.md) · [JSON](nuisance_projection_calibration.json) · [script](../examples/nuisance_projection_calibration.py) |
+| AE | 45 | Estimated AR(1) plus affine nuisance mean | Memory uncertainty and drift can be propagated together | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) · [JSON](estimated_ar1_nuisance_projection.json) · [script](../examples/estimated_ar1_nuisance_projection.py) |
+| AF | 46 | Design-specific interval geometry | The physical shape of removed drift modes matters, not only their count | [Proof](proposition_46_design_specific_ar1_envelope.md) · [JSON](design_specific_ar1_envelope.json) · [script](../examples/design_specific_ar1_envelope.py) |
+| AG | 47 | Weighted Gaussian matrix concentration | Complete temporal fluctuation modes can tighten covariance certification | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
+| AH | 48 | Interval-uniform matrix concentration | Uncertain relaxation time can be carried through the matrix bound | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
+| AI | 49 | Compact temporal-family concentration | A full family of memory kernels can be represented by certified geometry | [Proof](proposition_49_compact_temporal_family.md) · [JSON](compact_temporal_family.json) · [script](../examples/compact_temporal_family.py) |
+| AJ | 50 | Observable two-parameter calibration | More independent calibration narrows uncertainty without changing the target physics | [Proof](proposition_50_calibrated_temporal_family.md) · [JSON](calibrated_temporal_family.json) · [script](../examples/calibrated_temporal_family.py) |
+| AK | 51 | Full-likelihood e-value calibration | The full residual record defines a joint continuum set of compatible temporal models | [Proof](proposition_51_evalue_temporal_confidence_set.md) · [JSON](evalue_temporal_confidence_set.json) · [script](../examples/evalue_temporal_confidence_set.py) |
+| AL | 52 | Certified e-value outer cover and target composition | Every calibration-compatible temporal model is carried into an independent target covariance certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) · [JSON](certified_evalue_outer_cover.json) · [script](../examples/certified_evalue_outer_cover.py) |
 
-Gaussian screening calibration, structural-null refinements, trajectory-coupled sampling, covariance-normalized screening, reusable pilot geometry, population drift, and empirical drift calibration.
+### Latest figure
 
-## Experiments AA-AC
+[![Experiment AL](certified_evalue_outer_cover.svg)](proposition_52_certified_evalue_outer_cover.md)
 
-| ID | Main purpose |
-| --- | --- |
-| AA | Quantifies how temporal correlation reduces effective sample size. |
-| AB | Verifies exact normalization after removing an unknown constant mean. |
-| AC | Estimates temporal dependence and checks joint interval and covariance coverage. |
-
-Full commands and numerical records: [Experiments A-AC](reproducible_results.md).
-
-## Latest experiments AD-AK
-
-| ID | Result | What to notice | Proof, data, code |
-| --- | --- | --- | --- |
-| AD | Time-varying nuisance projection | Ordinary centering fails under affine drift while declared nuisance projection remains stable. | [Proof](proposition_44_nuisance_projection.md) · [JSON](nuisance_projection_calibration.json) · [script](../examples/nuisance_projection_calibration.py) |
-| AE | Estimated AR(1) plus affine nuisance mean | Observable calibration tracks the oracle, while the earlier concentration radius becomes loose at stronger correlation. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) · [JSON](estimated_ar1_nuisance_projection.json) · [script](../examples/estimated_ar1_nuisance_projection.py) |
-| AF | Design-specific interval geometry | A rank-only certificate can become vacuous even when the actual nuisance geometry retains substantial covariance information. | [Proof](proposition_46_design_specific_ar1_envelope.md) · [JSON](design_specific_ar1_envelope.json) · [script](../examples/design_specific_ar1_envelope.py) |
-| AG | Weighted Gaussian matrix concentration | Direct matrix concentration materially reduces the displayed covariance radii. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
-| AH | Interval-uniform matrix concentration | Unknown AR(1) correlation no longer forces the displayed strong-correlation certificate above one. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
-| AI | Compact temporal-family concentration | A two-parameter temporal family crosses below radius one under deterministic cover refinement while the earlier sphere-net family bound remains much larger. | [Proof](proposition_49_compact_temporal_family.md) · [JSON](compact_temporal_family.json) · [script](../examples/compact_temporal_family.py) |
-| AJ | Observable two-parameter temporal calibration | Increasing only independent calibration information contracts the temporal family and moves the target covariance certificate below one at 64 channels. | [Proof](proposition_50_calibrated_temporal_family.md) · [JSON](calibrated_temporal_family.json) · [script](../examples/calibrated_temporal_family.py) |
-| AK | Full-likelihood e-value temporal calibration | The complete residual likelihood produces a joint continuum confidence set. The displayed grid geometry contracts strongly with additional calibration channels and tightens the white-noise direction in the controlled example. | [Proof](proposition_51_evalue_temporal_confidence_set.md) · [JSON](evalue_temporal_confidence_set.json) · [script](../examples/evalue_temporal_confidence_set.py) |
-
-### Eight newest figures
-
-[![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
-
-[![Experiment AE](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
-
-[![Experiment AF](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
-
-[![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
-
-[![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
-
-[![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
-
-[![Experiment AJ](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
-
-[![Experiment AK](evalue_temporal_confidence_set.svg)](proposition_51_evalue_temporal_confidence_set.md)
+The figure is explained panel by panel in the [Figure Reading Guide](figure_reading_guide.md).
 
 ---
 
 # Current frontier
 
-Proposition 51 proves coverage for the continuum e-value confidence set itself. The numerical grid in Experiment AK is a visualization, not a certified outer cover.
+Proposition 52 closes the immediate gap between the Proposition 51 continuum confidence set and Proposition 49's finite target-family interface.
 
-The immediate statistical target is:
+The next statistical frontier is to extend finite-sample temporal calibration beyond the current AR(1) plus white-noise family toward richer kernels or spectral-density models.
 
-> **Construct a certified adaptive outer cover of the Proposition 51 confidence set and compose that random cover with Proposition 49 for an independent target record.**
+The next physics frontier is to make sampling and representation more explicit:
 
-That theorem should guarantee that every parameter in the exact continuum confidence set is represented by the retained finite temporal cover. It should then carry the calibration confidence and target covariance confidence through one explicit end-to-end statement.
+> **Which observer-like conclusions are stable when sampling interval, sensor units, sensor basis, spatial resolution, or physically admissible coarse graining changes?**
 
-A parallel direction is to extend the same e-value principle beyond the AR(1) plus white-noise family toward richer covariance and spectral-density models.
+The structural frontier remains intervention-sensitive and representation-invariant observer quantities, together with impossibility theorems for distinctions that passive observations cannot identify.
 
-The structural frontier is separate:
-
-> **Develop intervention-sensitive and representation-invariant observer quantities, together with impossibility theorems for distinctions that passive observations cannot identify.**
-
-Any later consciousness interpretation must enter only as a separate bridge hypothesis under the [interpretation protocol](interpretation_protocol.md).
+Any future consciousness interpretation must enter only as a separate bridge hypothesis under the [Interpretation Protocol](interpretation_protocol.md).
 
 ---
 
@@ -206,6 +172,8 @@ Any later consciousness interpretation must enter only as a separate bridge hypo
 
 A result is considered complete in this repository when the relevant pieces exist together:
 
+- a physical problem statement when a physical reading is intended;
+- a declared measurement model;
 - a precise mathematical statement;
 - assumptions stated close to the claim;
 - a proof or derivation;
@@ -214,6 +182,7 @@ A result is considered complete in this repository when the relevant pieces exis
 - a reproducible experiment when a numerical scale comparison is useful;
 - machine-readable results for committed numerical claims;
 - a visible figure when a figure improves understanding;
+- a clear statement of what the result does not establish;
 - a front-page or index link so the result is discoverable.
 
-The repository also enforces a prose-style check that rejects Unicode en dash and em dash characters in Markdown documentation. Ordinary punctuation is used instead.
+The repository also enforces a prose-style check that rejects Unicode en dash and em dash characters in Markdown documentation.

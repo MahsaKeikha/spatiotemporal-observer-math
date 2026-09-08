@@ -1,30 +1,44 @@
 # Research overview
 
-This page explains the project as a research story rather than as a file list. For the complete theorem and experiment map, use the [research index](research_index.md).
+This page explains the project as a scientific story rather than as a file list. If the equations feel detached from their physical meaning, read the [Physics Guide](physics_guide.md) first. For the complete theorem and experiment map, use the [Research Index](research_index.md).
 
-The current 0.39.0 research record contains 51 propositions, 37 reproducible experiments, 24 committed scientific figures, and 171 claim-level tests.
+The 0.40.0 research record contains 52 propositions, 38 reproducible experiments, 25 scientific result figures, and 177 claim-level tests.
 
-## The question
+## The physical question
 
-Most dynamical analyses begin by deciding which variables belong to the system and which belong to its environment. This project asks whether that order can sometimes be reversed.
+Most dynamical analyses begin by deciding which variables belong to a system and which belong to its environment.
 
-At time `t`, let a candidate subsystem be a coordinate set `S_t`. A changing candidate history is
+This project asks whether, under controlled assumptions, part of that order can be reversed:
+
+> **Can a subsystem boundary be inferred from dynamical organization when the relevant physical structure is allowed to move through the measured coordinates?**
+
+At time `t`, let the measured state be
+
+\[
+X_t=(X_t^{(1)},\ldots,X_t^{(n)}).
+\]
+
+A candidate subsystem is a coordinate set
+
+\[
+S_t\subseteq\{1,\ldots,n\}.
+\]
+
+A changing candidate history is
 
 \[
 \mathcal W=(S_0,S_1,\ldots,S_{T-1}),
 \]
 
-which the repository calls an **observer world-tube**.
+called an **observer world-tube**.
 
-The central question is:
+The term is operational. It tracks a moving subset of measured degrees of freedom. It is not a claim about relativistic spacetime and it is not a definition of consciousness.
 
-> **When can a moving subsystem path be distinguished from alternatives using internal predictive organization, environmental insulation, persistence, and continuity through time?**
-
-The word "observer" is operational. It is not a claim about consciousness or subjective experience.
+A useful physical picture is a coherent structure moving across a sensor field. The structure can persist while the sensors representing it change.
 
 ## The population model
 
-The main exact theory uses a nonstationary linear Gaussian process
+The main exact theory uses a nonstationary linear Gaussian model
 
 \[
 X_{t+1}=A_tX_t+\varepsilon_t,
@@ -32,101 +46,160 @@ X_{t+1}=A_tX_t+\varepsilon_t,
 \varepsilon_t\sim\mathcal N(0,Q_t).
 \]
 
-This setting makes adjacent covariances, Gaussian conditional mutual information, and canonical correlations analytically tractable. It lets the research separate three questions:
+Physically, `A_t` is treated as an effective one-step coupling or propagation operator, and `Q_t` describes unresolved stochastic forcing inside the model.
 
-1. what score should a candidate boundary receive?
-2. which moving path maximizes the declared objective?
-3. how much estimation or model error can occur before the winner changes?
+This is an analytical model, not a claim that every physical system is fundamentally linear or Gaussian. A real application has to justify the measurement coordinates, sampling interval, preprocessing, nuisance structure, and model adequacy.
 
-The implemented path objective combines integration, insulation, persistence, and transport. A dynamic program computes the exact maximizing path in the declared candidate family. A second exact calculation finds the best competitor. Their difference is the action margin used by the robustness theorems.
+## What makes a candidate boundary interesting?
 
-## Identifiability comes first
+The implemented objective combines four operational ideas.
+
+### Integration
+
+Internal parts of the candidate should carry predictive information about one another.
+
+Physical reading: the candidate contains coupled degrees of freedom participating in a common dynamical organization.
+
+### Insulation
+
+Once the candidate's own state is known, outside variables should add comparatively limited predictive information about its immediate evolution.
+
+Physical reading: the candidate has some internal predictive closure without requiring physical isolation.
+
+### Persistence
+
+The present candidate should carry predictive structure into its future.
+
+Physical reading: the organization is not a one-frame fluctuation.
+
+### Transport
+
+When the physical structure moves, predictive organization should transfer into the new coordinates representing it.
+
+Physical reading: identity of the organization need not be tied forever to the same sensors.
+
+A dynamic program finds the globally maximizing path in the declared candidate family. A second calculation identifies the best competitor. Their objective difference is used by the robustness theorems.
+
+That objective difference is sometimes called an `action margin` in the code. It is not physical action in joule-seconds unless a separate derivation supplies that interpretation.
+
+## Why covariance certification became a major part of the project
+
+In the Gaussian model, the information quantities used in boundary scores are functions of covariance blocks.
+
+If covariance is estimated badly, then integration, insulation, persistence, transport, and ultimately the recovered boundary can also be wrong.
+
+This creates a second problem underneath the boundary problem:
+
+> **How accurately do finite, temporally correlated, drifting measurements determine the covariance geometry used by the observer-like objective?**
+
+That is the purpose of the recent temporal-calibration theorem ladder.
+
+A typical relative covariance guarantee has the form
+
+\[
+\left\|
+\Sigma^{-1/2}
+(\widehat\Sigma-\Sigma)
+\Sigma^{-1/2}
+\right\|_2
+\le\epsilon.
+\]
+
+The quantity \(\epsilon\) is statistical uncertainty under the stated model. It is not an energy, force, degree of consciousness, or physical phase variable.
+
+## Identifiability comes before interpretation
 
 Optimization does not create identifiability.
 
-Propositions 13 and 14 formalize recovery only up to admissible symmetries and construct an observational equivalence case where incompatible labels cannot both be recovered from the stated observations with uniformly high success probability.
+Propositions 13 and 14 formalize recovery only up to declared symmetries and construct observationally equivalent models for which incompatible labels cannot both be recovered from the available observations with uniformly high probability.
 
-This sets a standing interpretation rule:
+This gives a standing rule:
 
 > **Recovery is always relative to declared observables, model assumptions, candidate families, and admissible symmetries.**
 
-That rule applies to every result in the repository and becomes even more important for any future consciousness interpretation.
-
-## How the proof program developed
-
-### Population mathematics
-
-Propositions 1 through 8 establish covariance identities, information quantities, transport properties, path robustness logic, and covariance perturbation bounds.
-
-### Finite-sample recovery
-
-Proposition 9 gives the first complete Gaussian sample-complexity theorem. Later results localize covariance blocks, exploit positive factor floors, derive candidate-specific budgets, and propagate those budgets through path optimization.
-
-### Structural compression
-
-Propositions 15 through 31 use near-competitor graphs, overlap classes, block sparsity, covariance influence cones, moving partitions, factor intervals, and screened environmental structure.
-
-### Statistically safe screening and drift
-
-Propositions 32 through 40 add sample splitting, Gaussian screening guarantees, structural-null refinements, trajectory coupling, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
-
-### Temporally dependent observations
-
-Propositions 41 through 51 address temporal dependence, nuisance means, temporal-parameter uncertainty, direct matrix concentration, compact covariance families, and finite-sample temporal calibration.
+That rule matters for ordinary physical applications and becomes even more important for any future consciousness interpretation.
 
 ---
 
-# The recent sequence
+# How the proof program developed
 
-## Proposition 41: temporal dependence changes effective sample size
+## Foundations: Propositions 1 through 14
 
-The covariance radius begins to depend on temporal Frobenius and spectral norms rather than treating record length as an independent sample count.
+The first results establish covariance identities, information quantities, transport properties, path optimization, deterministic perturbation logic, finite-sample recovery, and identifiability limits.
 
-## Proposition 42: removing the mean changes normalization
+## Structural compression: Propositions 15 through 31
+
+These results reduce the cost of robust path certification by exploiting near-competitor graphs, overlap classes, block sparsity, covariance influence cones, interval classes, structural residuals, and screened environmental structure.
+
+## Statistical screening and drift: Propositions 32 through 40
+
+This layer introduces safe sample splitting, Gaussian screening, structural-null refinements, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
+
+## Temporally dependent measurements: Propositions 41 through 52
+
+This layer addresses the physical fact that repeated measurements are temporally correlated and can contain deterministic nuisance trends.
+
+The sequence moves from a known temporal covariance model to a fully calibrated continuum family that can be propagated into an independent target covariance certificate.
+
+---
+
+# The recent temporal sequence
+
+## Proposition 41: temporal dependence changes effective information
+
+The covariance radius depends on temporal Frobenius and spectral geometry rather than treating record length as an independent sample count.
+
+Physical question: how much independent information is really contained in a record with memory?
+
+## Proposition 42: mean removal changes normalization
 
 Under temporal dependence, removing an unknown constant mean changes the quadratic form and its exact normalization.
 
-## Proposition 43: estimate a shared AR(1) coefficient
+Physical question: how much fluctuation information remains after subtracting an unknown baseline?
 
-Increment energy produces an observable confidence interval for a shared nonnegative AR(1) coefficient, and that uncertainty is propagated into covariance calibration.
+## Proposition 43: estimate AR(1) persistence
 
-## Proposition 44: allow a time-varying nuisance mean
+Increment energy produces an observable confidence interval for a shared nonnegative AR(1) coefficient.
+
+Physical question: can the persistence timescale be learned instead of assumed?
+
+## Proposition 44: project away a declared time-varying nuisance
 
 [![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
-A fixed declared temporal design `H` is projected away exactly. Experiment AD shows why this matters: the projected estimator remains stable while ordinary mean-centering fails under large affine drift.
+A fixed temporal design is projected away exactly. Experiment AD shows why this matters: ordinary centering can fail badly under affine drift while declared nuisance projection remains stable.
 
-## Proposition 45: combine temporal calibration with nuisance projection
+## Proposition 45: combine temporal calibration and nuisance projection
 
 [![Experiment AE](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
 
-Observable AR(1) calibration and time-varying nuisance removal are combined in one finite-sample covariance bound.
+Temporal-memory uncertainty and deterministic nuisance removal enter one finite-sample covariance certificate.
 
 ## Proposition 46: use the actual nuisance geometry
 
 [![Experiment AF](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
 
-A rank-only normalization bound is replaced by a continuum certificate that uses the actual declared nuisance design.
+A rank-only worst case is replaced by a continuum certificate using the actual declared nuisance design.
 
-## Proposition 47: use direct matrix concentration
+## Proposition 47: direct matrix concentration
 
 [![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
 
-The sphere-net operator-norm reduction is replaced by an exact Gaussian matrix exponential moment and a matrix-Laplace bound.
+The earlier directional sphere-net reduction is replaced by direct Gaussian matrix concentration using the full projected temporal eigenvalue profile.
 
 ## Proposition 48: make the matrix bound uniform over unknown AR(1)
 
 [![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
 
-The complete projected temporal eigenvalue profile is controlled between AR(1) grid points, allowing the matrix bound to survive coefficient uncertainty.
+The projected temporal spectrum is controlled across the complete calibrated AR(1) interval.
 
 ## Proposition 49: separate temporal-family geometry from probability
 
 [![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
-Proposition 49 replaces the one-dimensional AR(1) continuum by a compact temporal covariance family represented by a certified deterministic finite cover. The cover controls projected eigenvalues and covariance normalization. The cover points do not consume a probability union bound because they are deterministic geometry used before the matrix probability argument is applied.
+A deterministic finite cover controls a complete compact temporal covariance family without treating cover points as separate stochastic tests.
 
-## Proposition 50: learn a two-parameter temporal family from data
+## Proposition 50: learn a two-parameter temporal family from independent calibration data
 
 [![Experiment AJ](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
 
@@ -136,27 +209,25 @@ For
 R_{\phi,\eta}=(1-\eta)R_\phi+\eta I,
 \]
 
-lag-1 and lag-2 increment energies yield finite-sample intervals for the lag correlations. Those intervals are mapped into a conservative parameter rectangle and then composed with Proposition 49 for an independent target record.
+lag-1 and lag-2 increment energies produce a conservative finite-sample parameter rectangle.
 
-The theorem exploits the increment covariance spectrum itself, which is much better conditioned than a generic bound based on the raw persistent process.
-
-## Proposition 51: build a joint continuum confidence set from the full likelihood
+## Proposition 51: use the complete residual likelihood
 
 [![Experiment AK](evalue_temporal_confidence_set.svg)](proposition_51_evalue_temporal_confidence_set.md)
 
-Proposition 51 removes the rectangular lag-summary step. A fixed Helmert contrast first removes arbitrary constant means from the calibration channels. Let \(p_\theta\) be the exact residual Gaussian density and let \(q\) be a proper mixture density fixed before the data are observed. The pointwise e-value is
+A fixed mean-removal contrast and a proper mixture density produce the pointwise e-value
 
 \[
 e_\theta(Z)=\frac{q(Z)}{p_\theta(Z)}.
 \]
 
-If \(\theta\) is the true parameter,
+At the true parameter,
 
 \[
-\mathbb E_\theta e_\theta(Z)=1.
+\mathbb E_\theta e_\theta(Z)=1,
 \]
 
-Therefore
+so the continuum set
 
 \[
 \mathcal C_\alpha(Z)
@@ -164,49 +235,73 @@ Therefore
 \{\theta:e_\theta(Z)<1/\alpha\}
 \]
 
-contains the true parameter with probability at least \(1-\alpha\).
+has finite-sample coverage at least \(1-\alpha\).
 
-The true parameter does not need to be one of the mixture support points. The probability statement is continuum valued and finite sample. There is no union bound over parameter values.
+The plotted grid in Experiment AK is only a visualization of that continuum function.
 
-Experiment AK evaluates the exact pointwise function on a visualization grid. At 256 calibration channels, the displayed accepted points occupy about 6.76 percent of the declared grid and span a visibly tighter joint region than the Proposition 50 rectangle in the controlled example.
+## Proposition 52: certify the continuum set for target use
 
-The plotted grid is not a certified outer cover of the continuum confidence set. The theorem applies between grid points as well. Turning the irregular confidence set into a certified adaptive outer cover is the next statistical theorem.
+[![Experiment AL](certified_evalue_outer_cover.svg)](proposition_52_certified_evalue_outer_cover.md)
+
+Proposition 52 partitions the declared parameter box into fixed cells. A cell is discarded only if a uniform likelihood perturbation bound proves that every point inside the cell is outside the exact Proposition 51 confidence set.
+
+Therefore, if \(\mathcal O_\alpha(Z)\) denotes the union of retained cells,
+
+\[
+\boxed{
+\mathcal C_\alpha(Z)
+\subseteq
+\mathcal O_\alpha(Z)
+}.
+\]
+
+This turns the irregular continuum confidence set into a finite certified family that can be used by Proposition 49.
+
+For Experiment AL, 5,325 of 7,381 cells are retained and 2,056 are certified excluded. The independent target composition gives a relative covariance radius
+
+\[
+0.8998157009696983<1
+\]
+
+with combined confidence lower bound
+
+\[
+0.975^2=0.950625.
+\]
+
+The physical meaning is straightforward: every temporal-memory model still compatible with calibration is carried into the target covariance uncertainty rather than replacing the calibration uncertainty by one fitted parameter.
 
 ---
 
-# What the project has established
+# What the project now establishes
 
-Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification.
+Under the stated assumptions, the repository provides a conditional mathematical pipeline from nonstationary Gaussian measurements to moving-boundary optimization and finite-sample recovery certification.
 
-Its most developed statistical layer can handle:
+The current statistical layer can handle:
 
 - temporally dependent Gaussian sampling;
-- unknown constant or fixed-subspace nuisance means;
-- estimated nonnegative AR(1) dependence;
+- unknown constant and fixed-subspace nuisance means;
+- estimated temporal persistence;
 - actual nuisance-design geometry;
-- direct matrix concentration using the full temporal spectrum;
+- direct matrix concentration using the full projected temporal spectrum;
 - compact multi-parameter temporal covariance families;
 - independently calibrated two-parameter temporal uncertainty;
-- a finite-sample joint continuum confidence set based on the complete residual likelihood.
+- a finite-sample continuum confidence set from the full residual likelihood;
+- a certified finite outer cover of that continuum set;
+- independent-target covariance certification over the complete retained temporal family.
 
 ## What remains open
 
-The newest results still rely on explicit model assumptions, including Gaussian calibration, temporal-family correctness, and declared nuisance structure.
+The current theory still depends on explicit model assumptions, including Gaussian calibration, a correct declared temporal family, channel independence in the calibration model, target separability, fixed nuisance structure, and a declared candidate family.
 
-Proposition 51 solves the continuum confidence-set problem for the stated two-parameter family. It does not yet produce a certified finite outer cover that can be passed into Proposition 49 without losing coverage.
+The next statistical frontier should move beyond the current AR(1) plus white-noise family toward richer temporal kernels or spectral-density families, while preserving finite-sample calibration and transparent physical interpretation.
 
-The immediate statistical target is therefore:
+The next physical frontier should ask which conclusions survive changes of sampling interval, sensor coordinates, coarse graining, and physically admissible reparameterization.
 
-> **Construct a certified adaptive outer cover of the Proposition 51 e-value confidence set, then compose that random cover with Proposition 49 for an independent target record.**
+The structural frontier remains intervention-sensitive and representation-invariant observer quantities, together with impossibility theorems for distinctions that passive measurements cannot identify.
 
-A parallel statistical direction is to extend the same e-value principle beyond the AR(1) plus white-noise family toward richer covariance and spectral-density models.
-
-The structural frontier runs in parallel:
-
-> **Develop intervention-sensitive and representation-invariant observer quantities, together with impossibility theorems that state exactly what passive observations cannot identify.**
-
-Any later consciousness interpretation must remain a separate bridge hypothesis under the [interpretation protocol](interpretation_protocol.md). It is not a hidden consequence of the observer notation.
+Any consciousness interpretation remains a separate bridge problem under the [Interpretation Protocol](interpretation_protocol.md). It is not a hidden consequence of observer notation.
 
 ## Why negative results matter
 
-The project treats impossibility results, failed parameter regimes, conservative bounds, and counterexamples as part of the research record. A theorem that says what cannot be identified can be more informative than a broad positive claim because it tells us which additional observables or assumptions are mathematically necessary.
+The project keeps impossibility results, failed parameter regimes, conservative bounds, and model diagnostics visible. A theorem describing what cannot be identified can be more useful than a broad positive claim because it tells us which additional observables, interventions, or assumptions are mathematically necessary.

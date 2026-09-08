@@ -60,7 +60,7 @@ A theorem can be correct while an application is invalid because one of its assu
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| The covariance is separable as temporal factor times spatial covariance where the weighted Gaussian reduction is used | Propositions 41 through 50 | The weighted Wishart or quadratic-form law no longer describes the estimator |
+| The covariance is separable as temporal factor times spatial covariance where the weighted Gaussian reduction is used | Propositions 41 through 52 | The weighted Wishart or quadratic-form law no longer describes the estimator |
 | Deterministic bounds supplied for temporal Frobenius and spectral norms are valid | Proposition 41 | The effective-sample-size covariance radius can be too small |
 | An unknown mean is constant when ordinary temporal centering is used | Proposition 42 | Mean removal can leave uncontrolled time-varying structure |
 | The corrected centering normalization \(\operatorname{tr}(PR)\) is valid | Proposition 42 | The covariance estimator can be biased by the wrong normalization |
@@ -71,9 +71,9 @@ A theorem can be correct while an application is invalid because one of its assu
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| The target mean lies exactly in a fixed full-rank temporal nuisance subspace selected before target inspection | Propositions 44 through 50 | Projection can leave uncontrolled mean structure or become data dependent |
-| The projected covariance normalization remains strictly positive | Propositions 44 through 50 | The observable covariance normalization is not certified |
-| The nuisance design used by design-specific bounds is the same design used by the estimator | Propositions 46 and 48 | The projected spectral envelope can describe the wrong subspace |
+| The target mean lies exactly in a fixed full-rank temporal nuisance subspace selected before target inspection | Propositions 44 through 52 | Projection can leave uncontrolled mean structure or become data dependent |
+| The projected covariance normalization remains strictly positive | Propositions 44 through 52 | The observable covariance normalization is not certified |
+| The nuisance design used by design-specific bounds is the same design used by the estimator | Propositions 46, 48, and 52 | The projected spectral envelope can describe the wrong subspace |
 
 ## Matrix concentration assumptions
 
@@ -83,8 +83,8 @@ A theorem can be correct while an application is invalid because one of its assu
 | Proposition 48 inflates every ordered projected eigenvalue by a valid between-grid Weyl radius | Proposition 48 | A between-grid temporal spectrum can have a larger matrix mgf than the certificate allows |
 | Proposition 49 receives a deterministic finite temporal-family cover whose operator and normalization radii dominate every admissible family member | Proposition 49 | An uncovered temporal covariance can invalidate the family-wide matrix bound |
 | Proposition 49 treats its finite cover as deterministic geometry, not as a set of stochastic events | Proposition 49 | Probability accounting can be misstated |
-| Numerical Chernoff theta grids remain inside their admissible domains and are fixed independently of the target data | Propositions 47 through 50 | An invalid or data-selected theta can break the mgf argument |
-| Chernoff theta grids are interpreted as numerical tightness devices rather than statistical discretizations | Propositions 47 through 50 | Numerical optimization error can be confused with probability coverage |
+| Numerical Chernoff theta grids remain inside their admissible domains and are fixed independently of the target data | Propositions 47 through 52 | An invalid or data-selected theta can break the mgf argument |
+| Chernoff theta grids are interpreted as numerical tightness devices rather than statistical discretizations | Propositions 47 through 52 | Numerical optimization error can be confused with probability coverage |
 
 ## Proposition 50 assumptions
 
@@ -111,13 +111,36 @@ A theorem can be correct while an application is invalid because one of its assu
 | The numerical grid in Experiment AK is treated only as a view of the pointwise continuum function | Experiment AK | A plotted grid can be incorrectly presented as a certified outer cover |
 | The accepted grid bounding box is treated as a visualization summary, not as the exact confidence set | Experiment AK | Irregular or between-grid portions of the continuum set can be omitted |
 
+## Proposition 52 assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| The Proposition 51 temporal family and declared parameter box contain the true shared temporal parameter | Proposition 52 outer-cover coverage | The retained cells need not contain the physical temporal law |
+| The outer-cover grid geometry is fixed by the declared box and grid sizes before cell exclusion is evaluated | Proposition 52 certified cells | An unconstrained data-selected partition would need new selection control |
+| Every cell-specific compressed covariance radius dominates all covariance motion inside that cell | Proposition 52 likelihood variation and eigenvalue cover | A cell could be excluded even though part of the exact confidence set lies inside it |
+| Every finite likelihood variation bound satisfies \(\delta<m=\lambda_{\min}(C_0)\) at the relevant cell center | Proposition 52 cell exclusion | The stated determinant and inverse perturbation bound is not finite |
+| A cell is excluded only when `center log e-value - variation bound` exceeds the Proposition 51 rejection threshold | Proposition 52 continuum containment | The retained union may fail to contain the exact Proposition 51 confidence set |
+| Target eigenvalue motion uses the nuisance-compressed operator radius | Proposition 52 composition with Proposition 49 | Projected temporal eigenvalues can move farther than the cover permits |
+| Target normalization motion uses the raw temporal operator radius together with the equal-trace family identity | Proposition 52 composition with Proposition 49 | Reusing the sharper compressed radius can understate \(\operatorname{tr}(P_HR)\) uncertainty |
+| Calibration and target records are independent and share the same true temporal parameter | Proposition 52 product confidence | Conditioning on the retained random cover does not leave the stated independent target experiment |
+| The target nuisance design is fixed before inspecting the target stochastic record | Proposition 52 projected covariance | Data-selected nuisance removal can require separate selection control |
+| The retained outer cover is nonempty before a target certificate is issued | Proposition 52 implementation | An empty retained family is evidence of incompatibility or numerical failure, not a valid covariance certificate |
+| The target record satisfies Proposition 49's separable Gaussian assumptions | Proposition 52 target matrix concentration | The family-wide matrix Chernoff bound need not describe the target covariance estimator |
+
+## Physical diagnostics for the temporal model
+
+The mathematical temporal family should be checked against the physical record before interpreting a certificate. Useful diagnostics include residual autocorrelation, spectral structure, stationarity across time blocks, cross-channel dependence, and sensitivity to the declared nuisance design.
+
+Evidence for oscillatory memory, multiple relaxation times, changing parameters, strong cross-channel calibration dependence, or non-Gaussian residual structure should motivate a richer model rather than being hidden by a wider parameter box.
+
 ## Confidence accounting rules
 
 | Rule | Used for | If violated |
 | --- | --- | --- |
 | Use a union bound when two events may depend on the same observations unless a stronger argument is proved | Same-record results such as Proposition 43 | Multiplying confidence levels can overstate coverage |
-| Multiply confidence levels only when the conditioning and independence argument is explicit | Proposition 50 | Product confidence can be invalid under data reuse |
+| Multiply confidence levels only when the conditioning and independence argument is explicit | Propositions 50 and 52 | Product confidence can be invalid under data reuse |
 | Proposition 51 needs no parameterwise union bound because the confidence set is defined by one e-value at the true parameter | Proposition 51 | Adding a grid union penalty would describe a different and unnecessarily weaker procedure |
+| Proposition 52 needs no stochastic union penalty over retained cells because cell retention is used in a deterministic containment argument | Proposition 52 | Treating cells as separate tests would confuse geometric certification with probability accounting |
 
 ## Interpretation rules
 
@@ -143,4 +166,6 @@ Before reporting a certificate or confidence set, record:
 8. whether a plotted numerical grid is a theorem object, a certified cover, or only a visualization;
 9. for Proposition 50, the calibration-target independence argument and declared parameter box;
 10. for Proposition 51, the contrast, mixture construction, declared family, and distinction between the continuum confidence set and its plotted grid view;
-11. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.
+11. for Proposition 52, the fixed cell geometry, continuum containment check, separate eigenvalue and normalization radii, and independent-target conditioning argument;
+12. the physical units, sampling interval, preprocessing, nuisance interpretation, and residual diagnostics relevant to the application;
+13. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.

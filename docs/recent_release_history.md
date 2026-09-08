@@ -1,6 +1,20 @@
 # Recent release history
 
-This page continues the older root changelog for the newest theorem releases. It keeps the recent release sequence compact and points directly to the proof and experiment records rather than duplicating every derivation.
+This page continues the older root changelog for the newest theorem releases. It keeps the recent sequence compact and points directly to proof and experiment records rather than duplicating every derivation.
+
+## 0.40.0 - 2026-09-08
+
+**Proposition 52, Experiment AL, and physics-first documentation**
+
+- Added a certified finite outer cover of the Proposition 51 continuum e-value confidence set.
+- Excluded a parameter cell only when a deterministic likelihood perturbation bound proves that every point in the cell is rejected by Proposition 51.
+- Composed the retained temporal family with Proposition 49 for an independent target covariance record.
+- Kept the nuisance-compressed eigenvalue radius separate from the raw temporal normalization radius required by the projected trace proof.
+- Added Experiment AL, machine-readable results, deterministic SVG rendering, and six claim-level tests.
+- Added the Physics Guide, physics pipeline, Figure Reading Guide, and a physical-accountability contribution standard.
+- Updated the research record to 52 propositions, 38 experiments, 25 scientific result figures, and 177 tests.
+
+[Proposition 52](proposition_52_certified_evalue_outer_cover.md) · [Experiment AL data](certified_evalue_outer_cover.json) · [Release record](release_0_40.md)
 
 ## 0.39.0 - 2026-09-08
 
