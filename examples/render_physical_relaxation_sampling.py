@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "docs" / "physical_relaxation_sampling.json"
 OUTPUT = ROOT / "docs" / "physical_relaxation_sampling.svg"
@@ -64,10 +63,22 @@ def render(record: dict[str, object]) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}">',
         '<rect width="100%" height="100%" fill="#f7f9fc"/>',
         _text(60, 66, "Experiment AM: one physical relaxation time across sampling schemes", 32, 700),
-        _text(60, 102, "Proposition 53 makes tau the physical parameter and treats phi as sampling dependent.", 19, 400),
+        _text(
+            60,
+            102,
+            "Proposition 53 makes tau the physical parameter and treats phi as sampling dependent.",
+            19,
+            400,
+        ),
         _rect(60, 126, 1320, 66, "#eaf2ff", "#b9d1f6"),
         _text(88, 168, f"Physical invariant: tau = {true_tau:.3f} s", 25, 700),
-        _text(510, 168, "Different sample clocks change phi, not the underlying relaxation time.", 19, 400),
+        _text(
+            510,
+            168,
+            "Different sample clocks change phi, not the underlying relaxation time.",
+            19,
+            400,
+        ),
     ]
 
     panel_w = 635
@@ -80,7 +91,13 @@ def render(record: dict[str, object]) -> str:
     parts.extend(
         [
             _rect(left_x, top_y, panel_w, panel_h, "white"),
-            _text(left_x + 24, top_y + 38, "A. Sampling rate changes the discrete correlation", 22, 700),
+            _text(
+                left_x + 24,
+                top_y + 38,
+                "A. Sampling rate changes the discrete correlation",
+                22,
+                700,
+            ),
             _text(left_x + 24, top_y + 68, "phi = exp(-dt/tau)", 17, 400),
         ]
     )
@@ -112,7 +129,13 @@ def render(record: dict[str, object]) -> str:
     parts.extend(
         [
             _rect(right_x, top_y, panel_w, panel_h, "white"),
-            _text(right_x + 24, top_y + 38, "B. Every sampling rate recovers the same tau", 22, 700),
+            _text(
+                right_x + 24,
+                top_y + 38,
+                "B. Every sampling rate recovers the same tau",
+                22,
+                700,
+            ),
             _text(right_x + 24, top_y + 68, "tau = -dt / log(phi)", 17, 400),
             _text(right_x + 32, top_y + 105, "rate", 15, 700),
             _text(right_x + 176, top_y + 105, "phi", 15, 700),
@@ -121,16 +144,32 @@ def render(record: dict[str, object]) -> str:
     )
     for index, row in enumerate(uniform):
         y = top_y + 139 + 31 * index
-        parts.append(_text(right_x + 32, y, f'{float(row["sample_rate_hz"]):5.1f} Hz', 15))
+        parts.append(
+            _text(right_x + 32, y, f'{float(row["sample_rate_hz"]):5.1f} Hz', 15)
+        )
         parts.append(_text(right_x + 176, y, f'{float(row["phi"]):.6f}', 15))
-        parts.append(_text(right_x + 350, y, f'{float(row["recovered_tau_seconds"]):.6f} s', 15, 700))
+        parts.append(
+            _text(
+                right_x + 350,
+                y,
+                f'{float(row["recovered_tau_seconds"]):.6f} s',
+                15,
+                700,
+            )
+        )
         parts.append(_circle(right_x + 554, y - 5, 6, "#0f9d78"))
     parts.append(_text(right_x + 350, top_y + 284, "same physical timescale", 16, 700))
 
     parts.extend(
         [
             _rect(left_x, bottom_y, panel_w, panel_h, "white"),
-            _text(left_x + 24, bottom_y + 38, "C. Certified continuum cover in physical time", 22, 700),
+            _text(
+                left_x + 24,
+                bottom_y + 38,
+                "C. Certified continuum cover in physical time",
+                22,
+                700,
+            ),
             _text(left_x + 24, bottom_y + 68, "Declared interval: tau in [0.55, 1.05] s", 17),
         ]
     )
@@ -170,7 +209,14 @@ def render(record: dict[str, object]) -> str:
         [
             _line(left_x + 370, bottom_y + 88, left_x + 400, bottom_y + 88, "#e06b35", 3),
             _text(left_x + 408, bottom_y + 94, "certified radius", 14),
-            _line(left_x + 370, bottom_y + 112, left_x + 400, bottom_y + 112, "#2563eb", 3),
+            _line(
+                left_x + 370,
+                bottom_y + 112,
+                left_x + 400,
+                bottom_y + 112,
+                "#2563eb",
+                3,
+            ),
             _text(left_x + 408, bottom_y + 118, "dense numerical check", 14),
         ]
     )
@@ -178,7 +224,13 @@ def render(record: dict[str, object]) -> str:
     parts.extend(
         [
             _rect(right_x, bottom_y, panel_w, panel_h, "white"),
-            _text(right_x + 24, bottom_y + 38, "D. Irregular timestamps use elapsed physical time", 22, 700),
+            _text(
+                right_x + 24,
+                bottom_y + 38,
+                "D. Irregular timestamps use elapsed physical time",
+                22,
+                700,
+            ),
             _text(right_x + 24, bottom_y + 68, "K(t,s) = exp(-|t-s|/tau)", 17),
         ]
     )
@@ -192,17 +244,45 @@ def render(record: dict[str, object]) -> str:
         parts.append(_circle(x, timeline_y, 6, "#6f42c1"))
     parts.extend(
         [
-            _text(right_x + 28, bottom_y + 197, "No integer lag is invented. Each covariance entry uses the actual time separation.", 15),
-            _text(right_x + 28, bottom_y + 228, f'Minimum covariance eigenvalue: {float(irregular["minimum_covariance_eigenvalue"]):.4f}', 15, 700),
-            _text(right_x + 28, bottom_y + 255, f'Time-unit invariance error: {float(irregular["time_unit_invariance_max_abs_error"]):.2e}', 15, 700),
-            _text(right_x + 28, bottom_y + 283, "Seconds or milliseconds describe the same covariance geometry.", 15),
+            _text(
+                right_x + 28,
+                bottom_y + 197,
+                "No integer lag is invented. Each covariance entry uses the actual time separation.",
+                15,
+            ),
+            _text(
+                right_x + 28,
+                bottom_y + 228,
+                f'Minimum covariance eigenvalue: {float(irregular["minimum_covariance_eigenvalue"]):.4f}',
+                15,
+                700,
+            ),
+            _text(
+                right_x + 28,
+                bottom_y + 255,
+                f'Time-unit invariance error: {float(irregular["time_unit_invariance_max_abs_error"]):.2e}',
+                15,
+                700,
+            ),
+            _text(
+                right_x + 28,
+                bottom_y + 283,
+                "Seconds or milliseconds describe the same covariance geometry.",
+                15,
+            ),
         ]
     )
 
     parts.extend(
         [
             _rect(60, 866, 1320, 48, "#eef7f3", "#b8ddcf"),
-            _text(84, 897, "Physical reading: tau belongs to the declared relaxation model; phi belongs to the sampling schedule.", 18, 700),
+            _text(
+                84,
+                897,
+                "Physical reading: tau belongs to the declared relaxation model; phi belongs to the sampling schedule.",
+                18,
+                700,
+            ),
             "</svg>",
         ]
     )
