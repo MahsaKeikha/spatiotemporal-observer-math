@@ -51,8 +51,10 @@ def range_x(value: float) -> float:
 def main() -> None:
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
-        f'viewBox="0 0 {WIDTH} {HEIGHT}">',
+        (
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
+            f'viewBox="0 0 {WIDTH} {HEIGHT}">'
+        ),
         rect(0, 0, WIDTH, HEIGHT, "#f7f9fc", radius=0),
         text(54, 55, "Experiment AL | From temporal calibration to target covariance", 27, 700),
         text(
