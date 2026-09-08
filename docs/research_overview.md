@@ -2,6 +2,8 @@
 
 This page explains the project as a research story rather than as a list of files. For the complete numbered map of theorems and experiments, use the [research index](research_index.md).
 
+The current verified record is 48 propositions, 34 reproducible experiments, 21 committed figures, and 156 passing claim-level tests across Python 3.10, 3.11, and 3.12.
+
 ## The question
 
 Most dynamical analyses begin by deciding which variables belong to the system and which belong to its environment. This project asks whether that order can sometimes be reversed.
@@ -101,7 +103,7 @@ Propositions 32-40 add sample splitting, Gaussian screening guarantees, structur
 
 ### Temporally dependent observations
 
-Propositions 41-47 address the fact that time-series observations are not i.i.d. This is the current frontier.
+Propositions 41-48 address the fact that time-series observations are not i.i.d. This is the current frontier.
 
 ## The recent sequence
 
@@ -147,18 +149,28 @@ The rank-only normalization bound is replaced by a continuum certificate that us
 
 The sphere-net operator-norm reduction is replaced by an exact Gaussian matrix exponential moment and a matrix-Laplace bound. At `N=850`, the tested radius falls from 1.077 to 0.459 at `phi=0.65`, and from 1.630 to 0.653 at `phi=0.80`.
 
+### Proposition 48: make the matrix result uniform over estimated dependence
+
+[![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
+
+Proposition 48 removes the known-spectrum requirement from Proposition 47 inside the current stationary nonnegative AR(1) model class. Proposition 46 controls the spectral movement of `P R_phi P` between AR(1) grid points. Weyl's inequality turns that matrix movement into a bound on every ordered projected temporal eigenvalue. The exact Proposition 47 matrix-mgf factors are monotone in those nonnegative eigenvalues, so an inflated neighboring grid spectrum gives a valid continuum matrix bound.
+
+Experiment AH fixes `N=500` and compares the older sphere-net interval certificate with the new interval-uniform matrix certificate. For the strong-dependence interval `[0.70, 0.80]`, the radius falls from 2.409 to 0.931. The exact coefficient is not supplied to Proposition 48.
+
+The experiment also contains two seeded target-record checks with a large unknown affine mean. All recorded errors remain below the stated Proposition 48 radii. Those simulations illustrate scale and implementation behavior. The proof is the continuum eigenvalue and matrix-mgf argument.
+
 ## What the project has established
 
-Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed statistical layer handles temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, design-specific nuisance geometry, and direct matrix concentration when the projected temporal spectrum is known.
+Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed statistical layer handles temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, design-specific nuisance geometry, direct matrix concentration, and interval-uniform control of the full projected temporal eigenvalue profile.
+
+Within that model class, the covariance certificate no longer requires the exact projected temporal spectrum to be supplied as an oracle input.
 
 ## What remains open
 
-The current results still assume important structure. The newest statistical theorems rely on Gaussianity, temporal and spatial separability, stationary nonnegative AR(1) dependence for the calibration layer, valid standardized calibration channels, and a nuisance design fixed before inspecting the target record.
+The current results still assume important structure. The newest statistical theorems rely on Gaussianity, temporal and spatial separability, stationary nonnegative AR(1) dependence for the calibrated interval layer, valid standardized calibration channels, and a nuisance design fixed before inspecting the target record.
 
-Proposition 47 also assumes the projected temporal spectrum is known.
+The next statistical question is broader than Proposition 48:
 
-The immediate next theorem is therefore clear:
+> **Can the interval-uniform matrix concentration strategy be extended beyond a single AR(1) coefficient to a richer stationary dependence class without losing finite-sample auditability?**
 
-> **Proposition 48 should make the matrix-concentration result uniform over the calibrated AR(1) interval while retaining the actual nuisance design.**
-
-That would combine the strongest parts of Propositions 45, 46, and 47 into one observable covariance certificate for the current model class.
+Natural directions are a multi-parameter temporal family, a certified spectral-density envelope, or a nonparametric dependence class with a valid operator-norm matrix concentration theorem. A separate frontier is careful sample splitting for adaptive nuisance structure or data-driven whitening.
