@@ -72,7 +72,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 ---
 
-# 3. Information theory, multivariate statistics, and optimization
+# 3. Information theory, multivariate statistics, geometry, and optimization
 
 ## Shannon 1948
 
@@ -99,6 +99,14 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 **Role:** Classical source for canonical correlation analysis. Canonical correlations are used in the persistence and transport components because they are invariant under invertible linear coordinate changes made separately inside the compared blocks.
 
+## Jaccard 1901
+
+**Paul Jaccard. "Etude comparative de la distribution florale dans une portion des Alpes et du Jura." _Bulletin de la Societe Vaudoise des Sciences Naturelles_ 37(142) (1901): 547-579.**
+
+- DOI: https://doi.org/10.5169/seals-266450
+
+**Role:** Original source for the set-overlap coefficient now known as the Jaccard index. The repository uses Jaccard distance, one minus the overlap coefficient, as the declared material-continuity geometry between successive candidate subsystem memberships in the world-tube objective. The choice of this geometry is part of the repository definition, not a claim that Jaccard distance is the unique physically correct boundary metric.
+
 ## Bellman 1952
 
 **Richard Bellman. "On the Theory of Dynamic Programming." _Proceedings of the National Academy of Sciences_ 38(8) (1952): 716-719.**
@@ -114,6 +122,14 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 - DOI: https://doi.org/10.1093/biomet/20a.1-2.32
 
 **Role:** Classical source for the Wishart distribution underlying exact Gaussian sample-covariance laws used in the finite-sample recovery layer.
+
+## Lancaster 1965
+
+**H. O. Lancaster. "The Helmert Matrices." _The American Mathematical Monthly_ 72(1) (1965): 4-12.**
+
+- DOI: https://doi.org/10.1080/00029890.1965.11970483
+
+**Role:** Standard reference for the Helmert matrix and orthogonal Helmert contrasts. Proposition 51 uses a fixed Helmert contrast to remove an arbitrary constant channel mean exactly before constructing the residual Gaussian likelihood and e-value confidence set.
 
 ## Bhatia 1997
 
@@ -216,10 +232,12 @@ The table below indicates the most important external foundations for each part 
 | Integration and consciousness context | Tononi 2004; Balduzzi and Tononi 2008; Oizumi et al. 2014 | Background and conceptual lineage |
 | Gaussian information scores | Shannon 1948; Cover and Thomas 2006 | Background |
 | Canonical persistence and transport | Hotelling 1936; Bhatia 1997 | Background |
+| Material continuity between candidate memberships | Jaccard 1901 | Direct geometry used by the world-tube objective |
 | World-tube optimization | Bellman 1952 | Algorithmic foundation |
 | Early Gaussian covariance recovery, including Proposition 9 | Wishart 1928; Davidson and Szarek 2001 | Direct |
 | Dependent Gaussian concentration, Propositions 41-46 | Laurent and Massart 2000; Hsu et al. 2012 | Direct |
 | Matrix concentration, Propositions 47-50 and 52 | Tropp 2012; Bhatia 1997 | Direct method and matrix background |
+| Fixed mean removal in Proposition 51 | Lancaster 1965 | Direct Helmert-contrast method |
 | E-value confidence construction, Propositions 51-52 | Vovk and Wang 2021; Shafer 2021; Vovk and Wang 2023 | Direct statistical lineage |
 | Sampling-consistent exponential relaxation, Proposition 53 | Uhlenbeck and Ornstein 1930 | Physical stochastic-process lineage |
 
@@ -239,9 +257,11 @@ If discussing the conceptual origin of the project, cite Tegmark 2015 explicitly
 
 If discussing integration-measure design or the broader measure-selection problem, Tegmark 2016 is useful related context, but it should not replace the primary Tegmark 2015 citation for this project's origin.
 
+If discussing the world-tube continuity term, cite Jaccard 1901 for the underlying set-overlap geometry.
+
 If discussing Proposition 47 or its descendants, cite Tropp 2012 for the matrix concentration lineage.
 
-If discussing Proposition 51 or Proposition 52, cite Vovk and Wang 2021 and, where confidence-set context is relevant, Vovk and Wang 2023.
+If discussing Proposition 51, cite Lancaster 1965 for the Helmert contrast and Vovk and Wang 2021 for the e-value lineage. Where confidence-set context is relevant, Vovk and Wang 2023 is also appropriate.
 
 If discussing Proposition 53 as a physical exponential-relaxation model, cite Uhlenbeck and Ornstein 1930 as the classical stochastic-process lineage.
 
@@ -254,7 +274,7 @@ This bibliography should be updated whenever a new proposition materially relies
 The repository distinguishes three citation statements:
 
 1. **Primary conceptual source:** the work that directly motivated the research question.
-2. **Direct mathematical or statistical source:** a theorem, inequality, or method materially used in a derivation.
+2. **Direct mathematical or statistical source:** a theorem, inequality, distributional fact, geometry, or method materially used in a derivation or algorithm.
 3. **Background lineage:** literature that places a concept in its scientific history but is not being claimed as the source of a new proposition.
 
 That distinction is part of the audit trail. It keeps attribution complete without implying that the new results are copied from, endorsed by, or already contained in the cited literature.
