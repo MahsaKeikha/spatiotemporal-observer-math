@@ -1,0 +1,17 @@
+name: experiment-al-capture
+
+on:
+  push:
+    branches:
+      - prop52-certified-evalue-outer-cover
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e .
+      - run: python examples/certified_evalue_outer_cover.py
