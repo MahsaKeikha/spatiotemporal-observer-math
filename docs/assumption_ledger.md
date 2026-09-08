@@ -65,17 +65,26 @@ read before applying a certificate to a new model or dataset.
 | AR(1) calibration channels are independent across space, standardized to known unit marginal variance, and share one stationary coefficient in the declared nonnegative range | Proposition 43 and Experiment AC | The increment interval can be biased or too narrow, invalidating every downstream certificate that relies on it |
 | The same-record correlation and covariance confidence budgets are combined by addition of failure probabilities | Proposition 43 | Treating the two data-reused events as independent would overstate joint confidence |
 | The reference centering normalization lies in the interval derived from the estimated AR(1) envelope | Proposition 43 | Normalization error is omitted and the covariance radius may be too small |
-| The target mean lies exactly in a fixed, full-rank temporal nuisance subspace selected before inspecting the target record | Propositions 44 through 48 | Projection can leave uncontrolled mean structure or become data dependent, invalidating the stated unbiasedness and concentration arguments |
-| The target covariance is exactly separable as temporal factor times spatial covariance | Propositions 44 through 48 | The weighted Gaussian quadratic-form reduction no longer describes the target covariance estimator |
+| The target mean lies exactly in a fixed, full-rank temporal nuisance subspace selected before inspecting the target record | Propositions 44 through 50 | Projection can leave uncontrolled mean structure or become data dependent, invalidating the stated unbiasedness and concentration arguments |
+| The target covariance is exactly separable as temporal factor times spatial covariance | Propositions 44 through 50 | The weighted Gaussian quadratic-form reduction no longer describes the target covariance estimator |
 | The stationary nonnegative AR(1) family correctly describes the shared temporal factor | Propositions 45, 46, and 48 | The calibrated coefficient interval may not contain the true dependence structure even when it contains one fitted scalar coefficient |
-| The projected normalization lower bound \(d_->0\) | Propositions 45, 46, and 48 | The observable covariance normalization is not certified and the reported radius is invalid |
+| The projected normalization lower bound \(d_->0\) | Propositions 45, 46, 48, 49, and 50 | The observable covariance normalization is not certified and the reported radius is invalid |
 | The AR(1) coefficient grid is deterministic and the true coefficient lies inside the reported calibration interval | Propositions 46 and 48 | The continuum envelope does not cover the true temporal covariance |
 | The Proposition 46 spectral Lipschitz bound dominates \(\lVert P(R_\phi-R_\psi)P\rVert_2/|\phi-\psi|\) over the full interval | Proposition 48 | Weyl inflation can understate movement of one or more projected temporal eigenvalues |
 | Proposition 47 is used with the actual nonnegative projected temporal eigenvalue profile when the temporal covariance is treated as known | Proposition 47 | The exact matrix-mgf calculation is being applied to the wrong weighted Wishart law |
 | Proposition 48 inflates every ordered projected temporal eigenvalue by the certified Weyl covering radius before taking the worst matrix mgf over AR(1) grid points | Proposition 48 | A between-grid temporal spectrum can have a larger matrix mgf than the one used by the certificate |
-| Matrix-Chernoff theta grids are fixed independently of the target data and remain inside their admissible domains | Propositions 47 and 48 | An invalid theta can break the mgf bound; data-dependent optimization requires its own justification |
-| The finite theta grids are interpreted as a tightness device rather than a continuum approximation to probability coverage | Propositions 47 and 48 | Numerical optimization error could be mistaken for statistical error even though each retained theta already gives a valid bound |
+| Proposition 49 receives a deterministic finite temporal-family cover whose operator and projected-normalization radii dominate every admissible family member | Proposition 49 | A temporal covariance can fall between cover points farther than the stated remainder, invalidating the family-wide matrix mgf bound |
+| Proposition 49 treats the cover as deterministic geometry rather than a collection of stochastic events | Proposition 49 | Adding or omitting a stochastic union bound changes the probability accounting and can misstate confidence |
+| Proposition 50 calibration channels are independent Gaussian channels with known unit marginal variance, arbitrary constant channel means, and one common stationary \(R_{\phi,\eta}=(1-\eta)R_\phi+\eta I\) temporal covariance | Proposition 50 and Experiment AJ | Lag-energy expectations or quadratic-form concentration can be misspecified, so the parameter rectangle need not cover the true temporal covariance |
+| Proposition 50 uses a declared box with \(0<\phi_-\le\phi\le\phi_+<1\) and \(0\le\eta_-\le\eta\le\eta_+<1\) | Proposition 50 | The ratio map from lag correlations can cross zero or leave the family for which the increment norm bounds were proved |
+| Proposition 50's lag-1 and lag-2 increment norm bounds dominate the corresponding transformed temporal covariance throughout the declared parameter box | Proposition 50 | The lag-correlation error radii can be too small |
+| The Proposition 50 calibrated parameter rectangle is nonempty before it is passed to Proposition 49 | Proposition 50 | The calibration data are incompatible with the declared model at the requested confidence and no end-to-end certificate should be issued |
+| Proposition 50 calibration data are independent of the target covariance record and the two records share the same temporal parameters | Proposition 50 | Conditioning on the random calibrated family no longer leaves the target record distributed according to a fixed admissible family member; multiplying the two confidence levels is not justified |
+| Proposition 50's rectangular map from separate lag intervals is treated as conservative rather than as the exact joint confidence geometry | Proposition 50 | Interpreting the rectangle as a likelihood region or equal-plausibility set would overstate what the theorem proves |
+| Matrix-Chernoff theta grids are fixed independently of the target data and remain inside their admissible domains | Propositions 47 through 50 | An invalid theta can break the mgf bound; data-dependent optimization requires its own justification |
+| The finite theta grids are interpreted as a tightness device rather than a continuum approximation to probability coverage | Propositions 47 through 50 | Numerical optimization error could be mistaken for statistical error even though each retained theta already gives a valid bound |
 | Calibration and covariance failure budgets are combined by a union bound unless a stronger dependence argument is proved | Proposition 48 | Multiplying confidence levels or assuming independence can overstate the final guarantee |
+| Proposition 50 multiplies calibration and covariance confidence levels only because the target record is independent of the calibration record | Proposition 50 | The product lower bound can overstate confidence under data reuse; a union-bound or same-record theorem would be needed |
 | Multi-regime axes and action weights are fixed before inspecting outcomes | Experiment V | The grid becomes an adaptive illustration rather than a predeclared sensitivity check |
 | Relative candidate blocks, confidence, and dimensions are fixed before screening | Proposition 37 and Experiment W | The simultaneous relative Wishart event may not cover adaptively introduced blocks |
 | Population whitening is used to state and audit the event, not estimated and silently reused | Proposition 37 | Reusing a data-dependent whitening map requires separate concentration or sample splitting |
@@ -104,6 +113,12 @@ read before applying a certificate to a new model or dataset.
 - Symmetry can make labeled recovery impossible even when an optimizer returns
   one representative.
 - None of the scores is a measurement or proof of phenomenal consciousness.
+- A future consciousness interpretation requires an explicit bridge hypothesis;
+  observer structure alone does not supply that bridge.
+- Any such bridge should meet the requirements in
+  [the interpretation protocol](interpretation_protocol.md), including
+  identifiability, representation invariance, causal discriminability,
+  temporal identity, falsifiability, and independent empirical anchoring.
 
 ## Application checklist
 
@@ -116,4 +131,8 @@ Before reporting a certificate, record:
 5. whether selections were fixed before observing certification data;
 6. the planted lower action, competitor upper action, and recovery slack;
 7. the result when each uncertain bound is widened;
-8. any symmetry under which only equivalence-class recovery is meaningful.
+8. any symmetry under which only equivalence-class recovery is meaningful;
+9. for Proposition 50, the calibration/target independence argument and the
+   declared temporal parameter box;
+10. whether any interpretation goes beyond the proved observer-structure claim
+    and, if so, which additional bridge assumptions it uses.
