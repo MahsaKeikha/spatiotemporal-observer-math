@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.26.0 - 2026-09-08
+
+- Proved an observable pilot-normalized covariance bound by composing the
+  Gaussian pilot event with each exact pilot-to-screening Loewner sandwich.
+- Added a public end-to-end adaptive screen that computes its factors directly
+  from the screening covariances and returns candidate-specific relative radii,
+  factor errors, score errors, masks, graph, and validity diagnostics.
+- Added a fixed 18-regime study with one reusable eight-trillion-trajectory
+  pilot per regime and 64 screening draws of 300 million trajectories each.
+- Recorded complete pilot, adaptive covariance, score, valid-radius, and path
+  coverage. The maximum adaptive radius averages `0.5097` of the fixed radius,
+  and the adaptive graph is smaller in every regime.
+- Added the four-panel comparison figure, full numerical table, machine-readable
+  record, API guide, protocol, assumption audit, and three theorem-level tests.
+
 ## 0.25.0 - 2026-09-08
 
 - Proved a covariance-normalized Gaussian screening theorem that propagates a

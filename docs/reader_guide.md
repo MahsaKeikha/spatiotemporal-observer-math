@@ -156,8 +156,12 @@ selective the analytical screen becomes. Proposition 37 replaces the absolute
 radius with a covariance-normalized event, and Experiment W compares the two
 certificates on paired draws. In this grid the normalized screen removes the
 observed conditioning penalty and isolates the five-state/four-edge population
-tube. Observable adaptive normalization and higher-precision tail checks are
-the next steps.
+tube. Proposition 38 now addresses observable adaptive normalization with a
+reusable Gaussian pilot. Experiment X
+turns observed pilot-to-screening discrepancies into candidate-specific radii
+and finds smaller safe graphs in all 18 regimes while explicitly recording the
+much larger amortized pilot. Population drift and dependent-window extensions
+are the next steps.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

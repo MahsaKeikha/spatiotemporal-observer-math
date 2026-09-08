@@ -56,11 +56,14 @@ read before applying a certificate to a new model or dataset.
 | Empirical primitive factors and score centers are computed consistently | Proposition 34 | A factor-aware radius need not bound the supplied score |
 | Positive-factor refinement is used only where every empirical factor lower endpoint is strictly positive | Proposition 34 | The local Lipschitz denominator can cross its singular boundary; the zero-safe fallback is required |
 | Every structural integration null is exact and its mask is fixed independently of the screening observations | Proposition 35 | The quadratic boundary radius can understate the local-score error and the safe-screen guarantee is invalid |
-| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, and W | It cannot validate envelopes estimated from the same observations |
-| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 and 37 and Experiments U through W | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
+| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, W, and X | It cannot validate envelopes estimated from the same observations |
+| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 through 38 and Experiments U through X | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
 | Multi-regime axes and action weights are fixed before inspecting outcomes | Experiment V | The grid becomes an adaptive illustration rather than a predeclared sensitivity check |
 | Relative candidate blocks, confidence, and dimensions are fixed before screening | Proposition 37 and Experiment W | The simultaneous relative Wishart event may not cover adaptively introduced blocks |
 | Population whitening is used to state and audit the event, not estimated and silently reused | Proposition 37 | Reusing a data-dependent whitening map requires separate concentration or sample splitting |
+| Pilot and screening covariance sequences refer to the same ordered population blocks | Proposition 38 and Experiment X | Drift or block misalignment breaks the composed Loewner sandwich |
+| Pilot blocks are positive definite and their simultaneous Gaussian event is valid | Proposition 38 | Pilot whitening or the advertised adaptive confidence can fail |
+| The pilot candidate family and structural-null mask are fixed independently of the pilot draw | Proposition 38 | The pilot union bound and null-specific radii may not cover adaptive choices |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
 | The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
 | The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |

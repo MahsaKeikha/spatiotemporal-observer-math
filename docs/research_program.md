@@ -37,9 +37,11 @@ smaller candidate-local eigenvalue floor. Proposition 37 now replaces that
 absolute spectral event by a population-whitened relative event and propagates
 it through information, canonical persistence, structural nulls, and the
 complete screen. Experiment W records paired coverage on the same grid and
-removes the observed conditioning penalty. The next statistical task is an
-observable or cross-fitted analogue of this geometry, followed by a separate
-treatment of overlapping windows from one long dependent time series.
+removes the observed conditioning penalty. Proposition 38 now composes a
+reusable Gaussian pilot event with each exact pilot-normalized screening
+discrepancy. Experiment X records a roughly two-fold radius reduction and
+smaller graphs across the grid. The next task is to allow population drift and
+overlapping windows from one long dependent time series.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -121,9 +123,10 @@ independence across time for the union-bound screen. Experiment V extends that
 calibration across 18 fixed signal regimes and separates population margin from
 spectral conditioning. Proposition 37 resolves that specific global-conditioning
 artifact with a relative covariance theorem, and Experiment W verifies the full
-paired chain on the same regimes. The next priority is observable adaptive
-normalization and independently justified structural masks without losing
-post-selection validity.
+paired chain on the same regimes. Proposition 38 and Experiment X add the
+observable pilot-normalized refinement. The next priority is drift-robust
+adaptive normalization and independently justified structural masks without
+losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

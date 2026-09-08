@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 106 tests. Continuous integration runs
+The automated suite currently contains 109 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -608,8 +608,9 @@ envelopes, and Proposition 33. The extremely large sample count is intentional
 and should not be hidden. It shows how slowly the zero-safe cube-root local
 score bound contracts, even in a strongly separated synthetic score table.
 The experiment establishes logical completeness of the two-stage argument, not
-practical sample efficiency. Obtaining comparable safety with materially fewer
-observations is the next statistical target.
+practical sample efficiency. Experiments T through X subsequently address
+specific sources of this conservatism; they do not turn this original
+zero-safe construction into a practical finite-data guarantee.
 
 ## Experiment R: positive-factor screening refinement
 
@@ -910,6 +911,70 @@ The complete record, including paired standard errors, Wilson intervals, and
 radius diagnostics, is stored in
 [`relative_covariance_calibration.json`](relative_covariance_calibration.json).
 
+## Experiment X: reusable-pilot adaptive screening
+
+Command used for the committed result:
+
+```bash
+python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
+```
+
+Each regime receives one independent pilot covariance estimated from eight
+trillion complete trajectories. That reference is reused for 64 screening
+covariances, each estimated from 300 million complete trajectories. The fixed
+screen uses Proposition 37's simultaneous radius at the screening sample size.
+The adaptive screen uses Proposition 38's observed candidate-specific radius
+\(r+\varepsilon+r\varepsilon\). Both screens use the same screening covariance,
+factors, candidates, structural-null mask, and action weights.
+
+![Reusable pilot geometry and adaptive Gaussian screening](cross_fitted_relative_calibration.png)
+
+| Memory | \(\kappa(Q)\) | \(\beta\) | Fixed states | Adaptive states | Fixed edges | Adaptive edges |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| short | `1` | `0.10` | `72.5%` | `30.0%` | `25.4%` | `6.0%` |
+| short | `1` | `0.18` | `40.0%` | `16.6%` | `12.4%` | `2.3%` |
+| short | `1` | `0.26` | `35.0%` | `15.0%` | `10.9%` | `1.9%` |
+| short | `9` | `0.10` | `32.5%` | `14.8%` | `10.0%` | `1.9%` |
+| short | `9` | `0.18` | `30.0%` | `13.3%` | `9.0%` | `1.7%` |
+| short | `9` | `0.26` | `30.0%` | `12.6%` | `7.8%` | `1.6%` |
+| baseline | `1` | `0.10` | `92.5%` | `37.8%` | `43.0%` | `10.4%` |
+| baseline | `1` | `0.18` | `75.0%` | `29.3%` | `25.8%` | `5.8%` |
+| baseline | `1` | `0.26` | `52.5%` | `24.1%` | `16.8%` | `4.0%` |
+| baseline | `9` | `0.10` | `43.2%` | `15.0%` | `12.6%` | `2.0%` |
+| baseline | `9` | `0.18` | `30.0%` | `14.3%` | `9.0%` | `1.8%` |
+| baseline | `9` | `0.26` | `30.0%` | `13.4%` | `9.0%` | `1.7%` |
+| long | `1` | `0.10` | `100.0%` | `52.4%` | `64.5%` | `15.1%` |
+| long | `1` | `0.18` | `90.0%` | `35.6%` | `33.6%` | `8.9%` |
+| long | `1` | `0.26` | `75.0%` | `29.4%` | `26.2%` | `5.7%` |
+| long | `9` | `0.10` | `75.0%` | `18.6%` | `23.8%` | `2.6%` |
+| long | `9` | `0.18` | `40.0%` | `14.8%` | `11.7%` | `1.9%` |
+| long | `9` | `0.26` | `30.0%` | `13.6%` | `9.0%` | `1.7%` |
+
+All 18 pilot covariances satisfy their simultaneous relative event. Across the
+1,152 screening draws, every adaptive covariance, complete-score,
+valid-radius, and population-path retention event is covered. The mean maximum
+adaptive radius is `0.5097` times the fixed radius, with regime means from
+`0.4994` to `0.5175`. The largest realized population-relative error averages
+`98.88%` of the adaptive radius. This near-boundary ratio is an empirical
+tightness diagnostic; it is not a proof that the constant is optimal.
+
+The adaptive graph is smaller in every cell. The most difficult displayed
+regime, long memory with isotropic noise and coupling `0.10`, falls from all 40
+states and `64.5%` of edges to `52.4%` of states and `15.1%` of edges. Under
+stronger or anisotropic regimes, the adaptive calculation approaches the
+five-state/four-edge population tube at a screening sample size more than two
+orders of magnitude below Experiment W.
+
+The comparison intentionally studies an amortized reference, not equal total
+sample sizes: the pilot is much larger than each screening cohort and is reused.
+The theorem requires the pilot and screening covariances to represent the same
+population. It does not cover distribution drift or overlapping dependent
+windows. Per-cell 64-of-64 coverage again has Wilson 95% interval
+`[0.943376, 1.000000]`.
+
+The full record is stored in
+[`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -919,3 +984,4 @@ radius diagnostics, is stored in
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines
 - replication on independently designed generative systems
+- controlled population drift between the pilot and screening cohorts

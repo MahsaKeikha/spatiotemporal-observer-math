@@ -1,0 +1,892 @@
+{
+  "seed": 20260915,
+  "trials_per_regime": 64,
+  "pilot_sample_count": 8000000000000,
+  "screening_sample_count": 300000000,
+  "nominal_pilot_confidence": 0.975,
+  "pilot_reuse": "one pilot covariance per regime, reused across screening draws",
+  "records": [
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.1208405064340985,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.614691360942817e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.7249999999999999,
+      "standard_error_fixed_state_fraction": 1.3987495347505254e-17,
+      "mean_adaptive_state_fraction": 0.300390625,
+      "standard_error_adaptive_state_fraction": 0.0003906250000000004,
+      "mean_fixed_edge_fraction": 0.25390625,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.05963134765625,
+      "standard_error_adaptive_edge_fraction": 0.0006808322480569883,
+      "mean_maximum_adaptive_relative_radius": 0.0004255752523406501,
+      "standard_error_maximum_adaptive_relative_radius": 3.88896816749126e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5132094663945967,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004689782281950424,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.988903707718438,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00012363795062392543,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.14298697271530791,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.6507839516125353e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.400390625,
+      "standard_error_fixed_state_fraction": 0.0003906249999999995,
+      "mean_adaptive_state_fraction": 0.16562499999999997,
+      "standard_error_adaptive_state_fraction": 0.003222679736266029,
+      "mean_fixed_edge_fraction": 0.124267578125,
+      "standard_error_fixed_edge_fraction": 0.0002108718976378471,
+      "mean_adaptive_edge_fraction": 0.02288818359375,
+      "standard_error_adaptive_edge_fraction": 0.0006787446011398225,
+      "mean_maximum_adaptive_relative_radius": 0.00041411755669964215,
+      "standard_error_maximum_adaptive_relative_radius": 3.5318705523535557e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.4993924085800444,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004259151328887134,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887120277601327,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00011300629454543216,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.15792037392122693,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 3.07035055439465e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.35000000000000003,
+      "standard_error_fixed_state_fraction": 6.993747673752627e-18,
+      "mean_adaptive_state_fraction": 0.149609375,
+      "standard_error_adaptive_state_fraction": 0.00039062499999999986,
+      "mean_fixed_edge_fraction": 0.109375,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.01947021484375,
+      "standard_error_adaptive_edge_fraction": 6.103515625e-05,
+      "mean_maximum_adaptive_relative_radius": 0.0004218628329314706,
+      "standard_error_maximum_adaptive_relative_radius": 3.85910906797528e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5087325876909146,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004653774613634802,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9888503939296447,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00014784261313305377,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.16435352704091777,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.6321852676034085e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.325,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.14765625,
+      "standard_error_adaptive_state_fraction": 0.0009180775803015671,
+      "mean_fixed_edge_fraction": 0.099853515625,
+      "standard_error_fixed_edge_fraction": 0.000244140625,
+      "mean_adaptive_edge_fraction": 0.0191650390625,
+      "standard_error_adaptive_edge_fraction": 0.0001434496219221199,
+      "mean_maximum_adaptive_relative_radius": 0.00042274121438347085,
+      "standard_error_maximum_adaptive_relative_radius": 3.528701520404602e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5097918449522159,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004255329731680612,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.988767521703555,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013210450105809776,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.1838204850328291,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.747632741819992e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.3,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.133203125,
+      "standard_error_adaptive_state_fraction": 0.001478882381718821,
+      "mean_fixed_edge_fraction": 0.08984375,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.01690673828125,
+      "standard_error_adaptive_edge_fraction": 0.00023107537214356582,
+      "mean_maximum_adaptive_relative_radius": 0.00042798943638798297,
+      "standard_error_maximum_adaptive_relative_radius": 4.289699752391223e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5161207778486714,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.005173032287026736,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.988863897218119,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00014717706545300748,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.19755312505983968,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.2122704350429018e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.3,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.12578125,
+      "standard_error_adaptive_state_fraction": 0.0005480252925095324,
+      "mean_fixed_edge_fraction": 0.078125,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.0157470703125,
+      "standard_error_adaptive_edge_fraction": 8.562895195461446e-05,
+      "mean_maximum_adaptive_relative_radius": 0.0004241997261474703,
+      "standard_error_maximum_adaptive_relative_radius": 4.006127304421137e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5115506926296021,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004831066761760603,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887587461565268,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00014652569617193151,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.10089152041096305,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.2823864390291265e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.9249999999999999,
+      "standard_error_fixed_state_fraction": 1.3987495347505254e-17,
+      "mean_adaptive_state_fraction": 0.37773437499999996,
+      "standard_error_adaptive_state_fraction": 0.0009830513587592129,
+      "mean_fixed_edge_fraction": 0.4296875,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.10406494140625,
+      "standard_error_adaptive_edge_fraction": 0.0006112712410173849,
+      "mean_maximum_adaptive_relative_radius": 0.00042916976927934235,
+      "standard_error_maximum_adaptive_relative_radius": 4.08794050742153e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5175441642180875,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004929726893018084,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9886360650903514,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00014405430220438146,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.12642086122841634,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.4025402464951238e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.75,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.293359375,
+      "standard_error_adaptive_state_fraction": 0.001781931913122931,
+      "mean_fixed_edge_fraction": 0.2578125,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.05780029296875,
+      "standard_error_adaptive_edge_fraction": 0.0006692696091232709,
+      "mean_maximum_adaptive_relative_radius": 0.00042119914701733285,
+      "standard_error_maximum_adaptive_relative_radius": 3.7690052946654805e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.507932235950594,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004545116722542377,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9886343050490369,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013310003806820604,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.1393823272570176,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.689929003580297e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.525,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.241015625,
+      "standard_error_adaptive_state_fraction": 0.0068276505183659224,
+      "mean_fixed_edge_fraction": 0.16796875,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.03997802734375,
+      "standard_error_adaptive_edge_fraction": 0.0015434488810706804,
+      "mean_maximum_adaptive_relative_radius": 0.0004240092463147251,
+      "standard_error_maximum_adaptive_relative_radius": 3.8653015517333445e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5113209892979717,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.0046612422501283585,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9890080269225954,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013496467935285517,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.145294315120728,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.4186838431073557e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.43203125,
+      "standard_error_fixed_state_fraction": 0.001416135886210885,
+      "mean_adaptive_state_fraction": 0.15,
+      "standard_error_adaptive_state_fraction": 0.0,
+      "mean_fixed_edge_fraction": 0.1260986328125,
+      "standard_error_fixed_edge_fraction": 0.00022127123222045062,
+      "mean_adaptive_edge_fraction": 0.01953125,
+      "standard_error_adaptive_edge_fraction": 0.0,
+      "mean_maximum_adaptive_relative_radius": 0.0004196682652598606,
+      "standard_error_maximum_adaptive_relative_radius": 3.7730689488366004e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.506086115891816,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004550017162070528,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887462327852076,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00012479483241287592,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.1722332879478341,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.305884858543849e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.3,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.14335937499999998,
+      "standard_error_adaptive_state_fraction": 0.0013911153718964458,
+      "mean_fixed_edge_fraction": 0.08984375,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.01849365234375,
+      "standard_error_adaptive_edge_fraction": 0.00021736177685881969,
+      "mean_maximum_adaptive_relative_radius": 0.00042550642862185966,
+      "standard_error_maximum_adaptive_relative_radius": 3.554709655847611e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.513126470534754,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004286693447590346,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887348156368592,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013867248364098938,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.18244374674506525,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.5191562923854366e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.3,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.13359375,
+      "standard_error_adaptive_state_fraction": 0.001495979855869278,
+      "mean_fixed_edge_fraction": 0.08984375,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.0169677734375,
+      "standard_error_adaptive_edge_fraction": 0.00023374685247957473,
+      "mean_maximum_adaptive_relative_radius": 0.00041849254549426485,
+      "standard_error_maximum_adaptive_relative_radius": 3.6187975909419073e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5046682925803985,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.00436397833385001,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9886453175613236,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00014083847047743436,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.08319588683793988,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.173530458421401e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 1.0,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.52421875,
+      "standard_error_adaptive_state_fraction": 0.0037337922728913546,
+      "mean_fixed_edge_fraction": 0.6448974609375,
+      "standard_error_fixed_edge_fraction": 0.0001434496219221199,
+      "mean_adaptive_edge_fraction": 0.15142822265625,
+      "standard_error_adaptive_edge_fraction": 0.0018795474729813655,
+      "mean_maximum_adaptive_relative_radius": 0.0004240794152323854,
+      "standard_error_maximum_adaptive_relative_radius": 4.2634321135832995e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5114056073592709,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.005141355630966692,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887518003050562,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013237341319488442,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.11319828294649859,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.5382389048099877e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.9000000000000001,
+      "standard_error_fixed_state_fraction": 1.3987495347505254e-17,
+      "mean_adaptive_state_fraction": 0.35625,
+      "standard_error_adaptive_state_fraction": 0.0021564548729448574,
+      "mean_fixed_edge_fraction": 0.33587646484375,
+      "standard_error_fixed_edge_fraction": 0.0003311934528828879,
+      "mean_adaptive_edge_fraction": 0.08868408203125,
+      "standard_error_adaptive_edge_fraction": 0.0014313393271261484,
+      "mean_maximum_adaptive_relative_radius": 0.00041413475059712745,
+      "standard_error_maximum_adaptive_relative_radius": 3.7328308526787455e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.4994131430351265,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004501493260024227,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9885864778774226,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00012204953510151674,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "population_action_margin": 0.12762625543252182,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.1705342630623083e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.75,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.29414062499999993,
+      "standard_error_adaptive_state_fraction": 0.0018249085630904554,
+      "mean_fixed_edge_fraction": 0.26171875,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.0567626953125,
+      "standard_error_adaptive_edge_fraction": 0.0007277242185759538,
+      "mean_maximum_adaptive_relative_radius": 0.0004197590627117426,
+      "standard_error_maximum_adaptive_relative_radius": 3.91527316300097e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5061956103033779,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004721503987183051,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9886606904871815,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00012894337559042979,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.11963378399563984,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.9589885235100595e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.75,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.18632812499999998,
+      "standard_error_adaptive_state_fraction": 0.006273015349190576,
+      "mean_fixed_edge_fraction": 0.23828125,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.026123046875,
+      "standard_error_adaptive_edge_fraction": 0.0012482931199897657,
+      "mean_maximum_adaptive_relative_radius": 0.0004273182899586276,
+      "standard_error_maximum_adaptive_relative_radius": 4.112888197459137e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.51531142932808,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004959811797207319,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887868743654864,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00013431469466397835,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.1538746007526055,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 2.594562779038644e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.39999999999999997,
+      "standard_error_fixed_state_fraction": 6.993747673752627e-18,
+      "mean_adaptive_state_fraction": 0.148046875,
+      "standard_error_adaptive_state_fraction": 0.0008452803398438809,
+      "mean_fixed_edge_fraction": 0.1171875,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.01922607421875,
+      "standard_error_adaptive_edge_fraction": 0.00013207505310060643,
+      "mean_maximum_adaptive_relative_radius": 0.0004268253515217537,
+      "standard_error_maximum_adaptive_relative_radius": 3.7395693233239346e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5147169852884843,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.004509619312714352,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9888208089410047,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00015031439848975242,
+      "fixed_relative_radius": 0.0008292427950139051
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "population_action_margin": 0.17295087462408154,
+      "pilot_sample_count": 8000000000000,
+      "screening_sample_count": 300000000,
+      "screening_trial_count": 64,
+      "pilot_relative_radius": 5.077008438459272e-06,
+      "maximum_pilot_relative_error": 3.1834061491954173e-06,
+      "pilot_covariance_covered": true,
+      "adaptive_covariance_covered_rate": 1.0,
+      "adaptive_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_score_covered_rate": 1.0,
+      "adaptive_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_path_retained_rate": 1.0,
+      "adaptive_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "adaptive_blocks_valid_rate": 1.0,
+      "adaptive_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_fixed_state_fraction": 0.3,
+      "standard_error_fixed_state_fraction": 0.0,
+      "mean_adaptive_state_fraction": 0.135546875,
+      "standard_error_adaptive_state_fraction": 0.0015555089134783875,
+      "mean_fixed_edge_fraction": 0.08984375,
+      "standard_error_fixed_edge_fraction": 0.0,
+      "mean_adaptive_edge_fraction": 0.01727294921875,
+      "standard_error_adaptive_edge_fraction": 0.0002430482677309981,
+      "mean_maximum_adaptive_relative_radius": 0.0004216335836943466,
+      "standard_error_maximum_adaptive_relative_radius": 4.233293714734869e-06,
+      "mean_maximum_adaptive_to_fixed_radius_ratio": 0.5084561315811932,
+      "standard_error_maximum_adaptive_to_fixed_radius_ratio": 0.005105011150158843,
+      "mean_maximum_actual_to_adaptive_radius_ratio": 0.9887582496937315,
+      "standard_error_maximum_actual_to_adaptive_radius_ratio": 0.00015244176208257707,
+      "fixed_relative_radius": 0.0008292427950139051
+    }
+  ]
+}

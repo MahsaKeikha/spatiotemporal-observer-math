@@ -272,6 +272,33 @@ mask; it does not accept population eigenvalue bounds. This distinction does
 not make the procedure distribution-free: the radius still uses the Gaussian
 Wishart law.
 
+### Reusable-pilot adaptive calibration
+
+`cross_fitted_relative_calibration.py` keeps the 18 population regimes fixed.
+For each regime it draws one pilot covariance from eight trillion independent
+complete trajectories and reuses that reference across 64 independent
+screening covariances of 300 million trajectories each. The root
+`SeedSequence` is `20260915`. Pilot and screening seeds are distinct and fixed
+before the results are inspected.
+
+The script compares two screens on every screening draw. The fixed screen uses
+the Proposition 37 radius at 300 million trajectories. The adaptive screen
+computes each candidate's exact pilot-normalized discrepancy and composes it
+with the simultaneous pilot radius using Proposition 38. Both receive the same
+screening covariance, candidate family, 28-state exact-null mask, score weights,
+and zero later-certification budget.
+
+Recorded events include the one pilot-coverage event per regime, adaptive
+population-relative covariance coverage for every later draw, complete local
+and transport score coverage, valid-radius status, and population-path
+retention. The figure reports graph fractions. The JSON also records the
+adaptive-to-fixed radius ratio and actual-error-to-adaptive-radius ratio.
+
+This is an amortized-reference experiment. The eight-trillion pilot is not
+charged as though it were collected separately for each screening draw, and the
+comparison is not an equal-total-sample efficiency claim. Reuse is valid only
+under the same population covariance; drift is a required future control.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -407,6 +434,12 @@ edge retention on four heat maps with a common zero-to-100-percent scale. All
 four panels use paired draws and the same regime ordering. The constant right
 panels are a recorded result of this grid, not a plotting normalization.
 
+`cross_fitted_relative_calibration.png` compares fixed and pilot-adaptive
+relative screens at the lower 300-million screening size. All four heat maps
+share a zero-to-100-percent scale. The footer states the separate pilot and
+screening sample counts, the mean radius ratio, and the minimum recorded
+coverage so the gain cannot be mistaken for an equal-budget comparison.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -425,6 +458,9 @@ panels are a recorded result of this grid, not a plotting normalization.
 | `test_relative_information_and_persistence_bounds_cover_direct_perturbation` | Relative-event CMI and canonical-persistence bounds cover a direct covariance perturbation |
 | `test_relative_null_bound_covers_conditional_independence_perturbation` | The Schur-complement null bound covers a perturbed exact conditional-independence model |
 | `test_relative_wishart_radius_and_screen_are_condition_number_free` | The relative radius contracts with sample size and the screen requires no population spectral envelope |
+| `test_pilot_sandwich_composition_covers_screening_covariance` | Two relative Loewner sandwiches compose to the stated observable pilot radius |
+| `test_cross_fitted_screen_covers_scores_and_retains_population_path` | The public pilot-normalized entry point covers candidate blocks and retains the population path on fixed draws |
+| `test_cross_fitted_screen_rejects_mismatched_covariance_sequences` | Pilot and screening covariance sequences cannot be silently misaligned |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -554,7 +590,7 @@ Its limitations are concrete:
     observations used to certify them.
 20. The Gaussian first-split theorem derives the advertised safety probability,
     but its simultaneous zero-safe score radii can be highly conservative.
-    Experiments S through W broaden calibration but do not establish sharpness
+    Experiments S through X broaden calibration but do not establish sharpness
     outside their declared models.
 21. The absolute first-split spectral floors and ceilings are deterministic population
     assumptions. Estimating them from the same data without an additional
@@ -584,6 +620,10 @@ Its limitations are concrete:
     independent complete trajectories, and the independently justified null
     mask. Population whitening defines the proof event; it is not an estimated
     preprocessing step licensed for reuse on the same observations.
+28. Proposition 38 and Experiment X use a much larger reusable pilot than each
+    screening cohort. The smaller graph is an adaptive-radius result, not an
+    equal-total-sample comparison. Pilot and screening population drift would
+    invalidate the present guarantee.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -619,6 +659,7 @@ python examples/structural_null_screen_experiment.py
 python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
 python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
 python examples/relative_covariance_calibration.py --trials 64 --jobs 6
+python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

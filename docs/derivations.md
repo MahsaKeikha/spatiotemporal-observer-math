@@ -1016,7 +1016,46 @@ family, and a structural-null mask justified without the screening draw.
 Experiment W compares this geometry with the absolute spectral certificate on
 paired samples.
 
-## 33. Choices that are still choices
+## 33. Composing pilot and screening geometry
+
+Proposition 37 uses a fixed simultaneous radius. A reusable pilot covariance
+allows the second covariance to be measured in a data-dependent local metric.
+For a candidate block, let
+
+\[
+r=\|P^{-1/2}(H-P)P^{-1/2}\|_2
+\]
+
+be the observed discrepancy between pilot covariance \(P\) and screening
+covariance \(H\). A Gaussian pilot event of radius \(\varepsilon\) and this
+exact observed relation give the two sandwiches
+
+\[
+(1-\varepsilon)\Gamma\preceq P\preceq(1+\varepsilon)\Gamma,
+\qquad
+(1-r)P\preceq H\preceq(1+r)P.
+\]
+
+Their product gives a population-relative radius
+
+\[
+\delta=r+\varepsilon+r\varepsilon.
+\]
+
+This radius is different for every candidate-time because \(r\) is measured
+block by block. Once the simultaneous pilot event holds, the implication is
+deterministic for every later \(H\). The screening sample therefore does not
+consume an additional confidence budget. It does determine the size of the
+realized graph through both its scores and its observed radii.
+
+The construction is most useful when a precise reference covariance can be
+amortized over several screening cohorts. With equally sized pilot and
+screening samples, adding the pilot uncertainty can be less selective than the
+fixed Proposition 37 radius. Experiment X deliberately records the favorable
+reusable-reference regime and reports both sample counts; it is not presented
+as an equal-total-sample comparison.
+
+## 34. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

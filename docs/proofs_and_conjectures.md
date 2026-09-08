@@ -2526,14 +2526,91 @@ population whitening matrix is known to the algorithm; whitening appears only
 in the proof event. The candidate family and any structural-null mask must
 still be fixed independently of the screening observations.
 
+## Proposition 38: pilot-normalized adaptive screening
+
+Let \(\Gamma_b\), \(b=1,\ldots,B\), be fixed positive-definite candidate
+covariances. From a Gaussian pilot ensemble, form \(P_b\). Let \(H_b\) be a
+second covariance estimate used to compute the screening scores. Define the
+observable pilot-normalized discrepancy
+
+\[
+r_b=\left\|P_b^{-1/2}(H_b-P_b)P_b^{-1/2}\right\|_2.
+\]
+
+For pilot sample size \(N_p\), dimension \(d\), and confidence
+\(1-\alpha\), let
+
+\[
+a_p=\frac{\sqrt d+\sqrt{2\log(2B/\alpha)}}{\sqrt{N_p-1}},
+\qquad
+\varepsilon_p=2a_p+a_p^2.
+\]
+
+If
+
+\[
+\delta_b=r_b+\varepsilon_p+r_b\varepsilon_p<1,
+\]
+
+then, simultaneously for every block with probability at least
+\(1-\alpha\) over the pilot ensemble,
+
+\[
+\left\|\Gamma_b^{-1/2}(H_b-\Gamma_b)
+\Gamma_b^{-1/2}\right\|_2\leq\delta_b.
+\]
+
+Consequently, substituting the observed candidate-specific \(\delta_b\) into
+Proposition 37 gives a data-adaptive safe near-competitor screen with the same
+pilot confidence. The implication holds for every positive-definite
+\(H_b\); no tail probability for the screening covariance is required after
+the pilot event has occurred.
+
+**Proof.** The simultaneous Gaussian pilot event gives
+
+\[
+(1-\varepsilon_p)\Gamma_b\preceq P_b
+\preceq(1+\varepsilon_p)\Gamma_b
+\]
+
+for all \(b\). By the definition of \(r_b\),
+
+\[
+(1-r_b)P_b\preceq H_b\preceq(1+r_b)P_b.
+\]
+
+The assumption \(\delta_b<1\) implies \(r_b<1\) and
+\(\varepsilon_p<1\), so both lower multipliers are nonnegative. Composing the
+two sandwiches yields
+
+\[
+(1-r_b)(1-\varepsilon_p)\Gamma_b
+\preceq H_b\preceq
+(1+r_b)(1+\varepsilon_p)\Gamma_b.
+\]
+
+The upper relative displacement is
+\(r_b+\varepsilon_p+r_b\varepsilon_p\); the lower displacement is
+\(r_b+\varepsilon_p-r_b\varepsilon_p\) and is no larger. This proves the
+relative covariance bound. Proposition 37 then controls every primitive factor
+and structural null, while Propositions 34 and 15 propagate the resulting
+candidate-specific errors to the complete score and retained graph. \(\square\)
+
+The theorem permits one pilot covariance to be reused for many later screening
+cohorts because its probability statement concerns only the pilot event. It
+does not make a poor pilot harmless: a large \(\varepsilon_p\), a nearly
+singular \(P_b\), or a large observed \(r_b\) can make \(\delta_b\geq1\) and
+return a vacuous screen. The pilot and screening covariances must describe the
+same population blocks; distribution shift is not covered.
+
 ## Open conjectures
 
-### C1. Data-adaptive covariance geometry
+### C1. Adaptive geometry under drift and dependence
 
-Proposition 37 removes the global spectral condition-number penalty through a
-population-normalized event. The unresolved problem is to obtain similarly
-sharp, observable or cross-fitted directional radii without invalidating
-post-selection coverage.
+Proposition 38 gives observable pilot-normalized radii for a fixed population.
+The unresolved problem is to preserve useful guarantees when the reference and
+screening populations drift or when both are estimated from dependent windows
+of one long record.
 
 ### C2. Gauge-consistent quantum lift
 

@@ -1006,6 +1006,52 @@ positive-definite Gaussian candidate blocks and independent trajectories across
 the sample index. Any data-adaptive candidate or null selection needs separate
 protection.
 
+### Pilot-normalized adaptive screen
+
+```python
+from observer_math import gaussian_cross_fitted_relative_near_competitor_screen
+
+adaptive = gaussian_cross_fitted_relative_near_competitor_screen(
+    pilot_joint_covariances,
+    screening_joint_covariances,
+    candidates,
+    pilot_sample_count,
+    node_count,
+    subset_size,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+Both covariance sequences contain adjacent blocks ordered as
+`[X_t, X_(t+1)]`. The function extracts each present-plus-future-candidate
+block, whitens its screening-minus-pilot difference by the pilot block, and
+records the resulting observed spectral discrepancy. It then adds the
+simultaneous Gaussian pilot radius and their product, as required by
+Proposition 38.
+
+Unlike the lower-level relative screen, this entry point computes every local
+and transport factor internally from the screening covariances. This prevents a
+caller from accidentally pairing a data-adaptive radius with scores computed
+from a different covariance estimate.
+
+The returned `GaussianCrossFittedRelativeNearCompetitorScreen` exposes:
+
+- `pilot_covariance_relative_error`, the simultaneous pilot radius;
+- `observed_pilot_relative_errors`, one measured discrepancy per candidate;
+- `covariance_relative_errors`, their composed population-relative bounds;
+- all primitive-factor and complete-score error arrays;
+- the structural-null and positive-factor masks; and
+- separate positive-definiteness, valid-radius, and safety flags.
+
+The confidence is over the Gaussian pilot ensemble. Conditional on that event,
+the covariance implication is deterministic for every later screening
+covariance. The pilot and screening blocks must nevertheless represent the same
+population. Reusing an old pilot after distribution drift is outside the
+guarantee.
+
 ### Independent sample-split certification
 
 ```python

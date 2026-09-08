@@ -17,6 +17,7 @@ from .nonstationary import (
     adjacent_joint_covariance,
     propagate_covariances,
     transport_metrics,
+    transport_metrics_from_covariances,
 )
 from .worldtube import certify_worldtube, jaccard_distance
 
@@ -254,6 +255,32 @@ class GaussianRelativeNearCompetitorScreen:
     positive_transport_factor_floor_mask: np.ndarray
     structural_integration_null_mask: np.ndarray
     null_local_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
+@dataclass(frozen=True)
+class GaussianCrossFittedRelativeNearCompetitorScreen:
+    """Observable relative screen using a Gaussian pilot covariance."""
+
+    screen: NearCompetitorScreen
+    pilot_sample_count: int
+    pilot_confidence: float
+    pilot_covariance_relative_error: float
+    observed_pilot_relative_errors: np.ndarray
+    covariance_relative_errors: np.ndarray
+    maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_pilot_blocks_positive_definite: bool
     all_blocks_valid: bool
     guarantees_safe_screen: bool
 
@@ -1549,6 +1576,83 @@ def _factor_errors_from_relative_covariance(
     return errors, valid
 
 
+def _relative_structural_null_screen_from_radii(
+    local_factors: np.ndarray,
+    transport_factors: np.ndarray,
+    candidates: tuple[tuple[int, ...], ...],
+    relative_errors: np.ndarray,
+    node_count: int,
+    subset_size: int,
+    null_mask: np.ndarray,
+    certification_local: np.ndarray,
+    certification_transport: np.ndarray,
+    transport_weight: float,
+    continuity_weight: float,
+) -> dict[str, object]:
+    """Propagate candidate-local relative radii through the complete screen."""
+    time_count, candidate_count, _ = local_factors.shape
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    local_factor_errors, valid_local = _factor_errors_from_relative_covariance(
+        relative_errors, node_count, subset_size, transport=False
+    )
+    edge_relative_errors = np.broadcast_to(relative_errors[:-1, None, :], edge_shape)
+    transport_factor_errors, valid_transport = _factor_errors_from_relative_covariance(
+        edge_relative_errors, node_count, subset_size, transport=True
+    )
+    local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
+    transport_scores = np.sqrt(np.prod(transport_factors, axis=3))
+    local_errors = np.empty((time_count, candidate_count), dtype=float)
+    for index in np.ndindex(local_errors.shape):
+        local_errors[index] = product_root_error_bound(
+            local_factors[index], local_factor_errors[index]
+        )
+    transport_errors = np.empty(edge_shape, dtype=float)
+    for index in np.ndindex(edge_shape):
+        transport_errors[index] = product_root_error_bound(
+            transport_factors[index], transport_factor_errors[index]
+        )
+    local_floor_mask = np.all(local_factors - local_factor_errors > 0.0, axis=2)
+    transport_floor_mask = np.all(
+        transport_factors - transport_factor_errors > 0.0, axis=3
+    )
+    null_errors = np.ones((time_count, candidate_count), dtype=float)
+    for index in zip(*np.nonzero(null_mask), strict=True):
+        delta = float(relative_errors[index])
+        if delta < 1.0:
+            integration_error = gaussian_relative_null_integration_factor_error_bound(
+                subset_size, covariance_relative_error=delta
+            )
+            quadratic_score_error = integration_error ** (1.0 / 3.0)
+        else:
+            quadratic_score_error = 1.0
+        null_errors[index] = min(local_scores[index], quadratic_score_error)
+        local_errors[index] = min(local_errors[index], null_errors[index])
+    total_local_errors = local_errors + certification_local
+    total_transport_errors = transport_errors + certification_transport
+    screen = screen_near_competitors(
+        local_scores,
+        transport_scores,
+        candidates,
+        total_local_errors,
+        total_transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return {
+        "screen": screen,
+        "screening_local_factor_errors": local_factor_errors,
+        "screening_transport_factor_errors": transport_factor_errors,
+        "screening_local_score_errors": local_errors,
+        "screening_transport_score_errors": transport_errors,
+        "total_local_score_errors": total_local_errors,
+        "total_transport_score_errors": total_transport_errors,
+        "positive_local_factor_floor_mask": local_floor_mask,
+        "positive_transport_factor_floor_mask": transport_floor_mask,
+        "null_local_score_errors": null_errors,
+        "all_blocks_valid": bool(np.all(valid_local) and np.all(valid_transport)),
+    }
+
+
 def gaussian_relative_structural_null_near_competitor_screen(
     empirical_local_factors: ArrayLike,
     empirical_transport_factors: ArrayLike,
@@ -1630,71 +1734,214 @@ def gaussian_relative_structural_null_near_competitor_screen(
         confidence=confidence,
     )
     relative_errors = np.full((time_count, candidate_count), delta)
-    local_factor_errors, valid_local = _factor_errors_from_relative_covariance(
-        relative_errors, node_count, subset_size, transport=False
-    )
-    edge_relative_errors = np.broadcast_to(relative_errors[:-1, None, :], edge_shape)
-    transport_factor_errors, valid_transport = _factor_errors_from_relative_covariance(
-        edge_relative_errors, node_count, subset_size, transport=True
-    )
-
-    local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
-    transport_scores = np.sqrt(np.prod(transport_factors, axis=3))
-    local_errors = np.empty((time_count, candidate_count), dtype=float)
-    for index in np.ndindex(local_errors.shape):
-        local_errors[index] = product_root_error_bound(
-            local_factors[index], local_factor_errors[index]
-        )
-    transport_errors = np.empty(edge_shape, dtype=float)
-    for index in np.ndindex(edge_shape):
-        transport_errors[index] = product_root_error_bound(
-            transport_factors[index], transport_factor_errors[index]
-        )
-    local_floor_mask = np.all(local_factors - local_factor_errors > 0.0, axis=2)
-    transport_floor_mask = np.all(
-        transport_factors - transport_factor_errors > 0.0, axis=3
-    )
-
-    null_errors = np.ones((time_count, candidate_count), dtype=float)
-    for index in zip(*np.nonzero(null_mask), strict=True):
-        if delta < 1.0:
-            integration_error = gaussian_relative_null_integration_factor_error_bound(
-                subset_size, covariance_relative_error=delta
-            )
-            quadratic_score_error = integration_error ** (1.0 / 3.0)
-        else:
-            quadratic_score_error = 1.0
-        null_errors[index] = min(local_scores[index], quadratic_score_error)
-        local_errors[index] = min(local_errors[index], null_errors[index])
-
-    total_local_errors = local_errors + certification_local
-    total_transport_errors = transport_errors + certification_transport
-    screen = screen_near_competitors(
-        local_scores,
-        transport_scores,
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
         candidate_tuple,
-        total_local_errors,
-        total_transport_errors,
-        transport_weight=transport_weight,
-        continuity_weight=continuity_weight,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
     )
-    all_valid = bool(np.all(valid_local) and np.all(valid_transport))
+    all_valid = bool(propagated["all_blocks_valid"])
     return GaussianRelativeNearCompetitorScreen(
-        screen=screen,
+        screen=propagated["screen"],
         screening_sample_count=int(screening_sample_count),
         screening_confidence=float(confidence),
         covariance_relative_errors=relative_errors,
         maximum_covariance_relative_error=delta,
-        screening_local_factor_errors=local_factor_errors,
-        screening_transport_factor_errors=transport_factor_errors,
-        screening_local_score_errors=local_errors,
-        screening_transport_score_errors=transport_errors,
-        total_local_score_errors=total_local_errors,
-        total_transport_score_errors=total_transport_errors,
-        positive_local_factor_floor_mask=local_floor_mask,
-        positive_transport_factor_floor_mask=transport_floor_mask,
+        screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
         structural_integration_null_mask=null_mask.copy(),
-        null_local_score_errors=null_errors,
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_cross_fitted_relative_near_competitor_screen(
+    pilot_joint_covariances: Sequence[ArrayLike],
+    screening_joint_covariances: Sequence[ArrayLike],
+    candidates: Sequence[Sequence[int]],
+    pilot_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianCrossFittedRelativeNearCompetitorScreen:
+    """Build an observable relative screen from pilot and screening covariances.
+
+    The pilot covariance defines the whitening metric. If its population-relative
+    error is at most ``epsilon`` and the observed pilot-normalized discrepancy of
+    the screening covariance is ``r``, then the screening population-relative
+    error is at most ``r + epsilon + r * epsilon``. Candidate factors are
+    computed internally from the screening covariances.
+    """
+    pilots = tuple(np.asarray(value, dtype=float) for value in pilot_joint_covariances)
+    screenings = tuple(
+        np.asarray(value, dtype=float) for value in screening_joint_covariances
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if not pilots or len(pilots) != len(screenings):
+        raise ValueError("pilot and screening covariance sequences must have equal positive length")
+    time_count = len(pilots)
+    candidate_count = len(candidate_tuple)
+    if candidate_count < 1 or node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require candidates and 1 <= subset_size < node_count")
+    if any(
+        len(candidate) != subset_size
+        or len(set(candidate)) != subset_size
+        or any(
+            isinstance(node, bool) or not isinstance(node, (int, np.integer))
+            for node in candidate
+        )
+        or min(candidate) < 0
+        or max(candidate) >= node_count
+        for candidate in candidate_tuple
+    ):
+        raise ValueError("candidates must contain distinct valid nodes of subset_size")
+    expected_joint_shape = (2 * node_count, 2 * node_count)
+    for name, sequence in (("pilot", pilots), ("screening", screenings)):
+        if any(matrix.shape != expected_joint_shape for matrix in sequence):
+            raise ValueError(f"{name} joint covariances must have shape {expected_joint_shape}")
+        if any(np.any(~np.isfinite(matrix)) for matrix in sequence):
+            raise ValueError(f"{name} joint covariances must be finite")
+        if any(not np.allclose(matrix, matrix.T, rtol=1e-10, atol=1e-12) for matrix in sequence):
+            raise ValueError(f"{name} joint covariances must be symmetric")
+    if any(np.linalg.eigvalsh(matrix)[0] <= 0.0 for matrix in screenings):
+        raise ValueError("screening joint covariances must be positive definite")
+
+    null_mask = np.asarray(structural_integration_null_mask)
+    local_shape = (time_count, candidate_count)
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    if null_mask.shape != local_shape or null_mask.dtype != np.bool_:
+        raise ValueError("structural_integration_null_mask must be a Boolean state array")
+    if certification_local.shape != local_shape or certification_transport.shape != edge_shape:
+        raise ValueError("certification error arrays have incompatible shapes")
+    if (
+        np.any(~np.isfinite(certification_local))
+        or np.any(~np.isfinite(certification_transport))
+        or np.any(certification_local < 0.0)
+        or np.any(certification_transport < 0.0)
+    ):
+        raise ValueError("certification error bounds must be finite and nonnegative")
+
+    block_count = time_count * candidate_count
+    epsilon = gaussian_wishart_relative_covariance_error_bound(
+        node_count + subset_size,
+        block_count,
+        pilot_sample_count,
+        confidence=confidence,
+    )
+    observed = np.full(local_shape, np.inf)
+    all_pilot_positive = True
+    for time, (pilot, screening) in enumerate(zip(pilots, screenings, strict=True)):
+        for current, candidate in enumerate(candidate_tuple):
+            indices = tuple(range(node_count)) + tuple(
+                node_count + node for node in candidate
+            )
+            pilot_block = pilot[np.ix_(indices, indices)]
+            screening_block = screening[np.ix_(indices, indices)]
+            values, vectors = np.linalg.eigh(pilot_block)
+            if values[0] <= 0.0:
+                all_pilot_positive = False
+                continue
+            inverse_sqrt = (vectors / np.sqrt(values)) @ vectors.T
+            observed[time, current] = np.linalg.norm(
+                inverse_sqrt @ (screening_block - pilot_block) @ inverse_sqrt,
+                ord=2,
+            )
+    relative_errors = observed + epsilon + observed * epsilon
+
+    local_factors = np.empty((*local_shape, 3), dtype=float)
+    transport_factors = np.empty((*edge_shape, 2), dtype=float)
+    for time, joint in enumerate(screenings):
+        present = joint[:node_count, :node_count]
+        for current, candidate in enumerate(candidate_tuple):
+            metrics = observer_metrics_from_covariances(present, joint, candidate)
+            local_factors[time, current] = (
+                metrics.integration_strength,
+                metrics.independence,
+                metrics.persistence,
+            )
+        if time < time_count - 1:
+            for previous, source in enumerate(candidate_tuple):
+                for current, target in enumerate(candidate_tuple):
+                    metrics = transport_metrics_from_covariances(
+                        present, joint, source, target
+                    )
+                    transport_factors[time, previous, current] = (
+                        metrics.independence,
+                        metrics.persistence,
+                    )
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
+    )
+    all_valid = bool(all_pilot_positive and propagated["all_blocks_valid"])
+    return GaussianCrossFittedRelativeNearCompetitorScreen(
+        screen=propagated["screen"],
+        pilot_sample_count=int(pilot_sample_count),
+        pilot_confidence=float(confidence),
+        pilot_covariance_relative_error=epsilon,
+        observed_pilot_relative_errors=observed,
+        covariance_relative_errors=relative_errors,
+        maximum_covariance_relative_error=float(np.max(relative_errors)),
+        screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_pilot_blocks_positive_definite=all_pilot_positive,
         all_blocks_valid=all_valid,
         guarantees_safe_screen=all_valid,
     )
