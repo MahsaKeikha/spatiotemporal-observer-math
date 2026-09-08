@@ -1,8 +1,8 @@
 # Research index
 
-This page is the navigation layer for the repository. It separates physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, and any later consciousness interpretation so each layer can be audited independently.
+This page is the navigation layer for the repository. It separates physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, literature sources, and any later consciousness interpretation so each layer can be audited independently.
 
-A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness.
+A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness. A citation is not presented as an endorsement by the cited author.
 
 ## Current research record
 
@@ -20,6 +20,8 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 
 | Reader goal | Best page |
 | --- | --- |
+| Trace the primary conceptual source and mathematical literature | [Bibliography and Citation Map](bibliography.md) |
+| Use machine-readable references | [`references.bib`](../references.bib) |
 | Understand the physical problem first | [Physics Guide](physics_guide.md) |
 | Learn how to read the figures and theorem radii | [Figure Reading Guide](figure_reading_guide.md) |
 | Follow the research as one coherent story | [Research Overview](research_overview.md) |
@@ -31,6 +33,18 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 | Inspect the temporal-calibration software interface | [Temporal Calibration API](api_temporal_calibration.md) |
 | Inspect requirements for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
 
+## Citation architecture
+
+The project uses three citation roles and keeps them distinct.
+
+1. **Primary conceptual source.** Max Tegmark's 2015 paper *Consciousness as a State of Matter* is the primary conceptual source and starting point for the research question developed in this repository.
+2. **Direct mathematical or statistical source.** A theorem, inequality, distributional fact, or method that materially enters a proof or algorithm is cited as a direct source.
+3. **Background lineage.** A paper can be scientifically important context without being the source of a proposition in this repository.
+
+The complete attribution record, including proposition-to-literature mapping and DOI links, is maintained in the [Bibliography and Citation Map](bibliography.md). BibTeX entries are maintained in [`references.bib`](../references.bib).
+
+This distinction matters because the repository develops new statements and proofs while building on established mathematics. Citing a paper does not imply that the cited author derived the repository's later propositions or endorses the project.
+
 ---
 
 # The theorem program
@@ -39,7 +53,9 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 
 These results establish adjacent-state covariance, representation invariance inside declared blocks, transport bounds, world-tube optimization robustness, finite-sample recovery, covariance perturbation control, and identifiability limits.
 
-Detailed statements and proofs: [Propositions 1-14](proofs_and_conjectures.md).
+Important literature foundations include Shannon and Cover and Thomas for information theory, Hotelling for canonical correlation, Bellman for dynamic programming, Wishart for Gaussian sample covariance, Bhatia for matrix analysis, and Davidson and Szarek for the Gaussian singular-value concentration step used in the finite-sample proof layer.
+
+Detailed statements and proofs: [Propositions 1-14](proofs_and_conjectures.md). Literature roles: [Bibliography](bibliography.md).
 
 ## Layer B. Structural compression and moving-partition theory, Propositions 15-31
 
@@ -57,7 +73,7 @@ Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
 ## Layer D. Dependent measurements and temporal calibration, Propositions 41-52
 
-| Proposition | Mathematical role | Physical role | Direct source |
+| Proposition | Mathematical role | Physical role | Direct proof |
 | ---: | --- | --- | --- |
 | 41 | Dependent Gaussian covariance concentration | Corrects the information budget when samples have memory | [Proof record](proofs_and_conjectures.md) |
 | 42 | Mean-centered temporal normalization | Accounts for removing an unknown baseline | [Proof record](proofs_and_conjectures.md) |
@@ -85,6 +101,8 @@ continuum uncertainty must enter an independent target theorem
         -> P52: certified outer cover and target composition
 ```
 
+Direct literature foundations for this layer include Laurent and Massart and Hsu, Kakade, and Zhang for quadratic-form concentration, Tropp for the matrix-Laplace concentration method, and Vovk and Wang and Shafer for the e-value literature. See the [proposition-to-literature map](bibliography.md#7-proposition-to-literature-map).
+
 ## Layer E. Sampling-consistent physical time, Proposition 53
 
 Proposition 53 changes the temporal parameterization from a sample-index coefficient to a physical time constant for the exponential relaxation model.
@@ -111,7 +129,9 @@ Under uniform sampling with interval \(\Delta t\),
 
 The theorem proves exact coarse-sampling consistency, time-unit invariance, validity on irregular timestamps, and a deterministic operator cover over a declared \(\tau\)-interval that composes with Proposition 49.
 
-Direct source: [Proposition 53 proof](proposition_53_physical_relaxation_time.md).
+The physical stochastic-process lineage is the classical Ornstein-Uhlenbeck exponential-relaxation model of Uhlenbeck and Ornstein. The repository does not assume that every physical process is Ornstein-Uhlenbeck or has one relaxation time.
+
+Direct source: [Proposition 53 proof](proposition_53_physical_relaxation_time.md). Literature context: [Bibliography](bibliography.md#6-physical-relaxation-and-continuous-time-stochastic-dynamics).
 
 ---
 
@@ -168,6 +188,6 @@ Any future consciousness interpretation remains a separate bridge problem under 
 
 # Reproduction and audit rule
 
-A result is considered complete in this repository when the relevant pieces exist together: physical question, declared measurement model, mathematical statement, assumptions, proof, implementation, claim-level tests, reproducible numerical record when useful, visible figure when useful, explicit failure conditions, and discoverable links.
+A result is considered complete in this repository when the relevant pieces exist together: physical question, declared measurement model, mathematical statement, assumptions, proof, implementation, claim-level tests, reproducible numerical record when useful, visible figure when useful, explicit failure conditions, discoverable links, and attribution to any external theorem, method, or physical model materially used.
 
 The documentation style check rejects Unicode en dash and em dash characters in Markdown files.
