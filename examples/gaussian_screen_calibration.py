@@ -30,6 +30,16 @@ def population_problem():
     """Return one fixed model, candidate family, and exact score arrays."""
     node_count = 7
     planted_path, systems = moving_module_systems(node_count=node_count)
+    return screening_problem_from_systems(planted_path, systems)
+
+
+def screening_problem_from_systems(planted_path, systems):
+    """Construct the fixed-candidate screening problem for supplied systems."""
+    systems = tuple(systems)
+    planted_path = tuple(tuple(candidate) for candidate in planted_path)
+    if not systems or len(planted_path) != len(systems):
+        raise ValueError("planted_path and systems must have the same positive length")
+    node_count = np.asarray(systems[0][0]).shape[0]
     candidates = tuple(dict.fromkeys((*planted_path, (0, 3, 6), (0, 2, 5), (1, 4, 6))))
     covariances = propagate_covariances(
         [system[0] for system in systems[:-1]],

@@ -149,15 +149,18 @@ retain the zero-safe product-root bound. The first exact-Wishart calibration
 finds no coverage failure in its limited run but shows that graph reduction can
 still require extreme sample counts. A second calibration now draws the full
 trajectory covariance at once, preserves cross-time dependence, and again
-records complete coverage in 128 trials per scale. Higher-precision multi-regime
-calibration and directional covariance refinements are the next checks.
+records complete coverage in 128 trials per scale. Experiment V then repeats the
+coupled audit across 18 fixed memory, coupling, and conditioning regimes. It
+shows that spectral conditioning, not only population separation, controls how
+selective the analytical screen becomes. Directional covariance refinements
+and higher-precision tail checks near the weakest regimes are the next steps.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound
 and changes the corresponding local-score rate from \(N^{-1/6}\) to
 \(N^{-1/3}\). This is a conditional refinement, not a procedure for discovering
-nulls from small empirical scores. Multi-regime calibration and independently
-justified construction of null masks are now the next checks.
+nulls from small empirical scores. Independently justified construction of null
+masks remains a separate next step.
 
 The coupled calibration also corrected the first mask: covariance memory makes
 seven non-planted states weakly positive, leaving 28 rather than 35 exact nulls.

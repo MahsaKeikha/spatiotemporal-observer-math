@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 100 tests. Continuous integration runs
+The automated suite currently contains 103 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -786,9 +786,71 @@ probability.
 The complete record is stored in
 [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json).
 
+## Experiment V: multi-regime trajectory-coupled calibration
+
+Command used for the committed result:
+
+```bash
+python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
+```
+
+This experiment replaces the single population model with a fixed Cartesian
+grid. It varies three transition-memory settings, three internal-coupling
+coefficients, and two process-noise condition numbers. Every transition is
+rescaled to spectral radius `0.84`; the geometric mean of the diagonal process
+noise remains `0.18`. For conditioned noise, the diagonal pattern is rotated by
+one node at each time so the same physical coordinate is not always favored.
+The candidate family, horizon, action weights, sample count, and screening
+confidence are held fixed.
+
+![Multi-regime trajectory-coupled calibration](multi_regime_coupled_calibration.png)
+
+| Memory | \(\kappa(Q)\) | Coupling \(\beta\) | Action margin | Minimum joint eigenvalue | States retained | Edges retained |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| short | `1` | `0.10` | `0.120841` | `0.084893` | `37.5%` | `10.2%` |
+| short | `1` | `0.18` | `0.142987` | `0.084321` | `32.5%` | `7.4%` |
+| short | `1` | `0.26` | `0.157920` | `0.084242` | `27.5%` | `5.1%` |
+| short | `9` | `0.10` | `0.164354` | `0.038276` | `92.5%` | `35.2%` |
+| short | `9` | `0.18` | `0.183820` | `0.038619` | `72.5%` | `25.0%` |
+| short | `9` | `0.26` | `0.197553` | `0.038761` | `60.0%` | `18.8%` |
+| baseline | `1` | `0.10` | `0.100892` | `0.087042` | `50.0%` | `16.8%` |
+| baseline | `1` | `0.18` | `0.126421` | `0.085598` | `37.5%` | `10.5%` |
+| baseline | `1` | `0.26` | `0.139382` | `0.084943` | `35.0%` | `9.4%` |
+| baseline | `9` | `0.10` | `0.145294` | `0.037647` | `100.0%` | `63.7%` |
+| baseline | `9` | `0.18` | `0.172233` | `0.038404` | `95.0%` | `41.8%` |
+| baseline | `9` | `0.26` | `0.182444` | `0.038641` | `92.5%` | `37.5%` |
+| long | `1` | `0.10` | `0.083196` | `0.088770` | `82.5%` | `33.2%` |
+| long | `1` | `0.18` | `0.113198` | `0.086982` | `45.0%` | `12.9%` |
+| long | `1` | `0.26` | `0.127626` | `0.085947` | `37.5%` | `10.9%` |
+| long | `9` | `0.10` | `0.119634` | `0.036469` | `100.0%` | `87.5%` |
+| long | `9` | `0.18` | `0.153875` | `0.038027` | `100.0%` | `53.9%` |
+| long | `9` | `0.26` | `0.172951` | `0.038429` | `95.0%` | `43.0%` |
+
+The declared moving path is the unique population optimum in all 18 regimes,
+with margins from `0.083196` to `0.197553`. Every regime has the same 28 exact
+structural-null candidate-times. Across 1,152 coupled trials, all covariance,
+generic-score, null-aware-score, and population-path retention events are
+covered. Each cell contains only 64 trials, however, so 64 successes give a
+Wilson 95% interval of `[0.943376, 1.000000]`. The grid broadens the consistency
+check; it still does not precisely validate a 2.5% tail probability.
+
+The useful result is the separation between population identifiability and
+screen selectivity. Increasing coupling generally enlarges the action margin
+and removes more states and edges. Noise anisotropy often enlarges the
+population margin at the same time that it lowers the minimum candidate-local
+eigenvalue and makes the analytical covariance screen much less selective. For
+example, under long memory and coupling `0.10`, changing \(\kappa(Q)\) from `1`
+to `9` increases the margin from `0.083196` to `0.119634`, yet raises retained
+edges from `33.2%` to `87.5%`. A population action margin is therefore not a
+sufficient proxy for finite-sample certifiability.
+
+The complete record, including all Wilson intervals, standard errors, spectra,
+and generic-screen comparisons, is stored in
+[`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json).
+
 ## Required next controls
 
-- higher-precision tail calibration across conditioning and coupling regimes
+- higher-precision tail calibration targeted near the weakest spectral regimes
 - structural-null checks derived from model restrictions or an independent
   selection stage, including deliberate false-null stress tests
 - random, shuffled, and adversarial moving-boundary nulls

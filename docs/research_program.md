@@ -28,12 +28,15 @@ strictly positive. A first Wishart calibration confirms containment on one
 fixed model and identifies exact-zero integration states as the remaining rate
 bottleneck. Proposition 35 treats a null fixed independently of the screening
 data: quadratic conditional-information error improves the corresponding
-local-score rate from \(N^{-1/6}\) to \(N^{-1/3}\). The next check is
-higher-precision coverage across coupling, conditioning, factor-floor, and
-structural-null regimes. Proposition 36 and Experiment U now cover independent
-complete trajectories with their correct cross-time dependence. A separate
-treatment is still needed for overlapping windows from one long dependent time
-series.
+local-score rate from \(N^{-1/6}\) to \(N^{-1/3}\). Proposition 36 and
+Experiment U cover independent complete trajectories with their correct
+cross-time dependence. Experiment V adds an 18-cell memory, coupling, and
+conditioning grid. It exposes a concrete source of looseness: noise anisotropy
+can enlarge the population action margin while weakening the screen through a
+smaller candidate-local eigenvalue floor. The next mathematical check is a
+directional covariance bound that retains more information than one spectral
+radius. A separate treatment is still needed for overlapping windows from one
+long dependent time series.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -111,10 +114,11 @@ why small empirical integration is not enough. The trajectory-coupled
 calibration subsequently found seven weakly positive memory states in the first
 mask; correcting them leaves 28 exact nulls and preserves the guarantee.
 Proposition 36 proves that shared complete trajectories do not require
-independence across time for the union-bound screen. The next priority is to
-extend calibration across signal regimes, then investigate directional
-covariance perturbation and independently justified structural masks without
-losing post-selection validity.
+independence across time for the union-bound screen. Experiment V extends that
+calibration across 18 fixed signal regimes and separates population margin from
+spectral conditioning. The next priority is directional covariance perturbation
+and independently justified structural masks without losing post-selection
+validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

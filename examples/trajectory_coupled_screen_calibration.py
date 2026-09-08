@@ -68,6 +68,11 @@ def run_coupled_trial(task):
     """Draw one full-trajectory Wishart covariance and evaluate both screens."""
     sample_count, seed = task
     problem, trajectory, null_mask = coupled_problem()
+    return evaluate_coupled_trial(sample_count, seed, problem, trajectory, null_mask)
+
+
+def evaluate_coupled_trial(sample_count, seed, problem, trajectory, null_mask):
+    """Evaluate one coupled draw for an explicitly supplied population model."""
     rng = np.random.default_rng(seed)
     empirical_trajectory = wishart.rvs(
         df=sample_count - 1,
@@ -101,6 +106,8 @@ def run_coupled_trial(task):
     )
     empirical_local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
     population_local_scores = np.prod(problem["local_factors"], axis=2) ** (1.0 / 3.0)
+    empirical_transport_scores = np.sqrt(np.prod(transport_factors, axis=3))
+    population_transport_scores = np.sqrt(np.prod(problem["transport_factors"], axis=3))
     path = problem["population_path"]
     complete_states = time_count * candidate_count
     complete_edges = (time_count - 1) * candidate_count**2
@@ -110,6 +117,10 @@ def run_coupled_trial(task):
                 np.all(
                     np.abs(empirical_local_scores - population_local_scores)
                     <= null_aware.screening_local_score_errors
+                )
+                and np.all(
+                    np.abs(empirical_transport_scores - population_transport_scores)
+                    <= null_aware.screening_transport_score_errors
                 )
             ),
             "null_population_path_retained": bool(

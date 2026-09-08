@@ -192,6 +192,7 @@ Exact commands, parameters, tables, and qualifications are in
 | S | [Exact-Wishart screen calibration](reproducible_results.md#experiment-s-gaussian-screening-calibration) | All 64 trials cover each declared event at five scales; the 64-of-64 Wilson interval is only `[0.943376, 1]`, and graph reduction remains conservative. |
 | T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, the corrected 28-state null mask reduces the safe graph from 40 states/231 edges to 15 states/27 edges while retaining the population path. |
 | U | [Trajectory-coupled Gaussian screening calibration](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration) | One full 42-dimensional Wishart draw preserves cross-time dependence; all declared events are covered in 128 trials at each of five scales. |
+| V | [Multi-regime trajectory-coupled calibration](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) | Across 18 declared memory, coupling, and conditioning regimes, all four screening events are covered in 1,152 trials; selectivity varies from 5.1% to 87.5% of edges retained. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -242,6 +243,18 @@ noise. The marked construction is checked by both the exact optimizer and the
 finite-horizon perturbation certificate.
 
 ### Statistical screening
+
+[![Multi-regime trajectory-coupled calibration](multi_regime_coupled_calibration.png)](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration)
+
+The regime map puts population separation and finite-sample screen usefulness
+side by side. Stronger internal coupling generally improves both, while
+anisotropic noise can enlarge the action margin yet weaken screening by lowering
+the candidate-local spectral floor. This separation is the principal result of
+Experiment V.
+
+[Complete table](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) ·
+[machine-readable results](multi_regime_coupled_calibration.json) ·
+[construction and limitations](experimental_protocol.md#multi-regime-trajectory-coupled-calibration)
 
 [![Gaussian screening coverage and retained graph fractions](gaussian_screen_calibration.png)](reproducible_results.md#experiment-s-gaussian-screening-calibration)
 
@@ -298,11 +311,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 100 of 100 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 103 of 103 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 21 documented studies, A through U | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 8 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 22 documented studies, A through V | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 9 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -322,7 +335,7 @@ python -m ruff check .
 Then run the newest calculation:
 
 ```bash
-python examples/structural_null_screen_experiment.py
+python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
 ```
 
 The audit trail is organized as follows:
@@ -339,7 +352,7 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json) |
 
 ## What remains unresolved
 
@@ -356,12 +369,12 @@ The principal limitations are substantive, not presentational:
 - the quantum factorization geometry remains a research program rather than an
   implemented theorem.
 
-The next statistical step is a multi-regime trajectory-coupled calibration that
-varies conditioning, coupling, and memory, followed by directional covariance
-bounds that retain matrix structure lost by a spectral norm. The next modeling
-step is a preregistered benchmark in which temporal transport is necessary
-rather than merely available. These targets, including completion criteria, are
-maintained in the [research program](research_program.md).
+The next statistical step is a directional covariance bound that retains matrix
+structure lost by a spectral norm and explains the conditioning sensitivity now
+visible across the 18-regime grid. The next modeling step is a preregistered
+benchmark in which temporal transport is necessary rather than merely available.
+These targets, including completion criteria, are maintained in the
+[research program](research_program.md).
 
 ## Interpretation
 

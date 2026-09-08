@@ -213,6 +213,37 @@ positive memory effect exceeds `1e-9`. This separation is a check of the
 controlled construction, not a general procedure for discovering nulls from
 data.
 
+### Multi-regime trajectory-coupled calibration
+
+`multi_regime_coupled_calibration.py` holds the seven-node, three-member,
+five-time candidate problem fixed while varying three independent model axes:
+
+| Axis | Declared values |
+| --- | --- |
+| Memory `(outside, active)` | short `(0.12, 0.28)`, baseline `(0.32, 0.46)`, long `(0.52, 0.66)` |
+| Internal coupling \(\beta\) | `0.10`, `0.18`, `0.26` |
+| Process-noise condition number \(\kappa(Q_t)\) | `1`, `9` |
+
+This Cartesian product gives 18 regimes. Each transition is rescaled to
+spectral radius `0.84`, so the memory and coupling settings specify their
+relative structure rather than changing the stability ceiling. The diagonal
+noise entries form a geometric sequence with geometric mean `0.18`; the
+sequence is rotated by one coordinate at each time. The baseline-memory,
+coupling-`0.18`, condition-`1` cell exactly reproduces Experiment U's population
+model, and a regression test checks every adjacent covariance block.
+
+Every cell uses 64 trials, sample count `80,000,000,000`, screening confidence
+`0.975`, and root `SeedSequence` value `20260911`. A trial draws one complete
+42-dimensional Wishart covariance and extracts all adjacent blocks. The
+candidate family and action weights are unchanged. The script records the
+population path and action margin, candidate-local spectral extrema, exact-null
+count, simultaneous coverage events, and generic and null-aware retained-graph
+fractions. Parameters and seeds are fixed before inspecting the outcomes.
+
+The grid is a controlled sensitivity study, not a held-out benchmark. It does
+not vary boundary motion, candidate size, latent drive, missingness,
+nonlinearity, or distribution family.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -337,6 +368,12 @@ and the cross-time variance-error correlation audit. In the correlation panel,
 the empirical upper triangle and theoretical lower triangle are intentionally
 kept separate so agreement and Monte Carlo noise remain visible.
 
+`multi_regime_coupled_calibration.png` aligns three heat maps on the same
+18-cell parameter grid: exact population action margin, null-aware state
+fraction, and null-aware edge fraction. The shared axes make it possible to see
+that a larger population margin need not imply a sharper finite-sample screen
+when conditioning simultaneously worsens.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -430,6 +467,9 @@ kept separate so agreement and Monte Carlo noise remain visible.
 | `test_complete_trajectory_covariance_reproduces_population_adjacent_blocks` | The calibration's 42-dimensional covariance contains all five declared population marginals |
 | `test_coupled_trial_is_reproducible_and_covers_both_screens` | A fixed coupled Wishart seed reproduces the audit and satisfies the declared coverage events |
 | `test_gaussian_sample_variance_error_correlation_formula` | Monte Carlo covariance errors agree with the exact Gaussian cross-time correlation formula |
+| `test_baseline_parameterized_system_reproduces_original_problem` | The baseline cell of the new grid reproduces every adjacent covariance in the original calibration model |
+| `test_declared_regime_grid_has_three_independent_axes` | The fixed grid contains exactly three memory, three coupling, and two conditioning levels |
+| `test_small_regime_run_is_reproducible_and_well_formed` | A seeded multi-regime cell is reproducible and reports valid coverage and graph statistics |
 
 ## 10. Known weaknesses of the current experiment
 
@@ -478,8 +518,8 @@ Its limitations are concrete:
     observations used to certify them.
 20. The Gaussian first-split theorem derives the advertised safety probability,
     but its simultaneous zero-safe score radii can be highly conservative.
-    Experiment S calibrates one fixed model and does not establish sharpness
-    across other spectral or coupling regimes.
+    Experiments S through V broaden calibration but do not derive sharper
+    directional bounds or establish sharpness outside their declared models.
 21. The first-split spectral floors and ceilings are deterministic population
     assumptions. Estimating them from the same data without an additional
     confidence argument would invalidate the stated guarantee.
@@ -492,12 +532,17 @@ Its limitations are concrete:
     theorem but cannot empirically validate a 2.5% tail probability precisely.
 24. Experiment S uses independent timewise Wishart draws and therefore omits
     cross-time dependence. Experiment U restores the exact dependence for an
-    ensemble of independent complete Gaussian trajectories, but neither
-    calibration covers overlapping windows cut from one long dependent record.
+    ensemble of independent complete Gaussian trajectories, and Experiment V
+    varies three population axes. None covers overlapping windows cut from one
+    long dependent record.
 25. Structural-null screening is valid only when each declared integration null
     is exact and its mask is fixed independently of the screening observations.
     A small empirical score is not sufficient evidence for that declaration.
     The corrected mask is specific to the controlled moving-module model.
+26. Experiment V changes memory, coupling, and diagonal-noise conditioning but
+    retains the same smooth boundary motion, fixed candidate family, spectral
+    radius, action weights, Gaussian law, and exact population spectra. Its
+    64 trials per cell have limited power to measure rare failure probabilities.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -531,6 +576,7 @@ python examples/factor_aware_screen_experiment.py
 python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
 python examples/structural_null_screen_experiment.py
 python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
+python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

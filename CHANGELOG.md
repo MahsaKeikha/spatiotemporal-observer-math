@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.24.0 - 2026-09-08
+
+- Added a fixed 18-regime trajectory-coupled calibration spanning three memory
+  levels, three internal-coupling strengths, and two process-noise condition
+  numbers, with 64 complete-trajectory Wishart trials per regime.
+- Verified all four declared covariance, score, null-aware score, and
+  population-path retention events in all 1,152 trials. The per-regime
+  64-of-64 Wilson interval is reported rather than treating this run as precise
+  validation of a 97.5% tail probability.
+- Recorded a nontrivial sharpness result: anisotropic noise can increase the
+  population action margin while making the certified screen substantially less
+  selective because the candidate-local eigenvalue floor deteriorates.
+- Added a three-panel regime map of population margins, retained states, and
+  retained edges, together with the complete machine-readable record.
+- Refactored the calibration construction so the baseline grid cell is tested
+  against and exactly reproduces the original moving-module problem.
+- Updated the landing page, central visual overview, protocol, limitations,
+  research program, reader guide, result log, and verification counts.
+
 ## 0.23.0 - 2026-09-08
 
 - Added the exact covariance of a complete nonstationary Gaussian trajectory,
