@@ -10,6 +10,12 @@ An open mathematical research program by **Mahsa Keikha, PhD** built around one 
 
 The repository develops that question from first principles. It begins with a moving-boundary dynamical model, defines operational observer-like structure, proves recovery and identifiability statements, develops finite-sample guarantees, and then builds a measurement-certification layer for drift, temporal memory, uncertain covariance, and calibration.
 
+## Conceptual lineage
+
+One important starting point for this research program is Max Tegmark's paper [**"Consciousness as a State of Matter"**](https://doi.org/10.1016/j.chaos.2015.03.014), which asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. The technical preprint is available as [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+
+This repository does not reproduce Tegmark's results and does not imply his endorsement of the present framework. It takes the factorization and observer-identification problem as a motivating question, then develops a separate operational program around time-dependent subsystem boundaries, moving world-tubes, recovery, identifiability, finite-sample certification, and temporal-memory uncertainty.
+
 The word **observer** is operational here. It refers to a mathematically defined persistent moving subsystem. The results do not prove consciousness or subjective experience. Any future connection to consciousness requires additional bridge assumptions under the [Interpretation Protocol](docs/interpretation_protocol.md).
 
 ---
@@ -632,8 +638,12 @@ That question is deliberately kept separate from any claim about consciousness.
 
 ---
 
-# 13. Citation
+# 13. Citation and conceptual source
 
-See [CITATION.cff](CITATION.cff) for the current software citation metadata.
+For the conceptual source that motivates the factorization and observer-identification question:
+
+**Tegmark, M. (2015).** [*Consciousness as a State of Matter*](https://doi.org/10.1016/j.chaos.2015.03.014). *Chaos, Solitons & Fractals*, **76**, 238-270. Technical preprint: [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+
+For citation of this repository and research software, see [CITATION.cff](CITATION.cff).
 
 License: [MIT](LICENSE).
