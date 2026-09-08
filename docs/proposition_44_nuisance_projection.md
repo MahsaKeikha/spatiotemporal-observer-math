@@ -1,6 +1,6 @@
-# Proposition 44 — finite-sample covariance screening with a predeclared time-varying nuisance mean
+# Proposition 44: finite-sample covariance screening with a predeclared time-varying nuisance mean
 
-This note closes one of the explicit gaps left after Propositions 42–43: the unknown mean no longer has to be constant. It may vary over time inside any **fixed, predeclared finite-dimensional temporal subspace**.
+This note closes one of the explicit gaps left after Propositions 42-43: the unknown mean no longer has to be constant. It may vary over time inside any **fixed, predeclared finite-dimensional temporal subspace**.
 
 ## Statement
 
@@ -53,20 +53,13 @@ S_H=\|P_HRP_H\|_2.
 For \(B_0\) predeclared covariance blocks of dimension at most \(m\), define
 
 \[
-u=
-\log\!\left(
-\frac{2B_0 9^m}{\alpha}
-\right).
+u=\log\!\left(\frac{2B_0 9^m}{\alpha}\right).
 \]
 
 With probability at least \(1-\alpha\), simultaneously over all those blocks,
 
 \[
-\left\|
-\Sigma^{-1/2}
-(\widehat\Sigma_H-\Sigma)
-\Sigma^{-1/2}
-\right\|_2
+\left\|\Sigma^{-1/2}(\widehat\Sigma_H-\Sigma)\Sigma^{-1/2}\right\|_2
 \le
 \frac{4\left(F_H\sqrt{u}+S_Hu\right)}{d_H}.
 \]
@@ -93,12 +86,7 @@ Therefore
 
 \[
 X^\mathsf T P_HX
-=
-\Sigma^{1/2}
-Z^\mathsf T
-R^{1/2}P_HR^{1/2}
-Z
-\Sigma^{1/2}.
+=\Sigma^{1/2}Z^\mathsf T R^{1/2}P_HR^{1/2}Z\Sigma^{1/2}.
 \]
 
 Let
@@ -127,29 +115,22 @@ The nonzero eigenvalues of \(A\) are the nonzero eigenvalues of \(P_HRP_H\). Hen
 After population whitening, for any fixed unit vector \(v\),
 
 \[
-v^\mathsf T
-\Sigma^{-1/2}(\widehat\Sigma_H-\Sigma)\Sigma^{-1/2}
-v
-=
-\frac{1}{d_H}
-\sum_i\lambda_i(g_i^2-1),
+v^\mathsf T\Sigma^{-1/2}(\widehat\Sigma_H-\Sigma)\Sigma^{-1/2}v
+=\frac{1}{d_H}\sum_i\lambda_i(g_i^2-1),
 \]
 
-with independent \(g_i\sim N(0,1)\) and \(\lambda_i\) the eigenvalues of \(A\). Gaussian quadratic-form concentration gives
+with independent \(g_i\sim N(0,1)\). Gaussian quadratic-form concentration gives
 
 \[
-\left|
-\sum_i\lambda_i(g_i^2-1)
-\right|
-\le
-2\left(F_H\sqrt{u}+S_Hu\right)
+\left|\sum_i\lambda_i(g_i^2-1)\right|
+\le 2\left(F_H\sqrt{u}+S_Hu\right)
 \]
 
 with failure probability at most \(2e^{-u}\) for that direction. A \(1/4\)-net of the unit sphere has at most \(9^m\) points, and the standard net argument multiplies the directional bound by at most two. Union-bounding over \(B_0\) fixed blocks gives the displayed simultaneous radius. \(\square\)
 
 ## What changed relative to Proposition 42
 
-Proposition 42 removed one nuisance direction, the constant vector \(\mathbf1\). Proposition 44 replaces that rank-one projection by an arbitrary fixed rank-\(q\) design. The concentration argument does not otherwise change.
+Proposition 42 removed one nuisance direction, the constant vector \(\mathbf1\). Proposition 44 replaces that rank-one projection by an arbitrary fixed rank-\(q\) design.
 
 This permits, for example:
 
@@ -170,7 +151,7 @@ Experiment AD uses four-dimensional Gaussian spatial covariance, stationary AR(1
 - the projected estimator retained essentially the same covariance error as the trend amplitude increased from 0 to 10;
 - ordinary constant mean-centering became severely biased, with median population-relative error rising from about 0.14 to more than 120;
 - every recorded projected covariance error was below the 97.5% analytical radius \(0.7581\);
-- adding an arbitrary extra mean inside the declared affine subspace changed the projected covariance only at numerical roundoff (below \(10^{-15}\) in the recorded runs).
+- adding an arbitrary extra mean inside the declared affine subspace changed the projected covariance only at numerical roundoff.
 
 [Machine-readable Experiment AD results](nuisance_projection_calibration.json) · [reproducible script](../examples/nuisance_projection_calibration.py) · [claim-level tests](../tests/test_nuisance_projection.py)
 
@@ -178,6 +159,6 @@ Experiment AD uses four-dimensional Gaussian spatial covariance, stationary AR(1
 
 The result is exact only when the nuisance subspace is fixed before the same data are inspected. Choosing basis functions, knots, frequencies, or rank adaptively from the record creates a data-dependent projector and needs sample splitting or separate concentration.
 
-The temporal covariance factor \(R\) is still treated as known by this proposition. Proposition 43 separately estimates a shared nonnegative AR(1) coefficient for the constant-mean setting. A future step is to compose **estimated temporal dependence with a general nuisance projector**, including uncertainty in \(d_H=\operatorname{tr}(P_HR)\), \(F_H\), and \(S_H\).
+The temporal covariance factor \(R\) is still treated as known by this proposition. Proposition 43 separately estimates a shared nonnegative AR(1) coefficient for the constant-mean setting. Proposition 45 composes that calibration idea with the general nuisance projector.
 
 The result also retains exact Gaussian separability. Nonseparable sliding windows and non-Gaussian concentration remain open.

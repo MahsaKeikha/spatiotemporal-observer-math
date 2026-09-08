@@ -1,503 +1,164 @@
 # Research overview
 
-[![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
+This page explains the project as a research story rather than as a list of files. For the complete numbered map of theorems and experiments, use the [research index](research_index.md).
 
-This page is the shortest complete account of the project in its present form.
-It gathers the mathematical question, the chain of proved results, the numerical
-evidence, the code that produces it, and the limits of the interpretation in one
-place. Detailed proofs and experimental records remain in their dedicated
-documents; links below lead directly to those records.
+## The question
 
-## Follow this page
+Most dynamical analyses begin by deciding which variables belong to the system and which belong to its environment. This project asks whether that order can sometimes be reversed.
 
-| If you want to understand | Go directly to |
-| --- | --- |
-| The scientific question | [The problem being studied](#the-problem-being-studied) |
-| The equations used by the optimizer | [Score and path objective](#score-and-path-objective) |
-| How the proof layers connect | [Evidence chain](#evidence-chain) |
-| A particular proved statement | [Theorem index](#theorem-index) |
-| A particular numerical study | [Experiment index](#experiment-index) |
-| The figures and what each one shows | [Visual record of the results](#visual-record-of-the-results) |
-| What is and is not established | [Strongest current conclusions](#strongest-current-conclusions) |
-| Tests, code, and reproduction | [Reproducing and auditing the project](#reproducing-and-auditing-the-project) |
-| Remaining limitations | [What remains unresolved](#what-remains-unresolved) |
-
-## The problem being studied
-
-Suppose the observed state is a time-indexed random vector
-\(X_t\in\mathbb R^n\). Instead of fixing a subsystem in advance, let a candidate
-boundary be a coordinate subset \(S_t\) that may change with time. A complete
-candidate history is
+At time `t`, let a candidate subsystem be a coordinate set `S_t`. A changing candidate history is
 
 \[
-\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}),
 \]
 
-The project asks when such a path can be identified from three observable forms
-of organization: predictive interaction across the candidate's internal cut,
-insulation from predictive drive outside the candidate, and persistence of its
-predictive structure into the next state. The term *observer world-tube* is a
-name for this mathematical object. It is not a claim that the selected subsystem
-is conscious.
+which the repository calls an **observer world-tube**.
 
-The implemented model is the nonstationary linear Gaussian process
+The central question is:
+
+> **When can a moving subsystem path be distinguished from alternatives using internal predictive organization, environmental insulation, and continuity through time?**
+
+The word "observer" is operational. It is not a claim about consciousness or subjective experience.
+
+## The exact population model
+
+The main exact theory uses a nonstationary linear Gaussian process
 
 \[
 X_{t+1}=A_tX_t+\varepsilon_t,
-\qquad \varepsilon_t\sim\mathcal N(0,Q_t),
+\qquad
+\varepsilon_t\sim\mathcal N(0,Q_t).
 \]
 
-for which adjacent covariances, conditional mutual informations, and canonical
-correlations can be evaluated exactly.
+This setting makes adjacent covariances, Gaussian conditional mutual information, and canonical correlations analytically tractable. It allows the repository to separate three questions that are often mixed together:
 
-## Score and path objective
+1. what score should a candidate boundary receive?
+2. which moving path maximizes the declared objective?
+3. how much estimation or model error can occur before the winner changes?
 
-For candidate \(S\) at time \(t\), the local score is
+## What the score measures
 
-\[
-\Omega_t(S)=\bigl(G_t(S)K_t(S)P_t(S)\bigr)^{1/3}.
-\]
+The implemented path objective combines four ideas:
 
-Here \(G\) is weakest-cut directed integration, \(K\) is insulation from the
-present environment, and \(P\) is canonical-correlation persistence. Each
-factor lies in \([0,1]\). For an edge from \(S\) to \(R\),
+- **integration**: predictive interaction across the candidate's weakest internal cut;
+- **insulation**: how little predictive information must be imported from outside;
+- **persistence**: survival of predictive structure into the next state;
+- **transport**: continuity of organization even when physical membership changes.
 
-\[
-\Theta_t(S,R)=\bigl(K_t(S,R)P_t(S,R)\bigr)^{1/2}
-\]
+A dynamic program computes the exact maximizing path in the declared candidate family. A second exact calculation finds the runner-up. Their difference is the action margin used by the robustness theorems.
 
-measures transported predictive organization. The complete finite-horizon
-action is
+## A controlled moving-boundary example
 
-\[
-\mathcal A(\mathcal W)
-=\sum_{t=0}^{T-1}\Omega_t(S_t)
-+\chi\sum_{t=0}^{T-2}\Theta_t(S_t,S_{t+1})
--\lambda\sum_{t=0}^{T-2}d_J(S_t,S_{t+1}),
-\]
+The planted path
 
-where \(d_J\) is Jaccard distance. Dynamic programming returns the exact
-maximizer and exact runner-up within the declared candidate family. The action
-margin between them is the starting point for every recovery certificate.
-
-## Evidence chain
-
-The mathematical development is cumulative:
-
-1. exact Gaussian covariance and information identities define the score;
-2. exact path optimization supplies the winner and its margin;
-3. covariance perturbation bounds control every score factor;
-4. adversarial dynamic programs propagate local error budgets through the full
-   path objective;
-5. block and overlap-class recursions replace candidate enumeration by
-   structural envelopes;
-6. Gaussian concentration connects finite samples to covariance radii;
-7. independent sample splitting separates data-dependent screening from final
-   certification;
-8. boundary-adaptive bounds improve the screen when a zero integration factor
-   is known structurally rather than inferred from the same data;
-9. covariance-normalized concentration removes the global eigenvalue-floor
-   penalty while preserving the same end-to-end screen guarantee;
-10. a reusable pilot covariance turns that geometry into observed,
-    candidate-specific radii for later screening cohorts.
-11. separable Gaussian dependence across observations is summarized by two
-    effective sample sizes and propagated through the complete screen.
-12. an exact centering normalization removes an unknown constant mean without
-    returning to an independence assumption.
-
-Each arrow in this chain carries explicit assumptions. The
-[assumption ledger](assumption_ledger.md) records what fails if any one of them
-is violated.
-
-```mermaid
-flowchart TD
-    A["Model or trajectory data"] --> B["Adjacent covariance blocks"]
-    B --> C["Integration, insulation, persistence"]
-    C --> D["Local and transport scores"]
-    D --> E["Exact world-tube optimizer"]
-    B --> F["Perturbation and concentration bounds"]
-    F --> G["Adversarial recovery certificate"]
-    E --> G
-    G --> H["Safe near-competitor graph"]
+```text
+(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
 ```
 
-The upper route computes the selected path. The lower route answers a different
-question: whether every admissible covariance perturbation leads to the same
-path. Keeping those routes separate prevents a numerical optimum from being
-mistaken for a robustness or confidence statement.
-
-## Theorem index
-
-All statements below are proved in
-[Proved results and open problems](proofs_and_conjectures.md). They are
-sufficient results under their stated assumptions; they are not presented as
-necessary conditions.
-
-| No. | Result | What it establishes |
-| ---: | --- | --- |
-| 1 | [Nonstationary adjacent covariance](proofs_and_conjectures.md#proposition-1-nonstationary-adjacent-covariance) | Exact covariance recursion and adjacent-state covariance for time-varying linear Gaussian dynamics. |
-| 2 | [Representation invariance of canonical transport](proofs_and_conjectures.md#proposition-2-representation-invariance-of-canonical-transport) | Canonical transport is unchanged by invertible coordinate changes within source and target blocks. |
-| 3 | [Bounded transport score](proofs_and_conjectures.md#proposition-3-bounded-transport-score) | The defined transport factors and score remain in the unit interval. |
-| 4 | [Finite-horizon path robustness certificate](proofs_and_conjectures.md#proposition-4-finite-horizon-path-robustness-certificate) | A positive action margin yields a deterministic uniform score-error radius preserving the optimizer. |
-| 5 | [Componentwise planted-path recovery](proofs_and_conjectures.md#proposition-5-componentwise-planted-path-recovery) | Local and incident-edge advantages imply unique global recovery of a declared planted path. |
-| 6 | [Finite-sample recovery from uniform score bounds](proofs_and_conjectures.md#proposition-6-finite-sample-recovery-from-uniform-score-bounds) | A simultaneous score event and a deterministic margin combine into a recovery probability. |
-| 7 | [Covariance perturbation bound for Gaussian CMI](proofs_and_conjectures.md#proposition-7-covariance-perturbation-bound-for-gaussian-cmi) | Spectral covariance error gives an explicit conditional-mutual-information error bound. |
-| 8 | [Canonical-persistence perturbation bound](proofs_and_conjectures.md#proposition-8-canonical-persistence-perturbation-bound) | Covariance error controls canonical correlations and the persistence factor. |
-| 9 | [End-to-end Gaussian sample-complexity guarantee](proofs_and_conjectures.md#proposition-9-end-to-end-gaussian-sample-complexity-guarantee) | Gaussian covariance concentration propagates to a complete path-recovery sample bound. |
-| 10 | [Positive-factor stability of geometric scores](proofs_and_conjectures.md#proposition-10-positive-factor-stability-of-geometric-scores) | Away from zero factors, local and transport geometric means obey locally Lipschitz bounds. |
-| 11 | [Localized finite-sample path certificate](proofs_and_conjectures.md#proposition-11-localized-finite-sample-path-certificate) | Candidate-specific blocks and an adversarial path calculation sharpen the global certificate. |
-| 12 | [Parameter-level linear-Gaussian certificate](proofs_and_conjectures.md#proposition-12-parameter-level-linear-gaussian-certificate) | Transition and noise perturbations propagate directly to a finite-horizon recovery condition. |
-| 13 | [Objective identifiability modulo symmetry](proofs_and_conjectures.md#proposition-13-objective-identifiability-modulo-symmetry) | Recovery is defined on equivalence classes when admissible symmetries preserve the objective. |
-| 14 | [Two-model impossibility bound](proofs_and_conjectures.md#proposition-14-two-model-impossibility-bound) | Observationally identical models with incompatible labels impose a one-half maximin ceiling. |
-| 15 | [Sufficient near-competitor graph](proofs_and_conjectures.md#proposition-15-sufficient-near-competitor-graph) | Forward-backward score envelopes safely discard states and edges that cannot challenge the winner. |
-| 16 | [Symbolic recovery for covariance-preserving moving cliques](proofs_and_conjectures.md#proposition-16-symbolic-recovery-for-covariance-preserving-moving-cliques) | Closed-form factors and a recovery margin are obtained for a moving-clique family. |
-| 17 | [Covariance propagation around the moving-clique family](proofs_and_conjectures.md#proposition-17-covariance-propagation-around-the-moving-clique-family) | Transition and noise perturbations produce explicit finite-horizon covariance radii. |
-| 18 | [Quadratic CMI bound at zero conditional cross-covariance](proofs_and_conjectures.md#proposition-18-quadratic-cmi-bound-at-a-zero-conditional-cross-covariance) | Conditional mutual information grows quadratically with covariance error at an exact conditional-independence boundary. |
-| 19 | [Robust recovery with external coupling and anisotropic noise](proofs_and_conjectures.md#proposition-19-robust-recovery-with-external-coupling-and-anisotropic-noise) | The moving-clique recovery result survives a declared nonzero perturbation neighborhood. |
-| 20 | [Support-resolved finite-horizon recovery](proofs_and_conjectures.md#proposition-20-support-resolved-finite-horizon-recovery) | Candidate-local covariance blocks and exact incident-edge budgets sharpen the robust margin. |
-| 21 | [A priori row-local recovery](proofs_and_conjectures.md#proposition-21-a-priori-row-local-recovery) | Row-restricted transition and forcing budgets give local recovery bounds without realized covariance propagation. |
-| 22 | [Overlap-class recovery without candidate enumeration](proofs_and_conjectures.md#proposition-22-overlap-class-recovery-without-candidate-enumeration) | Candidate calculations compress to overlap classes with an exact feasible-edge rule. |
-| 23 | [Structural budgets from block sparsity](proofs_and_conjectures.md#proposition-23-structural-budgets-from-block-sparsity) | Entry sizes and block degrees yield operator-norm budgets through a small comparison matrix. |
-| 24 | [Block-local covariance influence cones](proofs_and_conjectures.md#proposition-24-block-local-covariance-influence-cones) | A fixed block graph preserves finite-speed support information in covariance-error propagation. |
-| 25 | [Moving-partition covariance influence cones](proofs_and_conjectures.md#proposition-25-moving-partition-covariance-influence-cones) | Rectangular comparisons extend localized propagation to blocks that split, merge, or move. |
-| 26 | [Moving-partition path-recovery certificate](proofs_and_conjectures.md#proposition-26-moving-partition-path-recovery-certificate) | Moving-partition covariance radii propagate through every score and the adversarial path objective. |
-| 27 | [Class-compressed robust path recovery](proofs_and_conjectures.md#proposition-27-class-compressed-robust-path-recovery) | Exact factor symmetry permits robust recovery with class states rather than candidate lists. |
-| 28 | [Interval-certified class recovery](proofs_and_conjectures.md#proposition-28-interval-certified-class-recovery) | Componentwise factor intervals replace exact within-class symmetry. |
-| 29 | [Covariance-residual derivation of class intervals](proofs_and_conjectures.md#proposition-29-covariance-residual-derivation-of-class-intervals) | Representative covariances and spectral residuals generate valid factor intervals. |
-| 30 | [Block-structural residual class recovery](proofs_and_conjectures.md#proposition-30-block-structural-residual-class-recovery) | Moving block envelopes generate the covariance residuals required by class recovery. |
-| 31 | [Screened-environment structural recovery](proofs_and_conjectures.md#proposition-31-screened-environment-structural-recovery) | Source-specific present compression is valid when omitted conditional information is explicitly charged. |
-| 32 | [Independent sample-split confidence composition](proofs_and_conjectures.md#proposition-32-independent-sample-split-confidence-composition) | A safe first split and independent certification split combine with product confidence. |
-| 33 | [Gaussian first-split screening safety](proofs_and_conjectures.md#proposition-33-gaussian-first-split-screening-safety) | Fixed Gaussian candidate blocks give a complete concentration-to-screen guarantee. |
-| 34 | [Positive-factor refinement of Gaussian screening](proofs_and_conjectures.md#proposition-34-positive-factor-refinement-of-gaussian-screening) | Empirical factors with positive lower endpoints receive sharper local Lipschitz radii. |
-| 35 | [Structural-null screening at the score boundary](proofs_and_conjectures.md#proposition-35-structural-null-screening-at-the-score-boundary) | A predeclared exact integration null receives a quadratic boundary bound and a safe, tighter state radius. |
-| 36 | [Trajectory-coupled Gaussian screening safety](proofs_and_conjectures.md#proposition-36-trajectory-coupled-gaussian-screening-safety) | Marginal Wishart bounds and simultaneous screening remain valid when all times come from the same independent trajectories. |
-| 37 | [Covariance-normalized Gaussian screening](proofs_and_conjectures.md#proposition-37-covariance-normalized-gaussian-screening) | A population-whitened Wishart event controls CMI, canonical persistence, structural nulls, and the complete screen without a covariance condition-number factor. |
-| 38 | [Pilot-normalized adaptive screening](proofs_and_conjectures.md#proposition-38-pilot-normalized-adaptive-screening) | An observed pilot-to-screening discrepancy composes with pilot uncertainty to give candidate-specific relative radii and a safe adaptive graph. |
-| 39 | [Drift-robust pilot-normalized screening](proofs_and_conjectures.md#proposition-39-drift-robust-pilot-normalized-screening) | A declared population-relative drift envelope transports the adaptive certificate into the current population metric, with an explicit validity boundary. |
-| 40 | [Statistically calibrated population drift](proofs_and_conjectures.md#proposition-40-statistically-calibrated-population-drift-envelope) | Two simultaneous covariance events turn old and current calibration cohorts into a candidate-specific drift envelope with an explicit joint confidence. |
-| 41 | [Separably dependent Gaussian covariance screening](proofs_and_conjectures.md#proposition-41-separably-dependent-gaussian-covariance-screening) | Weighted Gaussian quadratic-form concentration replaces the i.i.d. sample count by Frobenius- and spectral-effective sample sizes and propagates the result through the complete screen. |
-| 42 | [Mean-centered separably dependent Gaussian screening](proofs_and_conjectures.md#proposition-42-mean-centered-separably-dependent-gaussian-screening) | Sample-mean removal changes the temporal quadratic form and normalization; the corrected estimator retains a complete dependence-aware screen. |
-| 43 | [Same-record AR(1) calibration and covariance screening](proofs_and_conjectures.md#proposition-43-same-record-ar1-calibration-and-covariance-screening) | Increment energy estimates a shared nonnegative AR(1) coefficient, and its interval and centering-normalization uncertainty propagate through the complete screen without a cross-event independence assumption. |
-
-## Experiment index
-
-Exact commands, parameters, tables, and qualifications are in
-[Reproducible results](reproducible_results.md).
-
-| ID | Calculation | Principal recorded outcome |
-| --- | --- | --- |
-| A | [Fixed modular structure](reproducible_results.md#experiment-a-fixed-modular-structure) | Planted blocks rank first; a correlated-noise control has positive static dependence but zero directed observer score. |
-| B | [Changing-boundary world-tube](reproducible_results.md#experiment-b-changing-boundary-world-tube) | All 5 planted boundaries are recovered; action margin `0.126421`, certified uniform radius `0.010535`. |
-| C | [Finite-sample recovery](reproducible_results.md#experiment-c-finite-sample-recovery) | Exact recovery rises from `0.313` at 80 trajectories to `1.000` at 640; an easy local baseline remains competitive. |
-| D | [Exchangeable non-identifiability](reproducible_results.md#experiment-d-exchangeable-non-identifiability) | Permutation-related paths tie, the labeled margin is zero, and the two-model maximin ceiling is `0.500`. |
-| E | [Symbolic moving-clique recovery](reproducible_results.md#experiment-e-symbolic-moving-clique-recovery) | Symbolic margin lower bound `0.130806`; exact margin `0.175335`; 3 of 3 boundaries recovered. |
-| F | [Robust symbolic recovery](reproducible_results.md#experiment-f-robust-symbolic-recovery) | Nonzero cross-boundary and anisotropic-noise perturbations retain an exact margin of `0.175280`; several increasingly local certificates are compared. |
-| G | [Block-sparse structural recovery](reproducible_results.md#experiment-g-block-sparse-structural-recovery) | Six overlap classes represent `8,250,291,250,200` candidates and retain a positive margin `0.045031`. |
-| H | [Localized influence cone](reproducible_results.md#experiment-h-localized-influence-cone) | A remote covariance perturbation leaves the observed block radius exactly zero until graph distance seven. |
-| I | [Moving-partition influence cone](reproducible_results.md#experiment-i-moving-partition-influence-cone) | The zero persists through changing block counts `4 -> 3 -> 4 -> 2 -> 3` until the declared layered route arrives. |
-| J | [Moving-partition recovery](reproducible_results.md#experiment-j-moving-partition-recovery-certificate) | Local moving-partition errors feed the full adversarial path certificate and retain positive robust slack. |
-| K | [Class-compressed robust recovery](reproducible_results.md#experiment-k-class-compressed-robust-recovery) | Six classes replace a candidate family with more than eight trillion members per layer. |
-| L | [Heterogeneous interval-class recovery](reproducible_results.md#experiment-l-heterogeneous-interval-class-recovery) | Nonzero within-class factor widths retain robust slack `0.449062`. |
-| M | [Covariance-residual-derived intervals](reproducible_results.md#experiment-m-covariance-residual-derived-class-intervals) | Representative models plus residuals produce the intervals and robust slack `0.530115`. |
-| N | [Block-structured residual recovery](reproducible_results.md#experiment-n-block-structured-residual-class-recovery) | Primitive block envelopes produce residuals and robust slack `0.801508`. |
-| O | [Screened-environment recovery](reproducible_results.md#experiment-o-screened-environment-structural-recovery) | Screened covariance radius `2.500e-08` versus `6.250e-05` for the full environment; slack `0.799524`. |
-| P | [Independent sample-split accounting](reproducible_results.md#experiment-p-independent-sample-split-confidence-accounting) | 25 retained versus 10,000 unscreened blocks; minimum certification counts `80,182` and `107,350`; combined confidence `0.950625`. |
-| Q | [Gaussian-safe first-split screening](reproducible_results.md#experiment-q-gaussian-safe-first-split-screening) | At \(10^{12}\) observations, a 60-state/576-edge graph reduces to 5 states and 4 edges under the zero-safe theorem. |
-| R | [Positive-factor refinement](reproducible_results.md#experiment-r-positive-factor-screening-refinement) | At \(10^7\) observations, the refined graph has 4 states and 3 edges while the zero-safe graph remains at 16 and 48. |
-| S | [Exact-Wishart screen calibration](reproducible_results.md#experiment-s-gaussian-screening-calibration) | All 64 trials cover each declared event at five scales; the 64-of-64 Wilson interval is only `[0.943376, 1]`, and graph reduction remains conservative. |
-| T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, the corrected 28-state null mask reduces the safe graph from 40 states/231 edges to 15 states/27 edges while retaining the population path. |
-| U | [Trajectory-coupled Gaussian screening calibration](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration) | One full 42-dimensional Wishart draw preserves cross-time dependence; all declared events are covered in 128 trials at each of five scales. |
-| V | [Multi-regime trajectory-coupled calibration](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) | Across 18 declared memory, coupling, and conditioning regimes, all four screening events are covered in 1,152 trials; selectivity varies from 5.1% to 87.5% of edges retained. |
-| W | [Covariance-normalized screening](reproducible_results.md#experiment-w-covariance-normalized-screening) | On 1,152 paired draws, the relative certificate covers every recorded event and retains exactly the five-state/four-edge population tube in all 18 regimes. |
-| X | [Reusable-pilot adaptive screening](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening) | A reusable high-precision pilot cuts the maximum relative radius to about 51% of the fixed radius and reduces the safe graph in every tested regime. |
-| Y | [Screening under declared population drift](reproducible_results.md#experiment-y-screening-under-declared-population-drift) | A structure-preserving drift curve retains all declared events but exposes rapid loss of graph selectivity as the envelope grows. |
-| Z | [Estimating drift versus refreshing the reference](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference) | A 640-pair comparison validates the confidence-budgeted drift envelope and finds that refreshing the current reference is more selective on this construction. |
-| AA | [Dependent Gaussian covariance calibration](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration) | Across 896 stationary AR(1) trials, the dependence-aware radius covers every draw while the i.i.d. radius fails sharply at high correlation. |
-| AB | [Mean-centered dependent Gaussian calibration](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration) | Across 896 nonzero-mean AR(1) trials, the corrected centered radius covers every draw and numerical translation discrepancy stays below `1.34e-15`. |
-| AC | [Same-record AR(1) and centered covariance calibration](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration) | Across 896 draws, every correlation interval and joint correlation-plus-covariance event is covered; estimated-dependence radius inflation reaches 1.21 at correlation `0.97`. |
-
-These are controlled synthetic calculations. Large combinatorial counts show
-that the compressed certificate does not enumerate candidates; they do not by
-themselves establish empirical realism. Likewise, very large nominal sample
-counts expose conservatism in the available inequalities rather than propose a
-practical data-collection plan.
-
-## Visual record of the results
-
-Every figure below is generated by a committed experiment. Select a figure to
-open the exact command, model parameters, numerical table, and interpretation
-for that result.
-
-### Moving-boundary inference
-
-[![Candidate scores over time with the selected path outlined](worldtube_baseline.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube)
-
-The heat map shows local candidate scores over time; the outline is the path
-selected by the complete objective. It is important that these are not the same
-quantity: transport and continuity can change the global choice.
-
-[![Recovery over transport and continuity weights](worldtube_phase_diagram.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube)
-
-The phase diagram records where all five planted boundaries are recovered and
-where an excessive membership-continuity penalty forces failure. It therefore
-shows both the successful regime and a controlled failure regime.
-
-### Finite-sample behavior
-
-[![Finite-sample recovery curves and internal baselines](finite_sample_benchmark.png)](reproducible_results.md#experiment-c-finite-sample-recovery)
-
-Recovery improves as independent trajectory ensembles grow. The figure retains
-the negative comparison that independent local selection performs better at
-intermediate sample sizes on this easy family.
-
-### Closed-form and robust recovery regions
-
-[![Closed-form moving-clique sufficient recovery region](symbolic_recovery_region.png)](reproducible_results.md#experiment-e-symbolic-moving-clique-recovery)
-
-The black contour is the zero symbolic-margin boundary. The warm certified
-region satisfies the sufficient theorem; points outside it are uncertified and
-are not automatically failures.
-
-[![Robust recovery region under transition and noise perturbations](perturbed_recovery_region.png)](reproducible_results.md#experiment-f-robust-symbolic-recovery)
-
-This region adds bounded cross-boundary transition coupling and anisotropic
-noise. The marked construction is checked by both the exact optimizer and the
-finite-horizon perturbation certificate.
-
-### Statistical screening
-
-[![Same-record temporal calibration and centered covariance recovery](estimated_ar1_calibration.png)](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration)
-
-Experiment AC estimates a common nonnegative AR(1) coefficient from
-standardized channel increments and reuses the same record for centered
-covariance estimation. Two 98.75% events give a 97.5% joint guarantee by a
-union bound, without assuming those events are independent. All 896 recorded
-joint events are covered. The estimated-dependence radius is 1.21 times the
-known-correlation radius at `0.97`, making the inferential cost visible.
-
-[Complete same-record table](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration) ·
-[machine-readable results](estimated_ar1_calibration.json) ·
-[theorem](proofs_and_conjectures.md#proposition-43-same-record-ar1-calibration-and-covariance-screening)
-
-[![Mean-centered covariance under dependent Gaussian sampling](dependent_centered_gaussian_calibration.png)](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration)
-
-Experiment AB removes an unknown constant mean by centering on the sample axis
-and using the dependence-specific normalization \(d_R=\operatorname{tr}(PR)\).
-All 896 corrected events are covered, and a paired translation check agrees to
-`1.34e-15`. The analytical radius remains conservative and still assumes that
-the temporal covariance envelope is known.
-
-[Complete centered table](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration) ·
-[machine-readable results](dependent_centered_gaussian_calibration.json) ·
-[theorem](proofs_and_conjectures.md#proposition-42-mean-centered-separably-dependent-gaussian-screening)
-
-[![Relative covariance concentration under dependent Gaussian samples](dependent_gaussian_calibration.png)](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration)
-
-Experiment AA makes the cost of sample dependence explicit. Under a known
-separable Gaussian AR(1) law, the theorem replaces the nominal count by two
-effective sample sizes. All 896 dependence-aware events are covered; the i.i.d.
-radius loses coverage as correlation grows. At `0.97`, the valid radius is 3.63
-times the empirical 95th percentile, so the figure records conservatism as well
-as coverage.
-
-[Complete calibration table](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration) ·
-[machine-readable results](dependent_gaussian_calibration.json) ·
-[theorem](proofs_and_conjectures.md#proposition-41-separably-dependent-gaussian-covariance-screening)
-
-[![Estimated drift and refreshed-reference comparison](calibrated_drift_comparison.png)](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference)
-
-Experiment Z uses two 98.75% simultaneous covariance events to produce a 97.5%
-union-bound drift guarantee. All 640 paired trials satisfy the declared drift,
-covariance, score, validity, and path events. The current-reference control is
-substantially more selective than transporting the old reference at every
-displayed calibration size.
-
-[Complete comparison table](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference) ·
-[machine-readable results](calibrated_drift_comparison.json) ·
-[theorem](proofs_and_conjectures.md#proposition-40-statistically-calibrated-population-drift-envelope)
-
-[![Pilot-normalized screening under declared covariance drift](drift_robust_relative_calibration.png)](reproducible_results.md#experiment-y-screening-under-declared-population-drift)
-
-Experiment Y changes the population covariance by an invertible coordinatewise
-congruence while preserving the information factors and optimal path. The
-drift-robust theorem covers all 448 recorded covariance, score, and path events.
-The graph nevertheless becomes complete at larger envelopes, giving a visible
-boundary between a valid certificate and a useful screen.
-
-[Complete drift table](reproducible_results.md#experiment-y-screening-under-declared-population-drift) ·
-[machine-readable results](drift_robust_relative_calibration.json) ·
-[theorem](proofs_and_conjectures.md#proposition-39-drift-robust-pilot-normalized-screening)
-
-[![Reusable pilot geometry and adaptive Gaussian screening](cross_fitted_relative_calibration.png)](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening)
-
-The adaptive comparison uses one high-precision pilot per regime and 64 later
-screening draws. Candidate-specific observed discrepancies reduce the maximum
-relative radius to about half the fixed simultaneous radius. The complete
-covariance, score, and path events are retained in all recorded draws.
-
-[Complete adaptive table](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening) ·
-[machine-readable results](cross_fitted_relative_calibration.json) ·
-[theorem](proofs_and_conjectures.md#proposition-38-pilot-normalized-adaptive-screening)
-
-[![Absolute and covariance-normalized screening comparison](relative_covariance_calibration.png)](reproducible_results.md#experiment-w-covariance-normalized-screening)
-
-The paired heat maps hold the data, model, sample budget, and structural-null
-mask fixed. The left panels show the condition-sensitive absolute certificate;
-the right panels show the Proposition 37 relative certificate. In this grid the
-relative calculation retains only the population path in every trial.
-
-[Complete paired table](reproducible_results.md#experiment-w-covariance-normalized-screening) ·
-[machine-readable results](relative_covariance_calibration.json) ·
-[proof and assumptions](proofs_and_conjectures.md#proposition-37-covariance-normalized-gaussian-screening)
-
-[![Multi-regime trajectory-coupled calibration](multi_regime_coupled_calibration.png)](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration)
-
-The regime map puts population separation and finite-sample screen usefulness
-side by side. Stronger internal coupling generally improves both, while
-anisotropic noise can enlarge the action margin yet weaken screening by lowering
-the candidate-local spectral floor. This separation is the principal result of
-Experiment V.
-
-[Complete table](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) ·
-[machine-readable results](multi_regime_coupled_calibration.json) ·
-[construction and limitations](experimental_protocol.md#multi-regime-trajectory-coupled-calibration)
-
-[![Gaussian screening coverage and retained graph fractions](gaussian_screen_calibration.png)](reproducible_results.md#experiment-s-gaussian-screening-calibration)
-
-Coverage and usefulness are deliberately shown together. All recorded events
-are covered in this limited run, while the retained graph remains complete at
-several sample scales, exposing the conservatism of the analytical radius.
-
-[![Trajectory-coupled Gaussian screening calibration](trajectory_coupled_screen_calibration.png)](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration)
-
-The coupled calibration draws one covariance for the complete trajectory and
-then extracts all adjacent blocks. Its third panel compares measured cross-time
-sample-variance error correlations with their exact Gaussian values, making the
-dependence visible rather than treating it as a verbal qualification.
-
-[![Structural-null score radius and retained graph comparison](structural_null_screen.png)](reproducible_results.md#experiment-t-structural-null-boundary-screening)
-
-The boundary figure compares the generic and boundary-adaptive radii on the same
-Wishart draw. With the corrected mask of 28 exact nulls, the structural-null
-screen retains 37.5% of states and 10.5% of edges while preserving the
-population path. This conclusion is conditional on every masked null being
-exact.
-
-## Strongest current conclusions
-
-| Question | Current answer | Status |
-| --- | --- | --- |
-| Can the declared finite path objective be optimized exactly? | Yes, including its exact runner-up and margin. | Exact algorithmic result |
-| Can bounded score perturbations be converted into path recovery? | Yes, globally, locally, and through class-compressed adversarial path bounds. | Deterministic theorem |
-| Can covariance error be propagated through CMI and canonical correlation? | Yes, under either absolute spectral or covariance-normalized relative events, with explicit constants. | Deterministic theorem |
-| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and, under Propositions 41–43's narrower exact-separable model, correlated Gaussian observations with a known envelope or an estimated common nonnegative AR(1) coefficient under standardized-channel assumptions. | Statistical theorem; conservative |
-| Can serial dependence be charged explicitly? | Yes for Gaussian covariance \(R\otimes\Gamma\): two effective sample sizes replace the nominal count and feed the same score and graph bounds. | Proposition 41; Experiment AA |
-| Can the dependent covariance be estimated with an unknown mean? | Yes when the mean is constant and the temporal envelope is known. Centering uses \(d_R=\operatorname{tr}(PR)\) and projected temporal norms. | Proposition 42; Experiment AB |
-| Can temporal dependence be estimated on the same record? | Yes for a shared stationary nonnegative AR(1) coefficient when independent unit-variance calibration channels are available. The calibration panel and covariance record may be dependent; literal channel reuse is demonstrated for identity spatial covariance. | Proposition 43; Experiment AC |
-| Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
-| Can covariance radii adapt to an observed reference discrepancy? | Yes. A Gaussian pilot event composes with each exact pilot-normalized screening discrepancy. | Proposition 38 |
-| Can that certificate survive population covariance drift? | Yes, conditional on an independently valid candidate-block drift envelope. The correction is sharp in one dimension and can become nonselective well before it becomes invalid. | Proposition 39; Experiment Y |
-| Can the drift envelope receive a finite-sample confidence statement? | Yes for fixed Gaussian candidate blocks using old and current calibration cohorts. On the tested construction, refreshing the reference is more selective than transporting the old one. | Proposition 40; Experiment Z |
-| Can exact structural zeros improve the difficult score-boundary rate? | Yes. The local-score error improves from the generic \(N^{-1/6}\) boundary rate to \(N^{-1/3}\) under a correct predeclared null. | Proposition 35 |
-| Does the score identify a unique boundary in every model? | No. Exchangeable models give a proved non-identifiability counterexample. | Impossibility theorem |
-| Does a high score prove consciousness? | No. That interpretation is neither defined nor supported by these results. | Explicit scope boundary |
-
-## The new structural-null result
-
-The Gaussian calibration revealed a specific obstruction: most incorrect
-candidates in that construction have an exactly zero population integration
-factor. A generic cube-root perturbation bound treats this boundary with a
-Hölder inequality and contracts only as \(N^{-1/6}\).
-
-When the zero is a structural property fixed before seeing the screening data,
-Proposition 18 gives a quadratic conditional-information perturbation bound.
-Proposition 35 propagates it through the local score. This changes the boundary
-rate to \(N^{-1/3}\) and permits a materially smaller safe graph in Experiment
-T. The mask is an assumption, not an estimated label: declaring a genuinely
-positive-integration state to be null can understate its error and invalidate
-the guarantee. A regression test contains that false-null counterexample.
-
-## Reproducing and auditing the project
-
-### Current verification record
-
-| Check | Recorded result | Follow the evidence |
-| --- | --- | --- |
-| Automated tests | 130 of 130 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
-| Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
-| Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 29 documented studies, A through Z and AA through AC | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 16 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
-
-The test count is a software verification record, not a measure of scientific
-truth. The tests check identities, bound containment, optimizer invariants,
-input rejection, seeded reproducibility, and stated counterexamples. They do
-not replace validation on independently designed models or empirical data.
-
-Set up the environment from the repository root:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e ".[dev,viz]"
-python -m pytest
-python -m ruff check .
-```
-
-Then run the newest calculation:
-
-```bash
-python examples/estimated_ar1_calibration.py --trials 128 --jobs 6
-```
-
-The audit trail is organized as follows:
-
-| Need | Location |
+is recovered at all five times in the controlled example.
+
+| Quantity | Value |
+| --- | ---: |
+| Boundaries recovered | 5 / 5 |
+| Winning action | 1.254324 |
+| Runner-up action | 1.127903 |
+| Action margin | 0.126421 |
+| Certified uniform score radius | 0.010535 |
+
+| Selected path | Failure region |
 | --- | --- |
-| Definitions and objective | [Mathematical framework](mathematical_framework.md) |
-| Complete derivations | [Derivations](derivations.md) |
-| Theorem statements and proofs | [Proved results and open problems](proofs_and_conjectures.md) |
-| Assumptions and failure consequences | [Assumption ledger](assumption_ledger.md) |
-| Experimental construction rules | [Experimental protocol](experimental_protocol.md) |
-| Exact outputs and commands | [Reproducible results](reproducible_results.md) |
-| Public Python interface | [API guide](api.md) |
-| Core implementation | [`src/observer_math`](../src/observer_math) |
-| Claim-level regression tests | [`tests`](../tests) |
-| Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json), [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json), [`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json), [`dependent_centered_gaussian_calibration.json`](dependent_centered_gaussian_calibration.json), [`estimated_ar1_calibration.json`](estimated_ar1_calibration.json) |
+| [![Candidate scores over time](worldtube_baseline.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube) | [![World-tube phase diagram](worldtube_phase_diagram.png)](reproducible_results.md#regularization-result) |
 
-## What remains unresolved
+The failure region is part of the scientific record. If material continuity is weighted too heavily, the optimizer leaves the planted moving process.
 
-The principal limitations are substantive, not presentational:
+## Identifiability comes first
 
-- the estimated-dependence theorem requires independent, unit-variance
-  calibration channels, a shared stationary nonnegative AR(1) coefficient,
-  and a declared upper bound; joint spatial whitening, time-varying means, and
-  nonseparable windows remain unresolved;
-- the relative certificate avoids spectral-envelope inputs, but its whitening is
-  a proof device and its Gaussian assumption remains restrictive;
-- statistical drift calibration is proved only for fixed Gaussian blocks and
-  has not yet been combined with the dependent-sample theorem;
-- the available finite-sample constants remain far from empirical recovery
-  scales on the initial benchmark;
-- a structural-null mask must be justified independently of the screening data;
-- the benchmark family is synthetic and does not yet test latent common drive,
-  missing variables, nonlinear dynamics, or variable-size boundaries;
-- comparative work against external methods has not yet been completed; and
-- the quantum factorization geometry remains a research program rather than an
-  implemented theorem.
+Optimization alone cannot establish an identifiable physical boundary. Propositions 13-14 formalize recovery only up to admissible symmetries and construct an observational equivalence case where incompatible labels cannot both be recovered with probability above one half in the stated maximin sense.
 
-The next statistical step is temporal-correlation estimation with simultaneous
-uncertainty, followed by nonseparable and non-Gaussian concentration. The next modeling step is a preregistered
-benchmark in which temporal transport is necessary rather than merely available.
-These targets, including completion criteria, are maintained in the
-[research program](research_program.md).
+This sets the interpretation rule for the project:
 
-## Interpretation
+> **Recovery is always relative to declared observables, model assumptions, and admissible symmetries.**
 
-This repository establishes a rigorous framework for a moving-boundary
-identification problem and tests it on transparent synthetic systems. It does
-not establish phenomenal consciousness, sentience, agency, moral status, or a
-privileged decomposition of nature. Its useful contribution is narrower: the
-definitions, assumptions, sufficient conditions, counterexamples, algorithms,
-and numerical checks are explicit enough to be inspected and challenged.
+## How the proof program developed
+
+The theorem sequence has five broad stages.
+
+### Population mathematics
+
+Propositions 1-8 establish covariance identities, information quantities, transport properties, path robustness logic, and covariance perturbation bounds.
+
+### Finite-sample recovery
+
+Proposition 9 gives the first complete Gaussian sample-complexity theorem. Later results localize covariance blocks, exploit positive factor floors, derive candidate-specific budgets, and propagate them through the path optimization problem.
+
+### Structural compression
+
+Propositions 15-31 use near-competitor graphs, overlap classes, block sparsity, influence cones, moving partitions, factor intervals, and screened environment structure. The goal is to make the certificate respect the same structural sparsity that makes the model interpretable.
+
+### Statistically safe screening and drift
+
+Propositions 32-40 add sample splitting, Gaussian screening guarantees, structural-null refinements, trajectory coupling, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
+
+### Temporally dependent observations
+
+Propositions 41-47 address the fact that time-series observations are not i.i.d. This is the current frontier.
+
+## The recent sequence
+
+### Proposition 41: temporal dependence changes effective sample size
+
+[![Experiment AA](dependent_gaussian_calibration.png)](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration)
+
+The covariance radius now depends on temporal Frobenius and spectral norms rather than treating record length as an i.i.d. sample count.
+
+### Proposition 42: mean removal changes normalization
+
+[![Experiment AB](dependent_centered_gaussian_calibration.png)](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration)
+
+Under temporal dependence, removing an unknown constant mean changes the quadratic form and its exact normalization.
+
+### Proposition 43: estimate the AR(1) coefficient
+
+[![Experiment AC](estimated_ar1_calibration.png)](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration)
+
+Increment energy produces an observable confidence interval for a shared nonnegative AR(1) coefficient, and that uncertainty is propagated into the covariance certificate.
+
+### Proposition 44: allow a time-varying nuisance mean
+
+[![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
+
+A fixed declared temporal design `H` is projected away exactly. Experiment AD shows why this matters: the projected estimator stays near 0.14 median relative error while ordinary mean-centering reaches 121.76 under large affine drift.
+
+### Proposition 45: combine temporal calibration with nuisance projection
+
+[![Experiment AE](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
+
+Observable AR(1) calibration and time-varying nuisance removal are combined in one finite-sample covariance bound. The estimator tracks the oracle closely, but the radius becomes conservative at stronger correlation.
+
+### Proposition 46: use the actual nuisance geometry
+
+[![Experiment AF](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
+
+The rank-only normalization bound is replaced by a continuum certificate that uses the actual design. Experiment AF shows a regime where rank-only control becomes vacuous while the design-specific theorem remains finite.
+
+### Proposition 47: use direct matrix concentration
+
+[![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
+
+The sphere-net operator-norm reduction is replaced by an exact Gaussian matrix exponential moment and a matrix-Laplace bound. At `N=850`, the tested radius falls from 1.077 to 0.459 at `phi=0.65`, and from 1.630 to 0.653 at `phi=0.80`.
+
+## What the project has established
+
+Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed statistical layer handles temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, design-specific nuisance geometry, and direct matrix concentration when the projected temporal spectrum is known.
+
+## What remains open
+
+The current results still assume important structure. The newest statistical theorems rely on Gaussianity, temporal and spatial separability, stationary nonnegative AR(1) dependence for the calibration layer, valid standardized calibration channels, and a nuisance design fixed before inspecting the target record.
+
+Proposition 47 also assumes the projected temporal spectrum is known.
+
+The immediate next theorem is therefore clear:
+
+> **Proposition 48 should make the matrix-concentration result uniform over the calibrated AR(1) interval while retaining the actual nuisance design.**
+
+That would combine the strongest parts of Propositions 45, 46, and 47 into one observable covariance certificate for the current model class.
