@@ -213,6 +213,34 @@ def _compressed_local_cell_operator_radius(
     )
 
 
+def _raw_local_cell_operator_radius(
+    sample_count: int,
+    center_phi: float,
+    center_eta: float,
+    phi_spacing: float,
+    eta_spacing: float,
+    lower_eta: float,
+    upper_phi: float,
+) -> float:
+    """Bound raw temporal covariance motion inside one clipped parameter cell."""
+    half_phi = 0.5 * float(phi_spacing)
+    half_eta = 0.5 * float(eta_spacing)
+    local_upper_phi = min(float(upper_phi), float(center_phi) + half_phi)
+    local_lower_eta = max(float(lower_eta), float(center_eta) - half_eta)
+    phi_direction_bound = (
+        (1.0 - local_lower_eta)
+        * _ar1_derivative_operator_bound(sample_count, local_upper_phi)
+    )
+    eta_direction_bound = _white_noise_direction_operator_bound(
+        sample_count,
+        local_upper_phi,
+    )
+    return float(
+        half_phi * phi_direction_bound
+        + half_eta * eta_direction_bound
+    )
+
+
 def _compressed_covariance(
     model: GaussianAR1WhiteNoiseEValueModel,
     phi: float,
@@ -437,10 +465,12 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     one retained Proposition 52 cell. Conditional on the calibration record,
     those cells are fixed and Proposition 49 applies to the independent target.
 
-    Proposition 49 currently accepts one covering radius for the complete
-    supplied cover. Proposition 52 therefore computes a target-sample local
-    compressed radius for every retained cell and passes the largest retained
-    radius. No excluded cell contributes to the target covering radius.
+    The eigenvalue cover uses compressed cell radii for the target nuisance
+    complement. The normalization cover is separate: all family members have
+    trace equal to ``sample_count``, so for ``P = I - Q`` with nuisance rank
+    ``q``, ``tr(P Delta R) = -tr(Q Delta R)`` and its absolute value is at most
+    ``q ||Delta R||_2``. The normalization radius therefore uses the retained
+    raw temporal cell radii, not the compressed eigenvalue radius.
     """
     if not 0.0 < covariance_confidence < 1.0:
         raise ValueError("covariance_confidence must lie in (0, 1)")
@@ -462,7 +492,7 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     upper_phi = model.declared_autocorrelation_upper_bound
     target_compression = _nuisance_complement(design).T
 
-    retained_target_radii = np.asarray(
+    retained_target_eigenvalue_radii = np.asarray(
         [
             _compressed_local_cell_operator_radius(
                 target_compression,
@@ -478,8 +508,25 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
         ],
         dtype=float,
     )
-    target_radius = float(np.max(retained_target_radii))
-    normalization_radius = float(nuisance_rank * target_radius)
+    retained_target_raw_radii = np.asarray(
+        [
+            _raw_local_cell_operator_radius(
+                target_sample_count,
+                float(phi),
+                float(eta),
+                outer_cover.maximum_autocorrelation_spacing,
+                outer_cover.maximum_white_noise_fraction_spacing,
+                lower_eta,
+                upper_phi,
+            )
+            for phi, eta in outer_cover.retained_parameter_centers
+        ],
+        dtype=float,
+    )
+    target_eigenvalue_radius = float(np.max(retained_target_eigenvalue_radii))
+    target_normalization_radius = float(
+        nuisance_rank * np.max(retained_target_raw_radii)
+    )
 
     temporal_grid = np.asarray(
         [
@@ -493,8 +540,8 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
         block_count,
         temporal_grid,
         design,
-        eigenvalue_covering_radius=target_radius,
-        normalization_covering_radius=normalization_radius,
+        eigenvalue_covering_radius=target_eigenvalue_radius,
+        normalization_covering_radius=target_normalization_radius,
         confidence=covariance_confidence,
         upper_theta_grid_size=upper_theta_grid_size,
         lower_theta_grid_size=lower_theta_grid_size,
@@ -508,8 +555,8 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
         combined_confidence_lower_bound=float(
             model.confidence * covariance_confidence
         ),
-        target_eigenvalue_covering_radius=target_radius,
-        target_normalization_covering_radius=normalization_radius,
+        target_eigenvalue_covering_radius=target_eigenvalue_radius,
+        target_normalization_covering_radius=target_normalization_radius,
         requires_independent_target_record=True,
     )
 
