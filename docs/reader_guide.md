@@ -171,16 +171,20 @@ must still be separated: estimating drift and transporting the old reference
 is safe, but directly refreshing the reference is much more selective on the
 tested construction. Proposition 41 then treats a first dependent-sample model:
 known-zero-mean Gaussian observations with exact separable covariance
-(R\otimes\Gamma). Two effective sample sizes, determined by
-(\lVert R\rVert_F\) and (\lVert R\rVert_2\), replace the nominal count and feed
+\(R\otimes\Gamma\). Two effective sample sizes, determined by
+\(\lVert R\rVert_F\) and \(\lVert R\rVert_2\), replace the nominal count and feed
 the same complete score and graph bounds. Experiment AA audits that statement
 on stationary AR(1) draws. This does not yet cover estimated means, estimated
 temporal correlation, nonseparable multivariate dependence, or arbitrary
 overlapping windows. Proposition 42 removes the first of those restrictions for
 an unknown constant mean: the sample-axis centering projection changes both the
 unbiased normalization and the effective sample sizes. Experiment AB verifies
-the correction and translation invariance on nonzero-mean AR(1) draws. The
-temporal correlation is still treated as known.
+the correction and translation invariance on nonzero-mean AR(1) draws.
+Proposition 43 then estimates a shared nonnegative AR(1) coefficient from
+independent standardized channels and composes its interval with centered
+covariance on the same record. Experiment AC audits the joint event and its
+additional radius. Unknown spatial whitening and nonseparable dependence
+remain outside that result.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

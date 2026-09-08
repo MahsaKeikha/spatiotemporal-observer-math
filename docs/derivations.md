@@ -1171,7 +1171,7 @@ separable covariance assumed here.
 ## 37. Mean removal under separable dependence
 
 The sample-mean correction is tractable when the mean is constant and the
-separable temporal matrix (R) is known. Centering applies the orthogonal
+separable temporal matrix \(R\) is known. Centering applies the orthogonal
 projection
 
 \[
@@ -1185,9 +1185,9 @@ d_R=\operatorname{tr}(PR)
 =N-\frac{\mathbf1^\mathsf T R\mathbf1}{N},
 \]
 
-not generally (N-1). After whitening in space, the centered estimator is a
-Gaussian quadratic form with temporal matrix (R^{1/2}PR^{1/2}/d_R). Its
-nonzero eigenvalues are those of (PRP/d_R), giving
+not generally \(N-1\). After whitening in space, the centered estimator is a
+Gaussian quadratic form with temporal matrix \(R^{1/2}PR^{1/2}/d_R\). Its
+nonzero eigenvalues are those of \(PRP/d_R\), giving
 
 \[
 N_{F,c}=\frac{d_R^2}{\|PRP\|_F^2},
@@ -1196,12 +1196,41 @@ N_{\mathrm{op},c}=\frac{d_R}{\|PRP\|_2}.
 \]
 
 This is an exact mean-removal correction, not a claim that temporal dependence
-has been estimated. For the AR(1) helper, (d_R) is exact while
-(\|PRP\|_F\) and (\|PRP\|_2) are safely bounded by their unprojected
+has been estimated. For the AR(1) helper, \(d_R\) is exact while
+\(\|PRP\|_F\) and \(\|PRP\|_2\) are safely bounded by their unprojected
 counterparts. Experiment AB measures the resulting small additional
 conservatism and checks numerical invariance to a large constant mean shift.
 
-## 38. Choices that are still choices
+## 38. Estimating a common AR(1) coefficient from increments
+
+For independent unit-variance calibration channels with a shared stationary
+coefficient \(0\leq\phi<1\), define
+
+\[
+Q=\frac{1}{2(N-1)K}\sum_{t,k}(X_{t+1,k}-X_{t,k})^2.
+\]
+
+Constant channel means disappear and \(\mathbb E Q=1-\phi\). The covariance
+of the normalized increments has diagonal \(1-\phi\), lag-\(h\) entry
+\(-\tfrac12(1-\phi)^2\phi^{h-1}\), operator norm at most two, and squared
+Frobenius norm at most \(3(N-1)/2\). Gaussian quadratic-form concentration
+therefore gives
+
+\[
+|1-Q-\phi|\leq
+\sqrt{\frac{6u}{(N-1)K}}+\frac{4u}{(N-1)K}
+\]
+
+with probability at least \(1-2e^{-u}\). The upper endpoint of this interval
+produces temporal norm bounds. Because the true centered normalization is also
+unknown, it is bracketed between \(N-\|R\|_2\) and \(N\), and the midpoint is
+used as a reference. A scalar rescaling inequality then adds normalization
+error to Proposition 42's covariance error. The correlation and covariance
+events may use the same record because their failure probabilities are added,
+not multiplied. Experiment AC records the inferential cost across seven AR(1)
+regimes.
+
+## 39. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

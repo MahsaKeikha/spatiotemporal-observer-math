@@ -420,6 +420,27 @@ This construction tests removal of an unknown constant mean conditional on a
 known temporal model. It does not estimate the AR(1) parameter, permit a
 time-varying mean, or address nonseparable covariance.
 
+### Same-record AR(1) and centered covariance calibration
+
+`estimated_ar1_calibration.py` uses the same seven coefficient values,
+\(N=50{,}000\), dimension ten, and 128 trials per level. The declared parameter
+range is ([0,0.98]), and the root `SeedSequence` is `20261004`. Each channel
+has a different constant mean. The increment statistic estimates the common
+coefficient from all ten standardized channels; the identical record is then
+centered and used to estimate the identity spatial covariance.
+
+The correlation interval and covariance event each receive failure probability
+`0.0125`. Their union-bound failure probability is `0.025`; the protocol does
+not split the sample or assert independence between them. Recorded controls
+include interval containment, compatibility with the declared model range,
+centered covariance containment, their joint event, the known-coefficient
+radius, the estimated-coefficient radius, and normalization uncertainty.
+
+This calibration does not infer the standardization used by the theorem. It
+assumes independent unit-variance spatial channels, a shared stationary
+nonnegative AR(1) coefficient, exact Gaussian separability, and a predeclared
+upper bound. The identity covariance is known only for auditing coverage.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -581,8 +602,14 @@ visible together.
 
 `dependent_centered_gaussian_calibration.png` compares the known-mean and
 sample-mean covariance errors, shows the exact centering normalization relative
-to (N-1), records coverage of both theorems, and displays each analytical
+to $N-1$, records coverage of both theorems, and displays each analytical
 radius relative to the empirical 95th percentile.
+
+`estimated_ar1_calibration.png` shows the mean increment-based correlation
+interval, separate correlation and joint-event frequencies, empirical and
+analytical covariance errors, and the radius inflation caused by temporal
+estimation. The two events reuse one record; the joint reference line is the
+union-bound guarantee.
 
 ## 9. Tests tied to scientific claims
 
@@ -621,6 +648,11 @@ radius relative to the empirical 95th percentile.
 | `test_centered_dependent_radius_covers_unknown_mean_ar1_covariance` | The centered dependence-aware radius contains a seeded covariance error with a nonzero unknown mean |
 | `test_centered_dependent_screen_covers_scores_and_retains_population_path` | The centered public screen propagates covariance control and retains the population path |
 | `test_centered_iid_envelope_recovers_n_minus_one_normalization` | The centering correction reduces exactly to (N-1) under independence |
+| `test_increment_interval_contains_phi_and_is_translation_invariant` | Increment calibration contains the seeded coefficient and is unchanged by arbitrary constant channel means |
+| `test_increment_covariance_obeys_uniform_norm_bounds` | Explicit increment covariance matrices satisfy the uniform quadratic-form norm constants |
+| `test_estimated_ar1_bound_covers_same_record_centered_covariance` | The composed radius covers covariance estimated from the same record used for temporal calibration |
+| `test_estimated_ar1_bound_propagates_through_complete_screen` | The estimated-dependence radius reaches the complete screen and retains the population path |
+| `test_more_calibration_channels_tighten_the_interval` | The analytical correlation interval contracts with the number of independent calibration channels |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -797,17 +829,23 @@ Its limitations are concrete:
     drift family, not a universal theorem. The oracle curve is not an
     implementable competitor because it receives exact population drift.
 31. Proposition 41 assumes a known zero mean and exact separable Gaussian
-    covariance (R\otimes\Gamma), with valid deterministic bounds on
+    covariance \(R\otimes\Gamma\), with valid deterministic bounds on
     \(\lVert R\rVert_F\) and \(\lVert R\rVert_2\). Experiment AA tests only one
     fixed identity-covariance block under a known stationary AR(1) law. Its 128
     trials per correlation level have limited tail resolution and do not cover
     estimated means, estimated dependence, nonseparable space-time covariance,
     or general sliding-window constructions.
 32. Proposition 42 removes a constant mean by using the exact
-    (d_R=\operatorname{tr}(PR)) normalization, but still requires valid
+    \(d_R=\operatorname{tr}(PR)\) normalization, but still requires valid
     projected temporal-norm bounds. Experiment AB uses a known stationary AR(1)
     law and 128 trials per level. It does not cover an estimated correlation
     parameter, a time-varying mean, nonseparable dependence, or adaptive blocks.
+33. Proposition 43 estimates a shared nonnegative AR(1) coefficient from
+    independent standardized calibration channels and permits reuse of the
+    same record for covariance estimation. Experiment AC has 128 trials per
+    level and therefore limited tail resolution. It does not estimate spatial
+    whitening, cover negative or channel-specific coefficients, remove a
+    time-varying mean, or address nonseparable dependence and adaptive blocks.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -848,6 +886,7 @@ python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
 python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
 python examples/dependent_gaussian_calibration.py --trials 128 --jobs 6
 python examples/dependent_centered_gaussian_calibration.py --trials 128 --jobs 6
+python examples/estimated_ar1_calibration.py --trials 128 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

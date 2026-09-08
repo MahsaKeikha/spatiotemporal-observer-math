@@ -49,16 +49,18 @@ with a union-bound confidence. Experiment Z compares that route with refreshing
 the current reference and finds the refresh substantially more selective on
 paired draws. Proposition 41 now covers dependent Gaussian observations when
 their known-zero-mean covariance has the exact separable form
-(R\otimes\Gamma). Its weighted-chi-square argument produces separate
+\(R\otimes\Gamma\). Its weighted-chi-square argument produces separate
 Frobenius- and spectral-effective sample sizes and carries the resulting radius
 through the complete structural-null screen. Experiment AA audits this theorem
 on stationary AR(1) sequences and demonstrates the failure of the i.i.d.
-radius at high correlation. The remaining statistical task is to replace the
-known temporal-correlation envelope by a simultaneous estimate. Proposition 42
-already removes an unknown constant mean by deriving the exact
-(d_R=\operatorname{tr}(PR)) normalization and projected effective sample
-sizes; Experiment AB audits that correction on nonzero-mean AR(1) draws. The
-following step is to move beyond separability to general overlapping windows. A separate modeling
+radius at high correlation. Proposition 42 removes an unknown constant mean by
+deriving the exact \(d_R=\operatorname{tr}(PR)\) normalization and projected
+effective sample sizes; Experiment AB audits that correction on nonzero-mean
+AR(1) draws. Proposition 43 and Experiment AC then estimate a shared
+nonnegative AR(1) coefficient from standardized channels on the same record
+and propagate correlation and normalization uncertainty together. The next
+statistical step is joint spatial-temporal calibration, followed by movement
+beyond separability to general overlapping windows. A separate modeling
 task is to construct a regime in which retaining historical geometry
 contributes information unavailable from the current calibration cohort.
 
@@ -149,10 +151,11 @@ step, Proposition 40 and Experiment Z, adds a statistically estimated drift
 envelope and demonstrates its conservatism relative to refreshing the
 reference. Proposition 41 and Experiment AA then address dependent sampling
 under an exact separable, known-mean Gaussian model. Proposition 42 and
-Experiment AB remove the constant known-mean restriction. The next priority is
-temporal-correlation estimation,
-nonseparable dependent windows, and independently justified structural masks
-without losing post-selection validity.
+Experiment AB remove the constant known-mean restriction. Proposition 43 and
+Experiment AC add same-record temporal-correlation estimation under independent
+standardized-channel assumptions. The next priority is joint spatial-whitening
+and temporal estimation, nonseparable dependent windows, and independently
+justified structural masks without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

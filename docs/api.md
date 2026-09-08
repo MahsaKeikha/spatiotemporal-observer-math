@@ -1108,6 +1108,64 @@ centered covariance radius. The caller remains responsible for a valid temporal
 model or envelope. These functions do not estimate autocorrelation, permit a
 time-varying mean, or cover nonseparable space-time covariance.
 
+### Estimated AR(1), mean-centered dependent screen
+
+```python
+from observer_math import (
+    gaussian_ar1_increment_autocorrelation_interval,
+    gaussian_estimated_ar1_centered_covariance_bound,
+    gaussian_estimated_ar1_centered_relative_structural_null_near_competitor_screen,
+    separable_gaussian_centered_covariance,
+)
+
+phi_interval = gaussian_ar1_increment_autocorrelation_interval(
+    standardized_observations,
+    declared_upper_bound=0.98,
+    confidence=0.9875,
+)
+covariance_bound = gaussian_estimated_ar1_centered_covariance_bound(
+    block_dimension=node_count + subset_size,
+    block_count=time_count * candidate_count,
+    covariance_sample_count=sample_count,
+    autocorrelation_interval=phi_interval,
+    covariance_confidence=0.9875,
+)
+estimated_joint = separable_gaussian_centered_covariance(
+    observations,
+    covariance_bound.reference_centering_degrees_of_freedom,
+)
+screen = gaussian_estimated_ar1_centered_relative_structural_null_near_competitor_screen(
+    empirical_local_factors,
+    empirical_transport_factors,
+    candidates,
+    sample_count,
+    node_count,
+    subset_size,
+    covariance_bound=covariance_bound,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+)
+```
+
+Proposition 43 estimates a common nonnegative AR(1) coefficient from increment
+energy. Constant channel means cancel exactly. The interval's upper endpoint
+controls temporal norms; an interval for the unknown centering normalization is
+then propagated into the covariance radius. Two confidence values of `0.9875`
+produce combined confidence `0.975`, up to floating-point rounding. The
+calibration panel and covariance record may be statistically dependent: the
+proof uses a union bound, not independence. Literal reuse of the same channels
+for both calculations requires that both marginal models hold, including
+identity spatial covariance for the standardized panel as in Experiment AC.
+
+The calibration channels must be independent across space, have known unit
+marginal variance, and share a stationary coefficient in the predeclared range.
+If the raw interval does not intersect that range, the API returns the full
+declared range and sets `interval_intersects_declared_model=False`; it does not
+silently extrapolate. The result does not estimate an unknown spatial whitening
+transform, negative or heterogeneous coefficients, a time-varying mean, or
+nonseparable space-time dependence.
+
 ### Pilot-normalized adaptive screen
 
 ```python

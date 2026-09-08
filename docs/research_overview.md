@@ -177,6 +177,7 @@ necessary conditions.
 | 40 | [Statistically calibrated population drift](proofs_and_conjectures.md#proposition-40-statistically-calibrated-population-drift-envelope) | Two simultaneous covariance events turn old and current calibration cohorts into a candidate-specific drift envelope with an explicit joint confidence. |
 | 41 | [Separably dependent Gaussian covariance screening](proofs_and_conjectures.md#proposition-41-separably-dependent-gaussian-covariance-screening) | Weighted Gaussian quadratic-form concentration replaces the i.i.d. sample count by Frobenius- and spectral-effective sample sizes and propagates the result through the complete screen. |
 | 42 | [Mean-centered separably dependent Gaussian screening](proofs_and_conjectures.md#proposition-42-mean-centered-separably-dependent-gaussian-screening) | Sample-mean removal changes the temporal quadratic form and normalization; the corrected estimator retains a complete dependence-aware screen. |
+| 43 | [Same-record AR(1) calibration and covariance screening](proofs_and_conjectures.md#proposition-43-same-record-ar1-calibration-and-covariance-screening) | Increment energy estimates a shared nonnegative AR(1) coefficient, and its interval and centering-normalization uncertainty propagate through the complete screen without a cross-event independence assumption. |
 
 ## Experiment index
 
@@ -213,6 +214,7 @@ Exact commands, parameters, tables, and qualifications are in
 | Z | [Estimating drift versus refreshing the reference](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference) | A 640-pair comparison validates the confidence-budgeted drift envelope and finds that refreshing the current reference is more selective on this construction. |
 | AA | [Dependent Gaussian covariance calibration](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration) | Across 896 stationary AR(1) trials, the dependence-aware radius covers every draw while the i.i.d. radius fails sharply at high correlation. |
 | AB | [Mean-centered dependent Gaussian calibration](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration) | Across 896 nonzero-mean AR(1) trials, the corrected centered radius covers every draw and numerical translation discrepancy stays below `1.34e-15`. |
+| AC | [Same-record AR(1) and centered covariance calibration](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration) | Across 896 draws, every correlation interval and joint correlation-plus-covariance event is covered; estimated-dependence radius inflation reaches 1.21 at correlation `0.97`. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -264,10 +266,23 @@ finite-horizon perturbation certificate.
 
 ### Statistical screening
 
+[![Same-record temporal calibration and centered covariance recovery](estimated_ar1_calibration.png)](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration)
+
+Experiment AC estimates a common nonnegative AR(1) coefficient from
+standardized channel increments and reuses the same record for centered
+covariance estimation. Two 98.75% events give a 97.5% joint guarantee by a
+union bound, without assuming those events are independent. All 896 recorded
+joint events are covered. The estimated-dependence radius is 1.21 times the
+known-correlation radius at `0.97`, making the inferential cost visible.
+
+[Complete same-record table](reproducible_results.md#experiment-ac-same-record-ar1-estimation-and-centered-covariance-calibration) ·
+[machine-readable results](estimated_ar1_calibration.json) ·
+[theorem](proofs_and_conjectures.md#proposition-43-same-record-ar1-calibration-and-covariance-screening)
+
 [![Mean-centered covariance under dependent Gaussian sampling](dependent_centered_gaussian_calibration.png)](reproducible_results.md#experiment-ab-mean-centered-dependent-gaussian-calibration)
 
 Experiment AB removes an unknown constant mean by centering on the sample axis
-and using the dependence-specific normalization (d_R=\operatorname{tr}(PR)).
+and using the dependence-specific normalization \(d_R=\operatorname{tr}(PR)\).
 All 896 corrected events are covered, and a paired translation check agrees to
 `1.34e-15`. The analytical radius remains conservative and still assumes that
 the temporal covariance envelope is known.
@@ -375,9 +390,10 @@ exact.
 | Can the declared finite path objective be optimized exactly? | Yes, including its exact runner-up and margin. | Exact algorithmic result |
 | Can bounded score perturbations be converted into path recovery? | Yes, globally, locally, and through class-compressed adversarial path bounds. | Deterministic theorem |
 | Can covariance error be propagated through CMI and canonical correlation? | Yes, under either absolute spectral or covariance-normalized relative events, with explicit constants. | Deterministic theorem |
-| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and, under Propositions 41–42's narrower exact-separable model, correlated Gaussian observations with a known temporal envelope and either a known or constant unknown mean. | Statistical theorem; conservative |
+| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and, under Propositions 41–43's narrower exact-separable model, correlated Gaussian observations with a known envelope or an estimated common nonnegative AR(1) coefficient under standardized-channel assumptions. | Statistical theorem; conservative |
 | Can serial dependence be charged explicitly? | Yes for Gaussian covariance \(R\otimes\Gamma\): two effective sample sizes replace the nominal count and feed the same score and graph bounds. | Proposition 41; Experiment AA |
 | Can the dependent covariance be estimated with an unknown mean? | Yes when the mean is constant and the temporal envelope is known. Centering uses \(d_R=\operatorname{tr}(PR)\) and projected temporal norms. | Proposition 42; Experiment AB |
+| Can temporal dependence be estimated on the same record? | Yes for a shared stationary nonnegative AR(1) coefficient when independent unit-variance calibration channels are available. The calibration panel and covariance record may be dependent; literal channel reuse is demonstrated for identity spatial covariance. | Proposition 43; Experiment AC |
 | Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
 | Can covariance radii adapt to an observed reference discrepancy? | Yes. A Gaussian pilot event composes with each exact pilot-normalized screening discrepancy. | Proposition 38 |
 | Can that certificate survive population covariance drift? | Yes, conditional on an independently valid candidate-block drift envelope. The correction is sharp in one dimension and can become nonselective well before it becomes invalid. | Proposition 39; Experiment Y |
@@ -407,11 +423,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 125 of 125 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 130 of 130 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 28 documented studies, A through Z, AA, and AB | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 15 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 29 documented studies, A through Z and AA through AC | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 16 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -431,7 +447,7 @@ python -m ruff check .
 Then run the newest calculation:
 
 ```bash
-python examples/dependent_centered_gaussian_calibration.py --trials 128 --jobs 6
+python examples/estimated_ar1_calibration.py --trials 128 --jobs 6
 ```
 
 The audit trail is organized as follows:
@@ -448,16 +464,16 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json), [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json), [`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json), [`dependent_centered_gaussian_calibration.json`](dependent_centered_gaussian_calibration.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json), [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json), [`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json), [`dependent_centered_gaussian_calibration.json`](dependent_centered_gaussian_calibration.json), [`estimated_ar1_calibration.json`](estimated_ar1_calibration.json) |
 
 ## What remains unresolved
 
 The principal limitations are substantive, not presentational:
 
-- the dependent-sample theorem now permits an unknown constant mean, but still
-  assumes an exact separable Gaussian covariance and a known temporal envelope;
-  time-varying means, estimated dependence, and nonseparable windows remain
-  unresolved;
+- the estimated-dependence theorem requires independent, unit-variance
+  calibration channels, a shared stationary nonnegative AR(1) coefficient,
+  and a declared upper bound; joint spatial whitening, time-varying means, and
+  nonseparable windows remain unresolved;
 - the relative certificate avoids spectral-envelope inputs, but its whitening is
   a proof device and its Gaussian assumption remains restrictive;
 - statistical drift calibration is proved only for fixed Gaussian blocks and

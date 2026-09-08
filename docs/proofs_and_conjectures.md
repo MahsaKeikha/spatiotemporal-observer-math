@@ -2894,14 +2894,142 @@ The usual divisor \(N-1\) is recovered at \(\phi=0\), but it is not generally
 unbiased under dependence. This proposition removes the known-mean assumption;
 it does not remove the need for a valid temporal-correlation envelope.
 
+## Proposition 43: same-record AR(1) calibration and covariance screening
+
+Let \(Z_{tk}\), \(1\leq t\leq N\), \(1\leq k\leq K\), be standardized
+calibration channels that are independent across \(k\), jointly Gaussian
+within each channel, and satisfy
+
+\[
+\mathbb E Z_{tk}=\nu_k,\qquad
+\operatorname{Cov}(Z_{tk},Z_{sk})=\phi^{|t-s|},
+\qquad 0\leq\phi\leq\phi_{\max}<1.
+\]
+
+For \(L=N-1\), define
+
+\[
+Q=\frac{1}{2LK}\sum_{t=1}^{L}\sum_{k=1}^{K}
+(Z_{t+1,k}-Z_{t,k})^2,
+\qquad \widehat\phi=1-Q.
+\]
+
+For every \(u>0\), with probability at least \(1-2e^{-u}\),
+
+\[
+|\widehat\phi-\phi|
+\leq r_\phi(u)
+:=\sqrt{\frac{6u}{LK}}+\frac{4u}{LK}.
+\]
+
+Thus intersecting
+\([\widehat\phi-r_\phi,\widehat\phi+r_\phi]\) with the declared model range
+\([0,\phi_{\max}]\) gives a \(1-\alpha_\phi\) confidence interval when
+\(u=\log(2/\alpha_\phi)\).
+
+Let \(Y_1,\ldots,Y_N\in\mathbb R^d\) satisfy Proposition 42's unknown-constant-
+mean separable model with the same temporal coefficient \(\phi\). The
+calibration panel and covariance record may be statistically dependent and may
+share observations when both marginal models hold. Let \(a\) be the interval's
+upper endpoint and write
+
+\[
+F_a\geq\|R_a\|_F,\quad M_a\geq\|R_a\|_2,
+\quad d_-=N-M_a,\quad d_+=N,
+\quad d_0=\frac{d_-+d_+}{2},
+\]
+
+where the implemented AR(1) bounds are evaluated at \(a\), and assume
+\(d_->0\). If
+
+\[
+\delta_0=\frac{4(F_a\sqrt v+M_av)}{d_-},
+\qquad v=\log\frac{2B9^d}{\alpha_\Gamma},
+\]
+
+then the covariance normalized by \(d_0\) obeys, simultaneously over \(B\)
+fixed blocks,
+
+\[
+\left\|\Gamma^{-1/2}
+\left(\frac{1}{d_0}\sum_t(Y_t-\bar Y)(Y_t-\bar Y)^\mathsf T
+-\Gamma\right)\Gamma^{-1/2}\right\|_2
+\leq
+\max_{q\in\{d_-/d_0,d_+/d_0\}}
+\bigl(|q-1|+q\delta_0\bigr)
+\]
+
+with probability at least \(1-\alpha_\phi-\alpha_\Gamma\). No independence
+between temporal calibration and covariance estimation is required. If this
+radius is below one, Proposition 37 propagates it through the local and
+transport factors, structural-null refinement, complete observer score, and
+safe near-competitor graph.
+
+**Proof.** Put \(D_{tk}=(Z_{t+1,k}-Z_{tk})/\sqrt2\). Constant means cancel and
+\(\mathbb E Q=1-\phi\). For one channel, the covariance \(C\) of \(D\) has
+
+\[
+C_{tt}=1-\phi,
+\qquad
+C_{t,t+h}=-\frac12(1-\phi)^2\phi^{h-1},\quad h\geq1.
+\]
+
+Absolute row sums and squared entries give
+
+\[
+\|C\|_2\leq2,
+\qquad
+\|C\|_F^2
+\leq L\left[(1-\phi)^2+
+\frac{(1-\phi)^4}{2(1-\phi^2)}\right]
+\leq\frac32L.
+\]
+
+The Gaussian quadratic-form inequality, applied to the block diagonal matrix
+with \(K\) copies of \(C/(LK)\), yields
+
+\[
+|Q-(1-\phi)|
+\leq2\sqrt{\frac{3}{2LK}}\sqrt u+2\frac{2}{LK}u,
+\]
+
+which is the claimed interval radius.
+
+On the interval event, \(\phi\leq a\). The nonnegative AR(1) norm envelopes
+are nondecreasing in \(a\). Moreover
+
+\[
+d_R=N-\frac{\mathbf1^\mathsf TR_\phi\mathbf1}{N}
+\in[N-\|R_\phi\|_2,N]\subseteq[d_-,d_+],
+\]
+
+and orthogonal projection cannot increase either norm. Proposition 42 gives
+error at most \(\delta_0\) under normalization by the unknown \(d_R\). Writing
+\(q=d_R/d_0\), the covariance normalized by \(d_0\) is \(q\) times the
+oracle-normalized covariance. The triangle inequality gives
+\(|q-1|+q\delta_0\), whose maximum over the interval occurs at an endpoint.
+Finally, a union bound gives total failure probability at most
+\(\alpha_\phi+\alpha_\Gamma\), regardless of dependence between the two
+events. \(\square\)
+
+The result assumes independent standardized calibration channels with known
+unit marginal variance, a shared stationary nonnegative AR(1) coefficient
+between that panel and the covariance record, a predeclared upper bound, exact
+Gaussianity and separability, and fixed candidate blocks. It does not estimate
+an unknown spatial whitening transform for the calibration channels. Literal
+reuse of the same channels for both stages is covered when their spatial
+covariance is identity, as in Experiment AC; otherwise a valid standardized
+calibration panel must be supplied.
+
 ## Open conjectures
 
-### C1. Nonseparable dependent windows and estimated correlation
+### C1. Nonseparable dependent windows and joint spatial-temporal calibration
 
-Proposition 42 handles empirical mean removal for Gaussian dependence of the
-exact separable form \(R\otimes\Gamma\). The unresolved problem is a useful
-screen when the temporal envelope must be estimated from the same record, or when
-overlapping multivariate windows produce nonseparable space-time covariance.
+Proposition 43 handles same-record estimation of a shared nonnegative AR(1)
+coefficient only when independent unit-variance calibration channels are
+available. The unresolved problem is joint estimation of spatial whitening and
+temporal dependence from the same multivariate record, especially when
+overlapping windows produce nonseparable space-time covariance.
 
 ### C2. Gauge-consistent quantum lift
 
@@ -2926,3 +3054,7 @@ proof or a counterexample is committed with a reproducible test.
 2. B. Laurent and P. Massart, "Adaptive estimation of a quadratic functional by
    model selection," *The Annals of Statistics*, vol. 28, no. 5, 2000,
    pp. 1302-1338. [doi:10.1214/aos/1015957395](https://doi.org/10.1214/aos/1015957395).
+3. D. Hsu, S. M. Kakade, and T. Zhang, "A tail inequality for quadratic forms
+   of subgaussian random vectors," *Electronic Communications in Probability*,
+   vol. 17, no. 52, 2012, pp. 1-6.
+   [doi:10.1214/ECP.v17-2079](https://doi.org/10.1214/ECP.v17-2079).

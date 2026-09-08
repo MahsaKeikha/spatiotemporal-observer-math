@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.31.0 - 2026-09-08
+
+- Proved a finite-sample confidence interval for a shared stationary
+  nonnegative AR(1) coefficient using Gaussian increment energy; arbitrary
+  constant channel means cancel from the statistic.
+- Derived uniform operator- and Frobenius-norm bounds for the correlated
+  increment covariance and connected them to a quadratic-form tail inequality.
+- Propagated the estimated correlation envelope and the resulting unknown
+  centering normalization through the relative covariance radius, observer
+  factors, complete scores, structural-null refinement, and safe graph.
+- Made the same-record guarantee explicit: two 98.75% events give 97.5% joint
+  confidence by a union bound without requiring independence.
+- Added public interval, composed covariance-bound, and end-to-end screen APIs,
+  including model-compatibility diagnostics and five claim-level tests.
+- Added Experiment AC: 896 nonzero-mean stationary Gaussian draws over seven
+  AR(1) levels, with a four-panel figure and machine-readable output. Every
+  recorded joint event is covered; radius inflation reaches 1.21 at `0.97`.
+- Documented the exact scope: independent standardized calibration channels,
+  known unit marginal variance, a common nonnegative AR(1) coefficient, exact
+  Gaussian separability, a predeclared upper bound, and fixed blocks.
+- Updated the verified public record to 43 propositions, 29 experiments, 16
+  figures, and 130 tests.
+
 ## 0.30.0 - 2026-09-08
 
 - Proved a mean-centered extension of the separably dependent Gaussian

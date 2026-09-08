@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 125 tests. Continuous integration runs
+The automated suite currently contains 130 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -1142,9 +1142,9 @@ python examples/dependent_centered_gaussian_calibration.py --trials 128 --jobs 6
 This experiment repeats the seven stationary AR(1) regimes from Experiment AA
 with a nonzero constant ten-dimensional mean. The same residual draw is
 evaluated three ways: using the known mean, subtracting the sample mean with the
-Proposition 42 normalization (d_R=\operatorname{tr}(PR)), and subtracting the
+Proposition 42 normalization \(d_R=\operatorname{tr}(PR)\), and subtracting the
 sample mean with the ordinary (N-1) divisor. Each correlation receives 128
-independent trials at (N=50{,}000), confidence `0.975`, and root
+independent trials at $N=50{,}000$, confidence `0.975`, and root
 `SeedSequence` value `20260930`.
 
 ![Mean-centered covariance under dependent Gaussian sampling](dependent_centered_gaussian_calibration.png)
@@ -1163,7 +1163,7 @@ The centered theorem covers all 896 recorded draws. Within every trial, adding
 the declared mean and then centering changes the corrected covariance by at
 most `1.34e-15` in spectral norm. This numerically audits the exact translation
 invariance used by the proof. The centered analytical radius is only slightly
-larger than the known-mean radius on this long-record grid; at (phi=0.97), it
+larger than the known-mean radius on this long-record grid; at \(\phi=0.97\), it
 is `0.6655` rather than `0.6646`.
 
 The ordinary (N-1) estimator is included to expose the normalization issue,
@@ -1179,6 +1179,51 @@ constant mean, exact separability, known AR(1) correlation, and fixed blocks.
 Complete trial aggregates and translation checks are stored in
 [`dependent_centered_gaussian_calibration.json`](dependent_centered_gaussian_calibration.json).
 
+## Experiment AC: same-record AR(1) estimation and centered covariance calibration
+
+Command used for the committed result:
+
+```bash
+python examples/estimated_ar1_calibration.py --trials 128 --jobs 6
+```
+
+This experiment removes the known-temporal-envelope input from Experiment AB
+within a narrower estimable family. Ten independent, unit-variance Gaussian
+channels share a stationary nonnegative AR(1) coefficient and have arbitrary
+constant means. The coefficient is estimated from increments, after which the
+same observations are centered and used for covariance estimation. Each of
+seven coefficient values receives 128 trials with \(N=50{,}000\), declared
+range ([0,0.98]), and root `SeedSequence` value `20261004`.
+
+![Same-record temporal calibration and centered covariance recovery](estimated_ar1_calibration.png)
+
+| φ | Mean estimate | Mean confidence interval | Joint coverage | Empirical covariance error, 95% | Known-φ radius | Estimated-φ radius | Radius ratio |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `0.00` | `0.0000` | `[0.0000, 0.0078]` | `128/128` | `0.0310` | `0.0952` | `0.0953` | `1.001` |
+| `0.25` | `0.2498` | `[0.2420, 0.2577]` | `128/128` | `0.0337` | `0.1027` | `0.1031` | `1.005` |
+| `0.50` | `0.4999` | `[0.4921, 0.5078]` | `128/128` | `0.0412` | `0.1266` | `0.1278` | `1.009` |
+| `0.70` | `0.7000` | `[0.6921, 0.7078]` | `128/128` | `0.0548` | `0.1713` | `0.1741` | `1.016` |
+| `0.85` | `0.8500` | `[0.8421, 0.8578]` | `128/128` | `0.0772` | `0.2585` | `0.2670` | `1.033` |
+| `0.93` | `0.9300` | `[0.9222, 0.9379]` | `128/128` | `0.1232` | `0.4055` | `0.4357` | `1.075` |
+| `0.97` | `0.9700` | `[0.9622, 0.9778]` | `128/128` | `0.1829` | `0.6760` | `0.8176` | `1.209` |
+
+The correlation interval and covariance event each receive confidence
+`0.9875`; their union-bound confidence is `0.975`. They are deliberately
+computed from the same record, so this composition does not appeal to
+independence. All 896 recorded joint events are covered and every raw interval
+intersects the declared model range. As before, 128 successes at one grid point
+have Wilson 95% interval `[0.970863, 1.000000]`, so the experiment has limited
+power to measure rare failures.
+
+The figure separates proof from calibration. The interval theorem determines
+the green analytical radius; the blue curve is only the empirical 95th
+percentile. At high persistence the radius grows sharply, and estimating
+φ adds a visible cost. The result requires independent standardized
+calibration channels, known unit marginal variance, a common nonnegative AR(1)
+law, exact Gaussian separability, and a predeclared upper bound. Complete
+aggregates are stored in
+[`estimated_ar1_calibration.json`](estimated_ar1_calibration.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -1191,5 +1236,6 @@ Complete trial aggregates and translation checks are stored in
 - non-Gaussian or structured drift models where an old reference may add
   information unavailable in the current calibration cohort
 - dependent pilot and screening windows from a single mixing process
-- time-varying-mean and estimated-autocorrelation corrections
+- joint spatial-whitening and temporal-correlation estimation from one record
+- time-varying-mean corrections
 - nonseparable multivariate sliding-window constructions

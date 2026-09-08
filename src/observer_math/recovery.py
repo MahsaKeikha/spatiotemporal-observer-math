@@ -285,6 +285,41 @@ class GaussianCenteredTemporalCorrelationEnvelope:
 
 
 @dataclass(frozen=True)
+class GaussianAR1AutocorrelationInterval:
+    """Finite-sample interval from standardized Gaussian increment energy."""
+
+    sample_count: int
+    channel_count: int
+    confidence: float
+    declared_upper_bound: float
+    estimate: float
+    error_radius: float
+    lower_bound: float
+    upper_bound: float
+    interval_intersects_declared_model: bool
+
+
+@dataclass(frozen=True)
+class GaussianEstimatedAR1CenteredCovarianceBound:
+    """Centered covariance bound after estimating a common AR(1) coefficient."""
+
+    autocorrelation_interval: GaussianAR1AutocorrelationInterval
+    covariance_confidence: float
+    combined_confidence: float
+    covariance_sample_count: int
+    centering_degrees_of_freedom_lower_bound: float
+    centering_degrees_of_freedom_upper_bound: float
+    reference_centering_degrees_of_freedom: float
+    temporal_frobenius_norm_bound: float
+    temporal_spectral_norm_bound: float
+    oracle_normalized_covariance_error: float
+    normalization_error: float
+    covariance_relative_error: float
+    variance_effective_sample_size_lower_bound: float
+    operator_effective_sample_size_lower_bound: float
+
+
+@dataclass(frozen=True)
 class GaussianDependentRelativeNearCompetitorScreen:
     """Relative screen for separably correlated Gaussian observations."""
 
@@ -325,6 +360,27 @@ class GaussianCenteredDependentRelativeNearCompetitorScreen:
     operator_effective_sample_size: float
     covariance_relative_errors: np.ndarray
     maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
+@dataclass(frozen=True)
+class GaussianEstimatedAR1CenteredRelativeNearCompetitorScreen:
+    """Complete screen using an estimated nonnegative AR(1) envelope."""
+
+    screen: NearCompetitorScreen
+    covariance_bound: GaussianEstimatedAR1CenteredCovarianceBound
+    covariance_relative_errors: np.ndarray
     screening_local_factor_errors: np.ndarray
     screening_transport_factor_errors: np.ndarray
     screening_local_score_errors: np.ndarray
@@ -921,6 +977,157 @@ def gaussian_dependent_centered_relative_covariance_error_bound(
         raise ValueError("confidence must lie in (0, 1)")
     tail = np.log(2.0 * block_count * 9.0**block_dimension / (1.0 - confidence))
     return float(4.0 * (frobenius * np.sqrt(tail) + spectral * tail) / degrees)
+
+
+def gaussian_ar1_increment_autocorrelation_interval(
+    standardized_observations: ArrayLike,
+    *,
+    declared_upper_bound: float,
+    confidence: float = 0.9875,
+) -> GaussianAR1AutocorrelationInterval:
+    """Estimate a shared nonnegative AR(1) coefficient from increments.
+
+    Columns must be independent, unit-variance Gaussian calibration channels
+    sharing one AR(1) coefficient. Constant channel means are unrestricted.
+    """
+    values = np.asarray(standardized_observations, dtype=float)
+    if values.ndim == 1:
+        values = values[:, None]
+    if values.ndim != 2 or values.shape[0] < 2 or values.shape[1] < 1:
+        raise ValueError("standardized_observations must have shape (N, K), N >= 2")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("standardized_observations must be finite")
+    upper_prior = float(declared_upper_bound)
+    if not np.isfinite(upper_prior) or not 0.0 < upper_prior < 1.0:
+        raise ValueError("declared_upper_bound must lie in (0, 1)")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0, 1)")
+    sample_count, channel_count = values.shape
+    increments = np.diff(values, axis=0)
+    increment_energy = float(np.sum(increments**2))
+    pair_count = (sample_count - 1) * channel_count
+    estimate = float(1.0 - increment_energy / (2.0 * pair_count))
+    tail = float(np.log(2.0 / (1.0 - confidence)))
+    error = float(np.sqrt(6.0 * tail / pair_count) + 4.0 * tail / pair_count)
+    raw_lower = estimate - error
+    raw_upper = estimate + error
+    intersects = bool(raw_upper >= 0.0 and raw_lower <= upper_prior)
+    if intersects:
+        lower = max(0.0, raw_lower)
+        upper = min(upper_prior, raw_upper)
+    else:
+        lower = 0.0
+        upper = upper_prior
+    return GaussianAR1AutocorrelationInterval(
+        sample_count=int(sample_count),
+        channel_count=int(channel_count),
+        confidence=float(confidence),
+        declared_upper_bound=upper_prior,
+        estimate=estimate,
+        error_radius=error,
+        lower_bound=float(lower),
+        upper_bound=float(upper),
+        interval_intersects_declared_model=intersects,
+    )
+
+
+def gaussian_estimated_ar1_centered_covariance_bound(
+    block_dimension: int,
+    block_count: int,
+    covariance_sample_count: int,
+    autocorrelation_interval: GaussianAR1AutocorrelationInterval,
+    *,
+    covariance_confidence: float = 0.9875,
+) -> GaussianEstimatedAR1CenteredCovarianceBound:
+    """Compose AR(1) estimation with a centered covariance guarantee."""
+    integer_values = (block_dimension, block_count, covariance_sample_count)
+    if any(
+        isinstance(value, bool) or not isinstance(value, (int, np.integer))
+        for value in integer_values
+    ):
+        raise TypeError("dimensions, counts, and sample size must be integers")
+    if block_dimension < 1 or block_count < 1 or covariance_sample_count < 2:
+        raise ValueError("require positive dimensions/counts and at least two samples")
+    if not isinstance(
+        autocorrelation_interval, GaussianAR1AutocorrelationInterval
+    ):
+        raise TypeError("autocorrelation_interval has the wrong type")
+    interval_values = (
+        autocorrelation_interval.confidence,
+        autocorrelation_interval.declared_upper_bound,
+        autocorrelation_interval.estimate,
+        autocorrelation_interval.error_radius,
+        autocorrelation_interval.lower_bound,
+        autocorrelation_interval.upper_bound,
+    )
+    if not all(np.isfinite(value) for value in interval_values):
+        raise ValueError("autocorrelation_interval must contain finite values")
+    if (
+        autocorrelation_interval.sample_count < 2
+        or autocorrelation_interval.channel_count < 1
+        or not 0.0 < autocorrelation_interval.confidence < 1.0
+        or not 0.0 < autocorrelation_interval.declared_upper_bound < 1.0
+        or autocorrelation_interval.error_radius < 0.0
+        or not 0.0
+        <= autocorrelation_interval.lower_bound
+        <= autocorrelation_interval.upper_bound
+        <= autocorrelation_interval.declared_upper_bound
+    ):
+        raise ValueError("autocorrelation_interval is internally inconsistent")
+    if not 0.0 < covariance_confidence < 1.0:
+        raise ValueError("covariance_confidence must lie in (0, 1)")
+    combined_confidence = (
+        autocorrelation_interval.confidence + covariance_confidence - 1.0
+    )
+    if not combined_confidence > 0.0:
+        raise ValueError("the union-bound combined confidence must be positive")
+    temporal = gaussian_ar1_temporal_correlation_envelope(
+        covariance_sample_count, autocorrelation_interval.upper_bound
+    )
+    degrees_lower = float(
+        covariance_sample_count - temporal.spectral_norm_bound
+    )
+    degrees_upper = float(covariance_sample_count)
+    if not degrees_lower > 0.0:
+        raise ValueError("the estimated temporal envelope leaves no centered degrees")
+    reference_degrees = 0.5 * (degrees_lower + degrees_upper)
+    oracle_error = gaussian_dependent_centered_relative_covariance_error_bound(
+        block_dimension,
+        block_count,
+        centering_degrees_of_freedom=degrees_lower,
+        projected_temporal_frobenius_norm=temporal.frobenius_norm_bound,
+        projected_temporal_spectral_norm=temporal.spectral_norm_bound,
+        confidence=covariance_confidence,
+    )
+    quotient_lower = degrees_lower / reference_degrees
+    quotient_upper = degrees_upper / reference_degrees
+    normalization_error = max(
+        abs(quotient_lower - 1.0), abs(quotient_upper - 1.0)
+    )
+    covariance_error = max(
+        abs(quotient_lower - 1.0) + quotient_lower * oracle_error,
+        abs(quotient_upper - 1.0) + quotient_upper * oracle_error,
+    )
+    return GaussianEstimatedAR1CenteredCovarianceBound(
+        autocorrelation_interval=autocorrelation_interval,
+        covariance_confidence=float(covariance_confidence),
+        combined_confidence=float(combined_confidence),
+        covariance_sample_count=int(covariance_sample_count),
+        centering_degrees_of_freedom_lower_bound=degrees_lower,
+        centering_degrees_of_freedom_upper_bound=degrees_upper,
+        reference_centering_degrees_of_freedom=float(reference_degrees),
+        temporal_frobenius_norm_bound=temporal.frobenius_norm_bound,
+        temporal_spectral_norm_bound=temporal.spectral_norm_bound,
+        oracle_normalized_covariance_error=float(oracle_error),
+        normalization_error=float(normalization_error),
+        covariance_relative_error=float(covariance_error),
+        variance_effective_sample_size_lower_bound=float(
+            degrees_lower**2 / temporal.frobenius_norm_bound**2
+        ),
+        operator_effective_sample_size_lower_bound=float(
+            degrees_lower / temporal.spectral_norm_bound
+        ),
+    )
 
 
 def gaussian_dependent_relative_covariance_error_bound(
@@ -2282,6 +2489,102 @@ def gaussian_dependent_centered_relative_structural_null_near_competitor_screen(
         covariance_relative_errors=relative_errors,
         maximum_covariance_relative_error=delta,
         screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_estimated_ar1_centered_relative_structural_null_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    covariance_bound: GaussianEstimatedAR1CenteredCovarianceBound,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianEstimatedAR1CenteredRelativeNearCompetitorScreen:
+    """Propagate an estimated AR(1) envelope through the complete screen.
+
+    The autocorrelation interval and covariance event may use the same record:
+    their stated combined confidence follows from a union bound and therefore
+    does not require independence between the two events.
+    """
+    if not isinstance(
+        covariance_bound, GaussianEstimatedAR1CenteredCovarianceBound
+    ):
+        raise TypeError("covariance_bound has the wrong type")
+    if covariance_bound.covariance_sample_count != sample_count:
+        raise ValueError("sample_count must match covariance_bound")
+    gaussian_relative_structural_null_near_competitor_screen(
+        empirical_local_factors,
+        empirical_transport_factors,
+        candidates,
+        sample_count,
+        node_count,
+        subset_size,
+        structural_integration_null_mask=structural_integration_null_mask,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=covariance_bound.combined_confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    null_mask = np.asarray(structural_integration_null_mask)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    time_count, candidate_count, _ = local_factors.shape
+    relative_errors = np.full(
+        (time_count, candidate_count), covariance_bound.covariance_relative_error
+    )
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
+    )
+    all_valid = bool(propagated["all_blocks_valid"])
+    return GaussianEstimatedAR1CenteredRelativeNearCompetitorScreen(
+        screen=propagated["screen"],
+        covariance_bound=covariance_bound,
+        covariance_relative_errors=relative_errors,
+        screening_local_factor_errors=propagated[
+            "screening_local_factor_errors"
+        ],
         screening_transport_factor_errors=propagated[
             "screening_transport_factor_errors"
         ],
