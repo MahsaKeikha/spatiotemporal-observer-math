@@ -145,7 +145,7 @@ def test_design_geometry_can_certify_when_rank_only_normalization_is_vacuous():
     design = _cosine_design(sample_count, 9)
     interval = _interval(500, 0.65, 0.75)
 
-    with pytest.raises(ValueError, match="leaves no projected"):
+    with pytest.raises(ValueError, match="no positive projected normalization"):
         gaussian_estimated_ar1_projected_covariance_bound(
             3,
             1,
