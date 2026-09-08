@@ -1,0 +1,134 @@
+{
+  "experiment": "AK",
+  "seed": 20261024,
+  "sampling_model": "independent Gaussian calibration channels with arbitrary constant means and shared AR(1)-plus-white-noise temporal covariance",
+  "true_autocorrelation": 0.6,
+  "true_white_noise_fraction": 0.04,
+  "declared_autocorrelation_interval": [0.4, 0.8],
+  "declared_white_noise_fraction_interval": [0.0, 0.25],
+  "confidence": 0.9875,
+  "sample_count": 100,
+  "contrast_dimension": 30,
+  "mixture_grid": [7, 5],
+  "visualization_grid": [33, 26],
+  "visualization_warning": "Accepted grid points visualize the exact continuum e-value function. They are not a certified outer discretization of the continuum confidence set.",
+  "records": [
+    {
+      "channel_count": 32,
+      "proposition_50_rectangle": {
+        "autocorrelation_lower": 0.4,
+        "autocorrelation_upper": 0.8,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.25,
+        "bounding_box_area": 0.1
+      },
+      "proposition_51_grid_view": {
+        "accepted_point_count": 313,
+        "total_point_count": 858,
+        "accepted_fraction": 0.36480186480186483,
+        "autocorrelation_lower": 0.5,
+        "autocorrelation_upper": 0.75,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.25,
+        "bounding_box_area": 0.0625,
+        "bounding_box_area_ratio_to_proposition_50": 0.625,
+        "true_parameter_log_evalue": -2.6918459934453836,
+        "log_evalue_threshold": 4.382026634673885
+      }
+    },
+    {
+      "channel_count": 64,
+      "proposition_50_rectangle": {
+        "autocorrelation_lower": 0.4160904929669027,
+        "autocorrelation_upper": 0.8,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.25,
+        "bounding_box_area": 0.09597737675827434
+      },
+      "proposition_51_grid_view": {
+        "accepted_point_count": 175,
+        "total_point_count": 858,
+        "accepted_fraction": 0.20396270396270397,
+        "autocorrelation_lower": 0.5125000000000001,
+        "autocorrelation_upper": 0.7000000000000001,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.2,
+        "bounding_box_area": 0.037500000000000006,
+        "bounding_box_area_ratio_to_proposition_50": 0.3907170759047348,
+        "true_parameter_log_evalue": -3.0885652769251237,
+        "log_evalue_threshold": 4.382026634673885
+      }
+    },
+    {
+      "channel_count": 128,
+      "proposition_50_rectangle": {
+        "autocorrelation_lower": 0.47867927430052015,
+        "autocorrelation_upper": 0.7531908856169607,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.25,
+        "bounding_box_area": 0.06862790282911013
+      },
+      "proposition_51_grid_view": {
+        "accepted_point_count": 108,
+        "total_point_count": 858,
+        "accepted_fraction": 0.1258741258741259,
+        "autocorrelation_lower": 0.5375000000000001,
+        "autocorrelation_upper": 0.6875,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.17,
+        "bounding_box_area": 0.025499999999999988,
+        "bounding_box_area_ratio_to_proposition_50": 0.3715689821310344,
+        "true_parameter_log_evalue": -3.4901544311419457,
+        "log_evalue_threshold": 4.382026634673885
+      }
+    },
+    {
+      "channel_count": 256,
+      "proposition_50_rectangle": {
+        "autocorrelation_lower": 0.5102022170420325,
+        "autocorrelation_upper": 0.7013529532317867,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.21551969181172004,
+        "bounding_box_area": 0.041196747753199224
+      },
+      "proposition_51_grid_view": {
+        "accepted_point_count": 58,
+        "total_point_count": 858,
+        "accepted_fraction": 0.0675990675990676,
+        "autocorrelation_lower": 0.55,
+        "autocorrelation_upper": 0.65,
+        "white_noise_fraction_lower": 0.0,
+        "white_noise_fraction_upper": 0.12,
+        "bounding_box_area": 0.011999999999999997,
+        "bounding_box_area_ratio_to_proposition_50": 0.2912851293963638,
+        "true_parameter_log_evalue": -5.7955007114624095,
+        "log_evalue_threshold": 4.382026634673885,
+        "accepted_points": [
+          [0.55, 0.0], [0.55, 0.01],
+          [0.5625, 0.0], [0.5625, 0.01], [0.5625, 0.02], [0.5625, 0.03],
+          [0.5750000000000001, 0.0], [0.5750000000000001, 0.01], [0.5750000000000001, 0.02], [0.5750000000000001, 0.03], [0.5750000000000001, 0.04], [0.5750000000000001, 0.05],
+          [0.5875, 0.0], [0.5875, 0.01], [0.5875, 0.02], [0.5875, 0.03], [0.5875, 0.04], [0.5875, 0.05], [0.5875, 0.06], [0.5875, 0.07],
+          [0.6000000000000001, 0.0], [0.6000000000000001, 0.01], [0.6000000000000001, 0.02], [0.6000000000000001, 0.03], [0.6000000000000001, 0.04], [0.6000000000000001, 0.05], [0.6000000000000001, 0.06], [0.6000000000000001, 0.07], [0.6000000000000001, 0.08],
+          [0.6125, 0.02], [0.6125, 0.03], [0.6125, 0.04], [0.6125, 0.05], [0.6125, 0.06], [0.6125, 0.07], [0.6125, 0.08], [0.6125, 0.09], [0.6125, 0.1],
+          [0.625, 0.04], [0.625, 0.05], [0.625, 0.06], [0.625, 0.07], [0.625, 0.08], [0.625, 0.09], [0.625, 0.1], [0.625, 0.11],
+          [0.6375000000000001, 0.06], [0.6375000000000001, 0.07], [0.6375000000000001, 0.08], [0.6375000000000001, 0.09], [0.6375000000000001, 0.1], [0.6375000000000001, 0.11], [0.6375000000000001, 0.12],
+          [0.65, 0.08], [0.65, 0.09], [0.65, 0.1], [0.65, 0.11], [0.65, 0.12]
+        ]
+      }
+    }
+  ],
+  "coverage_visibility_check": {
+    "sample_count": 40,
+    "channel_count": 32,
+    "contrast_dimension": 10,
+    "trial_count": 256,
+    "success_count": 256,
+    "success_rate": 1.0,
+    "wilson_95": [0.9852161435741286, 0.9999999999999999],
+    "median_true_parameter_log_evalue": -1.6424260272528102,
+    "q95_true_parameter_log_evalue": 0.21550905953318278,
+    "maximum_true_parameter_log_evalue": 3.2279852193374694,
+    "log_evalue_threshold": 4.382026634673881,
+    "interpretation": "This repeated-sampling run is a numerical visibility check. Proposition 51 supplies the coverage proof."
+  }
+}
