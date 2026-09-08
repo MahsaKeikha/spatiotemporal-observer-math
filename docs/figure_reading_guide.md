@@ -281,23 +281,64 @@ The plotted grid is a visualization of the exact continuum e-value function. Pro
 
 ---
 
-# Proposition 52, Experiment AL under development
+# Proposition 52, Experiment AL
 
-Proposition 52 is being developed to turn the irregular Proposition 51 continuum set into a finite certified outer cover.
+Figure: `certified_evalue_outer_cover.svg`
 
-The intended physical reading is:
+Mathematical question:
 
-1. calibration data define which temporal-memory models remain possible;
-2. a deterministic geometric theorem safely encloses every such model;
-3. that complete temporal uncertainty is propagated into an independent target covariance estimate;
-4. only after that covariance is certified should it be used in moving-boundary scores.
+Can the exact Proposition 51 continuum confidence set be represented by a finite retained family that is safe to use in an independent target covariance theorem?
 
-Two different geometric radii are required:
+Physical picture:
 
-- a projected eigenvalue radius controlling collective fluctuation modes after nuisance removal;
-- a normalization radius controlling the total projected fluctuation scale.
+A calibration experiment constrains the possible temporal memory of a physical process. A separate target record shares the same temporal parameters but also contains a declared affine nuisance drift. We want the target covariance certificate to remain valid for every temporal-memory model that the calibration experiment has not ruled out.
 
-These are statistical certification quantities, not physical observables.
+### Panel 1: temporal-memory ranges
+
+The horizontal axis is `phi`, the persistence parameter in the effective AR(1) component.
+
+The declared family spans `0.30` to `0.70`. The P51 grid visualization accepts points whose displayed `phi` span is about `0.4233` to `0.58`. The P52 certified outer cover is intentionally wider, about `0.3733` to `0.69`, because it must safely contain the complete continuum P51 confidence set, including between-grid points.
+
+The wider P52 range is not a defect. It is the cost of replacing a picture by a theorem-certified finite enclosure.
+
+### Panel 2: retained and excluded cells
+
+The fixed `121 x 61` parameter grid contains 7,381 cells. Proposition 52 retains 5,325 and rigorously excludes 2,056.
+
+A retained cell is not declared true. It is simply not safe to rule out under the stated finite-sample criterion.
+
+An excluded cell is removed only after the likelihood perturbation bound proves that every parameter in that cell lies outside the exact Proposition 51 confidence set.
+
+### Panel 3: target covariance error
+
+The independent target visibility study shows median relative error about `0.116`, 95th percentile about `0.304`, and maximum about `0.544` across 128 controlled trials.
+
+The theorem radius is about `0.899816`.
+
+The observed trial errors are diagnostics. The theorem radius comes from the proof, not from fitting a bound around those 128 trials.
+
+The value one is shown because a radius below one places several later covariance perturbation formulas in their usable regime. It is not a physical phase transition.
+
+### Panel 4: physical inference chain
+
+The panel shows the intended use order:
+
+1. collect an independent temporal calibration record;
+2. build the P51 continuum confidence set;
+3. certify a P52 finite outer cover of every still-compatible temporal model;
+4. collect an independent target record;
+5. remove the predeclared nuisance drift;
+6. certify the target covariance over the complete retained temporal family.
+
+For Experiment AL the calibration and target confidence levels are both `0.975`, giving the product lower bound
+
+\[
+0.975^2=0.950625.
+\]
+
+What the figure does not show:
+
+It does not identify a consciousness state, an energy threshold, or an observer boundary. Proposition 52 certifies a measurement ingredient that later boundary calculations may use.
 
 ---
 
