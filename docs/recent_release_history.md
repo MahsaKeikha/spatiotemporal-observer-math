@@ -2,6 +2,21 @@
 
 This page continues the older root changelog for the newest theorem releases. It keeps the recent sequence compact and points directly to proof and experiment records rather than duplicating every derivation.
 
+## 0.41.0 - 2026-09-08
+
+**Proposition 53, Experiment AM**
+
+- Replaced the sample-index AR(1) coefficient as the primary physical parameter with a relaxation time \(\tau\) for the exponential temporal model.
+- Proved exact uniform-sampling equivalence \(\phi_{\Delta t}=\exp(-\Delta t/\tau)\).
+- Proved exact coarse-sampling consistency \(\phi_{k\Delta t}=\phi_{\Delta t}^k\).
+- Made the covariance invariant to a change of time units when timestamps and \(\tau\) are rescaled together.
+- Extended the temporal covariance model to irregular physical timestamps.
+- Derived an analytic operator-Lipschitz bound over a declared relaxation-time interval and composed the resulting deterministic cover with Proposition 49.
+- Added Experiment AM, machine-readable data, deterministic SVG rendering, and six claim-level tests.
+- Updated the research record to 53 propositions, 39 experiments, 26 scientific result figures, and 183 tests.
+
+[Proposition 53](proposition_53_physical_relaxation_time.md) · [Experiment AM data](physical_relaxation_sampling.json) · [Release record](release_0_41_0.md)
+
 ## 0.40.0 - 2026-09-08
 
 **Proposition 52, Experiment AL, and physics-first documentation**
