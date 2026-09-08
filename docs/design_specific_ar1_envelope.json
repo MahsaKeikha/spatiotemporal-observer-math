@@ -1,0 +1,83 @@
+{
+  "experiment": "AF",
+  "sample_count": 300,
+  "autocorrelation_interval": [0.75, 0.85],
+  "nuisance_basis": "predeclared low-frequency cosine basis",
+  "block_dimension": 4,
+  "block_count": 1,
+  "covariance_confidence": 0.975,
+  "grid_size": 17,
+  "continuum_method": "uniform grid plus analytic Frobenius/spectral Lipschitz remainder",
+  "records": [
+    {
+      "nuisance_rank": 2,
+      "design_degrees_lower": 275.58005521230996,
+      "design_degrees_upper": 286.8043303543906,
+      "rank_only_degrees_lower": 275.3333333333333,
+      "design_projected_frobenius_bound": 40.10527308456314,
+      "global_frobenius_bound": 42.934804663647405,
+      "design_projected_spectral_bound": 12.236786285511528,
+      "global_spectral_bound": 12.333333333333332,
+      "design_oracle_radius": 4.4519756552200365,
+      "design_covariance_radius": 4.560788197660116,
+      "rank_only_oracle_radius": 4.62362337198595,
+      "rank_only_covariance_radius": 4.864728893148731
+    },
+    {
+      "nuisance_rank": 8,
+      "design_degrees_lower": 208.70244610904055,
+      "design_degrees_upper": 248.60173570224322,
+      "rank_only_degrees_lower": 201.33333333333334,
+      "design_projected_frobenius_bound": 29.561572046726653,
+      "global_frobenius_bound": 42.934804663647405,
+      "design_projected_spectral_bound": 9.828936496478796,
+      "global_spectral_bound": 12.333333333333332,
+      "design_oracle_radius": 4.537375839643525,
+      "design_covariance_radius": 5.020505824016847,
+      "rank_only_oracle_radius": 6.323034611358268,
+      "rank_only_covariance_radius": 7.764270146572394
+    },
+    {
+      "nuisance_rank": 16,
+      "design_degrees_lower": 144.09191358770732,
+      "design_degrees_upper": 204.15522683812787,
+      "rank_only_degrees_lower": 102.66666666666669,
+      "design_projected_frobenius_bound": 21.368753757255977,
+      "global_frobenius_bound": 42.934804663647405,
+      "design_projected_spectral_bound": 6.184912033867687,
+      "global_spectral_bound": 12.333333333333332,
+      "design_oracle_radius": 4.414182466204134,
+      "design_covariance_radius": 5.347984067747532,
+      "rank_only_oracle_radius": 12.399717224871408,
+      "rank_only_covariance_radius": 18.966466063550108
+    },
+    {
+      "nuisance_rank": 24,
+      "design_degrees_lower": 103.64124640162674,
+      "design_degrees_upper": 169.52326657293773,
+      "rank_only_degrees_lower": 4.0,
+      "design_projected_frobenius_bound": 16.70251693926867,
+      "global_frobenius_bound": 42.934804663647405,
+      "design_projected_spectral_bound": 4.261145517523633,
+      "global_spectral_bound": 12.333333333333332,
+      "design_oracle_radius": 4.505527304026802,
+      "design_covariance_radius": 5.833354469231717,
+      "rank_only_oracle_radius": 318.2594087716995,
+      "rank_only_covariance_radius": 629.11725415467
+    },
+    {
+      "nuisance_rank": 25,
+      "design_degrees_lower": 99.75131699534448,
+      "design_degrees_upper": 165.86136545453874,
+      "rank_only_degrees_lower": -8.333333333333314,
+      "design_projected_frobenius_bound": 16.209544113498115,
+      "global_frobenius_bound": 42.934804663647405,
+      "design_projected_spectral_bound": 4.106705547208073,
+      "global_spectral_bound": 12.333333333333332,
+      "design_oracle_radius": 4.527916700272288,
+      "design_covariance_radius": 5.903795433029504,
+      "rank_only_oracle_radius": null,
+      "rank_only_covariance_radius": null
+    }
+  ]
+}
