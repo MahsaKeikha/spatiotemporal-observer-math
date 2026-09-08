@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Experiment AH: interval-uniform matrix concentration</title>
+  <desc id="desc">Comparison of Proposition 46 sphere-net interval bounds with Proposition 48 uniform matrix bounds for four AR(1) intervals. The new bound remains below one through the interval 0.70 to 0.80 at sample count 500.</desc>
+  <rect width="1200" height="820" fill="white"/>
+  <style>
+    .title{font:700 25px system-ui,-apple-system,Segoe UI,sans-serif;fill:#111827}.sub{font:14px system-ui,-apple-system,Segoe UI,sans-serif;fill:#4b5563}.pt{font:700 18px system-ui,-apple-system,Segoe UI,sans-serif;fill:#111827}.lab{font:14px system-ui,-apple-system,Segoe UI,sans-serif;fill:#374151}.tick{font:12px system-ui,-apple-system,Segoe UI,sans-serif;fill:#4b5563}.small{font:12px system-ui,-apple-system,Segoe UI,sans-serif;fill:#374151}.axis{stroke:#374151;stroke-width:1.4}.grid{stroke:#d1d5db;stroke-width:1;opacity:.7}.blue{stroke:#2563eb;fill:none;stroke-width:3}.orange{stroke:#ea580c;fill:none;stroke-width:3}.teal{stroke:#0f766e;fill:none;stroke-width:3}.gray{stroke:#6b7280;fill:none;stroke-width:2;stroke-dasharray:8 6}.b{fill:#2563eb}.o{fill:#ea580c}.t{fill:#0f766e}.card{fill:#f9fafb;stroke:#e5e7eb;stroke-width:1.2}.good{fill:#ecfdf5;stroke:#a7f3d0}.metric{font:700 22px system-ui,-apple-system,Segoe UI,sans-serif;fill:#065f46}.metriclabel{font:12px system-ui,-apple-system,Segoe UI,sans-serif;fill:#065f46}
+  </style>
+  <text x="600" y="40" text-anchor="middle" class="title">Experiment AH: interval-uniform matrix concentration with unknown AR(1) dependence</text>
+  <text x="600" y="66" text-anchor="middle" class="sub">N = 500, dimension 4, affine nuisance design, 97.5% covariance confidence</text>
+
+  <rect x="42" y="94" width="544" height="306" rx="10" class="card"/>
+  <text x="314" y="124" text-anchor="middle" class="pt">The matrix certificate stays usable at strong dependence</text>
+  <line x1="92" y1="350" x2="552" y2="350" class="axis"/><line x1="92" y1="154" x2="92" y2="350" class="axis"/>
+  <line x1="92" y1="301" x2="552" y2="301" class="grid"/><line x1="92" y1="252" x2="552" y2="252" class="grid"/><line x1="92" y1="203" x2="552" y2="203" class="grid"/><line x1="92" y1="154" x2="552" y2="154" class="grid"/>
+  <text x="82" y="354" text-anchor="end" class="tick">0</text><text x="82" y="305" text-anchor="end" class="tick">0.6</text><text x="82" y="256" text-anchor="end" class="tick">1.2</text><text x="82" y="207" text-anchor="end" class="tick">1.8</text><text x="82" y="158" text-anchor="end" class="tick">2.4</text>
+  <line x1="92" y1="268" x2="552" y2="268" class="gray"/><text x="544" y="260" text-anchor="end" class="small">relative error = 1</text>
+  <polyline points="112,284 250,261 388,208 526,153" class="orange"/>
+  <polyline points="112,319 250,311 388,292 526,274" class="blue"/>
+  <polyline points="112,320 250,314 388,300 526,287" class="teal"/>
+  <circle cx="112" cy="284" r="5" class="o"/><circle cx="250" cy="261" r="5" class="o"/><circle cx="388" cy="208" r="5" class="o"/><circle cx="526" cy="153" r="5" class="o"/>
+  <circle cx="112" cy="319" r="5" class="b"/><circle cx="250" cy="311" r="5" class="b"/><circle cx="388" cy="292" r="5" class="b"/><circle cx="526" cy="274" r="5" class="b"/>
+  <circle cx="112" cy="320" r="4" class="t"/><circle cx="250" cy="314" r="4" class="t"/><circle cx="388" cy="300" r="4" class="t"/><circle cx="526" cy="287" r="4" class="t"/>
+  <text x="112" y="370" text-anchor="middle" class="tick">0.10</text><text x="250" y="370" text-anchor="middle" class="tick">0.40</text><text x="388" y="370" text-anchor="middle" class="tick">0.65</text><text x="526" y="370" text-anchor="middle" class="tick">0.75</text>
+  <text x="322" y="390" text-anchor="middle" class="lab">AR(1) interval midpoint</text>
+  <line x1="110" y1="144" x2="138" y2="144" class="orange"/><text x="146" y="149" class="small">P46 sphere-net interval</text><line x1="300" y1="144" x2="328" y2="144" class="blue"/><text x="336" y="149" class="small">P48 uniform matrix</text><line x1="449" y1="144" x2="477" y2="144" class="teal"/><text x="485" y="149" class="small">known midpoint oracle</text>
+
+  <rect x="614" y="94" width="544" height="306" rx="10" class="card"/>
+  <text x="886" y="124" text-anchor="middle" class="pt">Radius reduction grows with temporal dependence</text>
+  <line x1="664" y1="350" x2="1124" y2="350" class="axis"/><line x1="664" y1="154" x2="664" y2="350" class="axis"/>
+  <line x1="664" y1="301" x2="1124" y2="301" class="grid"/><line x1="664" y1="252" x2="1124" y2="252" class="grid"/><line x1="664" y1="203" x2="1124" y2="203" class="grid"/><line x1="664" y1="154" x2="1124" y2="154" class="grid"/>
+  <text x="654" y="305" text-anchor="end" class="tick">50%</text><text x="654" y="256" text-anchor="end" class="tick">55%</text><text x="654" y="207" text-anchor="end" class="tick">60%</text><text x="654" y="158" text-anchor="end" class="tick">65%</text>
+  <polyline points="684,268 822,238 960,209 1100,191" class="blue"/>
+  <circle cx="684" cy="268" r="5" class="b"/><circle cx="822" cy="238" r="5" class="b"/><circle cx="960" cy="209" r="5" class="b"/><circle cx="1100" cy="191" r="5" class="b"/>
+  <text x="684" y="370" text-anchor="middle" class="tick">0.10</text><text x="822" y="370" text-anchor="middle" class="tick">0.40</text><text x="960" y="370" text-anchor="middle" class="tick">0.65</text><text x="1100" y="370" text-anchor="middle" class="tick">0.75</text>
+  <text x="894" y="390" text-anchor="middle" class="lab">AR(1) interval midpoint</text>
+  <text x="886" y="180" text-anchor="middle" class="small">53.4%   56.5%   59.5%   61.3%</text>
+
+  <rect x="42" y="424" width="544" height="306" rx="10" class="card"/>
+  <text x="314" y="454" text-anchor="middle" class="pt">Seeded target-record check</text>
+  <line x1="92" y1="680" x2="552" y2="680" class="axis"/><line x1="92" y1="484" x2="92" y2="680" class="axis"/>
+  <line x1="92" y1="631" x2="552" y2="631" class="grid"/><line x1="92" y1="582" x2="552" y2="582" class="grid"/><line x1="92" y1="533" x2="552" y2="533" class="grid"/>
+  <text x="82" y="684" text-anchor="end" class="tick">0</text><text x="82" y="635" text-anchor="end" class="tick">0.25</text><text x="82" y="586" text-anchor="end" class="tick">0.50</text><text x="82" y="537" text-anchor="end" class="tick">0.75</text><text x="82" y="488" text-anchor="end" class="tick">1.00</text>
+  <polyline points="180,612 464,590" class="teal"/><polyline points="180,542 464,497" class="blue"/>
+  <circle cx="180" cy="612" r="5" class="t"/><circle cx="464" cy="590" r="5" class="t"/><circle cx="180" cy="542" r="5" class="b"/><circle cx="464" cy="497" r="5" class="b"/>
+  <text x="180" y="700" text-anchor="middle" class="tick">true phi 0.65</text><text x="464" y="700" text-anchor="middle" class="tick">true phi 0.75</text>
+  <line x1="126" y1="474" x2="154" y2="474" class="teal"/><text x="162" y="479" class="small">95th percentile observed error</text><line x1="350" y1="474" x2="378" y2="474" class="blue"/><text x="386" y="479" class="small">P48 radius</text>
+  <text x="314" y="720" text-anchor="middle" class="small">96 of 96 trials covered in both strong-correlation regimes</text>
+
+  <rect x="614" y="424" width="544" height="306" rx="10" class="card"/>
+  <text x="886" y="454" text-anchor="middle" class="pt">What Proposition 48 changes</text>
+  <rect x="650" y="490" width="220" height="94" rx="8" class="good"/><text x="760" y="528" text-anchor="middle" class="metric">2.409 -> 0.931</text><text x="760" y="552" text-anchor="middle" class="metriclabel">interval [0.70, 0.80]</text>
+  <rect x="888" y="490" width="220" height="94" rx="8" class="good"/><text x="998" y="528" text-anchor="middle" class="metric">below 1</text><text x="998" y="552" text-anchor="middle" class="metriclabel">without knowing exact phi</text>
+  <rect x="650" y="604" width="220" height="94" rx="8" class="good"/><text x="760" y="642" text-anchor="middle" class="metric">full spectrum</text><text x="760" y="666" text-anchor="middle" class="metriclabel">controlled over the whole interval</text>
+  <rect x="888" y="604" width="220" height="94" rx="8" class="good"/><text x="998" y="642" text-anchor="middle" class="metric">156 tests</text><text x="998" y="666" text-anchor="middle" class="metriclabel">core theorem checks passing</text>
+
+  <text x="600" y="786" text-anchor="middle" class="small">Source: docs/uniform_matrix_chernoff_ar1.json | Reproduce: python examples/uniform_matrix_chernoff_ar1.py</text>
+</svg>
