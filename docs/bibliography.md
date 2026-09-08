@@ -5,6 +5,7 @@ This page records the external literature that materially informs the conceptual
 It is intentionally more explicit than a conventional short reference list. Each source is assigned a role so a reader can distinguish:
 
 - the primary conceptual source that initiated the project;
+- related Tegmark work that is scientifically adjacent but not the source of the project;
 - broader consciousness and integrated-information lineage;
 - classical mathematical foundations used by the definitions and algorithms;
 - concentration and random-matrix results used directly in finite-sample proofs;
@@ -26,15 +27,24 @@ Machine-readable BibTeX is available in [`references.bib`](../references.bib).
 - DOI: https://doi.org/10.1016/j.chaos.2015.03.014
 - Technical preprint: https://arxiv.org/abs/1401.1219
 
-**Role in this repository:** This is the primary conceptual starting point for the project. Tegmark asks why an observer perceives one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles. The present repository takes that factorization and observer-identification problem as its starting question and develops a separate operational program for time-dependent subsystem boundaries, moving world-tubes, finite-sample recovery, identifiability, temporal calibration, and physical representation tests.
+**Role in this repository:** This is the primary conceptual source and starting point for the project. Tegmark asks why an observer perceives one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles. The present repository takes that factorization and observer-identification problem as its starting question and develops a separate operational program for time-dependent subsystem boundaries, moving world-tubes, finite-sample recovery, identifiability, temporal calibration, and physical representation tests.
 
-The current results are not a reproduction of Tegmark's derivations, and no endorsement by Tegmark is implied. The relationship is conceptual lineage followed by independent mathematical development.
+This is the paper from which the central research question of the repository began. The current results are not reproductions of Tegmark's derivations, and no endorsement by Tegmark is implied. The relationship is primary conceptual lineage followed by independent mathematical development.
+
+## Related Tegmark work: Tegmark 2016
+
+**Max Tegmark. "Improved Measures of Integrated Information." _PLoS Computational Biology_ 12(11) (2016): e1005123.**
+
+- DOI: https://doi.org/10.1371/journal.pcbi.1005123
+- Preprint: https://arxiv.org/abs/1601.02626
+
+**Role:** Related Tegmark literature on how integrated-information measures can be classified by factorization choice, probability distributions, and comparison measures. This paper is useful context for the repository's decision to treat integration as one operational factor rather than to identify a single integration functional with consciousness. It is not the primary source of this project and is not claimed as the source of the world-tube objective or the later propositions.
 
 ---
 
 # 2. Integrated-information and consciousness lineage
 
-These papers are included because Tegmark's paper explicitly builds on the integrated-information tradition and because the repository uses integration as one operational ingredient in its observer-like score. The repository does not implement IIT Phi and does not claim that its score is a measure of consciousness.
+These papers are included because Tegmark's 2015 paper explicitly builds on the integrated-information tradition and because the repository uses integration as one operational ingredient in its observer-like score. The repository does not implement IIT Phi and does not claim that its score is a measure of consciousness.
 
 ## Tononi 2004
 
@@ -202,6 +212,7 @@ The table below indicates the most important external foundations for each part 
 | Repository layer | Main external sources | Role |
 | --- | --- | --- |
 | Conceptual factorization and observer question | Tegmark 2015 | Primary conceptual source |
+| Integration-measure context | Tegmark 2016 | Related Tegmark background |
 | Integration and consciousness context | Tononi 2004; Balduzzi and Tononi 2008; Oizumi et al. 2014 | Background and conceptual lineage |
 | Gaussian information scores | Shannon 1948; Cover and Thomas 2006 | Background |
 | Canonical persistence and transport | Hotelling 1936; Bhatia 1997 | Background |
@@ -225,6 +236,8 @@ A minimal repository citation is:
 > Mahsa Keikha. _Spatiotemporal Observer Mathematics_. Version 0.41.0. 2026. https://github.com/MahsaKeikha/spatiotemporal-observer-math
 
 If discussing the conceptual origin of the project, cite Tegmark 2015 explicitly in addition to the repository.
+
+If discussing integration-measure design or the broader measure-selection problem, Tegmark 2016 is useful related context, but it should not replace the primary Tegmark 2015 citation for this project's origin.
 
 If discussing Proposition 47 or its descendants, cite Tropp 2012 for the matrix concentration lineage.
 
