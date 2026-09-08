@@ -2,6 +2,7 @@ import numpy as np
 
 from observer_math.physical_relaxation import (
     exponential_relaxation_covariance,
+    exponential_relaxation_markov_factorization,
     exponential_relaxation_operator_lipschitz_bound,
     exponential_relaxation_temporal_cover,
     gaussian_relaxation_time_matrix_chernoff_bound,
@@ -146,3 +147,90 @@ def test_relaxation_time_cover_composes_with_proposition_49():
         assert np.linalg.norm(delta, ord=2) <= cover.raw_operator_covering_radius + 2e-12
         normalization_error = abs(float(np.trace(projector @ delta)))
         assert normalization_error <= cover.projected_normalization_covering_radius + 2e-12
+
+
+def test_irregular_markov_step_products_reproduce_every_covariance_entry():
+    times = np.array([0.0, 0.03, 0.14, 0.38, 0.44, 1.1, 1.75, 2.6])
+    relaxation_time = 0.73
+    factorization = exponential_relaxation_markov_factorization(times, relaxation_time)
+    covariance = exponential_relaxation_covariance(times, relaxation_time)
+
+    for left in range(times.size):
+        for right in range(left + 1, times.size):
+            product = float(np.prod(factorization.step_correlations[left:right]))
+            assert np.isclose(product, covariance[left, right], atol=2e-14, rtol=2e-14)
+
+
+def test_irregular_markov_precision_is_exact_inverse_covariance():
+    times = np.array([0.0, 0.06, 0.19, 0.55, 0.72, 1.31, 2.05])
+    relaxation_time = 0.81
+    factorization = exponential_relaxation_markov_factorization(times, relaxation_time)
+    covariance = exponential_relaxation_covariance(times, relaxation_time)
+
+    identity = factorization.precision_matrix @ covariance
+    assert np.allclose(identity, np.eye(times.size), atol=3e-13, rtol=3e-13)
+
+    off_band = factorization.precision_matrix.copy()
+    for row in range(times.size):
+        for column in range(times.size):
+            if abs(row - column) <= 1:
+                off_band[row, column] = 0.0
+    assert np.count_nonzero(off_band) == 0
+
+
+def test_irregular_markov_whitener_makes_temporal_covariance_identity():
+    times = np.array([0.0, 0.08, 0.17, 0.51, 0.9, 1.02, 1.88, 2.4])
+    relaxation_time = 0.64
+    factorization = exponential_relaxation_markov_factorization(times, relaxation_time)
+    covariance = exponential_relaxation_covariance(times, relaxation_time)
+
+    whitened = factorization.whitening_matrix @ covariance @ factorization.whitening_matrix.T
+    assert np.allclose(whitened, np.eye(times.size), atol=3e-13, rtol=3e-13)
+    assert np.allclose(
+        factorization.precision_matrix,
+        factorization.whitening_matrix.T @ factorization.whitening_matrix,
+        atol=3e-13,
+        rtol=3e-13,
+    )
+
+
+def test_irregular_markov_log_determinant_matches_dense_covariance():
+    times = np.array([0.0, 0.04, 0.16, 0.33, 0.78, 1.4, 1.58, 2.9])
+    relaxation_time = 0.92
+    factorization = exponential_relaxation_markov_factorization(times, relaxation_time)
+    covariance = exponential_relaxation_covariance(times, relaxation_time)
+
+    sign, dense_log_determinant = np.linalg.slogdet(covariance)
+    assert sign == 1.0
+    assert np.isclose(
+        factorization.covariance_log_determinant,
+        dense_log_determinant,
+        atol=3e-13,
+        rtol=3e-13,
+    )
+
+
+def test_irregular_markov_semigroup_survives_deleting_an_intermediate_sample():
+    times = np.array([0.0, 0.17, 0.49])
+    relaxation_time = 0.77
+    fine = exponential_relaxation_markov_factorization(times, relaxation_time)
+    coarse = exponential_relaxation_markov_factorization(times[[0, 2]], relaxation_time)
+
+    composed_correlation = fine.step_correlations[0] * fine.step_correlations[1]
+    assert np.isclose(
+        composed_correlation,
+        coarse.step_correlations[0],
+        atol=2e-14,
+        rtol=2e-14,
+    )
+
+    composed_variance = (
+        fine.step_correlations[1] ** 2 * fine.innovation_variances[0]
+        + fine.innovation_variances[1]
+    )
+    assert np.isclose(
+        composed_variance,
+        coarse.innovation_variances[0],
+        atol=2e-14,
+        rtol=2e-14,
+    )
