@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Experiment AE: estimated AR(1) dependence with affine nuisance projection</title>
+  <desc id="desc">Four panels show that observable AR(1) calibration tracks an oracle covariance estimator, all 192 covariance events are covered, increment-energy upper bounds contain the true coefficient, and constant mean-centering fails under affine drift.</desc>
+  <rect width="1200" height="820" fill="white"/>
+  <style>
+    .title{font:700 24px system-ui,-apple-system,Segoe UI,sans-serif;fill:#111827}.subtitle{font:14px system-ui,-apple-system,Segoe UI,sans-serif;fill:#4b5563}.pt{font:700 18px system-ui,-apple-system,Segoe UI,sans-serif;fill:#111827}.lab{font:14px system-ui,-apple-system,Segoe UI,sans-serif;fill:#374151}.tick{font:12px system-ui,-apple-system,Segoe UI,sans-serif;fill:#4b5563}.axis{stroke:#374151;stroke-width:1.4}.grid{stroke:#d1d5db;stroke-width:1;opacity:.7}.blue{stroke:#2563eb;fill:none;stroke-width:3}.teal{stroke:#0f766e;fill:none;stroke-width:3}.orange{stroke:#ea580c;fill:none;stroke-width:3}.dash{stroke:#6b7280;fill:none;stroke-width:2;stroke-dasharray:8 6}.b{fill:#2563eb}.t{fill:#0f766e}.o{fill:#ea580c}.card{fill:#f9fafb;stroke:#e5e7eb;stroke-width:1.2}.good{fill:#ecfdf5;stroke:#a7f3d0}.warn{fill:#fff7ed;stroke:#fed7aa}.metric{font:700 22px system-ui,-apple-system,Segoe UI,sans-serif;fill:#065f46}.metric2{font:700 22px system-ui,-apple-system,Segoe UI,sans-serif;fill:#9a3412}.small{font:12px system-ui,-apple-system,Segoe UI,sans-serif;fill:#374151}
+  </style>
+  <text x="600" y="40" text-anchor="middle" class="title">Experiment AE — Estimated AR(1) + time-varying nuisance projection</text>
+  <text x="600" y="66" text-anchor="middle" class="subtitle">20 calibration channels × 700 samples · target N = 850 · affine mean drift · 64 trials per φ</text>
+
+  <rect x="42" y="94" width="544" height="306" rx="10" class="card"/>
+  <text x="314" y="124" text-anchor="middle" class="pt">Observable calibration tracks the oracle</text>
+  <line x1="92" y1="350" x2="552" y2="350" class="axis"/><line x1="92" y1="154" x2="92" y2="350" class="axis"/>
+  <line x1="92" y1="300" x2="552" y2="300" class="grid"/><line x1="92" y1="250" x2="552" y2="250" class="grid"/><line x1="92" y1="200" x2="552" y2="200" class="grid"/>
+  <text x="82" y="354" text-anchor="end" class="tick">0.08</text><text x="82" y="304" text-anchor="end" class="tick">0.11</text><text x="82" y="254" text-anchor="end" class="tick">0.14</text><text x="82" y="204" text-anchor="end" class="tick">0.17</text>
+  <polyline points="112,305 322,254 525,203" class="blue"/><polyline points="112,303 322,252 525,205" class="teal"/>
+  <circle cx="112" cy="305" r="5" class="b"/><circle cx="322" cy="254" r="5" class="b"/><circle cx="525" cy="203" r="5" class="b"/><circle cx="112" cy="303" r="4" class="t"/><circle cx="322" cy="252" r="4" class="t"/><circle cx="525" cy="205" r="4" class="t"/>
+  <text x="112" y="370" text-anchor="middle" class="tick">0.10</text><text x="322" y="370" text-anchor="middle" class="tick">0.40</text><text x="525" y="370" text-anchor="middle" class="tick">0.65</text>
+  <text x="322" y="390" text-anchor="middle" class="lab">true AR(1) coefficient φ</text>
+  <line x1="110" y1="144" x2="138" y2="144" class="blue"/><text x="146" y="149" class="small">calibrated</text><line x1="245" y1="144" x2="273" y2="144" class="teal"/><text x="281" y="149" class="small">oracle knows φ exactly</text>
+
+  <rect x="614" y="94" width="544" height="306" rx="10" class="card"/>
+  <text x="886" y="124" text-anchor="middle" class="pt">Finite-sample radius versus observed error</text>
+  <line x1="664" y1="350" x2="1124" y2="350" class="axis"/><line x1="664" y1="154" x2="664" y2="350" class="axis"/>
+  <line x1="664" y1="301" x2="1124" y2="301" class="grid"/><line x1="664" y1="252" x2="1124" y2="252" class="grid"/><line x1="664" y1="203" x2="1124" y2="203" class="grid"/><line x1="664" y1="154" x2="1124" y2="154" class="grid"/>
+  <text x="654" y="305" text-anchor="end" class="tick">0.3</text><text x="654" y="256" text-anchor="end" class="tick">0.6</text><text x="654" y="207" text-anchor="end" class="tick">0.9</text><text x="654" y="158" text-anchor="end" class="tick">1.2</text>
+  <polyline points="684,332 894,327 1100,322" class="blue"/><polyline points="684,302 894,271 1100,199" class="orange"/>
+  <circle cx="684" cy="332" r="5" class="b"/><circle cx="894" cy="327" r="5" class="b"/><circle cx="1100" cy="322" r="5" class="b"/><circle cx="684" cy="302" r="5" class="o"/><circle cx="894" cy="271" r="5" class="o"/><circle cx="1100" cy="199" r="5" class="o"/>
+  <text x="684" y="370" text-anchor="middle" class="tick">0.10</text><text x="894" y="370" text-anchor="middle" class="tick">0.40</text><text x="1100" y="370" text-anchor="middle" class="tick">0.65</text><text x="894" y="390" text-anchor="middle" class="lab">true AR(1) coefficient φ</text>
+  <line x1="690" y1="144" x2="718" y2="144" class="blue"/><text x="726" y="149" class="small">median observed error</text><line x1="885" y1="144" x2="913" y2="144" class="orange"/><text x="921" y="149" class="small">median theorem radius</text>
+
+  <rect x="42" y="424" width="544" height="306" rx="10" class="card"/>
+  <text x="314" y="454" text-anchor="middle" class="pt">Increment-energy calibration remains observable</text>
+  <line x1="92" y1="680" x2="552" y2="680" class="axis"/><line x1="92" y1="484" x2="92" y2="680" class="axis"/>
+  <line x1="92" y1="628" x2="552" y2="628" class="grid"/><line x1="92" y1="576" x2="552" y2="576" class="grid"/><line x1="92" y1="524" x2="552" y2="524" class="grid"/>
+  <polyline points="112,643 322,565 525,501" class="orange"/><polyline points="112,654 322,576 525,511" class="dash"/>
+  <circle cx="112" cy="643" r="5" class="o"/><circle cx="322" cy="565" r="5" class="o"/><circle cx="525" cy="501" r="5" class="o"/>
+  <text x="112" y="700" text-anchor="middle" class="tick">0.10</text><text x="322" y="700" text-anchor="middle" class="tick">0.40</text><text x="525" y="700" text-anchor="middle" class="tick">0.65</text><text x="322" y="720" text-anchor="middle" class="lab">true φ</text>
+  <text x="314" y="496" text-anchor="middle" class="small">mean upper bounds: 0.144 · 0.447 · 0.695</text><text x="314" y="519" text-anchor="middle" class="small">all 192 recorded AR(1) intervals contained the true coefficient</text>
+
+  <rect x="614" y="424" width="544" height="306" rx="10" class="card"/>
+  <text x="886" y="454" text-anchor="middle" class="pt">What the new certificate closes — and exposes</text>
+  <rect x="650" y="488" width="220" height="96" rx="8" class="good"/><text x="760" y="527" text-anchor="middle" class="metric">192 / 192</text><text x="760" y="551" text-anchor="middle" class="small">projected covariance events covered</text>
+  <rect x="888" y="488" width="220" height="96" rx="8" class="good"/><text x="998" y="527" text-anchor="middle" class="metric">≈ oracle</text><text x="998" y="551" text-anchor="middle" class="small">median estimator error at all three φ</text>
+  <rect x="650" y="604" width="220" height="96" rx="8" class="good"/><text x="760" y="643" text-anchor="middle" class="metric">&gt; 61</text><text x="760" y="667" text-anchor="middle" class="small">naive centered error under affine drift</text>
+  <rect x="888" y="604" width="220" height="96" rx="8" class="warn"/><text x="998" y="643" text-anchor="middle" class="metric2">1.217</text><text x="998" y="667" text-anchor="middle" class="small">median radius at φ = 0.65: valid but loose</text>
+
+  <text x="600" y="786" text-anchor="middle" class="small">Source: docs/estimated_ar1_nuisance_projection.json · Reproduce: python examples/estimated_ar1_nuisance_projection.py</text>
+</svg>

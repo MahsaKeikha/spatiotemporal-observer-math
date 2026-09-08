@@ -1,6 +1,12 @@
 """Mathematical tools for detecting spatiotemporal observer-like subsystems."""
 
 from .baselines import BaselinePath, best_fixed_boundary, independent_local_path
+from .estimated_nuisance import (
+    GaussianEstimatedAR1ProjectedCovarianceBound,
+    gaussian_calibrated_ar1_projected_covariance_bound,
+    gaussian_estimated_ar1_projected_covariance_bound,
+    separable_gaussian_estimated_ar1_projected_covariance,
+)
 from .identifiability import (
     TwoPointIdentifiabilityBound,
     canonical_path_orbit,
@@ -166,6 +172,7 @@ __all__ = [
     "GaussianDriftRobustRelativeNearCompetitorScreen",
     "GaussianEstimatedAR1CenteredCovarianceBound",
     "GaussianEstimatedAR1CenteredRelativeNearCompetitorScreen",
+    "GaussianEstimatedAR1ProjectedCovarianceBound",
     "GaussianPathRecoveryBound",
     "GaussianProjectedTemporalEnvelope",
     "GaussianRelativeNearCompetitorScreen",
@@ -216,6 +223,7 @@ __all__ = [
     "gaussian_ar1_increment_autocorrelation_interval",
     "gaussian_ar1_projected_temporal_envelope",
     "gaussian_ar1_temporal_correlation_envelope",
+    "gaussian_calibrated_ar1_projected_covariance_bound",
     "gaussian_calibrated_drift_relative_near_competitor_screen",
     "gaussian_calibrated_population_drift_bound",
     "gaussian_cmi_covariance_error_bound",
@@ -227,6 +235,7 @@ __all__ = [
     "gaussian_drift_robust_relative_near_competitor_screen",
     "gaussian_estimated_ar1_centered_covariance_bound",
     "gaussian_estimated_ar1_centered_relative_structural_null_near_competitor_screen",
+    "gaussian_estimated_ar1_projected_covariance_bound",
     "gaussian_factor_aware_near_competitor_screen",
     "gaussian_null_cmi_covariance_error_bound",
     "gaussian_null_integration_factor_error_bound",
@@ -268,6 +277,7 @@ __all__ = [
     "screen_near_competitors",
     "screened_structural_class_path_recovery_bound",
     "separable_gaussian_centered_covariance",
+    "separable_gaussian_estimated_ar1_projected_covariance",
     "separable_gaussian_projected_covariance",
     "simulate_gaussian_ensemble",
     "structural_transport",
