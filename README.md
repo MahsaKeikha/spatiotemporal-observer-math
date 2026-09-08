@@ -10,11 +10,13 @@ An open mathematical research program by **Mahsa Keikha, PhD** built around one 
 
 The repository develops that question from first principles. It begins with a moving-boundary dynamical model, defines operational observer-like structure, proves recovery and identifiability statements, develops finite-sample guarantees, and builds a measurement-certification layer for drift, temporal memory, uncertain covariance, calibration, and physical sampling consistency.
 
-## Conceptual lineage
+## Primary conceptual source and research lineage
 
-One important starting point for this research program is Max Tegmark's paper [**"Consciousness as a State of Matter"**](https://doi.org/10.1016/j.chaos.2015.03.014), which asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. The technical preprint is available as [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+The **primary conceptual source and starting point for this entire research program** is Max Tegmark's paper [**"Consciousness as a State of Matter"**](https://doi.org/10.1016/j.chaos.2015.03.014). Tegmark asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. The technical preprint is available as [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
 
-This repository does not reproduce Tegmark's results and does not imply his endorsement of the present framework. It takes the factorization and observer-identification problem as a motivating question, then develops a separate operational program around time-dependent subsystem boundaries, moving world-tubes, recovery, identifiability, finite-sample certification, temporal-memory uncertainty, and physical representation tests.
+This is the paper from which the central research question of this repository began. The present work takes Tegmark's factorization and observer-identification problem and develops it in a separate operational direction: time-dependent subsystem boundaries, moving world-tubes, recovery, identifiability, finite-sample certification, temporal-memory uncertainty, and physical representation tests.
+
+The subsequent propositions and experiments are not reproductions of Tegmark's derivations, and no endorsement by Tegmark is implied. Their mathematical development also draws on information theory, canonical correlation, dynamic programming, Gaussian and random-matrix concentration, e-value statistics, and classical stochastic relaxation. Those sources are documented with their exact roles in the **[Bibliography and Citation Map](docs/bibliography.md)**, with machine-readable entries in **[`references.bib`](references.bib)**.
 
 The word **observer** is operational here. It refers to a mathematically defined persistent moving subsystem. The results do not prove consciousness or subjective experience. Any future connection to consciousness requires additional bridge assumptions under the [Interpretation Protocol](docs/interpretation_protocol.md).
 
@@ -586,6 +588,7 @@ Any future observer-to-consciousness interpretation must enter as an additional 
 
 | If you want to understand... | Start here |
 | --- | --- |
+| The primary conceptual source and full literature lineage | [Bibliography and Citation Map](docs/bibliography.md) |
 | The physical meaning of the equations | [Physics Guide](docs/physics_guide.md) |
 | What every major figure means | [Figure Reading Guide](docs/figure_reading_guide.md) |
 | The complete research story | [Research Overview](docs/research_overview.md) |
@@ -649,11 +652,15 @@ That question remains separate from any claim about consciousness.
 
 ---
 
-# 14. Citation and conceptual source
+# 14. Citation, bibliography, and conceptual source
 
-For the conceptual source that motivates the factorization and observer-identification question:
+The **primary conceptual source and starting point for this research program** is:
 
 **Tegmark, M. (2015).** [*Consciousness as a State of Matter*](https://doi.org/10.1016/j.chaos.2015.03.014). *Chaos, Solitons & Fractals*, **76**, 238-270. Technical preprint: [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+
+The complete literature record, including the role of every major external source used in the conceptual framing, information-theoretic definitions, canonical correlation, dynamic programming, Gaussian concentration, random-matrix concentration, e-value statistics, and physical relaxation model, is maintained in the **[Bibliography and Citation Map](docs/bibliography.md)**.
+
+Machine-readable BibTeX: [`references.bib`](references.bib).
 
 For citation of this repository and research software, see [CITATION.cff](CITATION.cff).
 
