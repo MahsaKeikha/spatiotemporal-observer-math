@@ -272,6 +272,19 @@ class GaussianTemporalCorrelationEnvelope:
 
 
 @dataclass(frozen=True)
+class GaussianCenteredTemporalCorrelationEnvelope:
+    """Centering normalization and norm bounds for temporal correlation."""
+
+    sample_count: int
+    autocorrelation: float
+    centering_degrees_of_freedom: float
+    projected_frobenius_norm_bound: float
+    projected_spectral_norm_bound: float
+    variance_effective_sample_size: float
+    operator_effective_sample_size: float
+
+
+@dataclass(frozen=True)
 class GaussianDependentRelativeNearCompetitorScreen:
     """Relative screen for separably correlated Gaussian observations."""
 
@@ -280,6 +293,34 @@ class GaussianDependentRelativeNearCompetitorScreen:
     confidence: float
     temporal_correlation_frobenius_norm: float
     temporal_correlation_spectral_norm: float
+    variance_effective_sample_size: float
+    operator_effective_sample_size: float
+    covariance_relative_errors: np.ndarray
+    maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
+@dataclass(frozen=True)
+class GaussianCenteredDependentRelativeNearCompetitorScreen:
+    """Relative screen for mean-centered separably correlated Gaussians."""
+
+    screen: NearCompetitorScreen
+    sample_count: int
+    confidence: float
+    centering_degrees_of_freedom: float
+    projected_temporal_frobenius_norm: float
+    projected_temporal_spectral_norm: float
     variance_effective_sample_size: float
     operator_effective_sample_size: float
     covariance_relative_errors: np.ndarray
@@ -790,6 +831,96 @@ def gaussian_ar1_temporal_correlation_envelope(
         variance_effective_sample_size=float(sample_count**2 / frobenius_squared),
         operator_effective_sample_size=float(sample_count / spectral),
     )
+
+
+def gaussian_ar1_centered_temporal_correlation_envelope(
+    sample_count: int,
+    autocorrelation: float,
+) -> GaussianCenteredTemporalCorrelationEnvelope:
+    """Return a safe AR(1) envelope after empirical mean removal.
+
+    The exact projected matrix is ``P @ R @ P``. Its norms are bounded here by
+    the corresponding norms of ``R``; the centering normalization
+    ``trace(P @ R)`` is evaluated exactly.
+    """
+    temporal = gaussian_ar1_temporal_correlation_envelope(
+        sample_count, autocorrelation
+    )
+    if sample_count < 2:
+        raise ValueError("mean-centered covariance requires sample_count >= 2")
+    phi = float(autocorrelation)
+    if phi == 0.0:
+        off_diagonal_sum = 0.0
+    else:
+        power = phi ** (sample_count - 1)
+        geometric = phi * (1.0 - power) / (1.0 - phi)
+        weighted = phi * (
+            1.0
+            - sample_count * power
+            + (sample_count - 1) * power * phi
+        ) / (1.0 - phi) ** 2
+        off_diagonal_sum = sample_count * geometric - weighted
+    all_entries_sum = sample_count + 2.0 * off_diagonal_sum
+    degrees = float(sample_count - all_entries_sum / sample_count)
+    if not degrees > 0.0:
+        raise ValueError("temporal correlation leaves no centered degrees of freedom")
+    frobenius = temporal.frobenius_norm_bound
+    spectral = temporal.spectral_norm_bound
+    return GaussianCenteredTemporalCorrelationEnvelope(
+        sample_count=int(sample_count),
+        autocorrelation=phi,
+        centering_degrees_of_freedom=degrees,
+        projected_frobenius_norm_bound=frobenius,
+        projected_spectral_norm_bound=spectral,
+        variance_effective_sample_size=float(degrees**2 / frobenius**2),
+        operator_effective_sample_size=float(degrees / spectral),
+    )
+
+
+def separable_gaussian_centered_covariance(
+    observations: ArrayLike,
+    centering_degrees_of_freedom: float,
+) -> np.ndarray:
+    """Estimate spatial covariance after mean removal under known separability."""
+    values = np.asarray(observations, dtype=float)
+    if values.ndim != 2 or values.shape[0] < 2 or values.shape[1] < 1:
+        raise ValueError("observations must have shape (sample_count, dimension)")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("observations must be finite")
+    degrees = float(centering_degrees_of_freedom)
+    if not np.isfinite(degrees) or not degrees > 0.0:
+        raise ValueError("centering_degrees_of_freedom must be positive and finite")
+    centered = values - np.mean(values, axis=0, keepdims=True)
+    return centered.T @ centered / degrees
+
+
+def gaussian_dependent_centered_relative_covariance_error_bound(
+    block_dimension: int,
+    block_count: int,
+    *,
+    centering_degrees_of_freedom: float,
+    projected_temporal_frobenius_norm: float,
+    projected_temporal_spectral_norm: float,
+    confidence: float = 0.975,
+) -> float:
+    """Bound relative error for a mean-centered separable Gaussian covariance."""
+    integer_values = (block_dimension, block_count)
+    if any(
+        isinstance(value, bool) or not isinstance(value, (int, np.integer))
+        for value in integer_values
+    ):
+        raise TypeError("block dimension and block count must be integers")
+    if block_dimension < 1 or block_count < 1:
+        raise ValueError("block dimension and block count must be positive")
+    degrees = float(centering_degrees_of_freedom)
+    frobenius = float(projected_temporal_frobenius_norm)
+    spectral = float(projected_temporal_spectral_norm)
+    if not all(np.isfinite(value) and value > 0.0 for value in (degrees, frobenius, spectral)):
+        raise ValueError("centering normalization and projected norms must be positive")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0, 1)")
+    tail = np.log(2.0 * block_count * 9.0**block_dimension / (1.0 - confidence))
+    return float(4.0 * (frobenius * np.sqrt(tail) + spectral * tail) / degrees)
 
 
 def gaussian_dependent_relative_covariance_error_bound(
@@ -2046,6 +2177,108 @@ def gaussian_dependent_relative_structural_null_near_competitor_screen(
         temporal_correlation_spectral_norm=spectral,
         variance_effective_sample_size=float(sample_count**2 / frobenius**2),
         operator_effective_sample_size=float(sample_count / spectral),
+        covariance_relative_errors=relative_errors,
+        maximum_covariance_relative_error=delta,
+        screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_dependent_centered_relative_structural_null_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    centering_degrees_of_freedom: float,
+    projected_temporal_frobenius_norm: float,
+    projected_temporal_spectral_norm: float,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianCenteredDependentRelativeNearCompetitorScreen:
+    """Screen after empirical mean removal under separable Gaussian dependence."""
+    gaussian_relative_structural_null_near_competitor_screen(
+        empirical_local_factors,
+        empirical_transport_factors,
+        candidates,
+        sample_count,
+        node_count,
+        subset_size,
+        structural_integration_null_mask=structural_integration_null_mask,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    null_mask = np.asarray(structural_integration_null_mask)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    time_count, candidate_count, _ = local_factors.shape
+    delta = gaussian_dependent_centered_relative_covariance_error_bound(
+        node_count + subset_size,
+        time_count * candidate_count,
+        centering_degrees_of_freedom=centering_degrees_of_freedom,
+        projected_temporal_frobenius_norm=projected_temporal_frobenius_norm,
+        projected_temporal_spectral_norm=projected_temporal_spectral_norm,
+        confidence=confidence,
+    )
+    relative_errors = np.full((time_count, candidate_count), delta)
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
+    )
+    degrees = float(centering_degrees_of_freedom)
+    frobenius = float(projected_temporal_frobenius_norm)
+    spectral = float(projected_temporal_spectral_norm)
+    all_valid = bool(propagated["all_blocks_valid"])
+    return GaussianCenteredDependentRelativeNearCompetitorScreen(
+        screen=propagated["screen"],
+        sample_count=int(sample_count),
+        confidence=float(confidence),
+        centering_degrees_of_freedom=degrees,
+        projected_temporal_frobenius_norm=frobenius,
+        projected_temporal_spectral_norm=spectral,
+        variance_effective_sample_size=float(degrees**2 / frobenius**2),
+        operator_effective_sample_size=float(degrees / spectral),
         covariance_relative_errors=relative_errors,
         maximum_covariance_relative_error=delta,
         screening_local_factor_errors=propagated["screening_local_factor_errors"],

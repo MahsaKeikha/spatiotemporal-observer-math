@@ -1048,10 +1048,65 @@ radius without running the screen. `gaussian_ar1_temporal_correlation_envelope`
 computes the exact Frobenius norm and a safe row-sum spectral bound when
 `R[i,j] = autocorrelation ** abs(i-j)`.
 
-This function does not treat an estimated mean as known, estimate temporal
-correlation, or certify a general overlapping-window covariance. Those cases
-are not interchangeable with the separable model and remain outside the
-guarantee.
+This entry point itself assumes a known mean. Use the centered entry point below
+for an unknown constant mean. Neither function estimates temporal correlation
+or certifies a general overlapping-window covariance.
+
+### Mean-centered dependent Gaussian screen
+
+```python
+from observer_math import (
+    gaussian_ar1_centered_temporal_correlation_envelope,
+    gaussian_dependent_centered_relative_structural_null_near_competitor_screen,
+    separable_gaussian_centered_covariance,
+)
+
+centered_temporal = gaussian_ar1_centered_temporal_correlation_envelope(
+    sample_count,
+    autocorrelation=0.7,
+)
+
+estimated_joint = separable_gaussian_centered_covariance(
+    observations,
+    centered_temporal.centering_degrees_of_freedom,
+)
+
+centered_screen = (
+    gaussian_dependent_centered_relative_structural_null_near_competitor_screen(
+        empirical_local_factors,
+        empirical_transport_factors,
+        candidates,
+        sample_count,
+        node_count,
+        subset_size,
+        centering_degrees_of_freedom=(
+            centered_temporal.centering_degrees_of_freedom
+        ),
+        projected_temporal_frobenius_norm=(
+            centered_temporal.projected_frobenius_norm_bound
+        ),
+        projected_temporal_spectral_norm=(
+            centered_temporal.projected_spectral_norm_bound
+        ),
+        structural_integration_null_mask=predeclared_null_mask,
+        certification_local_score_errors=local_certification_budget,
+        certification_transport_score_errors=transport_certification_budget,
+        confidence=0.975,
+    )
+)
+```
+
+Proposition 42 permits an unknown constant spatial mean. The estimator removes
+the sample mean and divides by `trace(P @ R)`, not automatically by `N - 1`.
+The AR(1) helper evaluates that normalization exactly and supplies safe
+projected-norm bounds without constructing the full temporal matrix. The result
+reports the corrected effective sample sizes and every downstream score and
+graph quantity.
+
+`gaussian_dependent_centered_relative_covariance_error_bound` exposes only the
+centered covariance radius. The caller remains responsible for a valid temporal
+model or envelope. These functions do not estimate autocorrelation, permit a
+time-varying mean, or cover nonseparable space-time covariance.
 
 ### Pilot-normalized adaptive screen
 

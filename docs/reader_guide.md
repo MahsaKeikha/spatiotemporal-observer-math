@@ -176,7 +176,11 @@ known-zero-mean Gaussian observations with exact separable covariance
 the same complete score and graph bounds. Experiment AA audits that statement
 on stationary AR(1) draws. This does not yet cover estimated means, estimated
 temporal correlation, nonseparable multivariate dependence, or arbitrary
-overlapping windows.
+overlapping windows. Proposition 42 removes the first of those restrictions for
+an unknown constant mean: the sample-axis centering projection changes both the
+unbiased normalization and the effective sample sizes. Experiment AB verifies
+the correction and translation invariance on nonzero-mean AR(1) draws. The
+temporal correlation is still treated as known.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

@@ -54,8 +54,11 @@ Frobenius- and spectral-effective sample sizes and carries the resulting radius
 through the complete structural-null screen. Experiment AA audits this theorem
 on stationary AR(1) sequences and demonstrates the failure of the i.i.d.
 radius at high correlation. The remaining statistical task is to replace the
-known mean and temporal-correlation envelope by simultaneous estimates, then
-move beyond separability to general overlapping windows. A separate modeling
+known temporal-correlation envelope by a simultaneous estimate. Proposition 42
+already removes an unknown constant mean by deriving the exact
+(d_R=\operatorname{tr}(PR)) normalization and projected effective sample
+sizes; Experiment AB audits that correction on nonzero-mean AR(1) draws. The
+following step is to move beyond separability to general overlapping windows. A separate modeling
 task is to construct a regime in which retaining historical geometry
 contributes information unavailable from the current calibration cohort.
 
@@ -145,8 +148,9 @@ it to a declared population drift and expose its selectivity boundary. The next
 step, Proposition 40 and Experiment Z, adds a statistically estimated drift
 envelope and demonstrates its conservatism relative to refreshing the
 reference. Proposition 41 and Experiment AA then address dependent sampling
-under an exact separable, known-mean Gaussian model. The next priority is mean
-and correlation estimation,
+under an exact separable, known-mean Gaussian model. Proposition 42 and
+Experiment AB remove the constant known-mean restriction. The next priority is
+temporal-correlation estimation,
 nonseparable dependent windows, and independently justified structural masks
 without losing post-selection validity.
 

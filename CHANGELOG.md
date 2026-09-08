@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.30.0 - 2026-09-08
+
+- Proved a mean-centered extension of the separably dependent Gaussian
+  covariance theorem for an unknown constant spatial mean.
+- Derived the exact dependence-specific normalization
+  (d_R=\operatorname{tr}(PR)) and centered effective sample sizes based on
+  (PRP).
+- Added public APIs for AR(1) centering envelopes, dependence-corrected sample
+  covariance, the centered relative radius, and the complete structural-null
+  screen.
+- Added a 896-draw nonzero-mean AR(1) calibration comparing known-mean,
+  dependence-corrected, and ordinary (N-1) covariance estimates.
+- Recorded complete centered-event coverage in the finite run and numerical
+  translation invariance to `1.34e-15`, while retaining the Wilson-interval and
+  conservatism qualifications.
+- Added a four-panel landing-page figure, machine-readable results, full API
+  and assumption documentation, and five claim-level tests.
+- Updated the verified public record to 42 propositions, 28 experiments, 15
+  figures, and 125 tests.
+
 ## 0.29.0 - 2026-09-08
 
 - Proved a relative covariance concentration bound for known-zero-mean

@@ -2818,13 +2818,89 @@ unknown or estimated \(R\), nonseparable space-time covariance, or arbitrary
 overlapping windows. Those cases require additional error terms or a different
 concentration argument.
 
+## Proposition 42: mean-centered separably dependent Gaussian screening
+
+Retain Proposition 41's separable Gaussian model but allow an unknown constant
+mean \(\mu\in\mathbb R^d\). Let
+
+\[
+P=I_N-\frac{1}{N}\mathbf 1\mathbf 1^\mathsf T,
+\qquad
+d_R=\operatorname{tr}(PR)
+=N-\frac{\mathbf 1^\mathsf T R\mathbf 1}{N},
+\]
+
+and suppose \(d_R>0\). Define the dependence-corrected centered covariance
+
+\[
+\widehat\Gamma_c
+=\frac{1}{d_R}\sum_{i=1}^N
+(Y_i-\bar Y)(Y_i-\bar Y)^\mathsf T.
+\]
+
+For \(B\) fixed \(d\)-dimensional blocks, let
+
+\[
+t=\log\frac{2B9^d}{\alpha},
+\qquad
+N_{F,c}=\frac{d_R^2}{\|PRP\|_F^2},
+\qquad
+N_{\mathrm{op},c}=\frac{d_R}{\|PRP\|_2}.
+\]
+
+Then, simultaneously for all blocks, with probability at least
+\(1-\alpha\),
+
+\[
+\left\|\Gamma^{-1/2}
+(\widehat\Gamma_c-\Gamma)\Gamma^{-1/2}\right\|_2
+\leq
+4\left(\sqrt{\frac{t}{N_{F,c}}}
++\frac{t}{N_{\mathrm{op},c}}\right).
+\]
+
+Valid upper bounds on the two projected norms may replace their exact values.
+Whenever the resulting radius is below one, Proposition 37 again supplies the
+complete structural-null near-competitor screen.
+
+**Proof.** Subtracting the sample mean applies \(P\) to the sample axis and
+eliminates the unknown constant mean exactly. After population whitening, write
+the \(N\)-by-\(d\) residual matrix as \(R^{1/2}G\), where \(G\) has independent
+standard Gaussian entries. For any fixed unit vector \(u\),
+
+\[
+u^\mathsf T\widehat\Gamma_cu
+=\frac{1}{d_R}g^\mathsf T
+R^{1/2}PR^{1/2}g.
+\]
+
+The positive-semidefinite matrix \(R^{1/2}PR^{1/2}\) has trace \(d_R\), so the
+quadratic form is centered at one. Its nonzero eigenvalues equal those of
+\(PRP\). Applying the same weighted chi-square inequality, quarter-net, and
+block union bound used in Proposition 41 yields the displayed result.
+\(\square\)
+
+For \(R_{ij}=\phi^{|i-j|}\), \(d_R\) is evaluated exactly from
+
+\[
+\mathbf 1^\mathsf T R\mathbf 1
+=N+2\sum_{k=1}^{N-1}(N-k)\phi^k.
+\]
+
+The implementation safely uses
+\(\|PRP\|_F\leq\|R\|_F\) and
+\(\|PRP\|_2\leq\|R\|_2\), avoiding construction of the \(N\)-by-\(N\) matrix.
+The usual divisor \(N-1\) is recovered at \(\phi=0\), but it is not generally
+unbiased under dependence. This proposition removes the known-mean assumption;
+it does not remove the need for a valid temporal-correlation envelope.
+
 ## Open conjectures
 
-### C1. Nonseparable dependent windows and estimated means
+### C1. Nonseparable dependent windows and estimated correlation
 
-Proposition 41 handles known-mean Gaussian dependence of the exact separable
-form \(R\otimes\Gamma\). The unresolved problem is a useful screen when a mean
-and temporal envelope must be estimated from the same record, or when
+Proposition 42 handles empirical mean removal for Gaussian dependence of the
+exact separable form \(R\otimes\Gamma\). The unresolved problem is a useful
+screen when the temporal envelope must be estimated from the same record, or when
 overlapping multivariate windows produce nonseparable space-time covariance.
 
 ### C2. Gauge-consistent quantum lift

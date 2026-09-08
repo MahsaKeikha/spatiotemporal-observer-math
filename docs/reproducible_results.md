@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 120 tests. Continuous integration runs
+The automated suite currently contains 125 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -1131,6 +1131,54 @@ space-time covariance, requires further analysis. Full seeds, norm bounds,
 effective counts, Wilson intervals, errors, and radii are stored in
 [`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json).
 
+## Experiment AB: mean-centered dependent Gaussian calibration
+
+Command used for the committed result:
+
+```bash
+python examples/dependent_centered_gaussian_calibration.py --trials 128 --jobs 6
+```
+
+This experiment repeats the seven stationary AR(1) regimes from Experiment AA
+with a nonzero constant ten-dimensional mean. The same residual draw is
+evaluated three ways: using the known mean, subtracting the sample mean with the
+Proposition 42 normalization (d_R=\operatorname{tr}(PR)), and subtracting the
+sample mean with the ordinary (N-1) divisor. Each correlation receives 128
+independent trials at (N=50{,}000), confidence `0.975`, and root
+`SeedSequence` value `20260930`.
+
+![Mean-centered covariance under dependent Gaussian sampling](dependent_centered_gaussian_calibration.png)
+
+| \(\phi\) | \(d_R\) | \(d_R/(N-1)\) | Known-mean 95% error | Corrected 95% error | Ordinary 95% error | Centered radius |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `0.00` | `49999.000` | `1.000000` | `0.0327` | `0.0327` | `0.0327` | `0.0939` |
+| `0.25` | `49998.333` | `0.999987` | `0.0336` | `0.0337` | `0.0337` | `0.1013` |
+| `0.50` | `49997.000` | `0.999960` | `0.0398` | `0.0399` | `0.0398` | `0.1249` |
+| `0.70` | `49994.334` | `0.999907` | `0.0545` | `0.0545` | `0.0545` | `0.1689` |
+| `0.85` | `49987.668` | `0.999773` | `0.0787` | `0.0793` | `0.0793` | `0.2549` |
+| `0.93` | `49972.436` | `0.999469` | `0.1207` | `0.1208` | `0.1209` | `0.3995` |
+| `0.97` | `49934.376` | `0.998708` | `0.1863` | `0.1853` | `0.1838` | `0.6655` |
+
+The centered theorem covers all 896 recorded draws. Within every trial, adding
+the declared mean and then centering changes the corrected covariance by at
+most `1.34e-15` in spectral norm. This numerically audits the exact translation
+invariance used by the proof. The centered analytical radius is only slightly
+larger than the known-mean radius on this long-record grid; at (phi=0.97), it
+is `0.6655` rather than `0.6646`.
+
+The ordinary (N-1) estimator is included to expose the normalization issue,
+not as a uniformly inferior numerical estimator. It is biased by the displayed
+factor (d_R/(N-1)), but a biased realization can still have smaller spectral
+error in a particular finite run, as happens in the last row. The theorem
+licenses the corrected estimator because it is exactly centered at the
+population covariance under the declared model.
+
+As in Experiment AA, 128 successes have Wilson 95% interval
+`[0.970863, 1.000000]`; this is limited tail resolution. The study assumes a
+constant mean, exact separability, known AR(1) correlation, and fixed blocks.
+Complete trial aggregates and translation checks are stored in
+[`dependent_centered_gaussian_calibration.json`](dependent_centered_gaussian_calibration.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -1143,5 +1191,5 @@ effective counts, Wilson intervals, errors, and radii are stored in
 - non-Gaussian or structured drift models where an old reference may add
   information unavailable in the current calibration cohort
 - dependent pilot and screening windows from a single mixing process
-- estimated-mean and estimated-autocorrelation corrections
+- time-varying-mean and estimated-autocorrelation corrections
 - nonseparable multivariate sliding-window constructions

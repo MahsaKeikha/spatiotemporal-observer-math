@@ -1,0 +1,221 @@
+{
+  "seed": 20260930,
+  "sampling_model": "Gaussian observations with unknown constant spatial mean, temporal correlation R_ij=phi^abs(i-j), and identity spatial covariance",
+  "sample_count": 50000,
+  "block_dimension": 10,
+  "simultaneous_block_count": 1,
+  "confidence": 0.975,
+  "trials_per_autocorrelation": 128,
+  "records": [
+    {
+      "autocorrelation": 0.0,
+      "centering_degrees_of_freedom": 49999.0,
+      "normalizer_relative_to_n_minus_one": 1.0,
+      "variance_effective_sample_size": 49998.00002,
+      "operator_effective_sample_size": 49999.0,
+      "known_mean_relative_radius": 0.09394170811758788,
+      "centered_relative_radius": 0.09394358698932767,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.025998593552135137,
+      "quantile_95_known_mean_error": 0.03270268133089301,
+      "maximum_known_mean_error": 0.038534107503386636,
+      "mean_centered_error": 0.02600245376690743,
+      "quantile_95_centered_error": 0.032701171010781536,
+      "maximum_centered_error": 0.03854966604120335,
+      "mean_ordinary_centered_error": 0.02600245376690744,
+      "quantile_95_ordinary_centered_error": 0.03270117101078154,
+      "maximum_ordinary_centered_error": 0.03854966604120337,
+      "maximum_translation_discrepancy": 1.110697948395013e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.25,
+      "centering_degrees_of_freedom": 49998.33335111111,
+      "normalizer_relative_to_n_minus_one": 0.9999866667555574,
+      "variance_effective_sample_size": 44114.81668228396,
+      "operator_effective_sample_size": 29999.000010666667,
+      "known_mean_relative_radius": 0.101277864335483,
+      "centered_relative_radius": 0.10128124034081659,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.027673826847018572,
+      "quantile_95_known_mean_error": 0.03364743656473694,
+      "maximum_known_mean_error": 0.039625859441165256,
+      "mean_centered_error": 0.027672618630738777,
+      "quantile_95_centered_error": 0.033686305291471444,
+      "maximum_centered_error": 0.039654509804316534,
+      "mean_ordinary_centered_error": 0.02767174284999746,
+      "quantile_95_ordinary_centered_error": 0.033681856170395846,
+      "maximum_ordinary_centered_error": 0.03966731432548668,
+      "maximum_translation_discrepancy": 1.2213405731848564e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.5,
+      "centering_degrees_of_freedom": 49997.00008,
+      "normalizer_relative_to_n_minus_one": 0.999960000800016,
+      "variance_effective_sample_size": 29996.720169009375,
+      "operator_effective_sample_size": 16665.666693333333,
+      "known_mean_relative_radius": 0.1248807592098488,
+      "centered_relative_radius": 0.1248882523051659,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.03293736119274593,
+      "quantile_95_known_mean_error": 0.03981691894488645,
+      "maximum_known_mean_error": 0.043587139167828845,
+      "mean_centered_error": 0.0329493294823876,
+      "quantile_95_centered_error": 0.039865667348834635,
+      "maximum_centered_error": 0.04369080912825649,
+      "mean_ordinary_centered_error": 0.0329467615605688,
+      "quantile_95_ordinary_centered_error": 0.03982407355404989,
+      "maximum_ordinary_centered_error": 0.04372906073082868,
+      "maximum_translation_discrepancy": 1.3326276700967528e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.7,
+      "centering_degrees_of_freedom": 49994.33364444444,
+      "normalizer_relative_to_n_minus_one": 0.9999066710223093,
+      "variance_effective_sample_size": 17110.656530769393,
+      "operator_effective_sample_size": 8822.529466666667,
+      "known_mean_relative_radius": 0.1689123154633076,
+      "centered_relative_radius": 0.16893145997764267,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.04440557178715523,
+      "quantile_95_known_mean_error": 0.054513201752993984,
+      "maximum_known_mean_error": 0.06375611975060336,
+      "mean_centered_error": 0.04439837205300433,
+      "quantile_95_centered_error": 0.05445190406056524,
+      "maximum_centered_error": 0.06367008516449046,
+      "mean_ordinary_centered_error": 0.04439935922614594,
+      "quantile_95_ordinary_centered_error": 0.05454015109771663,
+      "maximum_ordinary_centered_error": 0.06375747187822324,
+      "maximum_translation_discrepancy": 1.1113949373336545e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.85,
+      "centering_degrees_of_freedom": 49987.66817777778,
+      "normalizer_relative_to_n_minus_one": 0.999773359022736,
+      "variance_effective_sample_size": 8051.666308605588,
+      "operator_effective_sample_size": 4053.054176576577,
+      "known_mean_relative_radius": 0.25479206998382065,
+      "centered_relative_radius": 0.2548549264967409,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.06460975892606503,
+      "quantile_95_known_mean_error": 0.07867225386713275,
+      "maximum_known_mean_error": 0.09120419878343414,
+      "mean_centered_error": 0.06466473865272837,
+      "quantile_95_centered_error": 0.07927080569567149,
+      "maximum_centered_error": 0.09106763489701056,
+      "mean_ordinary_centered_error": 0.06461254682846543,
+      "quantile_95_ordinary_centered_error": 0.07932083197597933,
+      "maximum_ordinary_centered_error": 0.09082035426197642,
+      "maximum_translation_discrepancy": 1.3341814595026718e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.93,
+      "centering_degrees_of_freedom": 49972.43616326531,
+      "normalizer_relative_to_n_minus_one": 0.9994687126395589,
+      "variance_effective_sample_size": 3618.682484573893,
+      "operator_effective_sample_size": 1812.4717779422635,
+      "known_mean_relative_radius": 0.399299955510765,
+      "centered_relative_radius": 0.39952020170300406,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.09632469625025845,
+      "quantile_95_known_mean_error": 0.12065147427338384,
+      "maximum_known_mean_error": 0.13618491949154024,
+      "mean_centered_error": 0.09635125270621125,
+      "quantile_95_centered_error": 0.12078603304433037,
+      "maximum_centered_error": 0.13670307793767883,
+      "mean_ordinary_centered_error": 0.09623727487792572,
+      "quantile_95_ordinary_centered_error": 0.12088124715978839,
+      "maximum_ordinary_centered_error": 0.1360991619597961,
+      "maximum_translation_discrepancy": 1.3353151312540714e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.97,
+      "centering_degrees_of_freedom": 49934.376444444446,
+      "normalizer_relative_to_n_minus_one": 0.9987075030389497,
+      "variance_effective_sample_size": 1518.9941316955462,
+      "operator_effective_sample_size": 760.4219763113373,
+      "known_mean_relative_radius": 0.6646311079456393,
+      "centered_relative_radius": 0.6655045634594924,
+      "trial_count": 128,
+      "mean_known_mean_error": 0.14864536540987291,
+      "quantile_95_known_mean_error": 0.18625229655904085,
+      "maximum_known_mean_error": 0.21725006329556398,
+      "mean_centered_error": 0.14875065798179132,
+      "quantile_95_centered_error": 0.18533223942506022,
+      "maximum_centered_error": 0.21412092055308266,
+      "mean_ordinary_centered_error": 0.14828523444686975,
+      "quantile_95_ordinary_centered_error": 0.18380020110776846,
+      "maximum_ordinary_centered_error": 0.21255167295292032,
+      "maximum_translation_discrepancy": 1.115835654541894e-15,
+      "known_mean_covered_rate": 1.0,
+      "known_mean_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "centered_covered_rate": 1.0,
+      "centered_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    }
+  ]
+}

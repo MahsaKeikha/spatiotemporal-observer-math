@@ -358,7 +358,7 @@ on every recorded draw.
 
 `dependent_gaussian_calibration.py` tests the first concentration result in the
 repository that permits dependence across the sample index. Each trial draws a
-known-zero-mean Gaussian matrix (Y\in\mathbb R^{N\times d}) with
+known-zero-mean Gaussian matrix \(Y\in\mathbb R^{N\times d}\) with
 
 \[
 \operatorname{Cov}(Y_i,Y_j)=R_{ij}I_d,
@@ -366,14 +366,14 @@ known-zero-mean Gaussian matrix (Y\in\mathbb R^{N\times d}) with
 \]
 
 The construction is an exact stationary AR(1) process. The committed run fixes
-(N=50{,}000), (d=10), one candidate block, confidence `0.975`, root
+\(N=50{,}000\), \(d=10\), one candidate block, confidence `0.975`, root
 `SeedSequence` value `20260927`, and 128 independent trials at each
 
 \[
 \phi\in\{0,0.25,0.50,0.70,0.85,0.93,0.97\}.
 \]
 
-The population covariance is exactly (I_d). Each trial records the operator
+The population covariance is exactly \(I_d\). Each trial records the operator
 norm of the uncentered empirical covariance error and compares the i.i.d.
 Wishart radius with the Proposition 41 radius based on
 
@@ -391,12 +391,34 @@ spectral norm uses the valid row-sum envelope
 \]
 
 The i.i.d. curve is a diagnostic comparator and is guaranteed only at
-(\phi=0). Exact population covariance is used solely to audit coverage. The
+\(\phi=0\). Exact population covariance is used solely to audit coverage. The
 experiment assumes a known zero mean, known common AR(1) coefficient, exact
-separability (R\otimes I_d), and one fixed block. It does not validate
+separability \(R\otimes I_d\), and one fixed block. It does not validate
 same-sample mean centering, estimated temporal correlation, nonseparable
 multivariate dependence, adaptive block selection, or arbitrary overlapping
 windows from a single dynamical record.
+
+### Mean-centered separably dependent Gaussian calibration
+
+`dependent_centered_gaussian_calibration.py` repeats Experiment AA after adding
+a constant nonzero spatial mean. It compares the known-mean covariance, the
+sample-mean covariance with the exact dependence correction
+\(d_R=\operatorname{tr}(PR)\), and the ordinary \(N-1\) sample covariance. The
+residual draws, seven AR(1) correlations, \(N=50{,}000\), dimension ten,
+confidence `0.975`, and 128 trials per correlation are retained; the new root
+`SeedSequence` is `20260930`.
+
+Each centered estimate is divided by the exact AR(1) value of \(d_R\). The
+projected norm terms are not evaluated through a 50,000-dimensional matrix;
+the experiment uses the safe contractions
+\(\|PRP\|_F\leq\|R\|_F\) and
+\(\|PRP\|_2\leq\|R\|_2\). The same residual array is also centered before and
+after adding the mean, providing a direct numerical check of translation
+invariance.
+
+This construction tests removal of an unknown constant mean conditional on a
+known temporal model. It does not estimate the AR(1) parameter, permit a
+time-varying mean, or address nonseparable covariance.
 
 ## 5. Exchangeable identifiability counterexample
 
@@ -557,6 +579,11 @@ and invalidates use of the i.i.d. radius. The final panel compares analytical
 radii with the empirical 95th percentile so coverage and conservatism remain
 visible together.
 
+`dependent_centered_gaussian_calibration.png` compares the known-mean and
+sample-mean covariance errors, shows the exact centering normalization relative
+to (N-1), records coverage of both theorems, and displays each analytical
+radius relative to the empirical 95th percentile.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -589,6 +616,11 @@ visible together.
 | `test_dependent_relative_radius_covers_seeded_ar1_covariance` | The dependence-aware radius contains a seeded AR(1) Gaussian covariance error |
 | `test_dependent_screen_covers_scores_and_retains_population_path` | The public dependent-sample screen propagates covariance control through complete scores and retains the reference path |
 | `test_temporal_dependence_reduces_effective_sample_size_and_inflates_radius` | Stronger declared correlation lowers effective sample sizes and widens the analytical radius |
+| `test_centered_ar1_envelope_matches_projection_trace_and_bounds_norms` | The AR(1) centering trace equals the explicit projection calculation and the supplied norm envelopes dominate the projected matrix |
+| `test_centered_covariance_is_translation_invariant_and_uses_declared_normalizer` | Mean removal is translation invariant and divides by the declared dependence correction |
+| `test_centered_dependent_radius_covers_unknown_mean_ar1_covariance` | The centered dependence-aware radius contains a seeded covariance error with a nonzero unknown mean |
+| `test_centered_dependent_screen_covers_scores_and_retains_population_path` | The centered public screen propagates covariance control and retains the population path |
+| `test_centered_iid_envelope_recovers_n_minus_one_normalization` | The centering correction reduces exactly to (N-1) under independence |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -771,6 +803,11 @@ Its limitations are concrete:
     trials per correlation level have limited tail resolution and do not cover
     estimated means, estimated dependence, nonseparable space-time covariance,
     or general sliding-window constructions.
+32. Proposition 42 removes a constant mean by using the exact
+    (d_R=\operatorname{tr}(PR)) normalization, but still requires valid
+    projected temporal-norm bounds. Experiment AB uses a known stationary AR(1)
+    law and 128 trials per level. It does not cover an estimated correlation
+    parameter, a time-varying mean, nonseparable dependence, or adaptive blocks.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -810,6 +847,7 @@ python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
 python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
 python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
 python examples/dependent_gaussian_calibration.py --trials 128 --jobs 6
+python examples/dependent_centered_gaussian_calibration.py --trials 128 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

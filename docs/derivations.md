@@ -1164,11 +1164,44 @@ dependence-aware radius with the i.i.d. Wishart radius on exact stationary AR(1)
 draws.
 
 The known-zero-mean condition is substantive. Replacing the population mean by
-the same record's sample mean subtracts a random rank-one term and needs its own
-dependent concentration bound. Likewise, general sliding windows need not have
-the separable covariance assumed here.
+the same record's sample mean changes the temporal quadratic form; the next
+section handles that change. General sliding windows still need not have the
+separable covariance assumed here.
 
-## 37. Choices that are still choices
+## 37. Mean removal under separable dependence
+
+The sample-mean correction is tractable when the mean is constant and the
+separable temporal matrix (R) is known. Centering applies the orthogonal
+projection
+
+\[
+P=I_N-\frac1N\mathbf1\mathbf1^\mathsf T
+\]
+
+to the sample axis. Unlike the i.i.d. case, the unbiased denominator is
+
+\[
+d_R=\operatorname{tr}(PR)
+=N-\frac{\mathbf1^\mathsf T R\mathbf1}{N},
+\]
+
+not generally (N-1). After whitening in space, the centered estimator is a
+Gaussian quadratic form with temporal matrix (R^{1/2}PR^{1/2}/d_R). Its
+nonzero eigenvalues are those of (PRP/d_R), giving
+
+\[
+N_{F,c}=\frac{d_R^2}{\|PRP\|_F^2},
+\qquad
+N_{\mathrm{op},c}=\frac{d_R}{\|PRP\|_2}.
+\]
+
+This is an exact mean-removal correction, not a claim that temporal dependence
+has been estimated. For the AR(1) helper, (d_R) is exact while
+(\|PRP\|_F\) and (\|PRP\|_2) are safely bounded by their unprojected
+counterparts. Experiment AB measures the resulting small additional
+conservatism and checks numerical invariance to a large constant mean shift.
+
+## 38. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
