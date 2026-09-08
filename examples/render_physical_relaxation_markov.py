@@ -63,7 +63,7 @@ def render(record: dict[str, object]) -> str:
         ),
         _rect(60, 116, 1320, 64, "#eaf2ff", "#b9d1f6"),
         _text(86, 156, f"Same physical relaxation time: tau = {true_tau:.3f} s", 23, 700),
-        _text(505, 156, "alpha_i = exp(-(t_{i+1}-t_i)/tau)", 20, 700),
+        _text(760, 156, "alpha_i = exp(-Delta t_i / tau)", 20, 700),
     ]
 
     left_x = 60
