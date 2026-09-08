@@ -169,6 +169,7 @@ necessary conditions.
 | 36 | [Trajectory-coupled Gaussian screening safety](proofs_and_conjectures.md#proposition-36-trajectory-coupled-gaussian-screening-safety) | Marginal Wishart bounds and simultaneous screening remain valid when all times come from the same independent trajectories. |
 | 37 | [Covariance-normalized Gaussian screening](proofs_and_conjectures.md#proposition-37-covariance-normalized-gaussian-screening) | A population-whitened Wishart event controls CMI, canonical persistence, structural nulls, and the complete screen without a covariance condition-number factor. |
 | 38 | [Pilot-normalized adaptive screening](proofs_and_conjectures.md#proposition-38-pilot-normalized-adaptive-screening) | An observed pilot-to-screening discrepancy composes with pilot uncertainty to give candidate-specific relative radii and a safe adaptive graph. |
+| 39 | [Drift-robust pilot-normalized screening](proofs_and_conjectures.md#proposition-39-drift-robust-pilot-normalized-screening) | A declared population-relative drift envelope transports the adaptive certificate into the current population metric, with an explicit validity boundary. |
 
 ## Experiment index
 
@@ -201,6 +202,7 @@ Exact commands, parameters, tables, and qualifications are in
 | V | [Multi-regime trajectory-coupled calibration](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) | Across 18 declared memory, coupling, and conditioning regimes, all four screening events are covered in 1,152 trials; selectivity varies from 5.1% to 87.5% of edges retained. |
 | W | [Covariance-normalized screening](reproducible_results.md#experiment-w-covariance-normalized-screening) | On 1,152 paired draws, the relative certificate covers every recorded event and retains exactly the five-state/four-edge population tube in all 18 regimes. |
 | X | [Reusable-pilot adaptive screening](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening) | A reusable high-precision pilot cuts the maximum relative radius to about 51% of the fixed radius and reduces the safe graph in every tested regime. |
+| Y | [Screening under declared population drift](reproducible_results.md#experiment-y-screening-under-declared-population-drift) | A structure-preserving drift curve retains all declared events but exposes rapid loss of graph selectivity as the envelope grows. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -251,6 +253,18 @@ noise. The marked construction is checked by both the exact optimizer and the
 finite-horizon perturbation certificate.
 
 ### Statistical screening
+
+[![Pilot-normalized screening under declared covariance drift](drift_robust_relative_calibration.png)](reproducible_results.md#experiment-y-screening-under-declared-population-drift)
+
+Experiment Y changes the population covariance by an invertible coordinatewise
+congruence while preserving the information factors and optimal path. The
+drift-robust theorem covers all 448 recorded covariance, score, and path events.
+The graph nevertheless becomes complete at larger envelopes, giving a visible
+boundary between a valid certificate and a useful screen.
+
+[Complete drift table](reproducible_results.md#experiment-y-screening-under-declared-population-drift) ·
+[machine-readable results](drift_robust_relative_calibration.json) ·
+[theorem](proofs_and_conjectures.md#proposition-39-drift-robust-pilot-normalized-screening)
 
 [![Reusable pilot geometry and adaptive Gaussian screening](cross_fitted_relative_calibration.png)](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening)
 
@@ -317,6 +331,7 @@ exact.
 | Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories. Proposition 37 avoids declared spectral envelopes by using a relative Wishart event. | Statistical theorem; conservative |
 | Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
 | Can covariance radii adapt to an observed reference discrepancy? | Yes. A Gaussian pilot event composes with each exact pilot-normalized screening discrepancy. | Proposition 38 |
+| Can that certificate survive population covariance drift? | Yes, conditional on an independently valid candidate-block drift envelope. The correction is sharp in one dimension and can become nonselective well before it becomes invalid. | Proposition 39; Experiment Y |
 | Can exact structural zeros improve the difficult score-boundary rate? | Yes. The local-score error improves from the generic \(N^{-1/6}\) boundary rate to \(N^{-1/3}\) under a correct predeclared null. | Proposition 35 |
 | Does the score identify a unique boundary in every model? | No. Exchangeable models give a proved non-identifiability counterexample. | Impossibility theorem |
 | Does a high score prove consciousness? | No. That interpretation is neither defined nor supported by these results. | Explicit scope boundary |
@@ -342,11 +357,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 109 of 109 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 112 of 112 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 24 documented studies, A through X | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 11 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 25 documented studies, A through Y | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 12 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -366,7 +381,7 @@ python -m ruff check .
 Then run the newest calculation:
 
 ```bash
-python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
+python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
 ```
 
 The audit trail is organized as follows:
@@ -383,7 +398,7 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json) |
 
 ## What remains unresolved
 
@@ -392,8 +407,8 @@ The principal limitations are substantive, not presentational:
 - the strongest statistical results assume independent Gaussian trajectories;
 - the relative certificate avoids spectral-envelope inputs, but its whitening is
   a proof device and its Gaussian assumption remains restrictive;
-- pilot-normalized adaptation assumes the reference and screening covariances
-  describe the same population;
+- drift-robust adaptation assumes an independently justified blockwise drift
+  envelope; estimating that envelope from dependent data remains unresolved;
 - the available finite-sample constants remain far from empirical recovery
   scales on the initial benchmark;
 - a structural-null mask must be justified independently of the screening data;

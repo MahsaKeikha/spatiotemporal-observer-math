@@ -2603,14 +2603,83 @@ singular \(P_b\), or a large observed \(r_b\) can make \(\delta_b\geq1\) and
 return a vacuous screen. The pilot and screening covariances must describe the
 same population blocks; distribution shift is not covered.
 
+## Proposition 39: drift-robust pilot-normalized screening
+
+Retain the pilot construction of Proposition 38, but let \(\Gamma_b^0\) be the
+pilot population and \(\Gamma_b^1\) the screening population. Suppose a
+predeclared deterministic envelope satisfies
+
+\[
+\left\|(\Gamma_b^0)^{-1/2}(\Gamma_b^1-\Gamma_b^0)
+(\Gamma_b^0)^{-1/2}\right\|_2\leq\rho_b<1.
+\]
+
+For the same observed \(r_b\) and pilot radius \(\varepsilon_p\), define
+
+\[
+\delta_b^0=r_b+\varepsilon_p+r_b\varepsilon_p,
+\qquad
+\delta_b^1=\frac{\delta_b^0+\rho_b}{1-\rho_b}.
+\]
+
+If \(\delta_b^1<1\) for every candidate block, then, simultaneously with
+probability at least \(1-\alpha\) over the pilot ensemble,
+
+\[
+\left\|(\Gamma_b^1)^{-1/2}(H_b-\Gamma_b^1)
+(\Gamma_b^1)^{-1/2}\right\|_2\leq\delta_b^1
+\]
+
+for every screening covariance \(H_b\). Substituting these radii into
+Proposition 37 therefore controls the primitive factors, complete scores,
+predeclared structural nulls, and the retained near-competitor graph relative
+to the screening population.
+
+**Proof.** Proposition 38 gives
+
+\[
+(1-\delta_b^0)\Gamma_b^0\preceq H_b
+\preceq(1+\delta_b^0)\Gamma_b^0.
+\]
+
+The drift premise is equivalent to
+
+\[
+(1-\rho_b)\Gamma_b^0\preceq\Gamma_b^1
+\preceq(1+\rho_b)\Gamma_b^0.
+\]
+
+Combining the upper inequalities and, separately, the lower inequalities gives
+
+\[
+\frac{1-\delta_b^0}{1+\rho_b}\Gamma_b^1
+\preceq H_b\preceq
+\frac{1+\delta_b^0}{1-\rho_b}\Gamma_b^1.
+\]
+
+The upper relative displacement is
+\((\delta_b^0+\rho_b)/(1-\rho_b)\), whereas the lower displacement is
+\((\delta_b^0+\rho_b)/(1+\rho_b)\). The former dominates. This is exactly the
+claimed \(\delta_b^1\); Proposition 37 and the deterministic score and graph
+arguments finish the result. \(\square\)
+
+The correction cannot in general be replaced by \(\delta_b^0+\rho_b\).
+Already in one dimension, take \(\Gamma^0=1\),
+\(\Gamma^1=1-\rho\), and \(H=1+\delta^0\). The upper displacement relative
+to \(\Gamma^1\) is exactly \((\delta^0+\rho)/(1-\rho)\). Thus the denominator
+is a geometric necessity, not an artifact of the proof. The theorem also does
+not estimate drift: the \(\rho_b\) values must come from a design constraint,
+an external calibration, or a separately justified model. Understating them
+invalidates the guarantee.
+
 ## Open conjectures
 
-### C1. Adaptive geometry under drift and dependence
+### C1. Adaptive geometry under dependent windows
 
-Proposition 38 gives observable pilot-normalized radii for a fixed population.
-The unresolved problem is to preserve useful guarantees when the reference and
-screening populations drift or when both are estimated from dependent windows
-of one long record.
+Proposition 39 permits a declared population drift, but its Gaussian confidence
+still comes from a pilot ensemble of independent complete trajectories. The
+unresolved problem is to obtain a useful adaptive radius when pilot and
+screening covariances come from dependent windows of one long record.
 
 ### C2. Gauge-consistent quantum lift
 

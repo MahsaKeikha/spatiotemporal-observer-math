@@ -1055,7 +1055,42 @@ fixed Proposition 37 radius. Experiment X deliberately records the favorable
 reusable-reference regime and reports both sample counts; it is not presented
 as an equal-total-sample comparison.
 
-## 34. Choices that are still choices
+## 34. Transporting the pilot certificate across population drift
+
+Let \(\Gamma^0\) and \(\Gamma^1\) denote the pilot and current population
+covariances. A declared relative drift radius \(\rho\) means
+
+\[
+(1-\rho)\Gamma^0\preceq\Gamma^1\preceq(1+\rho)\Gamma^0.
+\]
+
+The pilot calculation first gives the same-population radius
+\(\delta^0=r+\varepsilon+r\varepsilon\). Converting its Loewner sandwich from
+the \(\Gamma^0\) metric to the \(\Gamma^1\) metric produces two unequal errors:
+
+\[
+1-\frac{1-\delta^0}{1+\rho}
+=\frac{\delta^0+\rho}{1+\rho},
+\qquad
+\frac{1+\delta^0}{1-\rho}-1
+=\frac{\delta^0+\rho}{1-\rho}.
+\]
+
+The second is larger, so it becomes the implemented radius. This calculation
+also identifies the exact validity boundary: the downstream factor bounds need
+
+\[
+\frac{\delta^0+\rho}{1-\rho}<1,
+\quad\text{equivalently}\quad
+\delta^0+2\rho<1.
+\]
+
+No confidence is assigned to \(\rho\). It is a declared envelope, not a drift
+estimate extracted from the screening observations. Experiment Y uses an exact
+envelope from a controlled congruence transformation so that this distinction
+can be audited without an additional estimation layer.
+
+## 35. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

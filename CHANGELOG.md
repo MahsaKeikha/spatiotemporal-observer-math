@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.27.0 - 2026-09-08
+
+- Proved a three-sandwich transport bound from the pilot-population metric to a
+  current-population metric under a declared candidate-block covariance drift.
+- Added a public drift-robust screen with separate observed, same-population,
+  drift, and final radii; full factor and score errors; graph outputs; and
+  validity diagnostics.
+- Recorded a sharp one-dimensional construction showing why the drift
+  correction requires the denominator `1 - rho` rather than simple addition.
+- Added a 448-draw, seven-level calibration in which an invertible coordinate
+  congruence changes covariance while preserving every population information
+  factor and the optimal path.
+- Recorded complete covariance, score, valid-radius, and path-event coverage,
+  together with the negative selectivity result: the safe graph becomes
+  complete at maximum candidate drift `0.001628` on the displayed problem.
+- Added the four-panel landing-page figure, full result table, machine-readable
+  record, API guide, protocol, assumption audit, and three theorem-level tests.
+
 ## 0.26.0 - 2026-09-08
 
 - Proved an observable pilot-normalized covariance bound by composing the

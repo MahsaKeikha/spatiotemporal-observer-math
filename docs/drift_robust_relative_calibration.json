@@ -1,0 +1,311 @@
+{
+  "seed": 20260918,
+  "construction": "checkerboard diagonal congruence with scale exp(amplitude*(-1)^(t+j)); population information factors and path are invariant",
+  "trials_per_drift_level": 64,
+  "pilot_sample_count": 8000000000000,
+  "screening_sample_count": 300000000,
+  "nominal_pilot_confidence": 0.975,
+  "records": [
+    {
+      "log_scale_amplitude": 0.0,
+      "maximum_population_drift_relative_error": 0.0,
+      "minimum_population_drift_relative_error": 0.0,
+      "maximum_population_factor_change": 0.0,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.00041715793416345094,
+      "standard_error_maximum_actual_relative_error": 4.309754533897201e-06,
+      "mean_maximum_stationary_radius": 0.0004222182700700959,
+      "standard_error_maximum_stationary_radius": 4.3199433400032e-06,
+      "mean_maximum_robust_radius": 0.0004222182700700959,
+      "standard_error_maximum_robust_radius": 4.3199433400032e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.0,
+      "standard_error_robust_to_stationary_radius_ratio": 0.0,
+      "mean_stationary_state_fraction": 0.293359375,
+      "standard_error_stationary_state_fraction": 0.0019481583676759012,
+      "mean_robust_state_fraction": 0.293359375,
+      "standard_error_robust_state_fraction": 0.0019481583676759012,
+      "mean_stationary_edge_fraction": 0.0572509765625,
+      "standard_error_stationary_edge_fraction": 0.000945927719614627,
+      "mean_robust_edge_fraction": 0.0572509765625,
+      "standard_error_robust_edge_fraction": 0.000945927719614627
+    },
+    {
+      "log_scale_amplitude": 5e-05,
+      "maximum_population_drift_relative_error": 0.0001627183959252234,
+      "minimum_population_drift_relative_error": 0.00010691636454513144,
+      "maximum_population_factor_change": 1.6653345369377348e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.0004197005344340836,
+      "standard_error_maximum_actual_relative_error": 3.4458062211446416e-06,
+      "mean_maximum_stationary_radius": 0.0004707944716328838,
+      "standard_error_maximum_stationary_radius": 4.105513764127562e-06,
+      "mean_maximum_robust_radius": 0.0006057921813012393,
+      "standard_error_maximum_robust_radius": 4.194412011944707e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.2883547676806344,
+      "standard_error_robust_to_stationary_radius_ratio": 0.004488156356371565,
+      "mean_stationary_state_fraction": 0.30703125,
+      "standard_error_stationary_state_fraction": 0.00204342353346123,
+      "mean_robust_state_fraction": 0.375,
+      "standard_error_robust_state_fraction": 0.0,
+      "mean_stationary_edge_fraction": 0.07379150390625,
+      "standard_error_stationary_edge_fraction": 0.0014894825281668018,
+      "mean_robust_edge_fraction": 0.11627197265625,
+      "standard_error_robust_edge_fraction": 0.00020847474702880041
+    },
+    {
+      "log_scale_amplitude": 0.0001,
+      "maximum_population_drift_relative_error": 0.00032546326845625973,
+      "minimum_population_drift_relative_error": 0.00021384416016105925,
+      "maximum_population_factor_change": 1.7763568394002505e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.000415351666418577,
+      "standard_error_maximum_actual_relative_error": 3.525797109682055e-06,
+      "mean_maximum_stationary_radius": 0.000564577749223546,
+      "standard_error_maximum_stationary_radius": 4.3032658299765845e-06,
+      "mean_maximum_robust_radius": 0.0008535026438564074,
+      "standard_error_maximum_robust_radius": 5.071822421647604e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.5137701109803312,
+      "standard_error_robust_to_stationary_radius_ratio": 0.00681048289147556,
+      "mean_stationary_state_fraction": 0.373046875,
+      "standard_error_stationary_state_fraction": 0.000845280339843882,
+      "mean_robust_state_fraction": 0.57734375,
+      "standard_error_robust_state_fraction": 0.005963647262009599,
+      "mean_stationary_edge_fraction": 0.113525390625,
+      "standard_error_stationary_edge_fraction": 0.00035738528062080073,
+      "mean_robust_edge_fraction": 0.18896484375,
+      "standard_error_robust_edge_fraction": 0.002505664765354924
+    },
+    {
+      "log_scale_amplitude": 0.0002,
+      "maximum_population_drift_relative_error": 0.0006510324578878491,
+      "minimum_population_drift_relative_error": 0.00042773404934115034,
+      "maximum_population_factor_change": 1.7763568394002505e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.0004166788014596411,
+      "standard_error_maximum_actual_relative_error": 3.7161046346207777e-06,
+      "mean_maximum_stationary_radius": 0.000806045706378902,
+      "standard_error_maximum_stationary_radius": 5.55193940092314e-06,
+      "mean_maximum_robust_radius": 0.0014306953336437438,
+      "standard_error_maximum_robust_radius": 7.361687060090076e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.7768296934464913,
+      "standard_error_robust_to_stationary_radius_ratio": 0.006532537538446507,
+      "mean_stationary_state_fraction": 0.526953125,
+      "standard_error_stationary_state_fraction": 0.0031646633456059474,
+      "mean_robust_state_fraction": 0.9609375,
+      "standard_error_robust_state_fraction": 0.0023540613124339825,
+      "mean_stationary_edge_fraction": 0.1632080078125,
+      "standard_error_stationary_edge_fraction": 0.0014040823617519238,
+      "mean_robust_edge_fraction": 0.4735107421875,
+      "standard_error_robust_edge_fraction": 0.001712509982093568
+    },
+    {
+      "log_scale_amplitude": 0.00035,
+      "maximum_population_drift_relative_error": 0.0011395849075301688,
+      "minimum_population_drift_relative_error": 0.000748654645744015,
+      "maximum_population_factor_change": 1.9984014443252818e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.0004202001236591262,
+      "standard_error_maximum_actual_relative_error": 3.2187217335646065e-06,
+      "mean_maximum_stationary_radius": 0.00122370963934228,
+      "standard_error_maximum_stationary_radius": 7.191372565074142e-06,
+      "mean_maximum_robust_radius": 0.0023615296383957393,
+      "standard_error_maximum_robust_radius": 7.784567577653046e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.9316657222400884,
+      "standard_error_robust_to_stationary_radius_ratio": 0.0051655427858421045,
+      "mean_stationary_state_fraction": 0.9234374999999999,
+      "standard_error_stationary_state_fraction": 0.0009440905908072567,
+      "mean_robust_state_fraction": 1.0,
+      "standard_error_robust_state_fraction": 0.0,
+      "mean_stationary_edge_fraction": 0.3984375,
+      "standard_error_stationary_edge_fraction": 0.0019100216497314778,
+      "mean_robust_edge_fraction": 0.9354248046875,
+      "standard_error_robust_edge_fraction": 0.0014054293651668737
+    },
+    {
+      "log_scale_amplitude": 0.0005,
+      "maximum_population_drift_relative_error": 0.0016283758430958228,
+      "minimum_population_drift_relative_error": 0.0010696781857318896,
+      "maximum_population_factor_change": 1.6653345369377348e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.0004164223779554581,
+      "standard_error_maximum_actual_relative_error": 3.465134141929456e-06,
+      "mean_maximum_stationary_radius": 0.0017032881706678265,
+      "standard_error_maximum_stationary_radius": 7.577948161116859e-06,
+      "mean_maximum_robust_radius": 0.003337085235830635,
+      "standard_error_maximum_robust_radius": 7.593730647275347e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.9603891776018703,
+      "standard_error_robust_to_stationary_radius_ratio": 0.0042399558958015155,
+      "mean_stationary_state_fraction": 1.0,
+      "standard_error_stationary_state_fraction": 0.0,
+      "mean_robust_state_fraction": 1.0,
+      "standard_error_robust_state_fraction": 0.0,
+      "mean_stationary_edge_fraction": 0.5614013671875,
+      "standard_error_stationary_edge_fraction": 0.0016076453666291025,
+      "mean_robust_edge_fraction": 1.0,
+      "standard_error_robust_edge_fraction": 0.0
+    },
+    {
+      "log_scale_amplitude": 0.00075,
+      "maximum_population_drift_relative_error": 0.002443557637997801,
+      "minimum_population_drift_relative_error": 0.0016049462694535117,
+      "maximum_population_factor_change": 1.9984014443252818e-15,
+      "trial_count": 64,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_blocks_valid_rate": 1.0,
+      "all_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_actual_relative_error": 0.00041683981780642383,
+      "standard_error_maximum_actual_relative_error": 4.255550575056904e-06,
+      "mean_maximum_stationary_radius": 0.0025071144919838525,
+      "standard_error_maximum_stationary_radius": 9.32767150848769e-06,
+      "mean_maximum_robust_radius": 0.004962799015421635,
+      "standard_error_maximum_robust_radius": 9.350520043158405e-06,
+      "mean_robust_to_stationary_radius_ratio": 1.9803187383637284,
+      "standard_error_robust_to_stationary_radius_ratio": 0.0035543782136992826,
+      "mean_stationary_state_fraction": 1.0,
+      "standard_error_stationary_state_fraction": 0.0,
+      "mean_robust_state_fraction": 1.0,
+      "standard_error_robust_state_fraction": 0.0,
+      "mean_stationary_edge_fraction": 0.96282958984375,
+      "standard_error_stationary_edge_fraction": 0.0007013670324253128,
+      "mean_robust_edge_fraction": 1.0,
+      "standard_error_robust_edge_fraction": 0.0
+    }
+  ]
+}

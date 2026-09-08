@@ -90,6 +90,7 @@ presented as necessary.
 | \(m,M\) | Lower and upper covariance eigenvalue bounds |
 | \(\eta\) | Observation or estimation covariance error radius |
 | \(r\) | Population covariance residual around a representative |
+| \(\rho\) | Declared pilot-to-current population covariance drift radius |
 | \(K\) | Number of declared candidate classes |
 | \(T\) | Number of scored time layers |
 
@@ -160,8 +161,12 @@ tube. Proposition 38 now addresses observable adaptive normalization with a
 reusable Gaussian pilot. Experiment X
 turns observed pilot-to-screening discrepancies into candidate-specific radii
 and finds smaller safe graphs in all 18 regimes while explicitly recording the
-much larger amortized pilot. Population drift and dependent-window extensions
-are the next steps.
+much larger amortized pilot. Proposition 39 now permits a separately declared
+population-covariance drift. Experiment Y holds the population scores and path
+fixed under an invertible congruence and shows both complete recorded coverage
+and a rapid loss of graph selectivity as the envelope grows. Estimating drift
+with its own confidence budget and treating dependent windows are the next
+statistical steps.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

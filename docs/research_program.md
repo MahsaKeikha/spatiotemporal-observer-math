@@ -40,8 +40,12 @@ complete screen. Experiment W records paired coverage on the same grid and
 removes the observed conditioning penalty. Proposition 38 now composes a
 reusable Gaussian pilot event with each exact pilot-normalized screening
 discrepancy. Experiment X records a roughly two-fold radius reduction and
-smaller graphs across the grid. The next task is to allow population drift and
-overlapping windows from one long dependent time series.
+smaller graphs across the grid. Proposition 39 composes that adaptive radius
+with a declared population-relative drift envelope. Experiment Y isolates the
+result under structure-preserving coordinate drift and records where the bound
+loses graph selectivity. The next task is to estimate drift under a separate
+confidence budget and to handle overlapping windows from one long dependent
+time series.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -124,9 +128,10 @@ calibration across 18 fixed signal regimes and separates population margin from
 spectral conditioning. Proposition 37 resolves that specific global-conditioning
 artifact with a relative covariance theorem, and Experiment W verifies the full
 paired chain on the same regimes. Proposition 38 and Experiment X add the
-observable pilot-normalized refinement. The next priority is drift-robust
-adaptive normalization and independently justified structural masks without
-losing post-selection validity.
+observable pilot-normalized refinement. Proposition 39 and Experiment Y extend
+it to a declared population drift and expose its selectivity boundary. The next
+priority is a statistically estimated drift envelope and independently
+justified structural masks without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

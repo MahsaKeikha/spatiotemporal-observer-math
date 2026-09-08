@@ -297,7 +297,38 @@ adaptive-to-fixed radius ratio and actual-error-to-adaptive-radius ratio.
 This is an amortized-reference experiment. The eight-trillion pilot is not
 charged as though it were collected separately for each screening draw, and the
 comparison is not an equal-total-sample efficiency claim. Reuse is valid only
-under the same population covariance; drift is a required future control.
+under the same population covariance.
+
+### Declared-drift calibration
+
+`drift_robust_relative_calibration.py` fixes the baseline memory regime,
+isotropic process noise, coupling `0.18`, one eight-trillion-trajectory pilot,
+and seven log-scale amplitudes from `0` through `0.00075`. The root
+`SeedSequence` is `20260918`. For each amplitude it forms one exact screening
+population covariance by the full-trajectory diagonal congruence
+
+\[
+D_{t,j}=\exp\{\gamma(-1)^{t+j}\},
+\qquad \Gamma^1=D\Gamma^0D.
+\]
+
+This transformation is invertible, time-local, and coordinatewise. Gaussian
+mutual information, conditional mutual information, canonical correlations,
+the population score arrays, and the optimal path are therefore unchanged.
+The script recomputes all local and transport factors after each congruence and
+requires agreement within `1e-10`; the committed maximum absolute difference
+is `1.9984e-15`.
+The exact candidate-block drift radii are computed from \(\Gamma^0\) and
+\(\Gamma^1\), then supplied as the independently declared input to Proposition
+39. Each drift level receives 64 independent full-trajectory Wishart draws at
+300 million trajectories.
+
+Every draw records current-population covariance coverage, complete score
+coverage, radius validity, path retention, stationary and drift-robust radii,
+and both retained graph fractions. The stationary calculation is a diagnostic
+in the old population metric, not a claimed guarantee after drift. Because the
+exact population envelope is used, this experiment audits propagation given a
+correct envelope; it does not test how an application should estimate one.
 
 ## 5. Exchangeable identifiability counterexample
 
@@ -440,6 +471,12 @@ share a zero-to-100-percent scale. The footer states the separate pilot and
 screening sample counts, the mean radius ratio, and the minimum recorded
 coverage so the gain cannot be mistaken for an equal-budget comparison.
 
+`drift_robust_relative_calibration.png` plots the maximum stationary and
+drift-robust radii, the retained state and edge fractions, all three recorded
+event frequencies, and the additive certificate radius charged for drift. The
+horizontal axis is the maximum candidate-block \(100\rho\), not the input
+log-scale amplitude, so it reports the covariance quantity used by the theorem.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -461,6 +498,9 @@ coverage so the gain cannot be mistaken for an equal-budget comparison.
 | `test_pilot_sandwich_composition_covers_screening_covariance` | Two relative Loewner sandwiches compose to the stated observable pilot radius |
 | `test_cross_fitted_screen_covers_scores_and_retains_population_path` | The public pilot-normalized entry point covers candidate blocks and retains the population path on fixed draws |
 | `test_cross_fitted_screen_rejects_mismatched_covariance_sequences` | Pilot and screening covariance sequences cannot be silently misaligned |
+| `test_three_sandwich_composition_covers_drifted_screening_covariance` | Pilot, observed, and population-drift Loewner sandwiches compose into the current-population radius |
+| `test_drift_robust_screen_covers_scores_and_retains_population_path` | The public drift-aware entry point covers a fixed drifted draw and retains the population path |
+| `test_drift_robust_screen_rejects_invalid_drift_envelope` | A drift radius at the singular boundary cannot be passed as a valid guarantee |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -622,8 +662,14 @@ Its limitations are concrete:
     preprocessing step licensed for reuse on the same observations.
 28. Proposition 38 and Experiment X use a much larger reusable pilot than each
     screening cohort. The smaller graph is an adaptive-radius result, not an
-    equal-total-sample comparison. Pilot and screening population drift would
-    invalidate the present guarantee.
+    equal-total-sample comparison.
+29. Proposition 39 assumes that every declared candidate-block drift radius is
+    valid. Experiment Y computes that envelope from exact population
+    covariances and therefore does not solve drift estimation. Its congruence
+    construction deliberately preserves the score and path; it does not test
+    structural change, coordinate mismatch, non-Gaussian shift, or dependent
+    pilot and screening windows. The complete graph at larger displayed drift
+    is a recorded loss of selectivity, not evidence of failed recovery.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -660,6 +706,7 @@ python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
 python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
 python examples/relative_covariance_calibration.py --trials 64 --jobs 6
 python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
+python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

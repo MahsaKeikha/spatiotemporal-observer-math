@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 109 tests. Continuous integration runs
+The automated suite currently contains 112 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -975,6 +975,58 @@ windows. Per-cell 64-of-64 coverage again has Wilson 95% interval
 The full record is stored in
 [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json).
 
+## Experiment Y: screening under declared population drift
+
+Command used for the committed result:
+
+```bash
+python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
+```
+
+One baseline population and one fixed eight-trillion-trajectory pilot are used
+throughout. At each of seven drift levels, a checkerboard diagonal congruence
+rescales the complete trajectory covariance by
+\(d_{t,j}=\exp\{\gamma(-1)^{t+j}\}\). This changes the population covariance
+while preserving every Gaussian information factor and the population path:
+the transformation is invertible within each time slice and never mixes
+candidate coordinates with their complement. Each level then receives 64
+independent screening covariances from 300 million complete trajectories.
+The script recomputes every transformed population factor and aborts if the
+maximum change exceeds `1e-10`; the committed maximum is `1.9984e-15`.
+
+![Pilot-normalized screening under declared covariance drift](drift_robust_relative_calibration.png)
+
+| Maximum \(\rho\) | Robust radius | States retained | Edges retained | Covariance / score / path events |
+| ---: | ---: | ---: | ---: | ---: |
+| `0.000000` | `0.000422` | `29.3%` | `5.7%` | `64 / 64 / 64` of 64 |
+| `0.000163` | `0.000606` | `37.5%` | `11.6%` | `64 / 64 / 64` of 64 |
+| `0.000325` | `0.000854` | `57.7%` | `18.9%` | `64 / 64 / 64` of 64 |
+| `0.000651` | `0.001431` | `96.1%` | `47.4%` | `64 / 64 / 64` of 64 |
+| `0.001140` | `0.002362` | `100.0%` | `93.5%` | `64 / 64 / 64` of 64 |
+| `0.001628` | `0.003337` | `100.0%` | `100.0%` | `64 / 64 / 64` of 64 |
+| `0.002444` | `0.004963` | `100.0%` | `100.0%` | `64 / 64 / 64` of 64 |
+
+All 448 draws satisfy the declared covariance event, the complete local and
+transport score bounds, the valid-radius condition, and population-path
+retention. As in the earlier calibration studies, 64-of-64 has Wilson 95%
+interval `[0.943376, 1.000000]`; it is a consistency result rather than a
+precise validation of a 97.5% tail probability.
+
+The main result is a limitation curve. At zero drift, the adaptive screen keeps
+`29.3%` of states and `5.7%` of edges. At maximum candidate drift
+`0.000651`, it keeps `96.1%` of states and `47.4%` of edges. At `0.001628`,
+the screen is complete and therefore provides no pruning, even though the
+population problem itself is unchanged. The theorem remains valid; the
+certificate loses resolution. The stationary formula shown in the first panel
+is retained only as a numerical comparator. Under drift it bounds error in the
+old population metric and is not a current-population guarantee.
+
+This study uses the exact population drift solely to audit Proposition 39. In
+an application, the envelope would need an external design argument or a
+separately protected estimation procedure. The full seeds, inputs, Wilson
+intervals, standard errors, and trial aggregates are stored in
+[`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -984,4 +1036,5 @@ The full record is stored in
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines
 - replication on independently designed generative systems
-- controlled population drift between the pilot and screening cohorts
+- externally estimated drift envelopes with an explicit confidence budget
+- dependent pilot and screening windows from a single mixing process

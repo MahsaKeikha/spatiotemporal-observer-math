@@ -1052,6 +1052,43 @@ covariance. The pilot and screening blocks must nevertheless represent the same
 population. Reusing an old pilot after distribution drift is outside the
 guarantee.
 
+### Drift-robust pilot-normalized screen
+
+```python
+from observer_math import gaussian_drift_robust_relative_near_competitor_screen
+
+robust = gaussian_drift_robust_relative_near_competitor_screen(
+    pilot_joint_covariances,
+    screening_joint_covariances,
+    candidates,
+    pilot_sample_count,
+    node_count,
+    subset_size,
+    population_drift_relative_errors=declared_candidate_drift,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+`declared_candidate_drift[t, c]` bounds the population change for that
+present-plus-candidate block in the pilot-population metric. It must have shape
+`(time, candidates)`, contain finite nonnegative values below one, and be
+justified independently of the screening draw. Proposition 39 converts the
+same-population radius `delta0` into
+`(delta0 + rho) / (1 - rho)` before propagating the complete screen.
+
+The result separates `same_population_relative_errors`,
+`population_drift_relative_errors`, and the final `covariance_relative_errors`.
+It also reports the maximum declared drift, the maximum final radius, all
+factor and score arrays, graph masks, and separate validity flags. A false or
+understated drift envelope invalidates the guarantee; this API does not infer
+or test the envelope.
+
+`compose_pilot_screening_drift_relative_error` exposes the scalar or
+broadcasted three-sandwich calculation for direct audits.
+
 ### Independent sample-split certification
 
 ```python

@@ -285,6 +285,36 @@ class GaussianCrossFittedRelativeNearCompetitorScreen:
     guarantees_safe_screen: bool
 
 
+@dataclass(frozen=True)
+class GaussianDriftRobustRelativeNearCompetitorScreen:
+    """Pilot-normalized screen with a declared population-drift envelope."""
+
+    screen: NearCompetitorScreen
+    pilot_sample_count: int
+    pilot_confidence: float
+    pilot_covariance_relative_error: float
+    observed_pilot_relative_errors: np.ndarray
+    same_population_relative_errors: np.ndarray
+    population_drift_relative_errors: np.ndarray
+    covariance_relative_errors: np.ndarray
+    maximum_population_drift_relative_error: float
+    maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_pilot_blocks_positive_definite: bool
+    all_drift_envelopes_valid: bool
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
 def componentwise_recovery_bound(
     local_scores: ArrayLike,
     candidates: Sequence[Sequence[int]],
@@ -1942,6 +1972,179 @@ def gaussian_cross_fitted_relative_near_competitor_screen(
         structural_integration_null_mask=null_mask.copy(),
         null_local_score_errors=propagated["null_local_score_errors"],
         all_pilot_blocks_positive_definite=all_pilot_positive,
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
+
+
+def compose_pilot_screening_drift_relative_error(
+    observed_pilot_relative_error: ArrayLike,
+    pilot_relative_error: float,
+    population_drift_relative_error: ArrayLike,
+) -> np.ndarray:
+    """Compose pilot error, observed discrepancy, and population drift.
+
+    The returned radius is relative to the screening population. Inputs may be
+    scalars or broadcast-compatible arrays. A drift radius must be strictly
+    below one so that the pilot population has a positive lower bound in the
+    screening-population metric.
+    """
+    observed = np.asarray(observed_pilot_relative_error, dtype=float)
+    drift = np.asarray(population_drift_relative_error, dtype=float)
+    epsilon = float(pilot_relative_error)
+    if (
+        np.any(~np.isfinite(observed))
+        or np.any(~np.isfinite(drift))
+        or not np.isfinite(epsilon)
+        or np.any(observed < 0.0)
+        or np.any(drift < 0.0)
+        or epsilon < 0.0
+    ):
+        raise ValueError("relative errors must be finite and nonnegative")
+    if epsilon >= 1.0:
+        raise ValueError("pilot_relative_error must be below one")
+    if np.any(drift >= 1.0):
+        raise ValueError("population drift relative errors must be below one")
+    same_population = observed + epsilon + observed * epsilon
+    return (same_population + drift) / (1.0 - drift)
+
+
+def gaussian_drift_robust_relative_near_competitor_screen(
+    pilot_joint_covariances: Sequence[ArrayLike],
+    screening_joint_covariances: Sequence[ArrayLike],
+    candidates: Sequence[Sequence[int]],
+    pilot_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    population_drift_relative_errors: ArrayLike,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianDriftRobustRelativeNearCompetitorScreen:
+    """Extend pilot-normalized screening to a declared covariance drift.
+
+    ``population_drift_relative_errors[t, c]`` must bound the candidate block
+    change from the pilot population covariance to the screening population
+    covariance, normalized by the pilot population. The drift envelope is an
+    assumption supplied independently of the screening draw; it is not inferred
+    by this function.
+    """
+    baseline = gaussian_cross_fitted_relative_near_competitor_screen(
+        pilot_joint_covariances,
+        screening_joint_covariances,
+        candidates,
+        pilot_sample_count,
+        node_count,
+        subset_size,
+        structural_integration_null_mask=structural_integration_null_mask,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    drift = np.asarray(population_drift_relative_errors, dtype=float)
+    expected_shape = baseline.observed_pilot_relative_errors.shape
+    if drift.shape != expected_shape:
+        raise ValueError(
+            "population_drift_relative_errors must match the candidate state array"
+        )
+    relative_errors = compose_pilot_screening_drift_relative_error(
+        baseline.observed_pilot_relative_errors,
+        baseline.pilot_covariance_relative_error,
+        drift,
+    )
+
+    screenings = tuple(
+        np.asarray(value, dtype=float) for value in screening_joint_covariances
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    time_count, candidate_count = expected_shape
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    local_factors = np.empty((*expected_shape, 3), dtype=float)
+    transport_factors = np.empty((*edge_shape, 2), dtype=float)
+    for time, joint in enumerate(screenings):
+        present = joint[:node_count, :node_count]
+        for current, candidate in enumerate(candidate_tuple):
+            metrics = observer_metrics_from_covariances(present, joint, candidate)
+            local_factors[time, current] = (
+                metrics.integration_strength,
+                metrics.independence,
+                metrics.persistence,
+            )
+        if time < time_count - 1:
+            for previous, source in enumerate(candidate_tuple):
+                for current, target in enumerate(candidate_tuple):
+                    metrics = transport_metrics_from_covariances(
+                        present, joint, source, target
+                    )
+                    transport_factors[time, previous, current] = (
+                        metrics.independence,
+                        metrics.persistence,
+                    )
+
+    null_mask = np.asarray(structural_integration_null_mask)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
+    )
+    all_drift_valid = bool(np.all(drift < 1.0))
+    all_valid = bool(
+        baseline.all_pilot_blocks_positive_definite
+        and all_drift_valid
+        and propagated["all_blocks_valid"]
+    )
+    same_population = baseline.covariance_relative_errors.copy()
+    return GaussianDriftRobustRelativeNearCompetitorScreen(
+        screen=propagated["screen"],
+        pilot_sample_count=baseline.pilot_sample_count,
+        pilot_confidence=baseline.pilot_confidence,
+        pilot_covariance_relative_error=baseline.pilot_covariance_relative_error,
+        observed_pilot_relative_errors=baseline.observed_pilot_relative_errors.copy(),
+        same_population_relative_errors=same_population,
+        population_drift_relative_errors=drift.copy(),
+        covariance_relative_errors=relative_errors,
+        maximum_population_drift_relative_error=float(np.max(drift)),
+        maximum_covariance_relative_error=float(np.max(relative_errors)),
+        screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_pilot_blocks_positive_definite=(
+            baseline.all_pilot_blocks_positive_definite
+        ),
+        all_drift_envelopes_valid=all_drift_valid,
         all_blocks_valid=all_valid,
         guarantees_safe_screen=all_valid,
     )
