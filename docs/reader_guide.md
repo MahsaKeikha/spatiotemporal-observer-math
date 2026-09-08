@@ -169,7 +169,14 @@ adds a finite-sample drift confidence budget for fixed Gaussian blocks.
 Experiment Z shows why validity and experimental design
 must still be separated: estimating drift and transporting the old reference
 is safe, but directly refreshing the reference is much more selective on the
-tested construction. Dependent windows remain open.
+tested construction. Proposition 41 then treats a first dependent-sample model:
+known-zero-mean Gaussian observations with exact separable covariance
+(R\otimes\Gamma). Two effective sample sizes, determined by
+(\lVert R\rVert_F\) and (\lVert R\rVert_2\), replace the nominal count and feed
+the same complete score and graph bounds. Experiment AA audits that statement
+on stationary AR(1) draws. This does not yet cover estimated means, estimated
+temporal correlation, nonseparable multivariate dependence, or arbitrary
+overlapping windows.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

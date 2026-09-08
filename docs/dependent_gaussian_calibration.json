@@ -1,0 +1,179 @@
+{
+  "seed": 20260927,
+  "sampling_model": "known-zero-mean Gaussian observations with temporal correlation R_ij=phi^abs(i-j) and identity population covariance",
+  "sample_count": 50000,
+  "block_dimension": 10,
+  "simultaneous_block_count": 1,
+  "confidence": 0.975,
+  "trials_per_autocorrelation": 128,
+  "records": [
+    {
+      "autocorrelation": 0.0,
+      "frobenius_norm_bound": 223.60679774997897,
+      "spectral_norm_bound": 1.0,
+      "variance_effective_sample_size": 50000.0,
+      "operator_effective_sample_size": 50000.0,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.09394170811758788,
+      "trial_count": 128,
+      "mean_relative_error": 0.026139249383158033,
+      "standard_error_relative_error": 0.0003083608507160711,
+      "quantile_95_relative_error": 0.03290655138631935,
+      "maximum_relative_error": 0.03648028452584021,
+      "iid_covered_rate": 1.0,
+      "iid_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.25,
+      "frobenius_norm_bound": 238.0473155581563,
+      "spectral_norm_bound": 1.6666666666666667,
+      "variance_effective_sample_size": 44117.75778574503,
+      "operator_effective_sample_size": 30000.0,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.101277864335483,
+      "trial_count": 128,
+      "mean_relative_error": 0.027929741461489473,
+      "standard_error_relative_error": 0.00031757538319250936,
+      "quantile_95_relative_error": 0.03441519141901679,
+      "maximum_relative_error": 0.040285135527456314,
+      "iid_covered_rate": 1.0,
+      "iid_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.5,
+      "frobenius_norm_bound": 288.6735949899894,
+      "spectral_norm_bound": 3.0,
+      "variance_effective_sample_size": 30000.320003413373,
+      "operator_effective_sample_size": 16666.666666666668,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.1248807592098488,
+      "trial_count": 128,
+      "mean_relative_error": 0.03387683221321795,
+      "standard_error_relative_error": 0.00040698093555780276,
+      "quantile_95_relative_error": 0.04125413125543483,
+      "maximum_relative_error": 0.0520004965546824,
+      "iid_covered_rate": 1.0,
+      "iid_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.7,
+      "frobenius_norm_bound": 382.19715277710606,
+      "spectral_norm_bound": 5.666666666666666,
+      "variance_effective_sample_size": 17114.535392674952,
+      "operator_effective_sample_size": 8823.529411764706,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.1689123154633076,
+      "trial_count": 128,
+      "mean_relative_error": 0.044766366875423305,
+      "standard_error_relative_error": 0.0004922980936593877,
+      "quantile_95_relative_error": 0.05387158030517733,
+      "maximum_relative_error": 0.06032359693824157,
+      "iid_covered_rate": 0.9609375,
+      "iid_covered_wilson_95": [
+        0.9118129792331631,
+        0.9832013892021962
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.85,
+      "frobenius_norm_bound": 557.0831137718174,
+      "spectral_norm_bound": 12.333333333333332,
+      "variance_effective_sample_size": 8055.639447126711,
+      "operator_effective_sample_size": 4054.0540540540546,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.25479206998382065,
+      "trial_count": 128,
+      "mean_relative_error": 0.06432007436187721,
+      "standard_error_relative_error": 0.0007382608150979066,
+      "quantile_95_relative_error": 0.07709087535277057,
+      "maximum_relative_error": 0.08439570199304297,
+      "iid_covered_rate": 0.1484375,
+      "iid_covered_wilson_95": [
+        0.09713463115350009,
+        0.22022729122631057
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.93,
+      "frobenius_norm_bound": 830.7211788039309,
+      "spectral_norm_bound": 27.571428571428594,
+      "variance_effective_sample_size": 3622.675577146959,
+      "operator_effective_sample_size": 1813.4715025906721,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.399299955510765,
+      "trial_count": 128,
+      "mean_relative_error": 0.09774827574506648,
+      "standard_error_relative_error": 0.0011268009956801757,
+      "quantile_95_relative_error": 0.11845409619259827,
+      "maximum_relative_error": 0.1356598056046129,
+      "iid_covered_rate": 0.0,
+      "iid_covered_wilson_95": [
+        0.0,
+        0.029136956273508416
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    },
+    {
+      "autocorrelation": 0.97,
+      "frobenius_norm_bound": 1281.2137266704126,
+      "spectral_norm_bound": 65.66666666666661,
+      "variance_effective_sample_size": 1522.989267055143,
+      "operator_effective_sample_size": 761.4213197969549,
+      "iid_relative_radius": 0.0555133321689028,
+      "dependent_relative_radius": 0.6646311079456393,
+      "trial_count": 128,
+      "mean_relative_error": 0.1536517461883755,
+      "standard_error_relative_error": 0.0018201446035717634,
+      "quantile_95_relative_error": 0.18305064162061138,
+      "maximum_relative_error": 0.24529142856768912,
+      "iid_covered_rate": 0.0,
+      "iid_covered_wilson_95": [
+        0.0,
+        0.029136956273508416
+      ],
+      "dependent_covered_rate": 1.0,
+      "dependent_covered_wilson_95": [
+        0.9708630437264916,
+        1.0
+      ]
+    }
+  ]
+}

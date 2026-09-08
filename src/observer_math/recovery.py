@@ -260,6 +260,45 @@ class GaussianRelativeNearCompetitorScreen:
 
 
 @dataclass(frozen=True)
+class GaussianTemporalCorrelationEnvelope:
+    """Norm and effective-sample bounds for Gaussian temporal correlation."""
+
+    sample_count: int
+    autocorrelation: float
+    frobenius_norm_bound: float
+    spectral_norm_bound: float
+    variance_effective_sample_size: float
+    operator_effective_sample_size: float
+
+
+@dataclass(frozen=True)
+class GaussianDependentRelativeNearCompetitorScreen:
+    """Relative screen for separably correlated Gaussian observations."""
+
+    screen: NearCompetitorScreen
+    sample_count: int
+    confidence: float
+    temporal_correlation_frobenius_norm: float
+    temporal_correlation_spectral_norm: float
+    variance_effective_sample_size: float
+    operator_effective_sample_size: float
+    covariance_relative_errors: np.ndarray
+    maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
+@dataclass(frozen=True)
 class GaussianCrossFittedRelativeNearCompetitorScreen:
     """Observable relative screen using a Gaussian pilot covariance."""
 
@@ -709,6 +748,99 @@ def gaussian_wishart_relative_covariance_error_bound(
         + np.sqrt(2.0 * np.log(2.0 * block_count / (1.0 - confidence)))
     ) / np.sqrt(sample_count - 1)
     return float(2.0 * deviation + deviation**2)
+
+
+def gaussian_ar1_temporal_correlation_envelope(
+    sample_count: int,
+    autocorrelation: float,
+) -> GaussianTemporalCorrelationEnvelope:
+    """Return exact Frobenius and safe spectral bounds for AR(1) correlation."""
+    if isinstance(sample_count, bool) or not isinstance(
+        sample_count, (int, np.integer)
+    ):
+        raise TypeError("sample_count must be an integer")
+    if sample_count < 1:
+        raise ValueError("sample_count must be positive")
+    if not np.isfinite(autocorrelation) or not -1.0 < autocorrelation < 1.0:
+        raise ValueError("autocorrelation must lie in (-1, 1)")
+    magnitude = abs(float(autocorrelation))
+    squared = magnitude**2
+    if squared == 0.0 or sample_count == 1:
+        frobenius_squared = float(sample_count)
+    else:
+        power = squared ** (sample_count - 1)
+        geometric = squared * (1.0 - power) / (1.0 - squared)
+        weighted = squared * (
+            1.0
+            - sample_count * power
+            + (sample_count - 1) * power * squared
+        ) / (1.0 - squared) ** 2
+        frobenius_squared = float(
+            sample_count + 2.0 * (sample_count * geometric - weighted)
+        )
+    frobenius = float(np.sqrt(frobenius_squared))
+    spectral = float(
+        min(sample_count, (1.0 + magnitude) / (1.0 - magnitude))
+    )
+    return GaussianTemporalCorrelationEnvelope(
+        sample_count=int(sample_count),
+        autocorrelation=float(autocorrelation),
+        frobenius_norm_bound=frobenius,
+        spectral_norm_bound=spectral,
+        variance_effective_sample_size=float(sample_count**2 / frobenius_squared),
+        operator_effective_sample_size=float(sample_count / spectral),
+    )
+
+
+def gaussian_dependent_relative_covariance_error_bound(
+    block_dimension: int,
+    block_count: int,
+    sample_count: int,
+    *,
+    temporal_correlation_frobenius_norm: float,
+    temporal_correlation_spectral_norm: float,
+    confidence: float = 0.975,
+) -> float:
+    """Bound relative covariance error for separably correlated Gaussians.
+
+    Observations must be centered with known population mean and have joint
+    covariance ``R tensor Gamma``. The two supplied norms must upper-bound the
+    Frobenius and spectral norms of the temporal correlation matrix ``R``.
+    """
+    integer_values = (block_dimension, block_count, sample_count)
+    if any(
+        isinstance(value, bool) or not isinstance(value, (int, np.integer))
+        for value in integer_values
+    ):
+        raise TypeError("dimensions, block count, and sample count must be integers")
+    if block_dimension < 1 or block_count < 1 or sample_count < 1:
+        raise ValueError("dimensions, block count, and sample count must be positive")
+    frobenius = float(temporal_correlation_frobenius_norm)
+    spectral = float(temporal_correlation_spectral_norm)
+    if (
+        not np.isfinite(frobenius)
+        or not np.isfinite(spectral)
+        or frobenius < np.sqrt(sample_count)
+        or frobenius > sample_count
+        or spectral < 1.0
+        or spectral > sample_count
+    ):
+        raise ValueError("temporal correlation norms are outside valid bounds")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0, 1)")
+    tail = np.log(
+        2.0
+        * block_count
+        * 9.0**block_dimension
+        / (1.0 - float(confidence))
+    )
+    return float(
+        4.0
+        * (
+            frobenius * np.sqrt(tail) / sample_count
+            + spectral * tail / sample_count
+        )
+    )
 
 
 def product_root_error_bound(
@@ -1812,6 +1944,108 @@ def gaussian_relative_structural_null_near_competitor_screen(
         screen=propagated["screen"],
         screening_sample_count=int(screening_sample_count),
         screening_confidence=float(confidence),
+        covariance_relative_errors=relative_errors,
+        maximum_covariance_relative_error=delta,
+        screening_local_factor_errors=propagated["screening_local_factor_errors"],
+        screening_transport_factor_errors=propagated[
+            "screening_transport_factor_errors"
+        ],
+        screening_local_score_errors=propagated["screening_local_score_errors"],
+        screening_transport_score_errors=propagated[
+            "screening_transport_score_errors"
+        ],
+        total_local_score_errors=propagated["total_local_score_errors"],
+        total_transport_score_errors=propagated["total_transport_score_errors"],
+        positive_local_factor_floor_mask=propagated[
+            "positive_local_factor_floor_mask"
+        ],
+        positive_transport_factor_floor_mask=propagated[
+            "positive_transport_factor_floor_mask"
+        ],
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=propagated["null_local_score_errors"],
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_dependent_relative_structural_null_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    temporal_correlation_frobenius_norm: float,
+    temporal_correlation_spectral_norm: float,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianDependentRelativeNearCompetitorScreen:
+    """Screen under a separable Gaussian temporal-correlation envelope."""
+    gaussian_relative_structural_null_near_competitor_screen(
+        empirical_local_factors,
+        empirical_transport_factors,
+        candidates,
+        sample_count,
+        node_count,
+        subset_size,
+        structural_integration_null_mask=structural_integration_null_mask,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    null_mask = np.asarray(structural_integration_null_mask)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    time_count, candidate_count, _ = local_factors.shape
+    block_count = time_count * candidate_count
+    delta = gaussian_dependent_relative_covariance_error_bound(
+        node_count + subset_size,
+        block_count,
+        sample_count,
+        temporal_correlation_frobenius_norm=(
+            temporal_correlation_frobenius_norm
+        ),
+        temporal_correlation_spectral_norm=temporal_correlation_spectral_norm,
+        confidence=confidence,
+    )
+    relative_errors = np.full((time_count, candidate_count), delta)
+    propagated = _relative_structural_null_screen_from_radii(
+        local_factors,
+        transport_factors,
+        candidate_tuple,
+        relative_errors,
+        node_count,
+        subset_size,
+        null_mask,
+        certification_local,
+        certification_transport,
+        transport_weight,
+        continuity_weight,
+    )
+    frobenius = float(temporal_correlation_frobenius_norm)
+    spectral = float(temporal_correlation_spectral_norm)
+    all_valid = bool(propagated["all_blocks_valid"])
+    return GaussianDependentRelativeNearCompetitorScreen(
+        screen=propagated["screen"],
+        sample_count=int(sample_count),
+        confidence=float(confidence),
+        temporal_correlation_frobenius_norm=frobenius,
+        temporal_correlation_spectral_norm=spectral,
+        variance_effective_sample_size=float(sample_count**2 / frobenius**2),
+        operator_effective_sample_size=float(sample_count / spectral),
         covariance_relative_errors=relative_errors,
         maximum_covariance_relative_error=delta,
         screening_local_factor_errors=propagated["screening_local_factor_errors"],

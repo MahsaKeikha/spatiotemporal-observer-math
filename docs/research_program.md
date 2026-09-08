@@ -47,9 +47,17 @@ loses graph selectivity. Proposition 40 then uses two simultaneous Gaussian
 covariance events to produce an observable drift envelope
 with a union-bound confidence. Experiment Z compares that route with refreshing
 the current reference and finds the refresh substantially more selective on
-paired draws. The remaining task is the dependent-window extension and a model
-in which retaining historical geometry contributes information not present in
-the current calibration cohort.
+paired draws. Proposition 41 now covers dependent Gaussian observations when
+their known-zero-mean covariance has the exact separable form
+(R\otimes\Gamma). Its weighted-chi-square argument produces separate
+Frobenius- and spectral-effective sample sizes and carries the resulting radius
+through the complete structural-null screen. Experiment AA audits this theorem
+on stationary AR(1) sequences and demonstrates the failure of the i.i.d.
+radius at high correlation. The remaining statistical task is to replace the
+known mean and temporal-correlation envelope by simultaneous estimates, then
+move beyond separability to general overlapping windows. A separate modeling
+task is to construct a regime in which retaining historical geometry
+contributes information unavailable from the current calibration cohort.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -136,8 +144,11 @@ observable pilot-normalized refinement. Proposition 39 and Experiment Y extend
 it to a declared population drift and expose its selectivity boundary. The next
 step, Proposition 40 and Experiment Z, adds a statistically estimated drift
 envelope and demonstrates its conservatism relative to refreshing the
-reference. The next priority is dependent sampling and independently justified
-structural masks without losing post-selection validity.
+reference. Proposition 41 and Experiment AA then address dependent sampling
+under an exact separable, known-mean Gaussian model. The next priority is mean
+and correlation estimation,
+nonseparable dependent windows, and independently justified structural masks
+without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

@@ -2745,14 +2745,87 @@ covariance, it can instead be used directly as a refreshed pilot in Proposition
 38. Neither route is uniformly declared superior here; Experiment Z compares
 them on one fixed construction.
 
+## Proposition 41: separably dependent Gaussian covariance screening
+
+Let \(Y_1,\ldots,Y_N\in\mathbb R^d\) be jointly Gaussian with known zero mean
+and separable covariance
+
+\[
+\operatorname{Cov}(Y_i,Y_j)=R_{ij}\Gamma,
+\]
+
+where \(R\) is a positive-semidefinite correlation matrix and
+\(\Gamma\succ0\). Define the uncentered covariance
+\(H=N^{-1}\sum_iY_iY_i^\mathsf T\). For \(B\) fixed candidate blocks, let
+
+\[
+t=\log\frac{2B9^d}{\alpha},
+\qquad
+N_F=\frac{N^2}{\|R\|_F^2},
+\qquad
+N_{\mathrm{op}}=\frac{N}{\|R\|_2}.
+\]
+
+Then, simultaneously for all blocks, with probability at least
+\(1-\alpha\),
+
+\[
+\left\|\Gamma^{-1/2}(H-\Gamma)\Gamma^{-1/2}\right\|_2
+\leq
+4\left(\sqrt{\frac{t}{N_F}}+
+\frac{t}{N_{\mathrm{op}}}\right).
+\]
+
+Whenever the right-hand side is below one, substituting it into Proposition 37
+gives a safe structural-null near-competitor screen for the dependent Gaussian
+sample.
+
+**Proof.** Population whitening reduces the spatial covariance to identity.
+For a fixed unit vector \(u\), the temporal vector of projections has law
+\(R^{1/2}g\), where \(g\sim\mathcal N(0,I_N)\). Diagonalizing \(R\) gives
+
+\[
+u^\mathsf T(H-I)u
+=\frac1N\sum_{i=1}^N\lambda_i(g_i^2-1).
+\]
+
+The weighted chi-square inequality gives, with probability at least
+\(1-2e^{-t}\),
+
+\[
+\left|u^\mathsf T(H-I)u\right|
+\leq \frac{2\|R\|_F\sqrt t+2\|R\|_2t}{N}.
+\]
+
+A quarter-net of the unit sphere has cardinality at most \(9^d\), and for a
+symmetric matrix its maximum quadratic form on that net controls the spectral
+norm with factor two. A union bound over the net, both tails, and \(B\) fixed
+blocks produces the displayed radius. Independence between candidate blocks is
+not used. Proposition 37 supplies the deterministic factor, score, null, and
+graph propagation. \(\square\)
+
+For the AR(1) correlation \(R_{ij}=\phi^{|i-j|}\), the implementation evaluates
+\(\|R\|_F\) exactly and uses
+
+\[
+\|R\|_2\leq\frac{1+|\phi|}{1-|\phi|}.
+\]
+
+As \(N\) grows, \(N_F/N\to(1-\phi^2)/(1+\phi^2)\), while the implemented
+operator effective fraction is at least \((1-|\phi|)/(1+|\phi|)\). The theorem
+does not cover a covariance centered by the same dependent observations, an
+unknown or estimated \(R\), nonseparable space-time covariance, or arbitrary
+overlapping windows. Those cases require additional error terms or a different
+concentration argument.
+
 ## Open conjectures
 
-### C1. Adaptive geometry under dependent windows
+### C1. Nonseparable dependent windows and estimated means
 
-Proposition 39 permits a declared population drift, but its Gaussian confidence
-still comes from a pilot ensemble of independent complete trajectories. The
-unresolved problem is to obtain a useful adaptive radius when pilot and
-screening covariances come from dependent windows of one long record.
+Proposition 41 handles known-mean Gaussian dependence of the exact separable
+form \(R\otimes\Gamma\). The unresolved problem is a useful screen when a mean
+and temporal envelope must be estimated from the same record, or when
+overlapping multivariate windows produce nonseparable space-time covariance.
 
 ### C2. Gauge-consistent quantum lift
 
@@ -2774,3 +2847,6 @@ proof or a counterexample is committed with a reproducible test.
 1. K. R. Davidson and S. J. Szarek, "Local operator theory, random matrices and
    Banach spaces," in *Handbook of the Geometry of Banach Spaces*, vol. 1,
    2001, pp. 317-366. [Author-hosted preprint](https://www.math.uwaterloo.ca/~krdavids/Preprints/DavSzHB.pdf).
+2. B. Laurent and P. Massart, "Adaptive estimation of a quadratic functional by
+   model selection," *The Annals of Statistics*, vol. 28, no. 5, 2000,
+   pp. 1302-1338. [doi:10.1214/aos/1015957395](https://doi.org/10.1214/aos/1015957395).

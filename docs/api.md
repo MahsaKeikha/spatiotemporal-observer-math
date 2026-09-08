@@ -1006,6 +1006,53 @@ positive-definite Gaussian candidate blocks and independent trajectories across
 the sample index. Any data-adaptive candidate or null selection needs separate
 protection.
 
+### Temporally dependent Gaussian screen
+
+```python
+from observer_math import (
+    gaussian_ar1_temporal_correlation_envelope,
+    gaussian_dependent_relative_structural_null_near_competitor_screen,
+)
+
+temporal = gaussian_ar1_temporal_correlation_envelope(
+    sample_count,
+    autocorrelation=0.7,
+)
+
+dependent = gaussian_dependent_relative_structural_null_near_competitor_screen(
+    empirical_local_factors,
+    empirical_transport_factors,
+    candidates,
+    sample_count,
+    node_count,
+    subset_size,
+    temporal_correlation_frobenius_norm=temporal.frobenius_norm_bound,
+    temporal_correlation_spectral_norm=temporal.spectral_norm_bound,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+Proposition 41 replaces the independent-Wishart radius by a weighted Gaussian
+quadratic-form radius. It assumes known-zero-mean observations with separable
+space-time covariance `R tensor Gamma`. The caller supplies valid upper bounds
+for the Frobenius and spectral norms of `R`. The result reports both norms,
+the variance effective sample size `N**2 / ||R||_F**2`, the operator effective
+sample size `N / ||R||_2`, the relative radius, every propagated factor and
+score error, the graph, and the validity flags.
+
+`gaussian_dependent_relative_covariance_error_bound` exposes the concentration
+radius without running the screen. `gaussian_ar1_temporal_correlation_envelope`
+computes the exact Frobenius norm and a safe row-sum spectral bound when
+`R[i,j] = autocorrelation ** abs(i-j)`.
+
+This function does not treat an estimated mean as known, estimate temporal
+correlation, or certify a general overlapping-window covariance. Those cases
+are not interchangeable with the separable model and remain outside the
+guarantee.
+
 ### Pilot-normalized adaptive screen
 
 ```python

@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 116 tests. Continuous integration runs
+The automated suite currently contains 120 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -1084,6 +1084,53 @@ The complete seeds, confidence allocation, Wilson intervals, standard errors,
 and paired aggregates are stored in
 [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json).
 
+## Experiment AA: dependent Gaussian covariance calibration
+
+Command used for the committed result:
+
+```bash
+python examples/dependent_gaussian_calibration.py --trials 128 --jobs 6
+```
+
+Each trial draws 50,000 exactly stationary, known-zero-mean Gaussian
+observations in ten dimensions. After population whitening, every coordinate
+follows the same AR(1) correlation
+\(R_{ij}=\phi^{|i-j|}\). Seven fixed autocorrelations from `0` through `0.97`
+receive 128 independent trials. The population covariance is identity, so the
+recorded spectral deviation is exactly the relative covariance error controlled
+by Proposition 41.
+
+![Relative covariance concentration under dependent Gaussian samples](dependent_gaussian_calibration.png)
+
+| \(\phi\) | \(N_F\) | \(N_{op}\) | Empirical 95% error | I.i.d. coverage | Dependent coverage | Dependent radius |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `0.00` | `50000.0` | `50000.0` | `0.0329` | `100.0%` | `100.0%` | `0.0939` |
+| `0.25` | `44117.8` | `30000.0` | `0.0344` | `100.0%` | `100.0%` | `0.1013` |
+| `0.50` | `30000.3` | `16666.7` | `0.0413` | `100.0%` | `100.0%` | `0.1249` |
+| `0.70` | `17114.5` | `8823.5` | `0.0539` | `96.1%` | `100.0%` | `0.1689` |
+| `0.85` | `8055.6` | `4054.1` | `0.0771` | `14.8%` | `100.0%` | `0.2548` |
+| `0.93` | `3622.7` | `1813.5` | `0.1185` | `0.0%` | `100.0%` | `0.3993` |
+| `0.97` | `1523.0` | `761.4` | `0.1831` | `0.0%` | `100.0%` | `0.6646` |
+
+The i.i.d. Wishart formula is constant at `0.055513`. It covers only 19 of 128
+draws at \(\phi=0.85\), and none at `0.93` or `0.97`. The dependence-aware
+radius covers all 896 recorded draws. A 128-of-128 cell has Wilson 95% interval
+`[0.970863, 1.000000]`; this run is consistent with the theorem but still does
+not precisely validate a 2.5% tail probability.
+
+The result also quantifies the cost of dependence. At \(\phi=0.97\), the
+variance effective count falls from 50,000 to `1,523.0` and the operator count
+to `761.4`. The valid radius is `3.63` times the empirical 95th percentile at
+that point. Thus the new theorem prevents the severe undercoverage caused by
+the i.i.d. formula, but its quarter-net constant remains conservative.
+
+This is not yet a theorem for arbitrary overlapping trajectory windows. The
+experiment uses known zero mean and the exact separable AR(1) model. Estimating
+the mean or temporal envelope from the same record, or allowing nonseparable
+space-time covariance, requires further analysis. Full seeds, norm bounds,
+effective counts, Wilson intervals, errors, and radii are stored in
+[`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -1096,3 +1143,5 @@ and paired aggregates are stored in
 - non-Gaussian or structured drift models where an old reference may add
   information unavailable in the current calibration cohort
 - dependent pilot and screening windows from a single mixing process
+- estimated-mean and estimated-autocorrelation corrections
+- nonseparable multivariate sliding-window constructions

@@ -100,6 +100,8 @@ The mathematical development is cumulative:
    penalty while preserving the same end-to-end screen guarantee;
 10. a reusable pilot covariance turns that geometry into observed,
     candidate-specific radii for later screening cohorts.
+11. separable Gaussian dependence across observations is summarized by two
+    effective sample sizes and propagated through the complete screen.
 
 Each arrow in this chain carries explicit assumptions. The
 [assumption ledger](assumption_ledger.md) records what fails if any one of them
@@ -171,6 +173,7 @@ necessary conditions.
 | 38 | [Pilot-normalized adaptive screening](proofs_and_conjectures.md#proposition-38-pilot-normalized-adaptive-screening) | An observed pilot-to-screening discrepancy composes with pilot uncertainty to give candidate-specific relative radii and a safe adaptive graph. |
 | 39 | [Drift-robust pilot-normalized screening](proofs_and_conjectures.md#proposition-39-drift-robust-pilot-normalized-screening) | A declared population-relative drift envelope transports the adaptive certificate into the current population metric, with an explicit validity boundary. |
 | 40 | [Statistically calibrated population drift](proofs_and_conjectures.md#proposition-40-statistically-calibrated-population-drift-envelope) | Two simultaneous covariance events turn old and current calibration cohorts into a candidate-specific drift envelope with an explicit joint confidence. |
+| 41 | [Separably dependent Gaussian covariance screening](proofs_and_conjectures.md#proposition-41-separably-dependent-gaussian-covariance-screening) | Weighted Gaussian quadratic-form concentration replaces the i.i.d. sample count by Frobenius- and spectral-effective sample sizes and propagates the result through the complete screen. |
 
 ## Experiment index
 
@@ -205,6 +208,7 @@ Exact commands, parameters, tables, and qualifications are in
 | X | [Reusable-pilot adaptive screening](reproducible_results.md#experiment-x-reusable-pilot-adaptive-screening) | A reusable high-precision pilot cuts the maximum relative radius to about 51% of the fixed radius and reduces the safe graph in every tested regime. |
 | Y | [Screening under declared population drift](reproducible_results.md#experiment-y-screening-under-declared-population-drift) | A structure-preserving drift curve retains all declared events but exposes rapid loss of graph selectivity as the envelope grows. |
 | Z | [Estimating drift versus refreshing the reference](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference) | A 640-pair comparison validates the confidence-budgeted drift envelope and finds that refreshing the current reference is more selective on this construction. |
+| AA | [Dependent Gaussian covariance calibration](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration) | Across 896 stationary AR(1) trials, the dependence-aware radius covers every draw while the i.i.d. radius fails sharply at high correlation. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -255,6 +259,19 @@ noise. The marked construction is checked by both the exact optimizer and the
 finite-horizon perturbation certificate.
 
 ### Statistical screening
+
+[![Relative covariance concentration under dependent Gaussian samples](dependent_gaussian_calibration.png)](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration)
+
+Experiment AA makes the cost of sample dependence explicit. Under a known
+separable Gaussian AR(1) law, the theorem replaces the nominal count by two
+effective sample sizes. All 896 dependence-aware events are covered; the i.i.d.
+radius loses coverage as correlation grows. At `0.97`, the valid radius is 3.63
+times the empirical 95th percentile, so the figure records conservatism as well
+as coverage.
+
+[Complete calibration table](reproducible_results.md#experiment-aa-dependent-gaussian-covariance-calibration) ·
+[machine-readable results](dependent_gaussian_calibration.json) ·
+[theorem](proofs_and_conjectures.md#proposition-41-separably-dependent-gaussian-covariance-screening)
 
 [![Estimated drift and refreshed-reference comparison](calibrated_drift_comparison.png)](reproducible_results.md#experiment-z-estimating-drift-versus-refreshing-the-reference)
 
@@ -342,7 +359,8 @@ exact.
 | Can the declared finite path objective be optimized exactly? | Yes, including its exact runner-up and margin. | Exact algorithmic result |
 | Can bounded score perturbations be converted into path recovery? | Yes, globally, locally, and through class-compressed adversarial path bounds. | Deterministic theorem |
 | Can covariance error be propagated through CMI and canonical correlation? | Yes, under either absolute spectral or covariance-normalized relative events, with explicit constants. | Deterministic theorem |
-| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories. Proposition 37 avoids declared spectral envelopes by using a relative Wishart event. | Statistical theorem; conservative |
+| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and, under Proposition 41's narrower exact-separable model, correlated Gaussian observations with known mean and temporal norm bounds. | Statistical theorem; conservative |
+| Can serial dependence be charged explicitly? | Yes for Gaussian covariance (R\otimes\Gamma): two effective sample sizes replace the nominal count and feed the same score and graph bounds. | Proposition 41; Experiment AA |
 | Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
 | Can covariance radii adapt to an observed reference discrepancy? | Yes. A Gaussian pilot event composes with each exact pilot-normalized screening discrepancy. | Proposition 38 |
 | Can that certificate survive population covariance drift? | Yes, conditional on an independently valid candidate-block drift envelope. The correction is sharp in one dimension and can become nonselective well before it becomes invalid. | Proposition 39; Experiment Y |
@@ -372,11 +390,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 116 of 116 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 120 of 120 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 26 documented studies, A through Z | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 13 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 27 documented studies, A through Z and AA | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 14 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -396,7 +414,7 @@ python -m ruff check .
 Then run the newest calculation:
 
 ```bash
-python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
+python examples/dependent_gaussian_calibration.py --trials 128 --jobs 6
 ```
 
 The audit trail is organized as follows:
@@ -413,17 +431,19 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json), [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json), [`cross_fitted_relative_calibration.json`](cross_fitted_relative_calibration.json), [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json), [`calibrated_drift_comparison.json`](calibrated_drift_comparison.json), [`dependent_gaussian_calibration.json`](dependent_gaussian_calibration.json) |
 
 ## What remains unresolved
 
 The principal limitations are substantive, not presentational:
 
-- the strongest statistical results assume independent Gaussian trajectories;
+- the dependent-sample theorem assumes a known mean and exact separable
+  Gaussian covariance; estimated dependence and nonseparable windows remain
+  unresolved;
 - the relative certificate avoids spectral-envelope inputs, but its whitening is
   a proof device and its Gaussian assumption remains restrictive;
-- statistical drift calibration is proved only for fixed Gaussian blocks;
-  estimating it from dependent windows remains unresolved;
+- statistical drift calibration is proved only for fixed Gaussian blocks and
+  has not yet been combined with the dependent-sample theorem;
 - the available finite-sample constants remain far from empirical recovery
   scales on the initial benchmark;
 - a structural-null mask must be justified independently of the screening data;
@@ -433,8 +453,8 @@ The principal limitations are substantive, not presentational:
 - the quantum factorization geometry remains a research program rather than an
   implemented theorem.
 
-The next statistical step is a drift-robust or dependent-window analogue of the
-pilot-normalized event, followed by non-Gaussian concentration. The next modeling step is a preregistered
+The next statistical step is same-sample mean and temporal-correlation
+estimation, followed by nonseparable and non-Gaussian concentration. The next modeling step is a preregistered
 benchmark in which temporal transport is necessary rather than merely available.
 These targets, including completion criteria, are maintained in the
 [research program](research_program.md).

@@ -354,6 +354,50 @@ retention. The study compares radius and graph size rather than recovery rate,
 because all three screens are sufficient screens and retain the population path
 on every recorded draw.
 
+### Separably dependent Gaussian calibration
+
+`dependent_gaussian_calibration.py` tests the first concentration result in the
+repository that permits dependence across the sample index. Each trial draws a
+known-zero-mean Gaussian matrix (Y\in\mathbb R^{N\times d}) with
+
+\[
+\operatorname{Cov}(Y_i,Y_j)=R_{ij}I_d,
+\qquad R_{ij}=\phi^{|i-j|}.
+\]
+
+The construction is an exact stationary AR(1) process. The committed run fixes
+(N=50{,}000), (d=10), one candidate block, confidence `0.975`, root
+`SeedSequence` value `20260927`, and 128 independent trials at each
+
+\[
+\phi\in\{0,0.25,0.50,0.70,0.85,0.93,0.97\}.
+\]
+
+The population covariance is exactly (I_d). Each trial records the operator
+norm of the uncentered empirical covariance error and compares the i.i.d.
+Wishart radius with the Proposition 41 radius based on
+
+\[
+N_F=\frac{N^2}{\lVert R\rVert_F^2},
+\qquad
+N_{\mathrm{op}}=\frac{N}{\lVert R\rVert_2}.
+\]
+
+The Frobenius norm is evaluated exactly for the Toeplitz AR(1) matrix; the
+spectral norm uses the valid row-sum envelope
+
+\[
+\min\left\{N,\frac{1+|\phi|}{1-|\phi|}\right\}.
+\]
+
+The i.i.d. curve is a diagnostic comparator and is guaranteed only at
+(\phi=0). Exact population covariance is used solely to audit coverage. The
+experiment assumes a known zero mean, known common AR(1) coefficient, exact
+separability (R\otimes I_d), and one fixed block. It does not validate
+same-sample mean centering, estimated temporal correlation, nonseparable
+multivariate dependence, adaptive block selection, or arbitrary overlapping
+windows from a single dynamical record.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -507,6 +551,12 @@ radius, retained states, and retained edges for the oracle, calibrated-drift,
 and refreshed-reference screens. All graph panels use identical candidates,
 scores, screening draws, structural-null masks, and action weights.
 
+`dependent_gaussian_calibration.png` shows how increasing AR(1) dependence
+reduces both effective sample sizes, increases the empirical covariance error,
+and invalidates use of the i.i.d. radius. The final panel compares analytical
+radii with the empirical 95th percentile so coverage and conservatism remain
+visible together.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -535,6 +585,10 @@ scores, screening draws, structural-null masks, and action weights.
 | `test_calibrated_population_drift_bound_covers_known_change` | The public calibrated envelope covers a fixed known population change |
 | `test_calibrated_drift_screen_covers_scores_and_retains_path` | The end-to-end confidence-budgeted screen covers the current population and retains its path |
 | `test_calibrated_drift_rejects_invalid_confidence` | An impossible confidence request is rejected at the public entry point |
+| `test_ar1_temporal_norm_envelope_matches_explicit_matrix` | The closed-form AR(1) Frobenius norm equals the explicit Toeplitz calculation and its spectral envelope is valid |
+| `test_dependent_relative_radius_covers_seeded_ar1_covariance` | The dependence-aware radius contains a seeded AR(1) Gaussian covariance error |
+| `test_dependent_screen_covers_scores_and_retains_population_path` | The public dependent-sample screen propagates covariance control through complete scores and retains the reference path |
+| `test_temporal_dependence_reduces_effective_sample_size_and_inflates_radius` | Stronger declared correlation lowers effective sample sizes and widens the analytical radius |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -710,6 +764,13 @@ Its limitations are concrete:
     windows. Its refreshed-reference advantage is empirical for one controlled
     drift family, not a universal theorem. The oracle curve is not an
     implementable competitor because it receives exact population drift.
+31. Proposition 41 assumes a known zero mean and exact separable Gaussian
+    covariance (R\otimes\Gamma), with valid deterministic bounds on
+    \(\lVert R\rVert_F\) and \(\lVert R\rVert_2\). Experiment AA tests only one
+    fixed identity-covariance block under a known stationary AR(1) law. Its 128
+    trials per correlation level have limited tail resolution and do not cover
+    estimated means, estimated dependence, nonseparable space-time covariance,
+    or general sliding-window constructions.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -748,6 +809,7 @@ python examples/relative_covariance_calibration.py --trials 64 --jobs 6
 python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
 python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
 python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
+python examples/dependent_gaussian_calibration.py --trials 128 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.29.0 - 2026-09-08
+
+- Proved a relative covariance concentration bound for known-zero-mean
+  Gaussian observations with exact separable covariance
+  (R\otimes\Gamma).
+- Introduced Frobenius- and spectral-effective sample sizes to separate the
+  quadratic and linear parts of the weighted Gaussian tail bound.
+- Propagated the dependence-aware radius through information factors,
+  canonical persistence, structural-null refinement, complete scores, and the
+  safe near-competitor graph.
+- Added public AR(1) temporal-envelope, covariance-radius, and end-to-end screen
+  APIs with explicit validation of the admissible norm ranges.
+- Added a 896-draw stationary AR(1) calibration over seven correlation levels,
+  with a four-panel figure, full numerical table, and machine-readable record.
+- Recorded both results: complete dependence-aware coverage in the finite run
+  and the failure of the i.i.d. radius under strong serial correlation.
+- Documented the theorem's exact limitations: known mean, known temporal norm
+  envelope, separable Gaussian covariance, and fixed candidate blocks.
+- Added four claim-level tests and updated the public research map to 41 proved
+  statements, 27 experiments, 14 figures, and 120 tests.
+
 ## 0.28.0 - 2026-09-08
 
 - Proved a simultaneous finite-sample population-drift envelope from an old

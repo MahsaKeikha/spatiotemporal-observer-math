@@ -1128,7 +1128,47 @@ selective use of the current calibration data. Treating \(C\) as a refreshed
 pilot invokes Proposition 38 directly and avoids inserting \(\bar\rho\) into a
 second Loewner conversion. Experiment Z compares both choices on paired draws.
 
-## 36. Choices that are still choices
+## 36. Effective sample size under separable temporal dependence
+
+After whitening a candidate block, a separably correlated Gaussian sample can
+be written as \(R^{1/2}G\), with independent standard Gaussian columns in
+\(G\). A fixed spatial projection turns its covariance error into a weighted
+centered chi-square sum. Two norms of \(R\) control different parts of the
+tail:
+
+\[
+N_F=\frac{N^2}{\|R\|_F^2}
+\quad\text{and}\quad
+N_{\mathrm{op}}=\frac{N}{\|R\|_2}.
+\]
+
+The Frobenius effective count governs the square-root term; the operator count
+governs the linear tail term. A quarter-net converts the scalar quadratic-form
+bound to a spectral bound and contributes \(9^d\) possible directions. With
+\(B\) fixed blocks and confidence \(1-\alpha\), the implemented radius is
+
+\[
+4\left(\sqrt{\frac{\log(2B9^d/\alpha)}{N_F}}
++\frac{\log(2B9^d/\alpha)}{N_{\mathrm{op}}}\right).
+\]
+
+For AR(1) correlation, the Frobenius norm follows from
+
+\[
+\|R\|_F^2=N+2\sum_{k=1}^{N-1}(N-k)\phi^{2k},
+\]
+
+and the spectral norm is bounded by the maximum absolute row sum
+\((1+|\phi|)/(1-|\phi|)\), capped by \(N\). Experiment AA compares this
+dependence-aware radius with the i.i.d. Wishart radius on exact stationary AR(1)
+draws.
+
+The known-zero-mean condition is substantive. Replacing the population mean by
+the same record's sample mean subtracts a random rank-one term and needs its own
+dependent concentration bound. Likewise, general sliding windows need not have
+the separable covariance assumed here.
+
+## 37. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
