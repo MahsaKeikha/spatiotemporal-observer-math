@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.22.1 - 2026-09-08
+
+- Reorganized the central overview as a visual research record with every
+  proposition and experiment title linked to its exact source section.
+- Embedded all seven committed result figures with direct links to their
+  generating commands, parameters, tables, and interpretation notes.
+- Added a compact diagram separating path computation from robustness and
+  confidence certification.
+- Added a publication-quality comparison of generic and structural-null score
+  radii and retained graph fractions.
+- Added a visible verification table covering the 94-test suite, lint, Python
+  matrix, experiment count, and committed figures without treating software
+  tests as scientific validation.
+
 ## 0.22.0 - 2026-09-08
 
 - Added a central research overview connecting all 35 propositions, all 20

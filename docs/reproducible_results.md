@@ -702,6 +702,8 @@ local states are declared to have an exact structural integration null. The
 declaration is verified from the population construction for this controlled
 example; it is not inferred by thresholding empirical scores.
 
+![Structural-null score radius and retained graph comparison](structural_null_screen.png)
+
 | Quantity | Value |
 | --- | ---: |
 | Screening sample count | `80,000,000,000` |

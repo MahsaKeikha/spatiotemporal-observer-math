@@ -271,6 +271,8 @@ states and 231 edges; the structural-null screen retains 6 states and 5 edges,
 including the population path. A false null declaration invalidates the
 guarantee, and a counterexample is included in the tests.
 
+[![Structural-null score radius and retained graph comparison](docs/structural_null_screen.png)](docs/reproducible_results.md#experiment-t-structural-null-boundary-screening)
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -348,8 +350,9 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.22 adds a
-structural-null boundary theorem and safe-screen implementation, together with
-a central overview that makes the complete proof, experiment, code, and
-limitation record navigable from one page. The repository will change as higher-precision
-calibration, counterexamples, comparisons, and sharper proofs are added.
+This is an ongoing study, not a finished paper. Version 0.22.1 presents the
+structural-null boundary theorem and safe-screen implementation through a
+central visual overview. Every proposition, experiment, figure, command, and
+limitation can be followed from that page to its detailed source. The repository
+will change as higher-precision calibration, counterexamples, comparisons, and
+sharper proofs are added.

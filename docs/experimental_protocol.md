@@ -266,6 +266,15 @@ be interpreted as pairwise significance tests.
 function of two operator-norm radii. Its logarithmic axes resolve the small
 certified neighborhood created by the zero-factor cube-root term.
 
+`gaussian_screen_calibration.png` places empirical coverage beside retained
+state and edge fractions. The first panel must be interpreted with the reported
+Wilson intervals; the second shows screen usefulness, not coverage.
+
+`structural_null_screen.png` compares the generic and structural-null local
+score radii on a logarithmic scale, then reports retained state and edge
+fractions on a common percentage scale. Its footer records the model-derived
+null-mask premise and population-path retention.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |

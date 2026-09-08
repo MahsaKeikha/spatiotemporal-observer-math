@@ -1,5 +1,8 @@
 """Compare generic and structural-null screens on one Wishart draw."""
 
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import numpy as np
 from gaussian_screen_calibration import empirical_factors, population_problem
 from scipy.stats import wishart
@@ -8,6 +11,81 @@ from observer_math import (
     gaussian_factor_aware_near_competitor_screen,
     gaussian_structural_null_near_competitor_screen,
 )
+
+
+def plot_screen_comparison(generic, null_aware, output: Path) -> None:
+    """Plot score-radius and retained-graph comparisons."""
+    generic_local_radius = float(np.max(generic.screening_local_score_errors))
+    mask = null_aware.structural_integration_null_mask
+    null_local_radius = float(
+        np.max(null_aware.screening_local_score_errors[mask])
+    )
+    time_count, candidate_count = mask.shape
+    complete_states = time_count * candidate_count
+    complete_edges = (time_count - 1) * candidate_count**2
+    state_fractions = (
+        1.0,
+        generic.screen.viable_state_count / complete_states,
+        null_aware.screen.viable_state_count / complete_states,
+    )
+    edge_fractions = (
+        1.0,
+        generic.screen.viable_edge_count / complete_edges,
+        null_aware.screen.viable_edge_count / complete_edges,
+    )
+
+    figure, axes = plt.subplots(1, 2, figsize=(11.5, 4.8))
+    colors = ("#506784", "#1f9e89", "#e0a100")
+    axes[0].bar(
+        ("Generic bound", "Structural-null bound"),
+        (generic_local_radius, null_local_radius),
+        color=(colors[0], colors[2]),
+    )
+    axes[0].set_yscale("log")
+    axes[0].set_ylabel("Maximum local-score radius")
+    axes[0].set_title("Boundary-adaptive score error")
+    for index, value in enumerate((generic_local_radius, null_local_radius)):
+        axes[0].text(index, value * 1.08, f"{value:.6f}", ha="center")
+
+    positions = np.arange(3)
+    width = 0.36
+    axes[1].bar(
+        positions - width / 2,
+        np.asarray(state_fractions) * 100.0,
+        width,
+        label="States",
+        color="#3b82b8",
+    )
+    axes[1].bar(
+        positions + width / 2,
+        np.asarray(edge_fractions) * 100.0,
+        width,
+        label="Edges",
+        color="#e07a3f",
+    )
+    axes[1].set_xticks(positions, ("Complete", "Generic", "Structural null"))
+    axes[1].set_ylim(0.0, 108.0)
+    axes[1].set_ylabel("Graph retained (%)")
+    axes[1].set_title("Safe near-competitor graph")
+    axes[1].legend(frameon=False)
+    axes[1].grid(axis="y", alpha=0.25)
+    for container in axes[1].containers:
+        axes[1].bar_label(container, fmt="%.1f%%", padding=3, fontsize=8)
+
+    figure.suptitle(
+        "Structural-null screening at 80 billion observations",
+        fontsize=13,
+    )
+    figure.text(
+        0.5,
+        0.015,
+        "The mask is fixed from the model construction before screening; the population path is retained.",
+        ha="center",
+        fontsize=9,
+    )
+    figure.tight_layout(rect=(0.0, 0.06, 1.0, 0.94))
+    figure.savefig(output, dpi=200, bbox_inches="tight")
+    plt.close(figure)
 
 
 def main() -> None:
@@ -79,6 +157,9 @@ def main() -> None:
     print(f"Population path: {problem['population_path']}")
     print(f"Null-aware center path: {null_aware.screen.population_path}")
     print(f"Safe-screen guarantee: {null_aware.guarantees_safe_screen}")
+    output = Path(__file__).resolve().parents[1] / "docs" / "structural_null_screen.png"
+    plot_screen_comparison(generic, null_aware, output)
+    print(f"Figure: {output}")
 
 
 if __name__ == "__main__":

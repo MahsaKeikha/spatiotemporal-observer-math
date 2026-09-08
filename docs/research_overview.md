@@ -1,10 +1,26 @@
 # Research overview
 
+[![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
+
 This page is the shortest complete account of the project in its present form.
 It gathers the mathematical question, the chain of proved results, the numerical
 evidence, the code that produces it, and the limits of the interpretation in one
 place. Detailed proofs and experimental records remain in their dedicated
 documents; links below lead directly to those records.
+
+## Follow this page
+
+| If you want to understand | Go directly to |
+| --- | --- |
+| The scientific question | [The problem being studied](#the-problem-being-studied) |
+| The equations used by the optimizer | [Score and path objective](#score-and-path-objective) |
+| How the proof layers connect | [Evidence chain](#evidence-chain) |
+| A particular proved statement | [Theorem index](#theorem-index) |
+| A particular numerical study | [Experiment index](#experiment-index) |
+| The figures and what each one shows | [Visual record of the results](#visual-record-of-the-results) |
+| What is and is not established | [Strongest current conclusions](#strongest-current-conclusions) |
+| Tests, code, and reproduction | [Reproducing and auditing the project](#reproducing-and-auditing-the-project) |
+| Remaining limitations | [What remains unresolved](#what-remains-unresolved) |
 
 ## The problem being studied
 
@@ -85,6 +101,23 @@ Each arrow in this chain carries explicit assumptions. The
 [assumption ledger](assumption_ledger.md) records what fails if any one of them
 is violated.
 
+```mermaid
+flowchart TD
+    A["Model or trajectory data"] --> B["Adjacent covariance blocks"]
+    B --> C["Integration, insulation, persistence"]
+    C --> D["Local and transport scores"]
+    D --> E["Exact world-tube optimizer"]
+    B --> F["Perturbation and concentration bounds"]
+    F --> G["Adversarial recovery certificate"]
+    E --> G
+    G --> H["Safe near-competitor graph"]
+```
+
+The upper route computes the selected path. The lower route answers a different
+question: whether every admissible covariance perturbation leads to the same
+path. Keeping those routes separate prevents a numerical optimum from being
+mistaken for a robustness or confidence statement.
+
 ## Theorem index
 
 All statements below are proved in
@@ -94,41 +127,41 @@ necessary conditions.
 
 | No. | Result | What it establishes |
 | ---: | --- | --- |
-| 1 | Nonstationary adjacent covariance | Exact covariance recursion and adjacent-state covariance for time-varying linear Gaussian dynamics. |
-| 2 | Representation invariance of canonical transport | Canonical transport is unchanged by invertible coordinate changes within source and target blocks. |
-| 3 | Bounded transport score | The defined transport factors and score remain in the unit interval. |
-| 4 | Finite-horizon path robustness certificate | A positive action margin yields a deterministic uniform score-error radius preserving the optimizer. |
-| 5 | Componentwise planted-path recovery | Local and incident-edge advantages imply unique global recovery of a declared planted path. |
-| 6 | Finite-sample recovery from uniform score bounds | A simultaneous score event and a deterministic margin combine into a recovery probability. |
-| 7 | Covariance perturbation bound for Gaussian CMI | Spectral covariance error gives an explicit conditional-mutual-information error bound. |
-| 8 | Canonical-persistence perturbation bound | Covariance error controls canonical correlations and the persistence factor. |
-| 9 | End-to-end Gaussian sample-complexity guarantee | Gaussian covariance concentration propagates to a complete path-recovery sample bound. |
-| 10 | Positive-factor stability of geometric scores | Away from zero factors, local and transport geometric means obey locally Lipschitz bounds. |
-| 11 | Localized finite-sample path certificate | Candidate-specific blocks and an adversarial path calculation sharpen the global certificate. |
-| 12 | Parameter-level linear-Gaussian certificate | Transition and noise perturbations propagate directly to a finite-horizon recovery condition. |
-| 13 | Objective identifiability modulo symmetry | Recovery is defined on equivalence classes when admissible symmetries preserve the objective. |
-| 14 | Two-model impossibility bound | Observationally identical models with incompatible labels impose a one-half maximin ceiling. |
-| 15 | Sufficient near-competitor graph | Forward-backward score envelopes safely discard states and edges that cannot challenge the winner. |
-| 16 | Symbolic recovery for covariance-preserving moving cliques | Closed-form factors and a recovery margin are obtained for a moving-clique family. |
-| 17 | Covariance propagation around the moving-clique family | Transition and noise perturbations produce explicit finite-horizon covariance radii. |
-| 18 | Quadratic CMI bound at zero conditional cross-covariance | Conditional mutual information grows quadratically with covariance error at an exact conditional-independence boundary. |
-| 19 | Robust recovery with external coupling and anisotropic noise | The moving-clique recovery result survives a declared nonzero perturbation neighborhood. |
-| 20 | Support-resolved finite-horizon recovery | Candidate-local covariance blocks and exact incident-edge budgets sharpen the robust margin. |
-| 21 | A priori row-local recovery | Row-restricted transition and forcing budgets give local recovery bounds without realized covariance propagation. |
-| 22 | Overlap-class recovery without candidate enumeration | Candidate calculations compress to overlap classes with an exact feasible-edge rule. |
-| 23 | Structural budgets from block sparsity | Entry sizes and block degrees yield operator-norm budgets through a small comparison matrix. |
-| 24 | Block-local covariance influence cones | A fixed block graph preserves finite-speed support information in covariance-error propagation. |
-| 25 | Moving-partition covariance influence cones | Rectangular comparisons extend localized propagation to blocks that split, merge, or move. |
-| 26 | Moving-partition path-recovery certificate | Moving-partition covariance radii propagate through every score and the adversarial path objective. |
-| 27 | Class-compressed robust path recovery | Exact factor symmetry permits robust recovery with class states rather than candidate lists. |
-| 28 | Interval-certified class recovery | Componentwise factor intervals replace exact within-class symmetry. |
-| 29 | Covariance-residual derivation of class intervals | Representative covariances and spectral residuals generate valid factor intervals. |
-| 30 | Block-structural residual class recovery | Moving block envelopes generate the covariance residuals required by class recovery. |
-| 31 | Screened-environment structural recovery | Source-specific present compression is valid when omitted conditional information is explicitly charged. |
-| 32 | Independent sample-split confidence composition | A safe first split and independent certification split combine with product confidence. |
-| 33 | Gaussian first-split screening safety | Fixed Gaussian candidate blocks give a complete concentration-to-screen guarantee. |
-| 34 | Positive-factor refinement of Gaussian screening | Empirical factors with positive lower endpoints receive sharper local Lipschitz radii. |
-| 35 | Structural-null screening at the score boundary | A predeclared exact integration null receives a quadratic boundary bound and a safe, tighter state radius. |
+| 1 | [Nonstationary adjacent covariance](proofs_and_conjectures.md#proposition-1-nonstationary-adjacent-covariance) | Exact covariance recursion and adjacent-state covariance for time-varying linear Gaussian dynamics. |
+| 2 | [Representation invariance of canonical transport](proofs_and_conjectures.md#proposition-2-representation-invariance-of-canonical-transport) | Canonical transport is unchanged by invertible coordinate changes within source and target blocks. |
+| 3 | [Bounded transport score](proofs_and_conjectures.md#proposition-3-bounded-transport-score) | The defined transport factors and score remain in the unit interval. |
+| 4 | [Finite-horizon path robustness certificate](proofs_and_conjectures.md#proposition-4-finite-horizon-path-robustness-certificate) | A positive action margin yields a deterministic uniform score-error radius preserving the optimizer. |
+| 5 | [Componentwise planted-path recovery](proofs_and_conjectures.md#proposition-5-componentwise-planted-path-recovery) | Local and incident-edge advantages imply unique global recovery of a declared planted path. |
+| 6 | [Finite-sample recovery from uniform score bounds](proofs_and_conjectures.md#proposition-6-finite-sample-recovery-from-uniform-score-bounds) | A simultaneous score event and a deterministic margin combine into a recovery probability. |
+| 7 | [Covariance perturbation bound for Gaussian CMI](proofs_and_conjectures.md#proposition-7-covariance-perturbation-bound-for-gaussian-cmi) | Spectral covariance error gives an explicit conditional-mutual-information error bound. |
+| 8 | [Canonical-persistence perturbation bound](proofs_and_conjectures.md#proposition-8-canonical-persistence-perturbation-bound) | Covariance error controls canonical correlations and the persistence factor. |
+| 9 | [End-to-end Gaussian sample-complexity guarantee](proofs_and_conjectures.md#proposition-9-end-to-end-gaussian-sample-complexity-guarantee) | Gaussian covariance concentration propagates to a complete path-recovery sample bound. |
+| 10 | [Positive-factor stability of geometric scores](proofs_and_conjectures.md#proposition-10-positive-factor-stability-of-geometric-scores) | Away from zero factors, local and transport geometric means obey locally Lipschitz bounds. |
+| 11 | [Localized finite-sample path certificate](proofs_and_conjectures.md#proposition-11-localized-finite-sample-path-certificate) | Candidate-specific blocks and an adversarial path calculation sharpen the global certificate. |
+| 12 | [Parameter-level linear-Gaussian certificate](proofs_and_conjectures.md#proposition-12-parameter-level-linear-gaussian-certificate) | Transition and noise perturbations propagate directly to a finite-horizon recovery condition. |
+| 13 | [Objective identifiability modulo symmetry](proofs_and_conjectures.md#proposition-13-objective-identifiability-modulo-symmetry) | Recovery is defined on equivalence classes when admissible symmetries preserve the objective. |
+| 14 | [Two-model impossibility bound](proofs_and_conjectures.md#proposition-14-two-model-impossibility-bound) | Observationally identical models with incompatible labels impose a one-half maximin ceiling. |
+| 15 | [Sufficient near-competitor graph](proofs_and_conjectures.md#proposition-15-sufficient-near-competitor-graph) | Forward-backward score envelopes safely discard states and edges that cannot challenge the winner. |
+| 16 | [Symbolic recovery for covariance-preserving moving cliques](proofs_and_conjectures.md#proposition-16-symbolic-recovery-for-covariance-preserving-moving-cliques) | Closed-form factors and a recovery margin are obtained for a moving-clique family. |
+| 17 | [Covariance propagation around the moving-clique family](proofs_and_conjectures.md#proposition-17-covariance-propagation-around-the-moving-clique-family) | Transition and noise perturbations produce explicit finite-horizon covariance radii. |
+| 18 | [Quadratic CMI bound at zero conditional cross-covariance](proofs_and_conjectures.md#proposition-18-quadratic-cmi-bound-at-a-zero-conditional-cross-covariance) | Conditional mutual information grows quadratically with covariance error at an exact conditional-independence boundary. |
+| 19 | [Robust recovery with external coupling and anisotropic noise](proofs_and_conjectures.md#proposition-19-robust-recovery-with-external-coupling-and-anisotropic-noise) | The moving-clique recovery result survives a declared nonzero perturbation neighborhood. |
+| 20 | [Support-resolved finite-horizon recovery](proofs_and_conjectures.md#proposition-20-support-resolved-finite-horizon-recovery) | Candidate-local covariance blocks and exact incident-edge budgets sharpen the robust margin. |
+| 21 | [A priori row-local recovery](proofs_and_conjectures.md#proposition-21-a-priori-row-local-recovery) | Row-restricted transition and forcing budgets give local recovery bounds without realized covariance propagation. |
+| 22 | [Overlap-class recovery without candidate enumeration](proofs_and_conjectures.md#proposition-22-overlap-class-recovery-without-candidate-enumeration) | Candidate calculations compress to overlap classes with an exact feasible-edge rule. |
+| 23 | [Structural budgets from block sparsity](proofs_and_conjectures.md#proposition-23-structural-budgets-from-block-sparsity) | Entry sizes and block degrees yield operator-norm budgets through a small comparison matrix. |
+| 24 | [Block-local covariance influence cones](proofs_and_conjectures.md#proposition-24-block-local-covariance-influence-cones) | A fixed block graph preserves finite-speed support information in covariance-error propagation. |
+| 25 | [Moving-partition covariance influence cones](proofs_and_conjectures.md#proposition-25-moving-partition-covariance-influence-cones) | Rectangular comparisons extend localized propagation to blocks that split, merge, or move. |
+| 26 | [Moving-partition path-recovery certificate](proofs_and_conjectures.md#proposition-26-moving-partition-path-recovery-certificate) | Moving-partition covariance radii propagate through every score and the adversarial path objective. |
+| 27 | [Class-compressed robust path recovery](proofs_and_conjectures.md#proposition-27-class-compressed-robust-path-recovery) | Exact factor symmetry permits robust recovery with class states rather than candidate lists. |
+| 28 | [Interval-certified class recovery](proofs_and_conjectures.md#proposition-28-interval-certified-class-recovery) | Componentwise factor intervals replace exact within-class symmetry. |
+| 29 | [Covariance-residual derivation of class intervals](proofs_and_conjectures.md#proposition-29-covariance-residual-derivation-of-class-intervals) | Representative covariances and spectral residuals generate valid factor intervals. |
+| 30 | [Block-structural residual class recovery](proofs_and_conjectures.md#proposition-30-block-structural-residual-class-recovery) | Moving block envelopes generate the covariance residuals required by class recovery. |
+| 31 | [Screened-environment structural recovery](proofs_and_conjectures.md#proposition-31-screened-environment-structural-recovery) | Source-specific present compression is valid when omitted conditional information is explicitly charged. |
+| 32 | [Independent sample-split confidence composition](proofs_and_conjectures.md#proposition-32-independent-sample-split-confidence-composition) | A safe first split and independent certification split combine with product confidence. |
+| 33 | [Gaussian first-split screening safety](proofs_and_conjectures.md#proposition-33-gaussian-first-split-screening-safety) | Fixed Gaussian candidate blocks give a complete concentration-to-screen guarantee. |
+| 34 | [Positive-factor refinement of Gaussian screening](proofs_and_conjectures.md#proposition-34-positive-factor-refinement-of-gaussian-screening) | Empirical factors with positive lower endpoints receive sharper local Lipschitz radii. |
+| 35 | [Structural-null screening at the score boundary](proofs_and_conjectures.md#proposition-35-structural-null-screening-at-the-score-boundary) | A predeclared exact integration null receives a quadratic boundary bound and a safe, tighter state radius. |
 
 ## Experiment index
 
@@ -137,32 +170,89 @@ Exact commands, parameters, tables, and qualifications are in
 
 | ID | Calculation | Principal recorded outcome |
 | --- | --- | --- |
-| A | Fixed modular structure | Planted blocks rank first; a correlated-noise control has positive static dependence but zero directed observer score. |
-| B | Changing-boundary world-tube | All 5 planted boundaries are recovered; action margin `0.126421`, certified uniform radius `0.010535`. |
-| C | Finite-sample recovery | Exact recovery rises from `0.313` at 80 trajectories to `1.000` at 640; an easy local baseline remains competitive. |
-| D | Exchangeable non-identifiability | Permutation-related paths tie, the labeled margin is zero, and the two-model maximin ceiling is `0.500`. |
-| E | Symbolic moving-clique recovery | Symbolic margin lower bound `0.130806`; exact margin `0.175335`; 3 of 3 boundaries recovered. |
-| F | Robust symbolic recovery | Nonzero cross-boundary and anisotropic-noise perturbations retain an exact margin of `0.175280`; several increasingly local certificates are compared. |
-| G | Block-sparse structural recovery | Six overlap classes represent `8,250,291,250,200` candidates and retain a positive margin `0.045031`. |
-| H | Localized influence cone | A remote covariance perturbation leaves the observed block radius exactly zero until graph distance seven. |
-| I | Moving-partition influence cone | The zero persists through changing block counts `4 -> 3 -> 4 -> 2 -> 3` until the declared layered route arrives. |
-| J | Moving-partition recovery | Local moving-partition errors feed the full adversarial path certificate and retain positive robust slack. |
-| K | Class-compressed robust recovery | Six classes replace a candidate family with more than eight trillion members per layer. |
-| L | Heterogeneous interval-class recovery | Nonzero within-class factor widths retain robust slack `0.449062`. |
-| M | Covariance-residual-derived intervals | Representative models plus residuals produce the intervals and robust slack `0.530115`. |
-| N | Block-structured residual recovery | Primitive block envelopes produce residuals and robust slack `0.801508`. |
-| O | Screened-environment recovery | Screened covariance radius `2.500e-08` versus `6.250e-05` for the full environment; slack `0.799524`. |
-| P | Independent sample-split accounting | 25 retained versus 10,000 unscreened blocks; minimum certification counts `80,182` and `107,350`; combined confidence `0.950625`. |
-| Q | Gaussian-safe first-split screening | At \(10^{12}\) observations, a 60-state/576-edge graph reduces to 5 states and 4 edges under the zero-safe theorem. |
-| R | Positive-factor refinement | At \(10^7\) observations, the refined graph has 4 states and 3 edges while the zero-safe graph remains at 16 and 48. |
-| S | Exact-Wishart screen calibration | All 64 trials cover each declared event at five scales; the 64-of-64 Wilson interval is only `[0.943376, 1]`, and graph reduction remains conservative. |
-| T | Structural-null boundary screen | At \(8\times10^{10}\) observations, a predeclared null mask reduces the safe graph from 40 states/231 edges to 6 states/5 edges while retaining the population path. |
+| A | [Fixed modular structure](reproducible_results.md#experiment-a-fixed-modular-structure) | Planted blocks rank first; a correlated-noise control has positive static dependence but zero directed observer score. |
+| B | [Changing-boundary world-tube](reproducible_results.md#experiment-b-changing-boundary-world-tube) | All 5 planted boundaries are recovered; action margin `0.126421`, certified uniform radius `0.010535`. |
+| C | [Finite-sample recovery](reproducible_results.md#experiment-c-finite-sample-recovery) | Exact recovery rises from `0.313` at 80 trajectories to `1.000` at 640; an easy local baseline remains competitive. |
+| D | [Exchangeable non-identifiability](reproducible_results.md#experiment-d-exchangeable-non-identifiability) | Permutation-related paths tie, the labeled margin is zero, and the two-model maximin ceiling is `0.500`. |
+| E | [Symbolic moving-clique recovery](reproducible_results.md#experiment-e-symbolic-moving-clique-recovery) | Symbolic margin lower bound `0.130806`; exact margin `0.175335`; 3 of 3 boundaries recovered. |
+| F | [Robust symbolic recovery](reproducible_results.md#experiment-f-robust-symbolic-recovery) | Nonzero cross-boundary and anisotropic-noise perturbations retain an exact margin of `0.175280`; several increasingly local certificates are compared. |
+| G | [Block-sparse structural recovery](reproducible_results.md#experiment-g-block-sparse-structural-recovery) | Six overlap classes represent `8,250,291,250,200` candidates and retain a positive margin `0.045031`. |
+| H | [Localized influence cone](reproducible_results.md#experiment-h-localized-influence-cone) | A remote covariance perturbation leaves the observed block radius exactly zero until graph distance seven. |
+| I | [Moving-partition influence cone](reproducible_results.md#experiment-i-moving-partition-influence-cone) | The zero persists through changing block counts `4 -> 3 -> 4 -> 2 -> 3` until the declared layered route arrives. |
+| J | [Moving-partition recovery](reproducible_results.md#experiment-j-moving-partition-recovery-certificate) | Local moving-partition errors feed the full adversarial path certificate and retain positive robust slack. |
+| K | [Class-compressed robust recovery](reproducible_results.md#experiment-k-class-compressed-robust-recovery) | Six classes replace a candidate family with more than eight trillion members per layer. |
+| L | [Heterogeneous interval-class recovery](reproducible_results.md#experiment-l-heterogeneous-interval-class-recovery) | Nonzero within-class factor widths retain robust slack `0.449062`. |
+| M | [Covariance-residual-derived intervals](reproducible_results.md#experiment-m-covariance-residual-derived-class-intervals) | Representative models plus residuals produce the intervals and robust slack `0.530115`. |
+| N | [Block-structured residual recovery](reproducible_results.md#experiment-n-block-structured-residual-class-recovery) | Primitive block envelopes produce residuals and robust slack `0.801508`. |
+| O | [Screened-environment recovery](reproducible_results.md#experiment-o-screened-environment-structural-recovery) | Screened covariance radius `2.500e-08` versus `6.250e-05` for the full environment; slack `0.799524`. |
+| P | [Independent sample-split accounting](reproducible_results.md#experiment-p-independent-sample-split-confidence-accounting) | 25 retained versus 10,000 unscreened blocks; minimum certification counts `80,182` and `107,350`; combined confidence `0.950625`. |
+| Q | [Gaussian-safe first-split screening](reproducible_results.md#experiment-q-gaussian-safe-first-split-screening) | At \(10^{12}\) observations, a 60-state/576-edge graph reduces to 5 states and 4 edges under the zero-safe theorem. |
+| R | [Positive-factor refinement](reproducible_results.md#experiment-r-positive-factor-screening-refinement) | At \(10^7\) observations, the refined graph has 4 states and 3 edges while the zero-safe graph remains at 16 and 48. |
+| S | [Exact-Wishart screen calibration](reproducible_results.md#experiment-s-gaussian-screening-calibration) | All 64 trials cover each declared event at five scales; the 64-of-64 Wilson interval is only `[0.943376, 1]`, and graph reduction remains conservative. |
+| T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, a predeclared null mask reduces the safe graph from 40 states/231 edges to 6 states/5 edges while retaining the population path. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
 themselves establish empirical realism. Likewise, very large nominal sample
 counts expose conservatism in the available inequalities rather than propose a
 practical data-collection plan.
+
+## Visual record of the results
+
+Every figure below is generated by a committed experiment. Select a figure to
+open the exact command, model parameters, numerical table, and interpretation
+for that result.
+
+### Moving-boundary inference
+
+[![Candidate scores over time with the selected path outlined](worldtube_baseline.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube)
+
+The heat map shows local candidate scores over time; the outline is the path
+selected by the complete objective. It is important that these are not the same
+quantity: transport and continuity can change the global choice.
+
+[![Recovery over transport and continuity weights](worldtube_phase_diagram.png)](reproducible_results.md#experiment-b-changing-boundary-world-tube)
+
+The phase diagram records where all five planted boundaries are recovered and
+where an excessive membership-continuity penalty forces failure. It therefore
+shows both the successful regime and a controlled failure regime.
+
+### Finite-sample behavior
+
+[![Finite-sample recovery curves and internal baselines](finite_sample_benchmark.png)](reproducible_results.md#experiment-c-finite-sample-recovery)
+
+Recovery improves as independent trajectory ensembles grow. The figure retains
+the negative comparison that independent local selection performs better at
+intermediate sample sizes on this easy family.
+
+### Closed-form and robust recovery regions
+
+[![Closed-form moving-clique sufficient recovery region](symbolic_recovery_region.png)](reproducible_results.md#experiment-e-symbolic-moving-clique-recovery)
+
+The black contour is the zero symbolic-margin boundary. The warm certified
+region satisfies the sufficient theorem; points outside it are uncertified and
+are not automatically failures.
+
+[![Robust recovery region under transition and noise perturbations](perturbed_recovery_region.png)](reproducible_results.md#experiment-f-robust-symbolic-recovery)
+
+This region adds bounded cross-boundary transition coupling and anisotropic
+noise. The marked construction is checked by both the exact optimizer and the
+finite-horizon perturbation certificate.
+
+### Statistical screening
+
+[![Gaussian screening coverage and retained graph fractions](gaussian_screen_calibration.png)](reproducible_results.md#experiment-s-gaussian-screening-calibration)
+
+Coverage and usefulness are deliberately shown together. All recorded events
+are covered in this limited run, while the retained graph remains complete at
+several sample scales, exposing the conservatism of the analytical radius.
+
+[![Structural-null score radius and retained graph comparison](structural_null_screen.png)](reproducible_results.md#experiment-t-structural-null-boundary-screening)
+
+The newest figure compares the generic and boundary-adaptive radii on the same
+Wishart draw. The structural-null screen retains 15.0% of states and 2.0% of
+edges while preserving the population path. This conclusion is conditional on
+the predeclared null mask being exact.
 
 ## Strongest current conclusions
 
@@ -193,6 +283,21 @@ positive-integration state to be null can understate its error and invalidate
 the guarantee. A regression test contains that false-null counterexample.
 
 ## Reproducing and auditing the project
+
+### Current verification record
+
+| Check | Recorded result | Follow the evidence |
+| --- | --- | --- |
+| Automated tests | 94 of 94 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
+| Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
+| Reproducible experiments | 20 documented studies, A through T | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 7 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+
+The test count is a software verification record, not a measure of scientific
+truth. The tests check identities, bound containment, optimizer invariants,
+input rejection, seeded reproducibility, and stated counterexamples. They do
+not replace validation on independently designed models or empirical data.
 
 Set up the environment from the repository root:
 
