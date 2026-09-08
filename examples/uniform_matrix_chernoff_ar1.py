@@ -264,7 +264,7 @@ def plot(results, output_path):
         fontsize=14,
     )
     fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig(output_path, dpi=180, bbox_inches="tight")
+    fig.savefig(output_path, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -289,7 +289,7 @@ def main():
     )
     args.output_dir.mkdir(parents=True, exist_ok=True)
     json_path = args.output_dir / "uniform_matrix_chernoff_ar1.json"
-    figure_path = args.output_dir / "uniform_matrix_chernoff_ar1.png"
+    figure_path = args.output_dir / "uniform_matrix_chernoff_ar1.svg"
     json_path.write_text(json.dumps(results, indent=2) + "\n")
     plot(results, figure_path)
     print(json.dumps(results, indent=2))
