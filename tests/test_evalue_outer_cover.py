@@ -105,16 +105,16 @@ def test_outer_cover_is_invariant_to_arbitrary_constant_channel_offsets():
     offsets = np.linspace(-100.0, 80.0, values.shape[1])
     shifted = values + offsets[None, :]
 
-    kwargs = dict(
-        lower_autocorrelation=0.36,
-        upper_autocorrelation=0.64,
-        lower_white_noise_fraction=0.0,
-        upper_white_noise_fraction=0.08,
-        confidence=0.95,
-        contrast_dimension=9,
-        mixture_autocorrelation_grid_size=5,
-        mixture_white_noise_fraction_grid_size=3,
-    )
+    kwargs = {
+        "lower_autocorrelation": 0.36,
+        "upper_autocorrelation": 0.64,
+        "lower_white_noise_fraction": 0.0,
+        "upper_white_noise_fraction": 0.08,
+        "confidence": 0.95,
+        "contrast_dimension": 9,
+        "mixture_autocorrelation_grid_size": 5,
+        "mixture_white_noise_fraction_grid_size": 3,
+    }
     base_model = gaussian_ar1_white_noise_evalue_model(values, **kwargs)
     shifted_model = gaussian_ar1_white_noise_evalue_model(shifted, **kwargs)
     base_cover = gaussian_ar1_white_noise_evalue_outer_cover(
