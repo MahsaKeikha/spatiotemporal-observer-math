@@ -21,8 +21,9 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | Audit Proposition 45 | [Estimated AR(1) plus nuisance projection](proposition_45_estimated_ar1_nuisance_projection.md) |
 | Audit Proposition 46 | [Design-specific AR(1) interval geometry](proposition_46_design_specific_ar1_envelope.md) |
 | Audit Proposition 47 | [Weighted-Wishart matrix concentration](proposition_47_weighted_wishart_matrix_chernoff.md) |
+| Audit Proposition 48 | [Uniform matrix concentration over calibrated AR(1)](proposition_48_uniform_matrix_chernoff_ar1.md) |
 | Reproduce Experiments A-AC | [Reproducible results](reproducible_results.md) |
-| Reproduce Experiments AD-AG | [Latest experiments](#latest-experiments-ad-ag) |
+| Reproduce Experiments AD-AH | [Latest experiments](#latest-experiments-ad-ah) |
 | Inspect assumptions and interpretation limits | [Assumption ledger](assumption_ledger.md) |
 
 ---
@@ -78,7 +79,7 @@ Detailed statements and proofs: [Propositions 15-31](proofs_and_conjectures.md).
 
 Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
-## Dependent Gaussian sampling: Propositions 41-47
+## Dependent Gaussian sampling: Propositions 41-48
 
 | No. | What changed | Direct source |
 | ---: | --- | --- |
@@ -89,6 +90,7 @@ Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 | 45 | Combines observable AR(1) calibration with nuisance projection and normalization uncertainty. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
 | 46 | Uses the actual nuisance design over the full calibrated AR(1) interval instead of only its rank. | [Proof](proposition_46_design_specific_ar1_envelope.md) |
 | 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
+| 48 | Makes the Proposition 47 matrix bound uniform over an observable AR(1) interval by controlling every projected temporal eigenvalue between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
 
 The newest chain can be read as a sequence of questions:
 
@@ -101,6 +103,8 @@ Can we use the actual nuisance geometry?
         -> Proposition 46
 Can we remove the sphere-net concentration bottleneck?
         -> Proposition 47
+Can that sharper matrix bound survive uncertainty in the AR(1) coefficient?
+        -> Proposition 48
 ```
 
 ---
@@ -131,7 +135,7 @@ These study Gaussian screening calibration, structural-null refinements, traject
 
 Full commands and numerical records: [Experiments A-AC](reproducible_results.md).
 
-## Latest experiments AD-AG
+## Latest experiments AD-AH
 
 | ID | Result | What to notice | Proof, data, code |
 | --- | --- | --- | --- |
@@ -139,8 +143,9 @@ Full commands and numerical records: [Experiments A-AC](reproducible_results.md)
 | AE | Estimated AR(1) plus affine nuisance mean | Observable calibration tracks the oracle, but the earlier concentration radius becomes loose at stronger correlation. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) · [JSON](estimated_ar1_nuisance_projection.json) · [script](../examples/estimated_ar1_nuisance_projection.py) |
 | AF | Design-specific interval geometry | A rank-only certificate can become vacuous even when the actual nuisance geometry retains substantial covariance information. | [Proof](proposition_46_design_specific_ar1_envelope.md) · [JSON](design_specific_ar1_envelope.json) · [script](../examples/design_specific_ar1_envelope.py) |
 | AG | Weighted-Wishart matrix concentration | Direct matrix concentration cuts the tested covariance radii by roughly 52% to 60% and restores several strong-correlation cases to radius below one. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) · [JSON](weighted_wishart_matrix_chernoff.json) · [script](../examples/weighted_wishart_matrix_chernoff.py) |
+| AH | Interval-uniform matrix concentration | The sharper matrix certificate remains valid when the AR(1) coefficient is only known through an interval. In the `[0.70, 0.80]` case, the radius falls from 2.409 to 0.931. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) · [JSON](uniform_matrix_chernoff_ar1.json) · [script](../examples/uniform_matrix_chernoff_ar1.py) |
 
-### Four newest figures
+### Five newest figures
 
 [![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
@@ -150,21 +155,28 @@ Full commands and numerical records: [Experiments A-AC](reproducible_results.md)
 
 [![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
 
+[![Experiment AH](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
+
 ---
 
 # What the repository currently establishes
 
-Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, and direct matrix concentration when the projected temporal spectrum is known.
+Under its stated Gaussian and modeling assumptions, the repository contains a conditional pipeline from time-varying dynamics to moving-boundary optimization and finite-sample recovery certification. The most developed statistical layer can account for temporal dependence, unknown constant or declared time-varying nuisance means, estimated nonnegative AR(1) dependence, actual nuisance-design geometry, direct matrix concentration, and continuum control of the full projected temporal eigenvalue profile over the calibrated AR(1) interval.
 
 It does not establish that every real system has an identifiable observer boundary. It does not establish consciousness. It does not eliminate assumptions about Gaussianity, separability, stationarity, calibration-channel validity, or predeclared nuisance structure.
 
 ## Immediate next proof target
 
-Proposition 47 is sharper but currently assumes the projected temporal eigenvalue profile is known. Proposition 46 handles an estimated AR(1) interval through norm envelopes. The next composition is:
+Proposition 48 closes the current single-parameter AR(1) composition. The next statistical target should broaden the temporal dependence class while keeping the same auditability standard.
 
-> **Uniform matrix-Chernoff concentration over the calibrated AR(1) interval using the actual declared nuisance design.**
+Natural directions include:
 
-That is the Proposition 48 target.
+- a multi-parameter stationary temporal family with a certified parameter region;
+- a finite-sample spectral-density envelope;
+- a nonparametric dependence class with an operator-norm matrix concentration theorem;
+- a carefully sample-split route to data-driven nuisance structure or spatial whitening.
+
+The next proposition should be chosen only when one of these directions yields a statement that is both mathematically explicit and testable at claim level.
 
 ---
 
