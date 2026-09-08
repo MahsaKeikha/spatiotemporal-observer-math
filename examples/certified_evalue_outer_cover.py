@@ -17,7 +17,6 @@ from observer_math.evalue_temporal_family import (
     gaussian_ar1_white_noise_log_evalue,
 )
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = REPO_ROOT / "docs" / "certified_evalue_outer_cover.json"
 
