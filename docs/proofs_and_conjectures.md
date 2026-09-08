@@ -2364,6 +2364,62 @@ population integration is positive can understate its score error. The API
 therefore requires an explicit Boolean mask and does not attempt to infer nulls
 from small empirical values.
 
+## Proposition 36: trajectory-coupled Gaussian screening safety
+
+Let \(N\) independent complete trajectories be drawn from the same centered
+linear Gaussian process, and concatenate one trajectory as
+
+\[
+Z=(X_0^\mathsf T,X_1^\mathsf T,\ldots,X_T^\mathsf T)^\mathsf T
+\sim\mathcal N(0,\Sigma_Z).
+\]
+
+Let \(E_t\) select \((X_t,X_{t+1})\) from \(Z\), so
+\(\Gamma_t=E_t\Sigma_ZE_t^\mathsf T\). Form the centered unbiased covariance
+\(\widehat\Sigma_Z\) from the same \(N\) trajectories and define
+
+\[
+\widehat\Gamma_t=E_t\widehat\Sigma_ZE_t^\mathsf T.
+\]
+
+Then every \(\widehat\Gamma_t\) has the marginal law
+
+\[
+(N-1)\widehat\Gamma_t
+\sim\mathcal W_{2n}(N-1,\Gamma_t),
+\]
+
+although the collection \((\widehat\Gamma_0,\ldots,
+\widehat\Gamma_{T-1})\) is generally dependent. Consequently the simultaneous
+covariance event, factor and score bounds, and safe-screen probability in
+Propositions 33 through 35 remain valid for shared complete trajectories. No
+independence across time indices is required.
+
+**Proof.** The complete centered sample covariance satisfies
+
+\[
+(N-1)\widehat\Sigma_Z\sim\mathcal W_{(T+1)n}(N-1,\Sigma_Z).
+\]
+
+For any deterministic matrix \(E\), the congruence of a Wishart matrix has law
+\(EWE^\mathsf T\sim\mathcal W(N-1,E\Sigma_ZE^\mathsf T)\), with the dimension
+reduced to the row rank of \(E\). Taking \(E=E_t\) gives the stated adjacent
+marginal law. Candidate-local blocks are further deterministic principal
+projections and inherit the corresponding marginal Wishart laws.
+
+The Gaussian singular-value inequality therefore applies to each fixed block
+with the same radius used in Proposition 33. Boole's inequality gives the
+simultaneous event by summing the marginal failure probabilities; it does not
+assume that the block events are independent. The deterministic factor,
+score, structural-null, and forward-backward arguments then apply on that
+event without modification. \(\square\)
+
+This result distinguishes two kinds of replication. Complete trajectories must
+be independent across the sample index. Observations at different times within
+one trajectory may be dependent and, in a dynamical model, normally are. It
+does not justify treating overlapping windows from one long dependent record as
+independent trajectories.
+
 ## Open conjectures
 
 ### C1. Empirically calibrated adaptive screening

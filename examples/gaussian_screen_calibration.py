@@ -22,6 +22,7 @@ from observer_math import (
     transport_metrics_from_covariances,
 )
 from observer_math.gaussian import stationary_covariance
+from observer_math.metrics import unique_bipartitions
 
 
 @lru_cache(maxsize=1)
@@ -29,33 +30,24 @@ def population_problem():
     """Return one fixed model, candidate family, and exact score arrays."""
     node_count = 7
     planted_path, systems = moving_module_systems(node_count=node_count)
-    candidates = tuple(
-        dict.fromkeys(
-            (*planted_path, (0, 3, 6), (0, 2, 5), (1, 4, 6))
-        )
-    )
+    candidates = tuple(dict.fromkeys((*planted_path, (0, 3, 6), (0, 2, 5), (1, 4, 6))))
     covariances = propagate_covariances(
         [system[0] for system in systems[:-1]],
         [system[1] for system in systems[:-1]],
         stationary_covariance(*systems[0]),
     )
     joints = tuple(
-        adjacent_joint_covariance(covariances[time], *systems[time])
-        for time in range(len(systems))
+        adjacent_joint_covariance(covariances[time], *systems[time]) for time in range(len(systems))
     )
     time_count = len(joints)
     candidate_count = len(candidates)
     local_factors = np.empty((time_count, candidate_count, 3))
-    transport_factors = np.empty(
-        (time_count - 1, candidate_count, candidate_count, 2)
-    )
+    transport_factors = np.empty((time_count - 1, candidate_count, candidate_count, 2))
     minimum = np.empty((time_count, candidate_count))
     maximum = np.empty_like(minimum)
     for time, joint in enumerate(joints):
         for current, candidate in enumerate(candidates):
-            metrics = observer_metrics_from_covariances(
-                covariances[time], joint, candidate
-            )
+            metrics = observer_metrics_from_covariances(covariances[time], joint, candidate)
             local_factors[time, current] = (
                 metrics.integration_strength,
                 metrics.independence,
@@ -64,9 +56,7 @@ def population_problem():
             block_indices = tuple(range(node_count)) + tuple(
                 node_count + node for node in candidate
             )
-            eigenvalues = np.linalg.eigvalsh(
-                joint[np.ix_(block_indices, block_indices)]
-            )
+            eigenvalues = np.linalg.eigvalsh(joint[np.ix_(block_indices, block_indices)])
             minimum[time, current] = eigenvalues[0]
             maximum[time, current] = eigenvalues[-1]
         if time < time_count - 1:
@@ -90,6 +80,7 @@ def population_problem():
     ).candidate_indices
     return {
         "node_count": node_count,
+        "systems": systems,
         "candidates": candidates,
         "covariances": covariances,
         "joints": joints,
@@ -108,9 +99,7 @@ def empirical_factors(empirical_joints, problem):
     time_count = len(empirical_joints)
     candidate_count = len(candidates)
     local = np.empty((time_count, candidate_count, 3))
-    transport = np.empty(
-        (time_count - 1, candidate_count, candidate_count, 2)
-    )
+    transport = np.empty((time_count - 1, candidate_count, candidate_count, 2))
     for time, joint in enumerate(empirical_joints):
         present = joint[:node_count, :node_count]
         for current, candidate in enumerate(candidates):
@@ -123,9 +112,7 @@ def empirical_factors(empirical_joints, problem):
         if time < time_count - 1:
             for previous, source in enumerate(candidates):
                 for current, target in enumerate(candidates):
-                    metrics = transport_metrics_from_covariances(
-                        present, joint, source, target
-                    )
+                    metrics = transport_metrics_from_covariances(present, joint, source, target)
                     transport[time, previous, current] = (
                         metrics.independence,
                         metrics.persistence,
@@ -133,21 +120,42 @@ def empirical_factors(empirical_joints, problem):
     return local, transport
 
 
-def run_trial(task):
-    sample_count, seed = task
-    problem = population_problem()
-    rng = np.random.default_rng(seed)
-    empirical_joints = tuple(
-        wishart.rvs(
-            df=sample_count - 1,
-            scale=joint / (sample_count - 1),
-            random_state=rng,
+def structural_integration_null_mask(problem, *, tolerance=1e-12):
+    """Return model-fixed nulls verified through conditional cross-covariance.
+
+    The moving-module construction has an exact block-support interpretation.
+    This numerical audit separates its algebraic zeros from positive memory
+    effects by more than eight orders of magnitude.
+    """
+    node_count = problem["node_count"]
+    mask = np.zeros((len(problem["joints"]), len(problem["candidates"])), dtype=bool)
+
+    def conditional_cross(covariance, x, y, given):
+        return covariance[np.ix_(x, y)] - covariance[np.ix_(x, given)] @ np.linalg.solve(
+            covariance[np.ix_(given, given)], covariance[np.ix_(given, y)]
         )
-        for joint in problem["joints"]
-    )
-    empirical_local, empirical_transport = empirical_factors(
-        empirical_joints, problem
-    )
+
+    for time, joint in enumerate(problem["joints"]):
+        scale = max(1.0, float(np.linalg.norm(joint, ord=2)))
+        for index, candidate in enumerate(problem["candidates"]):
+            for left, right in unique_bipartitions(candidate):
+                future_left = tuple(node_count + node for node in left)
+                future_right = tuple(node_count + node for node in right)
+                left_error = np.linalg.norm(
+                    conditional_cross(joint, future_left, right, left), ord=2
+                )
+                right_error = np.linalg.norm(
+                    conditional_cross(joint, future_right, left, right), ord=2
+                )
+                if max(left_error, right_error) <= tolerance * scale:
+                    mask[time, index] = True
+                    break
+    return mask
+
+
+def evaluate_empirical_joints(sample_count, empirical_joints, problem):
+    """Evaluate screening coverage and graph size for supplied covariances."""
+    empirical_local, empirical_transport = empirical_factors(empirical_joints, problem)
     candidates = problem["candidates"]
     time_count = len(problem["joints"])
     candidate_count = len(candidates)
@@ -178,21 +186,14 @@ def run_trial(task):
                 problem["node_count"] + node for node in candidate
             )
             covariance_errors[time, current] = np.linalg.norm(
-                empirical[np.ix_(indices, indices)]
-                - population[np.ix_(indices, indices)],
+                empirical[np.ix_(indices, indices)] - population[np.ix_(indices, indices)],
                 ord=2,
             )
     local_scores = np.prod(empirical_local, axis=2) ** (1.0 / 3.0)
     transport_scores = np.sqrt(np.prod(empirical_transport, axis=3))
-    population_local_scores = (
-        np.prod(problem["local_factors"], axis=2) ** (1.0 / 3.0)
-    )
-    population_transport_scores = np.sqrt(
-        np.prod(problem["transport_factors"], axis=3)
-    )
-    covariance_covered = bool(
-        np.all(covariance_errors <= result.covariance_spectral_errors)
-    )
+    population_local_scores = np.prod(problem["local_factors"], axis=2) ** (1.0 / 3.0)
+    population_transport_scores = np.sqrt(np.prod(problem["transport_factors"], axis=3))
+    covariance_covered = bool(np.all(covariance_errors <= result.covariance_spectral_errors))
     factor_covered = bool(
         np.all(
             np.abs(empirical_local - problem["local_factors"])
@@ -205,8 +206,7 @@ def run_trial(task):
     )
     score_covered = bool(
         np.all(
-            np.abs(local_scores - population_local_scores)
-            <= result.screening_local_score_errors
+            np.abs(local_scores - population_local_scores) <= result.screening_local_score_errors
         )
         and np.all(
             np.abs(transport_scores - population_transport_scores)
@@ -234,16 +234,29 @@ def run_trial(task):
             result.screen.viable_state_count / (time_count * candidate_count)
         ),
         "retained_edge_fraction": (
-            result.screen.viable_edge_count
-            / ((time_count - 1) * candidate_count**2)
+            result.screen.viable_edge_count / ((time_count - 1) * candidate_count**2)
         ),
-        "positive_local_floor_fraction": float(
-            np.mean(result.positive_local_factor_floor_mask)
-        ),
+        "positive_local_floor_fraction": float(np.mean(result.positive_local_factor_floor_mask)),
         "positive_transport_floor_fraction": float(
             np.mean(result.positive_transport_factor_floor_mask)
         ),
     }
+
+
+def run_trial(task):
+    """Draw independent timewise Wishart covariances and evaluate one trial."""
+    sample_count, seed = task
+    problem = population_problem()
+    rng = np.random.default_rng(seed)
+    empirical_joints = tuple(
+        wishart.rvs(
+            df=sample_count - 1,
+            scale=joint / (sample_count - 1),
+            random_state=rng,
+        )
+        for joint in problem["joints"]
+    )
+    return evaluate_empirical_joints(sample_count, empirical_joints, problem)
 
 
 def wilson_interval(successes, total, z=1.959963984540054):
@@ -251,9 +264,7 @@ def wilson_interval(successes, total, z=1.959963984540054):
     denominator = 1.0 + z**2 / total
     center = (proportion + z**2 / (2.0 * total)) / denominator
     half_width = (
-        z
-        * np.sqrt(proportion * (1.0 - proportion) / total + z**2 / (4.0 * total**2))
-        / denominator
+        z * np.sqrt(proportion * (1.0 - proportion) / total + z**2 / (4.0 * total**2)) / denominator
     )
     return [float(center - half_width), float(center + half_width)]
 
@@ -286,9 +297,7 @@ def aggregate(sample_sizes, trial_count, results):
         for name in mean_names:
             values = np.array([result[name] for result in group])
             record[f"mean_{name}"] = float(np.mean(values))
-            record[f"standard_error_{name}"] = float(
-                np.std(values, ddof=1) / np.sqrt(trial_count)
-            )
+            record[f"standard_error_{name}"] = float(np.std(values, ddof=1) / np.sqrt(trial_count))
         records.append(record)
     return records
 

@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 94 tests. Continuous integration runs
+The automated suite currently contains 100 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -697,10 +697,12 @@ python examples/structural_null_screen_experiment.py
 ```
 
 The experiment uses the same fixed population covariance models and candidate
-family as Experiment S. Before any screening data are considered, 35 of the 40
-local states are declared to have an exact structural integration null. The
-declaration is verified from the population construction for this controlled
-example; it is not inferred by thresholding empirical scores.
+family as Experiment S. Before any screening data are considered, 28 of the 40
+local states are certified as exact structural integration nulls from vanishing
+conditional cross-covariances in the population construction. Seven additional
+non-planted states have small but positive integration caused by covariance
+memory and are deliberately left unmasked. The declaration is not inferred by
+thresholding empirical scores.
 
 ![Structural-null score radius and retained graph comparison](structural_null_screen.png)
 
@@ -708,15 +710,15 @@ example; it is not inferred by thresholding empirical scores.
 | --- | ---: |
 | Screening sample count | `80,000,000,000` |
 | Screening confidence | `0.975000` |
-| Structurally null local states | `35` |
+| Structurally null local states | `28` |
 | Maximum generic local-score radius | `0.231936` |
-| Maximum null-state local-score radius | `0.009111` |
+| Maximum null-state local-score radius | `0.000162` |
 | Complete states | `40` |
 | Generic retained states | `40` |
-| Null-aware retained states | `6` |
+| Null-aware retained states | `15` |
 | Complete edges | `256` |
 | Generic retained edges | `231` |
-| Null-aware retained edges | `5` |
+| Null-aware retained edges | `27` |
 | Population path | `(0, 1, 2, 3, 4)` |
 | Null-aware center path | `(0, 1, 2, 3, 4)` |
 | Safe-screen guarantee | satisfied |
@@ -729,9 +731,64 @@ conditional on the null mask being correct and fixed independently of the
 screening observations. The test suite includes a false-null construction in
 which using the null formula would understate the possible score error.
 
+The earlier 35-state mask treated every non-planted state as null. Experiment U
+showed that this was too broad because nonstationary covariance carries weak
+integration forward after a module moves. The table and figure above use the
+corrected 28-state mask. This correction weakens the graph reduction but
+restores the exact premise required by Proposition 35.
+
+## Experiment U: trajectory-coupled Gaussian screening calibration
+
+Command used for the committed result:
+
+```bash
+python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
+```
+
+Each trial draws one unbiased sample covariance from the exact 42-dimensional
+Gaussian law of the complete trajectory
+\([X_0,X_1,\ldots,X_5]\). All five adjacent covariances are extracted from that
+single draw. Their errors are therefore dependent across time exactly as they
+would be for an ensemble of independent complete trajectories.
+
+![Trajectory-coupled Gaussian screening calibration](trajectory_coupled_screen_calibration.png)
+
+| Trajectories | Covariance coverage | Generic-score coverage | Null-score coverage | Population path retained | Generic states | Null-aware states | Generic edges | Null-aware edges |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `80,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `8,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `800,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `80,000,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.375 | 0.905 | 0.105 |
+| `8,000,000,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 0.125 | 0.125 | 0.016 | 0.016 |
+
+The right panel audits that temporal coupling is present rather than assumed.
+For Gaussian sample variances,
+
+\[
+\operatorname{Corr}(\widehat\Sigma_{aa}-\Sigma_{aa},
+\widehat\Sigma_{bb}-\Sigma_{bb})
+=\frac{\Sigma_{ab}^2}{\Sigma_{aa}\Sigma_{bb}}.
+\]
+
+The mean theoretical adjacent-time correlation for the displayed node is
+`0.177`. Across sample scales, the mean absolute difference between the
+empirical and theoretical correlation matrices ranges from `0.042` to `0.068`.
+The upper triangle of the heat map is empirical at eight trillion trajectories;
+the lower triangle is the exact Gaussian value.
+
+All 128 trials at every scale cover the covariance, generic-score,
+structural-null-score, and population-path events. The Wilson 95% interval for
+128 successes is `[0.970863, 1.000000]`, whose lower endpoint remains below the
+nominal `0.975` confidence. The run is a stronger consistency check under the
+correct dependence structure, not a precise empirical validation of the tail
+probability.
+
+The complete record is stored in
+[`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json).
+
 ## Required next controls
 
-- higher-precision tail calibration and trajectory-coupled screening coverage
+- higher-precision tail calibration across conditioning and coupling regimes
 - structural-null checks derived from model restrictions or an independent
   selection stage, including deliberate false-null stress tests
 - random, shuffled, and adversarial moving-boundary nulls

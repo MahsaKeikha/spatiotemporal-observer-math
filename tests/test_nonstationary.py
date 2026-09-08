@@ -4,6 +4,7 @@ from observer_math import observer_metrics, observer_metrics_from_covariances
 from observer_math.gaussian import canonical_correlations, stationary_covariance
 from observer_math.nonstationary import (
     adjacent_joint_covariance,
+    full_trajectory_covariance,
     propagate_covariances,
     transport_metrics,
 )
@@ -22,6 +23,29 @@ def test_covariance_propagation_matches_recursion():
     assert np.allclose(path[1], expected)
     assert np.allclose(joint[:2, 2:], initial @ transition.T)
     assert np.allclose(joint[2:, 2:], expected)
+
+
+def test_full_trajectory_covariance_contains_every_adjacent_joint():
+    initial = np.array([[1.0, 0.2], [0.2, 0.7]])
+    transitions = (
+        np.array([[0.5, 0.1], [0.0, 0.4]]),
+        np.array([[0.3, -0.1], [0.2, 0.5]]),
+    )
+    noises = (np.diag([0.2, 0.3]), np.diag([0.1, 0.25]))
+    marginals = propagate_covariances(transitions, noises, initial)
+    complete = full_trajectory_covariance(transitions, noises, initial)
+
+    assert complete.shape == (6, 6)
+    assert np.all(np.linalg.eigvalsh(complete) > 0.0)
+    for time in range(2):
+        indices = tuple(range(2 * time, 2 * time + 4))
+        expected = adjacent_joint_covariance(marginals[time], transitions[time], noises[time])
+        assert np.allclose(complete[np.ix_(indices, indices)], expected)
+
+
+def test_full_trajectory_covariance_rejects_incompatible_dimensions():
+    with np.testing.assert_raises(ValueError):
+        full_trajectory_covariance([np.eye(2)], [np.eye(3)], np.eye(2))
 
 
 def test_canonical_correlations_are_block_coordinate_invariant():

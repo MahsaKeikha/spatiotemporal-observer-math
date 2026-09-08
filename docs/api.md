@@ -62,9 +62,19 @@ metrics = observer_metrics_from_covariances(
 ## Nonstationary propagation and transport
 
 ```python
-from observer_math import propagate_covariances, transport_metrics
+from observer_math import (
+    full_trajectory_covariance,
+    propagate_covariances,
+    transport_metrics,
+)
 
 covariance_path = propagate_covariances(
+    transitions,
+    noise_covariances,
+    initial_covariance,
+)
+
+trajectory_covariance = full_trajectory_covariance(
     transitions,
     noise_covariances,
     initial_covariance,
@@ -82,8 +92,12 @@ print(transport.environmental_leakage_bits_per_node)
 print(transport.transport_score)
 ```
 
-The covariance path has one more element than the transition sequence. Source
-indices refer to \(X_t\); target indices refer to \(X_{t+1}\).
+The covariance path has one more element than the transition sequence. If each
+state has dimension `d`, `full_trajectory_covariance` returns the covariance of
+the stacked vector `[X_0, ..., X_T]`, with shape `((T + 1) * d, (T + 1) * d)`.
+Its off-diagonal blocks preserve the dependence between covariance estimates
+formed from the same complete trajectories. Source indices in `transport_metrics`
+refer to \(X_t\); target indices refer to \(X_{t+1}\).
 
 ## Exhaustive fixed-subsystem ranking
 

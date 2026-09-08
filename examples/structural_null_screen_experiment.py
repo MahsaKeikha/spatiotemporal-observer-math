@@ -4,7 +4,11 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-from gaussian_screen_calibration import empirical_factors, population_problem
+from gaussian_screen_calibration import (
+    empirical_factors,
+    population_problem,
+    structural_integration_null_mask,
+)
 from scipy.stats import wishart
 
 from observer_math import (
@@ -17,9 +21,7 @@ def plot_screen_comparison(generic, null_aware, output: Path) -> None:
     """Plot score-radius and retained-graph comparisons."""
     generic_local_radius = float(np.max(generic.screening_local_score_errors))
     mask = null_aware.structural_integration_null_mask
-    null_local_radius = float(
-        np.max(null_aware.screening_local_score_errors[mask])
-    )
+    null_local_radius = float(np.max(null_aware.screening_local_score_errors[mask]))
     time_count, candidate_count = mask.shape
     complete_states = time_count * candidate_count
     complete_edges = (time_count - 1) * candidate_count**2
@@ -102,12 +104,8 @@ def main() -> None:
         )
         for joint in problem["joints"]
     )
-    local_factors, transport_factors = empirical_factors(
-        empirical_joints, problem
-    )
-    null_mask = np.ones((time_count, candidate_count), dtype=bool)
-    for time in range(time_count):
-        null_mask[time, time] = False
+    local_factors, transport_factors = empirical_factors(empirical_joints, problem)
+    null_mask = structural_integration_null_mask(problem)
     arguments = {
         "candidates": problem["candidates"],
         "screening_sample_count": sample_count,
@@ -115,9 +113,7 @@ def main() -> None:
         "subset_size": 3,
         "minimum_block_eigenvalues": problem["minimum"],
         "maximum_block_eigenvalues": problem["maximum"],
-        "certification_local_score_errors": np.zeros(
-            (time_count, candidate_count)
-        ),
+        "certification_local_score_errors": np.zeros((time_count, candidate_count)),
         "certification_transport_score_errors": np.zeros(
             (time_count - 1, candidate_count, candidate_count)
         ),
@@ -140,10 +136,7 @@ def main() -> None:
     print(f"Screening sample count: {sample_count:,}")
     print(f"Screening confidence: {null_aware.screening_confidence:.6f}")
     print(f"Structurally null local states: {np.count_nonzero(null_mask)}")
-    print(
-        "Maximum generic local-score radius: "
-        f"{np.max(generic.screening_local_score_errors):.6f}"
-    )
+    print(f"Maximum generic local-score radius: {np.max(generic.screening_local_score_errors):.6f}")
     print(
         "Maximum null-state local-score radius: "
         f"{np.max(null_aware.screening_local_score_errors[null_mask]):.6f}"

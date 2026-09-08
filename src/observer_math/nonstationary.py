@@ -66,6 +66,41 @@ def propagate_covariances(
     return tuple(result)
 
 
+def full_trajectory_covariance(
+    transitions: Sequence[ArrayLike],
+    noise_covariances: Sequence[ArrayLike],
+    initial_covariance: ArrayLike,
+) -> FloatMatrix:
+    """Return the exact covariance of ``[X_0, ..., X_T]``.
+
+    The process follows ``X_(t+1) = A_t X_t + epsilon_t`` with independent
+    zero-mean innovations having the supplied covariances. No stationarity
+    assumption is made.
+    """
+    if len(transitions) != len(noise_covariances):
+        raise ValueError("transitions and noise_covariances must have equal length")
+    initial = as_square(initial_covariance, name="initial_covariance")
+    transition_tuple = tuple(as_square(value, name="transition") for value in transitions)
+    noise_tuple = tuple(as_square(value, name="noise_covariance") for value in noise_covariances)
+    if any(value.shape != initial.shape for value in (*transition_tuple, *noise_tuple)):
+        raise ValueError("all matrices must have equal dimensions")
+
+    marginals = propagate_covariances(transition_tuple, noise_tuple, initial)
+    node_count = initial.shape[0]
+    time_count = len(marginals)
+    result = np.zeros((time_count * node_count, time_count * node_count))
+    for source_time, marginal in enumerate(marginals):
+        source = slice(source_time * node_count, (source_time + 1) * node_count)
+        result[source, source] = marginal
+        cross = marginal
+        for target_time in range(source_time + 1, time_count):
+            cross = cross @ transition_tuple[target_time - 1].T
+            target = slice(target_time * node_count, (target_time + 1) * node_count)
+            result[source, target] = cross
+            result[target, source] = cross.T
+    return symmetrize(result)
+
+
 def transport_metrics(
     current_covariance: ArrayLike,
     transition: ArrayLike,
@@ -111,9 +146,7 @@ def transport_metrics_from_covariances(
     source_covariance = current[np.ix_(source, source)]
     target_covariance = joint[np.ix_(future_target, future_target)]
     cross_covariance = joint[np.ix_(source, future_target)]
-    persistence = canonical_persistence(
-        source_covariance, target_covariance, cross_covariance
-    )
+    persistence = canonical_persistence(source_covariance, target_covariance, cross_covariance)
 
     environment = tuple(node for node in range(node_count) if node not in source)
     leakage = gaussian_conditional_mutual_information(

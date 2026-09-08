@@ -937,7 +937,40 @@ selection on a small empirical score: the null mask must be declared from the
 model before the screening observations are examined. Unmasked entries retain
 the previous calculation.
 
-## 31. Choices that are still choices
+## 31. Complete-trajectory covariance and coupled sampling
+
+For \(i<j\), define the forward transition product
+
+\[
+\Phi_{j:i}=A_{j-1}A_{j-2}\cdots A_i.
+\]
+
+The covariance blocks of the concatenated trajectory
+\(Z=(X_0^\mathsf T,\ldots,X_T^\mathsf T)^\mathsf T\) are
+
+\[
+\operatorname{Cov}(X_i,X_j)=\Sigma_i\Phi_{j:i}^\mathsf T,
+\qquad
+\operatorname{Cov}(X_j,X_i)=
+\Phi_{j:i}\Sigma_i.
+\]
+
+Together with the diagonal recursion
+\(\Sigma_{t+1}=A_t\Sigma_tA_t^\mathsf T+Q_t\), these blocks determine the full
+\((T+1)n\)-dimensional covariance. The implementation builds it without a
+stationarity assumption and verifies that each adjacent principal block equals
+the separately computed \(\operatorname{Cov}(X_t,X_{t+1})\).
+
+One Wishart draw from this complete covariance represents the centered sample
+covariance of \(N\) independent complete Gaussian trajectories. Extracting all
+adjacent blocks from that one draw preserves their cross-time dependence. Each
+extracted block nevertheless has its ordinary marginal Wishart law. The union
+bound in Proposition 33 uses only these marginal tail probabilities, so its
+coverage statement is unchanged. Experiment U checks the complete chain under
+this coupled construction and separately records a cross-time dependence
+diagnostic.
+
+## 32. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

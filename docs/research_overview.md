@@ -162,6 +162,7 @@ necessary conditions.
 | 33 | [Gaussian first-split screening safety](proofs_and_conjectures.md#proposition-33-gaussian-first-split-screening-safety) | Fixed Gaussian candidate blocks give a complete concentration-to-screen guarantee. |
 | 34 | [Positive-factor refinement of Gaussian screening](proofs_and_conjectures.md#proposition-34-positive-factor-refinement-of-gaussian-screening) | Empirical factors with positive lower endpoints receive sharper local Lipschitz radii. |
 | 35 | [Structural-null screening at the score boundary](proofs_and_conjectures.md#proposition-35-structural-null-screening-at-the-score-boundary) | A predeclared exact integration null receives a quadratic boundary bound and a safe, tighter state radius. |
+| 36 | [Trajectory-coupled Gaussian screening safety](proofs_and_conjectures.md#proposition-36-trajectory-coupled-gaussian-screening-safety) | Marginal Wishart bounds and simultaneous screening remain valid when all times come from the same independent trajectories. |
 
 ## Experiment index
 
@@ -189,7 +190,8 @@ Exact commands, parameters, tables, and qualifications are in
 | Q | [Gaussian-safe first-split screening](reproducible_results.md#experiment-q-gaussian-safe-first-split-screening) | At \(10^{12}\) observations, a 60-state/576-edge graph reduces to 5 states and 4 edges under the zero-safe theorem. |
 | R | [Positive-factor refinement](reproducible_results.md#experiment-r-positive-factor-screening-refinement) | At \(10^7\) observations, the refined graph has 4 states and 3 edges while the zero-safe graph remains at 16 and 48. |
 | S | [Exact-Wishart screen calibration](reproducible_results.md#experiment-s-gaussian-screening-calibration) | All 64 trials cover each declared event at five scales; the 64-of-64 Wilson interval is only `[0.943376, 1]`, and graph reduction remains conservative. |
-| T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, a predeclared null mask reduces the safe graph from 40 states/231 edges to 6 states/5 edges while retaining the population path. |
+| T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, the corrected 28-state null mask reduces the safe graph from 40 states/231 edges to 15 states/27 edges while retaining the population path. |
+| U | [Trajectory-coupled Gaussian screening calibration](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration) | One full 42-dimensional Wishart draw preserves cross-time dependence; all declared events are covered in 128 trials at each of five scales. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -247,12 +249,20 @@ Coverage and usefulness are deliberately shown together. All recorded events
 are covered in this limited run, while the retained graph remains complete at
 several sample scales, exposing the conservatism of the analytical radius.
 
+[![Trajectory-coupled Gaussian screening calibration](trajectory_coupled_screen_calibration.png)](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration)
+
+The coupled calibration draws one covariance for the complete trajectory and
+then extracts all adjacent blocks. Its third panel compares measured cross-time
+sample-variance error correlations with their exact Gaussian values, making the
+dependence visible rather than treating it as a verbal qualification.
+
 [![Structural-null score radius and retained graph comparison](structural_null_screen.png)](reproducible_results.md#experiment-t-structural-null-boundary-screening)
 
-The newest figure compares the generic and boundary-adaptive radii on the same
-Wishart draw. The structural-null screen retains 15.0% of states and 2.0% of
-edges while preserving the population path. This conclusion is conditional on
-the predeclared null mask being exact.
+The boundary figure compares the generic and boundary-adaptive radii on the same
+Wishart draw. With the corrected mask of 28 exact nulls, the structural-null
+screen retains 37.5% of states and 10.5% of edges while preserving the
+population path. This conclusion is conditional on every masked null being
+exact.
 
 ## Strongest current conclusions
 
@@ -261,7 +271,7 @@ the predeclared null mask being exact.
 | Can the declared finite path objective be optimized exactly? | Yes, including its exact runner-up and margin. | Exact algorithmic result |
 | Can bounded score perturbations be converted into path recovery? | Yes, globally, locally, and through class-compressed adversarial path bounds. | Deterministic theorem |
 | Can covariance error be propagated through CMI and canonical correlation? | Yes, with explicit spectral conditions and constants. | Deterministic theorem |
-| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian observations and declared spectral envelopes. | Statistical theorem; conservative |
+| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and declared spectral envelopes. | Statistical theorem; conservative |
 | Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
 | Can exact structural zeros improve the difficult score-boundary rate? | Yes. The local-score error improves from the generic \(N^{-1/6}\) boundary rate to \(N^{-1/3}\) under a correct predeclared null. | Proposition 35 |
 | Does the score identify a unique boundary in every model? | No. Exchangeable models give a proved non-identifiability counterexample. | Impossibility theorem |
@@ -288,11 +298,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 94 of 94 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 100 of 100 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 20 documented studies, A through T | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 7 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 21 documented studies, A through U | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 8 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -329,13 +339,13 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json) |
 
 ## What remains unresolved
 
 The principal limitations are substantive, not presentational:
 
-- the strongest statistical results assume independent Gaussian observations;
+- the strongest statistical results assume independent Gaussian trajectories;
 - exact or bounded spectral envelopes are inputs to the current guarantees;
 - the available finite-sample constants remain far from empirical recovery
   scales on the initial benchmark;
@@ -346,12 +356,12 @@ The principal limitations are substantive, not presentational:
 - the quantum factorization geometry remains a research program rather than an
   implemented theorem.
 
-The next statistical step is a trajectory-coupled calibration over varied
-conditioning and coupling regimes, followed by directional covariance bounds
-that retain matrix structure lost by a spectral norm. The next modeling step is
-a preregistered benchmark in which temporal transport is necessary rather than
-merely available. These targets, including completion criteria, are maintained
-in the [research program](research_program.md).
+The next statistical step is a multi-regime trajectory-coupled calibration that
+varies conditioning, coupling, and memory, followed by directional covariance
+bounds that retain matrix structure lost by a spectral norm. The next modeling
+step is a preregistered benchmark in which temporal transport is necessary
+rather than merely available. These targets, including completion criteria, are
+maintained in the [research program](research_program.md).
 
 ## Interpretation
 

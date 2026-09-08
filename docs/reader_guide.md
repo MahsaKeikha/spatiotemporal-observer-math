@@ -147,13 +147,18 @@ statistical issue is sharpness and calibration. Positive empirical factor
 floors now provide a valid local Lipschitz refinement, while boundary entries
 retain the zero-safe product-root bound. The first exact-Wishart calibration
 finds no coverage failure in its limited run but shows that graph reduction can
-still require extreme sample counts. Higher-precision, trajectory-coupled, and
-multi-regime calibration, followed by directional covariance refinements, are
-the next empirical and theoretical checks.
+still require extreme sample counts. A second calibration now draws the full
+trajectory covariance at once, preserves cross-time dependence, and again
+records complete coverage in 128 trials per scale. Higher-precision multi-regime
+calibration and directional covariance refinements are the next checks.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound
 and changes the corresponding local-score rate from \(N^{-1/6}\) to
 \(N^{-1/3}\). This is a conditional refinement, not a procedure for discovering
-nulls from small empirical scores. Trajectory-coupled calibration and valid
-construction of null masks are now part of the next check.
+nulls from small empirical scores. Multi-regime calibration and independently
+justified construction of null masks are now the next checks.
+
+The coupled calibration also corrected the first mask: covariance memory makes
+seven non-planted states weakly positive, leaving 28 rather than 35 exact nulls.
+That correction is retained in the experiment, tests, figure, and result table.

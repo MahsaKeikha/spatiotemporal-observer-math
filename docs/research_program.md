@@ -30,8 +30,10 @@ bottleneck. Proposition 35 treats a null fixed independently of the screening
 data: quadratic conditional-information error improves the corresponding
 local-score rate from \(N^{-1/6}\) to \(N^{-1/3}\). The next check is
 higher-precision coverage across coupling, conditioning, factor-floor, and
-structural-null regimes. A separate treatment is also needed for one dependent
-time series because the calibration uses independent covariance draws.
+structural-null regimes. Proposition 36 and Experiment U now cover independent
+complete trajectories with their correct cross-time dependence. A separate
+treatment is still needed for overlapping windows from one long dependent time
+series.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -105,10 +107,14 @@ adds the factor-aware refinement without losing the zero-safe fallback. A first
 fixed-model Wishart calibration now measures coverage and retained-graph size.
 Proposition 35 then gives a sharper boundary radius where an exact integration
 null is justified before screening, while an explicit false-null example shows
-why small empirical integration is not enough. The next priority is to extend
-calibration across signal regimes, then investigate directional covariance
-perturbation and independently justified structural masks without losing
-post-selection validity.
+why small empirical integration is not enough. The trajectory-coupled
+calibration subsequently found seven weakly positive memory states in the first
+mask; correcting them leaves 28 exact nulls and preserves the guarantee.
+Proposition 36 proves that shared complete trajectories do not require
+independence across time for the union-bound screen. The next priority is to
+extend calibration across signal regimes, then investigate directional
+covariance perturbation and independently justified structural masks without
+losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

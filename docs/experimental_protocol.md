@@ -134,7 +134,7 @@ covariance is \(\Sigma_t^{(2)}\), the script draws
 This is the distribution of the usual unbiased sample covariance from \(N\)
 independent Gaussian observations. Draws at different times are independent in
 this calibration. Cross-time independence is not required by the union-bound
-theorem, but this construction does not reproduce the dependence induced by
+theorem, but Experiment S alone does not reproduce the dependence induced by
 following the same trajectories through every time.
 
 The candidate family is fixed before sampling. It contains the five planted
@@ -156,6 +156,62 @@ maximizer, and validity of every spectral perturbation block. It also records
 the maximum realized-to-theoretical covariance-radius ratio, retained state and
 edge fractions, and the fractions eligible for positive-factor refinement.
 Wilson 95% intervals accompany every binary rate.
+
+### Trajectory-coupled Gaussian screening calibration
+
+`trajectory_coupled_screen_calibration.py` repeats the screening audit with the
+correct dependence structure for an ensemble of independent complete
+trajectories. The code first constructs the exact covariance of
+
+\[
+Z=(X_0^\mathsf T,\ldots,X_5^\mathsf T)^\mathsf T\in\mathbb R^{42}.
+\]
+
+For \(i<j\), its cross-time block is
+
+\[
+\operatorname{Cov}(X_i,X_j)
+=\Sigma_i(A_{j-1}\cdots A_i)^\mathsf T.
+\]
+
+Each trial then makes one draw
+
+\[
+\widehat\Sigma_Z\sim
+\frac{1}{N-1}\mathcal W_{42}(N-1,\Sigma_Z)
+\]
+
+and extracts all five adjacent 14-dimensional principal blocks. Thus the
+timewise covariance estimates have the same marginal Wishart laws as in
+Experiment S but are no longer independent. Proposition 36 shows that the same
+simultaneous union-bound guarantee applies because it uses only the marginal
+failure probabilities, not independence across time.
+
+The committed run uses 128 trials at each of the same five sample counts, root
+`SeedSequence` value `20260910`, and the same fixed candidate family. In
+addition to the coverage and graph statistics, it audits temporal dependence
+through the sample-variance error of node zero. For Gaussian sample covariance,
+
+\[
+\operatorname{Corr}(\widehat\Sigma_{aa}-\Sigma_{aa},
+                    \widehat\Sigma_{bb}-\Sigma_{bb})
+=\frac{\Sigma_{ab}^2}{\Sigma_{aa}\Sigma_{bb}}.
+\]
+
+The plotted matrix places empirical correlations above the diagonal and this
+exact finite-sample formula below it. The comparison is diagnostic rather than
+a fitted target.
+
+The same audit corrected the structural-null mask used by Experiment T. In the
+moving-module construction, 28 non-planted candidate-times have an exactly
+vanishing conditional cross-covariance for at least one internal bipartition.
+Seven other non-planted states have small but positive integration inherited
+from earlier dynamics. Those seven now receive the generic perturbation bound.
+The numerical mask is accepted only after a model-specific block-support audit:
+the exact-zero group lies below `1e-14` in integration while the smallest
+positive memory effect exceeds `1e-9`. This separation is a check of the
+controlled construction, not a general procedure for discovering nulls from
+data.
 
 ## 5. Exchangeable identifiability counterexample
 
@@ -275,6 +331,12 @@ score radii on a logarithmic scale, then reports retained state and edge
 fractions on a common percentage scale. Its footer records the model-derived
 null-mask premise and population-path retention.
 
+`trajectory_coupled_screen_calibration.png` shows simultaneous coverage under
+the shared-trajectory construction, the generic and null-aware graph fractions,
+and the cross-time variance-error correlation audit. In the correlation panel,
+the empirical upper triangle and theoretical lower triangle are intentionally
+kept separate so agreement and Monte Carlo noise remain visible.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -357,11 +419,17 @@ null-mask premise and population-path retention.
 | `test_calibration_problem_has_declared_population_path` | The calibration model, candidate family, spectra, and exact maximizing path match the documented construction |
 | `test_calibration_trial_is_reproducible_and_in_range` | A fixed Wishart seed reproduces all trial statistics and maintains valid fractions |
 | `test_calibration_aggregation_preserves_events_and_means` | Event rates, Wilson intervals, means, and standard errors are aggregated without changing their meanings |
+| `test_structural_null_mask_separates_exact_zeros_from_memory_effects` | The model-specific mask separates exact conditional-cross-covariance zeros from weak positive covariance-memory effects |
 | `test_quadratic_null_cmi_bound_contains_random_covariance_perturbations` | The structural-null CMI radius contains randomized admissible covariance perturbations |
 | `test_null_cmi_bound_is_quadratic_near_zero` | Halving a sufficiently small covariance radius reduces the boundary CMI bound by the expected factor of four |
 | `test_structural_null_screen_reduces_graph_and_retains_population_path` | The null-aware screen tightens the committed graph without removing the population optimizer |
 | `test_false_structural_null_can_understate_score_error` | A false null declaration can produce an invalidly small score radius even when the empirical integration factor is zero |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
+| `test_full_trajectory_covariance_contains_every_adjacent_joint` | Every adjacent principal block of the complete trajectory covariance equals the direct two-time construction |
+| `test_full_trajectory_covariance_rejects_incompatible_dimensions` | A malformed nonstationary sequence cannot silently produce a trajectory covariance |
+| `test_complete_trajectory_covariance_reproduces_population_adjacent_blocks` | The calibration's 42-dimensional covariance contains all five declared population marginals |
+| `test_coupled_trial_is_reproducible_and_covers_both_screens` | A fixed coupled Wishart seed reproduces the audit and satisfies the declared coverage events |
+| `test_gaussian_sample_variance_error_correlation_formula` | Monte Carlo covariance errors agree with the exact Gaussian cross-time correlation formula |
 
 ## 10. Known weaknesses of the current experiment
 
@@ -422,11 +490,14 @@ Its limitations are concrete:
     failures therefore gives a Wilson 95% lower endpoint of only `0.943376`,
     which is below the nominal `0.975` confidence. It is compatible with the
     theorem but cannot empirically validate a 2.5% tail probability precisely.
-24. Direct Wishart draws reproduce the marginal Gaussian sample-covariance law
-    but not the cross-time dependence of one shared trajectory ensemble.
+24. Experiment S uses independent timewise Wishart draws and therefore omits
+    cross-time dependence. Experiment U restores the exact dependence for an
+    ensemble of independent complete Gaussian trajectories, but neither
+    calibration covers overlapping windows cut from one long dependent record.
 25. Structural-null screening is valid only when each declared integration null
     is exact and its mask is fixed independently of the screening observations.
     A small empirical score is not sufficient evidence for that declaration.
+    The corrected mask is specific to the controlled moving-module model.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -459,6 +530,7 @@ python examples/gaussian_safe_screen_experiment.py
 python examples/factor_aware_screen_experiment.py
 python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
 python examples/structural_null_screen_experiment.py
+python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

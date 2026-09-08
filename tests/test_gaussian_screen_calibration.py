@@ -4,6 +4,7 @@ from examples.gaussian_screen_calibration import (
     aggregate,
     population_problem,
     run_trial,
+    structural_integration_null_mask,
     wilson_interval,
 )
 
@@ -17,6 +18,16 @@ def test_calibration_problem_has_declared_population_path():
     assert problem["population_path"] == (0, 1, 2, 3, 4)
     assert np.all(problem["minimum"] > 0.0)
     assert np.all(problem["maximum"] >= problem["minimum"])
+
+
+def test_structural_null_mask_separates_exact_zeros_from_memory_effects():
+    problem = population_problem()
+    mask = structural_integration_null_mask(problem)
+    integration = problem["local_factors"][..., 0]
+
+    assert np.count_nonzero(mask) == 28
+    assert np.max(np.abs(integration[mask])) < 1e-14
+    assert np.min(integration[~mask]) > 1e-9
 
 
 def test_calibration_trial_is_reproducible_and_in_range():

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.23.0 - 2026-09-08
+
+- Added the exact covariance of a complete nonstationary Gaussian trajectory,
+  including every cross-time block, and tested its adjacent-block consistency.
+- Proved that the marginal Wishart and simultaneous screening guarantees remain
+  valid when all time points come from the same ensemble of independent complete
+  trajectories; independence between timewise covariance estimates is unnecessary.
+- Added a 128-trial, five-scale trajectory-coupled calibration using one exact
+  42-dimensional Wishart draw per trial, with analytical and empirical cross-time
+  covariance-error correlations shown in the committed figure.
+- Corrected the moving-module structural-null mask from 35 non-planted states to
+  the 28 states whose conditional cross-covariance vanishes exactly. Seven
+  non-planted states retain small positive integration through covariance memory
+  and now use the generic bound.
+- Regenerated the structural-null result under the corrected premise: at 80
+  billion trajectories the null-aware screen retains 15 of 40 states and 27 of
+  256 edges, compared with 40 states and 231 edges under the generic screen,
+  while retaining the population path.
+- Expanded the protocol, API guide, limitations, research overview, result log,
+  and landing-page gallery to cover the coupled construction and correction.
+
 ## 0.22.2 - 2026-09-08
 
 - Moved the complete visual result record onto the repository landing page so
@@ -36,9 +57,10 @@
   radius as a fallback and leaves all transport bounds unchanged.
 - Improved the certified boundary rate from the generic `N^-1/6` local-score
   rate to `N^-1/3` under the exact-null assumption.
-- Reduced the committed calibration graph at 80 billion observations from 40
-  states and 231 edges to 6 states and 5 edges while retaining the population
-  path.
+- Initially reported a reduction at 80 billion observations from 40 states and
+  231 edges to 6 states and 5 edges. Version 0.23.0 supersedes that result after
+  correcting an over-broad structural-null mask; the corrected graph retains 15
+  states and 27 edges.
 - Added randomized containment and rate tests together with a false-null
   counterexample documenting why the mask cannot be inferred from a small
   empirical score.

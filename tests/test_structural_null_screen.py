@@ -1,7 +1,11 @@
 import numpy as np
 from scipy.stats import wishart
 
-from examples.gaussian_screen_calibration import empirical_factors, population_problem
+from examples.gaussian_screen_calibration import (
+    empirical_factors,
+    population_problem,
+    structural_integration_null_mask,
+)
 from observer_math import (
     gaussian_factor_aware_near_competitor_screen,
     gaussian_null_cmi_covariance_error_bound,
@@ -33,9 +37,7 @@ def test_quadratic_null_cmi_bound_contains_random_covariance_perturbations():
         direction = (direction + direction.T) / 2.0
         perturbation = direction * radius / np.linalg.norm(direction, ord=2)
         actual = base + rng.uniform(0.0, 1.0) * perturbation
-        conditional_information = gaussian_conditional_mutual_information(
-            actual, (0,), (1,), (2,)
-        )
+        conditional_information = gaussian_conditional_mutual_information(actual, (0,), (1,), (2,))
         assert conditional_information <= bound
 
 
@@ -70,12 +72,8 @@ def test_structural_null_screen_reduces_graph_and_retains_population_path():
         )
         for joint in problem["joints"]
     )
-    local_factors, transport_factors = empirical_factors(
-        empirical_joints, problem
-    )
-    null_mask = np.ones((time_count, candidate_count), dtype=bool)
-    for time in range(time_count):
-        null_mask[time, time] = False
+    local_factors, transport_factors = empirical_factors(empirical_joints, problem)
+    null_mask = structural_integration_null_mask(problem)
     arguments = {
         "candidates": problem["candidates"],
         "screening_sample_count": sample_count,
@@ -83,9 +81,7 @@ def test_structural_null_screen_reduces_graph_and_retains_population_path():
         "subset_size": 3,
         "minimum_block_eigenvalues": problem["minimum"],
         "maximum_block_eigenvalues": problem["maximum"],
-        "certification_local_score_errors": np.zeros(
-            (time_count, candidate_count)
-        ),
+        "certification_local_score_errors": np.zeros((time_count, candidate_count)),
         "certification_transport_score_errors": np.zeros(
             (time_count - 1, candidate_count, candidate_count)
         ),
@@ -105,13 +101,11 @@ def test_structural_null_screen_reduces_graph_and_retains_population_path():
 
     assert generic.screen.viable_state_count == 40
     assert generic.screen.viable_edge_count == 231
-    assert null_aware.screen.viable_state_count == 6
-    assert null_aware.screen.viable_edge_count == 5
+    assert np.count_nonzero(null_mask) == 28
+    assert null_aware.screen.viable_state_count == 15
+    assert null_aware.screen.viable_edge_count == 27
     path = problem["population_path"]
-    assert all(
-        path[time] in null_aware.screen.viable_states[time]
-        for time in range(time_count)
-    )
+    assert all(path[time] in null_aware.screen.viable_states[time] for time in range(time_count))
     assert all(
         (path[time], path[time + 1]) in null_aware.screen.viable_edges[time]
         for time in range(time_count - 1)
@@ -134,9 +128,7 @@ def test_false_structural_null_can_understate_score_error():
         certification_local_score_errors=np.zeros((1, 1)),
         certification_transport_score_errors=np.empty((0, 1, 1)),
     )
-    admissible_positive_factor = min(
-        0.5 * result.screening_local_factor_errors[0, 0, 0], 1.0
-    )
+    admissible_positive_factor = min(0.5 * result.screening_local_factor_errors[0, 0, 0], 1.0)
     hypothetical_population_score = admissible_positive_factor ** (1.0 / 3.0)
 
     assert result.screening_local_score_errors[0, 0] == 0.0

@@ -28,6 +28,7 @@ from .models import (
 from .nonstationary import (
     TransportMetrics,
     adjacent_joint_covariance,
+    full_trajectory_covariance,
     propagate_covariances,
     transport_metrics,
     transport_metrics_from_covariances,
@@ -152,6 +153,7 @@ __all__ = [
     "covariance_preserving_moving_cliques",
     "covariance_radius_path_recovery_bound",
     "finite_sample_recovery_bound",
+    "full_trajectory_covariance",
     "gaussian_cmi_covariance_error_bound",
     "gaussian_factor_aware_near_competitor_screen",
     "gaussian_null_cmi_covariance_error_bound",

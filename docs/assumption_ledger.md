@@ -55,7 +55,8 @@ read before applying a certificate to a new model or dataset.
 | Empirical primitive factors and score centers are computed consistently | Proposition 34 | A factor-aware radius need not bound the supplied score |
 | Positive-factor refinement is used only where every empirical factor lower endpoint is strictly positive | Proposition 34 | The local Lipschitz denominator can cross its singular boundary; the zero-safe fallback is required |
 | Every structural integration null is exact and its mask is fixed independently of the screening observations | Proposition 35 | The quadratic boundary radius can understate the local-score error and the safe-screen guarantee is invalid |
-| Wishart calibration uses exact population covariance matrices and independent timewise draws | Experiment S | It cannot validate estimated spectral envelopes or trajectory-induced cross-time dependence |
+| Wishart calibration uses exact population covariance matrices | Experiments S and U | It cannot validate spectral envelopes estimated from the same observations |
+| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Proposition 36 and Experiment U | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
 | The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
 | The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |
