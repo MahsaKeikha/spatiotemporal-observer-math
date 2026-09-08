@@ -1,138 +1,146 @@
 # Assumption ledger
 
-This ledger separates mathematical assumptions from conclusions. It should be
-read before applying a certificate to a new model or dataset.
+This ledger separates mathematical assumptions from conclusions. It should be read before applying a certificate to a new model, dataset, or interpretation.
 
-## Model and score assumptions
+A theorem can be correct while an application is invalid because one of its assumptions is false. This page exists to make that distinction visible.
 
-| Assumption | Used for | If it fails |
-| --- | --- | --- |
-| The analytical process is linear Gaussian | Closed covariance, mutual-information, and canonical-correlation formulas | The implemented formulas are no longer exact; new estimators and concentration results are required |
-| Covariance blocks are positive definite with declared spectral bounds | Log determinants, whitening, and perturbation radii | A bound may be undefined or invalid even if numerical regularization produces a value |
-| Candidate coordinates and size are declared | Score evaluation and path search | Recovery is only relative to the supplied family |
-| Information factors are mapped to `[0, 1]` by the documented transforms | Geometric local and transport scores | A different transform defines a different model and requires new stability constants |
-| Continuity uses Jaccard distance | Current material-change penalty | Other geometries may change the optimizer and theorem constants |
-
-## Recovery assumptions
+## Core model assumptions
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| The planted candidate is present at every layer | All planted-path theorems | No theorem can recover a path excluded from the search space |
-| The planted class has multiplicity one | Unique candidate recovery from class compression | A positive class margin identifies a class path, not one labeled candidate path |
-| Feasible class edges contain every realizable candidate transition | Class dynamic programs | Excluding a realizable competitor can inflate the recovery slack |
-| Competitor continuity lower bounds are valid uniformly | Upper action of every competitor | An overstated lower bound can create a false certificate |
+| The analytical process is linear Gaussian where the exact Gaussian formulas are invoked | Closed covariance, mutual-information, canonical-correlation, and Gaussian concentration formulas | The implemented expressions need not equal the intended population quantities; new estimators or concentration arguments are required |
+| Covariance blocks are positive definite whenever log determinants, inverses, or whitening are used | Information quantities and perturbation bounds | The formula can be undefined even if numerical regularization returns a value |
+| Candidate coordinates and candidate size are declared | Score evaluation and path optimization | Recovery is only relative to the supplied family |
+| Information factors use the documented transforms into `[0, 1]` | Geometric local and transport scores | A different transform defines a different objective and needs new stability constants |
+| Continuity uses the documented Jaccard geometry | Current material-change penalty | Another geometry can change the optimizer and the recovery theorem |
+
+## Recovery and identifiability assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| The target or planted candidate is present in the search family | Planted-path recovery theorems | No theorem can recover a path that was excluded before optimization |
+| The planted class has multiplicity one when labeled recovery is claimed | Class-compressed recovery | A positive class margin can identify a class without identifying one labeled member |
+| Feasible class edges contain every realizable transition | Class dynamic programs | Missing competitor edges can inflate the recovery slack |
+| Competitor continuity lower bounds are valid uniformly | Competitor upper action | An overstated lower bound can create a false certificate |
 | Planted continuity distances are exact | Planted lower action | An understated planted penalty can create a false certificate |
+| Declared symmetry groups contain the transformations treated as scientifically equivalent | Propositions 13 and 14 | A labeled answer can be mistaken for an identifiable physical distinction |
 
-## Perturbation assumptions
-
-| Assumption | Used for | If it fails |
-| --- | --- | --- |
-| Every covariance error is below its eigenvalue floor | Propositions 7 and 8 | Positive definiteness and the reported perturbation constants are not guaranteed |
-| Every normalized covariance radius satisfies \(\delta<1\) | Proposition 37 | The relative log-determinant and inverse-square-root bounds are not finite; the screen must return to a trivial radius |
-| Local and transport covariance envelopes are kept separate | Propositions 26 through 31 | Edge errors may be underestimated when class geometry changes across time |
-| Factor intervals contain every member componentwise | Proposition 28 | The class-level action bounds need not cover an omitted member |
-| Representative residual balls contain every population member | Proposition 29 | Derived factor intervals are not valid for the class |
-| Block comparison entries dominate the corresponding matrix-block norms | Propositions 23 through 25 and 30 | Covariance influence can exceed the propagated envelope |
-| Selected future blocks contain every variable used by the class score | Propositions 26, 30, and 31 | The compressed joint covariance does not control the intended factor |
-
-## Screened-environment assumptions
+## Covariance perturbation assumptions
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| Selected present blocks contain the candidate variables and all variables used by screened factors | Proposition 31 | Integration, persistence, or retained leakage may be uncontrolled |
-| Omitted conditional leakage is at most the declared tail bound | Proposition 31 | The lower insulation endpoint can be too high |
-| A zero tail is used only with proved conditional irrelevance | Exact environmental screening | Ignored predictive drive can produce a false positive margin |
+| Every absolute covariance error is below the relevant eigenvalue floor | Propositions 7 and 8 and later localized results | Positive definiteness and the stated perturbation constants are not guaranteed |
+| Every normalized covariance radius satisfies \(\delta<1\) where relative perturbation formulas are used | Proposition 37 and descendants | Relative log-determinant or inverse-square-root bounds can diverge |
+| Local and transport covariance envelopes remain distinct when their geometry differs | Propositions 26 through 31 | Edge errors can be underestimated |
+| Factor intervals contain every represented population member componentwise | Interval-certified class recovery | A class action interval can omit a member |
+| Representative residual balls contain every represented population covariance | Residual-derived class recovery | Derived factor intervals are not valid for the class |
+| Block comparison entries dominate the corresponding block operator norms | Block influence results | Covariance influence can escape the propagated envelope |
+| Selected blocks contain every variable used by the declared score | Localized and screened-environment recovery | The compressed covariance no longer controls the intended factor |
+
+## Screening and sample-splitting assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
 | Data-dependent screening has independent or simultaneous statistical protection | Propositions 32 and 33 | Selecting and certifying on the same noise can invalidate coverage |
+| Screening scores are computed from the covariance estimates covered by the stated event | Gaussian safe screening | Concentration does not control an unrelated score array |
+| Structural nulls are exact and fixed independently of the data used to exploit them | Structural-null screening | A false null can make the score radius too small |
+| The retained block count is a deterministic upper bound when it is used in a second-stage union bound | Proposition 32 | The certification union bound can undercount tested blocks |
+| Screening and certification observations are independent when product confidence accounting is used | Proposition 32 | Conditioning does not create an independent second-stage experiment |
 
-## Statistical assumptions
+## Drift assumptions
 
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
-| Trajectories are independent Gaussian draws | Current Wishart concentration theorem | One long dependent series needs mixing or martingale concentration |
-| Confidence parameters and covariance dimensions match the tested blocks | Sample-complexity calculations | The advertised coverage probability may be wrong |
-| Any ridge contribution is included in the spectral error budget | Regularized empirical covariance | The analytical radius understates total error |
-| Candidate family and spectral envelopes are fixed before the screening split | Proposition 33 | The first-stage union bound need not cover adaptively introduced blocks or bounds |
-| Screening scores are computed from the covariance estimates covered by the stated first-split event | Proposition 33 | Covariance concentration does not control an unrelated score array |
-| Empirical primitive factors and score centers are computed consistently | Proposition 34 | A factor-aware radius need not bound the supplied score |
-| Positive-factor refinement is used only where every empirical factor lower endpoint is strictly positive | Proposition 34 | The local Lipschitz denominator can cross its singular boundary; the zero-safe fallback is required |
-| Every structural integration null is exact and its mask is fixed independently of the screening observations | Proposition 35 | The quadratic boundary radius can understate the local-score error and the safe-screen guarantee is invalid |
-| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, W, X, Y, and Z | It cannot validate envelopes estimated from the same observations |
-| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 through 40 and Experiments U through Z | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
-| Known-zero-mean Gaussian observations have exact separable covariance \(R\otimes\Gamma\), with valid deterministic bounds on \(\lVert R\rVert_F\) and \(\lVert R\rVert_2\) | Proposition 41 | The weighted-chi-square reduction and its effective-sample-size radius need not control the empirical covariance |
-| The common AR(1) coefficient is known and the process is stationary | Experiment AA's analytical temporal envelope | Estimated, time-varying, or misspecified dependence requires its own simultaneous upper bound |
-| An unknown mean is constant across the sampled record and the centering normalization \(d_R=\operatorname{tr}(PR)\) is valid | Proposition 42 and Experiment AB | Mean removal may leave bias or a time-varying signal that is not controlled by the covariance theorem |
-| The supplied bounds dominate \(\lVert PRP\rVert_F\) and \(\lVert PRP\rVert_2\) | Proposition 42 | The centered weighted-chi-square radius can understate covariance error |
-| AR(1) calibration channels are independent across space, standardized to known unit marginal variance, and share one stationary coefficient in the declared nonnegative range | Proposition 43 and Experiment AC | The increment interval can be biased or too narrow, invalidating every downstream certificate that relies on it |
-| The same-record correlation and covariance confidence budgets are combined by addition of failure probabilities | Proposition 43 | Treating the two data-reused events as independent would overstate joint confidence |
-| The reference centering normalization lies in the interval derived from the estimated AR(1) envelope | Proposition 43 | Normalization error is omitted and the covariance radius may be too small |
-| The target mean lies exactly in a fixed, full-rank temporal nuisance subspace selected before inspecting the target record | Propositions 44 through 50 | Projection can leave uncontrolled mean structure or become data dependent, invalidating the stated unbiasedness and concentration arguments |
-| The target covariance is exactly separable as temporal factor times spatial covariance | Propositions 44 through 50 | The weighted Gaussian quadratic-form reduction no longer describes the target covariance estimator |
-| The stationary nonnegative AR(1) family correctly describes the shared temporal factor | Propositions 45, 46, and 48 | The calibrated coefficient interval may not contain the true dependence structure even when it contains one fitted scalar coefficient |
-| The projected normalization lower bound \(d_->0\) | Propositions 45, 46, 48, 49, and 50 | The observable covariance normalization is not certified and the reported radius is invalid |
-| The AR(1) coefficient grid is deterministic and the true coefficient lies inside the reported calibration interval | Propositions 46 and 48 | The continuum envelope does not cover the true temporal covariance |
-| The Proposition 46 spectral Lipschitz bound dominates \(\lVert P(R_\phi-R_\psi)P\rVert_2/|\phi-\psi|\) over the full interval | Proposition 48 | Weyl inflation can understate movement of one or more projected temporal eigenvalues |
-| Proposition 47 is used with the actual nonnegative projected temporal eigenvalue profile when the temporal covariance is treated as known | Proposition 47 | The exact matrix-mgf calculation is being applied to the wrong weighted Wishart law |
-| Proposition 48 inflates every ordered projected temporal eigenvalue by the certified Weyl covering radius before taking the worst matrix mgf over AR(1) grid points | Proposition 48 | A between-grid temporal spectrum can have a larger matrix mgf than the one used by the certificate |
-| Proposition 49 receives a deterministic finite temporal-family cover whose operator and projected-normalization radii dominate every admissible family member | Proposition 49 | A temporal covariance can fall between cover points farther than the stated remainder, invalidating the family-wide matrix mgf bound |
-| Proposition 49 treats the cover as deterministic geometry rather than a collection of stochastic events | Proposition 49 | Adding or omitting a stochastic union bound changes the probability accounting and can misstate confidence |
-| Proposition 50 calibration channels are independent Gaussian channels with known unit marginal variance, arbitrary constant channel means, and one common stationary \(R_{\phi,\eta}=(1-\eta)R_\phi+\eta I\) temporal covariance | Proposition 50 and Experiment AJ | Lag-energy expectations or quadratic-form concentration can be misspecified, so the parameter rectangle need not cover the true temporal covariance |
-| Proposition 50 uses a declared box with \(0<\phi_-\le\phi\le\phi_+<1\) and \(0\le\eta_-\le\eta\le\eta_+<1\) | Proposition 50 | The ratio map from lag correlations can cross zero or leave the family for which the increment norm bounds were proved |
-| Proposition 50's lag-1 and lag-2 increment norm bounds dominate the corresponding transformed temporal covariance throughout the declared parameter box | Proposition 50 | The lag-correlation error radii can be too small |
-| The Proposition 50 calibrated parameter rectangle is nonempty before it is passed to Proposition 49 | Proposition 50 | The calibration data are incompatible with the declared model at the requested confidence and no end-to-end certificate should be issued |
-| Proposition 50 calibration data are independent of the target covariance record and the two records share the same temporal parameters | Proposition 50 | Conditioning on the random calibrated family no longer leaves the target record distributed according to a fixed admissible family member; multiplying the two confidence levels is not justified |
-| Proposition 50's rectangular map from separate lag intervals is treated as conservative rather than as the exact joint confidence geometry | Proposition 50 | Interpreting the rectangle as a likelihood region or equal-plausibility set would overstate what the theorem proves |
-| Matrix-Chernoff theta grids are fixed independently of the target data and remain inside their admissible domains | Propositions 47 through 50 | An invalid theta can break the mgf bound; data-dependent optimization requires its own justification |
-| The finite theta grids are interpreted as a tightness device rather than a continuum approximation to probability coverage | Propositions 47 through 50 | Numerical optimization error could be mistaken for statistical error even though each retained theta already gives a valid bound |
-| Calibration and covariance failure budgets are combined by a union bound unless a stronger dependence argument is proved | Proposition 48 | Multiplying confidence levels or assuming independence can overstate the final guarantee |
-| Proposition 50 multiplies calibration and covariance confidence levels only because the target record is independent of the calibration record | Proposition 50 | The product lower bound can overstate confidence under data reuse; a union-bound or same-record theorem would be needed |
-| Multi-regime axes and action weights are fixed before inspecting outcomes | Experiment V | The grid becomes an adaptive illustration rather than a predeclared sensitivity check |
-| Relative candidate blocks, confidence, and dimensions are fixed before screening | Proposition 37 and Experiment W | The simultaneous relative Wishart event may not cover adaptively introduced blocks |
-| Population whitening is used to state and audit the event, not estimated and silently reused | Proposition 37 | Reusing a data-dependent whitening map requires separate concentration or sample splitting |
-| Pilot and screening covariance sequences refer to the same ordered population blocks | Propositions 38 and 39 and Experiments X and Y | Block misalignment breaks the composed Loewner sandwich; population drift also requires Proposition 39's envelope |
-| Pilot blocks are positive definite and their simultaneous Gaussian event is valid | Propositions 38 and 39 | Pilot whitening or the advertised adaptive confidence can fail |
-| The pilot candidate family and structural-null mask are fixed independently of the pilot draw | Propositions 38 and 39 | The pilot union bound and null-specific radii may not cover adaptive choices |
-| Every candidate's population drift is no larger than its independently justified declared relative envelope | Proposition 39 and Experiment Y | An understated or data-reused envelope invalidates the current-population covariance and score bounds |
-| Drift acts on the same named variables and candidate blocks rather than silently changing their semantics | Proposition 39 | A numerical covariance bound cannot repair a mismatch in what the coordinates represent |
-| Old and current calibration sample counts and Gaussian population assignments are correct | Proposition 40 and Experiment Z | Either simultaneous Wishart radius can understate its covariance error |
-| The drift candidate family is fixed before both calibration cohorts are inspected | Proposition 40 | The two-event union bound may not cover adaptively introduced blocks |
-| An estimated drift envelope is not interpreted as evidence that retaining the old reference is efficient | Proposition 40 and Experiment Z | A valid but unnecessarily conservative screen may replace a more selective refreshed-reference calculation |
-| The dependent covariance is formed without estimating the mean from the same observations | Proposition 41 and Experiment AA | Same-sample centering requires Proposition 42's corrected estimator and projected temporal envelope |
-| Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
-| The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
-| The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |
-| Screening and certification observations are independent | Proposition 32 | Conditioning does not turn the selected block family into a valid fixed-family test |
-| The admissible covariance radius comes from a valid deterministic recovery certificate | Proposition 32 | Covariance concentration alone does not imply path recovery |
+| Pilot and screening covariance sequences refer to the same named variables and ordered blocks | Propositions 38 and 39 | A numerical covariance bound cannot repair a semantic mismatch |
+| Every population drift is below its independently justified declared envelope | Proposition 39 | An understated envelope invalidates the current-population bound |
+| Old and current calibration cohorts have the stated Gaussian population assignments | Proposition 40 | Either simultaneous covariance radius can be wrong |
+| The candidate family is fixed before the calibration cohorts used to estimate drift are inspected | Proposition 40 | The confidence accounting can miss adaptively introduced blocks |
+
+## Temporally dependent Gaussian sampling
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| The covariance is separable as temporal factor times spatial covariance where the weighted Gaussian reduction is used | Propositions 41 through 50 | The weighted Wishart or quadratic-form law no longer describes the estimator |
+| Deterministic bounds supplied for temporal Frobenius and spectral norms are valid | Proposition 41 | The effective-sample-size covariance radius can be too small |
+| An unknown mean is constant when ordinary temporal centering is used | Proposition 42 | Mean removal can leave uncontrolled time-varying structure |
+| The corrected centering normalization \(\operatorname{tr}(PR)\) is valid | Proposition 42 | The covariance estimator can be biased by the wrong normalization |
+| AR(1) calibration channels are independent across space, standardized to known unit marginal variance, and share one stationary coefficient | Proposition 43 | Increment calibration can be biased or too narrow |
+| Same-record calibration and covariance events use union-bound confidence accounting rather than an unjustified independence assumption | Proposition 43 | Joint confidence can be overstated |
+
+## Time-varying nuisance projection
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| The target mean lies exactly in a fixed full-rank temporal nuisance subspace selected before target inspection | Propositions 44 through 50 | Projection can leave uncontrolled mean structure or become data dependent |
+| The projected covariance normalization remains strictly positive | Propositions 44 through 50 | The observable covariance normalization is not certified |
+| The nuisance design used by design-specific bounds is the same design used by the estimator | Propositions 46 and 48 | The projected spectral envelope can describe the wrong subspace |
+
+## Matrix concentration assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| Proposition 47 receives the actual nonnegative projected temporal eigenvalue profile when temporal covariance is treated as known | Proposition 47 | The exact matrix-mgf calculation is applied to the wrong weighted Gaussian law |
+| Proposition 48 inflates every ordered projected eigenvalue by a valid between-grid Weyl radius | Proposition 48 | A between-grid temporal spectrum can have a larger matrix mgf than the certificate allows |
+| Proposition 49 receives a deterministic finite temporal-family cover whose operator and normalization radii dominate every admissible family member | Proposition 49 | An uncovered temporal covariance can invalidate the family-wide matrix bound |
+| Proposition 49 treats its finite cover as deterministic geometry, not as a set of stochastic events | Proposition 49 | Probability accounting can be misstated |
+| Numerical Chernoff theta grids remain inside their admissible domains and are fixed independently of the target data | Propositions 47 through 50 | An invalid or data-selected theta can break the mgf argument |
+| Chernoff theta grids are interpreted as numerical tightness devices rather than statistical discretizations | Propositions 47 through 50 | Numerical optimization error can be confused with probability coverage |
+
+## Proposition 50 assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| Calibration channels are independent Gaussian channels with known unit marginal variance, arbitrary constant means, and one common stationary \(R_{\phi,\eta}=(1-\eta)R_\phi+\eta I\) covariance | Proposition 50 and Experiment AJ | Lag-energy expectations or concentration can be misspecified |
+| The declared box satisfies \(0<\phi_-\le\phi\le\phi_+<1\) and \(0\le\eta_-\le\eta\le\eta_+<1\) | Proposition 50 | The ratio map from lag correlations can cross a singular boundary or leave the proved family |
+| Lag-1 and lag-2 increment norm bounds dominate the transformed temporal covariance throughout the declared box | Proposition 50 | Lag-correlation error radii can be too small |
+| The calibrated parameter rectangle is nonempty before it is passed to Proposition 49 | Proposition 50 | The calibration data are incompatible with the declared family at the requested confidence level |
+| Calibration data are independent of the target record and both records share the same temporal parameters | Proposition 50 | Conditioning on the random calibrated family does not leave an independent target experiment; product confidence is not justified |
+| The rectangular map is interpreted as a conservative confidence region, not as an exact likelihood contour or equal-plausibility set | Proposition 50 | The geometry can be overinterpreted |
+
+## Proposition 51 assumptions
+
+| Assumption | Used for | If it fails |
+| --- | --- | --- |
+| Calibration channels are independent Gaussian channels | Proposition 51 and Experiment AK | The product residual Gaussian density \(p_\theta\) is misspecified |
+| All calibration channels share one temporal covariance from the declared family | Proposition 51 | The pointwise denominator density need not equal the true data density for any single \(\theta\) |
+| Each channel mean is constant in time | Helmert mean removal in Proposition 51 | A fixed contrast need not remove the mean exactly |
+| The contrast matrix is fixed before seeing the calibration data, has orthonormal rows, and annihilates the constant vector | Proposition 51 | The residual density can acquire data-dependent selection effects or retain mean structure |
+| Every compressed covariance \(HR_\theta H^\mathsf T\) is positive definite for every admissible \(\theta\) | Proposition 51 likelihood | The Gaussian residual density can be singular or undefined |
+| The mixture density \(q\) is a proper density fixed independently of the observed calibration record | Proposition 51 e-value identity | \(\mathbb E_\theta[q(Z)/p_\theta(Z)]=1\) is no longer guaranteed by the stated proof |
+| The true temporal parameter lies inside the declared parameter family | Proposition 51 coverage | The confidence set is only guaranteed for parameters inside the model class |
+| The numerical grid in Experiment AK is treated only as a view of the pointwise continuum function | Experiment AK | A plotted grid can be incorrectly presented as a certified outer cover |
+| The accepted grid bounding box is treated as a visualization summary, not as the exact confidence set | Experiment AK | Irregular or between-grid portions of the continuum set can be omitted |
+
+## Confidence accounting rules
+
+| Rule | Used for | If violated |
+| --- | --- | --- |
+| Use a union bound when two events may depend on the same observations unless a stronger argument is proved | Same-record results such as Proposition 43 | Multiplying confidence levels can overstate coverage |
+| Multiply confidence levels only when the conditioning and independence argument is explicit | Proposition 50 | Product confidence can be invalid under data reuse |
+| Proposition 51 needs no parameterwise union bound because the confidence set is defined by one e-value at the true parameter | Proposition 51 | Adding a grid union penalty would describe a different and unnecessarily weaker procedure |
 
 ## Interpretation rules
 
-- A positive sufficient condition proves robustness only inside its declared
-  model, candidate family, and perturbation envelope.
+- A positive sufficient condition proves robustness only inside its declared model, candidate family, and perturbation envelope.
 - A failed sufficient condition does not prove failed recovery.
-- Numerical recovery on a planted construction validates implementation but
-  does not establish external validity.
-- Symmetry can make labeled recovery impossible even when an optimizer returns
-  one representative.
+- Numerical recovery on a planted construction validates implementation but does not establish external validity.
+- Symmetry can make labeled recovery impossible even when an optimizer returns one representative.
 - None of the scores is a measurement or proof of phenomenal consciousness.
-- A future consciousness interpretation requires an explicit bridge hypothesis;
-  observer structure alone does not supply that bridge.
-- Any such bridge should meet the requirements in
-  [the interpretation protocol](interpretation_protocol.md), including
-  identifiability, representation invariance, causal discriminability,
-  temporal identity, falsifiability, and independent empirical anchoring.
+- A future consciousness interpretation requires an explicit bridge hypothesis; observer structure alone does not supply that bridge.
+- Any such bridge should meet the requirements in the [interpretation protocol](interpretation_protocol.md), including identifiability, representation invariance, causal discriminability, temporal identity, falsifiability, competing explanations, and independent empirical anchoring.
 
 ## Application checklist
 
-Before reporting a certificate, record:
+Before reporting a certificate or confidence set, record:
 
-1. the candidate family and whether it is complete;
-2. the source of every eigenvalue and covariance-error bound;
-3. the construction of every class and its multiplicity;
-4. the source of every block comparison and omitted-leakage bound;
-5. whether selections were fixed before observing certification data;
-6. the planted lower action, competitor upper action, and recovery slack;
-7. the result when each uncertain bound is widened;
-8. any symmetry under which only equivalence-class recovery is meaningful;
-9. for Proposition 50, the calibration/target independence argument and the
-   declared temporal parameter box;
-10. whether any interpretation goes beyond the proved observer-structure claim
-    and, if so, which additional bridge assumptions it uses.
+1. the model family and candidate family;
+2. the source of every eigenvalue, covariance, and temporal-dependence bound;
+3. which quantities were fixed before inspecting each dataset;
+4. the exact confidence accounting rule;
+5. whether calibration and target data are reused or independent;
+6. every symmetry under which only equivalence-class recovery is meaningful;
+7. the result when uncertain bounds or model ranges are widened;
+8. whether a plotted numerical grid is a theorem object, a certified cover, or only a visualization;
+9. for Proposition 50, the calibration-target independence argument and declared parameter box;
+10. for Proposition 51, the contrast, mixture construction, declared family, and distinction between the continuum confidence set and its plotted grid view;
+11. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.
