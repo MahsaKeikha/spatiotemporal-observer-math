@@ -20,6 +20,9 @@
   envelope, separable Gaussian covariance, and fixed candidate blocks.
 - Added four claim-level tests and updated the public research map to 41 proved
   statements, 27 experiments, 14 figures, and 120 tests.
+- Made the repository root explicit on pytest's import path so the documented
+  experiment modules resolve consistently under both `pytest` and
+  `python -m pytest`.
 
 ## 0.28.0 - 2026-09-08
 
