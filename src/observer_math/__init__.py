@@ -30,6 +30,12 @@ from .localization import (
     moving_block_covariance_error_envelope,
     moving_block_joint_covariance_error_bound,
 )
+from .matrix_chernoff import (
+    GaussianWeightedWishartMatrixBound,
+    gaussian_projected_weighted_wishart_matrix_bound,
+    gaussian_weighted_wishart_matrix_bound,
+    projected_temporal_eigenvalues,
+)
 from .metrics import ObserverMetrics, observer_metrics, observer_metrics_from_covariances
 from .models import (
     block_system,
@@ -188,6 +194,7 @@ __all__ = [
     "GaussianRelativeNearCompetitorScreen",
     "GaussianSafeNearCompetitorScreen",
     "GaussianTemporalCorrelationEnvelope",
+    "GaussianWeightedWishartMatrixBound",
     "IntervalClassPathRecoveryBound",
     "LocalizedGaussianPathRecoveryBound",
     "MovingBlockCovarianceErrorEnvelope",
@@ -255,12 +262,14 @@ __all__ = [
     "gaussian_path_recovery_bound",
     "gaussian_projected_relative_covariance_error_bound",
     "gaussian_projected_temporal_envelope",
+    "gaussian_projected_weighted_wishart_matrix_bound",
     "gaussian_relative_cmi_covariance_error_bound",
     "gaussian_relative_null_cmi_covariance_error_bound",
     "gaussian_relative_null_integration_factor_error_bound",
     "gaussian_relative_structural_null_near_competitor_screen",
     "gaussian_safe_near_competitor_screen",
     "gaussian_structural_null_near_competitor_screen",
+    "gaussian_weighted_wishart_matrix_bound",
     "gaussian_wishart_relative_covariance_error_bound",
     "independent_local_path",
     "interval_class_covariance_path_recovery_bound",
@@ -281,6 +290,7 @@ __all__ = [
     "perturbed_covariance_preserving_moving_cliques",
     "perturbed_moving_clique_recovery_bound",
     "product_root_error_bound",
+    "projected_temporal_eigenvalues",
     "propagate_covariances",
     "rank_subsystems",
     "regularized_sample_covariance",
