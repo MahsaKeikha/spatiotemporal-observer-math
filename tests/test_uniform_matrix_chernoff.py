@@ -6,7 +6,6 @@ from observer_math.design_interval import (
 from observer_math.matrix_chernoff import (
     gaussian_projected_weighted_wishart_matrix_bound,
 )
-from observer_math.recovery import GaussianAR1AutocorrelationInterval
 from observer_math.uniform_matrix_chernoff import (
     gaussian_ar1_uniform_matrix_chernoff_bound,
     gaussian_calibrated_ar1_uniform_matrix_chernoff_bound,
