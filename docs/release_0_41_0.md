@@ -1,0 +1,110 @@
+# Release 0.41.0 research record
+
+Release 0.41.0 adds Proposition 53, Experiment AM, and a first-class bibliography and citation architecture.
+
+## Research state
+
+| Record | 0.41.0 state |
+| --- | ---: |
+| Propositions | **53** |
+| Reproducible experiments | **39, A-Z and AA-AM** |
+| Scientific result figures | **26** |
+| Claim-level tests | **183** |
+| Supported CI matrix | **Python 3.10, 3.11, 3.12** |
+
+## Proposition 53
+
+Proposition 53 introduces a sampling-consistent physical parameterization for the exponential temporal covariance model.
+
+For physical sample times \(t_i\),
+
+\[
+R_\tau(i,j)
+=
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+\]
+
+For uniform sampling interval \(\Delta t\), this reduces exactly to the AR(1) form with
+
+\[
+\phi_{\Delta t}
+=
+\exp\left(-\frac{\Delta t}{\tau}\right).
+\]
+
+The physical parameter \(\tau\) has units of time. The discrete coefficient \(\phi_{\Delta t}\) depends on the acquisition interval.
+
+The proposition proves:
+
+1. exact equivalence with uniformly sampled AR(1) covariance;
+2. exact coarse-sampling consistency \(\phi_{k\Delta t}=\phi_{\Delta t}^k\);
+3. invariance under a change of time units;
+4. positive-semidefinite covariance on irregular sample times;
+5. an analytic operator-Lipschitz bound over a declared relaxation-time interval;
+6. a deterministic finite cover that composes with Proposition 49.
+
+Proof: [Proposition 53](proposition_53_physical_relaxation_time.md).
+
+## Experiment AM
+
+Experiment AM uses a controlled relaxation time
+
+\[
+\tau=0.8\ \mathrm{s}.
+\]
+
+Sampling the same declared model at 40 Hz, 20 Hz, 10 Hz, 5 Hz, and 2.5 Hz produces different one-step correlations, but every value maps back to the same relaxation time.
+
+The experiment also checks irregular timestamps and compares the analytic continuum covering radius with dense numerical evaluation over
+
+\[
+\tau\in[0.55,1.05]\ \mathrm{s}.
+\]
+
+[![Experiment AM](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md)
+
+Machine-readable result: [JSON](physical_relaxation_sampling.json).
+
+Reproduction script: [`examples/physical_relaxation_sampling.py`](../examples/physical_relaxation_sampling.py).
+
+Figure renderer: [`examples/render_physical_relaxation_sampling.py`](../examples/render_physical_relaxation_sampling.py).
+
+## Physical interpretation
+
+The release makes one hierarchy explicit:
+
+\[
+\boxed{
+\text{physical relaxation time }\tau
+\longrightarrow
+\text{sampling schedule}
+\longrightarrow
+\text{discrete correlation }\phi
+}
+\]
+
+This matters because a parameter intended to describe the physical process should not change merely because the same process is recorded at a different sampling rate.
+
+## Bibliography and citation architecture
+
+Release 0.41.0 also makes literature attribution a first-class part of the research record.
+
+The README now states explicitly that Max Tegmark's 2015 paper *Consciousness as a State of Matter* is the primary conceptual source and starting point for the research question developed in this repository.
+
+A dedicated [Bibliography and Citation Map](bibliography.md) distinguishes:
+
+1. the primary conceptual source;
+2. direct mathematical or statistical sources materially used in proofs or algorithms;
+3. background scientific lineage that provides context without being claimed as the source of a proposition.
+
+The bibliography includes the relevant Tegmark and integrated-information lineage, classical information theory and canonical correlation, dynamic programming, Wishart and matrix analysis, Gaussian concentration, matrix-Laplace concentration, e-value statistics, and the Ornstein-Uhlenbeck relaxation lineage used to contextualize Proposition 53.
+
+Machine-readable citation records are maintained in [`references.bib`](../references.bib), while repository citation metadata remain in [`CITATION.cff`](../CITATION.cff).
+
+The contribution standard now requires future results to update these citation records whenever an external theorem, statistical construction, or physical model is materially used.
+
+## Scope and nonclaims
+
+Proposition 53 is conditional on the exponential relaxation model. It does not establish that every real system has one relaxation time. It does not establish that every observed covariance is exponential. It does not identify an observer boundary, and it does not establish consciousness.
+
+A real application should test the exponential model against multiple sampling scales, irregular-time predictions, stationarity, spectral structure, and residual temporal dependence.

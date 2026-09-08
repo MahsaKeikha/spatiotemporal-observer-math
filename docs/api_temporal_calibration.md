@@ -1,8 +1,8 @@
 # Temporal calibration API
 
-This page collects the public interfaces introduced by Propositions 41 through 52. It is intentionally separate from the older general API guide so a reader can follow the temporal-dependence theorem ladder in one place.
+This page collects the public interfaces introduced by Propositions 41 through 53. It is intentionally separate from the older general API guide so a reader can follow the temporal-dependence theorem ladder in one place.
 
-The mathematical assumptions are summarized here, but the complete application rules remain in the [assumption ledger](assumption_ledger.md). For physical meanings of the temporal parameters and covariance quantities, start with the [Physics Guide](physics_guide.md).
+The mathematical assumptions are summarized here, but the complete application rules remain in the [Assumption Ledger](assumption_ledger.md). For physical meanings of the temporal parameters and covariance quantities, start with the [Physics Guide](physics_guide.md).
 
 ## Proposition 44: fixed nuisance projection
 
@@ -23,7 +23,7 @@ The projector is
 P_H=I-H(H^\mathsf TH)^{-1}H^\mathsf T.
 \]
 
-The estimator divides `X.T @ P_H @ X` by the exact projected normalization. See [Proposition 44](proposition_44_nuisance_projection.md).
+See [Proposition 44](proposition_44_nuisance_projection.md).
 
 ## Proposition 45: estimated AR(1) with nuisance projection
 
@@ -35,7 +35,7 @@ from observer_math import (
 )
 ```
 
-This layer combines the Proposition 43 AR(1) calibration interval with a fixed target nuisance subspace. It propagates uncertainty in both temporal dependence and the projected covariance normalization.
+This layer combines the Proposition 43 AR(1) calibration interval with a fixed target nuisance subspace.
 
 See [Proposition 45](proposition_45_estimated_ar1_nuisance_projection.md).
 
@@ -172,7 +172,6 @@ log_evalue = gaussian_ar1_white_noise_log_evalue(
     autocorrelation=0.60,
     white_noise_fraction=0.04,
 )
-
 accepted = log_evalue < model.log_evalue_threshold
 ```
 
@@ -187,19 +186,7 @@ The pointwise confidence set is
 \right\}.
 \]
 
-For plotting and diagnostics, evaluate the same exact function on a deterministic grid:
-
-```python
-grid = gaussian_ar1_white_noise_evalue_grid(
-    model,
-    autocorrelation_grid_size=33,
-    white_noise_fraction_grid_size=26,
-)
-```
-
-`grid.accepted_mask` describes only the evaluated grid points. It is not a certified outer cover of the full continuum set. Proposition 51's probability statement applies to the continuum set itself.
-
-The mixture grid used to define `q` is also not a test grid. It is the support of a proper numerator density fixed before seeing the calibration data. The true parameter does not need to lie on that support.
+For plotting and diagnostics, evaluate the same exact function on a deterministic grid. The evaluated mask is only a view of the continuum function, not a certified outer cover.
 
 See [Proposition 51](proposition_51_evalue_temporal_confidence_set.md) and [Experiment AK](evalue_temporal_confidence_set.json).
 
@@ -228,7 +215,7 @@ outer = gaussian_ar1_white_noise_evalue_outer_cover(
 )
 ```
 
-A cell is discarded only when a deterministic likelihood perturbation bound proves that every parameter inside the cell is rejected by the exact Proposition 51 e-value rule. Therefore the retained cells contain the complete Proposition 51 continuum confidence set.
+A cell is discarded only when a deterministic likelihood perturbation bound proves that every parameter inside the cell is rejected by the exact Proposition 51 e-value rule.
 
 For an independent target record with a fixed nuisance design:
 
@@ -242,24 +229,103 @@ bound = gaussian_evalue_outer_cover_matrix_chernoff_bound(
     outer_white_noise_fraction_grid_size=61,
     covariance_confidence=0.975,
 )
+```
 
-estimate = separable_gaussian_evalue_outer_cover_projected_covariance(
-    target_observations,
-    target_nuisance_design,
-    bound,
+The target composition deliberately carries separate eigenvalue and normalization cover radii. Do not substitute one for the other.
+
+See [Proposition 52](proposition_52_certified_evalue_outer_cover.md), [Experiment AL](certified_evalue_outer_cover.json), and the [physics-first figure](certified_evalue_outer_cover.svg).
+
+## Proposition 53: physical relaxation time and sampling consistency
+
+Proposition 53 lives in the dedicated public module `observer_math.physical_relaxation`.
+
+```python
+from observer_math.physical_relaxation import (
+    ExponentialRelaxationTemporalCover,
+    GaussianRelaxationTimeMatrixChernoffBound,
+    exponential_relaxation_covariance,
+    exponential_relaxation_operator_lipschitz_bound,
+    exponential_relaxation_temporal_cover,
+    gaussian_relaxation_time_matrix_chernoff_bound,
+    relaxation_autocorrelation,
+    relaxation_time_from_autocorrelation,
+    uniform_exponential_relaxation_covariance,
 )
 ```
 
-The target composition deliberately carries two geometric radii:
+### Convert between physical time and discrete correlation
 
-- `target_eigenvalue_covering_radius` controls the nuisance-compressed temporal spectrum used by the matrix concentration theorem;
-- `target_normalization_covering_radius` controls the projected trace normalization using the raw temporal operator radius and the equal-trace family identity.
+```python
+tau_seconds = 0.8
+sample_interval_seconds = 0.05
 
-Do not substitute one radius for the other.
+phi = relaxation_autocorrelation(
+    sample_interval_seconds,
+    tau_seconds,
+)
 
-The reported combined confidence is the product of calibration and target covariance confidence because the target record must be independent of the calibration record and share the same true temporal parameter.
+recovered_tau = relaxation_time_from_autocorrelation(
+    phi,
+    sample_interval_seconds,
+)
+```
 
-See [Proposition 52](proposition_52_certified_evalue_outer_cover.md), [Experiment AL](certified_evalue_outer_cover.json), and the [physics-first figure](certified_evalue_outer_cover.svg).
+Under the model,
+
+\[
+\phi_{\Delta t}=e^{-\Delta t/\tau},
+\qquad
+\tau=-\frac{\Delta t}{\log\phi_{\Delta t}}.
+\]
+
+### Build covariance on irregular physical timestamps
+
+```python
+sample_times = np.array([0.0, 0.04, 0.11, 0.19, 0.33, 0.52, 0.76])
+R = exponential_relaxation_covariance(
+    sample_times,
+    relaxation_time=0.8,
+)
+```
+
+The covariance uses actual elapsed time:
+
+\[
+R_{ij}=\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+\]
+
+### Build a certified relaxation-time family cover
+
+```python
+cover = exponential_relaxation_temporal_cover(
+    sample_times,
+    nuisance_design,
+    lower_relaxation_time=0.55,
+    upper_relaxation_time=1.05,
+    relaxation_time_grid_size=33,
+)
+```
+
+The analytic operator radius covers every \(\tau\) in the declared interval, including values between grid points.
+
+### Compose with Proposition 49
+
+```python
+bound = gaussian_relaxation_time_matrix_chernoff_bound(
+    sample_times,
+    nuisance_design,
+    block_dimension=4,
+    block_count=1,
+    lower_relaxation_time=0.55,
+    upper_relaxation_time=1.05,
+    relaxation_time_grid_size=33,
+    confidence=0.975,
+)
+```
+
+The deterministic \(\tau\)-grid is geometry, not a collection of stochastic tests. Refining it changes approximation tightness, not the confidence accounting.
+
+See [Proposition 53](proposition_53_physical_relaxation_time.md), [Experiment AM](physical_relaxation_sampling.json), and the [sampling-physics figure](physical_relaxation_sampling.svg).
 
 ## Confidence accounting summary
 
@@ -270,7 +336,8 @@ See [Proposition 52](proposition_52_certified_evalue_outer_cover.md), [Experimen
 | Proposition 50 | Calibration and target records are independent | Product lower bound is justified by conditioning and independence |
 | Proposition 51 | Calibration confidence set only | One e-value at the true parameter, no parameterwise union bound |
 | Proposition 52 | Certified calibration cover feeds an independent target record | Deterministic cell containment plus product confidence by record independence |
+| Proposition 53 | Declared physical \(\tau\)-interval represented by a deterministic cover | No probability penalty for cover points; Proposition 49 supplies the covariance confidence statement |
 
 ## Interpretation rule
 
-These APIs calibrate temporal covariance and observer-like dynamical structure under explicit probabilistic assumptions. They do not measure or prove consciousness. Any later bridge to consciousness must be introduced separately under the [interpretation protocol](interpretation_protocol.md).
+These APIs calibrate temporal covariance and observer-like dynamical structure under explicit probabilistic assumptions. They do not measure or prove consciousness. Any later bridge to consciousness must be introduced separately under the [Interpretation Protocol](interpretation_protocol.md).

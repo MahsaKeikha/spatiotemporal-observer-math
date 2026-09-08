@@ -190,7 +190,7 @@ Can the Proposition 47 covariance guarantee remain valid when `phi` is uncertain
 
 Physical picture:
 
-The experiment does not know the exact relaxation time, only a calibrated interval of possible temporal persistence.
+The experiment does not know the exact relaxation behavior, only a calibrated interval of possible temporal persistence.
 
 What the figure means:
 
@@ -342,14 +342,90 @@ It does not identify a consciousness state, an energy threshold, or an observer 
 
 ---
 
+# Proposition 53, Experiment AM
+
+Figure: `physical_relaxation_sampling.svg`
+
+Mathematical question:
+
+Can one temporal parameter describe the same exponential relaxation process when the acquisition rate, timestamp spacing, or time unit changes?
+
+Physical picture:
+
+A process has a declared relaxation time \(\tau=0.8\) s. We observe the same model using different sampling clocks.
+
+The exact relationship is
+
+\[
+\phi_{\Delta t}
+=
+\exp\left(-\frac{\Delta t}{\tau}\right).
+\]
+
+### Panel A: sampling rate versus one-step correlation
+
+The one-step AR(1) coefficient changes from about `0.6065` at 2.5 Hz to about `0.9692` at 40 Hz.
+
+This is expected. The sample-to-sample gap becomes shorter at higher sampling rates, so adjacent observations are more strongly correlated.
+
+The change in `phi` does not mean the underlying declared process changed.
+
+### Panel B: recovered physical relaxation time
+
+Each sampling rate maps back through
+
+\[
+\tau
+=
+-\frac{\Delta t}{\log\phi_{\Delta t}}
+\]
+
+to the same value, `0.8 s`, up to floating-point roundoff.
+
+This is the physical invariance Proposition 53 is designed to expose.
+
+### Panel C: certified continuum cover in physical time
+
+The declared interval is
+
+\[
+\tau\in[0.55,1.05]\ \mathrm{s}.
+\]
+
+The orange curve is the analytic operator covering radius. The blue curve is a dense numerical evaluation used only to show scale.
+
+As the deterministic \(\tau\)-grid is refined from 5 to 65 points, the certified radius decreases from about `0.4160` to `0.0260`.
+
+The blue curve lying below the orange curve is a numerical consistency check. The theorem comes from the analytic derivative bound, not from the dense grid.
+
+### Panel D: irregular timestamps
+
+Each dot is an actual acquisition time. The covariance entry between two measurements is computed from their elapsed physical separation:
+
+\[
+K_\tau(t_i,t_j)
+=
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+\]
+
+No integer lag is invented for missing or irregular samples.
+
+The time-unit invariance error shown in the figure is at floating-point scale. Expressing the same timestamps and \(\tau\) in milliseconds instead of seconds leaves the covariance matrix unchanged.
+
+What the figure does not establish:
+
+It does not show that every physical system has one exponential relaxation time. It does not show that a fitted \(\tau\) is a universal intrinsic constant. It does not identify an observer boundary or consciousness state. A real application must test the exponential kernel against multi-timescale, oscillatory, nonstationary, and other alternatives.
+
+---
+
 # How to read any future figure
 
 Before interpreting a chart, ask five questions.
 
 1. **What is measured?** Is the axis a physical observable, a model parameter, an estimation error, or a theorem bound?
 2. **What are the units?** If the quantity is dimensionless, why?
-3. **What changed physically?** Did the simulated system change, or did only sample size, calibration information, or mathematical resolution change?
+3. **What changed physically?** Did the simulated system change, or did only sample size, calibration information, sampling schedule, or mathematical resolution change?
 4. **What is proved?** Is the figure illustrating a theorem, or is the visual pattern itself only empirical?
 5. **What conclusion is forbidden?** What physical or consciousness interpretation would require an additional bridge?
 
-This discipline is now part of the repository's documentation standard.
+This discipline is part of the repository's documentation standard.

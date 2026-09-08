@@ -49,6 +49,43 @@ subjective information without an explicit bridge.
 For the canonical terminology and physical mapping, see
 [`docs/physics_guide.md`](docs/physics_guide.md).
 
+## Citation accountability
+
+Every new proposition, method, or physical model must identify the external
+literature it materially uses. Attribution is part of the scientific audit
+trail, not a cosmetic step at release time.
+
+Before merging a result, check whether it uses any of the following:
+
+- an external theorem or inequality;
+- a named probability distribution or concentration result;
+- a statistical testing or confidence-set construction;
+- an optimization or multivariate-statistics method;
+- a physical stochastic-process model;
+- a conceptual framework that motivates the scientific question.
+
+If so, cite the primary source or a standard authoritative source close to the
+claim when practical, and update both:
+
+- [`docs/bibliography.md`](docs/bibliography.md), which explains why the source
+  matters to the project;
+- [`references.bib`](references.bib), which stores the machine-readable
+  citation.
+
+Use one of three roles in the bibliography:
+
+1. **Primary conceptual source** for work that directly launched the research
+   question. Max Tegmark's 2015 paper *Consciousness as a State of Matter* has
+   this role for the present project.
+2. **Direct mathematical or statistical source** for a theorem, inequality,
+   distributional fact, or method materially used in a proof or algorithm.
+3. **Background lineage** for scientifically important context that is not
+   being claimed as the source of a repository proposition.
+
+Do not add references merely because they are famous or adjacent to the topic.
+Do not imply endorsement by a cited author. When a repository result is a new
+derivation built using an established method, state both facts clearly.
+
 ## Mathematical contributions
 
 A mathematical result should state its domain and assumptions before the claim.
@@ -72,7 +109,8 @@ For new proposition pages, prefer the following order when it is applicable:
 4. proof;
 5. physical interpretation of the bound;
 6. reproducible experiment;
-7. failure conditions and what remains open.
+7. failure conditions and what remains open;
+8. literature context for any external method or model materially used.
 
 ## Experimental contributions
 
@@ -111,7 +149,8 @@ make a test pass. Keep example outputs deterministic whenever possible.
 Write for a reader who was not present while the result was developed. State
 what problem a proposition solves, what assumptions it needs, what is proved,
 and what a numerical experiment only illustrates. Keep physical interpretation,
-proof, implementation, and empirical evidence visibly distinct.
+proof, implementation, empirical evidence, and literature attribution visibly
+distinct.
 
 Do not use Unicode en dash or em dash characters in Markdown documentation.
 Use ordinary hyphens, commas, colons, semicolons, or parentheses instead. CI
