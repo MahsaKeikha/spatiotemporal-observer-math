@@ -84,15 +84,46 @@ def _grid_with_spacing(lower: float, upper: float, size: int) -> tuple[np.ndarra
     return grid, float((upper - lower) / (size - 1))
 
 
+def _ar1_matrix(sample_count: int, autocorrelation: float) -> np.ndarray:
+    indices = np.arange(sample_count)
+    return float(autocorrelation) ** np.abs(indices[:, None] - indices[None, :])
+
+
 def _ar1_white_noise_covariance(
     sample_count: int,
     autocorrelation: float,
     white_noise_fraction: float,
 ) -> np.ndarray:
-    indices = np.arange(sample_count)
-    ar1 = float(autocorrelation) ** np.abs(indices[:, None] - indices[None, :])
+    ar1 = _ar1_matrix(sample_count, autocorrelation)
     eta = float(white_noise_fraction)
     return (1.0 - eta) * ar1 + eta * np.eye(sample_count)
+
+
+def _ar1_derivative_matrix(sample_count: int, autocorrelation: float) -> np.ndarray:
+    indices = np.arange(sample_count)
+    lags = np.abs(indices[:, None] - indices[None, :])
+    derivative = np.zeros((sample_count, sample_count), dtype=float)
+    mask = lags >= 1
+    derivative[mask] = lags[mask] * np.power(
+        float(autocorrelation),
+        lags[mask] - 1,
+    )
+    return derivative
+
+
+def _ar1_second_derivative_row_sum_bound(
+    sample_count: int,
+    upper_phi: float,
+) -> float:
+    lags = np.arange(2, sample_count, dtype=float)
+    if lags.size == 0:
+        return 0.0
+    if upper_phi == 0.0:
+        powers = np.zeros_like(lags)
+        powers[0] = 1.0
+    else:
+        powers = float(upper_phi) ** (lags - 2.0)
+    return float(2.0 * np.sum(lags * (lags - 1.0) * powers))
 
 
 def _ar1_derivative_operator_bound(sample_count: int, upper_phi: float) -> float:
@@ -120,19 +151,14 @@ def _family_lipschitz_bounds(sample_count: int, upper_phi: float) -> tuple[float
     )
 
 
-def _cell_operator_radius(
-    phi_spacing: float,
-    eta_spacing: float,
-    phi_lipschitz: float,
-    eta_lipschitz: float,
-) -> float:
-    return float(
-        0.5 * phi_spacing * phi_lipschitz
-        + 0.5 * eta_spacing * eta_lipschitz
-    )
+def _symmetric_operator_norm(matrix: np.ndarray) -> float:
+    symmetric = 0.5 * (matrix + matrix.T)
+    eigenvalues = np.linalg.eigvalsh(symmetric)
+    return float(np.max(np.abs(eigenvalues)))
 
 
-def _local_cell_operator_radius(
+def _compressed_local_cell_operator_radius(
+    compression: np.ndarray,
     sample_count: int,
     center_phi: float,
     center_eta: float,
@@ -141,29 +167,49 @@ def _local_cell_operator_radius(
     lower_eta: float,
     upper_phi: float,
 ) -> float:
-    """Bound temporal covariance motion inside one clipped parameter cell.
+    """Bound compressed covariance motion inside one clipped parameter cell.
 
-    For ``R(phi, eta) = (1 - eta) R_phi + eta I``, the derivative in ``phi``
-    carries the factor ``1 - eta``. Over one cell that factor is maximized at
-    the cell's clipped lower eta boundary, while the AR(1) derivative bound is
-    maximized at the cell's clipped upper phi boundary. The eta-direction bound
-    is also evaluated at that local upper phi boundary.
+    Write ``B`` for a row-orthonormal compression and
+
+    ``C(phi, eta) = B R(phi, eta) B.T``.
+
+    For a cell centered at ``(phi0, eta0)``, use
+
+    ``C(phi, eta) - C(phi0, eta0)``
+    ``= (1 - eta) B(R_phi - R_phi0)B.T``
+    ``  + (eta - eta0) B(I - R_phi0)B.T``.
+
+    The first derivative at the cell center is evaluated after compression.
+    Its between-center variation is bounded by the raw AR(1) second-derivative
+    row sum, which remains valid after orthonormal compression. This is sharper
+    than applying the raw first-derivative bound everywhere in the box.
     """
-    local_upper_phi = min(float(upper_phi), float(center_phi) + 0.5 * phi_spacing)
-    local_lower_eta = max(float(lower_eta), float(center_eta) - 0.5 * eta_spacing)
-    phi_lipschitz = (
-        (1.0 - local_lower_eta)
-        * _ar1_derivative_operator_bound(sample_count, local_upper_phi)
+    half_phi = 0.5 * float(phi_spacing)
+    half_eta = 0.5 * float(eta_spacing)
+    local_upper_phi = min(float(upper_phi), float(center_phi) + half_phi)
+    local_lower_eta = max(float(lower_eta), float(center_eta) - half_eta)
+
+    derivative_center = _ar1_derivative_matrix(sample_count, center_phi)
+    compressed_derivative = compression @ derivative_center @ compression.T
+    derivative_change_bound = (
+        half_phi
+        * _ar1_second_derivative_row_sum_bound(
+            sample_count,
+            local_upper_phi,
+        )
     )
-    eta_lipschitz = _white_noise_direction_operator_bound(
-        sample_count,
-        local_upper_phi,
+    phi_direction_bound = (
+        _symmetric_operator_norm(compressed_derivative)
+        + derivative_change_bound
     )
-    return _cell_operator_radius(
-        phi_spacing,
-        eta_spacing,
-        phi_lipschitz,
-        eta_lipschitz,
+
+    ar1_center = _ar1_matrix(sample_count, center_phi)
+    eta_direction = compression @ (np.eye(sample_count) - ar1_center) @ compression.T
+    eta_direction_bound = _symmetric_operator_norm(eta_direction)
+
+    return float(
+        half_phi * (1.0 - local_lower_eta) * phi_direction_bound
+        + half_eta * eta_direction_bound
     )
 
 
@@ -241,10 +287,9 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
     observed likelihood and determine which cells can be certified as wholly
     outside the exact continuum confidence set.
 
-    Every cell receives its own deterministic covariance perturbation radius.
-    The radius uses the cell's clipped upper autocorrelation and lower
-    white-noise fraction, rather than the worst corner of the complete declared
-    box. This sharpens the numerical cover while preserving the same proof.
+    Every cell receives its own deterministic compressed covariance radius.
+    The radius uses the actual contrast geometry at the cell center plus a
+    certified second-derivative remainder across the cell.
 
     A cell is excluded only when
 
@@ -287,7 +332,8 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
 
     for phi_index, phi in enumerate(phi_grid):
         for eta_index, eta in enumerate(eta_grid):
-            operator_radius = _local_cell_operator_radius(
+            operator_radius = _compressed_local_cell_operator_radius(
+                model.contrast_matrix,
                 model.sample_count,
                 float(phi),
                 float(eta),
@@ -366,6 +412,11 @@ def _validated_nuisance_design(nuisance_design: ArrayLike) -> np.ndarray:
     return design
 
 
+def _nuisance_complement(design: np.ndarray) -> np.ndarray:
+    basis, _ = np.linalg.qr(design, mode="complete")
+    return basis[:, design.shape[1] :]
+
+
 def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     model: GaussianAR1WhiteNoiseEValueModel,
     block_dimension: int,
@@ -388,8 +439,8 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
 
     Proposition 49 currently accepts one covering radius for the complete
     supplied cover. Proposition 52 therefore computes a target-sample local
-    radius for every retained cell and passes the largest retained radius. No
-    excluded cell contributes to the target covering radius.
+    compressed radius for every retained cell and passes the largest retained
+    radius. No excluded cell contributes to the target covering radius.
     """
     if not 0.0 < covariance_confidence < 1.0:
         raise ValueError("covariance_confidence must lie in (0, 1)")
@@ -409,10 +460,12 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     nuisance_rank = design.shape[1]
     lower_eta = model.declared_white_noise_fraction_lower_bound
     upper_phi = model.declared_autocorrelation_upper_bound
+    target_compression = _nuisance_complement(design).T
 
     retained_target_radii = np.asarray(
         [
-            _local_cell_operator_radius(
+            _compressed_local_cell_operator_radius(
+                target_compression,
                 target_sample_count,
                 float(phi),
                 float(eta),
