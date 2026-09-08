@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 83 tests. Continuous integration runs
+The automated suite currently contains 87 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -610,6 +610,37 @@ score bound contracts, even in a strongly separated synthetic score table.
 The experiment establishes logical completeness of the two-stage argument, not
 practical sample efficiency. Obtaining comparable safety with materially fewer
 observations is the next statistical target.
+
+## Experiment R: positive-factor screening refinement
+
+Command:
+
+```bash
+python examples/factor_aware_screen_experiment.py
+```
+
+| Quantity | Zero-safe | Factor-aware |
+| --- | ---: | ---: |
+| Screening sample count | `10,000,000` | `10,000,000` |
+| Screening confidence | `0.975000` | `0.975000` |
+| Maximum covariance radius | `0.006156` | `0.006156` |
+| Maximum local-score radius | `0.470023` | `0.088552` |
+| Maximum transport-score radius | `0.276376` | `0.089637` |
+| Retained states out of 16 | `16` | `4` |
+| Retained edges out of 48 | `48` | `3` |
+
+All 16 local factor vectors and all 48 transport factor vectors have positive
+certified lower endpoints in this construction. Both methods use the same
+covariance event, spectral envelopes, certification budget, and confidence.
+The only difference is that Proposition 34 retains the primitive empirical
+factors and applies the local Lipschitz inequality where it is valid. The
+factor-aware graph contains exactly the reference path, while the zero-safe
+graph remains complete.
+
+This comparison demonstrates a consequence of the proved inequalities on one
+deliberately separated score table. It is not an empirical coverage study and
+does not establish typical performance. Near a zero factor the refinement
+reverts to the zero-safe radius, as checked separately in the test suite.
 
 ## Required next controls
 

@@ -303,6 +303,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_more_screening_samples_tighten_errors_and_cannot_expand_screen` | Increasing the first-split sample count tightens every radius and cannot enlarge the retained graph |
 | `test_invalid_perturbation_regime_is_reported_without_false_guarantee` | Crossing an eigenvalue floor produces unit zero-safe score errors and no screening guarantee |
 | `test_safe_screen_rejects_malformed_certification_budget` | Stage-two error arrays must match the state and edge score shapes exactly |
+| `test_positive_factor_refinement_is_no_wider_than_zero_safe_bound` | Every positive-factor score radius and retained graph is no larger than its zero-safe counterpart |
+| `test_factor_aware_screen_contains_randomized_later_winners` | Random factor perturbations and later score errors preserve winner containment in the refined graph |
+| `test_zero_factor_uses_zero_safe_fallback` | A vanishing factor disables the local Lipschitz refinement at that entry without disabling safety |
+| `test_factor_aware_screen_rejects_factors_outside_unit_interval` | Empirical primitive factors must remain inside their mathematical range |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -357,6 +361,9 @@ Its limitations are concrete:
 21. The first-split spectral floors and ceilings are deterministic population
     assumptions. Estimating them from the same data without an additional
     confidence argument would invalidate the stated guarantee.
+22. The positive-factor refinement is sharp only relative to the current
+    componentwise factor radii. It does not use covariance direction, factor
+    dependence, or cancellation between score components.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -386,6 +393,7 @@ python examples/structured_residual_class_recovery_experiment.py
 python examples/screened_environment_recovery_experiment.py
 python examples/sample_split_screening_experiment.py
 python examples/gaussian_safe_screen_experiment.py
+python examples/factor_aware_screen_experiment.py
 python -m pytest
 python -m ruff check .
 ```

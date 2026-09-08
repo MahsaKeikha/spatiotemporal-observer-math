@@ -2245,15 +2245,64 @@ ordered edge entering candidate \(j\) the candidate-local radius for \(j\),
 uniformly over its source. Tighter source-target covariance blocks would give a
 less conservative result but require a larger union bound.
 
+## Proposition 34: positive-factor refinement of Gaussian screening
+
+Under the setting of Proposition 33, suppose the screening procedure retains
+the empirical primitive factors rather than only their geometric-mean scores.
+For one local state, write its three empirical factors as
+\(\widetilde z=(\widetilde z_1,\widetilde z_2,\widetilde z_3)\) and their
+simultaneous first-split error radii as \(a=(a_1,a_2,a_3)\). Define
+
+\[
+r_0=\min\left\{1,(a_1+a_2+a_3)^{1/3}\right\}.
+\]
+
+If \(\widetilde z_k-a_k>0\) for every \(k\), also define
+
+\[
+r_+=\frac{1}{3}\sum_{k=1}^3
+\frac{a_k}{(\widetilde z_k-a_k)^{2/3}},
+\qquad
+e^s_L=\min\{r_0,r_+\}.
+\]
+
+Otherwise set \(e^s_L=r_0\). For a transport edge, use the analogous formulas
+with two factors, exponent \(1/2\), and coefficient \(1/2\). Replacing the
+zero-safe score radii in Proposition 33 by these factor-aware radii preserves
+the same screening safety probability \(1-\delta_s\). Every refined radius is
+no greater than its zero-safe counterpart.
+
+**Proof.** On the simultaneous covariance event from Proposition 33, each
+population factor \(z_k\) satisfies
+
+\[
+|z_k-\widetilde z_k|\leq a_k.
+\]
+
+Proposition 10 applies with the empirical factor vector as its reference point.
+When every empirical lower endpoint is positive, its local Lipschitz inequality
+gives \(r_+\), while its Hölder inequality always gives \(r_0\). Taking the
+minimum is therefore valid. If any lower endpoint reaches zero, only the
+zero-safe inequality is used. The same argument applies to the two-factor
+transport score. The remainder of Proposition 33 depends only on valid
+componentwise score radii, so its triangle inequality and Proposition 15 screen
+apply unchanged. \(\square\)
+
+If the empirical factor lower endpoints stay uniformly positive as sample size
+grows, the refined score radius inherits the ordinary covariance-perturbation
+rate rather than the cube-root Hölder rate. This is a conditional improvement,
+not an assumption needed for safety: entries without a positive certified floor
+automatically retain the original zero-safe radius.
+
 ## Open conjectures
 
-### C1. Practically sharp adaptive screening
+### C1. Empirically calibrated adaptive screening
 
-Proposition 33 proves first-split safety using simultaneous worst-case Gaussian
-covariance bounds. Its zero-safe product-root step is intentionally robust near
-vanishing factors, but can require very large samples before the retained graph
-becomes small. The unresolved problem is an adaptive, factor-aware screen with
-valid post-selection coverage and materially sharper finite-sample radii.
+Propositions 33 and 34 prove first-split safety using simultaneous Gaussian
+covariance bounds, with positive-factor refinement where it is certified. The
+unresolved problem is to measure actual coverage and graph reduction across
+signal regimes, then derive sharper directional or self-normalized radii without
+invalidating post-selection coverage.
 
 ### C2. Gauge-consistent quantum lift
 

@@ -862,6 +862,46 @@ uniformly over source candidates. This matches the localized recovery API and
 is conservative when source-target blocks have substantially different
 conditioning.
 
+### Positive-factor Gaussian screen
+
+```python
+from observer_math import gaussian_factor_aware_near_competitor_screen
+
+factor_aware = gaussian_factor_aware_near_competitor_screen(
+    empirical_local_factors,
+    empirical_transport_factors,
+    candidates,
+    screening_sample_count=10_000_000,
+    node_count=8,
+    subset_size=2,
+    minimum_block_eigenvalues=minimum_eigenvalues,
+    maximum_block_eigenvalues=maximum_eigenvalues,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+`empirical_local_factors` has shape `(time, candidates, 3)` and stores
+integration, insulation, and persistence. `empirical_transport_factors` has
+shape `(time - 1, candidates, candidates, 2)` and stores insulation and
+persistence. The function constructs the geometric-mean scores itself, so the
+factor arrays and score centers cannot become inconsistent.
+
+For every state and edge, the implementation first calculates the zero-safe
+Hölder radius. If every empirical factor minus its perturbation radius is
+strictly positive, it also evaluates the local Lipschitz radius and uses the
+smaller result. `positive_local_factor_floor_mask` and
+`positive_transport_factor_floor_mask` show exactly where that refinement was
+available. The primitive radii are returned in
+`screening_local_factor_errors` and `screening_transport_factor_errors` for
+independent inspection.
+
+No positive-factor assumption is required to call the function. A state or edge
+that lacks a certified positive floor automatically uses the zero-safe bound.
+The guarantee flag has the same meaning and confidence as in the base Gaussian
+screen.
+
 ### Independent sample-split certification
 
 ```python

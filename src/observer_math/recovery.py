@@ -220,10 +220,14 @@ class GaussianSafeNearCompetitorScreen:
     screening_sample_count: int
     screening_confidence: float
     maximum_covariance_spectral_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
     screening_local_score_errors: np.ndarray
     screening_transport_score_errors: np.ndarray
     total_local_score_errors: np.ndarray
     total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
     all_blocks_valid: bool
     guarantees_safe_screen: bool
 
@@ -1021,12 +1025,133 @@ def gaussian_safe_near_competitor_screen(
         screening_sample_count=int(screening_sample_count),
         screening_confidence=float(confidence),
         maximum_covariance_spectral_error=float(np.max(covariance_errors)),
+        screening_local_factor_errors=local_factor_errors,
+        screening_transport_factor_errors=transport_factor_errors,
         screening_local_score_errors=screening_local_errors,
         screening_transport_score_errors=screening_transport_errors,
         total_local_score_errors=total_local_errors,
         total_transport_score_errors=total_transport_errors,
+        positive_local_factor_floor_mask=np.zeros(local.shape, dtype=bool),
+        positive_transport_factor_floor_mask=np.zeros(edge_shape, dtype=bool),
         all_blocks_valid=all_valid,
         guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_factor_aware_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    screening_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianSafeNearCompetitorScreen:
+    """Construct a Gaussian-safe screen with positive-factor refinement.
+
+    The factor arrays contain the three empirical local factors and two
+    empirical transport factors used by the geometric observer scores. Where
+    every factor remains positive after subtracting its perturbation radius,
+    the local Lipschitz part of Proposition 10 can improve the zero-safe
+    Hölder radius. At all other entries the calculation automatically falls
+    back to the zero-safe bound.
+    """
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    if local_factors.ndim != 3 or local_factors.shape[2] != 3:
+        raise ValueError("empirical_local_factors must have shape (time, candidates, 3)")
+    time_count, candidate_count, _ = local_factors.shape
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    if transport_factors.shape != (*edge_shape, 2):
+        raise ValueError(
+            "empirical_transport_factors must have shape "
+            "(time - 1, candidates, candidates, 2)"
+        )
+    if (
+        np.any(~np.isfinite(local_factors))
+        or np.any(~np.isfinite(transport_factors))
+        or np.any((local_factors < 0.0) | (local_factors > 1.0))
+        or np.any((transport_factors < 0.0) | (transport_factors > 1.0))
+    ):
+        raise ValueError("empirical factors must be finite and lie in [0, 1]")
+
+    local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
+    transport_scores = np.sqrt(np.prod(transport_factors, axis=3))
+    baseline = gaussian_safe_near_competitor_screen(
+        local_scores,
+        transport_scores,
+        candidates,
+        screening_sample_count,
+        node_count,
+        subset_size,
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+
+    local_errors = np.empty((time_count, candidate_count), dtype=float)
+    for index in np.ndindex(local_errors.shape):
+        local_errors[index] = product_root_error_bound(
+            local_factors[index], baseline.screening_local_factor_errors[index]
+        )
+    transport_errors = np.empty(edge_shape, dtype=float)
+    for index in np.ndindex(edge_shape):
+        transport_errors[index] = product_root_error_bound(
+            transport_factors[index],
+            baseline.screening_transport_factor_errors[index],
+        )
+    local_floor_mask = np.all(
+        local_factors - baseline.screening_local_factor_errors > 0.0, axis=2
+    )
+    transport_floor_mask = np.all(
+        transport_factors - baseline.screening_transport_factor_errors > 0.0,
+        axis=3,
+    )
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    total_local_errors = local_errors + certification_local
+    total_transport_errors = transport_errors + certification_transport
+    screen = screen_near_competitors(
+        local_scores,
+        transport_scores,
+        candidates,
+        total_local_errors,
+        total_transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return GaussianSafeNearCompetitorScreen(
+        screen=screen,
+        screening_sample_count=baseline.screening_sample_count,
+        screening_confidence=baseline.screening_confidence,
+        maximum_covariance_spectral_error=(
+            baseline.maximum_covariance_spectral_error
+        ),
+        screening_local_factor_errors=baseline.screening_local_factor_errors,
+        screening_transport_factor_errors=(
+            baseline.screening_transport_factor_errors
+        ),
+        screening_local_score_errors=local_errors,
+        screening_transport_score_errors=transport_errors,
+        total_local_score_errors=total_local_errors,
+        total_transport_score_errors=total_transport_errors,
+        positive_local_factor_floor_mask=local_floor_mask,
+        positive_transport_factor_floor_mask=transport_floor_mask,
+        all_blocks_valid=baseline.all_blocks_valid,
+        guarantees_safe_screen=baseline.guarantees_safe_screen,
     )
 
 

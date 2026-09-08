@@ -22,9 +22,11 @@ orders of magnitude above the empirical scale. Proposition 15 now identifies a
 provably sufficient near-competitor graph. Propositions 32 and 33 now give an
 independent two-stage route from Gaussian screening concentration to a random
 safe graph and then to retained-block certification. Its zero-safe local-score
-radius still contracts too slowly to explain the empirical scale. A separate
-treatment is also needed for one dependent time series because the current
-simulation uses independent trajectories.
+radius still contracts too slowly to explain the empirical scale. Proposition
+34 restores a local Lipschitz rate wherever empirical factor intervals remain
+strictly positive; the next check is coverage and sharpness across signal
+regimes. A separate treatment is also needed for one dependent time series
+because the current simulation uses independent trajectories.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -93,10 +95,11 @@ a certified conditional-information tail for the omitted environment.
 Proposition 32 composes any proved first-stage screening event with an
 independent certification sample and reports the product confidence.
 Proposition 33 now derives that first-stage event from screening-sample Gaussian
-covariance bounds and propagates it through the complete score. The next
+covariance bounds and propagates it through the complete score. Proposition 34
+adds the factor-aware refinement without losing the zero-safe fallback. The next
 priority is to measure coverage and retained-graph size across signal regimes,
-then replace the zero-safe worst-case radius by a sharper factor-aware bound
-without losing post-selection validity.
+then investigate directional covariance perturbation and empirically certified
+spectral envelopes without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -212,6 +215,8 @@ stable and predictively useful, not whether it indicates consciousness.
   failure budgets and a minimal certification-sample threshold
 - Gaussian first-split screening safety derived from covariance concentration,
   factor perturbation, and a two-stage triangle inequality
+- entrywise positive-factor score refinement with an automatic zero-safe
+  fallback and explicit regime masks
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

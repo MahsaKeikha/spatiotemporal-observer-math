@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.20.0 - 2026-09-08
+
+- Added a positive-factor refinement for Gaussian first-split screening.
+- Constructed score centers directly from empirical primitive factors so the
+  factor and score representations cannot disagree.
+- Applied local Lipschitz bounds only where every perturbed factor has a
+  strictly positive empirical lower endpoint.
+- Preserved the zero-safe Hölder fallback independently at every state and edge.
+- Exposed primitive factor radii and positive-floor masks for auditability.
+- Added randomized containment, refinement monotonicity, zero-factor fallback,
+  and range-validation tests.
+- Added a controlled comparison in which the refined screen retains 4 of 16
+  states and 3 of 48 edges while the zero-safe screen remains complete.
+
 ## 0.19.0 - 2026-09-08
 
 - Derived the first-stage screening safety probability from simultaneous

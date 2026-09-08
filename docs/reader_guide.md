@@ -141,7 +141,8 @@ The deterministic chain from block structure to robust class recovery is now
 implemented. Independent sample-split confidence composition is also explicit.
 Gaussian first-split concentration now proves screening safety for fixed
 candidate blocks and deterministic spectral envelopes. The main unresolved
-statistical issue is sharpness: the zero-safe product-root bounds can require
-very large samples before the screen removes much of the graph. Coverage and
-retained-graph simulations, followed by valid factor-aware refinement, are the
+statistical issue is sharpness and calibration. Positive empirical factor
+floors now provide a valid local Lipschitz refinement, while boundary entries
+retain the zero-safe product-root bound. Coverage and retained-graph simulations
+across signal regimes, followed by directional covariance refinements, are the
 next empirical and theoretical checks.

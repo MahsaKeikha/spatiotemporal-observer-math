@@ -859,7 +859,49 @@ efficiency. Cube and square roots make the zero-safe score bounds decay slowly.
 That conservatism is visible in Experiment Q and motivates factor-aware bounds
 that remain valid after screening.
 
-## 29. Choices that are still choices
+## 29. Positive-factor refinement of the screening radius
+
+The zero-safe score map is necessarily only Hölder continuous at a vanishing
+factor. Away from that boundary, treating the cube-root rate as unavoidable
+throws away useful information already present in the screening split.
+
+For empirical local factors \(\widetilde z_k\) and simultaneous factor radii
+\(a_k\), the certified lower endpoints are
+
+\[
+\ell_k=\widetilde z_k-a_k.
+\]
+
+When every \(\ell_k>0\), Proposition 10 gives
+
+\[
+e^s_L\leq \frac{1}{3}\sum_{k=1}^3
+\frac{a_k}{\ell_k^{2/3}}.
+\]
+
+The implementation evaluates this alongside the zero-safe radius and takes the
+smaller valid value. For a two-factor transport score the corresponding bound is
+
+\[
+e^s_\Theta\leq \frac{1}{2}\sum_{k=1}^2
+\frac{b_k}{\ell_k^{1/2}}.
+\]
+
+This refinement is entrywise. Some states or edges may use a positive-factor
+bound while others use the zero-safe fallback. The returned Boolean masks make
+that distinction visible rather than silently applying one regime to the whole
+graph. Because each selected radius is independently valid on the same
+simultaneous covariance event, mixing regimes does not change the confidence
+accounting.
+
+The practical consequence can be large. When factor lower endpoints remain
+bounded away from zero, the score error is linear in the primitive factor
+errors and hence follows their ordinary covariance-concentration rate. When an
+endpoint approaches zero, the method correctly returns to the slower Hölder
+rate. Experiment R records both calculations on the same score table and sample
+budget.
+
+## 30. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
