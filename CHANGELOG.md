@@ -23,6 +23,8 @@
 - Made the repository root explicit on pytest's import path so the documented
   experiment modules resolve consistently under both `pytest` and
   `python -m pytest`.
+- Included Matplotlib in the development test environment because claim-level
+  tests import the figure-producing experiment modules.
 
 ## 0.28.0 - 2026-09-08
 
