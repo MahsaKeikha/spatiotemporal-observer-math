@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.22.2 - 2026-09-08
+
+- Moved the complete visual result record onto the repository landing page so
+  figures are visible before a visitor opens the documentation.
+- Added linked previews for all seven committed figures, organized by moving-
+  boundary inference, finite-sample statistics, and recovery certificates.
+- Added a compact landing-page verification table linking the 35 propositions,
+  20 experiments, seven figures, 94-test record, and CI matrix.
+- Removed repeated standalone figures farther down the README so each result has
+  one clear visual entry point.
+
 ## 0.22.1 - 2026-09-08
 
 - Reorganized the central overview as a visual research record with every
