@@ -113,6 +113,41 @@ def run(seed=20261024):
                 - evaluation.accepted_white_noise_fraction_lower_bound
             )
         )
+        grid_view = {
+            "accepted_point_count": evaluation.accepted_point_count,
+            "total_point_count": evaluation.total_point_count,
+            "accepted_fraction": (
+                evaluation.accepted_point_count / evaluation.total_point_count
+            ),
+            "autocorrelation_lower": evaluation.accepted_autocorrelation_lower_bound,
+            "autocorrelation_upper": evaluation.accepted_autocorrelation_upper_bound,
+            "white_noise_fraction_lower": (
+                evaluation.accepted_white_noise_fraction_lower_bound
+            ),
+            "white_noise_fraction_upper": (
+                evaluation.accepted_white_noise_fraction_upper_bound
+            ),
+            "bounding_box_area": evalue_box_area,
+            "bounding_box_area_ratio_to_proposition_50": (
+                evalue_box_area / rectangle_area if rectangle_area > 0.0 else None
+            ),
+            "true_parameter_log_evalue": gaussian_ar1_white_noise_log_evalue(
+                model, true_phi, true_eta
+            ),
+            "log_evalue_threshold": model.log_evalue_threshold,
+        }
+        if channel_count == max(channel_counts):
+            grid_view["accepted_points"] = [
+                [
+                    float(evaluation.autocorrelation_grid[phi_index]),
+                    float(evaluation.white_noise_fraction_grid[eta_index]),
+                ]
+                for phi_index, eta_index in zip(
+                    *np.where(evaluation.accepted_mask),
+                    strict=True,
+                )
+            ]
+
         records.append(
             {
                 "channel_count": channel_count,
@@ -127,34 +162,7 @@ def run(seed=20261024):
                     ),
                     "bounding_box_area": rectangle_area,
                 },
-                "proposition_51_grid_view": {
-                    "accepted_point_count": evaluation.accepted_point_count,
-                    "total_point_count": evaluation.total_point_count,
-                    "accepted_fraction": (
-                        evaluation.accepted_point_count / evaluation.total_point_count
-                    ),
-                    "autocorrelation_lower": (
-                        evaluation.accepted_autocorrelation_lower_bound
-                    ),
-                    "autocorrelation_upper": (
-                        evaluation.accepted_autocorrelation_upper_bound
-                    ),
-                    "white_noise_fraction_lower": (
-                        evaluation.accepted_white_noise_fraction_lower_bound
-                    ),
-                    "white_noise_fraction_upper": (
-                        evaluation.accepted_white_noise_fraction_upper_bound
-                    ),
-                    "bounding_box_area": evalue_box_area,
-                    "bounding_box_area_ratio_to_proposition_50": (
-                        evalue_box_area / rectangle_area if rectangle_area > 0.0 else None
-                    ),
-                    "true_parameter_log_evalue": gaussian_ar1_white_noise_log_evalue(
-                        model, true_phi, true_eta
-                    ),
-                    "log_evalue_threshold": model.log_evalue_threshold,
-                    "accepted_mask": evaluation.accepted_mask.astype(int).tolist(),
-                },
+                "proposition_51_grid_view": grid_view,
             }
         )
 
