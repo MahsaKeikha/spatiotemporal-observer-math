@@ -12,10 +12,7 @@ HEIGHT = 900
 
 def _text(x, y, value, css="lab", anchor=None):
     anchor_attr = "" if anchor is None else f' text-anchor="{anchor}"'
-    return (
-        f'<text x="{x}" y="{y}" class="{css}"{anchor_attr}>'
-        f"{escape(str(value))}</text>"
-    )
+    return f'<text x="{x}" y="{y}" class="{css}"{anchor_attr}>{escape(str(value))}</text>'
 
 
 def _line(x1, y1, x2, y2, css):
@@ -70,12 +67,18 @@ def render(results):
         ".threshold{stroke:#d97706;stroke-width:2;stroke-dasharray:3 5}"
     )
 
-    svg = [
+    svg_open = (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
-        f'viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="title desc">',
-        '<title id="title">Experiment AJ: data-calibrated two-parameter temporal family</title>',
+        f'viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="title desc">'
+    )
+    description = (
         '<desc id="desc">Proposition 50 calibrates temporal uncertainty from independent '
-        'Gaussian channels and composes the result with Proposition 49.</desc>',
+        'Gaussian channels and composes the result with Proposition 49.</desc>'
+    )
+    svg = [
+        svg_open,
+        '<title id="title">Experiment AJ: data-calibrated two-parameter temporal family</title>',
+        description,
         '<rect width="1200" height="900" fill="white"/>',
         f"<style>{style}</style>",
         _text(60, 55, "Experiment AJ | Observable calibration of temporal uncertainty", "title"),
@@ -109,15 +112,29 @@ def render(results):
         svg.extend([_line(90, y, 555, y, "grid"), _text(82, y + 4, f"{value:.1f}", "small", "end")])
     svg.extend(
         [
-            _line(90, radius_y(results["full_prior_matrix_radius"]), 555, radius_y(results["full_prior_matrix_radius"]), "prior"),
+            _line(
+                90,
+                radius_y(results["full_prior_matrix_radius"]),
+                555,
+                radius_y(results["full_prior_matrix_radius"]),
+                "prior",
+            ),
             _line(90, radius_y(1.0), 555, radius_y(1.0), "threshold"),
         ]
     )
     x_a = [110 + 105 * index for index in range(len(records))]
-    points_a = [(x, radius_y(record["matrix_radius"])) for x, record in zip(x_a, records, strict=True)]
+    points_a = [
+        (x, radius_y(record["matrix_radius"]))
+        for x, record in zip(x_a, records, strict=True)
+    ]
     svg.append(_polyline(points_a, "main"))
-    for x, y, record in zip(x_a, [p[1] for p in points_a], records, strict=True):
-        svg.extend([_circle(x, y, 5, "#2563eb"), _text(x, 410, record["channel_count"], "small", "middle")])
+    for x, y, record in zip(x_a, [point[1] for point in points_a], records, strict=True):
+        svg.extend(
+            [
+                _circle(x, y, 5, "#2563eb"),
+                _text(x, 410, record["channel_count"], "small", "middle"),
+            ]
+        )
     svg.extend(
         [
             _text(322, 436, "independent calibration channels", "lab", "middle"),
@@ -129,13 +146,25 @@ def render(results):
         y = phi_y(value)
         svg.extend([_line(635, y, 1110, y, "grid"), _text(627, y + 4, f"{value:.2f}", "small", "end")])
     x_b = [675 + 100 * index for index in range(len(records))]
-    low_points = [(x, phi_y(record["autocorrelation_lower"])) for x, record in zip(x_b, records, strict=True)]
-    upper_points = [(x, phi_y(record["autocorrelation_upper"])) for x, record in zip(x_b, records, strict=True)]
+    low_points = [
+        (x, phi_y(record["autocorrelation_lower"]))
+        for x, record in zip(x_b, records, strict=True)
+    ]
+    upper_points = [
+        (x, phi_y(record["autocorrelation_upper"]))
+        for x, record in zip(x_b, records, strict=True)
+    ]
     svg.extend(
         [
             _polyline(low_points, "lower"),
             _polyline(upper_points, "upper"),
-            _line(635, phi_y(results["true_autocorrelation"]), 1110, phi_y(results["true_autocorrelation"]), "truth"),
+            _line(
+                635,
+                phi_y(results["true_autocorrelation"]),
+                1110,
+                phi_y(results["true_autocorrelation"]),
+                "truth",
+            ),
         ]
     )
     for x, low, upper, record in zip(x_b, low_points, upper_points, records, strict=True):
@@ -171,7 +200,14 @@ def render(results):
                 _text(x, 778, label, "small", "middle"),
             ]
         )
-    svg.append(_text(90, 800, "64-channel comparison. Specific bounds use the increment spectrum directly.", "small"))
+    svg.append(
+        _text(
+            90,
+            800,
+            "64-channel comparison. Specific bounds use the increment spectrum directly.",
+            "small",
+        )
+    )
 
     for value in (0.0, 0.2, 0.4, 0.6, 0.8, 1.0):
         y = check_y(value)
@@ -183,9 +219,27 @@ def render(results):
             [
                 _rect(x - 55, maximum_y, 45, 752 - maximum_y, fill="#059669", rx=4),
                 _rect(x + 10, theorem_y, 45, 752 - theorem_y, fill="#7c3aed", rx=4),
-                _text(x - 33, maximum_y - 8, f'{check["max_relative_error"]:.3f}', "small", "middle"),
-                _text(x + 32, theorem_y - 8, f'{check["theorem_radius"]:.3f}', "small", "middle"),
-                _text(x, 778, f'{check["calibration_channel_count"]} channels', "lab", "middle"),
+                _text(
+                    x - 33,
+                    maximum_y - 8,
+                    f'{check["max_relative_error"]:.3f}',
+                    "small",
+                    "middle",
+                ),
+                _text(
+                    x + 32,
+                    theorem_y - 8,
+                    f'{check["theorem_radius"]:.3f}',
+                    "small",
+                    "middle",
+                ),
+                _text(
+                    x,
+                    778,
+                    f'{check["calibration_channel_count"]} channels',
+                    "lab",
+                    "middle",
+                ),
             ]
         )
     svg.extend(
@@ -200,7 +254,7 @@ def render(results):
             _text(
                 60,
                 882,
-                "Reproduce data: python examples/calibrated_temporal_family.py   |   Render: python examples/render_calibrated_temporal_family.py",
+                "Reproduce data: python examples/calibrated_temporal_family.py | Render: python examples/render_calibrated_temporal_family.py",
                 "small",
             ),
             "</svg>",
