@@ -232,6 +232,14 @@ for certification. The implementation reports both stagewise confidence levels,
 their combined guarantee, and refuses certification when the same data are
 reused.
 
+The first-stage safety event is now derived for fixed Gaussian candidate blocks
+rather than accepted only as an external assumption. Simultaneous covariance
+concentration is propagated through the information and canonical-correlation
+factors, then added to the independent certification budget before the
+forward-backward screen is applied. This completes one explicit end-to-end
+route from two data splits to a recovery confidence statement. The bound is
+deliberately worst-case and its practical sharpness remains an open problem.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -245,7 +253,7 @@ reused.
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-two proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-three proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -282,6 +290,7 @@ python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
 python examples/screened_environment_recovery_experiment.py
 python examples/sample_split_screening_experiment.py
+python examples/gaussian_safe_screen_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -304,8 +313,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.18 composes a
-probabilistically safe screening stage with an independent Gaussian
-certification stage and makes the remaining screen-learning assumption explicit.
-The repository will change as counterexamples, comparisons, and stronger proofs
-are added.
+This is an ongoing study, not a finished paper. Version 0.19 derives a
+Gaussian first-split screening guarantee, composes it with the independent
+certification framework, and records the conservatism of the resulting
+worst-case score radii. The repository will change as counterexamples,
+comparisons, and sharper proofs are added.

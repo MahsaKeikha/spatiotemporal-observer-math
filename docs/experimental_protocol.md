@@ -299,6 +299,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_same_data_refuses_sample_split_guarantee` | Reusing observations across selection and certification cannot produce a sample-split guarantee |
 | `test_screening_reduction_and_more_samples_tighten_certification_radius` | Fewer retained blocks and more certification observations reduce the covariance radius |
 | `test_minimum_sample_split_size_is_first_certified_integer` | The returned certification threshold is the first integer satisfying the strict radius condition |
+| `test_safe_screen_contains_every_sampled_second_split_winner` | Every randomized later winner inside the two-stage error box remains in the first-split graph |
+| `test_more_screening_samples_tighten_errors_and_cannot_expand_screen` | Increasing the first-split sample count tightens every radius and cannot enlarge the retained graph |
+| `test_invalid_perturbation_regime_is_reported_without_false_guarantee` | Crossing an eigenvalue floor produces unit zero-safe score errors and no screening guarantee |
+| `test_safe_screen_rejects_malformed_certification_budget` | Stage-two error arrays must match the state and edge score shapes exactly |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -346,9 +350,13 @@ Its limitations are concrete:
     valid omitted conditional-leakage bound is supplied. It is not yet a
     statistically valid procedure for selecting neighborhoods from the same
     observations used to certify them.
-20. The sample-split theorem composes an advertised first-stage safety
-    probability but does not yet derive that probability from the screening
-    observations or validate its coverage empirically.
+20. The Gaussian first-split theorem derives the advertised safety probability,
+    but its simultaneous zero-safe score radii can be highly conservative. The
+    current deterministic containment tests are not a Monte Carlo calibration
+    study of realized covariance coverage.
+21. The first-split spectral floors and ceilings are deterministic population
+    assumptions. Estimating them from the same data without an additional
+    confidence argument would invalidate the stated guarantee.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -377,6 +385,7 @@ python examples/residual_derived_class_recovery_experiment.py
 python examples/structured_residual_class_recovery_experiment.py
 python examples/screened_environment_recovery_experiment.py
 python examples/sample_split_screening_experiment.py
+python examples/gaussian_safe_screen_experiment.py
 python -m pytest
 python -m ruff check .
 ```

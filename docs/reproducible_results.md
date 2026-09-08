@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 79 tests. Continuous integration runs
+The automated suite currently contains 83 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -579,9 +579,41 @@ sample threshold. It also records the more modest unscreened threshold, making
 clear that reducing the block count improves a logarithmic concentration term
 rather than changing the rate itself.
 
+## Experiment Q: Gaussian-safe first-split screening
+
+Command:
+
+```bash
+python examples/gaussian_safe_screen_experiment.py
+```
+
+| Quantity | Value |
+| --- | ---: |
+| Screening sample count | `1,000,000,000,000` |
+| Screening confidence | `0.975000` |
+| Maximum screening covariance radius | `0.000026` |
+| Maximum screening local-score radius | `0.087184` |
+| Maximum screening transport-score radius | `0.023409` |
+| Complete states | `60` |
+| Retained states | `5` |
+| Complete edges | `576` |
+| Retained edges | `4` |
+| Screen center path | `(0, 1, 2, 3, 4)` |
+| All perturbation blocks valid | yes |
+| Safe-screen guarantee | satisfied |
+
+The example closes the previously external first-stage premise: its confidence
+and score budgets are derived from the screening sample count, fixed spectral
+envelopes, and Proposition 33. The extremely large sample count is intentional
+and should not be hidden. It shows how slowly the zero-safe cube-root local
+score bound contracts, even in a strongly separated synthetic score table.
+The experiment establishes logical completeness of the two-stage argument, not
+practical sample efficiency. Obtaining comparable safety with materially fewer
+observations is the next statistical target.
+
 ## Required next controls
 
-- concentration over a provably sufficient near-competitor set
+- empirical coverage and sharpness of the Gaussian-safe near-competitor set
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

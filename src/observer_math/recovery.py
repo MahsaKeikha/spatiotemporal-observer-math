@@ -212,6 +212,22 @@ class NearCompetitorScreen:
     viable_edge_count: int
 
 
+@dataclass(frozen=True)
+class GaussianSafeNearCompetitorScreen:
+    """Near-competitor screen derived from first-split Gaussian concentration."""
+
+    screen: NearCompetitorScreen
+    screening_sample_count: int
+    screening_confidence: float
+    maximum_covariance_spectral_error: float
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
 def componentwise_recovery_bound(
     local_scores: ArrayLike,
     candidates: Sequence[Sequence[int]],
@@ -856,6 +872,162 @@ def _transport_factor_errors_from_covariance(
             covariance_spectral_error=eta,
         )
     return errors, valid
+
+
+def gaussian_safe_near_competitor_screen(
+    empirical_local_scores: ArrayLike,
+    empirical_transport_scores: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    screening_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianSafeNearCompetitorScreen:
+    """Construct a high-probability screen from an independent first split.
+
+    The empirical scores must be computed from the covariance estimates on the
+    screening split. The spectral arrays are deterministic population
+    envelopes for the corresponding present-plus-candidate covariance blocks.
+    The certification error arrays describe the allowed score displacement on
+    a later, independent split. On the simultaneous screening concentration
+    event, every winner permitted by those later errors is retained.
+
+    Edge errors follow the convention used by the localized recovery bound:
+    an edge at time ``t`` entering candidate ``j`` uses the spectral envelope
+    of block ``(t, j)``. This deliberately ignores the source candidate, so the
+    resulting radius is uniform over every incoming edge.
+    """
+    local = np.asarray(empirical_local_scores, dtype=float)
+    transport = np.asarray(empirical_transport_scores, dtype=float)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    minimum = np.asarray(minimum_block_eigenvalues, dtype=float)
+    maximum = np.asarray(maximum_block_eigenvalues, dtype=float)
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+
+    if local.ndim != 2:
+        raise ValueError("empirical_local_scores must have shape (time, candidates)")
+    time_count, candidate_count = local.shape
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    if transport.shape != edge_shape:
+        raise ValueError(f"empirical_transport_scores must have shape {edge_shape}")
+    if certification_local.shape != local.shape:
+        raise ValueError("certification local errors must match the local scores")
+    if certification_transport.shape != edge_shape:
+        raise ValueError("certification transport errors must match the transport scores")
+    if time_count < 1 or candidate_count < 1 or len(candidate_tuple) != candidate_count:
+        raise ValueError("scores and candidates have incompatible shapes")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if any(
+        len(candidate) != subset_size
+        or len(set(candidate)) != subset_size
+        or min(candidate) < 0
+        or max(candidate) >= node_count
+        for candidate in candidate_tuple
+    ):
+        raise ValueError("candidates must contain distinct valid nodes of subset_size")
+    spectral_shape = (time_count, candidate_count)
+    if minimum.shape != spectral_shape or maximum.shape != spectral_shape:
+        raise ValueError("spectral envelopes must have shape (time, candidates)")
+    arrays = (
+        local,
+        transport,
+        certification_local,
+        certification_transport,
+        minimum,
+        maximum,
+    )
+    if any(np.any(~np.isfinite(array)) for array in arrays):
+        raise ValueError("scores, errors, and spectral envelopes must be finite")
+    if np.any((local < 0.0) | (local > 1.0)) or np.any(
+        (transport < 0.0) | (transport > 1.0)
+    ):
+        raise ValueError("empirical scores must lie in [0, 1]")
+    if np.any(certification_local < 0.0) or np.any(certification_transport < 0.0):
+        raise ValueError("certification error bounds must be nonnegative")
+    if np.any(minimum <= 0.0) or np.any(maximum < minimum):
+        raise ValueError("require valid positive block-covariance eigenvalue bounds")
+    if (
+        isinstance(screening_sample_count, bool)
+        or not isinstance(screening_sample_count, (int, np.integer))
+    ):
+        raise TypeError("screening_sample_count must be an integer")
+    if screening_sample_count < 2 or not 0.0 < confidence < 1.0:
+        raise ValueError("require screening_sample_count >= 2 and confidence in (0, 1)")
+    if not np.isfinite(transport_weight) or not (
+        np.isfinite(continuity_weight) and continuity_weight >= 0.0
+    ):
+        raise ValueError("weights must be finite and continuity_weight nonnegative")
+
+    block_count = time_count * candidate_count
+    block_dimension = node_count + subset_size
+    deviation = (
+        np.sqrt(block_dimension)
+        + np.sqrt(2.0 * np.log(2.0 * block_count / (1.0 - confidence)))
+    ) / np.sqrt(screening_sample_count - 1)
+    covariance_errors = maximum * (2.0 * deviation + deviation**2)
+    local_factor_errors, valid_local = _local_factor_errors_from_covariance(
+        covariance_errors,
+        minimum,
+        maximum,
+        node_count,
+        subset_size,
+    )
+    screening_local_errors = np.minimum(
+        1.0, np.sum(local_factor_errors, axis=2) ** (1.0 / 3.0)
+    )
+
+    edge_covariance_errors = np.broadcast_to(
+        covariance_errors[:-1, None, :], edge_shape
+    )
+    edge_minimum = np.broadcast_to(minimum[:-1, None, :], edge_shape)
+    edge_maximum = np.broadcast_to(maximum[:-1, None, :], edge_shape)
+    transport_factor_errors, valid_transport = (
+        _transport_factor_errors_from_covariance(
+            edge_covariance_errors,
+            edge_minimum,
+            edge_maximum,
+            node_count,
+            subset_size,
+        )
+    )
+    screening_transport_errors = np.minimum(
+        1.0, np.sum(transport_factor_errors, axis=3) ** 0.5
+    )
+    total_local_errors = screening_local_errors + certification_local
+    total_transport_errors = screening_transport_errors + certification_transport
+    screen = screen_near_competitors(
+        local,
+        transport,
+        candidate_tuple,
+        total_local_errors,
+        total_transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    all_valid = bool(np.all(valid_local) and np.all(valid_transport))
+    return GaussianSafeNearCompetitorScreen(
+        screen=screen,
+        screening_sample_count=int(screening_sample_count),
+        screening_confidence=float(confidence),
+        maximum_covariance_spectral_error=float(np.max(covariance_errors)),
+        screening_local_score_errors=screening_local_errors,
+        screening_transport_score_errors=screening_transport_errors,
+        total_local_score_errors=total_local_errors,
+        total_transport_score_errors=total_transport_errors,
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
+    )
 
 
 def class_compressed_covariance_path_recovery_bound(

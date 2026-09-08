@@ -19,11 +19,12 @@ score stability, and an exact adversarial-path comparison. Candidate-local
 spectra reduce the example's 95% sufficient count from
 \(1.263\times10^{19}\) to \(3.132\times10^{12}\). The bound remains roughly ten
 orders of magnitude above the empirical scale. Proposition 15 now identifies a
-provably sufficient near-competitor graph. The next statistical step is a
-two-stage or sample-split argument that uses this deterministic screen without
-reusing data invalidly, then concentrates only the retained covariance blocks.
-A separate treatment is needed for one dependent time series because the
-current simulation uses independent trajectories.
+provably sufficient near-competitor graph. Propositions 32 and 33 now give an
+independent two-stage route from Gaussian screening concentration to a random
+safe graph and then to retained-block certification. Its zero-safe local-score
+radius still contracts too slowly to explain the empirical scale. A separate
+treatment is also needed for one dependent time series because the current
+simulation uses independent trajectories.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -90,10 +91,12 @@ transition, forcing, and cross-error comparisons plus future class selections.
 Proposition 31 now permits source-specific present compression while charging
 a certified conditional-information tail for the omitted environment.
 Proposition 32 composes any proved first-stage screening event with an
-independent certification sample and reports the product confidence. The next
-priority is to derive the first-stage safety event from screening-sample
-covariance bounds, then measure its coverage and retained-graph size across
-signal regimes.
+independent certification sample and reports the product confidence.
+Proposition 33 now derives that first-stage event from screening-sample Gaussian
+covariance bounds and propagates it through the complete score. The next
+priority is to measure coverage and retained-graph size across signal regimes,
+then replace the zero-safe worst-case radius by a sharper factor-aware bound
+without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -207,6 +210,8 @@ stable and predictively useful, not whether it indicates consciousness.
   information penalty
 - independent sample-split confidence composition with explicit stagewise
   failure budgets and a minimal certification-sample threshold
+- Gaussian first-split screening safety derived from covariance concentration,
+  factor perturbation, and a two-stage triangle inequality
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

@@ -2162,21 +2162,98 @@ On \(\mathcal S\), this event triggers the deterministic certificate. Therefore
 
 \(\square\)
 
-The theorem is conditional on a valid screening safety guarantee. It does not
-derive \(\delta_s\) from the screening sample size. If the same observations
-are used for screening and certification, the conditional fixed-family step is
-unavailable and this proposition gives no guarantee.
+The theorem is conditional on a valid screening safety guarantee. Proposition
+33 supplies one such guarantee under an explicit Gaussian block model. If the
+same observations are used for screening and certification, the conditional
+fixed-family step is unavailable and this proposition gives no guarantee.
+
+## Proposition 33: Gaussian first-split screening safety
+
+Let \(\widetilde L_{tj}\) and \(\widetilde\Theta_{tij}\) be local and
+transport scores computed from an independent screening split of \(N_s\)
+centered Gaussian observations. There are \(B=TC\) candidate-local covariance
+blocks, each of dimension at most \(d=n+s\), with deterministic population
+spectral envelopes
+
+\[
+0<m_{tj}\leq \lambda_{\min}(\Sigma_{tj})
+\leq \lambda_{\max}(\Sigma_{tj})\leq M_{tj}.
+\]
+
+For confidence \(1-\delta_s\), define
+
+\[
+u_s=\frac{\sqrt d+\sqrt{2\ln(2B/\delta_s)}}{\sqrt{N_s-1}},
+\qquad
+\eta_{tj}=M_{tj}(2u_s+u_s^2).
+\]
+
+Apply Propositions 7, 8, and 10 to each \(\eta_{tj}\), using the zero-safe
+product-root bound, to obtain simultaneous screening-score radii
+\(e^s_{L,tj}\) and \(e^s_{\Theta,tij}\). Suppose
+\(\eta_{tj}<m_{tj}\) for every block. Let \(e^c_L,e^c_\Theta\) be deterministic
+score-error budgets for a later certification split. Run the forward-backward
+near-competitor screen centered at \((\widetilde L,\widetilde\Theta)\), with
+the total radii
+
+\[
+e_L=e^s_L+e^c_L,
+\qquad
+e_\Theta=e^s_\Theta+e^c_\Theta.
+\]
+
+Then, with probability at least \(1-\delta_s\) over the screening split, the
+retained graph contains every maximizing path produced by any later score
+arrays lying within \((e^c_L,e^c_\Theta)\) of the population scores.
+
+**Proof.** The Gaussian singular-value inequality and a union bound over the
+\(B\) fixed blocks give
+
+\[
+\lVert\widehat\Sigma^{(s)}_{tj}-\Sigma_{tj}\rVert_2
+\leq \eta_{tj}
+\]
+
+simultaneously with probability at least \(1-\delta_s\). On this event,
+Propositions 7 and 8 bound each primitive information and canonical-correlation
+factor. Proposition 10 then gives
+
+\[
+|\widetilde L_{tj}-L_{tj}|\leq e^s_{L,tj},
+\qquad
+|\widetilde\Theta_{tij}-\Theta_{tij}|\leq e^s_{\Theta,tij}.
+\]
+
+For any admissible later realization \((\widehat L^{(c)},
+\widehat\Theta^{(c)})\), the componentwise triangle inequality gives
+
+\[
+|\widehat L^{(c)}-\widetilde L|\leq e^c_L+e^s_L,
+\qquad
+|\widehat\Theta^{(c)}-\widetilde\Theta|
+\leq e^c_\Theta+e^s_\Theta.
+\]
+
+Proposition 15 states that the forward-backward screen contains every winner
+inside precisely this error box. The claimed screening probability therefore
+follows from the simultaneous first-split covariance event. \(\square\)
+
+This result requires the empirical scores to be computed from the advertised
+screening covariances. It also treats the spectral envelopes and candidate
+family as fixed before the split. The current implementation assigns each
+ordered edge entering candidate \(j\) the candidate-local radius for \(j\),
+uniformly over its source. Tighter source-target covariance blocks would give a
+less conservative result but require a larger union bound.
 
 ## Open conjectures
 
-### C1. Data-derived screening safety
+### C1. Practically sharp adaptive screening
 
-Proposition 32 composes a valid screening event with an independent
-certification sample. The unresolved step is to construct a useful screen from
-finite data and prove its safety probability \(1-\delta_s\) without assuming the
-population scores. A confidence-sequence or first-split perturbation argument
-should retain every path that can challenge the population winner while keeping
-the graph substantially smaller than the complete candidate graph.
+Proposition 33 proves first-split safety using simultaneous worst-case Gaussian
+covariance bounds. Its zero-safe product-root step is intentionally robust near
+vanishing factors, but can require very large samples before the retained graph
+becomes small. The unresolved problem is an adaptive, factor-aware screen with
+valid post-selection coverage and materially sharper finite-sample radii.
 
 ### C2. Gauge-consistent quantum lift
 

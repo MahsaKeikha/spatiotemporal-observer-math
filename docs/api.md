@@ -822,6 +822,46 @@ conditional-information chain rule. A zero tail is a substantive conditional
 irrelevance claim, not a default. This API currently certifies population
 heterogeneity only and intentionally applies no sampling-error radius.
 
+### Gaussian-safe first-split screen
+
+```python
+from observer_math import gaussian_safe_near_competitor_screen
+
+safe_screen = gaussian_safe_near_competitor_screen(
+    empirical_local_scores,
+    empirical_transport_scores,
+    candidates,
+    screening_sample_count=10_000_000,
+    node_count=24,
+    subset_size=2,
+    minimum_block_eigenvalues=minimum_eigenvalues,
+    maximum_block_eigenvalues=maximum_eigenvalues,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+The empirical score arrays must be computed from the first-split covariance
+estimates. The minimum and maximum eigenvalue arrays are deterministic
+population envelopes with shape `(time, candidates)`. The function applies a
+simultaneous Gaussian covariance bound, propagates it through the three local
+factors and two transport factors, adds the declared second-stage score budget,
+and calls the forward-backward screen.
+
+`screening_local_score_errors` and `screening_transport_score_errors` contain
+only the first-stage contribution. Their `total_*` counterparts include the
+certification budget. `guarantees_safe_screen` is true only if every covariance
+radius remains strictly below its eigenvalue floor. In that case the screen is
+safe with at least `confidence` probability over the first split for every
+later score realization inside the certification budget. This is a screening
+statement, not by itself a final path-recovery statement.
+
+Transport-edge radii use the destination candidate's local spectral envelope,
+uniformly over source candidates. This matches the localized recovery API and
+is conservative when source-target blocks have substantially different
+conditioning.
+
 ### Independent sample-split certification
 
 ```python
@@ -851,16 +891,18 @@ minimum = minimum_sample_split_certification_size(
 )
 ```
 
-`screening_confidence` is the externally justified probability that the first
-split retains every path capable of challenging the population winner under the
-downstream budget. `certification_confidence` controls simultaneous Gaussian
+`screening_confidence` is the probability that the first split retains every
+path capable of challenging the population winner under the downstream budget.
+It may be supplied by `gaussian_safe_near_competitor_screen` under Proposition
+33, or by another independently justified screening theorem.
+`certification_confidence` controls simultaneous Gaussian
 covariance concentration over at most `retained_block_count` blocks in the
 independent second split. The reported overall confidence is their product.
 
 `maximum_admissible_covariance_error` is the strict deterministic radius below
 which the downstream recovery certificate succeeds. This function accounts for
-confidence composition; it does not infer the admissible radius or prove the
-first-stage screening confidence. Set `independent_splits=False` whenever the
+confidence composition; it does not infer the admissible radius. Set
+`independent_splits=False` whenever the
 same observations influence both stages. In that case the function reports no
 recovery guarantee even if the numerical covariance radius is small enough.
 

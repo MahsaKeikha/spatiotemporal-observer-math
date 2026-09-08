@@ -41,7 +41,7 @@ read before applying a certificate to a new model or dataset.
 | Selected present blocks contain the candidate variables and all variables used by screened factors | Proposition 31 | Integration, persistence, or retained leakage may be uncontrolled |
 | Omitted conditional leakage is at most the declared tail bound | Proposition 31 | The lower insulation endpoint can be too high |
 | A zero tail is used only with proved conditional irrelevance | Exact environmental screening | Ignored predictive drive can produce a false positive margin |
-| Data-dependent screening has independent or simultaneous statistical protection | Future finite-sample extension | Selecting and certifying on the same noise can invalidate coverage |
+| Data-dependent screening has independent or simultaneous statistical protection | Propositions 32 and 33 | Selecting and certifying on the same noise can invalidate coverage |
 
 ## Statistical assumptions
 
@@ -50,8 +50,10 @@ read before applying a certificate to a new model or dataset.
 | Trajectories are independent Gaussian draws | Current Wishart concentration theorem | One long dependent series needs mixing or martingale concentration |
 | Confidence parameters and covariance dimensions match the tested blocks | Sample-complexity calculations | The advertised coverage probability may be wrong |
 | Any ridge contribution is included in the spectral error budget | Regularized empirical covariance | The analytical radius understates total error |
+| Candidate family and spectral envelopes are fixed before the screening split | Proposition 33 | The first-stage union bound need not cover adaptively introduced blocks or bounds |
+| Screening scores are computed from the covariance estimates covered by the stated first-split event | Proposition 33 | Covariance concentration does not control an unrelated score array |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
-| The first-stage screen has a proved safety probability | Proposition 32 | Combined confidence cannot be inferred from sample counts alone |
+| The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
 | The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |
 | Screening and certification observations are independent | Proposition 32 | Conditioning does not turn the selected block family into a valid fixed-family test |
 | The admissible covariance radius comes from a valid deterministic recovery certificate | Proposition 32 | Covariance concentration alone does not imply path recovery |

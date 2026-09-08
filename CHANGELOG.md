@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.19.0 - 2026-09-08
+
+- Derived the first-stage screening safety probability from simultaneous
+  Gaussian covariance concentration over fixed candidate-local blocks.
+- Propagated covariance radii through integration, insulation, canonical
+  persistence, and the complete local and transport scores.
+- Added first- and second-stage score budgets through an explicit triangle
+  inequality before forward-backward graph screening.
+- Reported invalid spectral regimes without issuing a false safety guarantee.
+- Added randomized containment, monotonicity, invalid-regime, and input-shape
+  tests for the new screen.
+- Recorded the large sample requirement of the zero-safe worst-case bound as a
+  limitation and moved practical factor-aware sharpness to the research frontier.
+
 ## 0.18.0 - 2026-09-07
 
 - Added independent sample-split confidence accounting for random screening and

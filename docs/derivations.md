@@ -813,7 +813,53 @@ auditable comparison. Screening usually improves only a logarithmic term, so a
 large reduction in graph size need not produce a comparably large reduction in
 sample size.
 
-## 28. Choices that are still choices
+## 28. Deriving the screening event from the first split
+
+The first-stage safety probability need not be supplied as an unexplained
+input. Fix the candidate family before observing the screening split. For its
+\(B=TC\) Gaussian covariance blocks, use the same simultaneous radius as in the
+localized recovery theorem,
+
+\[
+u_s=\frac{\sqrt{n+s}+\sqrt{2\ln(2B/\delta_s)}}{\sqrt{N_s-1}},
+\qquad
+\eta_{tj}=M_{tj}(2u_s+u_s^2).
+\]
+
+The covariance-to-factor maps yield three local factor errors
+\(a_{tj1},a_{tj2},a_{tj3}\) and two transport factor errors
+\(b_{tij1},b_{tij2}\). No positive empirical factor floor is needed: the
+zero-safe Hölder bounds give
+
+\[
+e^s_{L,tj}=\min\left\{1,
+  (a_{tj1}+a_{tj2}+a_{tj3})^{1/3}\right\},
+\]
+
+\[
+e^s_{\Theta,tij}=\min\left\{1,
+  (b_{tij1}+b_{tij2})^{1/2}\right\}.
+\]
+
+Let \(e^c_L,e^c_\Theta\) be the downstream score budgets that the independent
+certification stage will enforce. A certification score can differ from its
+first-split counterpart by at most the sum of the two stagewise radii. The
+near-competitor dynamic program is therefore run once with
+\(e^s+e^c\). On the first-split simultaneous concentration event, every later
+winner allowed by the certification budget remains in that graph.
+
+The roles of the two stages remain distinct. Proposition 33 proves safety of
+the random graph with probability \(1-\delta_s\). Proposition 32 conditions on
+that graph and controls the independent retained-block estimates with
+probability \(1-\delta_c\). Their product is the end-to-end confidence only
+when the two observation sets are independent.
+
+The present radius is a worst-case theorem, not a claim of practical sample
+efficiency. Cube and square roots make the zero-safe score bounds decay slowly.
+That conservatism is visible in Experiment Q and motivates factor-aware bounds
+that remain valid after screening.
+
+## 29. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:
