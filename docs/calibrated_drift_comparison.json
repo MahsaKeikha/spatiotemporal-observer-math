@@ -1,0 +1,502 @@
+{
+  "seed": 20260924,
+  "requested_overall_confidence": 0.975,
+  "component_confidence": 0.9875,
+  "reference_sample_count": 8000000000000,
+  "screening_sample_count": 300000000,
+  "log_scale_amplitude": 0.0001,
+  "maximum_exact_population_drift": 0.00032546326845625973,
+  "trials_per_calibration_size": 64,
+  "records": [
+    {
+      "current_calibration_sample_count": 300000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0014148390038790024,
+      "standard_error_maximum_estimated_drift": 4.9128911491891145e-06,
+      "mean_oracle_maximum_radius": 0.000844074712770179,
+      "standard_error_oracle_maximum_radius": 4.3147044572966935e-06,
+      "mean_calibrated_maximum_radius": 0.001936570166104847,
+      "standard_error_calibrated_maximum_radius": 7.2442297986982405e-06,
+      "mean_refreshed_maximum_radius": 0.0014171407932117002,
+      "standard_error_refreshed_maximum_radius": 6.231429959741196e-06,
+      "mean_oracle_state_fraction": 0.5765625000000001,
+      "standard_error_oracle_state_fraction": 0.005941675641147299,
+      "mean_calibrated_state_fraction": 1.0,
+      "standard_error_calibrated_state_fraction": 0.0,
+      "mean_refreshed_state_fraction": 0.99765625,
+      "standard_error_refreshed_state_fraction": 0.0009180775803015682,
+      "mean_oracle_edge_fraction": 0.18817138671875,
+      "standard_error_oracle_edge_fraction": 0.0023882080541965493,
+      "mean_calibrated_edge_fraction": 0.79541015625,
+      "standard_error_calibrated_edge_fraction": 0.0033599003704521445,
+      "mean_refreshed_edge_fraction": 0.51165771484375,
+      "standard_error_refreshed_edge_fraction": 0.0011158027022654083
+    },
+    {
+      "current_calibration_sample_count": 1000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0008873518013119142,
+      "standard_error_maximum_estimated_drift": 3.1321145774324657e-06,
+      "mean_oracle_maximum_radius": 0.0008545784378244244,
+      "standard_error_oracle_maximum_radius": 5.041326039758885e-06,
+      "mean_calibrated_maximum_radius": 0.0014207208326826443,
+      "standard_error_calibrated_maximum_radius": 5.1855320806498835e-06,
+      "mean_refreshed_maximum_radius": 0.0009303299981624238,
+      "standard_error_refreshed_maximum_radius": 3.919063243638602e-06,
+      "mean_oracle_state_fraction": 0.5953125,
+      "standard_error_oracle_state_fraction": 0.006585136695439134,
+      "mean_calibrated_state_fraction": 0.998828125,
+      "standard_error_calibrated_state_fraction": 0.0006657563306612089,
+      "mean_refreshed_state_fraction": 0.757421875,
+      "standard_error_refreshed_state_fraction": 0.0021333059763289646,
+      "mean_oracle_edge_fraction": 0.19683837890625,
+      "standard_error_oracle_edge_fraction": 0.002780730281090583,
+      "mean_calibrated_edge_fraction": 0.51397705078125,
+      "standard_error_calibrated_edge_fraction": 0.000948269012537191,
+      "mean_refreshed_edge_fraction": 0.2646484375,
+      "standard_error_refreshed_edge_fraction": 0.0011991998659065873
+    },
+    {
+      "current_calibration_sample_count": 3000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0006286643431514562,
+      "standard_error_maximum_estimated_drift": 2.193162069560668e-06,
+      "mean_oracle_maximum_radius": 0.0008466903247455606,
+      "standard_error_oracle_maximum_radius": 5.01151551685398e-06,
+      "mean_calibrated_maximum_radius": 0.0011582085047782673,
+      "standard_error_calibrated_maximum_radius": 5.017478723655791e-06,
+      "mean_refreshed_maximum_radius": 0.0007048700765270265,
+      "standard_error_refreshed_maximum_radius": 4.177146568580789e-06,
+      "mean_oracle_state_fraction": 0.580078125,
+      "standard_error_oracle_state_fraction": 0.0061039403374057565,
+      "mean_calibrated_state_fraction": 0.9249999999999999,
+      "standard_error_calibrated_state_fraction": 1.3987495347505254e-17,
+      "mean_refreshed_state_fraction": 0.44648437500000004,
+      "standard_error_refreshed_state_fraction": 0.0045188643499933555,
+      "mean_oracle_edge_fraction": 0.18975830078125,
+      "standard_error_oracle_edge_fraction": 0.002480320887335676,
+      "mean_calibrated_edge_fraction": 0.4031982421875,
+      "standard_error_calibrated_edge_fraction": 0.001703647576127793,
+      "mean_refreshed_edge_fraction": 0.13299560546875,
+      "standard_error_refreshed_edge_fraction": 0.0012650210572767427
+    },
+    {
+      "current_calibration_sample_count": 10000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0004910216137822693,
+      "standard_error_maximum_estimated_drift": 1.3281971328246692e-06,
+      "mean_oracle_maximum_radius": 0.0008532286380341152,
+      "standard_error_oracle_maximum_radius": 4.365308356059965e-06,
+      "mean_calibrated_maximum_radius": 0.0010224261496325064,
+      "standard_error_calibrated_maximum_radius": 4.1556949438864656e-06,
+      "mean_refreshed_maximum_radius": 0.0005647732745682353,
+      "standard_error_refreshed_maximum_radius": 3.7998801037771372e-06,
+      "mean_oracle_state_fraction": 0.586328125,
+      "standard_error_oracle_state_fraction": 0.0067720852208051265,
+      "mean_calibrated_state_fraction": 0.8394531249999999,
+      "standard_error_calibrated_state_fraction": 0.003512868187186309,
+      "mean_refreshed_state_fraction": 0.37382812499999996,
+      "standard_error_refreshed_state_fraction": 0.0006657563306612089,
+      "mean_oracle_edge_fraction": 0.19183349609375,
+      "standard_error_oracle_edge_fraction": 0.002767771103298572,
+      "mean_calibrated_edge_fraction": 0.30316162109375,
+      "standard_error_calibrated_edge_fraction": 0.0013523175466555795,
+      "mean_refreshed_edge_fraction": 0.1138916015625,
+      "standard_error_refreshed_edge_fraction": 0.0003163078464567706
+    },
+    {
+      "current_calibration_sample_count": 30000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0004215411626030917,
+      "standard_error_maximum_estimated_drift": 7.974055880283866e-07,
+      "mean_oracle_maximum_radius": 0.0008476995519974559,
+      "standard_error_oracle_maximum_radius": 4.928539909694636e-06,
+      "mean_calibrated_maximum_radius": 0.0009461513632663654,
+      "standard_error_calibrated_maximum_radius": 4.745488818609499e-06,
+      "mean_refreshed_maximum_radius": 0.0005042881642745357,
+      "standard_error_refreshed_maximum_radius": 4.5518047294649464e-06,
+      "mean_oracle_state_fraction": 0.575,
+      "standard_error_oracle_state_fraction": 0.005133389378172718,
+      "mean_calibrated_state_fraction": 0.752734375,
+      "standard_error_calibrated_state_fraction": 0.0024344829911658442,
+      "mean_refreshed_state_fraction": 0.326953125,
+      "standard_error_refreshed_state_fraction": 0.002382187296004251,
+      "mean_oracle_edge_fraction": 0.18707275390625,
+      "standard_error_oracle_edge_fraction": 0.0022386293924863713,
+      "mean_calibrated_edge_fraction": 0.26287841796875,
+      "standard_error_calibrated_edge_fraction": 0.0011790856035211197,
+      "mean_refreshed_edge_fraction": 0.08892822265625,
+      "standard_error_refreshed_edge_fraction": 0.00146288463232282
+    },
+    {
+      "current_calibration_sample_count": 100000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.00038122694142289984,
+      "standard_error_maximum_estimated_drift": 4.940191990349932e-07,
+      "mean_oracle_maximum_radius": 0.0008469595081171328,
+      "standard_error_oracle_maximum_radius": 4.728030470488116e-06,
+      "mean_calibrated_maximum_radius": 0.0009029136503195827,
+      "standard_error_calibrated_maximum_radius": 4.838586934353153e-06,
+      "mean_refreshed_maximum_radius": 0.0004577274131229104,
+      "standard_error_refreshed_maximum_radius": 3.4411608097199744e-06,
+      "mean_oracle_state_fraction": 0.577734375,
+      "standard_error_oracle_state_fraction": 0.005869287250689062,
+      "mean_calibrated_state_fraction": 0.6937500000000001,
+      "standard_error_calibrated_state_fraction": 0.0058661914715556615,
+      "mean_refreshed_state_fraction": 0.304296875,
+      "standard_error_refreshed_state_fraction": 0.0011882943641134268,
+      "mean_oracle_edge_fraction": 0.18798828125,
+      "standard_error_oracle_edge_fraction": 0.0025356917777918484,
+      "mean_calibrated_edge_fraction": 0.237548828125,
+      "standard_error_calibrated_edge_fraction": 0.002308142091889659,
+      "mean_refreshed_edge_fraction": 0.06719970703125,
+      "standard_error_refreshed_edge_fraction": 0.001007762419060745
+    },
+    {
+      "current_calibration_sample_count": 300000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0003583837948658748,
+      "standard_error_maximum_estimated_drift": 2.504455301249496e-07,
+      "mean_oracle_maximum_radius": 0.0008437800404753206,
+      "standard_error_oracle_maximum_radius": 5.464273536070248e-06,
+      "mean_calibrated_maximum_radius": 0.0008769783303253667,
+      "standard_error_calibrated_maximum_radius": 5.454565763634162e-06,
+      "mean_refreshed_maximum_radius": 0.00043774661809803416,
+      "standard_error_refreshed_maximum_radius": 3.875118066995998e-06,
+      "mean_oracle_state_fraction": 0.5734375,
+      "standard_error_oracle_state_fraction": 0.005889267334912168,
+      "mean_calibrated_state_fraction": 0.64765625,
+      "standard_error_calibrated_state_fraction": 0.007401778085325495,
+      "mean_refreshed_state_fraction": 0.301171875,
+      "standard_error_refreshed_state_fraction": 0.0011718750000000002,
+      "mean_oracle_edge_fraction": 0.18658447265625,
+      "standard_error_oracle_edge_fraction": 0.002407443248284418,
+      "mean_calibrated_edge_fraction": 0.2181396484375,
+      "standard_error_calibrated_edge_fraction": 0.002805931791191503,
+      "mean_refreshed_edge_fraction": 0.06219482421875,
+      "standard_error_refreshed_edge_fraction": 0.0009301367228121628
+    },
+    {
+      "current_calibration_sample_count": 1000000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0003458112560367037,
+      "standard_error_maximum_estimated_drift": 1.3855433567722588e-07,
+      "mean_oracle_maximum_radius": 0.0008491217015929413,
+      "standard_error_oracle_maximum_radius": 4.560696363682518e-06,
+      "mean_calibrated_maximum_radius": 0.0008695135875593327,
+      "standard_error_calibrated_maximum_radius": 4.5739257275194135e-06,
+      "mean_refreshed_maximum_radius": 0.0004253628654032674,
+      "standard_error_refreshed_maximum_radius": 3.5451294391094416e-06,
+      "mean_oracle_state_fraction": 0.57109375,
+      "standard_error_oracle_state_fraction": 0.0052296809531771436,
+      "mean_calibrated_state_fraction": 0.61484375,
+      "standard_error_calibrated_state_fraction": 0.006168082959545319,
+      "mean_refreshed_state_fraction": 0.298828125,
+      "standard_error_refreshed_state_fraction": 0.0006657563306612073,
+      "mean_oracle_edge_fraction": 0.186767578125,
+      "standard_error_oracle_edge_fraction": 0.0021660417906283814,
+      "mean_calibrated_edge_fraction": 0.2056884765625,
+      "standard_error_calibrated_edge_fraction": 0.002459504394303389,
+      "mean_refreshed_edge_fraction": 0.0584716796875,
+      "standard_error_refreshed_edge_fraction": 0.0005289713541666666
+    },
+    {
+      "current_calibration_sample_count": 3000000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.00033930417843028304,
+      "standard_error_maximum_estimated_drift": 8.591708805993026e-08,
+      "mean_oracle_maximum_radius": 0.000847683337094904,
+      "standard_error_oracle_maximum_radius": 5.23640892669911e-06,
+      "mean_calibrated_maximum_radius": 0.0008617230198508468,
+      "standard_error_calibrated_maximum_radius": 5.2328873597702815e-06,
+      "mean_refreshed_maximum_radius": 0.00041929910571050387,
+      "standard_error_refreshed_maximum_radius": 3.830700231935296e-06,
+      "mean_oracle_state_fraction": 0.573046875,
+      "standard_error_oracle_state_fraction": 0.005604146959051026,
+      "mean_calibrated_state_fraction": 0.599609375,
+      "standard_error_calibrated_state_fraction": 0.006237392728484807,
+      "mean_refreshed_state_fraction": 0.2953125,
+      "standard_error_refreshed_state_fraction": 0.001562499999999999,
+      "mean_oracle_edge_fraction": 0.18695068359375,
+      "standard_error_oracle_edge_fraction": 0.0023277213987358443,
+      "mean_calibrated_edge_fraction": 0.19830322265625,
+      "standard_error_calibrated_edge_fraction": 0.0025090489599161594,
+      "mean_refreshed_edge_fraction": 0.05694580078125,
+      "standard_error_refreshed_edge_fraction": 0.0007216452945098166
+    },
+    {
+      "current_calibration_sample_count": 8000000000000,
+      "trial_count": 64,
+      "drift_envelope_covered_rate": 1.0,
+      "drift_envelope_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "path_retained_rate": 1.0,
+      "path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "all_bounds_valid_rate": 1.0,
+      "all_bounds_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_estimated_drift": 0.0003357020273445921,
+      "standard_error_maximum_estimated_drift": 4.217341309595772e-08,
+      "mean_oracle_maximum_radius": 0.0008482714098547924,
+      "standard_error_oracle_maximum_radius": 4.967851649271748e-06,
+      "mean_calibrated_maximum_radius": 0.000858803871267517,
+      "standard_error_calibrated_maximum_radius": 4.962278624033245e-06,
+      "mean_refreshed_maximum_radius": 0.00042640345073770183,
+      "standard_error_refreshed_maximum_radius": 3.739302988941375e-06,
+      "mean_oracle_state_fraction": 0.584765625,
+      "standard_error_oracle_state_fraction": 0.005802885767264989,
+      "mean_calibrated_state_fraction": 0.6089843750000001,
+      "standard_error_calibrated_state_fraction": 0.006478156680869553,
+      "mean_refreshed_state_fraction": 0.296875,
+      "standard_error_refreshed_state_fraction": 0.0016233202551541237,
+      "mean_oracle_edge_fraction": 0.19146728515625,
+      "standard_error_oracle_edge_fraction": 0.0024722018974119133,
+      "mean_calibrated_edge_fraction": 0.201904296875,
+      "standard_error_calibrated_edge_fraction": 0.0025864863805814113,
+      "mean_refreshed_edge_fraction": 0.05810546875,
+      "standard_error_refreshed_edge_fraction": 0.0007658886296503257
+    }
+  ]
+}

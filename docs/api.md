@@ -1089,6 +1089,55 @@ or test the envelope.
 `compose_pilot_screening_drift_relative_error` exposes the scalar or
 broadcasted three-sandwich calculation for direct audits.
 
+### Statistically calibrated drift screen
+
+```python
+from observer_math import gaussian_calibrated_drift_relative_near_competitor_screen
+
+calibrated = gaussian_calibrated_drift_relative_near_competitor_screen(
+    old_reference_joint_covariances,
+    current_calibration_joint_covariances,
+    screening_joint_covariances,
+    candidates,
+    old_reference_sample_count,
+    current_calibration_sample_count,
+    node_count,
+    subset_size,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+This Proposition 40 entry point estimates the candidate-block drift envelope
+before invoking Proposition 39. A requested confidence of `0.975` is divided
+into two simultaneous covariance events at confidence `0.9875`: one for the
+old reference population and one for the current calibration population. The
+union-bound lower confidence is `0.975`; independence between the two cohorts
+is not needed for that calculation. The later screening covariance is covered
+deterministically once both events hold.
+
+`drift_calibration` contains the two Wishart radii, each observed old-to-current
+calibration discrepancy, the estimated population-drift array, its maximum,
+and the confidence accounting. `screening` contains the complete Proposition
+39 result. `guarantees_safe_screen` is true only when both layers are valid.
+The end-to-end entry point rejects a calibrated drift radius at or above one;
+the lower-level drift object remains available for diagnosing that failure.
+
+The lower-level `gaussian_calibrated_population_drift_bound` returns the drift
+object without running the final screen.
+`compose_calibrated_population_drift_relative_error` exposes its scalar formula
+
+```text
+((1 + observed) * (1 + old_error) / (1 - current_error)) - 1
+```
+
+for direct audits. A current calibration covariance can also be used as a new
+reference in Proposition 38. The calibrated-drift API does not claim that
+transporting the old reference is more selective; Experiment Z compares those
+two uses of the same current data.
+
 ### Independent sample-split certification
 
 ```python

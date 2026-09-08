@@ -43,9 +43,13 @@ discrepancy. Experiment X records a roughly two-fold radius reduction and
 smaller graphs across the grid. Proposition 39 composes that adaptive radius
 with a declared population-relative drift envelope. Experiment Y isolates the
 result under structure-preserving coordinate drift and records where the bound
-loses graph selectivity. The next task is to estimate drift under a separate
-confidence budget and to handle overlapping windows from one long dependent
-time series.
+loses graph selectivity. Proposition 40 then uses two simultaneous Gaussian
+covariance events to produce an observable drift envelope
+with a union-bound confidence. Experiment Z compares that route with refreshing
+the current reference and finds the refresh substantially more selective on
+paired draws. The remaining task is the dependent-window extension and a model
+in which retaining historical geometry contributes information not present in
+the current calibration cohort.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -130,8 +134,10 @@ artifact with a relative covariance theorem, and Experiment W verifies the full
 paired chain on the same regimes. Proposition 38 and Experiment X add the
 observable pilot-normalized refinement. Proposition 39 and Experiment Y extend
 it to a declared population drift and expose its selectivity boundary. The next
-priority is a statistically estimated drift envelope and independently
-justified structural masks without losing post-selection validity.
+step, Proposition 40 and Experiment Z, adds a statistically estimated drift
+envelope and demonstrates its conservatism relative to refreshing the
+reference. The next priority is dependent sampling and independently justified
+structural masks without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

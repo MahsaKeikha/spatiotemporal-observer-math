@@ -1090,7 +1090,45 @@ estimate extracted from the screening observations. Experiment Y uses an exact
 envelope from a controlled congruence transformation so that this distinction
 can be audited without an additional estimation layer.
 
-## 35. Choices that are still choices
+## 35. Calibrating the drift envelope
+
+An old-population reference \(P\) and a current-population calibration
+covariance \(C\) make the population drift observable only through two
+estimation events. If their simultaneous relative radii are
+\(\varepsilon_0\) and \(\varepsilon_1\), and
+
+\[
+q=\|P^{-1/2}(C-P)P^{-1/2}\|_2,
+\]
+
+then the upper Loewner chain is
+
+\[
+(1-\varepsilon_1)\Gamma^1
+\preceq C\preceq(1+q)P
+\preceq(1+q)(1+\varepsilon_0)\Gamma^0.
+\]
+
+This gives the calibrated envelope
+
+\[
+\bar\rho=
+\frac{(1+q)(1+\varepsilon_0)}{1-\varepsilon_1}-1.
+\]
+
+For requested confidence \(1-\alpha\), the implementation assigns
+\(\alpha/2\) to each simultaneous event. Their union-bound confidence is
+therefore at least \(1-\alpha\), even if the two calibration cohorts are not
+independent. The old-reference screening calculation reuses the first event;
+it is not charged a second time.
+
+This construction answers whether a finite-sample drift envelope can be made
+valid. It does not imply that transporting an old reference is the most
+selective use of the current calibration data. Treating \(C\) as a refreshed
+pilot invokes Proposition 38 directly and avoids inserting \(\bar\rho\) into a
+second Loewner conversion. Experiment Z compares both choices on paired draws.
+
+## 36. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

@@ -315,6 +315,36 @@ class GaussianDriftRobustRelativeNearCompetitorScreen:
     guarantees_safe_screen: bool
 
 
+@dataclass(frozen=True)
+class GaussianCalibratedPopulationDrift:
+    """Finite-sample candidate-block population-drift envelope."""
+
+    reference_sample_count: int
+    current_sample_count: int
+    reference_confidence: float
+    current_confidence: float
+    overall_confidence_lower_bound: float
+    reference_covariance_relative_error: float
+    current_covariance_relative_error: float
+    observed_reference_relative_errors: np.ndarray
+    population_drift_relative_errors: np.ndarray
+    maximum_population_drift_relative_error: float
+    all_reference_blocks_positive_definite: bool
+    all_bounds_valid: bool
+
+
+@dataclass(frozen=True)
+class GaussianCalibratedDriftRelativeNearCompetitorScreen:
+    """End-to-end screen with a statistically calibrated drift envelope."""
+
+    drift_calibration: GaussianCalibratedPopulationDrift
+    screening: GaussianDriftRobustRelativeNearCompetitorScreen
+    requested_confidence: float
+    component_confidence: float
+    overall_confidence_lower_bound: float
+    guarantees_safe_screen: bool
+
+
 def componentwise_recovery_bound(
     local_scores: ArrayLike,
     candidates: Sequence[Sequence[int]],
@@ -2009,6 +2039,122 @@ def compose_pilot_screening_drift_relative_error(
     return (same_population + drift) / (1.0 - drift)
 
 
+def compose_calibrated_population_drift_relative_error(
+    observed_reference_relative_error: ArrayLike,
+    reference_relative_error: float,
+    current_relative_error: float,
+) -> np.ndarray:
+    """Convert two covariance-estimation events into a drift envelope."""
+    observed = np.asarray(observed_reference_relative_error, dtype=float)
+    reference_error = float(reference_relative_error)
+    current_error = float(current_relative_error)
+    if (
+        np.any(~np.isfinite(observed))
+        or not np.isfinite(reference_error)
+        or not np.isfinite(current_error)
+        or np.any(observed < 0.0)
+        or reference_error < 0.0
+        or current_error < 0.0
+    ):
+        raise ValueError("relative errors must be finite and nonnegative")
+    if reference_error >= 1.0 or current_error >= 1.0:
+        raise ValueError("calibration relative errors must be below one")
+    return (
+        (1.0 + observed) * (1.0 + reference_error) / (1.0 - current_error)
+        - 1.0
+    )
+
+
+def gaussian_calibrated_population_drift_bound(
+    reference_joint_covariances: Sequence[ArrayLike],
+    current_joint_covariances: Sequence[ArrayLike],
+    candidates: Sequence[Sequence[int]],
+    reference_sample_count: int,
+    current_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    reference_confidence: float = 0.9875,
+    current_confidence: float = 0.9875,
+) -> GaussianCalibratedPopulationDrift:
+    """Estimate a simultaneous population-drift envelope from two cohorts.
+
+    The two supplied covariance sequences are empirical estimates of the old
+    and current populations. The returned confidence is the union-bound lower
+    bound and therefore does not require independence between the cohorts.
+    """
+    references = tuple(
+        np.asarray(value, dtype=float) for value in reference_joint_covariances
+    )
+    currents = tuple(
+        np.asarray(value, dtype=float) for value in current_joint_covariances
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if not references or len(references) != len(currents):
+        raise ValueError(
+            "reference and current covariance sequences must have equal positive length"
+        )
+    time_count = len(references)
+    candidate_count = len(candidate_tuple)
+    local_zeros = np.zeros((time_count, candidate_count))
+    edge_zeros = np.zeros(
+        (max(0, time_count - 1), candidate_count, candidate_count)
+    )
+    diagnostic = gaussian_cross_fitted_relative_near_competitor_screen(
+        references,
+        currents,
+        candidate_tuple,
+        reference_sample_count,
+        node_count,
+        subset_size,
+        structural_integration_null_mask=np.zeros(
+            (time_count, candidate_count), dtype=bool
+        ),
+        certification_local_score_errors=local_zeros,
+        certification_transport_score_errors=edge_zeros,
+        confidence=reference_confidence,
+    )
+    block_count = time_count * candidate_count
+    current_error = gaussian_wishart_relative_covariance_error_bound(
+        node_count + subset_size,
+        block_count,
+        current_sample_count,
+        confidence=current_confidence,
+    )
+    if current_error >= 1.0:
+        raise ValueError("current calibration relative error must be below one")
+    observed = diagnostic.observed_pilot_relative_errors
+    reference_error = diagnostic.pilot_covariance_relative_error
+    drift_errors = compose_calibrated_population_drift_relative_error(
+        observed,
+        reference_error,
+        current_error,
+    )
+    overall_confidence = max(
+        0.0, float(reference_confidence) + float(current_confidence) - 1.0
+    )
+    all_valid = bool(
+        diagnostic.all_pilot_blocks_positive_definite
+        and np.all(drift_errors < 1.0)
+    )
+    return GaussianCalibratedPopulationDrift(
+        reference_sample_count=int(reference_sample_count),
+        current_sample_count=int(current_sample_count),
+        reference_confidence=float(reference_confidence),
+        current_confidence=float(current_confidence),
+        overall_confidence_lower_bound=overall_confidence,
+        reference_covariance_relative_error=reference_error,
+        current_covariance_relative_error=current_error,
+        observed_reference_relative_errors=observed.copy(),
+        population_drift_relative_errors=drift_errors,
+        maximum_population_drift_relative_error=float(np.max(drift_errors)),
+        all_reference_blocks_positive_definite=(
+            diagnostic.all_pilot_blocks_positive_definite
+        ),
+        all_bounds_valid=all_valid,
+    )
+
+
 def gaussian_drift_robust_relative_near_competitor_screen(
     pilot_joint_covariances: Sequence[ArrayLike],
     screening_joint_covariances: Sequence[ArrayLike],
@@ -2147,6 +2293,73 @@ def gaussian_drift_robust_relative_near_competitor_screen(
         all_drift_envelopes_valid=all_drift_valid,
         all_blocks_valid=all_valid,
         guarantees_safe_screen=all_valid,
+    )
+
+
+def gaussian_calibrated_drift_relative_near_competitor_screen(
+    reference_joint_covariances: Sequence[ArrayLike],
+    current_calibration_joint_covariances: Sequence[ArrayLike],
+    screening_joint_covariances: Sequence[ArrayLike],
+    candidates: Sequence[Sequence[int]],
+    reference_sample_count: int,
+    current_calibration_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianCalibratedDriftRelativeNearCompetitorScreen:
+    """Calibrate drift and propagate it through the complete safe screen.
+
+    The total failure budget is split equally between the old-population
+    reference event and the current-population calibration event. The screening
+    covariance may be arbitrary once those two simultaneous events hold.
+    """
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0, 1)")
+    component_confidence = 0.5 * (1.0 + float(confidence))
+    drift = gaussian_calibrated_population_drift_bound(
+        reference_joint_covariances,
+        current_calibration_joint_covariances,
+        candidates,
+        reference_sample_count,
+        current_calibration_sample_count,
+        node_count,
+        subset_size,
+        reference_confidence=component_confidence,
+        current_confidence=component_confidence,
+    )
+    if not drift.all_bounds_valid:
+        raise ValueError(
+            "calibrated population drift must remain below one for screening"
+        )
+    screening = gaussian_drift_robust_relative_near_competitor_screen(
+        reference_joint_covariances,
+        screening_joint_covariances,
+        candidates,
+        reference_sample_count,
+        node_count,
+        subset_size,
+        population_drift_relative_errors=drift.population_drift_relative_errors,
+        structural_integration_null_mask=structural_integration_null_mask,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=component_confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    guarantees = bool(drift.all_bounds_valid and screening.guarantees_safe_screen)
+    return GaussianCalibratedDriftRelativeNearCompetitorScreen(
+        drift_calibration=drift,
+        screening=screening,
+        requested_confidence=float(confidence),
+        component_confidence=component_confidence,
+        overall_confidence_lower_bound=drift.overall_confidence_lower_bound,
+        guarantees_safe_screen=guarantees,
     )
 
 

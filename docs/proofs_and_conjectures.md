@@ -2672,6 +2672,79 @@ not estimate drift: the \(\rho_b\) values must come from a design constraint,
 an external calibration, or a separately justified model. Understating them
 invalidates the guarantee.
 
+## Proposition 40: statistically calibrated population-drift envelope
+
+Let \(\Gamma_b^0\) and \(\Gamma_b^1\) be fixed old and current population
+covariances. Let \(P_b\) and \(C_b\) be their empirical covariance estimates,
+and suppose simultaneous relative covariance events of radii
+\(\varepsilon_0<1\) and \(\varepsilon_1<1\) hold with failure probabilities
+at most \(\alpha_0\) and \(\alpha_1\), respectively. Define the observable
+
+\[
+q_b=\left\|P_b^{-1/2}(C_b-P_b)P_b^{-1/2}\right\|_2
+\]
+
+and
+
+\[
+\bar\rho_b=
+\frac{(1+q_b)(1+\varepsilon_0)}{1-\varepsilon_1}-1.
+\]
+
+Then, simultaneously for all fixed candidate blocks, with probability at least
+\(1-\alpha_0-\alpha_1\),
+
+\[
+\left\|(\Gamma_b^0)^{-1/2}(\Gamma_b^1-\Gamma_b^0)
+(\Gamma_b^0)^{-1/2}\right\|_2\leq\bar\rho_b.
+\]
+
+If \(\bar\rho_b<1\) and the resulting Proposition 39 radii are below one,
+using \(\bar\rho_b\) in Proposition 39 gives a safe current-population screen
+at the same joint confidence. The reference event is shared by the drift and
+screening calculations and is charged only once.
+
+**Proof.** On the two covariance events and by the definition of \(q_b\),
+
+\[
+C_b\preceq(1+q_b)P_b
+\preceq(1+q_b)(1+\varepsilon_0)\Gamma_b^0,
+\]
+
+while
+
+\[
+(1-\varepsilon_1)\Gamma_b^1\preceq C_b.
+\]
+
+Therefore
+
+\[
+\Gamma_b^1\preceq
+\frac{(1+q_b)(1+\varepsilon_0)}{1-\varepsilon_1}\Gamma_b^0.
+\]
+
+The corresponding lower-displacement calculation gives
+
+\[
+1-\frac{(1-q_b)(1-\varepsilon_0)}{1+\varepsilon_1},
+\]
+
+whenever \(q_b<1\). It is no larger than the displayed upper displacement;
+if \(q_b\geq1\), the lower side is already bounded by one and the upper
+quantity still dominates whenever the final certificate is valid. The union
+bound supplies probability at least \(1-\alpha_0-\alpha_1\) without requiring
+independence between \(P_b\) and \(C_b\). On this joint event,
+Proposition 39 is deterministic for every later screening covariance. \(\square\)
+
+The upper constant is attained in one dimension by choosing
+\(P=(1+\varepsilon_0)\Gamma^0\), \(C=(1+q)P\), and
+\(C=(1-\varepsilon_1)\Gamma^1\). The result establishes validity, not
+efficiency. If \(C_b\) is already a representative current-population
+covariance, it can instead be used directly as a refreshed pilot in Proposition
+38. Neither route is uniformly declared superior here; Experiment Z compares
+them on one fixed construction.
+
 ## Open conjectures
 
 ### C1. Adaptive geometry under dependent windows

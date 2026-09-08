@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 112 tests. Continuous integration runs
+The automated suite currently contains 116 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -1027,6 +1027,63 @@ separately protected estimation procedure. The full seeds, inputs, Wilson
 intervals, standard errors, and trial aggregates are stored in
 [`drift_robust_relative_calibration.json`](drift_robust_relative_calibration.json).
 
+## Experiment Z: estimating drift versus refreshing the reference
+
+Command used for the committed result:
+
+```bash
+python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
+```
+
+The population construction, eight-trillion-trajectory old reference, and
+300-million-trajectory screening cohort match the baseline drift setting from
+Experiment Y at log-scale amplitude `0.00010`, where the exact maximum
+candidate drift is `0.000325463`. The new axis is the size of an independent
+current-population calibration cohort, from 300 million to eight trillion
+complete trajectories. Each of the ten sizes receives 64 paired calibration
+and screening draws.
+
+Three valid screens receive the same screening covariance. The oracle screen
+uses the exact population drift and is included only as a lower-conservatism
+reference. The calibrated-drift screen estimates the Proposition 40 envelope
+at overall confidence `0.975` and transports the old reference through
+Proposition 39. The refreshed screen instead uses the current calibration
+covariance directly as a Proposition 38 reference.
+
+![Estimated drift and refreshed-reference comparison](calibrated_drift_comparison.png)
+
+| Current calibration \(N\) | Estimated maximum \(\rho\) | Radius: estimated / refreshed | States: estimated / refreshed | Edges: estimated / refreshed |
+| ---: | ---: | ---: | ---: | ---: |
+| `300,000,000` | `0.001415` | `0.001937` / `0.001417` | `100.0%` / `99.8%` | `79.5%` / `51.2%` |
+| `1,000,000,000` | `0.000887` | `0.001421` / `0.000930` | `99.9%` / `75.7%` | `51.4%` / `26.5%` |
+| `3,000,000,000` | `0.000629` | `0.001158` / `0.000705` | `92.5%` / `44.6%` | `40.3%` / `13.3%` |
+| `10,000,000,000` | `0.000491` | `0.001022` / `0.000565` | `83.9%` / `37.4%` | `30.3%` / `11.4%` |
+| `30,000,000,000` | `0.000422` | `0.000946` / `0.000504` | `75.3%` / `32.7%` | `26.3%` / `8.9%` |
+| `100,000,000,000` | `0.000381` | `0.000903` / `0.000458` | `69.4%` / `30.4%` | `23.8%` / `6.7%` |
+| `300,000,000,000` | `0.000358` | `0.000877` / `0.000438` | `64.8%` / `30.1%` | `21.8%` / `6.2%` |
+| `1,000,000,000,000` | `0.000346` | `0.000870` / `0.000425` | `61.5%` / `29.9%` | `20.6%` / `5.8%` |
+| `3,000,000,000,000` | `0.000339` | `0.000862` / `0.000419` | `60.0%` / `29.5%` | `19.8%` / `5.7%` |
+| `8,000,000,000,000` | `0.000336` | `0.000859` / `0.000426` | `60.9%` / `29.7%` | `20.2%` / `5.8%` |
+
+All 640 trials satisfy the estimated drift envelope, final current-population
+covariance bound, complete score bound, validity condition, and population-path
+retention. Each per-size 64-of-64 result again has Wilson 95% interval
+`[0.943376, 1.000000]` and should be read as a consistency check.
+
+The comparison gives a clear design conclusion for this construction. The
+estimated envelope converges toward the exact drift, but transporting the old
+reference remains more conservative because uncertainty passes through both
+the drift calibration and the second Loewner conversion. At the largest
+calibration size it retains `60.9%` of states and `20.2%` of edges. Refreshing
+the reference with the same current calibration data retains `29.7%` and
+`5.8%`. This is not a universal dominance theorem; it is a paired numerical
+result showing that a valid drift estimate should not automatically be used to
+preserve an obsolete reference.
+
+The complete seeds, confidence allocation, Wilson intervals, standard errors,
+and paired aggregates are stored in
+[`calibrated_drift_comparison.json`](calibrated_drift_comparison.json).
+
 ## Required next controls
 
 - higher-precision tail calibration targeted near the relative-event threshold
@@ -1036,5 +1093,6 @@ intervals, standard errors, and trial aggregates are stored in
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines
 - replication on independently designed generative systems
-- externally estimated drift envelopes with an explicit confidence budget
+- non-Gaussian or structured drift models where an old reference may add
+  information unavailable in the current calibration cohort
 - dependent pilot and screening windows from a single mixing process

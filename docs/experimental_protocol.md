@@ -330,6 +330,30 @@ in the old population metric, not a claimed guarantee after drift. Because the
 exact population envelope is used, this experiment audits propagation given a
 correct envelope; it does not test how an application should estimate one.
 
+### Statistically calibrated drift comparison
+
+`calibrated_drift_comparison.py` fixes the Experiment Y baseline at log-scale
+amplitude `0.00010`, whose exact maximum candidate-block drift is
+`0.000325463`. It draws one old-population reference from eight trillion
+complete trajectories. For each of ten current calibration sizes from 300
+million through eight trillion, it then draws 64 independent calibration and
+screening pairs; every screening covariance uses 300 million trajectories. The
+root `SeedSequence` is `20260924`.
+
+The calibrated-drift method divides a requested 2.5% failure budget equally
+between the old-reference and current-calibration simultaneous Wishart events.
+It estimates the Proposition 40 envelope, passes it through Proposition 39,
+and records the complete screen. Two paired controls use the exact population
+drift and use the current calibration covariance directly as a refreshed
+Proposition 38 reference. The exact drift appears only in the oracle control
+and in coverage auditing; neither implementable method receives it.
+
+Recorded events are estimated-drift coverage, current-population covariance
+coverage, complete score coverage, valid-radius status, and population-path
+retention. The study compares radius and graph size rather than recovery rate,
+because all three screens are sufficient screens and retain the population path
+on every recorded draw.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -477,6 +501,12 @@ event frequencies, and the additive certificate radius charged for drift. The
 horizontal axis is the maximum candidate-block \(100\rho\), not the input
 log-scale amplitude, so it reports the covariance quantity used by the theorem.
 
+`calibrated_drift_comparison.png` uses a logarithmic calibration-sample axis.
+Its panels show convergence of the estimated drift envelope, maximum final
+radius, retained states, and retained edges for the oracle, calibrated-drift,
+and refreshed-reference screens. All graph panels use identical candidates,
+scores, screening draws, structural-null masks, and action weights.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -501,6 +531,10 @@ log-scale amplitude, so it reports the covariance quantity used by the theorem.
 | `test_three_sandwich_composition_covers_drifted_screening_covariance` | Pilot, observed, and population-drift Loewner sandwiches compose into the current-population radius |
 | `test_drift_robust_screen_covers_scores_and_retains_population_path` | The public drift-aware entry point covers a fixed drifted draw and retains the population path |
 | `test_drift_robust_screen_rejects_invalid_drift_envelope` | A drift radius at the singular boundary cannot be passed as a valid guarantee |
+| `test_calibrated_drift_composition_is_sharp_in_one_dimension` | The two-cohort drift formula is attained by a scalar Loewner construction |
+| `test_calibrated_population_drift_bound_covers_known_change` | The public calibrated envelope covers a fixed known population change |
+| `test_calibrated_drift_screen_covers_scores_and_retains_path` | The end-to-end confidence-budgeted screen covers the current population and retains its path |
+| `test_calibrated_drift_rejects_invalid_confidence` | An impossible confidence request is rejected at the public entry point |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -670,6 +704,12 @@ Its limitations are concrete:
     structural change, coordinate mismatch, non-Gaussian shift, or dependent
     pilot and screening windows. The complete graph at larger displayed drift
     is a recorded loss of selectivity, not evidence of failed recovery.
+30. Proposition 40 supplies a statistical drift envelope only under the same
+    fixed-block Gaussian sampling model. Experiment Z uses independent
+    calibration and screening trajectories and does not address overlapping
+    windows. Its refreshed-reference advantage is empirical for one controlled
+    drift family, not a universal theorem. The oracle curve is not an
+    implementable competitor because it receives exact population drift.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -707,6 +747,7 @@ python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
 python examples/relative_covariance_calibration.py --trials 64 --jobs 6
 python examples/cross_fitted_relative_calibration.py --trials 64 --jobs 6
 python examples/drift_robust_relative_calibration.py --trials 64 --jobs 6
+python examples/calibrated_drift_comparison.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

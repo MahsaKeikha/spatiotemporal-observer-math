@@ -56,8 +56,8 @@ read before applying a certificate to a new model or dataset.
 | Empirical primitive factors and score centers are computed consistently | Proposition 34 | A factor-aware radius need not bound the supplied score |
 | Positive-factor refinement is used only where every empirical factor lower endpoint is strictly positive | Proposition 34 | The local Lipschitz denominator can cross its singular boundary; the zero-safe fallback is required |
 | Every structural integration null is exact and its mask is fixed independently of the screening observations | Proposition 35 | The quadratic boundary radius can understate the local-score error and the safe-screen guarantee is invalid |
-| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, W, X, and Y | It cannot validate envelopes estimated from the same observations |
-| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 through 39 and Experiments U through Y | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
+| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, W, X, Y, and Z | It cannot validate envelopes estimated from the same observations |
+| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 through 40 and Experiments U through Z | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
 | Multi-regime axes and action weights are fixed before inspecting outcomes | Experiment V | The grid becomes an adaptive illustration rather than a predeclared sensitivity check |
 | Relative candidate blocks, confidence, and dimensions are fixed before screening | Proposition 37 and Experiment W | The simultaneous relative Wishart event may not cover adaptively introduced blocks |
 | Population whitening is used to state and audit the event, not estimated and silently reused | Proposition 37 | Reusing a data-dependent whitening map requires separate concentration or sample splitting |
@@ -66,6 +66,9 @@ read before applying a certificate to a new model or dataset.
 | The pilot candidate family and structural-null mask are fixed independently of the pilot draw | Propositions 38 and 39 | The pilot union bound and null-specific radii may not cover adaptive choices |
 | Every candidate's population drift is no larger than its independently justified declared relative envelope | Proposition 39 and Experiment Y | An understated or data-reused envelope invalidates the current-population covariance and score bounds |
 | Drift acts on the same named variables and candidate blocks rather than silently changing their semantics | Proposition 39 | A numerical covariance bound cannot repair a mismatch in what the coordinates represent |
+| Old and current calibration sample counts and Gaussian population assignments are correct | Proposition 40 and Experiment Z | Either simultaneous Wishart radius can understate its covariance error |
+| The drift candidate family is fixed before both calibration cohorts are inspected | Proposition 40 | The two-event union bound may not cover adaptively introduced blocks |
+| An estimated drift envelope is not interpreted as evidence that retaining the old reference is efficient | Proposition 40 and Experiment Z | A valid but unnecessarily conservative screen may replace a more selective refreshed-reference calculation |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
 | The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
 | The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |

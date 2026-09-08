@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.28.0 - 2026-09-08
+
+- Proved a simultaneous finite-sample population-drift envelope from an old
+  reference covariance and a current calibration covariance.
+- Added explicit failure-budget accounting: two 98.75% Gaussian covariance
+  events give a 97.5% union-bound confidence without requiring independence
+  between the calibration cohorts.
+- Added public APIs for the drift envelope and the end-to-end calibrated-drift
+  screen, with nested radii, confidence fields, graph outputs, and validity
+  diagnostics.
+- Recorded a sharp scalar construction attaining the calibrated drift constant.
+- Added a 640-pair, ten-scale comparison of exact-oracle drift, statistically
+  estimated drift, and direct current-reference refresh.
+- Found complete recorded drift, covariance, score, validity, and path-event
+  coverage while documenting that the refreshed reference is substantially
+  more selective throughout this controlled construction.
+- Added the four-panel landing-page figure, complete table, machine-readable
+  record, API guide, protocol, assumption audit, and four theorem-level tests.
+
 ## 0.27.0 - 2026-09-08
 
 - Proved a three-sandwich transport bound from the pilot-population metric to a

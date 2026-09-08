@@ -164,9 +164,12 @@ and finds smaller safe graphs in all 18 regimes while explicitly recording the
 much larger amortized pilot. Proposition 39 now permits a separately declared
 population-covariance drift. Experiment Y holds the population scores and path
 fixed under an invertible congruence and shows both complete recorded coverage
-and a rapid loss of graph selectivity as the envelope grows. Estimating drift
-with its own confidence budget and treating dependent windows are the next
-statistical steps.
+and a rapid loss of graph selectivity as the envelope grows. Proposition 40
+adds a finite-sample drift confidence budget for fixed Gaussian blocks.
+Experiment Z shows why validity and experimental design
+must still be separated: estimating drift and transporting the old reference
+is safe, but directly refreshing the reference is much more selective on the
+tested construction. Dependent windows remain open.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound
