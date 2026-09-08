@@ -20,7 +20,7 @@ The central question is:
 
 > **When can a moving subsystem path be distinguished from alternatives using internal predictive organization, environmental insulation, and continuity through time?**
 
-The word "observer" is operational. It is not a claim about consciousness or subjective experience. The repository now also includes an [observer-to-consciousness interpretation protocol](observer_consciousness_interpretation_protocol.md) that states what additional bridge assumptions would have to be justified before the observer mathematics could support a consciousness interpretation.
+The word "observer" is operational. It is not a claim about consciousness or subjective experience. The repository now also includes an [observer-to-consciousness interpretation protocol](interpretation_protocol.md) that states what additional bridge assumptions would have to be justified before the observer mathematics could support a consciousness interpretation.
 
 ## The population model
 
@@ -184,7 +184,7 @@ That is a statement about the mathematics inside the declared model class. It is
 
 ## A disciplined path toward consciousness-related mathematics
 
-The project can still ask a deeper question without weakening its scientific standard. The [interpretation protocol](observer_consciousness_interpretation_protocol.md) treats a consciousness interpretation as a separate bridge problem. It lists conditions that would need independent justification, including representation invariance, observational identifiability, causal or interventional discriminability, temporal identity, counterfactual robustness, external empirical anchoring, falsifiability, and comparison against alternative explanations.
+The project can still ask a deeper question without weakening its scientific standard. The [interpretation protocol](interpretation_protocol.md) treats a consciousness interpretation as a separate bridge problem. It lists conditions that would need independent justification, including representation invariance, observational identifiability, causal or interventional discriminability, temporal identity, counterfactual robustness, external empirical anchoring, falsifiability, and comparison against alternative explanations.
 
 This separation is intentional. The observer mathematics should become stronger on its own terms. Any later claim about consciousness would have to survive additional axioms and tests rather than being built into the name of the mathematical object.
 
