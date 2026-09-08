@@ -13,8 +13,8 @@ from observer_math.evalue_outer_cover import (
 )
 from observer_math.evalue_temporal_family import (
     gaussian_ar1_white_noise_evalue_grid,
-    gaussian_ar1_white_noise_log_evalue,
     gaussian_ar1_white_noise_evalue_model,
+    gaussian_ar1_white_noise_log_evalue,
 )
 
 
