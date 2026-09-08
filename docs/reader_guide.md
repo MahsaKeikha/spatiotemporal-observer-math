@@ -143,6 +143,8 @@ Gaussian first-split concentration now proves screening safety for fixed
 candidate blocks and deterministic spectral envelopes. The main unresolved
 statistical issue is sharpness and calibration. Positive empirical factor
 floors now provide a valid local Lipschitz refinement, while boundary entries
-retain the zero-safe product-root bound. Coverage and retained-graph simulations
-across signal regimes, followed by directional covariance refinements, are the
-next empirical and theoretical checks.
+retain the zero-safe product-root bound. The first exact-Wishart calibration
+finds no coverage failure in its limited run but shows that graph reduction can
+still require extreme sample counts. Higher-precision, trajectory-coupled, and
+multi-regime calibration, followed by directional covariance refinements, are
+the next empirical and theoretical checks.

@@ -857,6 +857,10 @@ safe with at least `confidence` probability over the first split for every
 later score realization inside the certification budget. This is a screening
 statement, not by itself a final path-recovery statement.
 
+`covariance_spectral_errors` contains the radius for every candidate-local
+block, rather than only the reported maximum. It is useful for audits that
+compare realized block errors with the exact envelope used by the theorem.
+
 Transport-edge radii use the destination candidate's local spectral envelope,
 uniformly over source candidates. This matches the localized recovery API and
 is conservative when source-target blocks have substantially different

@@ -248,6 +248,15 @@ fallback automatically. The comparison experiment reduces a complete
 16-state/48-edge graph to the four states and three edges of the reference path
 at a sample count where the zero-safe screen removes nothing.
 
+The screening theorem now has a seeded Wishart calibration at five sample
+scales spanning eight orders of magnitude. Across 64 trials at each count, the
+covariance, primitive-factor, complete-score, and path-retention events were all
+covered. The experiment also shows that coverage and usefulness are different:
+the graph remains complete through 800 million observations and reaches the
+five-state/four-edge population path only at eight trillion on this deliberately
+strict worst-case calculation. The recorded Wilson interval prevents those 64
+successes from being presented as a precise validation of a 97.5% tail claim.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -300,6 +309,7 @@ python examples/screened_environment_recovery_experiment.py
 python examples/sample_split_screening_experiment.py
 python examples/gaussian_safe_screen_experiment.py
 python examples/factor_aware_screen_experiment.py
+python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -322,8 +332,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.20 adds a
-positive-factor screening refinement that improves the Gaussian score radius
-where certified factor floors are available and falls back safely at zero. The
-repository will change as coverage experiments, counterexamples, comparisons,
-and sharper proofs are added.
+This is an ongoing study, not a finished paper. Version 0.21 adds an exact
+Wishart calibration of the Gaussian screening chain, records both successful
+coverage and severe graph-reduction conservatism, and publishes the complete
+seeded data behind the figure. The repository will change as higher-precision
+calibration, counterexamples, comparisons, and sharper proofs are added.

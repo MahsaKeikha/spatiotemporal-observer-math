@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 87 tests. Continuous integration runs
+The automated suite currently contains 90 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -642,9 +642,55 @@ deliberately separated score table. It is not an empirical coverage study and
 does not establish typical performance. Near a zero factor the refinement
 reverts to the zero-safe radius, as checked separately in the test suite.
 
+## Experiment S: Gaussian screening calibration
+
+Command used for the committed result:
+
+```bash
+python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
+```
+
+The experiment draws sample covariances directly from their exact Wishart law
+for five fixed adjacent Gaussian covariance models and eight predeclared
+candidates. Every row contains 64 independently seeded trials.
+
+![Gaussian screening coverage and graph reduction](gaussian_screen_calibration.png)
+
+| Observations | Covariance coverage | Factor coverage | Score coverage | Path retained | Mean states retained | Mean edges retained |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `80,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `8,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `800,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `80,000,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.905 |
+| `8,000,000,000,000` | 1.000 | 1.000 | 1.000 | 1.000 | 0.125 | 0.016 |
+
+All covariance, primitive-factor, complete-score, and population-path events
+were covered in all 64 trials at every sample count. For 64 successes out of
+64, however, the Wilson 95% interval is `[0.943376, 1.000000]`. Its lower
+endpoint is below the nominal `0.975` theorem confidence, so this run is a
+consistency check and not a sufficiently precise empirical validation of the
+tail probability.
+
+The maximum realized covariance error averaged between `0.277` and `0.293` of
+the analytical radius across the five rows. This identifies genuine slack in
+the simultaneous covariance step. More importantly, the retained graph remains
+complete through 800 million observations and begins shrinking only at 80
+billion. At eight trillion observations it contains the five population-path
+states and four path edges: fractions `0.125` and `0.015625` of the full graph.
+
+Only five of the 40 local state-factor vectors have positive certified floors
+at the larger sample sizes. The other candidates have a vanishing integration
+factor in the population construction and must use the zero-safe fallback.
+This explains why the factor-aware theorem substantially improves positive
+states but does not remove the worst-case sample scale in this model.
+
+The complete machine-readable record, including Wilson intervals, standard
+errors, factor-floor fractions, and radius ratios, is stored in
+[`gaussian_screen_calibration.json`](gaussian_screen_calibration.json).
+
 ## Required next controls
 
-- empirical coverage and sharpness of the Gaussian-safe near-competitor set
+- higher-precision tail calibration and trajectory-coupled screening coverage
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

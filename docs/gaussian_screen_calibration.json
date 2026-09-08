@@ -1,0 +1,215 @@
+{
+  "seed": 20260908,
+  "trials_per_sample_size": 64,
+  "nominal_screening_confidence": 0.975,
+  "sample_sizes": [
+    80000,
+    8000000,
+    800000000,
+    80000000000,
+    8000000000000
+  ],
+  "node_count": 7,
+  "subset_size": 3,
+  "candidate_count": 8,
+  "time_count": 5,
+  "population_path_indices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "records": [
+    {
+      "sample_count": 80000,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "factor_covered_rate": 1.0,
+      "factor_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "population_path_retained_rate": 1.0,
+      "population_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "valid_perturbation_regime_rate": 1.0,
+      "valid_perturbation_regime_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_covariance_radius_ratio": 0.28520483082959175,
+      "standard_error_maximum_covariance_radius_ratio": 0.004934323170995149,
+      "mean_retained_state_fraction": 1.0,
+      "standard_error_retained_state_fraction": 0.0,
+      "mean_retained_edge_fraction": 1.0,
+      "standard_error_retained_edge_fraction": 0.0,
+      "mean_positive_local_floor_fraction": 0.0,
+      "standard_error_positive_local_floor_fraction": 0.0,
+      "mean_positive_transport_floor_fraction": 0.0,
+      "standard_error_positive_transport_floor_fraction": 0.0
+    },
+    {
+      "sample_count": 8000000,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "factor_covered_rate": 1.0,
+      "factor_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "population_path_retained_rate": 1.0,
+      "population_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "valid_perturbation_regime_rate": 1.0,
+      "valid_perturbation_regime_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_covariance_radius_ratio": 0.28312027917045546,
+      "standard_error_maximum_covariance_radius_ratio": 0.005454191590392654,
+      "mean_retained_state_fraction": 1.0,
+      "standard_error_retained_state_fraction": 0.0,
+      "mean_retained_edge_fraction": 1.0,
+      "standard_error_retained_edge_fraction": 0.0,
+      "mean_positive_local_floor_fraction": 0.0,
+      "standard_error_positive_local_floor_fraction": 0.0,
+      "mean_positive_transport_floor_fraction": 0.0,
+      "standard_error_positive_transport_floor_fraction": 0.0
+    },
+    {
+      "sample_count": 800000000,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "factor_covered_rate": 1.0,
+      "factor_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "population_path_retained_rate": 1.0,
+      "population_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "valid_perturbation_regime_rate": 1.0,
+      "valid_perturbation_regime_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_covariance_radius_ratio": 0.29287724641378576,
+      "standard_error_maximum_covariance_radius_ratio": 0.005357898980161353,
+      "mean_retained_state_fraction": 1.0,
+      "standard_error_retained_state_fraction": 0.0,
+      "mean_retained_edge_fraction": 1.0,
+      "standard_error_retained_edge_fraction": 0.0,
+      "mean_positive_local_floor_fraction": 0.125,
+      "standard_error_positive_local_floor_fraction": 0.0,
+      "mean_positive_transport_floor_fraction": 0.85546875,
+      "standard_error_positive_transport_floor_fraction": 0.0
+    },
+    {
+      "sample_count": 80000000000,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "factor_covered_rate": 1.0,
+      "factor_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "population_path_retained_rate": 1.0,
+      "population_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "valid_perturbation_regime_rate": 1.0,
+      "valid_perturbation_regime_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_covariance_radius_ratio": 0.27682742481258116,
+      "standard_error_maximum_covariance_radius_ratio": 0.003454299688199354,
+      "mean_retained_state_fraction": 1.0,
+      "standard_error_retained_state_fraction": 0.0,
+      "mean_retained_edge_fraction": 0.90509033203125,
+      "standard_error_retained_edge_fraction": 0.00022484997485748513,
+      "mean_positive_local_floor_fraction": 0.125,
+      "standard_error_positive_local_floor_fraction": 0.0,
+      "mean_positive_transport_floor_fraction": 0.9609375,
+      "standard_error_positive_transport_floor_fraction": 0.0
+    },
+    {
+      "sample_count": 8000000000000,
+      "covariance_covered_rate": 1.0,
+      "covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "factor_covered_rate": 1.0,
+      "factor_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "score_covered_rate": 1.0,
+      "score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "population_path_retained_rate": 1.0,
+      "population_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "valid_perturbation_regime_rate": 1.0,
+      "valid_perturbation_regime_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_covariance_radius_ratio": 0.28202436911594353,
+      "standard_error_maximum_covariance_radius_ratio": 0.004721041879485231,
+      "mean_retained_state_fraction": 0.125,
+      "standard_error_retained_state_fraction": 0.0,
+      "mean_retained_edge_fraction": 0.015625,
+      "standard_error_retained_edge_fraction": 0.0,
+      "mean_positive_local_floor_fraction": 0.125,
+      "standard_error_positive_local_floor_fraction": 0.0,
+      "mean_positive_transport_floor_fraction": 0.9609375,
+      "standard_error_positive_transport_floor_fraction": 0.0
+    }
+  ]
+}

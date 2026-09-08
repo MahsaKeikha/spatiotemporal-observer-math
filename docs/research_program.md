@@ -24,9 +24,11 @@ independent two-stage route from Gaussian screening concentration to a random
 safe graph and then to retained-block certification. Its zero-safe local-score
 radius still contracts too slowly to explain the empirical scale. Proposition
 34 restores a local Lipschitz rate wherever empirical factor intervals remain
-strictly positive; the next check is coverage and sharpness across signal
+strictly positive. A first Wishart calibration now confirms containment on one
+fixed model and measures where the graph begins to shrink. The next check is
+higher-precision coverage across coupling, conditioning, and factor-floor
 regimes. A separate treatment is also needed for one dependent time series
-because the current simulation uses independent trajectories.
+because the calibration uses independent covariance draws.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -96,10 +98,11 @@ Proposition 32 composes any proved first-stage screening event with an
 independent certification sample and reports the product confidence.
 Proposition 33 now derives that first-stage event from screening-sample Gaussian
 covariance bounds and propagates it through the complete score. Proposition 34
-adds the factor-aware refinement without losing the zero-safe fallback. The next
-priority is to measure coverage and retained-graph size across signal regimes,
-then investigate directional covariance perturbation and empirically certified
-spectral envelopes without losing post-selection validity.
+adds the factor-aware refinement without losing the zero-safe fallback. A first
+fixed-model Wishart calibration now measures coverage and retained-graph size.
+The next priority is to extend it across signal regimes, then investigate
+directional covariance perturbation and empirically certified spectral
+envelopes without losing post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.
@@ -217,6 +220,8 @@ stable and predictively useful, not whether it indicates consciousness.
   factor perturbation, and a two-stage triangle inequality
 - entrywise positive-factor score refinement with an automatic zero-safe
   fallback and explicit regime masks
+- seeded Wishart calibration with machine-readable coverage, radius-ratio,
+  factor-floor, and retained-graph records
 - empirical covariance estimation from independent trajectory ensembles
 - finite-sample recovery curves with Wilson intervals across 192 trials
 - fixed, independent-local, continuity-only, and coefficient-transport baselines

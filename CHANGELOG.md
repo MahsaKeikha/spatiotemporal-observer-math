@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.21.0 - 2026-09-08
+
+- Added a seeded calibration of the complete Gaussian screening chain using
+  direct draws from the exact unbiased sample-covariance Wishart law.
+- Measured simultaneous covariance, primitive-factor, complete-score, and
+  population-path coverage at five sample scales spanning eight orders.
+- Exposed every candidate-local covariance radius for realized-error audits.
+- Recorded realized-to-theoretical radius ratios, positive-factor eligibility,
+  and retained state and edge fractions in a machine-readable result file.
+- Added Wilson intervals and stated why 64 successful trials cannot precisely
+  validate a nominal 97.5% tail probability.
+- Documented the distinction between marginal Wishart calibration and a shared
+  dependent trajectory ensemble.
+- Added a reproducible two-panel calibration figure and three regression tests.
+
 ## 0.20.0 - 2026-09-08
 
 - Added a positive-factor refinement for Gaussian first-split screening.

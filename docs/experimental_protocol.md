@@ -119,6 +119,44 @@ five times and 35 targets, propagates the resulting errors through the actual
 population score factors, and uses dynamic programming to find the strongest
 error-inflated competing path. Both calculations use confidence `0.95`.
 
+### Gaussian screening calibration
+
+`gaussian_screen_calibration.py` isolates the statistical screening question
+from trajectory simulation cost by drawing unbiased covariance estimates
+directly from their exact Wishart law. For each time, if the population adjacent
+covariance is \(\Sigma_t^{(2)}\), the script draws
+
+\[
+\widehat\Sigma_t^{(2)}
+\sim \frac{1}{N-1}\mathcal W_{14}(N-1,\Sigma_t^{(2)}).
+\]
+
+This is the distribution of the usual unbiased sample covariance from \(N\)
+independent Gaussian observations. Draws at different times are independent in
+this calibration. Cross-time independence is not required by the union-bound
+theorem, but this construction does not reproduce the dependence induced by
+following the same trajectories through every time.
+
+The candidate family is fixed before sampling. It contains the five planted
+three-node boundaries and three declared alternatives, for eight candidates at
+each of five times. No ridge is applied. Exact population eigenvalue envelopes
+are used, so the experiment tests the concentration and perturbation chain; it
+does not test how to estimate those envelopes from data.
+
+The committed run uses 64 seeded trials at each of five sample counts from
+`80,000` through `8,000,000,000,000`, with root `SeedSequence` value `20260908`.
+The large upper counts are computationally feasible because a Wishart matrix is
+drawn directly rather than materializing trillions of observations. They are
+included to locate the point at which the conservative analytical screen begins
+to remove competitors, not to describe a practical data-collection plan.
+
+Each trial records five binary events: simultaneous covariance coverage,
+primitive-factor coverage, complete-score coverage, retention of the population
+maximizer, and validity of every spectral perturbation block. It also records
+the maximum realized-to-theoretical covariance-radius ratio, retained state and
+edge fractions, and the fractions eligible for positive-factor refinement.
+Wilson 95% intervals accompany every binary rate.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -307,6 +345,9 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_factor_aware_screen_contains_randomized_later_winners` | Random factor perturbations and later score errors preserve winner containment in the refined graph |
 | `test_zero_factor_uses_zero_safe_fallback` | A vanishing factor disables the local Lipschitz refinement at that entry without disabling safety |
 | `test_factor_aware_screen_rejects_factors_outside_unit_interval` | Empirical primitive factors must remain inside their mathematical range |
+| `test_calibration_problem_has_declared_population_path` | The calibration model, candidate family, spectra, and exact maximizing path match the documented construction |
+| `test_calibration_trial_is_reproducible_and_in_range` | A fixed Wishart seed reproduces all trial statistics and maintains valid fractions |
+| `test_calibration_aggregation_preserves_events_and_means` | Event rates, Wilson intervals, means, and standard errors are aggregated without changing their meanings |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -364,6 +405,12 @@ Its limitations are concrete:
 22. The positive-factor refinement is sharp only relative to the current
     componentwise factor radii. It does not use covariance direction, factor
     dependence, or cancellation between score components.
+23. The screening calibration has 64 trials per sample count. Zero observed
+    failures therefore gives a Wilson 95% lower endpoint of only `0.943376`,
+    which is below the nominal `0.975` confidence. It is compatible with the
+    theorem but cannot empirically validate a 2.5% tail probability precisely.
+24. Direct Wishart draws reproduce the marginal Gaussian sample-covariance law
+    but not the cross-time dependence of one shared trajectory ensemble.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -394,6 +441,7 @@ python examples/screened_environment_recovery_experiment.py
 python examples/sample_split_screening_experiment.py
 python examples/gaussian_safe_screen_experiment.py
 python examples/factor_aware_screen_experiment.py
+python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```

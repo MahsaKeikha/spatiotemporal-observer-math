@@ -219,6 +219,7 @@ class GaussianSafeNearCompetitorScreen:
     screen: NearCompetitorScreen
     screening_sample_count: int
     screening_confidence: float
+    covariance_spectral_errors: np.ndarray
     maximum_covariance_spectral_error: float
     screening_local_factor_errors: np.ndarray
     screening_transport_factor_errors: np.ndarray
@@ -1024,6 +1025,7 @@ def gaussian_safe_near_competitor_screen(
         screen=screen,
         screening_sample_count=int(screening_sample_count),
         screening_confidence=float(confidence),
+        covariance_spectral_errors=covariance_errors,
         maximum_covariance_spectral_error=float(np.max(covariance_errors)),
         screening_local_factor_errors=local_factor_errors,
         screening_transport_factor_errors=transport_factor_errors,
@@ -1137,6 +1139,7 @@ def gaussian_factor_aware_near_competitor_screen(
         screen=screen,
         screening_sample_count=baseline.screening_sample_count,
         screening_confidence=baseline.screening_confidence,
+        covariance_spectral_errors=baseline.covariance_spectral_errors,
         maximum_covariance_spectral_error=(
             baseline.maximum_covariance_spectral_error
         ),
