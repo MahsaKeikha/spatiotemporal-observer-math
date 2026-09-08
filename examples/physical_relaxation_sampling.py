@@ -21,7 +21,6 @@ from observer_math.physical_relaxation import (
     relaxation_time_from_autocorrelation,
 )
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "docs" / "physical_relaxation_sampling.json"
 
