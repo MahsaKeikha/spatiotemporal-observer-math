@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.25.0 - 2026-09-08
+
+- Proved a covariance-normalized Gaussian screening theorem that propagates a
+  population-whitened relative covariance event through conditional mutual
+  information, canonical persistence, exact structural nulls, complete scores,
+  and the near-competitor graph.
+- Added a simultaneous relative Wishart radius whose formula depends on block
+  dimension, block count, confidence, and sample count, without population
+  eigenvalue-envelope inputs.
+- Implemented the relative structural-null screen and exposed every primitive
+  factor, score, radius, mask, and validity diagnostic through the public API.
+- Added a paired 1,152-trial comparison on the 18-regime grid. Every recorded
+  relative covariance, score, and path event is covered; the normalized screen
+  retains exactly five states and four edges in every trial and regime.
+- Added a four-panel landing-page figure, complete 18-row result table,
+  machine-readable record, protocol, assumption audit, API documentation, and
+  three direct theorem tests.
+
 ## 0.24.0 - 2026-09-08
 
 - Added a fixed 18-regime trajectory-coupled calibration spanning three memory

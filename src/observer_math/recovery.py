@@ -235,6 +235,29 @@ class GaussianSafeNearCompetitorScreen:
     guarantees_safe_screen: bool
 
 
+@dataclass(frozen=True)
+class GaussianRelativeNearCompetitorScreen:
+    """Gaussian screen certified by population-whitened covariance errors."""
+
+    screen: NearCompetitorScreen
+    screening_sample_count: int
+    screening_confidence: float
+    covariance_relative_errors: np.ndarray
+    maximum_covariance_relative_error: float
+    screening_local_factor_errors: np.ndarray
+    screening_transport_factor_errors: np.ndarray
+    screening_local_score_errors: np.ndarray
+    screening_transport_score_errors: np.ndarray
+    total_local_score_errors: np.ndarray
+    total_transport_score_errors: np.ndarray
+    positive_local_factor_floor_mask: np.ndarray
+    positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
+    all_blocks_valid: bool
+    guarantees_safe_screen: bool
+
+
 def componentwise_recovery_bound(
     local_scores: ArrayLike,
     candidates: Sequence[Sequence[int]],
@@ -367,6 +390,32 @@ def gaussian_cmi_covariance_error_bound(
     return float((x_dimension + y_dimension + 2 * given_dimension) * logdet_factor)
 
 
+def gaussian_relative_cmi_covariance_error_bound(
+    x_dimension: int,
+    y_dimension: int,
+    given_dimension: int,
+    *,
+    covariance_relative_error: float,
+) -> float:
+    """Bound Gaussian CMI error on a relative covariance event.
+
+    The event is ``||Sigma^(-1/2) (Sigma_hat-Sigma) Sigma^(-1/2)||_2 <= delta``.
+    Unlike the absolute-error bound, this statement has no population condition
+    number. The result is in bits.
+    """
+    dimensions = (x_dimension, y_dimension, given_dimension)
+    if x_dimension < 1 or y_dimension < 1 or given_dimension < 0:
+        raise ValueError("require positive x/y dimensions and nonnegative given dimension")
+    if any(int(value) != value for value in dimensions):
+        raise ValueError("dimensions must be integers")
+    if not np.isfinite(covariance_relative_error) or not (
+        0.0 <= covariance_relative_error < 1.0
+    ):
+        raise ValueError("covariance_relative_error must lie in [0, 1)")
+    logdet_factor = -np.log1p(-covariance_relative_error) / np.log(2.0)
+    return float((x_dimension + y_dimension + 2 * given_dimension) * logdet_factor)
+
+
 def gaussian_null_cmi_covariance_error_bound(
     canonical_rank: int,
     *,
@@ -445,6 +494,58 @@ def gaussian_null_integration_factor_error_bound(
     return float(min(1.0, 1.0 - 2.0 ** (-directed_bits_per_node)))
 
 
+def gaussian_relative_null_cmi_covariance_error_bound(
+    canonical_rank: int,
+    *,
+    covariance_relative_error: float,
+) -> float:
+    """Bound empirical Gaussian CMI at a population conditional null.
+
+    Schur-complement monotonicity transfers the relative event to the
+    conditional covariance. The resulting conditional canonical correlations
+    are at most ``delta / (1-delta)``. The bound is in bits.
+    """
+    if isinstance(canonical_rank, bool) or not isinstance(
+        canonical_rank, (int, np.integer)
+    ):
+        raise TypeError("canonical_rank must be an integer")
+    if canonical_rank < 1:
+        raise ValueError("canonical_rank must be positive")
+    if not np.isfinite(covariance_relative_error) or not (
+        0.0 <= covariance_relative_error < 1.0
+    ):
+        raise ValueError("covariance_relative_error must lie in [0, 1)")
+    delta = float(covariance_relative_error)
+    canonical_radius = delta / (1.0 - delta)
+    if canonical_radius >= 1.0:
+        return float(np.inf)
+    return float(
+        -canonical_rank
+        * np.log1p(-(canonical_radius**2))
+        / (2.0 * np.log(2.0))
+    )
+
+
+def gaussian_relative_null_integration_factor_error_bound(
+    subset_size: int,
+    *,
+    covariance_relative_error: float,
+) -> float:
+    """Bound an empirical integration factor at a relative-event null."""
+    if isinstance(subset_size, bool) or not isinstance(subset_size, (int, np.integer)):
+        raise TypeError("subset_size must be an integer")
+    if subset_size < 2:
+        raise ValueError("subset_size must be at least two")
+    one_direction = gaussian_relative_null_cmi_covariance_error_bound(
+        subset_size // 2,
+        covariance_relative_error=covariance_relative_error,
+    )
+    if not np.isfinite(one_direction):
+        return 1.0
+    directed_bits_per_node = 2.0 * one_direction / subset_size
+    return float(min(1.0, 1.0 - 2.0 ** (-directed_bits_per_node)))
+
+
 def canonical_persistence_covariance_error_bound(
     *,
     minimum_eigenvalue: float,
@@ -471,6 +572,56 @@ def canonical_persistence_covariance_error_bound(
         + upper * inverse_sqrt_error / np.sqrt(m)
     )
     return float(min(1.0, 2.0 * whitened_error))
+
+
+def canonical_persistence_relative_covariance_error_bound(
+    *, covariance_relative_error: float
+) -> float:
+    """Bound canonical-persistence error on a relative covariance event.
+
+    Separate population whitening makes both marginal covariances identities.
+    The relative joint event bounds each marginal perturbation by ``delta`` and
+    the normalized cross perturbation by ``2 delta``. This bound is therefore
+    independent of the covariance condition number.
+    """
+    if not np.isfinite(covariance_relative_error) or not (
+        0.0 <= covariance_relative_error < 1.0
+    ):
+        raise ValueError("covariance_relative_error must lie in [0, 1)")
+    delta = float(covariance_relative_error)
+    inverse_sqrt_norm = 1.0 / np.sqrt(1.0 - delta)
+    inverse_sqrt_error = inverse_sqrt_norm - 1.0
+    whitened_error = (
+        inverse_sqrt_error * (1.0 + 2.0 * delta) * inverse_sqrt_norm
+        + 2.0 * delta * inverse_sqrt_norm
+        + inverse_sqrt_error
+    )
+    return float(min(1.0, 2.0 * whitened_error))
+
+
+def gaussian_wishart_relative_covariance_error_bound(
+    block_dimension: int,
+    block_count: int,
+    sample_count: int,
+    *,
+    confidence: float = 0.975,
+) -> float:
+    """Return a simultaneous population-whitened Wishart covariance radius."""
+    integer_values = (block_dimension, block_count, sample_count)
+    if any(
+        isinstance(value, bool) or not isinstance(value, (int, np.integer))
+        for value in integer_values
+    ):
+        raise TypeError("dimensions, block count, and sample count must be integers")
+    if block_dimension < 1 or block_count < 1 or sample_count < 2:
+        raise ValueError("require positive dimensions/counts and sample_count >= 2")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0, 1)")
+    deviation = (
+        np.sqrt(block_dimension)
+        + np.sqrt(2.0 * np.log(2.0 * block_count / (1.0 - confidence)))
+    ) / np.sqrt(sample_count - 1)
+    return float(2.0 * deviation + deviation**2)
 
 
 def product_root_error_bound(
@@ -1360,6 +1511,192 @@ def gaussian_structural_null_near_competitor_screen(
         null_local_score_errors=null_errors,
         all_blocks_valid=baseline.all_blocks_valid,
         guarantees_safe_screen=baseline.guarantees_safe_screen,
+    )
+
+
+def _factor_errors_from_relative_covariance(
+    relative_errors: np.ndarray,
+    node_count: int,
+    subset_size: int,
+    *,
+    transport: bool,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Map relative covariance radii to local or transport factor radii."""
+    valid = relative_errors < 1.0
+    factor_count = 2 if transport else 3
+    errors = np.ones((*relative_errors.shape, factor_count), dtype=float)
+    for index in np.ndindex(relative_errors.shape):
+        if not valid[index]:
+            continue
+        delta = float(relative_errors[index])
+        logdet_factor = -np.log1p(-delta) / np.log(2.0)
+        offset = 0
+        if not transport:
+            errors[index][0] = min(1.0, 4.0 * np.log(2.0) * logdet_factor)
+            offset = 1
+        errors[index][offset] = min(
+            1.0,
+            np.log(2.0)
+            * (node_count + 2 * subset_size)
+            / subset_size
+            * logdet_factor,
+        )
+        errors[index][offset + 1] = (
+            canonical_persistence_relative_covariance_error_bound(
+                covariance_relative_error=delta
+            )
+        )
+    return errors, valid
+
+
+def gaussian_relative_structural_null_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    screening_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    structural_integration_null_mask: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianRelativeNearCompetitorScreen:
+    """Screen near competitors using a condition-number-free Wishart event.
+
+    Every candidate block has dimension ``node_count + subset_size``. A union
+    bound supplies one relative covariance radius for all such blocks. Factor
+    errors use relative log-determinant and canonical-correlation perturbation
+    bounds; predeclared integration nulls receive the Schur-complement bound.
+    """
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    null_mask = np.asarray(structural_integration_null_mask)
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    candidate_tuple = tuple(tuple(candidate) for candidate in candidates)
+    if local_factors.ndim != 3 or local_factors.shape[2] != 3:
+        raise ValueError("empirical_local_factors must have shape (time, candidates, 3)")
+    time_count, candidate_count, _ = local_factors.shape
+    edge_shape = (max(0, time_count - 1), candidate_count, candidate_count)
+    if transport_factors.shape != (*edge_shape, 2):
+        raise ValueError(
+            "empirical_transport_factors must have shape "
+            "(time - 1, candidates, candidates, 2)"
+        )
+    if null_mask.shape != (time_count, candidate_count) or null_mask.dtype != np.bool_:
+        raise ValueError("structural_integration_null_mask must be a Boolean state array")
+    if certification_local.shape != (time_count, candidate_count):
+        raise ValueError("certification local errors must match the local scores")
+    if certification_transport.shape != edge_shape:
+        raise ValueError("certification transport errors must match the transport scores")
+    if len(candidate_tuple) != candidate_count or candidate_count < 1 or time_count < 1:
+        raise ValueError("factors and candidates have incompatible shapes")
+    if node_count < 2 or not 1 <= subset_size < node_count:
+        raise ValueError("require 1 <= subset_size < node_count")
+    if any(
+        len(candidate) != subset_size
+        or len(set(candidate)) != subset_size
+        or min(candidate) < 0
+        or max(candidate) >= node_count
+        for candidate in candidate_tuple
+    ):
+        raise ValueError("candidates must contain distinct valid nodes of subset_size")
+    arrays = (
+        local_factors,
+        transport_factors,
+        certification_local,
+        certification_transport,
+    )
+    if any(np.any(~np.isfinite(array)) for array in arrays):
+        raise ValueError("factors and certification errors must be finite")
+    if (
+        np.any((local_factors < 0.0) | (local_factors > 1.0))
+        or np.any((transport_factors < 0.0) | (transport_factors > 1.0))
+        or np.any(certification_local < 0.0)
+        or np.any(certification_transport < 0.0)
+    ):
+        raise ValueError("factors must lie in [0, 1] and errors must be nonnegative")
+
+    block_count = time_count * candidate_count
+    delta = gaussian_wishart_relative_covariance_error_bound(
+        node_count + subset_size,
+        block_count,
+        screening_sample_count,
+        confidence=confidence,
+    )
+    relative_errors = np.full((time_count, candidate_count), delta)
+    local_factor_errors, valid_local = _factor_errors_from_relative_covariance(
+        relative_errors, node_count, subset_size, transport=False
+    )
+    edge_relative_errors = np.broadcast_to(relative_errors[:-1, None, :], edge_shape)
+    transport_factor_errors, valid_transport = _factor_errors_from_relative_covariance(
+        edge_relative_errors, node_count, subset_size, transport=True
+    )
+
+    local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
+    transport_scores = np.sqrt(np.prod(transport_factors, axis=3))
+    local_errors = np.empty((time_count, candidate_count), dtype=float)
+    for index in np.ndindex(local_errors.shape):
+        local_errors[index] = product_root_error_bound(
+            local_factors[index], local_factor_errors[index]
+        )
+    transport_errors = np.empty(edge_shape, dtype=float)
+    for index in np.ndindex(edge_shape):
+        transport_errors[index] = product_root_error_bound(
+            transport_factors[index], transport_factor_errors[index]
+        )
+    local_floor_mask = np.all(local_factors - local_factor_errors > 0.0, axis=2)
+    transport_floor_mask = np.all(
+        transport_factors - transport_factor_errors > 0.0, axis=3
+    )
+
+    null_errors = np.ones((time_count, candidate_count), dtype=float)
+    for index in zip(*np.nonzero(null_mask), strict=True):
+        if delta < 1.0:
+            integration_error = gaussian_relative_null_integration_factor_error_bound(
+                subset_size, covariance_relative_error=delta
+            )
+            quadratic_score_error = integration_error ** (1.0 / 3.0)
+        else:
+            quadratic_score_error = 1.0
+        null_errors[index] = min(local_scores[index], quadratic_score_error)
+        local_errors[index] = min(local_errors[index], null_errors[index])
+
+    total_local_errors = local_errors + certification_local
+    total_transport_errors = transport_errors + certification_transport
+    screen = screen_near_competitors(
+        local_scores,
+        transport_scores,
+        candidate_tuple,
+        total_local_errors,
+        total_transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    all_valid = bool(np.all(valid_local) and np.all(valid_transport))
+    return GaussianRelativeNearCompetitorScreen(
+        screen=screen,
+        screening_sample_count=int(screening_sample_count),
+        screening_confidence=float(confidence),
+        covariance_relative_errors=relative_errors,
+        maximum_covariance_relative_error=delta,
+        screening_local_factor_errors=local_factor_errors,
+        screening_transport_factor_errors=transport_factor_errors,
+        screening_local_score_errors=local_errors,
+        screening_transport_score_errors=transport_errors,
+        total_local_score_errors=total_local_errors,
+        total_transport_score_errors=total_transport_errors,
+        positive_local_factor_floor_mask=local_floor_mask,
+        positive_transport_factor_floor_mask=transport_floor_mask,
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=null_errors,
+        all_blocks_valid=all_valid,
+        guarantees_safe_screen=all_valid,
     )
 
 

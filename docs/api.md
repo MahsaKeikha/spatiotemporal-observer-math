@@ -960,6 +960,52 @@ The primitive public functions
 `gaussian_null_integration_factor_error_bound` expose the intermediate
 quadratic calculation for direct inspection.
 
+### Covariance-normalized Gaussian screen
+
+```python
+from observer_math import gaussian_relative_structural_null_near_competitor_screen
+
+relative = gaussian_relative_structural_null_near_competitor_screen(
+    empirical_local_factors,
+    empirical_transport_factors,
+    candidates,
+    screening_sample_count,
+    node_count,
+    subset_size,
+    structural_integration_null_mask=predeclared_null_mask,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+This Proposition 37 entry point has the same factor shapes, structural-null
+premise, score construction, certification budgets, and near-competitor output
+as the absolute structural-null screen. It does not accept population minimum
+or maximum eigenvalue arrays. Instead it constructs a simultaneous Wishart
+radius for
+`||Sigma^(-1/2) (Sigma_hat - Sigma) Sigma^(-1/2)||_2` from the block dimension,
+block count, sample count, and confidence.
+
+`covariance_relative_errors` reports the candidate-local relative radii and
+`maximum_covariance_relative_error` reports their maximum. Primitive factor and
+complete-score radii remain available through the corresponding `screening_*`
+arrays. `all_blocks_valid` requires the relative radius to be below one.
+
+The supporting scalar functions are:
+
+- `gaussian_wishart_relative_covariance_error_bound`
+- `gaussian_relative_cmi_covariance_error_bound`
+- `canonical_persistence_relative_covariance_error_bound`
+- `gaussian_relative_null_cmi_covariance_error_bound`
+- `gaussian_relative_null_integration_factor_error_bound`
+
+Population whitening defines the concentration event and its proof; callers do
+not estimate or supply a whitening matrix. The guarantee still assumes fixed
+positive-definite Gaussian candidate blocks and independent trajectories across
+the sample index. Any data-adaptive candidate or null selection needs separate
+protection.
+
 ### Independent sample-split certification
 
 ```python

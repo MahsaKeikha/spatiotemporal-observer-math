@@ -28,6 +28,7 @@ read before applying a certificate to a new model or dataset.
 | Assumption | Used for | If it fails |
 | --- | --- | --- |
 | Every covariance error is below its eigenvalue floor | Propositions 7 and 8 | Positive definiteness and the reported perturbation constants are not guaranteed |
+| Every normalized covariance radius satisfies \(\delta<1\) | Proposition 37 | The relative log-determinant and inverse-square-root bounds are not finite; the screen must return to a trivial radius |
 | Local and transport covariance envelopes are kept separate | Propositions 26 through 31 | Edge errors may be underestimated when class geometry changes across time |
 | Factor intervals contain every member componentwise | Proposition 28 | The class-level action bounds need not cover an omitted member |
 | Representative residual balls contain every population member | Proposition 29 | Derived factor intervals are not valid for the class |
@@ -55,9 +56,11 @@ read before applying a certificate to a new model or dataset.
 | Empirical primitive factors and score centers are computed consistently | Proposition 34 | A factor-aware radius need not bound the supplied score |
 | Positive-factor refinement is used only where every empirical factor lower endpoint is strictly positive | Proposition 34 | The local Lipschitz denominator can cross its singular boundary; the zero-safe fallback is required |
 | Every structural integration null is exact and its mask is fixed independently of the screening observations | Proposition 35 | The quadratic boundary radius can understate the local-score error and the safe-screen guarantee is invalid |
-| Wishart calibration uses exact population covariance matrices | Experiments S, U, and V | It cannot validate spectral envelopes estimated from the same observations |
-| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Proposition 36 and Experiments U and V | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
+| Wishart calibration uses exact population covariance matrices | Experiments S, U, V, and W | It cannot validate envelopes estimated from the same observations |
+| Complete trajectories are independent across the sample index; dependence within each trajectory is allowed | Propositions 36 and 37 and Experiments U through W | The Wishart law and nominal screening confidence do not apply to overlapping windows treated as independent samples |
 | Multi-regime axes and action weights are fixed before inspecting outcomes | Experiment V | The grid becomes an adaptive illustration rather than a predeclared sensitivity check |
+| Relative candidate blocks, confidence, and dimensions are fixed before screening | Proposition 37 and Experiment W | The simultaneous relative Wishart event may not cover adaptively introduced blocks |
+| Population whitening is used to state and audit the event, not estimated and silently reused | Proposition 37 | Reusing a data-dependent whitening map requires separate concentration or sample splitting |
 | Candidate screening is fixed independently of certification data | Reduced union bounds | Post-selection coverage is not guaranteed |
 | The first-stage screen has a proved safety probability | Proposition 32, supplied by Proposition 33 in the Gaussian construction | Combined confidence cannot be inferred from sample counts alone |
 | The retained block count is a deterministic upper bound for every realized screen | Proposition 32 | The second-stage union bound can undercount tested blocks |

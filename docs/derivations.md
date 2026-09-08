@@ -970,7 +970,53 @@ coverage statement is unchanged. Experiment U checks the complete chain under
 this coupled construction and separately records a cross-time dependence
 diagnostic.
 
-## 32. Choices that are still choices
+## 32. Relative covariance geometry
+
+The absolute event \(\|\widehat\Gamma-\Gamma\|_2\leq\eta\) becomes weak when
+one global \(\eta\) is divided by a small eigenvalue that belongs to a direction
+irrelevant to a particular score. Proposition 37 instead starts from
+
+\[
+\left\|\Gamma^{-1/2}(\widehat\Gamma-\Gamma)
+\Gamma^{-1/2}\right\|_2\leq\delta.
+\]
+
+This is a statement in the intrinsic covariance metric. It is unchanged by an
+invertible linear change of coordinates and is exactly the event obtained by
+applying Gaussian singular-value concentration after population whitening.
+For \(B\) candidate blocks of common dimension \(d=n+s\), the implemented
+radius is
+
+\[
+\delta_N=2a_N+a_N^2,
+\qquad
+a_N=\frac{\sqrt d+\sqrt{2\log(2B/\alpha)}}{\sqrt{N-1}}.
+\]
+
+The information-factor calculation replaces every occurrence of
+\(-\log_2(1-\eta/m)\) by \(-\log_2(1-\delta_N)\). Canonical persistence uses
+the separately whitened joint covariance. Its normalized marginal errors are
+at most \(\delta_N\), while its cross error is at most \(2\delta_N\); expanding
+the two inverse square roots yields the explicit \(D_\delta\) in Proposition
+37. These bounds feed the existing geometric-mean calculation without changing
+the path objective or dynamic program.
+
+At a declared conditional-independence null, Schur-complement monotonicity is
+stronger. The conditional covariance inherits the same multiplicative
+sandwich. After conditional whitening, its empirical cross block has norm at
+most \(\delta_N\) and its two marginal floors are at least
+\(1-\delta_N\). The resulting canonical radius
+\(\delta_N/(1-\delta_N)\) retains the quadratic null-information behavior while
+removing \(m\) and \(M\) from the formula.
+
+The resulting certificate is condition-number-free, not assumption-free. It
+still requires positive-definite Gaussian candidate blocks, independent
+complete trajectories across the sample index, a fixed finite candidate
+family, and a structural-null mask justified without the screening draw.
+Experiment W compares this geometry with the absolute spectral certificate on
+paired samples.
+
+## 33. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

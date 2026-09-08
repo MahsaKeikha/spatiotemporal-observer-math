@@ -33,10 +33,13 @@ Experiment U cover independent complete trajectories with their correct
 cross-time dependence. Experiment V adds an 18-cell memory, coupling, and
 conditioning grid. It exposes a concrete source of looseness: noise anisotropy
 can enlarge the population action margin while weakening the screen through a
-smaller candidate-local eigenvalue floor. The next mathematical check is a
-directional covariance bound that retains more information than one spectral
-radius. A separate treatment is still needed for overlapping windows from one
-long dependent time series.
+smaller candidate-local eigenvalue floor. Proposition 37 now replaces that
+absolute spectral event by a population-whitened relative event and propagates
+it through information, canonical persistence, structural nulls, and the
+complete screen. Experiment W records paired coverage on the same grid and
+removes the observed conditioning penalty. The next statistical task is an
+observable or cross-fitted analogue of this geometry, followed by a separate
+treatment of overlapping windows from one long dependent time series.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -116,9 +119,11 @@ mask; correcting them leaves 28 exact nulls and preserves the guarantee.
 Proposition 36 proves that shared complete trajectories do not require
 independence across time for the union-bound screen. Experiment V extends that
 calibration across 18 fixed signal regimes and separates population margin from
-spectral conditioning. The next priority is directional covariance perturbation
-and independently justified structural masks without losing post-selection
-validity.
+spectral conditioning. Proposition 37 resolves that specific global-conditioning
+artifact with a relative covariance theorem, and Experiment W verifies the full
+paired chain on the same regimes. The next priority is observable adaptive
+normalization and independently justified structural masks without losing
+post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

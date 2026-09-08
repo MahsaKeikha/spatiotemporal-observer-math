@@ -2420,15 +2420,120 @@ one trajectory may be dependent and, in a dynamical model, normally are. It
 does not justify treating overlapping windows from one long dependent record as
 independent trajectories.
 
+## Proposition 37: covariance-normalized Gaussian screening
+
+Let Γ be a positive-definite covariance and let
+\(\widehat\Gamma=\Gamma+E\). Suppose
+
+\[
+\delta=\left\|\Gamma^{-1/2}E\Gamma^{-1/2}\right\|_2<1.
+\]
+
+Then the following statements hold.
+
+1. For Gaussian vectors \(X,Y,Z\) contained in Γ,
+
+   \[
+   \left|\widehat I(X;Y\mid Z)-I(X;Y\mid Z)\right|
+   \leq (d_X+d_Y+2d_Z)\{-\log_2(1-\delta)\}.
+   \]
+
+2. If \(P\) is mean squared canonical correlation between two blocks, put
+
+   \[
+   q=(1-\delta)^{-1/2}-1,
+   \qquad
+   D_\delta=
+   \frac{q(1+2\delta)}{\sqrt{1-\delta}}
+   +\frac{2\delta}{\sqrt{1-\delta}}+q.
+   \]
+
+   Then \(|\widehat P-P|\leq\min(1,2D_\delta)\).
+
+3. If \(I(X;Y\mid Z)=0\), the empirical partial canonical correlations are at
+   most \(r_\delta=\delta/(1-\delta)\). Consequently, when
+   \(r_\delta<1\),
+
+   \[
+   \widehat I(X;Y\mid Z)
+   \leq -\frac{r}{2}\log_2(1-r_\delta^2),
+   \qquad r=\min(d_X,d_Y).
+   \]
+
+For \(B\) fixed candidate blocks of dimension \(d\), the centered sample
+covariances of \(N\) independent Gaussian trajectories satisfy all these
+relative events simultaneously with probability at least \(1-\alpha\) when
+
+\[
+a_N=\frac{\sqrt d+\sqrt{2\log(2B/\alpha)}}{\sqrt{N-1}},
+\qquad
+\delta_N=2a_N+a_N^2<1.
+\]
+
+Replacing the absolute covariance radii in Propositions 33--35 by
+\(\delta_N\), and propagating the three bounds above through the same
+factor-aware and forward-backward calculations, therefore gives a safe
+near-competitor screen with confidence at least \(1-\alpha\). Its radii do not
+contain a population minimum eigenvalue or condition number.
+
+**Proof.** The relative event is equivalent to the Loewner sandwich
+
+\[
+(1-\delta)\Gamma\preceq\widehat\Gamma
+\preceq(1+\delta)\Gamma.
+\]
+
+Every principal block inherits this sandwich. Each log determinant of a
+\(k\)-dimensional principal block therefore changes by at most
+\(k\{-\log(1-\delta)\}\). Applying this to the four-determinant expression for
+conditional mutual information proves part 1.
+
+For part 2, separately whiten the two population marginals. Canonical
+correlations are unchanged by these invertible coordinate maps. The population
+joint covariance is then
+
+\[
+K=\begin{bmatrix}I&R\\R^\mathsf T&I\end{bmatrix},
+\qquad \|R\|_2\leq1,
+\]
+
+so \(\|K\|_2\leq2\). The two marginal perturbations have norm at most
+\(\delta\), while the normalized cross-block perturbation has norm at most
+\(2\delta\). Thus each perturbed inverse square root has norm at most
+\((1-\delta)^{-1/2}\) and differs from identity by at most \(q\). Expanding the
+perturbed whitened cross covariance gives
+\(\|\widehat R-R\|_2\leq D_\delta\). The Frobenius argument in Proposition 8
+then gives the factor \(2D_\delta\).
+
+For part 3, Schur complements are monotone under Loewner order and homogeneous
+under scalar multiplication. The conditional covariance of \((X,Y)\) given
+\(Z\) therefore inherits the same relative sandwich. At the null, separate
+conditional whitening makes its population value \(\operatorname{diag}(I,I)\).
+The perturbed conditional cross block has norm at most \(\delta\), and both
+conditional marginal eigenvalue floors are at least \(1-\delta\). Hence every
+partial canonical correlation is at most \(\delta/(1-\delta)\), and the
+Gaussian canonical-correlation formula proves the information bound.
+
+Finally, Gaussian singular-value concentration applied after population
+whitening gives eigenvalues of each sample covariance in
+\([(1-a_N)^2,(1+a_N)^2]\). Its spectral displacement from identity is at most
+\(2a_N+a_N^2\). A union bound over the \(B\) fixed blocks does not require
+independence between them. The deterministic score and graph arguments of
+Propositions 34 and 35 complete the screen. \(\square\)
+
+The normalization changes the theorem, not the data. It does not assume that a
+population whitening matrix is known to the algorithm; whitening appears only
+in the proof event. The candidate family and any structural-null mask must
+still be fixed independently of the screening observations.
+
 ## Open conjectures
 
-### C1. Empirically calibrated adaptive screening
+### C1. Data-adaptive covariance geometry
 
-Propositions 33 and 34 prove first-split safety using simultaneous Gaussian
-covariance bounds, with positive-factor refinement where it is certified. The
-unresolved problem is to measure actual coverage and graph reduction across
-signal regimes, then derive sharper directional or self-normalized radii without
-invalidating post-selection coverage.
+Proposition 37 removes the global spectral condition-number penalty through a
+population-normalized event. The unresolved problem is to obtain similarly
+sharp, observable or cross-fitted directional radii without invalidating
+post-selection coverage.
 
 ### C2. Gauge-consistent quantum lift
 

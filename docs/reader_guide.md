@@ -152,8 +152,12 @@ trajectory covariance at once, preserves cross-time dependence, and again
 records complete coverage in 128 trials per scale. Experiment V then repeats the
 coupled audit across 18 fixed memory, coupling, and conditioning regimes. It
 shows that spectral conditioning, not only population separation, controls how
-selective the analytical screen becomes. Directional covariance refinements
-and higher-precision tail checks near the weakest regimes are the next steps.
+selective the analytical screen becomes. Proposition 37 replaces the absolute
+radius with a covariance-normalized event, and Experiment W compares the two
+certificates on paired draws. In this grid the normalized screen removes the
+observed conditioning penalty and isolates the five-state/four-edge population
+tube. Observable adaptive normalization and higher-precision tail checks are
+the next steps.
 
 Proposition 35 addresses the exact-zero part of this bottleneck. A structural
 integration null fixed before screening yields a quadratic information bound

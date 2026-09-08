@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 103 tests. Continuous integration runs
+The automated suite currently contains 106 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -848,9 +848,71 @@ The complete record, including all Wilson intervals, standard errors, spectra,
 and generic-screen comparisons, is stored in
 [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json).
 
+## Experiment W: covariance-normalized screening
+
+Command used for the committed result:
+
+```bash
+python examples/relative_covariance_calibration.py --trials 64 --jobs 6
+```
+
+This experiment returns to the same 18 fixed regimes, sample budget, candidate
+family, action weights, and exact structural-null masks as Experiment V. For
+each seed, one full 42-dimensional Wishart covariance is used by both screens.
+The comparison is therefore paired: only the perturbation geometry changes.
+The absolute screen uses \(\|\widehat\Gamma-\Gamma\|_2\); the relative screen
+uses the population-whitened event in Proposition 37.
+
+![Absolute and covariance-normalized screening comparison](relative_covariance_calibration.png)
+
+| Memory | \(\kappa(Q)\) | \(\beta\) | Absolute states | Relative states | Absolute edges | Relative edges |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| short | `1` | `0.10` | `37.5%` | `12.5%` | `10.2%` | `1.6%` |
+| short | `1` | `0.18` | `32.5%` | `12.5%` | `7.4%` | `1.6%` |
+| short | `1` | `0.26` | `27.5%` | `12.5%` | `5.1%` | `1.6%` |
+| short | `9` | `0.10` | `92.5%` | `12.5%` | `35.2%` | `1.6%` |
+| short | `9` | `0.18` | `72.5%` | `12.5%` | `25.0%` | `1.6%` |
+| short | `9` | `0.26` | `60.0%` | `12.5%` | `18.8%` | `1.6%` |
+| baseline | `1` | `0.10` | `50.0%` | `12.5%` | `16.8%` | `1.6%` |
+| baseline | `1` | `0.18` | `37.5%` | `12.5%` | `10.5%` | `1.6%` |
+| baseline | `1` | `0.26` | `35.0%` | `12.5%` | `9.4%` | `1.6%` |
+| baseline | `9` | `0.10` | `100.0%` | `12.5%` | `63.7%` | `1.6%` |
+| baseline | `9` | `0.18` | `95.0%` | `12.5%` | `41.8%` | `1.6%` |
+| baseline | `9` | `0.26` | `92.5%` | `12.5%` | `37.5%` | `1.6%` |
+| long | `1` | `0.10` | `82.5%` | `12.5%` | `33.2%` | `1.6%` |
+| long | `1` | `0.18` | `45.0%` | `12.5%` | `12.9%` | `1.6%` |
+| long | `1` | `0.26` | `37.5%` | `12.5%` | `10.9%` | `1.6%` |
+| long | `9` | `0.10` | `100.0%` | `12.5%` | `87.5%` | `1.6%` |
+| long | `9` | `0.18` | `100.0%` | `12.5%` | `53.9%` | `1.6%` |
+| long | `9` | `0.26` | `95.0%` | `12.5%` | `43.0%` | `1.6%` |
+
+The simultaneous relative radius is `0.0000507707` in every cell because its
+formula depends on block dimension, block count, confidence, and sample count,
+not on the population covariance spectrum. The corresponding absolute radius
+divided by the local minimum eigenvalue ranges from `0.000584` to `0.001506`.
+The mean largest observed relative error is between `49.5%` and `51.0%` of its
+allowed radius.
+
+All relative covariance, complete-score, population-path retention, and
+valid-radius events hold in all 1,152 paired trials. As in Experiment V, 64
+successes in one cell have Wilson 95% interval `[0.943376, 1.000000]`; this is a
+consistency check, not a precise estimate of the nominal tail probability.
+
+At this sample budget the normalized screen retains exactly the five states and
+four edges of the population path in every trial and regime: `12.5%` of 40
+candidate-times and `1.5625%` of 256 candidate-edges. The result explains the
+conditioning sensitivity in Experiment V as a feature of the absolute
+certificate rather than a change in the population action alone. It does not
+show that covariance conditioning is irrelevant to estimation generally, nor
+does it remove the Gaussian, fixed-candidate, or declared-null assumptions.
+
+The complete record, including paired standard errors, Wilson intervals, and
+radius diagnostics, is stored in
+[`relative_covariance_calibration.json`](relative_covariance_calibration.json).
+
 ## Required next controls
 
-- higher-precision tail calibration targeted near the weakest spectral regimes
+- higher-precision tail calibration targeted near the relative-event threshold
 - structural-null checks derived from model restrictions or an independent
   selection stage, including deliberate false-null stress tests
 - random, shuffled, and adversarial moving-boundary nulls

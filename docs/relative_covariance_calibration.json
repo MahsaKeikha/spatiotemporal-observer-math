@@ -1,0 +1,765 @@
+{
+  "seed": 20260912,
+  "trials_per_regime": 64,
+  "sample_count": 80000000000,
+  "nominal_screening_confidence": 0.975,
+  "comparison": "paired absolute-spectral and population-whitened relative screens",
+  "records": [
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.1208405064340985,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532969,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.4997586983533716,
+      "standard_error_maximum_relative_radius_ratio": 0.004527300581836691,
+      "mean_absolute_state_fraction": 0.375,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.1015625,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.14298697271530791,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532981,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5045122811400435,
+      "standard_error_maximum_relative_radius_ratio": 0.003893490591332578,
+      "mean_absolute_state_fraction": 0.325,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.07421875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.15792037392122693,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532974,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5075667143808342,
+      "standard_error_maximum_relative_radius_ratio": 0.005054215370405603,
+      "mean_absolute_state_fraction": 0.27499999999999997,
+      "standard_error_absolute_state_fraction": 6.993747673752627e-18,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.05078125,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.16435352704091777,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0008345374997358759,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5096923014752119,
+      "standard_error_maximum_relative_radius_ratio": 0.004551069263340352,
+      "mean_absolute_state_fraction": 0.9249999999999999,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.3515625,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.1838204850328291,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0007264244029899344,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5056432152581661,
+      "standard_error_maximum_relative_radius_ratio": 0.00450102592918635,
+      "mean_absolute_state_fraction": 0.7249999999999999,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.25,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "short",
+      "base_memory": 0.12,
+      "active_memory": 0.28,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.19755312505983968,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0007167421101913997,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5063554118968012,
+      "standard_error_maximum_relative_radius_ratio": 0.004661084796609224,
+      "mean_absolute_state_fraction": 0.6,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.1875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.10089152041096305,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532978,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5067832656075766,
+      "standard_error_maximum_relative_radius_ratio": 0.004484151812168897,
+      "mean_absolute_state_fraction": 0.5,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.16796875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.12642086122841634,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532987,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5085882931632767,
+      "standard_error_maximum_relative_radius_ratio": 0.005108568010192843,
+      "mean_absolute_state_fraction": 0.375,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.10546875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.1393823272570176,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532978,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5017612139202364,
+      "standard_error_maximum_relative_radius_ratio": 0.004590091773826863,
+      "mean_absolute_state_fraction": 0.35000000000000003,
+      "standard_error_absolute_state_fraction": 6.993747673752627e-18,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.09375,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.145294315120728,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.001196467724599316,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5017604709608484,
+      "standard_error_maximum_relative_radius_ratio": 0.005172308521523293,
+      "mean_absolute_state_fraction": 1.0,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.63671875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.1722332879478341,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0009668765284622248,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.4991404541235361,
+      "standard_error_maximum_relative_radius_ratio": 0.00474243209227343,
+      "mean_absolute_state_fraction": 0.9500000000000001,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.41796875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "baseline",
+      "base_memory": 0.32,
+      "active_memory": 0.46,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.18244374674506525,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0008474571787667598,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5057248431738988,
+      "standard_error_maximum_relative_radius_ratio": 0.003958645582371712,
+      "mean_absolute_state_fraction": 0.9249999999999999,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.375,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.1,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.08319588683793988,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532989,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5037152677391722,
+      "standard_error_maximum_relative_radius_ratio": 0.0050342528650165015,
+      "mean_absolute_state_fraction": 0.8250000000000001,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.33203125,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.18,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.11319828294649859,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532983,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5064003295010899,
+      "standard_error_maximum_relative_radius_ratio": 0.004890097266985075,
+      "mean_absolute_state_fraction": 0.45000000000000007,
+      "standard_error_absolute_state_fraction": 6.993747673752627e-18,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.12890625,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.26,
+      "noise_condition": 1.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.12762625543252182,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0005838626399532973,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5028984754443555,
+      "standard_error_maximum_relative_radius_ratio": 0.004626064428865921,
+      "mean_absolute_state_fraction": 0.375,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.109375,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.1,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.11963378399563984,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.001505650942758981,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.4948056274302851,
+      "standard_error_maximum_relative_radius_ratio": 0.004678886583933064,
+      "mean_absolute_state_fraction": 1.0,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.18,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.1538746007526055,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0012014122572982541,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.49856055933774157,
+      "standard_error_maximum_relative_radius_ratio": 0.005211966596182053,
+      "mean_absolute_state_fraction": 1.0,
+      "standard_error_absolute_state_fraction": 0.0,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.5390625,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    },
+    {
+      "memory_label": "long",
+      "base_memory": 0.52,
+      "active_memory": 0.66,
+      "internal_coupling": 0.26,
+      "noise_condition": 9.0,
+      "sample_count": 80000000000,
+      "trial_count": 64,
+      "population_action_margin": 0.17295087462408154,
+      "relative_radius": 5.077066434376502e-05,
+      "absolute_radius_to_minimum_ratio": 0.0010308284755581874,
+      "relative_covariance_covered_rate": 1.0,
+      "relative_covariance_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_score_covered_rate": 1.0,
+      "relative_score_covered_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_path_retained_rate": 1.0,
+      "relative_path_retained_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "relative_blocks_valid_rate": 1.0,
+      "relative_blocks_valid_wilson_95": [
+        0.9433759402071946,
+        1.0
+      ],
+      "mean_maximum_relative_radius_ratio": 0.5085269852837737,
+      "standard_error_maximum_relative_radius_ratio": 0.005076411236644,
+      "mean_absolute_state_fraction": 0.9500000000000001,
+      "standard_error_absolute_state_fraction": 1.3987495347505254e-17,
+      "mean_relative_state_fraction": 0.125,
+      "standard_error_relative_state_fraction": 0.0,
+      "mean_absolute_edge_fraction": 0.4296875,
+      "standard_error_absolute_edge_fraction": 0.0,
+      "mean_relative_edge_fraction": 0.015625,
+      "standard_error_relative_edge_fraction": 0.0
+    }
+  ]
+}

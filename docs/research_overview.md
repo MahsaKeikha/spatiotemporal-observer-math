@@ -95,7 +95,9 @@ The mathematical development is cumulative:
 7. independent sample splitting separates data-dependent screening from final
    certification;
 8. boundary-adaptive bounds improve the screen when a zero integration factor
-   is known structurally rather than inferred from the same data.
+   is known structurally rather than inferred from the same data;
+9. covariance-normalized concentration removes the global eigenvalue-floor
+   penalty while preserving the same end-to-end screen guarantee.
 
 Each arrow in this chain carries explicit assumptions. The
 [assumption ledger](assumption_ledger.md) records what fails if any one of them
@@ -163,6 +165,7 @@ necessary conditions.
 | 34 | [Positive-factor refinement of Gaussian screening](proofs_and_conjectures.md#proposition-34-positive-factor-refinement-of-gaussian-screening) | Empirical factors with positive lower endpoints receive sharper local Lipschitz radii. |
 | 35 | [Structural-null screening at the score boundary](proofs_and_conjectures.md#proposition-35-structural-null-screening-at-the-score-boundary) | A predeclared exact integration null receives a quadratic boundary bound and a safe, tighter state radius. |
 | 36 | [Trajectory-coupled Gaussian screening safety](proofs_and_conjectures.md#proposition-36-trajectory-coupled-gaussian-screening-safety) | Marginal Wishart bounds and simultaneous screening remain valid when all times come from the same independent trajectories. |
+| 37 | [Covariance-normalized Gaussian screening](proofs_and_conjectures.md#proposition-37-covariance-normalized-gaussian-screening) | A population-whitened Wishart event controls CMI, canonical persistence, structural nulls, and the complete screen without a covariance condition-number factor. |
 
 ## Experiment index
 
@@ -193,6 +196,7 @@ Exact commands, parameters, tables, and qualifications are in
 | T | [Structural-null boundary screen](reproducible_results.md#experiment-t-structural-null-boundary-screening) | At \(8\times10^{10}\) observations, the corrected 28-state null mask reduces the safe graph from 40 states/231 edges to 15 states/27 edges while retaining the population path. |
 | U | [Trajectory-coupled Gaussian screening calibration](reproducible_results.md#experiment-u-trajectory-coupled-gaussian-screening-calibration) | One full 42-dimensional Wishart draw preserves cross-time dependence; all declared events are covered in 128 trials at each of five scales. |
 | V | [Multi-regime trajectory-coupled calibration](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration) | Across 18 declared memory, coupling, and conditioning regimes, all four screening events are covered in 1,152 trials; selectivity varies from 5.1% to 87.5% of edges retained. |
+| W | [Covariance-normalized screening](reproducible_results.md#experiment-w-covariance-normalized-screening) | On 1,152 paired draws, the relative certificate covers every recorded event and retains exactly the five-state/four-edge population tube in all 18 regimes. |
 
 These are controlled synthetic calculations. Large combinatorial counts show
 that the compressed certificate does not enumerate candidates; they do not by
@@ -244,6 +248,17 @@ finite-horizon perturbation certificate.
 
 ### Statistical screening
 
+[![Absolute and covariance-normalized screening comparison](relative_covariance_calibration.png)](reproducible_results.md#experiment-w-covariance-normalized-screening)
+
+The paired heat maps hold the data, model, sample budget, and structural-null
+mask fixed. The left panels show the condition-sensitive absolute certificate;
+the right panels show the Proposition 37 relative certificate. In this grid the
+relative calculation retains only the population path in every trial.
+
+[Complete paired table](reproducible_results.md#experiment-w-covariance-normalized-screening) ·
+[machine-readable results](relative_covariance_calibration.json) ·
+[proof and assumptions](proofs_and_conjectures.md#proposition-37-covariance-normalized-gaussian-screening)
+
 [![Multi-regime trajectory-coupled calibration](multi_regime_coupled_calibration.png)](reproducible_results.md#experiment-v-multi-regime-trajectory-coupled-calibration)
 
 The regime map puts population separation and finite-sample screen usefulness
@@ -283,8 +298,8 @@ exact.
 | --- | --- | --- |
 | Can the declared finite path objective be optimized exactly? | Yes, including its exact runner-up and margin. | Exact algorithmic result |
 | Can bounded score perturbations be converted into path recovery? | Yes, globally, locally, and through class-compressed adversarial path bounds. | Deterministic theorem |
-| Can covariance error be propagated through CMI and canonical correlation? | Yes, with explicit spectral conditions and constants. | Deterministic theorem |
-| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories and declared spectral envelopes. | Statistical theorem; conservative |
+| Can covariance error be propagated through CMI and canonical correlation? | Yes, under either absolute spectral or covariance-normalized relative events, with explicit constants. | Deterministic theorem |
+| Can a complete finite-sample confidence statement be made? | Yes for independent Gaussian trajectories. Proposition 37 avoids declared spectral envelopes by using a relative Wishart event. | Statistical theorem; conservative |
 | Can data-dependent screening be certified? | Yes with an independently sampled certification stage. | Statistical theorem |
 | Can exact structural zeros improve the difficult score-boundary rate? | Yes. The local-score error improves from the generic \(N^{-1/6}\) boundary rate to \(N^{-1/3}\) under a correct predeclared null. | Proposition 35 |
 | Does the score identify a unique boundary in every model? | No. Exchangeable models give a proved non-identifiability counterexample. | Impossibility theorem |
@@ -311,11 +326,11 @@ the guarantee. A regression test contains that false-null counterexample.
 
 | Check | Recorded result | Follow the evidence |
 | --- | --- | --- |
-| Automated tests | 103 of 103 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
+| Automated tests | 106 of 106 pass | [Claim-level test index](experimental_protocol.md#9-tests-tied-to-scientific-claims), [`tests`](../tests) |
 | Static analysis | Ruff reports no violations | [Continuous-integration workflow](../.github/workflows/test.yml) |
 | Supported CI runtimes | Python 3.10, 3.11, and 3.12 | [Project configuration](../pyproject.toml) |
-| Reproducible experiments | 22 documented studies, A through V | [Commands and exact outputs](reproducible_results.md) |
-| Committed result figures | 9 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
+| Reproducible experiments | 23 documented studies, A through W | [Commands and exact outputs](reproducible_results.md) |
+| Committed result figures | 10 script-generated PNG figures | [Figure-generation protocol](experimental_protocol.md#8-what-the-figures-show) |
 
 The test count is a software verification record, not a measure of scientific
 truth. The tests check identities, bound containment, optimizer invariants,
@@ -335,7 +350,7 @@ python -m ruff check .
 Then run the newest calculation:
 
 ```bash
-python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
+python examples/relative_covariance_calibration.py --trials 64 --jobs 6
 ```
 
 The audit trail is organized as follows:
@@ -352,14 +367,15 @@ The audit trail is organized as follows:
 | Core implementation | [`src/observer_math`](../src/observer_math) |
 | Claim-level regression tests | [`tests`](../tests) |
 | Executable studies | [`examples`](../examples) |
-| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json) |
+| Machine-readable calibration data | [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json), [`trajectory_coupled_screen_calibration.json`](trajectory_coupled_screen_calibration.json), [`multi_regime_coupled_calibration.json`](multi_regime_coupled_calibration.json), [`relative_covariance_calibration.json`](relative_covariance_calibration.json) |
 
 ## What remains unresolved
 
 The principal limitations are substantive, not presentational:
 
 - the strongest statistical results assume independent Gaussian trajectories;
-- exact or bounded spectral envelopes are inputs to the current guarantees;
+- the relative certificate avoids spectral-envelope inputs, but its whitening is
+  a proof device and its Gaussian assumption remains restrictive;
 - the available finite-sample constants remain far from empirical recovery
   scales on the initial benchmark;
 - a structural-null mask must be justified independently of the screening data;
@@ -369,9 +385,8 @@ The principal limitations are substantive, not presentational:
 - the quantum factorization geometry remains a research program rather than an
   implemented theorem.
 
-The next statistical step is a directional covariance bound that retains matrix
-structure lost by a spectral norm and explains the conditioning sensitivity now
-visible across the 18-regime grid. The next modeling step is a preregistered
+The next statistical step is an observable, cross-fitted analogue of the
+population-normalized event, followed by non-Gaussian concentration. The next modeling step is a preregistered
 benchmark in which temporal transport is necessary rather than merely available.
 These targets, including completion criteria, are maintained in the
 [research program](research_program.md).

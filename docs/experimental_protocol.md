@@ -244,6 +244,34 @@ The grid is a controlled sensitivity study, not a held-out benchmark. It does
 not vary boundary motion, candidate size, latent drive, missingness,
 nonlinearity, or distribution family.
 
+### Covariance-normalized paired calibration
+
+`relative_covariance_calibration.py` uses the identical 18-cell grid and sample
+budget. Its root `SeedSequence` is `20260912`; each of the 64 seeds per cell
+produces one full-trajectory Wishart draw that is passed to both the absolute
+and relative structural-null screens. This pairing removes Monte Carlo variation
+from the comparison of the two certificates.
+
+For each of the 40 fixed ten-dimensional candidate blocks, the script computes
+the realized population-whitened error
+
+\[
+\|\Gamma^{-1/2}(\widehat\Gamma-\Gamma)\Gamma^{-1/2}\|_2
+\]
+
+and compares it with the simultaneous Proposition 37 radius. It separately
+checks complete local and transport score containment, validity of the relative
+perturbation regime, and retention of every state and edge on the population
+path. Graph fractions for the paired absolute and relative calculations are
+then recorded from the same empirical factors.
+
+The experiment uses exact population covariance only to audit the theorem's
+coverage event. The public screening function needs dimensions, sample count,
+confidence, empirical factors, candidates, and the predeclared structural-null
+mask; it does not accept population eigenvalue bounds. This distinction does
+not make the procedure distribution-free: the radius still uses the Gaussian
+Wishart law.
+
 ## 5. Exchangeable identifiability counterexample
 
 The fourth experiment uses four independent, identically distributed Gaussian
@@ -374,6 +402,11 @@ fraction, and null-aware edge fraction. The shared axes make it possible to see
 that a larger population margin need not imply a sharper finite-sample screen
 when conditioning simultaneously worsens.
 
+`relative_covariance_calibration.png` places absolute and relative state and
+edge retention on four heat maps with a common zero-to-100-percent scale. All
+four panels use paired draws and the same regime ordering. The constant right
+panels are a recorded result of this grid, not a plotting normalization.
+
 ## 9. Tests tied to scientific claims
 
 | Test | Property checked |
@@ -389,6 +422,9 @@ when conditioning simultaneously worsens.
 | `test_finite_sample_bound_has_correct_threshold` | The path-level sampling error budget has the derived coefficient |
 | `test_cmi_covariance_error_bound_covers_direct_perturbation` | The analytical Gaussian CMI bound covers a direct covariance perturbation |
 | `test_canonical_persistence_bound_covers_direct_perturbation` | The canonical-persistence bound covers a direct joint-covariance perturbation |
+| `test_relative_information_and_persistence_bounds_cover_direct_perturbation` | Relative-event CMI and canonical-persistence bounds cover a direct covariance perturbation |
+| `test_relative_null_bound_covers_conditional_independence_perturbation` | The Schur-complement null bound covers a perturbed exact conditional-independence model |
+| `test_relative_wishart_radius_and_screen_are_condition_number_free` | The relative radius contracts with sample size and the screen requires no population spectral envelope |
 | `test_end_to_end_gaussian_bound_improves_with_sample_size` | The complete Gaussian guarantee contracts with sample size and its integer threshold is minimal |
 | `test_positive_factor_bound_improves_on_zero_safe_holder_bound` | Positive factor floors produce a valid bound sharper than zero-safe Hölder continuity |
 | `test_localized_gaussian_certificate_has_minimal_threshold` | The localized certificate changes from failure to success at the returned integer threshold |
@@ -518,9 +554,9 @@ Its limitations are concrete:
     observations used to certify them.
 20. The Gaussian first-split theorem derives the advertised safety probability,
     but its simultaneous zero-safe score radii can be highly conservative.
-    Experiments S through V broaden calibration but do not derive sharper
-    directional bounds or establish sharpness outside their declared models.
-21. The first-split spectral floors and ceilings are deterministic population
+    Experiments S through W broaden calibration but do not establish sharpness
+    outside their declared models.
+21. The absolute first-split spectral floors and ceilings are deterministic population
     assumptions. Estimating them from the same data without an additional
     confidence argument would invalidate the stated guarantee.
 22. The positive-factor refinement is sharp only relative to the current
@@ -543,6 +579,11 @@ Its limitations are concrete:
     retains the same smooth boundary motion, fixed candidate family, spectral
     radius, action weights, Gaussian law, and exact population spectra. Its
     64 trials per cell have limited power to measure rare failure probabilities.
+27. Proposition 37 and Experiment W remove the absolute certificate's global
+    eigenvalue-floor penalty, but retain Gaussianity, a fixed candidate family,
+    independent complete trajectories, and the independently justified null
+    mask. Population whitening defines the proof event; it is not an estimated
+    preprocessing step licensed for reuse on the same observations.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -577,6 +618,7 @@ python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
 python examples/structural_null_screen_experiment.py
 python examples/trajectory_coupled_screen_calibration.py --trials 128 --jobs 6
 python examples/multi_regime_coupled_calibration.py --trials 64 --jobs 6
+python examples/relative_covariance_calibration.py --trials 64 --jobs 6
 python -m pytest
 python -m ruff check .
 ```
