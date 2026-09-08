@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+<title id="title">Experiment AK: finite-sample e-value geometry for temporal calibration</title>
+<desc id="desc">A pointwise grid visualization of Proposition 51 is compared with the Proposition 50 rectangle. The exact confidence theorem is continuum valued and does not depend on this plotting grid.</desc>
+<rect width="1200" height="820" fill="white"/>
+<style>
+.title{font:700 27px Arial,sans-serif;fill:#111827}
+.sub{font:400 14px Arial,sans-serif;fill:#4b5563}
+.h{font:700 17px Arial,sans-serif;fill:#111827}
+.lab{font:400 12px Arial,sans-serif;fill:#374151}
+.small{font:400 11px Arial,sans-serif;fill:#6b7280}
+.metric{font:700 21px Arial,sans-serif;fill:#111827}
+.panel{fill:#f8fafc;stroke:#d1d5db;stroke-width:1.2}
+.grid{stroke:#e5e7eb;stroke-width:1}
+.axis{stroke:#9ca3af;stroke-width:1.2}
+.p50{fill:#fef3c7;fill-opacity:.45;stroke:#d97706;stroke-width:2.5}
+.p51{fill:#2563eb;fill-opacity:.78}
+.truth{fill:#dc2626;stroke:white;stroke-width:2}
+.series{fill:none;stroke:#2563eb;stroke-width:3}
+.series2{fill:none;stroke:#7c3aed;stroke-width:3}
+.threshold{stroke:#dc2626;stroke-width:2;stroke-dasharray:6 5}
+.card{fill:white;stroke:#d1d5db;stroke-width:1}
+</style>
+<text x="60" y="48" class="title" text-anchor="start">Experiment AK | Full-likelihood e-value geometry</text>
+<text x="60" y="75" class="sub" text-anchor="start">Proposition 51 uses the complete Gaussian residual likelihood instead of separate lag intervals</text>
+<rect x="60" y="95" width="1080" height="82" rx="10" class="panel"/>
+<text x="90" y="120" class="small" text-anchor="start">256-channel grid view</text>
+<text x="90" y="150" class="metric" text-anchor="start">6.76% accepted</text>
+<text x="360" y="120" class="small" text-anchor="start">Grid-view bounding-box area</text>
+<text x="360" y="150" class="metric" text-anchor="start">29.1% of P50</text>
+<text x="660" y="120" class="small" text-anchor="start">Repeated-sampling visibility check</text>
+<text x="660" y="150" class="metric" text-anchor="start">256/256 true parameters accepted</text>
+<text x="990" y="120" class="small" text-anchor="start">Exact confidence level</text>
+<text x="990" y="150" class="metric" text-anchor="start">98.75%</text>
+<rect x="60" y="195" width="580" height="525" rx="10" class="panel"/>
+<text x="85" y="225" class="h" text-anchor="start">A. Parameter geometry at 256 calibration channels</text>
+<line x1="90.0" y1="220.0" x2="90.0" y2="680.0" class="grid"/>
+<text x="90.0" y="702" class="small" text-anchor="middle">0.40</text>
+<line x1="220.0" y1="220.0" x2="220.0" y2="680.0" class="grid"/>
+<text x="220.0" y="702" class="small" text-anchor="middle">0.50</text>
+<line x1="350.0" y1="220.0" x2="350.0" y2="680.0" class="grid"/>
+<text x="350.0" y="702" class="small" text-anchor="middle">0.60</text>
+<line x1="480.0" y1="220.0" x2="480.0" y2="680.0" class="grid"/>
+<text x="480.0" y="702" class="small" text-anchor="middle">0.70</text>
+<line x1="610.0" y1="220.0" x2="610.0" y2="680.0" class="grid"/>
+<text x="610.0" y="702" class="small" text-anchor="middle">0.80</text>
+<line x1="90.0" y1="680.0" x2="610.0" y2="680.0" class="grid"/>
+<text x="80" y="684.0" class="small" text-anchor="end">0.00</text>
+<line x1="90.0" y1="588.0" x2="610.0" y2="588.0" class="grid"/>
+<text x="80" y="592.0" class="small" text-anchor="end">0.05</text>
+<line x1="90.0" y1="496.0" x2="610.0" y2="496.0" class="grid"/>
+<text x="80" y="500.0" class="small" text-anchor="end">0.10</text>
+<line x1="90.0" y1="404.0" x2="610.0" y2="404.0" class="grid"/>
+<text x="80" y="408.0" class="small" text-anchor="end">0.15</text>
+<line x1="90.0" y1="312.0" x2="610.0" y2="312.0" class="grid"/>
+<text x="80" y="316.0" class="small" text-anchor="end">0.20</text>
+<line x1="90.0" y1="220.0" x2="610.0" y2="220.0" class="grid"/>
+<text x="80" y="224.0" class="small" text-anchor="end">0.25</text>
+<rect x="233.26" y="283.44" width="248.50" height="396.56" class="p50"/>
+<circle cx="285.00" cy="680.00" r="4" class="p51"/>
+<circle cx="285.00" cy="661.60" r="4" class="p51"/>
+<circle cx="301.25" cy="680.00" r="4" class="p51"/>
+<circle cx="301.25" cy="661.60" r="4" class="p51"/>
+<circle cx="301.25" cy="643.20" r="4" class="p51"/>
+<circle cx="301.25" cy="624.80" r="4" class="p51"/>
+<circle cx="317.50" cy="680.00" r="4" class="p51"/>
+<circle cx="317.50" cy="661.60" r="4" class="p51"/>
+<circle cx="317.50" cy="643.20" r="4" class="p51"/>
+<circle cx="317.50" cy="624.80" r="4" class="p51"/>
+<circle cx="317.50" cy="606.40" r="4" class="p51"/>
+<circle cx="317.50" cy="588.00" r="4" class="p51"/>
+<circle cx="333.75" cy="680.00" r="4" class="p51"/>
+<circle cx="333.75" cy="661.60" r="4" class="p51"/>
+<circle cx="333.75" cy="643.20" r="4" class="p51"/>
+<circle cx="333.75" cy="624.80" r="4" class="p51"/>
+<circle cx="333.75" cy="606.40" r="4" class="p51"/>
+<circle cx="333.75" cy="588.00" r="4" class="p51"/>
+<circle cx="333.75" cy="569.60" r="4" class="p51"/>
+<circle cx="333.75" cy="551.20" r="4" class="p51"/>
+<circle cx="350.00" cy="680.00" r="4" class="p51"/>
+<circle cx="350.00" cy="661.60" r="4" class="p51"/>
+<circle cx="350.00" cy="643.20" r="4" class="p51"/>
+<circle cx="350.00" cy="624.80" r="4" class="p51"/>
+<circle cx="350.00" cy="606.40" r="4" class="p51"/>
+<circle cx="350.00" cy="588.00" r="4" class="p51"/>
+<circle cx="350.00" cy="569.60" r="4" class="p51"/>
+<circle cx="350.00" cy="551.20" r="4" class="p51"/>
+<circle cx="350.00" cy="532.80" r="4" class="p51"/>
+<circle cx="366.25" cy="643.20" r="4" class="p51"/>
+<circle cx="366.25" cy="624.80" r="4" class="p51"/>
+<circle cx="366.25" cy="606.40" r="4" class="p51"/>
+<circle cx="366.25" cy="588.00" r="4" class="p51"/>
+<circle cx="366.25" cy="569.60" r="4" class="p51"/>
+<circle cx="366.25" cy="551.20" r="4" class="p51"/>
+<circle cx="366.25" cy="532.80" r="4" class="p51"/>
+<circle cx="366.25" cy="514.40" r="4" class="p51"/>
+<circle cx="366.25" cy="496.00" r="4" class="p51"/>
+<circle cx="382.50" cy="606.40" r="4" class="p51"/>
+<circle cx="382.50" cy="588.00" r="4" class="p51"/>
+<circle cx="382.50" cy="569.60" r="4" class="p51"/>
+<circle cx="382.50" cy="551.20" r="4" class="p51"/>
+<circle cx="382.50" cy="532.80" r="4" class="p51"/>
+<circle cx="382.50" cy="514.40" r="4" class="p51"/>
+<circle cx="382.50" cy="496.00" r="4" class="p51"/>
+<circle cx="382.50" cy="477.60" r="4" class="p51"/>
+<circle cx="398.75" cy="569.60" r="4" class="p51"/>
+<circle cx="398.75" cy="551.20" r="4" class="p51"/>
+<circle cx="398.75" cy="532.80" r="4" class="p51"/>
+<circle cx="398.75" cy="514.40" r="4" class="p51"/>
+<circle cx="398.75" cy="496.00" r="4" class="p51"/>
+<circle cx="398.75" cy="477.60" r="4" class="p51"/>
+<circle cx="398.75" cy="459.20" r="4" class="p51"/>
+<circle cx="415.00" cy="532.80" r="4" class="p51"/>
+<circle cx="415.00" cy="514.40" r="4" class="p51"/>
+<circle cx="415.00" cy="496.00" r="4" class="p51"/>
+<circle cx="415.00" cy="477.60" r="4" class="p51"/>
+<circle cx="415.00" cy="459.20" r="4" class="p51"/>
+<circle cx="350.00" cy="606.40" r="7" class="truth"/>
+<text x="350" y="742" class="lab" text-anchor="middle">AR(1) coefficient phi</text>
+<text x="94" y="245" class="lab" text-anchor="start">eta</text>
+<text x="100" y="700" class="small" text-anchor="start">gold rectangle: Proposition 50</text>
+<text x="310" y="700" class="small" text-anchor="start">blue points: Proposition 51 grid view</text>
+<text x="520" y="700" class="small" text-anchor="start">red: controlled truth</text>
+<rect x="665" y="195" width="475" height="250" rx="10" class="panel"/>
+<text x="690" y="225" class="h" text-anchor="start">B. Pointwise accepted grid fraction</text>
+<line x1="710.0" y1="400.0" x2="1100.0" y2="400.0" class="grid"/>
+<text x="700" y="404.0" class="small" text-anchor="end">0%</text>
+<line x1="710.0" y1="363.75" x2="1100.0" y2="363.75" class="grid"/>
+<text x="700" y="367.75" class="small" text-anchor="end">10%</text>
+<line x1="710.0" y1="327.5" x2="1100.0" y2="327.5" class="grid"/>
+<text x="700" y="331.5" class="small" text-anchor="end">20%</text>
+<line x1="710.0" y1="291.25" x2="1100.0" y2="291.25" class="grid"/>
+<text x="700" y="295.25" class="small" text-anchor="end">30%</text>
+<line x1="710.0" y1="255.0" x2="1100.0" y2="255.0" class="grid"/>
+<text x="700" y="259.0" class="small" text-anchor="end">40%</text>
+<polyline points="710.0,267.8 840.0,326.1 970.0,354.4 1100.0,375.5" class="series"/>
+<circle cx="710.0" cy="267.8" r="5" class="p51"/>
+<text x="710.0" y="420" class="small" text-anchor="middle">32</text>
+<circle cx="840.0" cy="326.1" r="5" class="p51"/>
+<text x="840.0" y="420" class="small" text-anchor="middle">64</text>
+<circle cx="970.0" cy="354.4" r="5" class="p51"/>
+<text x="970.0" y="420" class="small" text-anchor="middle">128</text>
+<circle cx="1100.0" cy="375.5" r="5" class="p51"/>
+<text x="1100.0" y="420" class="small" text-anchor="middle">256</text>
+<text x="905" y="438" class="lab" text-anchor="middle">independent calibration channels</text>
+<rect x="665" y="470" width="475" height="250" rx="10" class="panel"/>
+<text x="690" y="500" class="h" text-anchor="start">C. True-parameter log e-value</text>
+<line x1="710.0" y1="547.25" x2="1100.0" y2="547.25" class="threshold"/>
+<text x="1095" y="540.25" class="small" text-anchor="end">rejection threshold</text>
+<polyline points="710.0,630.3 840.0,635.0 970.0,639.7 1100.0,666.7" class="series2"/>
+<circle cx="710.0" cy="630.3" r="5" class="p51"/>
+<text x="710.0" y="700" class="small" text-anchor="middle">32</text>
+<circle cx="840.0" cy="635.0" r="5" class="p51"/>
+<text x="840.0" y="700" class="small" text-anchor="middle">64</text>
+<circle cx="970.0" cy="639.7" r="5" class="p51"/>
+<text x="970.0" y="700" class="small" text-anchor="middle">128</text>
+<circle cx="1100.0" cy="666.7" r="5" class="p51"/>
+<text x="1100.0" y="700" class="small" text-anchor="middle">256</text>
+<text x="905" y="718" class="lab" text-anchor="middle">independent calibration channels</text>
+<text x="60" y="770" class="sub" text-anchor="start">Important: blue points are a numerical view of the continuum set, not a certified outer grid cover.</text>
+<text x="60" y="795" class="small" text-anchor="start">Coverage comes from Proposition 51: E_theta[q(Z)/p_theta(Z)] = 1, followed by Markov's inequality.</text>
+</svg>
