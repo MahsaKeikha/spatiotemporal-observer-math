@@ -8,7 +8,7 @@ exact e-value confidence set.
 
 The retained cells therefore contain the complete Proposition 51 continuum
 confidence set. For an independent target record, their temporal covariance
-centers and deterministic cell radius can be passed to Proposition 49.
+centers and deterministic cell radii can be passed to Proposition 49.
 """
 
 from __future__ import annotations
@@ -41,6 +41,7 @@ class GaussianEValueTemporalOuterCover:
     autocorrelation_lipschitz_bound: float
     white_noise_fraction_lipschitz_bound: float
     calibration_operator_cell_radius: float
+    calibration_operator_cell_radii: np.ndarray
     center_log_evalues: np.ndarray
     center_minimum_eigenvalues: np.ndarray
     likelihood_variation_bounds: np.ndarray
@@ -131,6 +132,41 @@ def _cell_operator_radius(
     )
 
 
+def _local_cell_operator_radius(
+    sample_count: int,
+    center_phi: float,
+    center_eta: float,
+    phi_spacing: float,
+    eta_spacing: float,
+    lower_eta: float,
+    upper_phi: float,
+) -> float:
+    """Bound temporal covariance motion inside one clipped parameter cell.
+
+    For ``R(phi, eta) = (1 - eta) R_phi + eta I``, the derivative in ``phi``
+    carries the factor ``1 - eta``. Over one cell that factor is maximized at
+    the cell's clipped lower eta boundary, while the AR(1) derivative bound is
+    maximized at the cell's clipped upper phi boundary. The eta-direction bound
+    is also evaluated at that local upper phi boundary.
+    """
+    local_upper_phi = min(float(upper_phi), float(center_phi) + 0.5 * phi_spacing)
+    local_lower_eta = max(float(lower_eta), float(center_eta) - 0.5 * eta_spacing)
+    phi_lipschitz = (
+        (1.0 - local_lower_eta)
+        * _ar1_derivative_operator_bound(sample_count, local_upper_phi)
+    )
+    eta_lipschitz = _white_noise_direction_operator_bound(
+        sample_count,
+        local_upper_phi,
+    )
+    return _cell_operator_radius(
+        phi_spacing,
+        eta_spacing,
+        phi_lipschitz,
+        eta_lipschitz,
+    )
+
+
 def _compressed_covariance(
     model: GaussianAR1WhiteNoiseEValueModel,
     phi: float,
@@ -187,12 +223,7 @@ def gaussian_log_likelihood_cell_variation_bound(
         * int(residual_dimension)
         * float(-np.log1p(-ratio))
     )
-    inverse_term = (
-        0.5
-        * scatter_trace
-        * delta
-        / (m * (m - delta))
-    )
+    inverse_term = 0.5 * scatter_trace * delta / (m * (m - delta))
     return float(determinant_term + inverse_term)
 
 
@@ -209,6 +240,11 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
     parameter coordinate. The data enter only through Proposition 51's
     observed likelihood and determine which cells can be certified as wholly
     outside the exact continuum confidence set.
+
+    Every cell receives its own deterministic covariance perturbation radius.
+    The radius uses the cell's clipped upper autocorrelation and lower
+    white-noise fraction, rather than the worst corner of the complete declared
+    box. This sharpens the numerical cover while preserving the same proof.
 
     A cell is excluded only when
 
@@ -242,20 +278,25 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
         model.sample_count,
         upper_phi,
     )
-    operator_radius = _cell_operator_radius(
-        phi_spacing,
-        eta_spacing,
-        phi_lipschitz,
-        eta_lipschitz,
-    )
     scatter_trace = float(np.trace(model.residual_scatter))
 
     log_evalues = np.empty((phi_grid.size, eta_grid.size), dtype=float)
     minimum_eigenvalues = np.empty_like(log_evalues)
+    operator_radii = np.empty_like(log_evalues)
     variations = np.empty_like(log_evalues)
 
     for phi_index, phi in enumerate(phi_grid):
         for eta_index, eta in enumerate(eta_grid):
+            operator_radius = _local_cell_operator_radius(
+                model.sample_count,
+                float(phi),
+                float(eta),
+                phi_spacing,
+                eta_spacing,
+                lower_eta,
+                upper_phi,
+            )
+            operator_radii[phi_index, eta_index] = operator_radius
             covariance = _compressed_covariance(model, float(phi), float(eta))
             minimum_eigenvalue = float(np.linalg.eigvalsh(covariance)[0])
             minimum_eigenvalues[phi_index, eta_index] = minimum_eigenvalue
@@ -274,10 +315,7 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
                 )
             )
 
-    excluded = (
-        log_evalues - variations
-        >= model.log_evalue_threshold
-    )
+    excluded = log_evalues - variations >= model.log_evalue_threshold
     retained = ~excluded
     centers = np.array(
         [
@@ -299,7 +337,8 @@ def gaussian_ar1_white_noise_evalue_outer_cover(
         maximum_white_noise_fraction_spacing=eta_spacing,
         autocorrelation_lipschitz_bound=phi_lipschitz,
         white_noise_fraction_lipschitz_bound=eta_lipschitz,
-        calibration_operator_cell_radius=operator_radius,
+        calibration_operator_cell_radius=float(np.max(operator_radii)),
+        calibration_operator_cell_radii=operator_radii,
         center_log_evalues=log_evalues,
         center_minimum_eigenvalues=minimum_eigenvalues,
         likelihood_variation_bounds=variations,
@@ -346,6 +385,11 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     the Proposition 51 calibration event, the true temporal covariance lies in
     one retained Proposition 52 cell. Conditional on the calibration record,
     those cells are fixed and Proposition 49 applies to the independent target.
+
+    Proposition 49 currently accepts one covering radius for the complete
+    supplied cover. Proposition 52 therefore computes a target-sample local
+    radius for every retained cell and passes the largest retained radius. No
+    excluded cell contributes to the target covering radius.
     """
     if not 0.0 < covariance_confidence < 1.0:
         raise ValueError("covariance_confidence must lie in (0, 1)")
@@ -363,18 +407,25 @@ def gaussian_evalue_outer_cover_matrix_chernoff_bound(
     design = _validated_nuisance_design(nuisance_design)
     target_sample_count = design.shape[0]
     nuisance_rank = design.shape[1]
+    lower_eta = model.declared_white_noise_fraction_lower_bound
     upper_phi = model.declared_autocorrelation_upper_bound
 
-    target_phi_lipschitz, target_eta_lipschitz = _family_lipschitz_bounds(
-        target_sample_count,
-        upper_phi,
+    retained_target_radii = np.asarray(
+        [
+            _local_cell_operator_radius(
+                target_sample_count,
+                float(phi),
+                float(eta),
+                outer_cover.maximum_autocorrelation_spacing,
+                outer_cover.maximum_white_noise_fraction_spacing,
+                lower_eta,
+                upper_phi,
+            )
+            for phi, eta in outer_cover.retained_parameter_centers
+        ],
+        dtype=float,
     )
-    target_radius = _cell_operator_radius(
-        outer_cover.maximum_autocorrelation_spacing,
-        outer_cover.maximum_white_noise_fraction_spacing,
-        target_phi_lipschitz,
-        target_eta_lipschitz,
-    )
+    target_radius = float(np.max(retained_target_radii))
     normalization_radius = float(nuisance_rank * target_radius)
 
     temporal_grid = np.asarray(
