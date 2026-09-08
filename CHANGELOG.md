@@ -1,5 +1,103 @@
 # Changelog
 
+## 0.36.0 - 2026-09-08
+
+- Proved Proposition 48, making the direct weighted-Wishart matrix concentration
+  bound uniform over an observable nonnegative AR(1) confidence interval.
+- Used the Proposition 46 spectral Lipschitz envelope and Weyl's inequality to
+  control every ordered projected temporal eigenvalue between AR(1) grid points.
+- Proved that the exact Proposition 47 Gaussian matrix-mgf factors are monotone
+  in each nonnegative temporal eigenvalue, allowing an inflated neighboring grid
+  spectrum to dominate the full between-grid matrix mgf.
+- Propagated uncertainty in the projected covariance normalization and combined
+  the calibration and covariance failure budgets by a union bound without
+  requiring independence.
+- Added Experiment AH at `N=500`. Across the four displayed intervals, the
+  Proposition 48 radius is 53.4% to 61.3% smaller than the Proposition 46
+  sphere-net interval radius. On `[0.70, 0.80]`, the radius falls from `2.409`
+  to `0.931`, remaining below one without supplying the exact coefficient.
+- Added two 96-trial seeded target-record checks with a large unknown affine
+  mean. Every recorded relative covariance error stayed inside the Proposition
+  48 radius at true coefficients `0.65` and `0.75`.
+- Added the proof page, public API, reproducible script, machine-readable result,
+  visible SVG, claim-level tests, citation metadata, assumption audit, and
+  updated reader navigation.
+- Updated the verified public record to 48 propositions, 34 experiments, 21
+  figures, and 156 passing tests on Python 3.10, 3.11, and 3.12.
+
+## 0.35.0 - 2026-09-08
+
+- Proved Proposition 47, replacing the `1/4` sphere-net operator-norm reduction
+  with direct matrix-Laplace concentration for weighted Gaussian Wishart
+  covariance.
+- Evaluated the Gaussian rank-one matrix exponential moment exactly and used the
+  full projected temporal eigenvalue profile rather than only Frobenius and
+  spectral norm summaries.
+- Added Experiment AG. At `N=850`, dimension four, the tested radius falls from
+  `0.579` to `0.278` at `phi=0.10`, from `0.731` to `0.331` at `phi=0.40`,
+  from `1.077` to `0.459` at `phi=0.65`, and from `1.630` to `0.653` at
+  `phi=0.80`.
+- Recorded the shorter `N=300`, `phi=0.65` transition from `2.165` to `0.832`
+  together with a 96-trial seeded scale check.
+- Added the Proposition 47 implementation, proof page, JSON record, visible SVG,
+  and theorem-level tests, and exposed the matrix-concentration API publicly.
+- Reorganized the landing page and research index so the latest theorem chain,
+  figures, assumptions, code, and numerical records are visible without having
+  to reconstruct the repository history.
+- Added a repository-wide Markdown style test that rejects Unicode en dash and
+  em dash punctuation in the documentation.
+- Updated the verified public record to 47 propositions, 33 experiments, 20
+  figures, and 151 passing tests including the documentation-style guard.
+
+## 0.34.0 - 2026-09-08
+
+- Proved Proposition 46, replacing rank-only nuisance pessimism with a continuum
+  certificate that uses the actual predeclared temporal design `H`.
+- Bounded projected normalization, Frobenius norm, and spectral norm uniformly
+  over a calibrated AR(1) interval by combining deterministic grid evaluations
+  with analytic Lipschitz remainders between grid points.
+- Added Experiment AF, which exposes a false-vacuity regime. At nuisance rank
+  `q=25`, the rank-only lower normalization is negative while the design-specific
+  theorem retains a certified lower normalization near `99.75`.
+- Added the design-interval implementation, proof, machine-readable output,
+  visible figure, and five claim-level tests.
+- Updated the verified public record to 46 propositions, 32 experiments, 19
+  figures, and 145 tests.
+
+## 0.33.0 - 2026-09-08
+
+- Proved Proposition 45, combining observable AR(1) calibration with a declared
+  time-varying nuisance projection and uncertainty in the projected covariance
+  normalization.
+- Added an observable midpoint-normalized covariance estimator with a finite-
+  sample relative covariance radius obtained from the calibration interval.
+- Added Experiment AE with 192 seeded regimes. Every reported AR(1) interval
+  contained the true coefficient and every recorded calibrated projected
+  covariance error stayed below the Proposition 45 radius.
+- Recorded the strong-correlation limitation explicitly: at `phi=0.65`, the
+  median Proposition 45 radius is about `1.217` even though the estimator tracks
+  the oracle closely.
+- Added the implementation, proof page, JSON record, visible figure, and five
+  theorem-level tests.
+- Updated the verified public record to 45 propositions, 31 experiments, 18
+  figures, and 140 tests.
+
+## 0.32.0 - 2026-09-08
+
+- Proved Proposition 44, extending dependent Gaussian covariance estimation from
+  an unknown constant mean to an arbitrary unknown mean inside a fixed,
+  predeclared finite-dimensional temporal nuisance subspace.
+- Replaced ordinary mean-centering by orthogonal projection with
+  `P_H = I - H(H^T H)^-1 H^T` and proved exact unbiasedness under the separable
+  Gaussian model.
+- Added Experiment AD. As affine drift amplitude rises from 0 to 10, the
+  projected estimator remains near `0.14` median relative covariance error while
+  ordinary constant mean-centering reaches about `121.76`.
+- Added the nuisance-projection implementation, proof, JSON output, visible
+  figure, and five claim-level tests.
+- Updated the verified public record to 44 propositions, 30 experiments, 17
+  figures, and 135 tests.
+
 ## 0.31.0 - 2026-09-08
 
 - Proved a finite-sample confidence interval for a shared stationary
