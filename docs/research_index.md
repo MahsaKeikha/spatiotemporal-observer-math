@@ -1,8 +1,8 @@
 # Research index
 
-This page is the navigation layer for the repository. It separates proved mathematics, reproducible numerical evidence, software verification, assumptions, and interpretation so each layer can be audited independently.
+This page is the navigation layer for the repository. It separates physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, and interpretation so each layer can be audited independently.
 
-A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness.
+A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. A mathematically inferred boundary is not automatically a physically validated boundary. An optimized world-tube is not presented as proof of consciousness.
 
 ## Current research record
 
@@ -18,6 +18,8 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 
 | Reader goal | Best page |
 | --- | --- |
+| Understand what the equations mean physically | [Physics Guide](physics_guide.md) |
+| See the physical inference pipeline visually | [Physics pipeline](physics_pipeline.svg) |
 | Understand the scientific question without reading all proofs | [Research overview](research_overview.md) |
 | See the newest results and figures first | [Repository front page](../README.md) |
 | Audit Propositions 1-43 | [Proved results and open problems](proofs_and_conjectures.md) |
@@ -32,6 +34,25 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | Reproduce Experiments A-AC | [Reproducible results](reproducible_results.md) |
 | Inspect assumptions and failure conditions | [Assumption ledger](assumption_ledger.md) |
 | Inspect requirements for any future consciousness interpretation | [Interpretation protocol](interpretation_protocol.md) |
+
+---
+
+# Physics layer
+
+The mathematical program is conditional on a measurement model. Before treating a theorem as physically informative, identify:
+
+- the measured degrees of freedom and their units;
+- the sampling interval and sensor bandwidth;
+- the effective coupling represented by `A_t`;
+- unresolved stochastic forcing represented by `Q_t`;
+- deterministic nuisance modes represented by `H`;
+- the physical geometry allowed for candidate boundaries `S_t`;
+- the temporal-memory family used for repeated samples;
+- residual diagnostics or interventions that could falsify the model.
+
+The [Physics Guide](physics_guide.md) maps the main symbols and recent propositions to these physical questions.
+
+The recent statistical propositions should be understood as a measurement-certification layer. They are designed to prevent temporal memory, drift, nuisance structure, and finite record length from producing unreliable covariance and information quantities before the moving-boundary objective is evaluated.
 
 ---
 
@@ -86,19 +107,19 @@ Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
 ## Dependent Gaussian sampling and temporal calibration: Propositions 41-51
 
-| No. | What changed | Direct source |
-| ---: | --- | --- |
-| 41 | Replaces independent temporal sampling by separably dependent Gaussian sampling. | [Proof record](proofs_and_conjectures.md) |
-| 42 | Corrects normalization after removing an unknown constant mean. | [Proof record](proofs_and_conjectures.md) |
-| 43 | Estimates a shared nonnegative AR(1) coefficient and propagates its uncertainty. | [Proof record](proofs_and_conjectures.md) |
-| 44 | Replaces constant mean removal by projection away from any fixed declared nuisance subspace. | [Proof](proposition_44_nuisance_projection.md) |
-| 45 | Combines observable AR(1) calibration with nuisance projection and normalization uncertainty. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
-| 46 | Uses the actual nuisance design over the full calibrated AR(1) interval instead of only its rank. | [Proof](proposition_46_design_specific_ar1_envelope.md) |
-| 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| 48 | Makes Proposition 47 uniform over a calibrated AR(1) interval by controlling projected temporal eigenvalues between grid points. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
-| 49 | Replaces the one-dimensional AR(1) continuum by any compact temporal covariance family with a certified finite cover. | [Proof](proposition_49_compact_temporal_family.md) |
-| 50 | Learns a random two-parameter temporal confidence rectangle from independent calibration data and composes it with Proposition 49. | [Proof](proposition_50_calibrated_temporal_family.md) |
-| 51 | Uses the complete residual Gaussian likelihood to construct a finite-sample continuum e-value confidence set directly in two-parameter space. | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
+| No. | What changed | Physical reading | Direct source |
+| ---: | --- | --- | --- |
+| 41 | Replaces independent temporal sampling by separably dependent Gaussian sampling. | A record with memory contains less independent information than its raw length. | [Proof record](proofs_and_conjectures.md) |
+| 42 | Corrects normalization after removing an unknown constant mean. | Removing an unknown baseline changes the usable fluctuation normalization. | [Proof record](proofs_and_conjectures.md) |
+| 43 | Estimates a shared nonnegative AR(1) coefficient and propagates its uncertainty. | The persistence timescale can be calibrated rather than assumed. | [Proof record](proofs_and_conjectures.md) |
+| 44 | Replaces constant mean removal by projection away from any fixed declared nuisance subspace. | Declared drift or acquisition modes can be removed before fluctuation covariance is estimated. | [Proof](proposition_44_nuisance_projection.md) |
+| 45 | Combines observable AR(1) calibration with nuisance projection and normalization uncertainty. | Memory uncertainty and deterministic drift can be handled together. | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
+| 46 | Uses the actual nuisance design over the full calibrated AR(1) interval instead of only its rank. | The shape of removed temporal modes matters, not just how many there are. | [Proof](proposition_46_design_specific_ar1_envelope.md) |
+| 47 | Replaces the sphere-net operator-norm reduction with direct matrix concentration using the full temporal spectrum. | Complete fluctuation-mode geometry is used rather than a loose directional approximation. | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
+| 48 | Makes Proposition 47 uniform over a calibrated AR(1) interval by controlling projected temporal eigenvalues between grid points. | The covariance certificate survives uncertainty in relaxation time. | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| 49 | Replaces the one-dimensional AR(1) continuum by any compact temporal covariance family with a certified finite cover. | A family of physically admissible memory kernels can be propagated safely. | [Proof](proposition_49_compact_temporal_family.md) |
+| 50 | Learns a random two-parameter temporal confidence rectangle from independent calibration data and composes it with Proposition 49. | Persistence and fast uncorrelated variance can be calibrated independently of the target record. | [Proof](proposition_50_calibrated_temporal_family.md) |
+| 51 | Uses the complete residual Gaussian likelihood to construct a finite-sample continuum e-value confidence set directly in two-parameter space. | The full calibration record determines which temporal-memory models remain statistically compatible. | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
 
 The latest progression is:
 
@@ -206,9 +227,12 @@ Any later consciousness interpretation must enter only as a separate bridge hypo
 
 A result is considered complete in this repository when the relevant pieces exist together:
 
+- a precise physical problem or an explicit statement that the result is an abstract mathematical stress test;
+- a mapping from the main symbols to observables, units, or declared dimensionless quantities when a physical interpretation is intended;
 - a precise mathematical statement;
 - assumptions stated close to the claim;
 - a proof or derivation;
+- a physical interpretation of what the bound controls and what it does not control;
 - a code implementation;
 - tests tied to the mathematical claim;
 - a reproducible experiment when a numerical scale comparison is useful;
