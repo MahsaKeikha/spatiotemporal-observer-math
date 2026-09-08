@@ -219,6 +219,14 @@ These references are especially important because several finite-sample results 
 
 **Role:** Classical stochastic-relaxation lineage relevant to Proposition 53. The stationary Ornstein-Uhlenbeck process is the canonical continuous-time Gaussian process with exponential temporal correlation. Proposition 53 does not assume that every physical system is Ornstein-Uhlenbeck; it uses the exponential kernel as a declared model and proves sampling consistency for that model.
 
+## Doob 1942
+
+**J. L. Doob. "The Brownian Movement and Stochastic Equations." _Annals of Mathematics_, Second Series, 43(2) (1942): 351-369.**
+
+- DOI: https://doi.org/10.2307/1968873
+
+**Role:** Classical rigorous Gaussian Markov-process lineage relevant to the exact irregular-grid transition interpretation added to Proposition 53. The repository does not import a Doob theorem to obtain its formulas: Statements 8 through 12 derive the transition, whitening, precision, determinant, and missing-sample identities directly from the declared exponential covariance kernel. This citation records historical stochastic-process context rather than outsourcing the proof.
+
 ---
 
 # 7. Proposition-to-literature map
@@ -240,6 +248,7 @@ The table below indicates the most important external foundations for each part 
 | Fixed mean removal in Proposition 51 | Lancaster 1965 | Direct Helmert-contrast method |
 | E-value confidence construction, Propositions 51-52 | Vovk and Wang 2021; Shafer 2021; Vovk and Wang 2023 | Direct statistical lineage |
 | Sampling-consistent exponential relaxation, Proposition 53 | Uhlenbeck and Ornstein 1930 | Physical stochastic-process lineage |
+| Irregular-grid Gaussian Markov structure, Proposition 53 Statements 8-12 | Doob 1942; Uhlenbeck and Ornstein 1930 | Historical Markov and relaxation lineage; proof is self-contained here |
 
 ---
 
@@ -263,7 +272,7 @@ If discussing Proposition 47 or its descendants, cite Tropp 2012 for the matrix 
 
 If discussing Proposition 51, cite Lancaster 1965 for the Helmert contrast and Vovk and Wang 2021 for the e-value lineage. Where confidence-set context is relevant, Vovk and Wang 2023 is also appropriate.
 
-If discussing Proposition 53 as a physical exponential-relaxation model, cite Uhlenbeck and Ornstein 1930 as the classical stochastic-process lineage.
+If discussing Proposition 53 as a physical exponential-relaxation model, cite Uhlenbeck and Ornstein 1930 as the classical stochastic-process lineage. If discussing the exact Gaussian Markov interpretation of the irregular-grid extension, Doob 1942 is useful historical context in addition to the self-contained Proposition 53 derivation.
 
 ---
 
