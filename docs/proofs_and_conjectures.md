@@ -2294,6 +2294,76 @@ rate rather than the cube-root Hölder rate. This is a conditional improvement,
 not an assumption needed for safety: entries without a positive certified floor
 automatically retain the original zero-safe radius.
 
+## Proposition 35: structural-null screening at the score boundary
+
+Retain the setting of Propositions 33 and 34. Before observing the screening
+split, fix a Boolean set \(\mathcal N\) of state indices \((t,j)\) for which a
+structural argument proves that the population integration factor is exactly
+zero. Then the population local score also vanishes:
+
+\[
+G_{tj}=0\quad\Longrightarrow\quad
+L_{tj}=(G_{tj}K_{tj}P_{tj})^{1/3}=0.
+\]
+
+For a masked state, let \(\widetilde L_{tj}\) be its empirical score. Let
+\(z_{tj}\) be the conditional canonical-correlation radius from Proposition 18,
+using the candidate-local covariance radius \(\eta_{tj}\), and put
+
+\[
+r=\lfloor s/2\rfloor,
+\qquad
+G^{0}_{tj}=1-(1-z_{tj}^2)^{r/s},
+\qquad
+e^{0}_{L,tj}=(G^{0}_{tj})^{1/3}.
+\]
+
+If \(z_{tj}\geq1\), set \(e^{0}_{L,tj}=1\). Define the masked screening radius
+by
+
+\[
+e^s_{L,tj}
+=\min\left\{
+e^{\mathrm{general}}_{L,tj},
+\widetilde L_{tj},
+e^{0}_{L,tj}
+\right\},
+\]
+
+where \(e^{\mathrm{general}}_{L,tj}\) is the Proposition 34 radius. Leave every
+unmasked state and every transport edge unchanged. The resulting screen retains
+the Proposition 33 safety probability.
+
+**Proof.** The structural null gives the exact identity
+
+\[
+|\widetilde L_{tj}-L_{tj}|=\widetilde L_{tj}.
+\]
+
+On the simultaneous Gaussian covariance event, the null bipartition has two
+zero population conditional cross-covariances. Proposition 18 bounds each
+perturbed conditional mutual information using at most
+\(r=\lfloor s/2\rfloor\) partial canonical correlations. Adding the two
+directions, dividing by \(s\), and applying
+\(G=1-2^{-J}\) gives \(G^0_{tj}\). Since insulation and persistence lie in
+\([0,1]\), the complete empirical score is at most
+\((G^0_{tj})^{1/3}\). Thus all three quantities inside the minimum are valid
+score radii on the same event. Proposition 15 and the triangle-inequality step
+of Proposition 33 apply without modification. \(\square\)
+
+Near zero covariance error, Proposition 18 gives
+\(z_{tj}=O(\eta_{tj})\), hence
+\(G^0_{tj}=O(\eta_{tj}^2)\) and
+\(e^0_{L,tj}=O(\eta_{tj}^{2/3})\). Under Gaussian covariance concentration this
+is \(O(N_s^{-1/3})\), improving the general zero-safe
+\(O(N_s^{-1/6})\) rate. It is not the ordinary root-sample rate, and it depends
+on an exact structural null known independently of the screening data.
+
+The mask is an assumption, not an output of this theorem. Marking a state whose
+population integration is positive can understate its score error. The API
+therefore requires an explicit Boolean mask and does not attempt to infer nulls
+from small empirical values.
+
 ## Open conjectures
 
 ### C1. Empirically calibrated adaptive screening

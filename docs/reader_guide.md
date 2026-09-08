@@ -10,17 +10,19 @@ subjective experience.
 
 A first reading does not require following every perturbation constant.
 
-1. Read the question and interpretation boundary in the [README](../README.md).
-2. Read [Mathematical framework](mathematical_framework.md) for the score and
+1. Read the [Research overview](research_overview.md) for the complete map of
+   results, evidence, code, and limitations.
+2. Read the question and interpretation boundary in the [README](../README.md).
+3. Read [Mathematical framework](mathematical_framework.md) for the score and
    path objective.
-3. Read [Space, time, and observer identity](space_time_observer.md) for the
+4. Read [Space, time, and observer identity](space_time_observer.md) for the
    conceptual motivation and scope.
-4. Run `python examples/worldtube_experiment.py` to see the basic inference
+5. Run `python examples/worldtube_experiment.py` to see the basic inference
    problem.
-5. Use [Derivations](derivations.md) and
+6. Use [Derivations](derivations.md) and
    [Proved results and open problems](proofs_and_conjectures.md) for the formal
    arguments.
-6. Consult the [Assumption ledger](assumption_ledger.md) before interpreting a
+7. Consult the [Assumption ledger](assumption_ledger.md) before interpreting a
    theorem or numerical certificate.
 
 The [API guide](api.md) is organized in the same order as the mathematical
@@ -148,3 +150,10 @@ finds no coverage failure in its limited run but shows that graph reduction can
 still require extreme sample counts. Higher-precision, trajectory-coupled, and
 multi-regime calibration, followed by directional covariance refinements, are
 the next empirical and theoretical checks.
+
+Proposition 35 addresses the exact-zero part of this bottleneck. A structural
+integration null fixed before screening yields a quadratic information bound
+and changes the corresponding local-score rate from \(N^{-1/6}\) to
+\(N^{-1/3}\). This is a conditional refinement, not a procedure for discovering
+nulls from small empirical scores. Trajectory-coupled calibration and valid
+construction of null masks are now part of the next check.

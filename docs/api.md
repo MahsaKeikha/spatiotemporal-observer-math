@@ -906,6 +906,46 @@ that lacks a certified positive floor automatically uses the zero-safe bound.
 The guarantee flag has the same meaning and confidence as in the base Gaussian
 screen.
 
+### Structural-null Gaussian screen
+
+```python
+from observer_math import gaussian_structural_null_near_competitor_screen
+
+null_aware = gaussian_structural_null_near_competitor_screen(
+    empirical_local_factors,
+    empirical_transport_factors,
+    candidates,
+    screening_sample_count,
+    node_count,
+    subset_size,
+    structural_integration_null_mask=predeclared_null_mask,
+    minimum_block_eigenvalues=minimum_eigenvalues,
+    maximum_block_eigenvalues=maximum_eigenvalues,
+    certification_local_score_errors=local_certification_budget,
+    certification_transport_score_errors=transport_certification_budget,
+    confidence=0.975,
+)
+```
+
+A true mask entry asserts that a model-level argument, fixed independently of
+the screening data, proves an exactly zero population integration factor. The
+population local score is then zero regardless of insulation and persistence.
+The function combines three valid radii: the general factor-aware radius, the
+observed local score itself, and the quadratic null-CMI radius from Proposition
+18. Unmasked states and every transport edge use the ordinary factor-aware
+calculation.
+
+`structural_integration_null_mask` and `null_local_score_errors` are returned
+with the result so a reviewer can see every place where structural information
+entered. The function deliberately accepts only a Boolean array; it does not
+infer nulls by thresholding empirical factors. A false null declaration can
+invalidate the guarantee even when all numerical checks pass.
+
+The primitive public functions
+`gaussian_null_cmi_covariance_error_bound` and
+`gaussian_null_integration_factor_error_bound` expose the intermediate
+quadratic calculation for direct inspection.
+
 ### Independent sample-split certification
 
 ```python

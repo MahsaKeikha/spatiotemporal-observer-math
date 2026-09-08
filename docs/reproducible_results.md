@@ -85,7 +85,7 @@ python examples/baseline_experiment.py
 python examples/worldtube_experiment.py
 ```
 
-The automated suite currently contains 90 tests. Continuous integration runs
+The automated suite currently contains 94 tests. Continuous integration runs
 the tests and lint checks on Python 3.10, 3.11, and 3.12.
 
 ## Experiment C: finite-sample recovery
@@ -688,9 +688,50 @@ The complete machine-readable record, including Wilson intervals, standard
 errors, factor-floor fractions, and radius ratios, is stored in
 [`gaussian_screen_calibration.json`](gaussian_screen_calibration.json).
 
+## Experiment T: structural-null boundary screening
+
+Command:
+
+```bash
+python examples/structural_null_screen_experiment.py
+```
+
+The experiment uses the same fixed population covariance models and candidate
+family as Experiment S. Before any screening data are considered, 35 of the 40
+local states are declared to have an exact structural integration null. The
+declaration is verified from the population construction for this controlled
+example; it is not inferred by thresholding empirical scores.
+
+| Quantity | Value |
+| --- | ---: |
+| Screening sample count | `80,000,000,000` |
+| Screening confidence | `0.975000` |
+| Structurally null local states | `35` |
+| Maximum generic local-score radius | `0.231936` |
+| Maximum null-state local-score radius | `0.009111` |
+| Complete states | `40` |
+| Generic retained states | `40` |
+| Null-aware retained states | `6` |
+| Complete edges | `256` |
+| Generic retained edges | `231` |
+| Null-aware retained edges | `5` |
+| Population path | `(0, 1, 2, 3, 4)` |
+| Null-aware center path | `(0, 1, 2, 3, 4)` |
+| Safe-screen guarantee | satisfied |
+
+Only local-state radii change. Transport radii and unmasked local radii remain
+those of the factor-aware Gaussian screen. The improvement follows from the
+quadratic conditional-mutual-information bound at an exact conditional-
+independence boundary, propagated through the local score. It is therefore
+conditional on the null mask being correct and fixed independently of the
+screening observations. The test suite includes a false-null construction in
+which using the null formula would understate the possible score error.
+
 ## Required next controls
 
 - higher-precision tail calibration and trajectory-coupled screening coverage
+- structural-null checks derived from model restrictions or an independent
+  selection stage, including deliberate false-null stress tests
 - random, shuffled, and adversarial moving-boundary nulls
 - recovery curves over signal-to-noise ratio and coupling separation
 - comparisons with fixed-boundary and dynamic-community baselines

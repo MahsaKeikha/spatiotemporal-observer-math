@@ -348,6 +348,10 @@ certified neighborhood created by the zero-factor cube-root term.
 | `test_calibration_problem_has_declared_population_path` | The calibration model, candidate family, spectra, and exact maximizing path match the documented construction |
 | `test_calibration_trial_is_reproducible_and_in_range` | A fixed Wishart seed reproduces all trial statistics and maintains valid fractions |
 | `test_calibration_aggregation_preserves_events_and_means` | Event rates, Wilson intervals, means, and standard errors are aggregated without changing their meanings |
+| `test_quadratic_null_cmi_bound_contains_random_covariance_perturbations` | The structural-null CMI radius contains randomized admissible covariance perturbations |
+| `test_null_cmi_bound_is_quadratic_near_zero` | Halving a sufficiently small covariance radius reduces the boundary CMI bound by the expected factor of four |
+| `test_structural_null_screen_reduces_graph_and_retains_population_path` | The null-aware screen tightens the committed graph without removing the population optimizer |
+| `test_false_structural_null_can_understate_score_error` | A false null declaration can produce an invalidly small score radius even when the empirical integration factor is zero |
 | `test_simulated_covariance_converges_to_population_covariance` | Ensemble covariance estimates approach the analytical joint covariance |
 
 ## 10. Known weaknesses of the current experiment
@@ -396,9 +400,9 @@ Its limitations are concrete:
     statistically valid procedure for selecting neighborhoods from the same
     observations used to certify them.
 20. The Gaussian first-split theorem derives the advertised safety probability,
-    but its simultaneous zero-safe score radii can be highly conservative. The
-    current deterministic containment tests are not a Monte Carlo calibration
-    study of realized covariance coverage.
+    but its simultaneous zero-safe score radii can be highly conservative.
+    Experiment S calibrates one fixed model and does not establish sharpness
+    across other spectral or coupling regimes.
 21. The first-split spectral floors and ceilings are deterministic population
     assumptions. Estimating them from the same data without an additional
     confidence argument would invalidate the stated guarantee.
@@ -411,6 +415,9 @@ Its limitations are concrete:
     theorem but cannot empirically validate a 2.5% tail probability precisely.
 24. Direct Wishart draws reproduce the marginal Gaussian sample-covariance law
     but not the cross-time dependence of one shared trajectory ensemble.
+25. Structural-null screening is valid only when each declared integration null
+    is exact and its mask is fixed independently of the screening observations.
+    A small empirical score is not sufficient evidence for that declaration.
 
 A stronger benchmark should vary coupling, noise, overlap, speed, candidate
 size, observation length, latent drive, and model misspecification. It should
@@ -442,6 +449,7 @@ python examples/sample_split_screening_experiment.py
 python examples/gaussian_safe_screen_experiment.py
 python examples/factor_aware_screen_experiment.py
 python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
+python examples/structural_null_screen_experiment.py
 python -m pytest
 python -m ruff check .
 ```

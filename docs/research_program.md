@@ -24,11 +24,14 @@ independent two-stage route from Gaussian screening concentration to a random
 safe graph and then to retained-block certification. Its zero-safe local-score
 radius still contracts too slowly to explain the empirical scale. Proposition
 34 restores a local Lipschitz rate wherever empirical factor intervals remain
-strictly positive. A first Wishart calibration now confirms containment on one
-fixed model and measures where the graph begins to shrink. The next check is
-higher-precision coverage across coupling, conditioning, and factor-floor
-regimes. A separate treatment is also needed for one dependent time series
-because the calibration uses independent covariance draws.
+strictly positive. A first Wishart calibration confirms containment on one
+fixed model and identifies exact-zero integration states as the remaining rate
+bottleneck. Proposition 35 treats a null fixed independently of the screening
+data: quadratic conditional-information error improves the corresponding
+local-score rate from \(N^{-1/6}\) to \(N^{-1/3}\). The next check is
+higher-precision coverage across coupling, conditioning, factor-floor, and
+structural-null regimes. A separate treatment is also needed for one dependent
+time series because the calibration uses independent covariance draws.
 
 Completion criterion: a valid screened concentration theorem, numerical
 coverage checks across signal regimes, and a documented account of every
@@ -100,9 +103,12 @@ Proposition 33 now derives that first-stage event from screening-sample Gaussian
 covariance bounds and propagates it through the complete score. Proposition 34
 adds the factor-aware refinement without losing the zero-safe fallback. A first
 fixed-model Wishart calibration now measures coverage and retained-graph size.
-The next priority is to extend it across signal regimes, then investigate
-directional covariance perturbation and empirically certified spectral
-envelopes without losing post-selection validity.
+Proposition 35 then gives a sharper boundary radius where an exact integration
+null is justified before screening, while an explicit false-null example shows
+why small empirical integration is not enough. The next priority is to extend
+calibration across signal regimes, then investigate directional covariance
+perturbation and independently justified structural masks without losing
+post-selection validity.
 
 Completion criterion: a theorem with non-vacuous parameters, a matching failure
 example near its boundary, and a numerical check of tightness.

@@ -901,7 +901,43 @@ endpoint approaches zero, the method correctly returns to the slower Hölder
 rate. Experiment R records both calculations on the same score table and sample
 budget.
 
-## 30. Choices that are still choices
+## 30. Exact integration nulls and boundary-adaptive screening
+
+Positive-factor differentiation cannot help at a true integration null because
+the geometric-mean derivative is singular there. A structural null contains
+more information than a generic small factor, however. It says the population
+score is exactly zero and that the relevant population conditional
+cross-covariances vanish.
+
+Proposition 18 shows that a covariance perturbation \(\eta\) produces a partial
+canonical-correlation radius \(z_\eta=O(\eta)\). For a null bipartition of an
+\(s\)-node candidate, each direction has rank at most
+\(r=\lfloor s/2\rfloor\). The empirical integration factor is therefore bounded
+by
+
+\[
+G^0=1-(1-z_\eta^2)^{r/s},
+\]
+
+and the complete score by \((G^0)^{1/3}\). Because
+\(G^0=O(\eta^2)\), this score radius is \(O(\eta^{2/3})\), rather than the generic
+\(O(\eta^{1/3})\). With \(\eta=O(N^{-1/2})\), the corresponding sample rates are
+\(N^{-1/3}\) and \(N^{-1/6}\).
+
+There is also an exact data-dependent identity. If the structural premise
+proves \(L=0\), then the observed score itself satisfies
+
+\[
+|\widetilde L-L|=\widetilde L.
+\]
+
+The implementation takes the smallest of this exact radius, the quadratic
+null-CMI radius, and the general factor-aware radius. This does not constitute
+selection on a small empirical score: the null mask must be declared from the
+model before the screening observations are examined. Unmasked entries retain
+the previous calculation.
+
+## 31. Choices that are still choices
 
 Several parts of the construction are intentionally exposed rather than hidden
 inside the implementation:

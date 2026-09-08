@@ -229,6 +229,8 @@ class GaussianSafeNearCompetitorScreen:
     total_transport_score_errors: np.ndarray
     positive_local_factor_floor_mask: np.ndarray
     positive_transport_factor_floor_mask: np.ndarray
+    structural_integration_null_mask: np.ndarray
+    null_local_score_errors: np.ndarray
     all_blocks_valid: bool
     guarantees_safe_screen: bool
 
@@ -365,6 +367,84 @@ def gaussian_cmi_covariance_error_bound(
     return float((x_dimension + y_dimension + 2 * given_dimension) * logdet_factor)
 
 
+def gaussian_null_cmi_covariance_error_bound(
+    canonical_rank: int,
+    *,
+    minimum_eigenvalue: float,
+    maximum_eigenvalue: float,
+    covariance_spectral_error: float,
+) -> float:
+    """Bound empirical Gaussian CMI when population conditional CMI is zero.
+
+    The population conditional cross-covariance is assumed to vanish. The
+    result controls the perturbed CMI in bits and is quadratic in the covariance
+    radius near zero. ``np.inf`` is returned when the derived conditional
+    canonical-correlation radius reaches one.
+    """
+    if isinstance(canonical_rank, bool) or not isinstance(
+        canonical_rank, (int, np.integer)
+    ):
+        raise TypeError("canonical_rank must be an integer")
+    if canonical_rank < 1:
+        raise ValueError("canonical_rank must be positive")
+    if not (
+        np.isfinite(minimum_eigenvalue)
+        and np.isfinite(maximum_eigenvalue)
+        and 0.0 < minimum_eigenvalue <= maximum_eigenvalue
+    ):
+        raise ValueError("require finite 0 < minimum_eigenvalue <= maximum_eigenvalue")
+    if not (
+        np.isfinite(covariance_spectral_error)
+        and 0.0 <= covariance_spectral_error < minimum_eigenvalue
+    ):
+        raise ValueError("covariance_spectral_error must lie in [0, minimum_eigenvalue)")
+    eta = float(covariance_spectral_error)
+    if eta == 0.0:
+        return 0.0
+    lower = float(minimum_eigenvalue)
+    upper = float(maximum_eigenvalue)
+    perturbed_lower = lower - eta
+    conditional_cross_error = eta * (
+        1.0
+        + (upper + eta) / perturbed_lower
+        + upper * (upper + eta) / (lower * perturbed_lower)
+        + upper / lower
+    )
+    canonical_radius = conditional_cross_error / perturbed_lower
+    if canonical_radius >= 1.0:
+        return float(np.inf)
+    return float(
+        -canonical_rank
+        * np.log1p(-(canonical_radius**2))
+        / (2.0 * np.log(2.0))
+    )
+
+
+def gaussian_null_integration_factor_error_bound(
+    subset_size: int,
+    *,
+    minimum_eigenvalue: float,
+    maximum_eigenvalue: float,
+    covariance_spectral_error: float,
+) -> float:
+    """Bound an empirical integration factor at an exact population null."""
+    if isinstance(subset_size, bool) or not isinstance(subset_size, (int, np.integer)):
+        raise TypeError("subset_size must be an integer")
+    if subset_size < 2:
+        raise ValueError("subset_size must be at least two")
+    rank = subset_size // 2
+    one_direction = gaussian_null_cmi_covariance_error_bound(
+        rank,
+        minimum_eigenvalue=minimum_eigenvalue,
+        maximum_eigenvalue=maximum_eigenvalue,
+        covariance_spectral_error=covariance_spectral_error,
+    )
+    if not np.isfinite(one_direction):
+        return 1.0
+    directed_bits_per_node = 2.0 * one_direction / subset_size
+    return float(min(1.0, 1.0 - 2.0 ** (-directed_bits_per_node)))
+
+
 def canonical_persistence_covariance_error_bound(
     *,
     minimum_eigenvalue: float,
@@ -399,7 +479,7 @@ def product_root_error_bound(
 ) -> float:
     """Bound a geometric-mean error, using positive factor floors when possible.
 
-    The zero-safe Holder bound is always valid. If every population factor is
+    The zero-safe Hölder bound is always valid. If every population factor is
     separated from zero by more than its error radius, a local Lipschitz bound
     is also evaluated and the tighter certificate is returned.
     """
@@ -1035,6 +1115,8 @@ def gaussian_safe_near_competitor_screen(
         total_transport_score_errors=total_transport_errors,
         positive_local_factor_floor_mask=np.zeros(local.shape, dtype=bool),
         positive_transport_factor_floor_mask=np.zeros(edge_shape, dtype=bool),
+        structural_integration_null_mask=np.zeros(local.shape, dtype=bool),
+        null_local_score_errors=np.ones(local.shape, dtype=float),
         all_blocks_valid=all_valid,
         guarantees_safe_screen=all_valid,
     )
@@ -1153,6 +1235,129 @@ def gaussian_factor_aware_near_competitor_screen(
         total_transport_score_errors=total_transport_errors,
         positive_local_factor_floor_mask=local_floor_mask,
         positive_transport_factor_floor_mask=transport_floor_mask,
+        structural_integration_null_mask=np.zeros(
+            (time_count, candidate_count), dtype=bool
+        ),
+        null_local_score_errors=np.ones(
+            (time_count, candidate_count), dtype=float
+        ),
+        all_blocks_valid=baseline.all_blocks_valid,
+        guarantees_safe_screen=baseline.guarantees_safe_screen,
+    )
+
+
+def gaussian_structural_null_near_competitor_screen(
+    empirical_local_factors: ArrayLike,
+    empirical_transport_factors: ArrayLike,
+    candidates: Sequence[Sequence[int]],
+    screening_sample_count: int,
+    node_count: int,
+    subset_size: int,
+    *,
+    structural_integration_null_mask: ArrayLike,
+    minimum_block_eigenvalues: ArrayLike,
+    maximum_block_eigenvalues: ArrayLike,
+    certification_local_score_errors: ArrayLike,
+    certification_transport_score_errors: ArrayLike,
+    confidence: float = 0.975,
+    transport_weight: float = 0.35,
+    continuity_weight: float = 0.15,
+) -> GaussianSafeNearCompetitorScreen:
+    """Refine screening at predeclared exact integration nulls.
+
+    A true mask entry asserts, independently of the screening observations,
+    that the population integration factor is exactly zero. The corresponding
+    population local score is therefore zero. The empirical score itself is an
+    exact error radius, while the null-CMI perturbation theorem supplies an
+    a-priori quadratic alternative on the Gaussian covariance event. Unmasked
+    entries retain the positive-factor or zero-safe calculation.
+    """
+    local_factors = np.asarray(empirical_local_factors, dtype=float)
+    transport_factors = np.asarray(empirical_transport_factors, dtype=float)
+    null_mask = np.asarray(structural_integration_null_mask)
+    if local_factors.ndim != 3 or local_factors.shape[2] != 3:
+        raise ValueError("empirical_local_factors must have shape (time, candidates, 3)")
+    time_count, candidate_count, _ = local_factors.shape
+    if null_mask.shape != (time_count, candidate_count) or null_mask.dtype != np.bool_:
+        raise ValueError("structural_integration_null_mask must be a Boolean state array")
+    baseline = gaussian_factor_aware_near_competitor_screen(
+        local_factors,
+        transport_factors,
+        candidates,
+        screening_sample_count,
+        node_count,
+        subset_size,
+        minimum_block_eigenvalues=minimum_block_eigenvalues,
+        maximum_block_eigenvalues=maximum_block_eigenvalues,
+        certification_local_score_errors=certification_local_score_errors,
+        certification_transport_score_errors=certification_transport_score_errors,
+        confidence=confidence,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    minimum = np.asarray(minimum_block_eigenvalues, dtype=float)
+    maximum = np.asarray(maximum_block_eigenvalues, dtype=float)
+    local_scores = np.prod(local_factors, axis=2) ** (1.0 / 3.0)
+    local_errors = baseline.screening_local_score_errors.copy()
+    null_errors = np.ones((time_count, candidate_count), dtype=float)
+    for index in zip(*np.nonzero(null_mask), strict=True):
+        eta = float(baseline.covariance_spectral_errors[index])
+        if eta < minimum[index]:
+            integration_error = gaussian_null_integration_factor_error_bound(
+                subset_size,
+                minimum_eigenvalue=float(minimum[index]),
+                maximum_eigenvalue=float(maximum[index]),
+                covariance_spectral_error=eta,
+            )
+            quadratic_score_error = integration_error ** (1.0 / 3.0)
+        else:
+            quadratic_score_error = 1.0
+        null_errors[index] = min(local_scores[index], quadratic_score_error)
+        local_errors[index] = min(local_errors[index], null_errors[index])
+
+    certification_local = np.asarray(certification_local_score_errors, dtype=float)
+    certification_transport = np.asarray(
+        certification_transport_score_errors, dtype=float
+    )
+    total_local_errors = local_errors + certification_local
+    total_transport_errors = (
+        baseline.screening_transport_score_errors + certification_transport
+    )
+    screen = screen_near_competitors(
+        local_scores,
+        np.sqrt(np.prod(transport_factors, axis=3)),
+        candidates,
+        total_local_errors,
+        total_transport_errors,
+        transport_weight=transport_weight,
+        continuity_weight=continuity_weight,
+    )
+    return GaussianSafeNearCompetitorScreen(
+        screen=screen,
+        screening_sample_count=baseline.screening_sample_count,
+        screening_confidence=baseline.screening_confidence,
+        covariance_spectral_errors=baseline.covariance_spectral_errors,
+        maximum_covariance_spectral_error=(
+            baseline.maximum_covariance_spectral_error
+        ),
+        screening_local_factor_errors=baseline.screening_local_factor_errors,
+        screening_transport_factor_errors=(
+            baseline.screening_transport_factor_errors
+        ),
+        screening_local_score_errors=local_errors,
+        screening_transport_score_errors=(
+            baseline.screening_transport_score_errors
+        ),
+        total_local_score_errors=total_local_errors,
+        total_transport_score_errors=total_transport_errors,
+        positive_local_factor_floor_mask=(
+            baseline.positive_local_factor_floor_mask
+        ),
+        positive_transport_factor_floor_mask=(
+            baseline.positive_transport_factor_floor_mask
+        ),
+        structural_integration_null_mask=null_mask.copy(),
+        null_local_score_errors=null_errors,
         all_blocks_valid=baseline.all_blocks_valid,
         guarantees_safe_screen=baseline.guarantees_safe_screen,
     )

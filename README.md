@@ -4,6 +4,10 @@
 
 An open research project by **Mahsa Keikha, PhD**.
 
+**Start with the [complete research overview](docs/research_overview.md).** It
+connects the central question, all 35 proved statements, all 20 reproducible
+experiments, the code, and the current limitations on one page.
+
 ## The question
 
 Most mathematical treatments begin by choosing a system and its environment.
@@ -257,6 +261,16 @@ five-state/four-edge population path only at eight trillion on this deliberately
 strict worst-case calculation. The recorded Wilson interval prevents those 64
 successes from being presented as a precise validation of a 97.5% tail claim.
 
+The zero-factor bottleneck now has a boundary-adaptive treatment. When an exact
+zero integration factor follows from structure fixed before the screening data
+are observed, its conditional-information error is quadratic in covariance
+error. Propagating that fact through the cube-root local score improves the
+boundary rate from the generic \(N^{-1/6}\) to \(N^{-1/3}\). In the committed
+calculation at 80 billion observations, the generic safe screen retains 40
+states and 231 edges; the structural-null screen retains 6 states and 5 edges,
+including the population path. A false null declaration invalidates the
+guarantee, and a counterexample is included in the tests.
+
 ![Closed-form sufficient recovery region](docs/symbolic_recovery_region.png)
 
 ![Robust perturbation recovery region](docs/perturbed_recovery_region.png)
@@ -265,12 +279,13 @@ successes from being presented as a precise validation of a 97.5% tail claim.
 
 | Document | Contents |
 | --- | --- |
+| [Research overview](docs/research_overview.md) | One-page map of the question, 35 propositions, 20 experiments, evidence, code, and limitations |
 | [Reader guide](docs/reader_guide.md) | Recommended reading order, notation, theorem map, and interpretation |
 | [Assumption ledger](docs/assumption_ledger.md) | Conditions required by each result and consequences of violation |
 | [Mathematical framework](docs/mathematical_framework.md) | Definitions and the world-tube objective |
 | [Space, time, and observer identity](docs/space_time_observer.md) | The conceptual bridge and the mathematics still missing |
 | [Derivations](docs/derivations.md) | Gaussian information formulas, canonical transport, and dynamic programming |
-| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-four proved statements and the remaining sharpness questions |
+| [Proved results and open problems](docs/proofs_and_conjectures.md) | Thirty-five proved statements and the remaining sharpness questions |
 | [Experimental protocol](docs/experimental_protocol.md) | Exact model construction, parameters, controls, and known weaknesses |
 | [Reproducible results](docs/reproducible_results.md) | Recorded outputs and validation commands |
 | [Relation to existing work](docs/novelty_audit.md) | Scope comparison and conditions that would narrow the project |
@@ -310,6 +325,7 @@ python examples/sample_split_screening_experiment.py
 python examples/gaussian_safe_screen_experiment.py
 python examples/factor_aware_screen_experiment.py
 python examples/gaussian_screen_calibration.py --trials 64 --jobs 6
+python examples/structural_null_screen_experiment.py
 ```
 
 The automated checks run on Python 3.10, 3.11, and 3.12.
@@ -332,8 +348,8 @@ Max Tegmark, "Consciousness as a State of Matter," *Chaos, Solitons & Fractals*
 
 ## Status
 
-This is an ongoing study, not a finished paper. Version 0.21 adds an exact
-Wishart calibration of the Gaussian screening chain, records both successful
-coverage and severe graph-reduction conservatism, and publishes the complete
-seeded data behind the figure. The repository will change as higher-precision
+This is an ongoing study, not a finished paper. Version 0.22 adds a
+structural-null boundary theorem and safe-screen implementation, together with
+a central overview that makes the complete proof, experiment, code, and
+limitation record navigable from one page. The repository will change as higher-precision
 calibration, counterexamples, comparisons, and sharper proofs are added.

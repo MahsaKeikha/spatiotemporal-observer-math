@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.22.0 - 2026-09-08
+
+- Added a central research overview connecting all 35 propositions, all 20
+  experiments, their code, assumptions, numerical evidence, and limitations.
+- Derived a quadratic covariance-to-information bound at a predeclared exact
+  structural integration null and propagated it through the complete local
+  score.
+- Added a structural-null Gaussian screen that keeps the general factor-aware
+  radius as a fallback and leaves all transport bounds unchanged.
+- Improved the certified boundary rate from the generic `N^-1/6` local-score
+  rate to `N^-1/3` under the exact-null assumption.
+- Reduced the committed calibration graph at 80 billion observations from 40
+  states and 231 edges to 6 states and 5 edges while retaining the population
+  path.
+- Added randomized containment and rate tests together with a false-null
+  counterexample documenting why the mask cannot be inferred from a small
+  empirical score.
+
 ## 0.21.0 - 2026-09-08
 
 - Added a seeded calibration of the complete Gaussian screening chain using
