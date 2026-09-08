@@ -2,7 +2,7 @@
 
 This page explains the project as a research story rather than as a list of files. For the complete numbered map of theorems and experiments, use the [research index](research_index.md).
 
-The current release record is 49 propositions, 35 reproducible experiments, 22 committed figures, and 161 claim-level tests, with the release candidate checked across Python 3.10, 3.11, and 3.12 before merge.
+The current release candidate contains 50 propositions, 36 reproducible experiments, 23 committed scientific figures, and 166 claim-level tests. The exact release head has passed the repository test and lint workflow on Python 3.10, 3.11, and 3.12.
 
 ## The question
 
@@ -20,7 +20,7 @@ The central question is:
 
 > **When can a moving subsystem path be distinguished from alternatives using internal predictive organization, environmental insulation, and continuity through time?**
 
-The word "observer" is operational. It is not a claim about consciousness or subjective experience.
+The word "observer" is operational. It is not a claim about consciousness or subjective experience. The repository now also includes an [observer-to-consciousness interpretation protocol](observer_consciousness_interpretation_protocol.md) that states what additional bridge assumptions would have to be justified before the observer mathematics could support a consciousness interpretation.
 
 ## The population model
 
@@ -48,6 +48,8 @@ This sets the interpretation rule for the project:
 
 > **Recovery is always relative to declared observables, model assumptions, candidate families, and admissible symmetries.**
 
+Negative results are part of the mathematical program. A proof that a boundary cannot be identified from a declared observation model is as important as a positive recovery theorem, because it states where additional information or assumptions are necessary.
+
 ## How the proof program developed
 
 ### Population mathematics
@@ -68,7 +70,7 @@ Propositions 32-40 add sample splitting, Gaussian screening guarantees, structur
 
 ### Temporally dependent observations
 
-Propositions 41-49 address the fact that time-series observations are not i.i.d. This is the current proof frontier.
+Propositions 41-50 address the fact that time-series observations are not i.i.d. The sequence now progresses from known temporal covariance to observable two-parameter temporal-family calibration.
 
 ---
 
@@ -120,52 +122,82 @@ The complete projected eigenvalue profile is controlled between AR(1) grid point
 
 [![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
-Proposition 49 replaces the one-dimensional AR(1) continuum by an arbitrary compact temporal covariance family with a certified finite cover. The theorem requires two deterministic cover controls:
+Proposition 49 replaces the one-dimensional AR(1) continuum by an arbitrary compact temporal covariance family with a certified finite cover. If every admissible compressed temporal covariance is close to one cover point in operator norm and projected normalization, Weyl's inequality controls every ordered projected eigenvalue. The exact Gaussian matrix-mgf factors then produce one family-wide matrix Chernoff envelope.
 
-\[
-\|U^\mathsf T(R-R_j)U\|_2\le\delta_\lambda
-\]
+The cover points do not consume a probability union bound. They are deterministic geometry used before the probability inequality is applied.
 
-and
-
-\[
-|\operatorname{tr}(P(R-R_j))|\le\delta_d.
-\]
-
-Weyl's inequality then controls every ordered projected eigenvalue, and the monotone exact Gaussian matrix-mgf factors produce one family-wide matrix Chernoff envelope.
-
-The cover points do not consume a probability union bound. They are deterministic geometry used to build the mgf envelope before probability enters.
-
-Experiment AI uses the two-parameter family
+Experiment AI uses
 
 \[
 R_{\phi,\eta}=(1-\eta)R_\phi+\eta I
 \]
 
-with `phi in [0.45, 0.72]` and `eta in [0, 0.05]`. At `N=400`, refining the deterministic product cover gives:
+with `phi in [0.45, 0.72]` and `eta in [0, 0.05]`. At `N=400`, the displayed Proposition 49 radius moves from `1.104` on a `5 x 3` cover to `0.891` on a `17 x 9` cover, while the corresponding sphere-net family radius remains `2.358`.
 
-| Cover | Proposition 49 | Sphere-net family |
-| --- | ---: | ---: |
-| `5 x 3` | 1.104 | 3.002 |
-| `9 x 5` | **0.957** | 2.572 |
-| `17 x 9` | **0.891** | 2.358 |
+## Proposition 50: calibrate the two-parameter temporal family from data
 
-The same temporal family crosses below the critical relative-error threshold one without changing sample count or confidence. Two seeded target regimes also produced 192 of 192 covariance errors below the final theorem radius. The simulations show scale; the proof is the deterministic cover plus the matrix-mgf argument.
+[![Experiment AJ](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
+
+Proposition 50 makes the two-parameter family observable under a stated calibration model. Independent standardized Gaussian calibration channels supply lag-1 and lag-2 increment energies. Their population lag correlations are
+
+\[
+r_1=(1-\eta)\phi,
+\qquad
+r_2=(1-\eta)\phi^2.
+\]
+
+Whenever the relevant denominators stay away from zero, these relations imply
+
+\[
+\phi=\frac{r_2}{r_1},
+\qquad
+1-\eta=\frac{r_1^2}{r_2}.
+\]
+
+The theorem does not treat those identities as plug-in estimates without error control. It first constructs simultaneous finite-sample intervals for the two lag correlations, propagates them through the nonlinear parameter map into a valid `(phi, eta)` rectangle, then conditions on that calibration event and invokes Proposition 49. Calibration and covariance failure probabilities are combined explicitly.
+
+The concentration step is sharpened by analyzing the filtered increment process rather than applying a generic temporal spectral norm to the raw process. For lag 1, the persistent AR(1) level-spectrum penalty cancels and the relevant spectral peak is controlled by
+
+\[
+4\frac{1-\phi}{1+\phi}.
+\]
+
+For lag 2, the corresponding bound is
+
+\[
+4(1-\phi^2).
+\]
+
+This is useful because stronger persistence can make the raw process more strongly correlated while the differenced statistic used for calibration becomes better conditioned.
+
+Experiment AJ holds the target sample count, nuisance design, spatial dimension, and covariance confidence fixed. Carrying the entire declared temporal family gives a matrix radius near `1.142`. Independent calibration contracts the final family certificate to approximately `1.055` with 32 channels, `0.871` with 64, `0.814` with 128, and `0.772` with 256.
+
+The experiment also exposes the remaining limitation: at these calibration sizes, the white-noise-fraction interval remains substantially prior-limited. Most of the useful contraction comes from learning `phi`. The next statistical refinement should therefore attack the joint parameter geometry directly rather than treating the two lag-correlation intervals as an axis-aligned rectangle.
 
 ---
 
 # What the project has established
 
-Under the stated assumptions, the repository now provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed covariance layer can handle temporally dependent sampling, unknown fixed-subspace nuisance means, estimated AR(1) dependence, design-specific geometry, direct matrix concentration, and compact multi-parameter temporal covariance families supplied through deterministic covers.
+Under the stated assumptions, the repository provides a conditional mathematical pipeline from nonstationary Gaussian dynamics to moving-boundary optimization and finite-sample recovery certification. Its most developed covariance layer can now account for temporally dependent sampling, unknown fixed-subspace nuisance means, estimated temporal dependence, design-specific geometry, direct matrix concentration, compact multi-parameter temporal covariance families, and an observable finite-sample calibration of one explicit two-parameter family.
+
+That is a statement about the mathematics inside the declared model class. It is not evidence that those assumptions hold for every physical system, and it is not a proof of consciousness.
+
+## A disciplined path toward consciousness-related mathematics
+
+The project can still ask a deeper question without weakening its scientific standard. The [interpretation protocol](observer_consciousness_interpretation_protocol.md) treats a consciousness interpretation as a separate bridge problem. It lists conditions that would need independent justification, including representation invariance, observational identifiability, causal or interventional discriminability, temporal identity, counterfactual robustness, external empirical anchoring, falsifiability, and comparison against alternative explanations.
+
+This separation is intentional. The observer mathematics should become stronger on its own terms. Any later claim about consciousness would have to survive additional axioms and tests rather than being built into the name of the mathematical object.
 
 ## What remains open
 
-The newest theorems still rely on Gaussian temporal-spatial separability, valid nuisance structure, and temporal-family information justified independently of the target covariance record.
+The sharpest current statistical results still rely on Gaussian temporal-spatial separability, valid nuisance structure, and a correctly specified calibration family. Proposition 50 uses independent standardized calibration channels and a two-parameter AR(1)-plus-white-noise family. It is not a nonparametric dependence estimator.
 
-Proposition 49 solves the concentration problem once a deterministic family cover is supplied. It does not yet solve how that broader family should be calibrated from data.
+The immediate statistical target is:
 
-The immediate next statistical target is therefore:
+> **Replace the rectangular two-lag parameter propagation by a genuinely joint confidence region, then extend the calibration layer toward broader temporal covariance families while retaining explicit finite-sample confidence accounting.**
 
-> **Construct an observable finite-sample confidence set for a multi-parameter or nonparametric temporal covariance family, then compose its calibration failure probability with Proposition 49.**
+The broader foundational target is different:
 
-That would extend the observable calibration logic of Proposition 43 from one AR(1) coefficient to a genuinely broader dependence class.
+> **Determine which observer-like structures remain identifiable, invariant, causally discriminable, and robust when the Gaussian coordinate model is progressively weakened.**
+
+Those two directions, statistical generalization and foundational invariance, are complementary. The first makes the certificates more observable. The second tests whether the mathematical object survives changes of representation and modeling assumptions.
