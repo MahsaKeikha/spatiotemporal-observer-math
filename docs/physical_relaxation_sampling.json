@@ -1,0 +1,139 @@
+{
+  "experiment": "AM",
+  "title": "Sampling-consistent physical relaxation time",
+  "true_relaxation_time_seconds": 0.8,
+  "uniform_sampling": [
+    {
+      "sample_interval_seconds": 0.025,
+      "sample_rate_hz": 40.0,
+      "phi": 0.9692332344763441,
+      "recovered_tau_seconds": 0.8000000000000013
+    },
+    {
+      "sample_interval_seconds": 0.05,
+      "sample_rate_hz": 20.0,
+      "phi": 0.9394130628134758,
+      "recovered_tau_seconds": 0.8000000000000003
+    },
+    {
+      "sample_interval_seconds": 0.1,
+      "sample_rate_hz": 10.0,
+      "phi": 0.8824969025845955,
+      "recovered_tau_seconds": 0.8000000000000004
+    },
+    {
+      "sample_interval_seconds": 0.2,
+      "sample_rate_hz": 5.0,
+      "phi": 0.7788007830714049,
+      "recovered_tau_seconds": 0.8
+    },
+    {
+      "sample_interval_seconds": 0.4,
+      "sample_rate_hz": 2.5,
+      "phi": 0.6065306597126334,
+      "recovered_tau_seconds": 0.8
+    }
+  ],
+  "subsampling_semigroup_check": [
+    {
+      "factor": 1,
+      "interval_seconds": 0.025,
+      "direct_phi": 0.9692332344763441,
+      "power_phi": 0.9692332344763441,
+      "absolute_error": 0.0
+    },
+    {
+      "factor": 2,
+      "interval_seconds": 0.05,
+      "direct_phi": 0.9394130628134758,
+      "power_phi": 0.9394130628134759,
+      "absolute_error": 1.1102230246251565e-16
+    },
+    {
+      "factor": 4,
+      "interval_seconds": 0.1,
+      "direct_phi": 0.8824969025845955,
+      "power_phi": 0.8824969025845956,
+      "absolute_error": 1.1102230246251565e-16
+    },
+    {
+      "factor": 8,
+      "interval_seconds": 0.2,
+      "direct_phi": 0.7788007830714049,
+      "power_phi": 0.7788007830714052,
+      "absolute_error": 3.3306690738754696e-16
+    },
+    {
+      "factor": 16,
+      "interval_seconds": 0.4,
+      "direct_phi": 0.6065306597126334,
+      "power_phi": 0.6065306597126339,
+      "absolute_error": 4.440892098500626e-16
+    }
+  ],
+  "irregular_sampling": {
+    "sample_times_seconds": [
+      0.0,
+      0.04,
+      0.11,
+      0.19,
+      0.33,
+      0.52,
+      0.76,
+      1.01,
+      1.29,
+      1.58,
+      1.92,
+      2.31,
+      2.75
+    ],
+    "minimum_covariance_eigenvalue": 0.03982621678130326,
+    "maximum_covariance_eigenvalue": 5.889657305960541,
+    "time_unit_invariance_max_abs_error": 1.1102230246251565e-16
+  },
+  "relaxation_time_cover": {
+    "interval_seconds": [
+      0.55,
+      1.05
+    ],
+    "operator_lipschitz_bound_per_second": 6.655816710823423,
+    "grid_results": [
+      {
+        "grid_size": 5,
+        "certified_operator_radius": 0.41598854442646394,
+        "dense_max_observed_operator_error": 0.3200702985129258,
+        "ratio_observed_to_certified": 0.7694209439209834
+      },
+      {
+        "grid_size": 9,
+        "certified_operator_radius": 0.20799427221323197,
+        "dense_max_observed_operator_error": 0.16267162921286427,
+        "ratio_observed_to_certified": 0.782096677383963
+      },
+      {
+        "grid_size": 17,
+        "certified_operator_radius": 0.10399713610661598,
+        "dense_max_observed_operator_error": 0.08135858160875975,
+        "ratio_observed_to_certified": 0.7823155968963645
+      },
+      {
+        "grid_size": 33,
+        "certified_operator_radius": 0.05199856805330799,
+        "dense_max_observed_operator_error": 0.04084679660769077,
+        "ratio_observed_to_certified": 0.7855369510524861
+      },
+      {
+        "grid_size": 65,
+        "certified_operator_radius": 0.025999284026653996,
+        "dense_max_observed_operator_error": 0.02021184827584794,
+        "ratio_observed_to_certified": 0.7774001874485127
+      }
+    ],
+    "dense_evaluation_count": 2001
+  },
+  "interpretation": {
+    "theorem_role": "The physical parameter is tau. The discrete coefficient phi changes with the sampling interval, while tau remains invariant under the declared exponential model.",
+    "diagnostic_role": "Dense grid evaluation checks numerical scale only. The continuum guarantee comes from the analytic operator Lipschitz bound in Proposition 53.",
+    "not_established": "The experiment does not establish that a real system has one exponential relaxation time or that the temporal model is universally valid."
+  }
+}
