@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from itertools import pairwise
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,8 +52,10 @@ def render(record: dict[str, object]) -> str:
     sample_count = len(irregular["sample_times_seconds"])
 
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
-        f'viewBox="0 0 {WIDTH} {HEIGHT}">',
+        (
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
+            f'viewBox="0 0 {WIDTH} {HEIGHT}">'
+        ),
         '<rect width="100%" height="100%" fill="#f7f9fc"/>',
         _text(60, 58, "Proposition 53: exact irregular-grid Markov factorization", 31, 700),
         _text(
@@ -99,7 +102,7 @@ def render(record: dict[str, object]) -> str:
         y = _map(correlation, 0.5, 1.0, y0, y1)
         points.append((x, y))
     points.sort()
-    for first, second in zip(points, points[1:], strict=False):
+    for first, second in pairwise(points):
         parts.append(_line(first[0], first[1], second[0], second[1], "#2563eb", 2.5))
     for x, y in points:
         parts.append(_circle(x, y, 5.5, "#2563eb"))
@@ -124,7 +127,13 @@ def render(record: dict[str, object]) -> str:
             )
     parts.extend(
         [
-            _text(right_x + 300, top_y + 118, f'{int(markov["precision_nonzero_count"])} nonzero entries', 17, 700),
+            _text(
+                right_x + 300,
+                top_y + 118,
+                f'{int(markov["precision_nonzero_count"])} nonzero entries',
+                17,
+                700,
+            ),
             _text(
                 right_x + 300,
                 top_y + 148,
@@ -155,7 +164,15 @@ def render(record: dict[str, object]) -> str:
         parts.append(_text(left_x + 40, y, label, 16))
         parts.append(_text(left_x + 300, y, f"{value:.2e}", 17, 700))
         parts.append(_circle(left_x + 552, y - 6, 6, "#0f9d78"))
-    parts.append(_text(left_x + 40, bottom_y + 265, "All identities hold at floating-point precision.", 16, 700))
+    parts.append(
+        _text(
+            left_x + 40,
+            bottom_y + 265,
+            "All identities hold at floating-point precision.",
+            16,
+            700,
+        )
+    )
 
     parts.extend(
         [
@@ -186,7 +203,13 @@ def render(record: dict[str, object]) -> str:
                 16,
                 700,
             ),
-            _text(right_x + 24, bottom_y + 242, "Likelihood geometry can be evaluated from local steps.", 15, 700),
+            _text(
+                right_x + 24,
+                bottom_y + 242,
+                "Likelihood geometry can be evaluated from local steps.",
+                15,
+                700,
+            ),
         ]
     )
 
