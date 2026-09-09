@@ -93,8 +93,8 @@ def test_two_scale_normalization_radius_tracks_nuisance_rank():
         calibration_outer_cover_cell_count=80,
         target_cover_point_count=9,
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
     assert np.isclose(
         result.target_normalization_covering_radius,
@@ -115,8 +115,8 @@ def test_finer_target_cover_reduces_geometric_covering_radius():
         calibration_outer_cover_cell_count=80,
         target_cover_point_count=7,
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
     fine = gaussian_irregular_relaxation_two_scale_target_bound(
         model,
@@ -127,8 +127,8 @@ def test_finer_target_cover_reduces_geometric_covering_radius():
         calibration_outer_cover_cell_count=80,
         target_cover_point_count=19,
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
     assert fine.target_parameter_covering_radius < coarse.target_parameter_covering_radius
     assert fine.target_eigenvalue_covering_radius < coarse.target_eigenvalue_covering_radius
@@ -145,8 +145,8 @@ def test_optimizer_selects_smallest_candidate_covariance_radius():
         calibration_outer_cover_cell_count=80,
         candidate_target_cover_point_counts=(5, 9, 17),
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
     assert optimized.selected_index == int(
         np.argmin(optimized.candidate_covariance_relative_errors)
@@ -167,8 +167,8 @@ def test_two_scale_certificate_is_invariant_to_time_units():
         calibration_outer_cover_cell_count=80,
         target_cover_point_count=11,
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
     result_milliseconds = gaussian_irregular_relaxation_two_scale_target_bound(
         *milliseconds,
@@ -177,8 +177,8 @@ def test_two_scale_certificate_is_invariant_to_time_units():
         calibration_outer_cover_cell_count=80,
         target_cover_point_count=11,
         covariance_confidence=0.95,
-        upper_theta_grid_size=32,
-        lower_theta_grid_size=32,
+        upper_theta_grid_size=64,
+        lower_theta_grid_size=64,
     )
 
     assert np.isclose(
