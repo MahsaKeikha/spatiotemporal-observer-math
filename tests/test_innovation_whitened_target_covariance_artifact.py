@@ -1,7 +1,7 @@
 import importlib.util
 import json
-import xml.etree.ElementTree as ET
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
