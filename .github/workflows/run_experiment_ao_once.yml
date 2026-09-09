@@ -1,0 +1,33 @@
+name: run-experiment-ao-once
+
+on:
+  push:
+    branches:
+      - prop54-two-scale-irregular-tau-cover
+
+permissions:
+  contents: write
+
+jobs:
+  experiment:
+    if: github.event.head_commit.message == 'Add temporary Experiment AO runner'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: prop54-two-scale-irregular-tau-cover
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e ".[dev]"
+      - name: Run Experiment AO
+        run: python examples/two_scale_irregular_tau_cover.py
+      - name: Commit Experiment AO record
+        run: |
+          git config user.name "Mahsa Keikha"
+          git config user.email "mahsa.keikha@gmail.com"
+          git add docs/two_scale_irregular_tau_cover.json
+          git commit -m "Record Experiment AO two-scale tau cover results"
+          git push origin HEAD:prop54-two-scale-irregular-tau-cover
