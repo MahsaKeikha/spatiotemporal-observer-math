@@ -36,6 +36,11 @@ from .identifiability import (
     paths_equivalent_under_permutations,
     two_point_identifiability_bound,
 )
+from .innovation_whitening import (
+    GaussianInnovationWhitenedMatrixChernoffBound,
+    gaussian_innovation_whitened_matrix_chernoff_bound,
+    separable_gaussian_innovation_whitened_covariance,
+)
 from .irregular_relaxation_evalue import (
     GaussianIrregularRelaxationEValueGrid,
     GaussianIrregularRelaxationEValueModel,
@@ -247,6 +252,7 @@ __all__ = [
     "GaussianEstimatedAR1DesignProjectedCovarianceBound",
     "GaussianEstimatedAR1ProjectedCovarianceBound",
     "GaussianIncrementCorrelationInterval",
+    "GaussianInnovationWhitenedMatrixChernoffBound",
     "GaussianIrregularRelaxationEValueGrid",
     "GaussianIrregularRelaxationEValueModel",
     "GaussianIrregularRelaxationEValueOuterCover",
@@ -330,6 +336,7 @@ __all__ = [
     "gaussian_estimated_ar1_design_projected_covariance_bound",
     "gaussian_estimated_ar1_projected_covariance_bound",
     "gaussian_factor_aware_near_competitor_screen",
+    "gaussian_innovation_whitened_matrix_chernoff_bound",
     "gaussian_irregular_relaxation_evalue_grid",
     "gaussian_irregular_relaxation_evalue_model",
     "gaussian_irregular_relaxation_evalue_outer_cover",
@@ -390,6 +397,7 @@ __all__ = [
     "separable_gaussian_centered_covariance",
     "separable_gaussian_estimated_ar1_design_projected_covariance",
     "separable_gaussian_estimated_ar1_projected_covariance",
+    "separable_gaussian_innovation_whitened_covariance",
     "separable_gaussian_projected_covariance",
     "simulate_gaussian_ensemble",
     "structural_transport",
