@@ -76,7 +76,7 @@ def separable_gaussian_innovation_whitened_covariance(
     nuisance_design: ArrayLike,
     relaxation_time: float,
 ) -> np.ndarray:
-    """Estimate spatial covariance after exact temporal innovation whitening.
+    r"""Estimate spatial covariance after exact temporal innovation whitening.
 
     The declared target model is
 
