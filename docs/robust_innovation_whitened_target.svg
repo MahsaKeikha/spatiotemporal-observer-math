@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <style>
+    .bg { fill: #ffffff; } .panel { fill: #f8fafc; stroke: #d7dee8; stroke-width: 1.2; }
+    .title { font: 700 27px Arial, sans-serif; fill: #172033; } .subtitle { font: 400 14px Arial, sans-serif; fill: #526075; }
+    .head { font: 700 17px Arial, sans-serif; fill: #172033; } .body { font: 400 13px Arial, sans-serif; fill: #39475a; }
+    .small { font: 600 12px Arial, sans-serif; fill: #39475a; } .tiny { font: 600 10px Arial, sans-serif; fill: #526075; }
+    .value { font: 700 12px Arial, sans-serif; fill: #172033; } .axis { stroke: #738096; stroke-width: 2; }
+    .interval { stroke: #2563eb; stroke-width: 13; stroke-linecap: round; } .working { stroke: #0f766e; stroke-width: 3; }
+    .truth { stroke: #b45309; stroke-width: 3; stroke-dasharray: 6 5; } .track { fill: #e7ecf3; } .bar { fill: #4f6f9f; }
+    .bar2 { fill: #7c8fae; } .threshold { stroke: #a11d2e; stroke-width: 2; stroke-dasharray: 5 4; }
+    .emph { font: 700 23px Arial, sans-serif; fill: #0f766e; } .eq { font: 600 15px Arial, sans-serif; fill: #172033; }
+  </style>
+  <rect width="1200" height="720" class="bg"/>
+  <text x="60" y="48" class="title">Experiment AR | Robust innovation whitening under calibrated physical-time uncertainty</text>
+  <text x="60" y="74" class="subtitle">One working whitener, one finite-sample tau interval, one uniform target covariance certificate</text>
+  <rect x="55" y="105" width="530" height="250" rx="12" class="panel"/>
+  <text x="80" y="137" class="head">A. Calibration determines the admissible physical timescale</text>
+  <line x1="90.0" y1="224" x2="530.0" y2="224" class="axis"/>
+  <line x1="160.6" y1="224" x2="475.6" y2="224" class="interval"/>
+  <line x1="318.0" y1="188" x2="318.0" y2="260" class="working"/>
+  <line x1="338.7" y1="188" x2="338.7" y2="260" class="truth"/>
+  <text x="160.6" y="278" text-anchor="middle" class="small">0.686875s</text>
+  <text x="475.6" y="278" text-anchor="middle" class="small">0.8515625s</text>
+  <text x="318.0" y="179" text-anchor="middle" class="small">working tau = 0.76921875s</text>
+  <text x="338.7" y="296" text-anchor="middle" class="small">true tau = 0.78s</text>
+  <text x="80" y="329" class="body">Proposition 55 confidence: 0.975 | hull width: 0.1646875s</text>
+  <rect x="615" y="105" width="530" height="250" rx="12" class="panel"/>
+  <text x="640" y="137" class="head">B. The uncertain-tau target theorem stays below radius one</text>
+  <text x="690.0" y="158.0" class="small">P55 raw-time calibrated</text>
+  <rect x="690.0" y="166.0" width="330.0" height="18" rx="4" class="track"/>
+  <rect x="690.0" y="166.0" width="318.8" height="18" rx="4" class="bar"/>
+  <text x="1032.0" y="180.0" class="value">2.41488</text>
+  <text x="690.0" y="218.0" class="small">P56 exact-tau innovation</text>
+  <rect x="690.0" y="226.0" width="330.0" height="18" rx="4" class="track"/>
+  <rect x="690.0" y="226.0" width="57.6" height="18" rx="4" class="bar"/>
+  <text x="1032.0" y="240.0" class="value">0.43647</text>
+  <text x="690.0" y="278.0" class="small">P57 calibrated-tau robust</text>
+  <rect x="690.0" y="286.0" width="330.0" height="18" rx="4" class="track"/>
+  <rect x="690.0" y="286.0" width="114.5" height="18" rx="4" class="bar"/>
+  <text x="1032.0" y="300.0" class="value">0.86771</text>
+  <line x1="690" y1="331" x2="1020" y2="331" class="threshold"/>
+  <text x="1032" y="335" class="tiny">epsilon = 1 threshold</text>
+  <text x="690" y="348" class="body">P57 reduction from P55 calibrated raw time: 64.1%</text>
+  <rect x="55" y="380" width="530" height="280" rx="12" class="panel"/>
+  <text x="80" y="412" class="head">C. Certified transformed temporal geometry</text>
+  <text x="85" y="455" class="eq">C_tau = W0 R_tau W0^T</text>
+  <text x="85" y="490" class="body">||W0||2 = 5.15015</text>
+  <text x="85" y="518" class="body">transformed Lipschitz bound = 794.382 s^-1</text>
+  <text x="85" y="546" class="body">eigenvalue cover radius = 0.063879</text>
+  <text x="85" y="574" class="body">projected normalization range = [99.801, 138.596]</text>
+  <text x="85" y="602" class="body">reference normalization = 119.199</text>
+  <text x="85" y="638" class="emph">uniform epsilon = 0.86771 &lt; 1</text>
+  <rect x="615" y="380" width="530" height="280" rx="12" class="panel"/>
+  <text x="640" y="412" class="head">D. Pointwise diagnostics show where the uniform bound is conservative</text>
+  <line x1="670" y1="610" x2="1110" y2="610" class="axis"/>
+  <rect x="690.0" y="501.2" width="54" height="108.8" rx="5" class="bar2"/>
+  <text x="717.0" y="628" text-anchor="middle" class="tiny">0.687s</text>
+  <text x="717.0" y="486.2" text-anchor="middle" class="tiny">0.580</text>
+  <rect x="805.0" y="530.8" width="54" height="79.2" rx="5" class="bar2"/>
+  <text x="832.0" y="628" text-anchor="middle" class="tiny">0.769s</text>
+  <text x="832.0" y="515.8" text-anchor="middle" class="tiny">0.422</text>
+  <rect x="920.0" y="534.2" width="54" height="75.8" rx="5" class="bar2"/>
+  <text x="947.0" y="628" text-anchor="middle" class="tiny">0.780s</text>
+  <text x="947.0" y="519.2" text-anchor="middle" class="tiny">0.404</text>
+  <rect x="1035.0" y="534.2" width="54" height="75.8" rx="5" class="bar2"/>
+  <text x="1062.0" y="628" text-anchor="middle" class="tiny">0.852s</text>
+  <text x="1062.0" y="519.2" text-anchor="middle" class="tiny">0.404</text>
+  <text x="640" y="652" class="body">Pointwise radii are diagnostics only. The theorem uses the complete continuum certificate.</text>
+  <text x="60" y="699" class="subtitle">Combined calibration-target confidence lower bound: 0.950625 | Conditional on the declared separable Gaussian one-timescale exponential model.</text>
+</svg>
