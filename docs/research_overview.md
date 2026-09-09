@@ -305,7 +305,7 @@ The physical lineage includes [Uhlenbeck and Ornstein 1930](bibliography.md#uhle
 | Result | Question answered | Main controlled result |
 | --- | --- | ---: |
 | P53A / AM | Can temporal memory be parameterized in physical time? | one \(\tau\) remains meaningful across sampling intervals |
-| P53B / AN | Can \(tau\) be calibrated from irregular finite data? | continuum e-value confidence set |
+| P53B / AN | Can \(\tau\) be calibrated from irregular finite data? | continuum e-value confidence set |
 | P54 / AO | Can calibration and target resolutions be separated? | target radius `3.15549 -> 2.57207` |
 | P55 / AP | Can likelihood curvature sharpen the physical-time set? | hull width `0.1646875 s`; target radius `2.41488` |
 | P56 / AQ | Can exact innovations remove the raw-time temporal penalty? | exact-\(\tau\) scalar radius `2.16725 -> 0.43647` |
