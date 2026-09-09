@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 0.42.0 — 2026-09-08
+## 0.42.0 : 2026-09-08
 
 - Add Proposition 53B: exact irregular-time innovation likelihood and finite-sample continuum e-value inference for physical relaxation time.
 - Add cell-local certified outer covers and independent target composition through Proposition 49.
