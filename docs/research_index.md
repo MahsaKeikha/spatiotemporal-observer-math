@@ -1,18 +1,19 @@
 # Research index
 
-This page is the navigation layer for the repository. It separates physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, literature sources, and any later consciousness interpretation so each layer can be audited independently.
+This page is the audit-oriented navigation layer for the repository. It keeps physical interpretation, proved mathematics, reproducible numerical evidence, software verification, assumptions, literature sources, and any future consciousness interpretation separate.
 
-A numerical experiment is not presented as a proof. A theorem is not presented as evidence that its assumptions hold in nature. An optimized world-tube is not presented as proof of consciousness. A citation is not presented as an endorsement by the cited author.
+A numerical experiment is not a proof. A theorem is not evidence that its assumptions hold in nature. An optimized world-tube is not proof of consciousness. A citation is not an endorsement by the cited author.
 
 ## Current research record
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **55** |
-| Reproducible experiments | **42, A-Z and AA-AP** |
-| Scientific result figures | **30** |
-| Claim-level tests | **206** |
-| Research-software version | **0.44.0** |
+| Propositions | **56** |
+| Reproducible experiments | **43, A-Z and AA-AQ** |
+| Scientific result figures | **31** |
+| Claim-level tests | **211** |
+| Research-software version | **0.45.0** |
+| CI matrix | **Python 3.10, 3.11, 3.12** |
 
 The physics pipeline is an explanatory diagram and is not included in the scientific-result figure count.
 
@@ -20,55 +21,53 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 
 | Reader goal | Best page |
 | --- | --- |
-| Trace the primary conceptual source and mathematical literature | [Bibliography and Citation Map](bibliography.md) |
-| Use machine-readable references | [`references.bib`](../references.bib) |
-| Understand the physical problem first | [Physics Guide](physics_guide.md) |
-| Learn how to read the figures and theorem radii | [Figure Reading Guide](figure_reading_guide.md) |
-| Follow the research as one coherent story | [Research Overview](research_overview.md) |
-| See the complete visual history | [Repository front page](../README.md) |
+| See the visual research history | [Repository front page](../README.md) |
+| Trace the conceptual source and mathematical literature | [Bibliography and Citation Map](bibliography.md) |
+| Understand the physical meaning of the equations | [Physics Guide](physics_guide.md) |
+| Learn how to interpret theorem figures | [Figure Reading Guide](figure_reading_guide.md) |
+| Follow the program as one coherent story | [Research Overview](research_overview.md) |
 | Audit Propositions 1-43 | [Proof record](proofs_and_conjectures.md) |
-| Audit Propositions 44-52 | Proposition-specific proof pages listed below |
-| Audit Proposition 53 | [Sampling-consistent physical relaxation time and irregular-grid Markov structure](proposition_53_physical_relaxation_time.md) |
-| Inspect the current patch release | [0.41.1 Research Record](release_0_41_1.md) |
+| Audit Proposition 53A | [Physical relaxation and irregular-grid Markov structure](proposition_53_physical_relaxation_time.md) |
+| Audit Proposition 53B | [Irregular-time finite-sample tau calibration](proposition_53b_irregular_tau_evalue.md) |
+| Audit Proposition 54 | [Two-scale tau cover](proposition_54_two_scale_irregular_tau_cover.md) |
+| Audit Proposition 55 | [Quadratic relaxation calibration](proposition_55_quadratic_relaxation_calibration.md) |
+| Audit Proposition 56 | [Innovation-whitened target covariance](proposition_56_innovation_whitened_target.md) |
+| Inspect the current release | [0.45.0 Research Record](release_0_45.md) |
 | Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
-| Inspect the temporal-calibration software interface | [Temporal Calibration API](api_temporal_calibration.md) |
-| Inspect requirements for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
-
-## Citation architecture
-
-The project uses three citation roles and keeps them distinct.
-
-1. **Primary conceptual source.** Max Tegmark's 2015 paper *Consciousness as a State of Matter* is the primary conceptual source and starting point for the research question developed in this repository.
-2. **Direct mathematical or statistical source.** A theorem, inequality, distributional fact, or method that materially enters a proof or algorithm is cited as a direct source.
-3. **Background lineage.** A paper can be scientifically important context without being the source of a proposition in this repository.
-
-The complete attribution record, including proposition-to-literature mapping and DOI links, is maintained in the [Bibliography and Citation Map](bibliography.md). BibTeX entries are maintained in [`references.bib`](../references.bib).
-
-This distinction matters because the repository develops new statements and proofs while building on established mathematics. Citing a paper does not imply that the cited author derived the repository's later propositions or endorses the project.
+| Inspect temporal-calibration APIs | [Temporal Calibration API](api_temporal_calibration.md) |
+| Inspect rules for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
 
 ---
 
-# The theorem program
+# 1. Citation architecture
+
+The project keeps three citation roles distinct.
+
+1. **Primary conceptual source.** Max Tegmark's 2015 paper *Consciousness as a State of Matter* is the primary conceptual source and starting point for the research question.
+2. **Direct mathematical or statistical source.** A theorem, inequality, distributional fact, or method that materially enters a proof or algorithm is cited as a direct source.
+3. **Background lineage.** A paper can be important context without being the source of a proposition in this repository.
+
+The complete attribution record is maintained in the [Bibliography and Citation Map](bibliography.md), with machine-readable references in [`references.bib`](../references.bib).
+
+---
+
+# 2. The theorem program
 
 ## Layer A. Foundations and first recovery theory, Propositions 1-14
 
-These results establish adjacent-state covariance, representation invariance inside declared blocks, transport bounds, world-tube optimization robustness, finite-sample recovery, covariance perturbation control, and identifiability limits.
+Adjacent-state covariance, representation invariance inside declared blocks, transport, moving-path robustness, finite-sample recovery, covariance perturbation control, and identifiability limits.
 
-Important literature foundations include Shannon and Cover and Thomas for information theory, Hotelling for canonical correlation, Bellman for dynamic programming, Wishart for Gaussian sample covariance, Bhatia for matrix analysis, and Davidson and Szarek for the Gaussian singular-value concentration step used in the finite-sample proof layer.
-
-Detailed statements and proofs: [Propositions 1-14](proofs_and_conjectures.md). Literature roles: [Bibliography](bibliography.md).
+Detailed statements and proofs: [Propositions 1-14](proofs_and_conjectures.md).
 
 ## Layer B. Structural compression and moving-partition theory, Propositions 15-31
 
-This layer develops near-competitor structure, symbolic moving-clique recovery, overlap classes, covariance influence cones, interval-certified structural classes, residual bounds, and screened environmental recovery.
-
-Its purpose is to replace brute-force competitor enumeration with certified structure while keeping the moving-boundary problem explicit.
+Near-competitor structure, symbolic moving-clique recovery, overlap classes, covariance influence cones, interval-certified structural classes, residual bounds, and screened environmental recovery.
 
 Detailed statements and proofs: [Propositions 15-31](proofs_and_conjectures.md).
 
 ## Layer C. Statistical screening and drift, Propositions 32-40
 
-This layer introduces safe sample splitting, Gaussian screening, structural-null refinements, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
+Safe sample splitting, Gaussian screening, structural-null refinements, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
 
 Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 
@@ -81,15 +80,15 @@ Detailed statements and proofs: [Propositions 32-40](proofs_and_conjectures.md).
 | 43 | Observable AR(1) calibration | Learns discrete persistence instead of assuming it | [Proof record](proofs_and_conjectures.md) |
 | 44 | Fixed nuisance-subspace projection | Removes declared drift shapes before covariance estimation | [Proof](proposition_44_nuisance_projection.md) |
 | 45 | Estimated dependence plus nuisance projection | Handles memory uncertainty and drift together | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
-| 46 | Design-specific temporal geometry | Uses the actual removed drift geometry rather than only its rank | [Proof](proposition_46_design_specific_ar1_envelope.md) |
+| 46 | Design-specific temporal geometry | Uses actual removed-drift geometry rather than only rank | [Proof](proposition_46_design_specific_ar1_envelope.md) |
 | 47 | Direct matrix concentration | Uses the complete projected temporal fluctuation spectrum | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| 48 | Uniform matrix concentration over AR(1) uncertainty | Keeps the covariance guarantee valid across uncertain discrete persistence | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
-| 49 | Compact temporal-family cover | Propagates a complete family of admissible memory kernels | [Proof](proposition_49_compact_temporal_family.md) |
-| 50 | Two-parameter temporal calibration | Learns persistence and fast uncorrelated variance from independent calibration | [Proof](proposition_50_calibrated_temporal_family.md) |
-| 51 | Continuum e-value confidence set | Uses the full calibration residual likelihood to retain compatible temporal models | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
-| 52 | Certified outer cover plus target composition | Carries every still-compatible temporal model into an independent target covariance certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) |
+| 48 | Uniform matrix concentration over AR(1) uncertainty | Preserves covariance guarantees across uncertain persistence | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
+| 49 | Compact temporal-family cover | Propagates a full admissible family of memory kernels | [Proof](proposition_49_compact_temporal_family.md) |
+| 50 | Two-parameter temporal calibration | Learns persistence and fast uncorrelated variance | [Proof](proposition_50_calibrated_temporal_family.md) |
+| 51 | Continuum e-value confidence set | Retains temporal models compatible with the complete calibration record | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
+| 52 | Certified outer cover plus target composition | Carries every still-compatible model into an independent target certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) |
 
-The physical measurement story is:
+The measurement story is:
 
 ```text
 record has memory and drift
@@ -102,142 +101,141 @@ continuum uncertainty must enter an independent target theorem
         -> P52: certified outer cover and target composition
 ```
 
-Direct literature foundations for this layer include Laurent and Massart and Hsu, Kakade, and Zhang for quadratic-form concentration, Tropp for the matrix-Laplace concentration method, and Vovk and Wang and Shafer for the e-value literature. See the [proposition-to-literature map](bibliography.md#7-proposition-to-literature-map).
+## Layer E. Sampling-consistent physical time, Proposition 53
 
-## Layer E. Sampling-consistent physical time and exact irregular-grid structure, Proposition 53
-
-Proposition 53 changes the temporal parameterization from a sample-index coefficient to a physical time constant for the exponential relaxation model and then derives its exact local Gaussian representation on arbitrary increasing timestamps.
-
-For physical sample times \(t_i\),
+Proposition 53 replaces a sample-index AR(1) coefficient by a physical relaxation time for the exponential model:
 
 \[
-R_\tau(i,j)
-=
-\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+R_\tau(i,j)=\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
 \]
 
-Under uniform sampling with interval \(\Delta t\),
+For irregular adjacent gaps,
 
 \[
-\phi_{\Delta t}
-=
-\exp\left(-\frac{\Delta t}{\tau}\right),
+\alpha_i=\exp\left(-\frac{t_{i+1}-t_i}{\tau}\right),
+\]
+
+with exact transition law
+
+\[
+X_{i+1}=\alpha_iX_i+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\]
+
+The same theorem gives exact local innovation whitening and tridiagonal temporal precision.
+
+- [Proposition 53A](proposition_53_physical_relaxation_time.md): sampling consistency and exact irregular-grid local structure.
+- [Proposition 53B](proposition_53b_irregular_tau_evalue.md): finite-sample continuum e-value calibration of \(\tau\) on irregular timestamps.
+
+## Layer F. Two-scale physical-time uncertainty propagation, Proposition 54
+
+Proposition 54 separates the fine resolution used to certify calibration from the smaller target temporal cover used for independent covariance concentration.
+
+[Proposition 54 proof](proposition_54_two_scale_irregular_tau_cover.md).
+
+## Layer G. Local likelihood curvature, Proposition 55
+
+Proposition 55 uses the exact observed-data likelihood slope plus a rigorous cell-local curvature bound to tighten the retained physical-time interval without spending additional probability budget.
+
+Experiment AP reduces the 160-cell interval width by about 73%, but its known-\(\tau\) raw-time oracle still gives
+
+\[
+2.1672468952>1.
+\]
+
+That negative diagnostic identifies target covariance concentration, not calibration, as the next bottleneck.
+
+[Proposition 55 proof](proposition_55_quadratic_relaxation_calibration.md).
+
+## Layer H. Exact innovation-whitened target inference, Proposition 56
+
+Proposition 56 uses the exact local temporal law operationally before target covariance concentration.
+
+For
+
+\[
+Y=HB+E,
 \qquad
-\tau
-=
--\frac{\Delta t}{\log\phi_{\Delta t}}.
+\operatorname{vec}(E)\sim\mathcal N(0,R_\tau\otimes\Gamma),
 \]
 
-For irregular adjacent gaps, define
+let \(W_\tau R_\tau W_\tau^\mathsf T=I\), define \(Z=W_\tau Y\) and \(G=W_\tau H\), and residualize with
 
 \[
-\alpha_i
-=
-\exp\left(-\frac{t_{i+1}-t_i}{\tau}\right).
+P_G=I-G(G^\mathsf TG)^{-1}G^\mathsf T.
 \]
 
-The exact local transition law is
+Then
 
 \[
-X_{i+1}
+\widehat\Gamma_{\mathrm{IW}}
 =
-\alpha_iX_i
-+
-\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\frac{1}{N-q}Z^\mathsf TP_GZ
 \]
 
-The theorem proves exact coarse-sampling consistency, time-unit invariance, validity on irregular timestamps, a deterministic operator cover over a declared \(\tau\)-interval that composes with Proposition 49, exact innovation whitening, a tridiagonal temporal precision matrix, local determinant factorization, and exact missing-sample transition composition.
+satisfies
 
-The physical stochastic-process lineage is the classical Ornstein-Uhlenbeck exponential-relaxation model of Uhlenbeck and Ornstein. Doob 1942 is recorded as historical Gaussian Markov-process context. The irregular-grid formulas themselves are derived directly in Proposition 53.
+\[
+\boxed{
+(N-q)\widehat\Gamma_{\mathrm{IW}}
+\sim\operatorname{Wishart}_d(\Gamma,N-q)
+}.
+\]
 
-Direct source: [Proposition 53 proof](proposition_53_physical_relaxation_time.md). Release audit: [0.41.1 Research Record](release_0_41_1.md). Literature context: [Bibliography](bibliography.md#6-physical-relaxation-and-continuous-time-stochastic-dynamics).
+Thus Proposition 47 applies with exactly \(N-q\) unit temporal weights.
+
+On Experiment AQ, \(N=120\), \(q=2\), and the certified scalar block radius is
+
+\[
+\boxed{0.4364443814<1},
+\]
+
+compared with the previous known-\(\tau\) raw-time oracle `2.1672468952`.
+
+[Proposition 56 proof](proposition_56_innovation_whitened_target.md) | [Experiment AQ JSON](innovation_whitened_target.json) | [Experiment script](../examples/innovation_whitened_target.py) | [Figure](innovation_whitened_target.svg)
 
 ---
 
-# Experiment index
+# 3. Recent experiment index
 
-## Experiments A-AC
-
-These cover the original boundary objective, changing-boundary world-tubes, finite-sample recovery, identifiability counterexamples, structural compression, Gaussian screening, drift calibration, dependent sampling, and the first observable AR(1) calibration results.
-
-Full commands and numerical records: [Reproducible Results](reproducible_results.md).
-
-## Recent experiments AD-AM
-
-| ID | Proposition | Main question | Physical reading | Proof, data, code |
+| ID | Proposition | Main question | Main result | Proof/data |
 | --- | ---: | --- | --- | --- |
-| AD | 44 | Time-varying nuisance projection | Large deterministic drift should not masquerade as fluctuation covariance | [Proof](proposition_44_nuisance_projection.md) |
-| AE | 45 | Estimated AR(1) plus affine nuisance mean | Memory uncertainty and drift can be propagated together | [Proof](proposition_45_estimated_ar1_nuisance_projection.md) |
-| AF | 46 | Design-specific interval geometry | The physical shape of removed drift modes matters, not only their count | [Proof](proposition_46_design_specific_ar1_envelope.md) |
-| AG | 47 | Weighted Gaussian matrix concentration | Complete temporal fluctuation modes can tighten covariance certification | [Proof](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| AH | 48 | Interval-uniform matrix concentration | Uncertain discrete persistence can be carried through the matrix bound | [Proof](proposition_48_uniform_matrix_chernoff_ar1.md) |
-| AI | 49 | Compact temporal-family concentration | A full family of memory kernels can be represented by certified geometry | [Proof](proposition_49_compact_temporal_family.md) |
-| AJ | 50 | Observable two-parameter calibration | More independent calibration narrows temporal uncertainty without changing the target record | [Proof](proposition_50_calibrated_temporal_family.md) |
-| AK | 51 | Full-likelihood e-value calibration | The full residual record defines a continuum set of compatible temporal models | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
-| AL | 52 | Certified outer cover and target composition | Every calibration-compatible temporal model is carried into an independent target covariance certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) |
-| AM | 53 | Sampling-consistent physical relaxation and irregular-grid factorization | Sampling changes local coefficients while the same \(\tau\) generates exact local innovations and sparse temporal precision | [Proof](proposition_53_physical_relaxation_time.md) · [JSON](physical_relaxation_sampling.json) · [script](../examples/physical_relaxation_sampling.py) |
+| AN | 53B | Can physical \(\tau\) be calibrated directly on irregular timestamps? | Valid continuum e-value set; first-order outer cover remains loose | [Proof](proposition_53b_irregular_tau_evalue.md) |
+| AO | 54 | Can calibration resolution be separated from target cover resolution? | Target radius `3.15549 -> 2.57207` | [Proof](proposition_54_two_scale_irregular_tau_cover.md) |
+| AP | 55 | Can local likelihood curvature tighten calibration? | 160-cell width contracts about 73%; target radius `2.41488`; known-\(\tau\) oracle `2.16725 > 1` | [Proof](proposition_55_quadratic_relaxation_calibration.md) |
+| AQ | 56 | Can exact local innovations remove the target temporal penalty when \(\tau\) is known? | Raw oracle `2.16725 -> 0.43644`, a 79.86% reduction and `epsilon < 1` | [Proof](proposition_56_innovation_whitened_target.md) |
 
-### Proposition 53 figures
+### Experiment AQ figure
 
-| Sampling consistency | Exact irregular-grid Markov factorization |
-| --- | --- |
-| [![Experiment AM](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md) | [![Markov factorization](physical_relaxation_markov.svg)](proposition_53_physical_relaxation_time.md) |
+[![Experiment AQ](innovation_whitened_target.svg)](proposition_56_innovation_whitened_target.md)
 
-For \(\tau=0.8\) s, the controlled record uses sampling rates from 2.5 Hz through 40 Hz. The corresponding one-step correlations differ substantially, but each maps back to the same relaxation time.
-
-On the 13-point irregular record, the exact precision matrix has only 37 nonzero entries out of 169. The covariance-product, inverse, whitening, precision-Gram, and determinant identities all agree numerically to approximately \(10^{-15}\) or better.
-
-The figures are visibility aids. The exact sampling, Markov, whitening, precision, determinant, and semigroup identities are the theorem.
+The four panels show the theorem-radius transition, raw temporal spectrum versus unit innovation weights, seeded scalar visibility checks, and the lower-bidiagonal/tridiagonal local structure used by the theorem.
 
 ---
 
-# Current frontier
+# 4. Current frontier
 
-Proposition 53 now closes two representation issues under the declared one-timescale exponential Gaussian model: temporal memory is parameterized by a physical relaxation time rather than an arbitrary sample-to-sample coefficient, and that same physical-time model has an exact local transition representation under irregular or missing observations.
+The immediate frontier is no longer another calibration-only refinement.
 
-The next question inside this temporal line is whether \(\tau\) can be calibrated directly on irregular timestamps with a finite-sample confidence construction that exploits the exact innovation likelihood.
+The exact-target-\(\tau\) theorem now crosses `epsilon < 1`. The next problem is to determine how much of that information gain survives when \(\tau\) is only known through the finite-sample Proposition 55 confidence set.
 
-The broader next physics questions remain:
+The required object is the whitening mismatch
 
-- which observer scores survive invertible changes of sensor coordinates;
-- which transformations preserve the physical meaning of a candidate boundary;
-- how spatial resolution and coarse graining change the candidate family;
-- how richer temporal kernels alter the physical timescale picture;
-- which distinctions require interventions rather than passive observations.
+\[
+W_{\widetilde\tau}R_\tau W_{\widetilde\tau}^\mathsf T-I,
+\]
 
-The next statistical frontier is to preserve finite-sample calibration while moving beyond one-timescale exponential or AR(1)-based temporal families.
+uniformly over certified true and working timescales, together with the transformed nuisance design \(W_{\widetilde\tau}H\).
+
+A successful theorem would connect the finite-sample calibration side directly to the innovation-whitened target side without reverting to the earlier raw-time worst-case temporal penalty.
+
+The broader physics questions remain sensor-coordinate invariance, spatial coarse graining, richer temporal kernels, model falsification, and intervention-sensitive identifiability.
 
 Any future consciousness interpretation remains a separate bridge problem under the [Interpretation Protocol](interpretation_protocol.md).
 
 ---
 
-# Reproduction and audit rule
+# 5. Reproduction and audit rule
 
-A result is considered complete in this repository when the relevant pieces exist together: physical question, declared measurement model, mathematical statement, assumptions, proof, implementation, claim-level tests, reproducible numerical record when useful, visible figure when useful, explicit failure conditions, discoverable links, and attribution to any external theorem, method, or physical model materially used.
+A result is considered complete when the relevant pieces exist together: physical question, declared measurement model, mathematical statement, assumptions, proof, implementation, claim-level tests, reproducible numerical record when useful, visible figure when useful, explicit failure conditions, discoverable links, and attribution to external mathematics or physical models materially used.
 
 The documentation style check rejects Unicode en dash and em dash characters in Markdown files.
-
-## Proposition 53B and Experiment AN : finite-sample physical tau calibration
-
-Proposition 53B uses the exact irregular-grid innovation likelihood from Proposition 53A to construct a finite-sample continuum e-value confidence set for physical relaxation time `tau`. Experiment AN records the 97.5% calibration result, its certified cell-local outer cover, seconds/milliseconds invariance, and independent target composition. See [the proof](proposition_53b_irregular_tau_evalue.md), [the figure](irregular_relaxation_evalue_calibration.svg), and [the machine-readable record](irregular_relaxation_evalue_calibration.json).
-
-
-## Proposition 54: two-scale certified irregular-time relaxation cover
-
-**Question.** Can the numerical resolution needed to certify the calibration confidence set be separated from the number of temporal representatives carried into the target covariance theorem?
-
-**Result.** Yes. A fine Proposition 53B outer cover is enclosed by its retained physical-time interval, then a second target grid covers that interval with operator radius `L h / 2` and normalization radius `q L h / 2`. Target cover size may be selected using calibration-derived geometry and declared target design information without inspecting target observations.
-
-**Experiment AO.** On the Experiment AN problem, the target covariance radius decreases from `3.1554895445` to `2.5720746948`, an `18.49%` reduction, but remains above one.
-
-[Proof](proposition_54_two_scale_irregular_tau_cover.md) | [Machine record](two_scale_irregular_tau_cover.json)
-
-## Proposition 55 and Experiment AP
-
-**Mathematical question.** Can exact local slope and certified likelihood curvature replace a first-order worst case when enclosing the Proposition 53B continuum confidence set?
-
-**Physical question.** How sharply does the observed irregular calibration record constrain nearby physical relaxation times, and when does calibration stop being the dominant source of uncertainty?
-
-At 160 calibration cells, the first-order width `0.6109375 s` contracts to `0.1646875 s`. The target covariance radius improves to `2.4148799294`, while the known-tau oracle radius remains `2.1672468952 > 1`.
-
-[Proof](proposition_55_quadratic_relaxation_calibration.md) | [Figure](quadratic_relaxation_calibration.svg) | [JSON](quadratic_relaxation_calibration.json) | [Release record](release_0_44.md)
