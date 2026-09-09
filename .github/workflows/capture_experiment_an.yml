@@ -1,0 +1,20 @@
+name: capture-experiment-an
+
+on:
+  push:
+    branches:
+      - prop53-irregular-tau-evalue
+    paths:
+      - .github/workflows/capture_experiment_an.yml
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e .
+      - run: python examples/irregular_relaxation_evalue_calibration.py
+      - run: cat docs/irregular_relaxation_evalue_calibration.json
