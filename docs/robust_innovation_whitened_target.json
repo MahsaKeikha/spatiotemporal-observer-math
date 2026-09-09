@@ -1,0 +1,98 @@
+{
+  "experiment": "AR",
+  "title": "Finite-sample tau uncertainty propagated through innovation whitening",
+  "calibration_input": {
+    "source_experiment": "AP",
+    "source_proposition": 55,
+    "retained_lower_seconds": 0.686875,
+    "retained_upper_seconds": 0.8515625,
+    "retained_width_seconds": 0.1646875,
+    "calibration_confidence": 0.975
+  },
+  "target_model": {
+    "true_relaxation_time_seconds_for_visibility": 0.78,
+    "working_relaxation_time_seconds": 0.76921875,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2,
+    "residual_degrees_of_freedom": 118,
+    "covariance_confidence": 0.975,
+    "combined_calibration_target_confidence": 0.950625,
+    "block_dimension": 1,
+    "block_count": 1
+  },
+  "certified_transformed_family_cover": {
+    "relaxation_time_grid_size": 1025,
+    "maximum_relaxation_time_spacing_seconds": 0.00016082763671887434,
+    "raw_covariance_operator_lipschitz_bound_per_second": 29.949498594791883,
+    "whitening_operator_norm": 5.15015088828919,
+    "transformed_operator_lipschitz_bound_per_second": 794.3821231568684,
+    "transformed_eigenvalue_covering_radius": 0.06387929975952046,
+    "transformed_normalization_covering_radius": 7.537757371623415
+  },
+  "uniform_target_certificate": {
+    "covariance_normalization": 119.19869572138145,
+    "projected_degrees_of_freedom_lower_bound": 99.80103585759377,
+    "projected_degrees_of_freedom_upper_bound": 138.59635558516914,
+    "projected_spectral_norm_bound": 1.1836019329220473,
+    "oracle_upper_deviation": 0.6063106714425752,
+    "oracle_lower_deviation": 0.46896030488569757,
+    "final_upper_deviation": 0.8677117534900387,
+    "final_lower_deviation": 0.5553784264738267,
+    "covariance_relative_error": 0.8677117534900387,
+    "crosses_relative_radius_one": true
+  },
+  "comparison": {
+    "proposition_55_raw_time_calibrated_radius": 2.4148799294322116,
+    "proposition_55_raw_time_known_tau_oracle_radius": 2.167246895150515,
+    "proposition_56_exact_tau_innovation_radius": 0.43646624628232045,
+    "proposition_57_uncertain_tau_innovation_radius": 0.8677117534900387,
+    "reduction_from_raw_time_calibrated_fraction": 0.6406812020281043
+  },
+  "pointwise_diagnostics": [
+    {
+      "true_relaxation_time_seconds": 0.686875,
+      "projected_temporal_trace": 131.0585982135457,
+      "projected_temporal_minimum_eigenvalue": 0.9461790929128924,
+      "projected_temporal_maximum_eigenvalue": 1.119722633162527,
+      "normalization_ratio": 1.099496914965294,
+      "upper_relative_deviation": 0.5795507413216054,
+      "lower_relative_deviation": 0.2717983987571829,
+      "pointwise_relative_radius": 0.5795507413216054
+    },
+    {
+      "true_relaxation_time_seconds": 0.76921875,
+      "projected_temporal_trace": 118.0,
+      "projected_temporal_minimum_eigenvalue": 0.9999999999999944,
+      "projected_temporal_maximum_eigenvalue": 1.0000000000000062,
+      "normalization_ratio": 0.9899437178055763,
+      "upper_relative_deviation": 0.42202073634694104,
+      "lower_relative_deviation": 0.34433879983048743,
+      "pointwise_relative_radius": 0.42202073634694104
+    },
+    {
+      "true_relaxation_time_seconds": 0.78,
+      "projected_temporal_trace": 116.4832270589526,
+      "projected_temporal_minimum_eigenvalue": 0.9861930207094994,
+      "projected_temporal_maximum_eigenvalue": 1.0062790540815363,
+      "normalization_ratio": 0.977218973362124,
+      "upper_relative_deviation": 0.4037464760121372,
+      "lower_relative_deviation": 0.3526790657378951,
+      "pointwise_relative_radius": 0.4037464760121372
+    },
+    {
+      "true_relaxation_time_seconds": 0.8515625,
+      "projected_temporal_trace": 107.33879322921716,
+      "projected_temporal_minimum_eigenvalue": 0.9033957074436773,
+      "projected_temporal_maximum_eigenvalue": 1.0437993736196818,
+      "normalization_ratio": 0.9005030850347056,
+      "upper_relative_deviation": 0.2936940160139212,
+      "lower_relative_deviation": 0.4035346585906592,
+      "pointwise_relative_radius": 0.4035346585906592
+    }
+  ],
+  "interpretation": {
+    "main_result": "The complete finite-sample Proposition 55 relaxation-time interval can be propagated through one fixed midpoint innovation whitener and still yields a uniform target covariance radius below one on the Experiment AP target schedule.",
+    "conservatism": "The theorem uses the squared working-whitener operator norm times a raw covariance Lipschitz bound and then residual rank times the transformed operator radius for projected-trace uncertainty. These are deliberately conservative deterministic inequalities.",
+    "scope": "The certificate is conditional on the declared separable Gaussian one-timescale exponential relaxation model and on the required separation between calibration and target records."
+  }
+}
