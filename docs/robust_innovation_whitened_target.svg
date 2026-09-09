@@ -12,7 +12,8 @@
   </style>
   <rect width="1200" height="720" class="bg"/>
   <text x="60" y="48" class="title">Experiment AR | Robust innovation whitening under calibrated physical-time uncertainty</text>
-  <text x="60" y="74" class="subtitle">One working whitener, one finite-sample tau interval, one uniform target covariance certificate</text>
+  <text x="60" y="74" class="subtitle">One working whitener, one finite-sample tau interval, separate operator and projected-trace certificates</text>
+
   <rect x="55" y="105" width="530" height="250" rx="12" class="panel"/>
   <text x="80" y="137" class="head">A. Calibration determines the admissible physical timescale</text>
   <line x1="90.0" y1="224" x2="530.0" y2="224" class="axis"/>
@@ -22,10 +23,11 @@
   <text x="160.6" y="278" text-anchor="middle" class="small">0.686875s</text>
   <text x="475.6" y="278" text-anchor="middle" class="small">0.8515625s</text>
   <text x="318.0" y="179" text-anchor="middle" class="small">working tau = 0.76921875s</text>
-  <text x="338.7" y="296" text-anchor="middle" class="small">true tau = 0.78s</text>
-  <text x="80" y="329" class="body">Proposition 55 confidence: 0.975 | hull width: 0.1646875s</text>
+  <text x="338.7" y="296" text-anchor="middle" class="small">visibility tau = 0.78s</text>
+  <text x="80" y="329" class="body">Proposition 55 calibration confidence: 0.975 | retained hull width: 0.1646875s</text>
+
   <rect x="615" y="105" width="530" height="250" rx="12" class="panel"/>
-  <text x="640" y="137" class="head">B. The uncertain-tau target theorem stays below radius one</text>
+  <text x="640" y="137" class="head">B. The calibrated-tau theorem remains below radius one</text>
   <text x="690.0" y="158.0" class="small">P55 raw-time calibrated</text>
   <rect x="690.0" y="166.0" width="330.0" height="18" rx="4" class="track"/>
   <rect x="690.0" y="166.0" width="318.8" height="18" rx="4" class="bar"/>
@@ -36,22 +38,26 @@
   <text x="1032.0" y="240.0" class="value">0.43647</text>
   <text x="690.0" y="278.0" class="small">P57 calibrated-tau robust</text>
   <rect x="690.0" y="286.0" width="330.0" height="18" rx="4" class="track"/>
-  <rect x="690.0" y="286.0" width="114.5" height="18" rx="4" class="bar"/>
-  <text x="1032.0" y="300.0" class="value">0.86771</text>
+  <rect x="690.0" y="286.0" width="95.0" height="18" rx="4" class="bar"/>
+  <text x="1032.0" y="300.0" class="value">0.71959</text>
   <line x1="690" y1="331" x2="1020" y2="331" class="threshold"/>
   <text x="1032" y="335" class="tiny">epsilon = 1 threshold</text>
-  <text x="690" y="348" class="body">P57 reduction from P55 calibrated raw time: 64.1%</text>
+  <text x="690" y="348" class="body">P57 reduction from P55 calibrated raw time: 70.2%</text>
+
   <rect x="55" y="380" width="530" height="280" rx="12" class="panel"/>
-  <text x="80" y="412" class="head">C. Certified transformed temporal geometry</text>
-  <text x="85" y="455" class="eq">C_tau = W0 R_tau W0^T</text>
-  <text x="85" y="490" class="body">||W0||2 = 5.15015</text>
-  <text x="85" y="518" class="body">transformed Lipschitz bound = 794.382 s^-1</text>
-  <text x="85" y="546" class="body">eigenvalue cover radius = 0.063879</text>
-  <text x="85" y="574" class="body">projected normalization range = [99.801, 138.596]</text>
-  <text x="85" y="602" class="body">reference normalization = 119.199</text>
-  <text x="85" y="638" class="emph">uniform epsilon = 0.86771 &lt; 1</text>
+  <text x="80" y="412" class="head">C. Two deterministic covers, two different roles</text>
+  <text x="85" y="448" class="eq">C_tau = W0 R_tau W0^T</text>
+  <text x="85" y="478" class="body">||W0||2 = 5.15015</text>
+  <text x="85" y="502" class="body">operator Lipschitz bound = 794.382 s^-1</text>
+  <text x="85" y="526" class="body">eigenvalue cover radius = 0.063879</text>
+  <text x="85" y="550" class="body">projected-trace Lipschitz bound = 176.555 s^-1</text>
+  <text x="85" y="574" class="body">normalization cover radius = 0.014197</text>
+  <text x="85" y="598" class="body">projected normalization range = [107.325, 131.073]</text>
+  <text x="85" y="622" class="body">reference normalization = 119.199</text>
+  <text x="85" y="650" class="emph">uniform epsilon = 0.71959 &lt; 1</text>
+
   <rect x="615" y="380" width="530" height="280" rx="12" class="panel"/>
-  <text x="640" y="412" class="head">D. Pointwise diagnostics show where the uniform bound is conservative</text>
+  <text x="640" y="412" class="head">D. Pointwise diagnostics show remaining uniform conservatism</text>
   <line x1="670" y1="610" x2="1110" y2="610" class="axis"/>
   <rect x="690.0" y="501.2" width="54" height="108.8" rx="5" class="bar2"/>
   <text x="717.0" y="628" text-anchor="middle" class="tiny">0.687s</text>
@@ -65,6 +71,7 @@
   <rect x="1035.0" y="534.2" width="54" height="75.8" rx="5" class="bar2"/>
   <text x="1062.0" y="628" text-anchor="middle" class="tiny">0.852s</text>
   <text x="1062.0" y="519.2" text-anchor="middle" class="tiny">0.404</text>
-  <text x="640" y="652" class="body">Pointwise radii are diagnostics only. The theorem uses the complete continuum certificate.</text>
+  <text x="640" y="652" class="body">Pointwise values are diagnostics only; the theorem protects the complete calibrated continuum.</text>
+
   <text x="60" y="699" class="subtitle">Combined calibration-target confidence lower bound: 0.950625 | Conditional on the declared separable Gaussian one-timescale exponential model.</text>
 </svg>
