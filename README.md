@@ -23,6 +23,8 @@ The primary conceptual starting point is Max Tegmark's observer-factorization qu
 | Audit every theorem and experiment | [Research Index](docs/research_index.md) |
 | Inspect assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
 | Trace the literature | [Bibliography and Citation Map](docs/bibliography.md) |
+| Read machine-readable references | [`references.bib`](references.bib) |
+| Read repository citation metadata | [`CITATION.cff`](CITATION.cff) |
 
 ---
 
@@ -52,7 +54,7 @@ and its moving history is
 
 The central inference problem is to determine whether the dynamics distinguish one such world-tube from competing paths.
 
-The term **observer** is used operationally for the candidate subsystem defined by this dynamical criterion. The mathematical results concern subsystem identification, persistence, recovery, and measurement certification.
+The term **observer** is used operationally for the candidate subsystem defined by this dynamical criterion. The mathematical results concern subsystem identification, persistence, recovery, identifiability, and measurement certification.
 
 ---
 
@@ -88,15 +90,31 @@ then
 }
 \]
 
-The resulting joint covariance of \((X_t,X_{t+1})\) supplies the fluctuation geometry used by the Gaussian information and canonical-correlation quantities below.
+Therefore
 
-This is an effective statistical model, not a universal microscopic law. A physical application must validate its observables, sampling, temporal structure, nuisance representation, and candidate geometry. The detailed dimensional and physical interpretation is in the [Physics Guide](docs/physics_guide.md).
+\[
+\boxed{
+\operatorname{Cov}
+\begin{pmatrix}
+X_t\\X_{t+1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\Sigma_t & \Sigma_tA_t^{\mathsf T}\\
+A_t\Sigma_t & A_t\Sigma_tA_t^{\mathsf T}+Q_t
+\end{pmatrix}.
+}
+\]
+
+This joint covariance is the fluctuation geometry from which the Gaussian information and canonical-correlation quantities are computed.
+
+This is an effective statistical model, not a universal microscopic law. A physical application must validate its observables, units, sampling, temporal structure, nuisance representation, covariance geometry, and candidate boundary construction. The detailed dimensional and physical interpretation is in the [Physics Guide](docs/physics_guide.md).
 
 ---
 
 # 3. Mathematical construction
 
-The score separates four dynamical properties rather than compressing them into one undefined notion of coherence.
+The score separates four dynamical properties.
 
 | Property | Physical question | Mathematical object |
 | --- | --- | --- |
@@ -105,7 +123,32 @@ The score separates four dynamical properties rather than compressing them into 
 | **Persistence** | Does collective organization remain predictive through time? | canonical-correlation persistence |
 | **Transport** | Can organization persist while its measured coordinates change? | cross-boundary predictive continuity |
 
-For a nontrivial bipartition \(S=U\sqcup V\), the internal directed-information cut is
+## 3.1 Gaussian information geometry
+
+For Gaussian subvectors \(X\) and \(Y\),
+
+\[
+I(X;Y)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_X\det\Sigma_Y}{\det\Sigma_{XY}}.
+\]
+
+For conditioning vector \(Z\),
+
+\[
+I(X;Y\mid Z)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_{XZ}\det\Sigma_{YZ}}
+{\det\Sigma_Z\det\Sigma_{XYZ}}.
+\]
+
+**Lineage:** [Shannon 1948](docs/bibliography.md#shannon-1948) and [Cover and Thomas 2006](docs/bibliography.md#cover-and-thomas-2006).
+
+## 3.2 Integration and insulation
+
+For a nontrivial bipartition \(S=U\sqcup V\),
 
 \[
 J_t(U,V)
@@ -115,52 +158,70 @@ I(X_U^{t+1};X_V^t\mid X_U^t)
 I(X_V^{t+1};X_U^t\mid X_V^t),
 \]
 
-with normalized integration factor
-
 \[
+\boxed{
 \mathcal J_t(S)
 =
 \frac{1}{|S|}\min_{U\sqcup V=S}J_t(U,V),
 \qquad
 G_t(S)=1-2^{-\mathcal J_t(S)}.
+}
 \]
 
-Environmental leakage and insulation are
+Let \(\bar S\) denote the measured exterior. Define
 
 \[
+\boxed{
 \mathcal L_t(S)
 =
 \frac{1}{|S|}I(X_S^{t+1};X_{\bar S}^{t}\mid X_S^t),
 \qquad
 K_t(S)=2^{-\mathcal L_t(S)}.
+}
 \]
 
-For two Gaussian vectors \(X,Y\), define
+The broader conceptual background includes [Tegmark 2015](docs/bibliography.md#tegmark-2015), [Tegmark 2016](docs/bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The operational functionals above are the definitions used in this repository.
+
+## 3.3 Persistence and transport
+
+For Gaussian vectors \(X,Y\), define the whitened cross-covariance
 
 \[
-C=\Sigma_X^{-1/2}\operatorname{Cov}(X,Y)\Sigma_Y^{-1/2},
+C=\Sigma_X^{-1/2}\operatorname{Cov}(X,Y)\Sigma_Y^{-1/2}.
 \]
 
-and let \(\rho_i\) be the singular values of \(C\). The persistence functional is
+Let \(\rho_i\) be its singular values. The persistence functional is
 
 \[
+\boxed{
 P(X,Y)=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
 \qquad
 r=\min(\dim X,\dim Y).
+}
 \]
 
-For source \(S\) and next-time target \(R\), transport combines persistence with conditional leakage:
+**Lineage:** canonical correlation from [Hotelling 1936](docs/bibliography.md#hotelling-1936), with matrix-analysis tools from [Bhatia 1997](docs/bibliography.md#bhatia-1997).
+
+For source \(S\) and next-time target \(R\), define
 
 \[
+L_t(S\to R)
+=
+\frac{1}{|R|}I(X_R^{t+1};X_{\bar S}^{t}\mid X_S^t),
+\]
+
+\[
+\boxed{
 \Theta_t(S\to R)
 =
 \sqrt{
 P(X_S^t,X_R^{t+1})
 2^{-L_t(S\to R)}
 }.
+}
 \]
 
-The local subsystem score is
+## 3.4 Local score and world-tube objective
 
 \[
 \boxed{
@@ -172,7 +233,7 @@ G_t(S)K_t(S)P(X_S^t,X_S^{t+1})
 }
 \]
 
-For a path \(p=(j_0,\ldots,j_{T-1})\), the world-tube objective is
+For a path \(p=(j_0,\ldots,j_{T-1})\),
 
 \[
 \boxed{
@@ -191,63 +252,194 @@ The continuity term uses Jaccard distance
 d_J(S,R)=1-\frac{|S\cap R|}{|S\cup R|}.
 \]
 
-For a finite candidate family, the globally optimal path and exact runner-up are obtained by dynamic programming. Their objective difference supplies the recovery margin used in robustness analysis.
+**Lineage:** [Jaccard 1901](docs/bibliography.md#jaccard-1901) for set-overlap geometry and [Bellman 1952](docs/bibliography.md#bellman-1952) for dynamic programming. The complete world-tube objective is defined in this repository.
 
-**Mathematical lineage.** Gaussian information quantities follow Shannon and Cover-Thomas; canonical correlation follows Hotelling; the continuity geometry follows Jaccard; finite-horizon optimization follows Bellman. Exact source roles and repository-specific definitions are mapped in the [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md).
+## 3.5 Finite-sample covariance certification
 
----
-
-# 4. Conceptual lineage and extension
-
-The primary conceptual source is:
-
-**Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270.**
-
-[DOI](https://doi.org/10.1016/j.chaos.2015.03.014) | [arXiv](https://arxiv.org/abs/1401.1219) | [Bibliography entry](docs/bibliography.md#tegmark-2015)
-
-Tegmark studies why an observer should correspond to one factorization of a physical system rather than another and considers information, integration, independence, and dynamics as organizing principles.
-
-The extension studied here is explicit time dependence:
+The central relative covariance event is
 
 \[
-\text{static factorization question}
-\quad\longrightarrow\quad
-S_0\to S_1\to\cdots\to S_{T-1}.
+\boxed{
+\left\|
+\Sigma^{-1/2}
+(\widehat\Sigma-\Sigma)
+\Sigma^{-1/2}
+\right\|_2
+\le\epsilon.
+}
 \]
 
-This changes the mathematical problem from selecting one subsystem to recovering a **path through subsystem space**. It introduces transport between changing boundaries, finite-horizon path recovery, observational-equivalence limits, finite-sample covariance certification, physical-time calibration, and an end-to-end bridge from measurement uncertainty back to world-tube uncertainty.
+When \(\epsilon<1\), inverse-covariance perturbation calculations remain in a controlled regime.
 
-Related integrated-information context, including Tegmark 2016 and the IIT literature, is recorded in the [Bibliography](docs/bibliography.md).
+**Lineage:** [Wishart 1928](docs/bibliography.md#wishart-1928), [Tropp 2012](docs/bibliography.md#tropp-2012), and [Bhatia 1997](docs/bibliography.md#bhatia-1997).
+
+For the equation-by-equation provenance trail, see the **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)**.
 
 ---
 
-# 5. Decisive numerical evidence
+# 4. Current research record
 
-The complete project contains 33 scientific result figures. The landing page shows only the results that define the scientific arc. The full visual record is in the **[Visual Research Guide](docs/visual_research_guide.md)**.
+| Research record | Current state |
+| --- | ---: |
+| Proposition-level statements | **58** |
+| Reproducible studies | **45 experiments, A-Z and AA-AS** |
+| Scientific result figures | **33 figures** |
+| Claim-level tests | **223 tests** |
+| CI matrix | **Python 3.10, 3.11, 3.12** |
+| Research-software version | **0.47.1** |
 
-## 5.1 Moving subsystem recovery
+The explanatory physics pipeline is not included in the count of 33 scientific result figures.
 
-| Recovered moving path | Recovery landscape |
+---
+
+# 5. Complete visual research atlas
+
+All **33 scientific result figures** are intentionally visible on the main page. Each image links to the theorem page or reproducibility record that explains its construction, assumptions, numerical data, and interpretation. A more detailed figure-by-figure reading guide is available in the [Visual Research Guide](docs/visual_research_guide.md).
+
+## Phase I. Moving-boundary recovery
+
+| Candidate scores and recovered path | Recovery landscape |
 | --- | --- |
 | [![World-tube baseline](docs/worldtube_baseline.png)](docs/reproducible_results.md) | [![World-tube phase diagram](docs/worldtube_phase_diagram.png)](docs/reproducible_results.md) |
 
-In the controlled planted example, the recovered population path is
+The controlled planted path is
 
 ```text
 (0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
 ```
 
-The phase diagram shows where that recovery survives changes in the objective parameters rather than relying on a single tuned point.
+The first figure shows the candidate-score geometry and recovered world-tube. The phase diagram shows where recovery persists across objective parameters.
 
-## 5.2 Finite measurement uncertainty
+## Phase II. Finite-sample and perturbation recovery
 
-| Robust physical-time innovation inference | Observer-scale certification audit |
+| Finite-sample benchmark | Symbolic recovery region |
 | --- | --- |
-| [![Robust innovation-whitened target covariance](docs/robust_innovation_whitened_target.svg)](docs/proposition_57_robust_innovation_whitening.md) | [![Observer-scale covariance-to-world-tube audit](docs/observer_bridge_dimension_audit.svg)](docs/proposition_58_observer_bridge.md) |
+| [![Finite-sample benchmark](docs/finite_sample_benchmark.png)](docs/reproducible_results.md) | [![Symbolic recovery region](docs/symbolic_recovery_region.png)](docs/reproducible_results.md) |
 
-The recent finite-sample sequence produces two complementary results.
+[![Perturbed recovery region](docs/perturbed_recovery_region.png)](docs/reproducible_results.md)
 
-For Proposition 57, calibrated physical-time uncertainty can be propagated through innovation whitening while retaining a scalar relative covariance certificate inside the perturbative regime:
+These figures move from population recovery to finite covariance estimation, theorem-derived recovery regions, and robustness under perturbations of transitions, forcing, and covariance geometry.
+
+## Phase III. Screening and localization
+
+| Gaussian screen calibration | Structural-null screen |
+| --- | --- |
+| [![Gaussian screen calibration](docs/gaussian_screen_calibration.png)](docs/reproducible_results.md) | [![Structural-null screen](docs/structural_null_screen.png)](docs/reproducible_results.md) |
+
+| Trajectory-coupled screening | Relative covariance calibration |
+| --- | --- |
+| [![Trajectory-coupled screening](docs/trajectory_coupled_screen_calibration.png)](docs/reproducible_results.md) | [![Relative covariance calibration](docs/relative_covariance_calibration.png)](docs/reproducible_results.md) |
+
+These experiments study candidate screening under finite-sample uncertainty, exact structural nulls, shared trajectories, and population-whitened covariance error.
+
+## Phase IV. Cross-fitting, drift, and changing populations
+
+| Cross-fitted calibration | Drift-robust calibration |
+| --- | --- |
+| [![Cross-fitted relative calibration](docs/cross_fitted_relative_calibration.png)](docs/reproducible_results.md) | [![Drift-robust relative calibration](docs/drift_robust_relative_calibration.png)](docs/reproducible_results.md) |
+
+| Calibrated drift comparison | Multi-regime coupled calibration |
+| --- | --- |
+| [![Calibrated drift comparison](docs/calibrated_drift_comparison.png)](docs/reproducible_results.md) | [![Multi-regime coupled calibration](docs/multi_regime_coupled_calibration.png)](docs/reproducible_results.md) |
+
+This phase separates pilot geometry from certification data and makes population change an explicit part of the uncertainty model.
+
+## Phase V. Temporally dependent measurements
+
+| Dependent Gaussian calibration | Unknown-mean dependent calibration |
+| --- | --- |
+| [![Dependent Gaussian calibration](docs/dependent_gaussian_calibration.png)](docs/reproducible_results.md) | [![Dependent centered Gaussian calibration](docs/dependent_centered_gaussian_calibration.png)](docs/reproducible_results.md) |
+
+[![Estimated AR1 calibration](docs/estimated_ar1_calibration.png)](docs/reproducible_results.md)
+
+These figures show why temporally correlated measurements cannot be treated as independent and how temporal persistence can be estimated rather than supplied as an oracle quantity.
+
+## Phase VI. Time-varying nuisance structure
+
+| Proposition 44 / Experiment AD | Proposition 45 / Experiment AE |
+| --- | --- |
+| [![Nuisance projection](docs/nuisance_projection_calibration.svg)](docs/proposition_44_nuisance_projection.md) | [![Estimated AR1 nuisance projection](docs/estimated_ar1_nuisance_projection.svg)](docs/proposition_45_estimated_ar1_nuisance_projection.md) |
+
+[![Design-specific AR1 envelope](docs/design_specific_ar1_envelope.svg)](docs/proposition_46_design_specific_ar1_envelope.md)
+
+For nuisance design \(H\), the fixed-subspace projection is
+
+\[
+P_H=I-H(H^{\mathsf T}H)^{-1}H^{\mathsf T}.
+\]
+
+This phase studies covariance inference after nuisance removal and then combines nuisance uncertainty with temporal-correlation uncertainty.
+
+## Phase VII. Direct matrix concentration
+
+| Proposition 47 / Experiment AG | Proposition 48 / Experiment AH |
+| --- | --- |
+| [![Weighted Wishart matrix Chernoff](docs/weighted_wishart_matrix_chernoff.svg)](docs/proposition_47_weighted_wishart_matrix_chernoff.md) | [![Uniform matrix Chernoff AR1](docs/uniform_matrix_chernoff_ar1.svg)](docs/proposition_48_uniform_matrix_chernoff_ar1.md) |
+
+[![Compact temporal family](docs/compact_temporal_family.svg)](docs/proposition_49_compact_temporal_family.md)
+
+The concentration analysis moves from direct weighted-Wishart matrix bounds to uncertainty in temporal persistence and then to compact temporal covariance families.
+
+## Phase VIII. Learning temporal physics from calibration data
+
+| Proposition 50 / Experiment AJ | Proposition 51 / Experiment AK |
+| --- | --- |
+| [![Calibrated temporal family](docs/calibrated_temporal_family.svg)](docs/proposition_50_calibrated_temporal_family.md) | [![E-value temporal confidence set](docs/evalue_temporal_confidence_set.svg)](docs/proposition_51_evalue_temporal_confidence_set.md) |
+
+[![Certified e-value outer cover](docs/certified_evalue_outer_cover.svg)](docs/proposition_52_certified_evalue_outer_cover.md)
+
+This phase learns temporal-family uncertainty from calibration data and propagates a finite-sample confidence set into an independent target covariance theorem.
+
+## Phase IX. Sampling consistency and physical-time calibration
+
+| Sampling-consistent relaxation | Irregular-grid Markov factorization |
+| --- | --- |
+| [![Physical relaxation sampling](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Irregular-grid Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
+
+The physical-time covariance model is
+
+\[
+\boxed{
+K_\tau(t_i,t_j)
+=
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+}
+\]
+
+For irregular adjacent gaps,
+
+\[
+\alpha_i=e^{-(t_{i+1}-t_i)/\tau},
+\]
+
+and Proposition 53 gives the local innovation representation
+
+\[
+X_{i+1}
+=
+\alpha_iX_i+
+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\]
+
+[![Experiment AN: irregular-time tau calibration](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
+
+[![Experiment AO: two-scale relaxation cover](docs/two_scale_irregular_tau_cover.svg)](docs/proposition_54_two_scale_irregular_tau_cover.md)
+
+[![Experiment AP: quadratic relaxation calibration](docs/quadratic_relaxation_calibration.svg)](docs/proposition_55_quadratic_relaxation_calibration.md)
+
+This sequence converts sampling-dependent temporal correlation into a physical relaxation time measured in seconds, calibrates it on irregular timestamps, and studies how sharply that uncertainty can be propagated.
+
+## Phase X. Exact local innovation target inference
+
+[![Experiment AQ: innovation-whitened target covariance](docs/innovation_whitened_target.svg)](docs/proposition_56_innovation_whitened_target.md)
+
+Proposition 56 applies the exact physical-time innovation transform before target covariance concentration. On the controlled scalar benchmark, the known-\(\tau\) target radius changes from approximately `2.16725` to `0.43647`.
+
+## Phase XI. Robust innovation inference under calibrated physical time
+
+[![Experiment AR: robust innovation-whitened target covariance](docs/robust_innovation_whitened_target.svg)](docs/proposition_57_robust_innovation_whitening.md)
+
+Proposition 57 propagates finite-sample physical-time uncertainty through a fixed calibration-derived whitener. The tightened uniform scalar certificate is
 
 \[
 \boxed{
@@ -255,57 +447,118 @@ For Proposition 57, calibrated physical-time uncertainty can be propagated throu
 }
 \]
 
-For Proposition 58, returning that measurement uncertainty to the full observer-scale covariance geometry exposes the present limitation:
+The trace-specific normalization analysis preserves the operator/eigenvalue cover while avoiding the earlier overly conservative residual-rank-times-operator normalization step.
+
+## Phase XII. Covariance uncertainty back to world-tube recovery
+
+[![Experiment AS: observer-scale covariance-to-world-tube audit](docs/observer_bridge_dimension_audit.svg)](docs/proposition_58_observer_bridge.md)
+
+Proposition 58 returns covariance uncertainty to the original moving-boundary objective. For future candidate \(S\), define the observer covariance block
 
 \[
 \boxed{
-\varepsilon_{\mathrm{observer}}=1.8573569119>1
+B_{t,S}=(X_t,X_{t+1}^{S}).
 }
 \]
 
-at 118 residual innovation degrees of freedom in the controlled benchmark.
+On the controlled benchmark,
 
-This is scientifically useful: the current bottleneck is no longer physical-time calibration alone. It is the combination of observer-block dimension, simultaneous candidate coverage, and conservative propagation through the full score.
+\[
+n=7,
+\qquad
+s=3,
+\qquad
+T=5,
+\qquad
+C={7\choose3}=35,
+\]
+
+so
+
+\[
+\boxed{
+d_{\mathrm{obs}}=n+s=10,
+\qquad
+B_{\mathrm{obs}}=TC=175.
+}
+\]
+
+Even when the true physical relaxation time is supplied exactly, the current observer-scale matrix theorem at 118 residual innovation degrees gives
+
+\[
+\boxed{
+\varepsilon_{\mathrm{observer}}=1.8573569119>1.
+}
+\]
+
+This identifies a concrete structural bottleneck: block dimension, simultaneous candidate coverage, and generic factor-by-factor perturbation now dominate the current certificate.
 
 ---
 
-# 6. Result architecture
+# 6. Scientific result architecture
 
-The detailed repository contains 58 proposition-level statements for auditability. The scientific structure is more compact:
+The 58 proposition-level statements provide auditability. The scientific argument is more compact:
 
 | Result group | Question answered | Detailed record |
 | --- | --- | --- |
 | **Dynamics to covariance** | What fluctuation geometry follows from the declared dynamics? | [Derivations](docs/derivations.md) |
 | **Moving-boundary score and optimization** | How is a time-dependent candidate boundary scored and recovered? | [Proofs and conjectures](docs/proofs_and_conjectures.md) |
 | **Recovery and identifiability** | When is the preferred path stable, and when is it observationally non-identifiable? | [Research Index](docs/research_index.md) |
-| **Finite-sample certification** | How does covariance, nuisance, dependence, and calibration uncertainty affect recovery? | [Research Overview](docs/research_overview.md) |
+| **Finite-sample certification** | How do covariance, nuisance, dependence, and calibration uncertainty affect recovery? | [Research Overview](docs/research_overview.md) |
 | **Physical-time measurement bridge** | Can physical temporal uncertainty be calibrated and propagated back to the complete world-tube objective? | [P53-P58 records](docs/research_index.md) |
 
-This organization is intended to keep the scientific argument visible while preserving proposition-level traceability underneath it.
+This organization keeps the central argument visible while preserving proposition-level traceability underneath it.
 
 ---
 
-# 7. Identifiability and falsifiability
+# 7. Recent physical-time sequence
 
-A high score is not sufficient if different boundaries generate observationally equivalent measured dynamics. The framework therefore treats identifiability as a separate mathematical issue rather than assuming that every preferred path represents a uniquely recoverable subsystem.
+| Result | Question | Controlled result |
+| --- | --- | ---: |
+| P53 / AM | Can temporal memory be parameterized in physical time? | sampling-consistent \(\tau\) and irregular-grid Markov structure |
+| P53B / AN | Can \(\tau\) be calibrated directly on irregular timestamps? | finite-sample e-value confidence set |
+| P54 / AO | Can calibration and target-cover resolutions be separated? | target radius `3.15549 -> 2.57207` |
+| P55 / AP | Can local likelihood curvature tighten the physical-time set? | retained hull width `0.1646875 s`; raw-time target radius `2.41488` |
+| P56 / AQ | Can exact local innovations change the estimator? | exact-\(\tau\) scalar radius `2.16725 -> 0.43647` |
+| P57 / AR | Does the gain survive finite-sample \(\tau\) uncertainty? | uniform scalar radius `0.71959 < 1` |
+| P58 / AS | Can covariance uncertainty return to the full moving-boundary objective? | deterministic bridge; current observer-scale radius `1.85736 > 1` at 118 residual degrees |
+
+Each step addresses a limitation exposed by the previous result. Negative diagnostics are retained as part of the scientific record.
+
+---
+
+# 8. Identifiability and falsifiability
+
+A high score is not sufficient if distinct boundaries generate observationally equivalent measured dynamics. The framework therefore treats identifiability as a separate mathematical problem rather than assuming that every preferred path represents a uniquely recoverable subsystem.
 
 The repository includes symmetry and observational-equivalence results, controlled counterexamples, and recovery conditions. See the [Research Index](docs/research_index.md) and the [identifiability example](examples/identifiability_counterexample.py).
 
-A physical application should be treated as unsupported when the declared model fails materially. Relevant diagnostics include residual temporal structure outside the temporal family, multiple or drifting relaxation scales, heavy-tailed innovations, nonseparable space-time covariance, calibration-to-target mismatch, nuisance selection from target noise, or inferred boundaries that fail under held-out data, sampling changes, or physically admissible coordinate changes.
+Relevant model diagnostics include:
+
+- residual temporal structure inconsistent with the declared temporal family;
+- multiple or drifting relaxation scales;
+- oscillatory or nonmonotone temporal dependence;
+- heavy-tailed or non-Gaussian innovations;
+- nonseparable space-time covariance;
+- calibration-to-target mismatch;
+- nuisance modes selected adaptively from the same target noise;
+- candidate geometry inconsistent with physically admissible boundaries;
+- inferred boundaries that fail under held-out data, changes in sampling, or physically admissible coordinate transformations.
 
 ---
 
-# 8. Interpretive scope
+# 9. Interpretive scope
 
 The established mathematical results concern:
 
 - time-dependent candidate subsystem scores;
-- exact finite-horizon path optimization;
+- exact finite-horizon world-tube optimization;
 - recovery margins and stability;
 - identifiability and observational equivalence;
 - finite-sample covariance certification;
 - temporally dependent and nuisance-contaminated measurements;
-- physical relaxation-time calibration;
+- finite-sample temporal-parameter calibration;
+- physical relaxation-time representation;
 - exact and robust innovation inference;
 - deterministic propagation of covariance uncertainty to the world-tube objective.
 
@@ -315,11 +568,17 @@ The detailed distinction between mathematical result, physical model, and interp
 
 ---
 
-# 9. Current frontier
+# 10. Current frontier
 
-Proposition 58 identifies a concrete next problem: reduce the gap between scalar covariance certification and observer-scale world-tube certification without hiding the uncertainty in a looser heuristic.
+Proposition 58 identifies the immediate mathematical bottleneck: reduce the gap between scalar covariance certification and observer-scale world-tube certification without replacing the uncertainty analysis by a heuristic.
 
-The leading directions are factor-specific covariance blocks, safe reduction of the simultaneous candidate family, candidate-local uncertainty radii, and more direct concentration of score or path-margin differences. Richer temporal physics is a subsequent direction once the present structural bottleneck is understood.
+The leading directions are:
+
+1. **Factor-specific covariance blocks:** certify only the covariance geometry required by each information factor.
+2. **Screen-first simultaneity reduction:** use safe screening and near-competitor structure so distant candidates do not consume the strongest simultaneous guarantee.
+3. **Candidate-local uncertainty radii:** retain heterogeneous uncertainty rather than replacing it by one global worst case.
+4. **Direct score-margin concentration:** control score or path-action differences more directly instead of repeatedly passing through generic intermediate bounds.
+5. **Richer temporal physics:** extend beyond one stationary exponential timescale after the present structural bottleneck is understood.
 
 The guiding question remains:
 
@@ -327,20 +586,11 @@ The guiding question remains:
 
 ---
 
-# 10. Reproducibility and audit trail
+# 11. Reproducibility and audit trail
 
-Current repository state:
+A result is documented with the relevant combination of assumptions, theorem or operational definition, derivation, implementation, tests, machine-readable numerical data, and visible figure.
 
-| Item | Status |
-| --- | ---: |
-| Research-software version | **0.47.1** |
-| Proposition-level statements | **58** |
-| Reproducible studies | **45** |
-| Scientific result figures | **33** |
-| Claim-level tests | **223** |
-| CI matrix | **Python 3.10, 3.11, 3.12** |
-
-A result is documented with the relevant combination of assumptions, theorem or definition, derivation, implementation, tests, machine-readable result data, and figure. Repository-local Markdown and image targets are checked automatically in the test suite.
+Repository-local Markdown and image targets are checked automatically in the test suite.
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -352,7 +602,7 @@ For a complete audit, use the [Research Index](docs/research_index.md), [Assumpt
 
 ---
 
-# 11. Citation
+# 12. Citations and bibliography
 
 The repository separates three forms of provenance:
 
@@ -360,4 +610,101 @@ The repository separates three forms of provenance:
 2. **Standard mathematical foundations**, including information theory, canonical correlation, dynamic programming, matrix analysis, covariance concentration, and e-value methods.
 3. **Repository-specific definitions and theorems**, cited to their derivation and proof records.
 
-Full references are maintained in the [Bibliography and Citation Map](docs/bibliography.md), machine-readable BibTeX in [`references.bib`](references.bib), and repository citation metadata in [`CITATION.cff`](CITATION.cff).
+| Citation layer | Purpose |
+| --- | --- |
+| [Bibliography and Citation Map](docs/bibliography.md) | full references and the role each source plays |
+| [`references.bib`](references.bib) | machine-readable BibTeX |
+| [`CITATION.cff`](CITATION.cff) | citation metadata for this repository |
+| [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md) | equation-by-equation provenance |
+
+Major external foundations include Tegmark 2015 and 2016, Shannon and Cover-Thomas, Hotelling, Jaccard, Bellman, Wishart, Aitken, Bhatia, Tropp, Vovk-Wang, Shafer, Uhlenbeck-Ornstein, and Doob. Exact source roles are maintained in the bibliography rather than treated as a generic reference list.
+
+---
+
+# 13. Relationship to Tegmark's observer-factorization question
+
+## 13.1 Primary conceptual source
+
+**Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270.**
+
+- [DOI: 10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
+- [Technical preprint: arXiv:1401.1219](https://arxiv.org/abs/1401.1219)
+- [Repository bibliography entry](docs/bibliography.md#tegmark-2015)
+
+Tegmark asks why an observer should correspond to one factorization of a physical system rather than another and studies information, integration, independence, and dynamics as candidate organizing principles.
+
+The extension studied here is explicitly time dependent:
+
+\[
+\boxed{
+S_0\to S_1\to\cdots\to S_{T-1}.
+}
+\]
+
+The central object is therefore not one selected partition but a path through candidate subsystem space.
+
+## 13.2 Conceptual lineage and mathematical development
+
+| Scientific element | Tegmark 2015 lineage | Development in this repository |
+| --- | --- | --- |
+| observer-factorization question | primary conceptual source | starting problem |
+| information and integration | organizing principles | operational score ingredients |
+| environmental independence | organizing principle | conditional predictive insulation |
+| dynamics and observer structure | conceptual motivation | explicit time-indexed boundary recovery |
+| time-dependent boundary \(S_t\) | extension point | central mathematical object |
+| world-tube \(\mathcal W\) | beyond a static partition | defined and optimized here |
+| transport between changing boundaries | beyond static factorization | operational transport functional |
+| exact finite-horizon path recovery | algorithmic development | dynamic-programming recovery and runner-up margin |
+| symmetry and observational equivalence | identifiability development | formalized in the theorem sequence |
+| finite-sample covariance-to-path certification | statistical development | built across the recovery and concentration results |
+| physical-time calibration and innovation inference | measurement development | P53-P57 |
+| covariance-to-world-tube certification | end-to-end measurement development | P58 |
+
+The conceptual lineage begins with the factorization question. The subsequent work develops a time-dependent inference and certification framework around that question.
+
+## 13.3 Mathematical extension in one picture
+
+```text
+Tegmark observer-factorization question
+                |
+                v
+Which subsystem decomposition is physically distinguished?
+                |
+                v
+Explicit time dependence
+                |
+                v
+S_0 -> S_1 -> ... -> S_(T-1)
+                |
+                v
+integration + insulation + persistence + transport
+                |
+                v
+world-tube optimization
+                |
+                v
+identifiability + finite-sample recovery
+                |
+                v
+physical measurement certification
+```
+
+The extension developed here is a mathematical program for **dynamically inferred, time-dependent subsystem boundaries** with explicit recovery, uncertainty, identifiability, and falsification conditions.
+
+## 13.4 Related Tegmark work
+
+**Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123.**
+
+- [DOI: 10.1371/journal.pcbi.1005123](https://doi.org/10.1371/journal.pcbi.1005123)
+- [Preprint: arXiv:1601.02626](https://arxiv.org/abs/1601.02626)
+- [Repository bibliography entry](docs/bibliography.md#related-tegmark-work-tegmark-2016)
+
+This work provides relevant context on integrated-information measures and factorization choices. The world-tube construction, transport functional, recovery theorems, and finite-sample measurement program are developed separately in this repository.
+
+## 13.5 Interpretive scope and citation practice
+
+The formal results here concern operational subsystem identification, dynamical persistence, recovery, identifiability, and measurement certification. A physical application must separately validate the observation model and its assumptions. Further interpretation requires additional bridge assumptions and empirical evidence.
+
+For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository together with the external mathematical source appropriate to the method being used.
+
+The complete literature map is maintained in the [Bibliography and Citation Map](docs/bibliography.md), with machine-readable entries in [`references.bib`](references.bib) and repository metadata in [`CITATION.cff`](CITATION.cff).
