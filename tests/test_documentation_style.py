@@ -2,7 +2,6 @@ import re
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-
 _MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 _EXTERNAL_SCHEMES = {"http", "https", "mailto", "doi"}
 
