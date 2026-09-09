@@ -28,8 +28,10 @@ def _muted(x: float, y: float, value: str, size: int = 18) -> str:
 
 def _panel(x: int, y: int, width: int, height: int, title: str) -> list[str]:
     return [
-        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="18" '
-        'fill="#111820" stroke="#30363d" stroke-width="2"/>',
+        (
+            f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="18" '
+            'fill="#111820" stroke="#30363d" stroke-width="2"/>'
+        ),
         _text(x + 28, y + 42, title, 22, 650),
     ]
 
@@ -56,7 +58,6 @@ def _bar(
 def render(record: dict[str, object]) -> str:
     comparison = record["certificate_comparison"]
     trials = record["visibility_trials"]
-    model = record["model"]
 
     raw = float(comparison["raw_space_known_tau_oracle_relative_error"])
     matrix = float(comparison["innovation_whitened_matrix_relative_error"])
@@ -83,8 +84,10 @@ def render(record: dict[str, object]) -> str:
     pieces += _bar(90, 395, "Whitened exact scalar", scalar, maximum, 410, "Exact chi-square law for p = 1")
     threshold_x = 90 + 410 / maximum
     pieces += [
-        f'<line x1="{threshold_x:.2f}" y1="190" x2="{threshold_x:.2f}" y2="445" '
-        'stroke="#f2cc60" stroke-width="3" stroke-dasharray="8 7"/>',
+        (
+            f'<line x1="{threshold_x:.2f}" y1="190" x2="{threshold_x:.2f}" y2="445" '
+            'stroke="#f2cc60" stroke-width="3" stroke-dasharray="8 7"/>'
+        ),
         _muted(threshold_x + 8, 458, "relative-error threshold = 1", 14),
     ]
 
@@ -116,7 +119,7 @@ def render(record: dict[str, object]) -> str:
         _text(95, 615, f"95th percentile                  {q95:.3f}", 20, 600),
         _text(95, 660, f"Maximum                           {maximum_error:.3f}", 20, 600),
         _text(95, 715, f"Exact interval coverage           {coverage * 100:.2f}%", 20, 600),
-        _muted(95, 755, f"252 / 256 displayed trials inside the exact 97.5% interval", 16),
+        _muted(95, 755, "252 / 256 displayed trials inside the exact 97.5% interval", 16),
         _muted(95, 795, f"Maximum nuisance invariance error: {invariance:.2e}", 16),
         _muted(95, 830, "Trials illustrate scale. The theorem comes from the exact Wishart law.", 15),
     ]
@@ -131,16 +134,22 @@ def render(record: dict[str, object]) -> str:
     ]
     for index, (x, y, label) in enumerate(steps):
         pieces += [
-            f'<rect x="{x}" y="{y - 32}" width="535" height="43" rx="10" '
-            'fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>',
+            (
+                f'<rect x="{x}" y="{y - 32}" width="535" height="43" rx="10" '
+                'fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>'
+            ),
             _text(x + 18, y - 4, label, 17, 550),
         ]
         if index < len(steps) - 1:
             pieces += [
-                f'<line x1="1018" y1="{y + 12}" x2="1018" y2="{y + 27}" '
-                'stroke="#9da7b3" stroke-width="2"/>',
-                f'<path d="M1012 {y + 22} L1018 {y + 29} L1024 {y + 22}" fill="none" '
-                'stroke="#9da7b3" stroke-width="2"/>',
+                (
+                    f'<line x1="1018" y1="{y + 12}" x2="1018" y2="{y + 27}" '
+                    'stroke="#9da7b3" stroke-width="2"/>'
+                ),
+                (
+                    f'<path d="M1012 {y + 22} L1018 {y + 29} L1024 {y + 22}" fill="none" '
+                    'stroke="#9da7b3" stroke-width="2"/>'
+                ),
             ]
 
     pieces += [
