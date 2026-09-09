@@ -226,7 +226,7 @@ A real system may require several relaxation times, oscillatory kernels, colored
 | CI matrix | **Python 3.10, 3.11, 3.12** |
 | Research-software version | **0.42.0** |
 
-The physics pipeline is an explanatory diagram and is not included in the 27 scientific-result figure count.
+The physics pipeline is an explanatory diagram and is not included in the 28 scientific-result figure count.
 
 ---
 
