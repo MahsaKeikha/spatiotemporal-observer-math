@@ -27,6 +27,8 @@ Machine-readable BibTeX is maintained in [`references.bib`](../references.bib). 
 
 The relationship is therefore one of **conceptual lineage followed by a distinct time-dependent mathematical development**. The detailed correspondence is given in [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question).
 
+<a id="related-tegmark-work-tegmark-2016"></a>
+
 ## Tegmark 2016
 
 **Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123.**
