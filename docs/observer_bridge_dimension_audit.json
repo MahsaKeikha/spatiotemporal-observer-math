@@ -1,0 +1,60 @@
+{
+  "experiment": "AS",
+  "title": "Observer-scale covariance-to-world-tube certification audit",
+  "population_worldtube": {
+    "node_count": 7,
+    "subset_size": 3,
+    "time_count": 5,
+    "candidate_count": 35,
+    "planted_path": [
+      [0, 1, 2],
+      [1, 2, 3],
+      [2, 3, 4],
+      [3, 4, 5],
+      [4, 5, 6]
+    ],
+    "recovered_path": [
+      [0, 1, 2],
+      [1, 2, 3],
+      [2, 3, 4],
+      [3, 4, 5],
+      [4, 5, 6]
+    ],
+    "population_action": 1.2543238015160432,
+    "runner_up_action": 1.127902183014015,
+    "population_action_margin": 0.12642161850202815,
+    "uniform_score_radius": 0.010535134875169013,
+    "declared_structural_integration_null_count": 120
+  },
+  "covariance_geometry": {
+    "maximum_required_block_dimension": 10,
+    "simultaneous_covariance_block_count": 175,
+    "raw_candidate_edge_count": 4900,
+    "explanation": "One block containing all current coordinates and one future candidate supports that candidate's local factors and every incoming transport edge."
+  },
+  "exact_tau_innovation_oracle": {
+    "target_sample_count": 120,
+    "nuisance_rank": 2,
+    "residual_innovation_degrees_of_freedom": 118,
+    "covariance_confidence": 0.975,
+    "theta_grid_size": 1024,
+    "scalar_block_radius": 0.4364443814369349,
+    "observer_scale_radius": 1.8573569118880073,
+    "observer_scale_inside_relative_perturbation_regime": false
+  },
+  "dimension_entry_threshold": {
+    "minimum_residual_innovation_degrees_for_radius_below_one": 346,
+    "corresponding_sample_count_at_nuisance_rank_two": 348,
+    "radius_at_threshold": 0.9991303523448438,
+    "radius_one_step_below_threshold": 1.0007464317818395
+  },
+  "current_end_to_end_bridge": {
+    "maximum_uniform_relative_radius_certifying_population_path": 0.00011098297465478458,
+    "current_matrix_chernoff_residual_degrees_at_that_radius": 21165400697,
+    "interpretation": "This is a conservatism diagnostic for the current uniform relative covariance and factor-perturbation chain, not a fundamental sample requirement for the physical problem."
+  },
+  "interpretation": {
+    "main_result": "The scalar Proposition 56 and 57 success does not automatically imply observer-scale certification. At the actual world-tube block dimension and simultaneous block count, even the exact-tau innovation oracle is outside the relative perturbation regime on 118 residual degrees.",
+    "next_bottleneck": "The next tightness frontier is dimensional and structural: localized factor-specific covariance control, screening, and sharper score-margin propagation, rather than further refinement of physical-time calibration."
+  }
+}
