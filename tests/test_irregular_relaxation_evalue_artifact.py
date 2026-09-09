@@ -1,8 +1,7 @@
 import importlib.util
 import json
-from pathlib import Path
 import xml.etree.ElementTree as ET
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RENDERER = ROOT / "examples" / "render_irregular_relaxation_evalue.py"

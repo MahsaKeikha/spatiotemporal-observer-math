@@ -30,6 +30,12 @@ from .estimated_nuisance import (
     gaussian_estimated_ar1_projected_covariance_bound,
     separable_gaussian_estimated_ar1_projected_covariance,
 )
+from .identifiability import (
+    TwoPointIdentifiabilityBound,
+    canonical_path_orbit,
+    paths_equivalent_under_permutations,
+    two_point_identifiability_bound,
+)
 from .irregular_relaxation_evalue import (
     GaussianIrregularRelaxationEValueGrid,
     GaussianIrregularRelaxationEValueModel,
@@ -42,12 +48,6 @@ from .irregular_relaxation_evalue import (
     gaussian_irregular_relaxation_log_likelihood_kernel,
     gaussian_irregular_relaxation_log_likelihood_lipschitz_bound,
     gaussian_irregular_relaxation_target_matrix_chernoff_bound,
-)
-from .identifiability import (
-    TwoPointIdentifiabilityBound,
-    canonical_path_orbit,
-    paths_equivalent_under_permutations,
-    two_point_identifiability_bound,
 )
 from .localization import (
     BlockCovarianceErrorEnvelope,
