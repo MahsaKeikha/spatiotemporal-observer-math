@@ -1,32 +1,36 @@
 # Physics, mathematics, and citation map
 
-This page is the compact scientific map for **Spatiotemporal Observer Mathematics**. It places the physical meaning, mathematical object, provenance, and verification route for the core equations in one place.
+This page is the compact equation-level provenance map for **Spatiotemporal Observer Mathematics**. Each major object is presented with four pieces of information: its physical interpretation, its mathematical definition, its source lineage, and the repository location where it is derived or verified.
 
-The project begins from Max Tegmark's observer-factorization question and develops an independent mathematical program for time-dependent subsystem boundaries. The repository does **not** claim that its world-tube objective, recovery theorems, or finite-sample certification results appear in Tegmark's work, and no endorsement is implied.
+The project begins from Max Tegmark's observer-factorization question and develops a time-dependent mathematical framework for dynamically inferred subsystem boundaries.
 
-For full references, see the [Bibliography and Citation Map](bibliography.md) and machine-readable [`references.bib`](../references.bib). For interpretation limits, see the [Interpretation Protocol](interpretation_protocol.md).
+For complete references, see the [Bibliography and Citation Map](bibliography.md) and machine-readable [`references.bib`](../references.bib). For the full physical narrative, see the [Physics Guide](physics_guide.md).
 
 ---
 
-# 1. Scientific question
+# 1. Scientific question and moving subsystem
 
 The central physical question is
 
 > **If a coherent subsystem moves through the coordinates used to observe a larger physical system, when can its boundary be inferred from the dynamics rather than fixed in advance?**
 
-The conceptual starting point is [Tegmark 2015](bibliography.md#tegmark-2015), which asks why an observer should correspond to one factorization of the physical world rather than another and discusses information, integration, independence, and dynamics as organizing principles.
+The conceptual starting point is [Tegmark 2015](bibliography.md#tegmark-2015), which examines the observer-factorization problem and considers information, integration, independence, and dynamics as organizing principles.
 
-The mathematical extension studied here is explicit time dependence:
+The time-dependent objects studied here are
 
 \[
+\boxed{
 S_t\subseteq\{1,\ldots,n\},
 \qquad
 \mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+}
 \]
 
-`S_t` is a candidate subsystem at time `t`; `\mathcal W` is its moving history, called an **observer world-tube** in this repository.
+Here \(S_t\) is a candidate subsystem at time \(t\), and \(\mathcal W\) is its moving history, called an **observer world-tube** in this research program.
 
-**Status:** repository definition motivated by the observer-factorization problem; not attributed to Tegmark as a theorem or construction.
+**Mathematical status:** repository definition motivated by the observer-factorization question.
+
+**Verification:** [Derivations](derivations.md) | [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question)
 
 ---
 
@@ -72,9 +76,10 @@ and
 }
 \]
 
-Therefore
+Hence
 
 \[
+\boxed{
 \operatorname{Cov}
 \begin{pmatrix}
 X_t\\X_{t+1}
@@ -84,23 +89,26 @@ X_t\\X_{t+1}
 \Sigma_t & \Sigma_tA_t^{\mathsf T}\\
 A_t\Sigma_t & A_t\Sigma_tA_t^{\mathsf T}+Q_t
 \end{pmatrix}.
+}
 \]
 
-**Physical reading:** `A_t` is an effective one-step coupling or propagation operator in the chosen measured coordinates; `Q_t` is unresolved stochastic forcing represented by the model.
+**Physical reading:** \(A_t\) is an effective one-step propagation operator in the declared measured coordinates; \(Q_t\) represents unresolved stochastic forcing within the model.
 
-**Status:** repository observation model and standard covariance propagation identity. The repository does not claim that every physical system is fundamentally linear or Gaussian.
+**Mathematical status:** declared observation model plus standard covariance propagation.
+
+**Verification:** [Physics Guide](physics_guide.md) | [Derivations](derivations.md)
 
 ---
 
 # 3. Gaussian information geometry
 
-For a Gaussian vector `Z` of dimension `k`,
+For a Gaussian vector \(Z\) of dimension \(k\),
 
 \[
 h(Z)=\frac{1}{2}\log_2\left[(2\pi e)^k\det\Sigma_Z\right].
 \]
 
-For subvectors `X` and `Y`,
+For subvectors \(X\) and \(Y\),
 
 \[
 \boxed{
@@ -109,7 +117,7 @@ I(X;Y)=\frac{1}{2}\log_2
 }
 \]
 
-For conditioning vector `Z`,
+For conditioning vector \(Z\),
 
 \[
 \boxed{
@@ -119,19 +127,19 @@ I(X;Y\mid Z)=\frac{1}{2}\log_2
 }
 \]
 
-**Physical reading:** these quantities measure statistical dependence and conditional predictive dependence in the declared Gaussian model. They are not automatically thermodynamic entropy, energy, causality, semantic information, or consciousness.
+**Physical reading:** these quantities describe statistical dependence and conditional predictive dependence in the declared Gaussian model.
 
 **Lineage:** [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006).
+
+**Mathematical status:** standard information-theoretic identities specialized to multivariate Gaussian variables.
 
 ---
 
 # 4. Four operational subsystem factors
 
-The observer score is built from four distinct ideas. Each has a physical reading and a mathematical definition.
-
 ## 4.1 Internal integration
 
-For nontrivial bipartition `S=U\sqcup V`, define
+For a nontrivial bipartition \(S=U\sqcup V\), define
 
 \[
 J_t(U,V)
@@ -148,11 +156,11 @@ The weakest directed internal cut is
 \mathcal J_t(S)
 =
 \frac{1}{|S|}
-\min_{U\sqcup V=S}J_t(U,V).
+\min_{U\sqcup V=S}J_t(U,V),
 }
 \]
 
-The normalized integration factor is
+with normalized factor
 
 \[
 \boxed{
@@ -160,24 +168,26 @@ G_t(S)=1-2^{-\mathcal J_t(S)}.
 }
 \]
 
-**Physical reading:** internal components add predictive information about one another's future after each side's own present is known.
+**Physical reading:** internal components contribute predictive information about one another across the time step after each side's own present is conditioned upon.
 
-**Lineage:** information theory from [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006); integration as conceptual background from [Tegmark 2015](bibliography.md#tegmark-2015), [Tegmark 2016](bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The particular directed minimum-cut score is a repository definition.
+**Lineage:** information theory from [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006); conceptual integration context from [Tegmark 2015](bibliography.md#tegmark-2015), [Tegmark 2016](bibliography.md#tegmark-2016), and the integrated-information literature.
+
+**Mathematical status:** repository operational definition.
 
 ## 4.2 Environmental insulation
 
-Let `\bar S` denote measured coordinates outside `S`. Define leakage
+Let \(\bar S\) denote measured coordinates outside \(S\). Define
 
 \[
 \boxed{
 \mathcal L_t(S)
 =
 \frac{1}{|S|}
-I(X_S^{t+1};X_{\bar S}^t\mid X_S^t).
+I(X_S^{t+1};X_{\bar S}^t\mid X_S^t)
 }
 \]
 
-and insulation factor
+and
 
 \[
 \boxed{
@@ -185,19 +195,19 @@ K_t(S)=2^{-\mathcal L_t(S)}.
 }
 \]
 
-**Physical reading:** after the candidate's own present is known, the external measured coordinates add comparatively limited predictive information about its immediate future.
+**Physical reading:** once the candidate's present state is known, the measured exterior contributes comparatively limited additional prediction about the candidate's immediate future.
 
-**Status:** repository operationalization of relative environmental independence; it does not require thermodynamic isolation.
+**Mathematical status:** repository operationalization of relative environmental independence.
 
 ## 4.3 Persistence
 
-For vectors `X` and `Y`, define the whitened cross-covariance
+Define the whitened cross-covariance
 
 \[
 M=\Sigma_X^{-1/2}\operatorname{Cov}(X,Y)\Sigma_Y^{-1/2}.
 \]
 
-Let `\rho_i` be its singular values. Then
+Let \(\rho_i\) be its singular values. Then
 
 \[
 \boxed{
@@ -207,15 +217,17 @@ r=\min(\dim X,\dim Y).
 }
 \]
 
-For fixed candidate `S`, use `X=X_S^t` and `Y=X_S^{t+1}`.
+For fixed candidate \(S\), use \(X=X_S^t\) and \(Y=X_S^{t+1}\).
 
-**Physical reading:** collective fluctuation directions in the candidate survive predictively into its future.
+**Physical reading:** collective fluctuation directions within the candidate retain predictive structure into the future.
 
-**Lineage:** canonical correlation analysis from [Hotelling 1936](bibliography.md#hotelling-1936); matrix analysis from [Bhatia 1997](bibliography.md#bhatia-1997). The averaging convention is a repository modeling choice.
+**Lineage:** canonical correlation analysis from [Hotelling 1936](bibliography.md#hotelling-1936) and matrix analysis from [Bhatia 1997](bibliography.md#bhatia-1997).
+
+**Mathematical status:** standard canonical-correlation geometry with the repository's averaging convention.
 
 ## 4.4 Transport
 
-For source `S` at time `t` and target `R` at time `t+1`,
+For source \(S\) at time \(t\) and target \(R\) at time \(t+1\),
 
 \[
 P_t(S\to R)=P(X_S^t,X_R^{t+1}),
@@ -238,15 +250,15 @@ and
 }
 \]
 
-**Physical reading:** a coherent organization may move into different measured coordinates while preserving predictive structure and remaining comparatively insulated from the rest of the measured system.
+**Physical reading:** predictive organization can persist while its support moves into different measured coordinates.
 
-**Status:** repository definition built from information-theoretic and canonical-correlation ingredients.
+**Mathematical status:** repository definition built from information-theoretic and canonical-correlation ingredients.
 
 ---
 
-# 5. Local candidate score and moving world-tube objective
+# 5. Local candidate score and world-tube objective
 
-The local candidate score is
+The local score is
 
 \[
 \boxed{
@@ -258,13 +270,13 @@ G_t(S)K_t(S)P(X_S^t,X_S^{t+1})
 }
 \]
 
-For finite candidate family
+For candidate family
 
 \[
 \mathcal C=\{S^{(1)},\ldots,S^{(C)}\}
 \]
 
-and path `p=(j_0,\ldots,j_{T-1})`, the world-tube objective is
+and path \(p=(j_0,\ldots,j_{T-1})\), define
 
 \[
 \boxed{
@@ -283,17 +295,19 @@ d_J(S,R)=1-\frac{|S\cap R|}{|S\cup R|}.
 }
 \]
 
-**Physical reading:** the path rewards local dynamical organization and predictive transport while weakly penalizing discontinuous membership jumps.
+**Physical reading:** the path rewards local dynamical organization and predictive transport while controlling abrupt changes in candidate membership.
 
-**Lineage:** Jaccard geometry from [Jaccard 1901](bibliography.md#jaccard-1901); exact finite-horizon optimization uses dynamic programming in the lineage of [Bellman 1952](bibliography.md#bellman-1952). The complete objective and its weights are repository definitions.
+**Lineage:** Jaccard geometry from [Jaccard 1901](bibliography.md#jaccard-1901); finite-horizon optimization through dynamic programming in the lineage of [Bellman 1952](bibliography.md#bellman-1952).
 
-The term `action` is an optimization name. It is **not** physical action in joule-seconds.
+**Mathematical status:** repository world-tube objective using standard set geometry and dynamic-programming machinery.
+
+The term `action margin` denotes the optimization margin between the best and runner-up paths throughout this work.
 
 ---
 
 # 6. Exact path optimization and recovery margin
 
-Define `V_t(j)` as the best partial-path objective ending at candidate `j` at time `t`:
+Let \(V_t(j)\) be the best partial-path objective ending at candidate \(j\) at time \(t\):
 
 \[
 V_0(j)=\Omega_0(S^{(j)}),
@@ -311,17 +325,19 @@ V_{t-1}(i)
 }
 \]
 
-Backpointers recover the global optimum. A two-best extension recovers the exact runner-up path.
+Backpointers recover the global optimum, and a two-best extension recovers the exact runner-up path.
 
-If `m` is the population objective difference between the best and second-best paths, then `m` is an **optimization margin** used for robustness and recovery analysis.
+If \(m\) denotes the population objective difference between the best and second-best paths, then \(m\) is the recovery margin used by the robustness theory.
 
-**Lineage:** [Bellman 1952](bibliography.md#bellman-1952). The runner-up and recovery constructions are repository results.
+**Lineage:** [Bellman 1952](bibliography.md#bellman-1952).
+
+**Mathematical status:** standard dynamic-programming principle specialized to the repository objective, with repository runner-up and recovery constructions.
 
 ---
 
 # 7. Finite-sample covariance certification
 
-Many downstream information quantities depend on covariance blocks. The central relative covariance event is
+The central relative covariance event is
 
 \[
 \boxed{
@@ -334,17 +350,19 @@ Many downstream information quantities depend on covariance blocks. The central 
 }
 \]
 
-**Physical reading:** after normalization by the population fluctuation geometry, every collective direction is distorted by at most `\epsilon` in operator norm.
+**Physical reading:** after normalization by the population fluctuation geometry, covariance distortion is controlled uniformly over collective directions.
 
-When `\epsilon<1`, inverse covariance and conditional-information perturbation arguments remain in a controlled regime. The value one is a mathematical threshold, not a physical phase transition.
+When \(\epsilon<1\), the inverse-covariance perturbation arguments used by the information-factor bounds remain in their controlled regime.
 
-**Lineage:** Gaussian covariance laws trace to [Wishart 1928](bibliography.md#wishart-1928); matrix concentration uses [Tropp 2012](bibliography.md#tropp-2012) and matrix-analysis tools from [Bhatia 1997](bibliography.md#bhatia-1997). Earlier Gaussian concentration also uses sources mapped in the [Bibliography](bibliography.md#gaussian-concentration-and-random-matrix-foundations).
+**Lineage:** Gaussian covariance laws from [Wishart 1928](bibliography.md#wishart-1928), matrix concentration from [Tropp 2012](bibliography.md#tropp-2012), and perturbation tools from [Bhatia 1997](bibliography.md#bhatia-1997).
+
+**Verification:** [Research Index](research_index.md) | [P47](proposition_47_weighted_wishart_matrix_chernoff.md)
 
 ---
 
 # 8. Physical time and sampling-consistent temporal memory
 
-A discrete AR(1) coefficient depends on sampling interval. To keep the temporal parameter physical, the recent theorem chain uses
+The recent theorem sequence parameterizes temporal dependence by a physical relaxation time \(\tau\):
 
 \[
 \boxed{
@@ -354,7 +372,7 @@ K_\tau(t_i,t_j)
 }
 \]
 
-Under uniform sampling interval `\Delta t`,
+Under uniform acquisition interval \(\Delta t\),
 
 \[
 \boxed{
@@ -364,9 +382,11 @@ Under uniform sampling interval `\Delta t`,
 }
 \]
 
-**Physical reading:** `\tau` is the declared relaxation time; the one-step correlation changes when acquisition rate changes.
+**Physical reading:** \(\tau\) remains the physical timescale while the one-step correlation changes with sampling interval.
 
-**Lineage:** [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930) and Gaussian Markov-process context from [Doob 1942](bibliography.md#doob-1942). Proposition 53 derives the exact formulas used by the repository directly from the declared exponential covariance kernel.
+**Lineage:** [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930) and Gaussian Markov-process context from [Doob 1942](bibliography.md#doob-1942).
+
+**Mathematical status:** declared exponential temporal model with repository derivations in Proposition 53.
 
 ---
 
@@ -380,7 +400,7 @@ For irregular adjacent gaps
 \alpha_i=e^{-\Delta_i/\tau},
 \]
 
-the declared model has the transition representation
+Proposition 53 gives
 
 \[
 \boxed{
@@ -391,7 +411,7 @@ X_{i+1}
 }
 \]
 
-Proposition 53 constructs a lower-bidiagonal matrix `W_\tau` such that
+The lower-bidiagonal temporal whitener satisfies
 
 \[
 \boxed{
@@ -401,13 +421,15 @@ R_\tau^{-1}=W_\tau^{\mathsf T}W_\tau.
 }
 \]
 
-**Physical reading:** predictable exponential relaxation is converted into local innovations before covariance estimation.
+**Physical reading:** the predictable exponential relaxation component is transformed into local innovation coordinates before covariance inference.
 
-**Lineage:** historical stochastic-process context from [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930) and [Doob 1942](bibliography.md#doob-1942). The irregular-grid whitening identities used here are proved in Proposition 53.
+**Lineage:** stochastic-relaxation and Gaussian Markov context from [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930) and [Doob 1942](bibliography.md#doob-1942).
+
+**Mathematical status:** repository theorem for the declared irregular-grid exponential covariance family.
 
 ---
 
-# 10. Nuisance removal in the correct temporal geometry
+# 10. Nuisance removal in temporal covariance geometry
 
 For target model
 
@@ -417,7 +439,7 @@ Y=HB+E,
 \operatorname{vec}(E)\sim\mathcal N(0,R_\tau\otimes\Gamma),
 \]
 
-exact innovation coordinates are
+innovation coordinates are
 
 \[
 Z=W_\tau Y,
@@ -441,7 +463,7 @@ Proposition 56 uses
 }
 \]
 
-Under its exact Gaussian assumptions,
+Under the stated Gaussian model,
 
 \[
 \boxed{
@@ -451,33 +473,33 @@ Under its exact Gaussian assumptions,
 }
 \]
 
-**Physical reading:** fit the declared deterministic nuisance modes after transforming the measurements into the temporal covariance geometry implied by the physical relaxation model.
+**Physical reading:** deterministic nuisance modes are fitted after transformation into the temporal covariance geometry implied by the relaxation model.
 
-**Lineage:** generalized least-squares context from [Aitken 1936](bibliography.md#aitken-1936), exact Gaussian covariance law from [Wishart 1928](bibliography.md#wishart-1928). The local innovation implementation and exact reduction are repository results.
+**Lineage:** generalized least-squares context from [Aitken 1936](bibliography.md#aitken-1936) and Gaussian covariance law from [Wishart 1928](bibliography.md#wishart-1928).
+
+**Mathematical status:** repository exact innovation and residual-Wishart construction.
 
 ---
 
 # 11. Finite-sample physical-time calibration
 
-The repository uses likelihood-ratio e-values to obtain a finite-sample confidence set for physical relaxation time `\tau` on an independent calibration record.
-
-The statistical principle is that an e-value `e_\tau` is nonnegative and satisfies
+The temporal calibration sequence uses likelihood-ratio e-values. For tested parameter \(\tau\), an e-value \(e_\tau\) satisfies
 
 \[
-\mathbb E_\tau[e_\tau]\le1
+\mathbb E_\tau[e_\tau]\le1.
 \]
 
-under the tested parameter. Markov's inequality then yields a finite-sample test, and inversion yields a confidence set.
+Markov's inequality gives a finite-sample test, and inversion produces a confidence set for \(\tau\).
 
 **Lineage:** [Vovk and Wang 2021](bibliography.md#vovk-and-wang-2021), [Shafer 2021](bibliography.md#shafer-2021), and [Vovk and Wang 2023](bibliography.md#vovk-and-wang-2023).
 
-**Repository development:** Propositions 51 through 55 adapt this machinery to the declared temporal models and construct certified finite outer covers for independent target inference.
+**Repository development:** Propositions 51-55 specialize this methodology to the declared temporal families and construct certified outer covers for independent target inference.
 
 ---
 
 # 12. Robust innovation inference under calibrated physical time
 
-Proposition 57 chooses one calibration-derived working time `\tau_0` with whitener `W_0`. For every still-admissible true `\tau`, define
+Proposition 57 chooses a calibration-derived working time \(\tau_0\) with whitener \(W_0\). For every admissible true \(\tau\), define
 
 \[
 \boxed{
@@ -485,7 +507,25 @@ C_\tau=W_0R_\tau W_0^{\mathsf T}.
 }
 \]
 
-A deterministic cover of this compact transformed covariance family is propagated through the matrix concentration theorem.
+The transformed eigenvalue geometry is controlled by a deterministic operator cover. The projected normalization is controlled separately through
+
+\[
+\boxed{
+d(\tau)=\operatorname{tr}(P_GC_\tau).
+}
+\]
+
+For the exponential covariance family,
+
+\[
+\boxed{
+\frac{\partial R_\tau(i,j)}{\partial\tau}
+=
+\frac{D_{ij}}{\tau^2}e^{-D_{ij}/\tau}.
+}
+\]
+
+This gives the trace-specific Lipschitz certificate used in release 0.47.1.
 
 On Experiment AR,
 
@@ -497,17 +537,19 @@ and the uniform scalar target radius is
 
 \[
 \boxed{
-\epsilon_{57}=0.8677117535<1.
+\epsilon_{57}=0.7195879984<1.
 }
 \]
 
-**Status:** repository theorem and controlled numerical benchmark. It is conditional on the declared separable Gaussian one-timescale exponential model and calibration-target separation.
+**Mathematical status:** Proposition 57 with the 0.47.1 trace-cover tightening.
+
+**Verification:** [P57](proposition_57_robust_innovation_whitening.md) | [AR JSON](robust_innovation_whitened_target.json) | [0.47.1 record](release_0_47_1.md)
 
 ---
 
 # 13. Return from covariance uncertainty to the observer objective
 
-For future candidate `S`, Proposition 58 uses the observer covariance block
+For future candidate \(S\), Proposition 58 uses
 
 \[
 \boxed{
@@ -523,7 +565,7 @@ d_{\mathrm{obs}}=n+s.
 }
 \]
 
-For candidate count `C` and horizon `T`, the required simultaneous target-indexed block count is
+For candidate count \(C\) and horizon \(T\), the simultaneous target-indexed block count is
 
 \[
 \boxed{
@@ -531,19 +573,21 @@ B_{\mathrm{obs}}=TC.
 }
 \]
 
-Proposition 58 deterministically propagates simultaneous relative covariance radii through integration, insulation, persistence, transport, and the complete path objective without spending another probability budget.
+Proposition 58 propagates simultaneous relative covariance radii through integration, insulation, persistence, transport, and the complete path objective on the same covariance event.
 
-Experiment AS shows an important negative result: scalar covariance success does not automatically imply observer-scale certification. On the controlled benchmark,
+On Experiment AS, the current observer-scale exact-\(\tau\) concentration radius at 118 residual innovation degrees is
 
 \[
 \boxed{
-\epsilon_{\mathrm{observer}}=1.8573569119>1
+\epsilon_{\mathrm{observer}}=1.8573569119>1.
 }
 \]
 
-at 118 residual innovation degrees of freedom for the current matrix theorem.
+**Physical reading:** the present frontier is observer-scale dimension and structural propagation of covariance uncertainty through the full moving-boundary objective.
 
-**Physical reading:** the current bottleneck is observer-scale dimension and structural worst-case propagation, not another refinement of physical-time calibration.
+**Mathematical status:** repository deterministic composition theorem and controlled numerical diagnostic.
+
+**Verification:** [P58](proposition_58_observer_bridge.md) | [AS JSON](observer_bridge_dimension_audit.json)
 
 ---
 
@@ -551,43 +595,44 @@ at 118 residual innovation degrees of freedom for the current matrix theorem.
 
 | Object | Physical role | Mathematical status | Primary lineage | Repository location |
 | --- | --- | --- | --- | --- |
-| Observer-factorization question | why one subsystem decomposition is distinguished | conceptual starting point | [Tegmark 2015](bibliography.md#tegmark-2015) | [README §13](../README.md#13-relationship-to-tegmarks-observer-factorization-question) |
-| `S_t`, `\mathcal W` | moving subsystem boundary and history | repository definition | Tegmark-inspired question | [Derivations](derivations.md) |
-| Gaussian MI / CMI | predictive statistical dependence | standard identity | [Shannon 1948](bibliography.md#shannon-1948); [Cover & Thomas 2006](bibliography.md#cover-and-thomas-2006) | [Derivations §2](derivations.md#gaussian-information-quantities) |
-| `\mathcal J_t`, `\mathcal L_t` | internal integration and external leakage | repository operational definitions | information-theory lineage | [Derivations §§3-4](derivations.md#internal-directed-integration) |
-| canonical persistence | predictive continuity of collective modes | standard CCA ingredient + repository averaging | [Hotelling 1936](bibliography.md#hotelling-1936) | [Derivations §5](derivations.md#predictive-persistence) |
-| `\Theta_t` | transport into changed coordinates | repository definition | information theory + CCA | [Derivations §6](derivations.md#transport-between-different-boundaries) |
-| Jaccard continuity | weak material continuity | standard set geometry used by repository | [Jaccard 1901](bibliography.md#jaccard-1901) | [Derivations §7](derivations.md#world-tube-objective) |
-| dynamic program | global moving-path optimizer | standard algorithmic principle + repository score | [Bellman 1952](bibliography.md#bellman-1952) | [Derivations §8](derivations.md#exact-dynamic-program) |
-| Wishart covariance law | finite Gaussian covariance distribution | classical result | [Wishart 1928](bibliography.md#wishart-1928) | [P56](proposition_56_innovation_whitened_target.md) |
-| matrix concentration | simultaneous covariance certificate | standard method specialized in repository | [Tropp 2012](bibliography.md#tropp-2012) | [P47](proposition_47_weighted_wishart_matrix_chernoff.md) |
-| e-value confidence set | finite-sample temporal calibration | modern statistical method specialized in repository | [Vovk & Wang 2021](bibliography.md#vovk-and-wang-2021) | [P51-P55 map](research_index.md) |
-| exponential relaxation | sampling-consistent physical temporal model | declared model with repository derivations | [Uhlenbeck & Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930); [Doob 1942](bibliography.md#doob-1942) | [P53](proposition_53_physical_relaxation_time.md) |
-| GLS/innovation nuisance removal | fit nuisance in temporal covariance geometry | classical lineage + repository local construction | [Aitken 1936](bibliography.md#aitken-1936) | [P56](proposition_56_innovation_whitened_target.md) |
-| covariance-to-world-tube bridge | convert measurement uncertainty to path uncertainty | repository theorem | matrix perturbation background [Bhatia 1997](bibliography.md#bhatia-1997) | [P58](proposition_58_observer_bridge.md) |
+| Observer-factorization question | why one subsystem decomposition is distinguished | conceptual starting point | [Tegmark 2015](bibliography.md#tegmark-2015) | [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question) |
+| \(S_t\), \(\mathcal W\) | moving subsystem boundary and history | repository definition | observer-factorization lineage | [Derivations](derivations.md) |
+| Gaussian MI / CMI | predictive statistical dependence | standard identity | [Shannon 1948](bibliography.md#shannon-1948); [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006) | [Derivations](derivations.md#gaussian-information-quantities) |
+| \(\mathcal J_t\), \(\mathcal L_t\) | internal integration and external leakage | repository operational definitions | information theory and integration lineage | [Derivations](derivations.md#internal-directed-integration) |
+| canonical persistence | predictive continuity of collective modes | CCA ingredient with repository averaging | [Hotelling 1936](bibliography.md#hotelling-1936) | [Derivations](derivations.md#predictive-persistence) |
+| \(\Theta_t\) | transport into changed coordinates | repository definition | information theory + CCA | [Derivations](derivations.md#transport-between-different-boundaries) |
+| Jaccard continuity | membership continuity | standard set geometry | [Jaccard 1901](bibliography.md#jaccard-1901) | [Derivations](derivations.md#world-tube-objective) |
+| dynamic program | global moving-path optimizer | standard algorithm specialized here | [Bellman 1952](bibliography.md#bellman-1952) | [Derivations](derivations.md#exact-dynamic-program) |
+| Wishart covariance law | finite Gaussian covariance distribution | classical probability law | [Wishart 1928](bibliography.md#wishart-1928) | [P56](proposition_56_innovation_whitened_target.md) |
+| matrix concentration | simultaneous covariance certification | standard method specialized here | [Tropp 2012](bibliography.md#tropp-2012) | [P47](proposition_47_weighted_wishart_matrix_chernoff.md) |
+| e-value confidence set | finite-sample temporal calibration | statistical method specialized here | [Vovk and Wang 2021](bibliography.md#vovk-and-wang-2021) | [P51-P55](research_index.md) |
+| exponential relaxation | sampling-consistent temporal model | declared model with repository derivations | [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930); [Doob 1942](bibliography.md#doob-1942) | [P53](proposition_53_physical_relaxation_time.md) |
+| innovation nuisance removal | fit nuisance in temporal covariance geometry | classical lineage + repository construction | [Aitken 1936](bibliography.md#aitken-1936) | [P56](proposition_56_innovation_whitened_target.md) |
+| robust transformed temporal family | uncertainty in \(\tau\) after whitening | repository theorem | Bhatia/Tropp matrix methodology | [P57](proposition_57_robust_innovation_whitening.md) |
+| covariance-to-world-tube bridge | measurement uncertainty to path uncertainty | repository theorem | information, CCA, matrix, and DP foundations | [P58](proposition_58_observer_bridge.md) |
 
 ---
 
-# 15. How to read claims correctly
+# 15. Claim classification
 
-Every important statement in the repository should be classifiable as one of four types:
+Every major statement in the repository is classified by mathematical role:
 
 | Type | Meaning |
 | --- | --- |
-| **External foundation** | a standard idea, identity, or method taken from cited literature |
-| **Repository definition** | a modeling or scoring choice introduced for this research program |
-| **Repository theorem** | a proved mathematical statement under explicit assumptions |
-| **Controlled experiment** | a reproducible numerical illustration or diagnostic; not a substitute for proof |
+| **External foundation** | standard concept, identity, probability law, or method from cited literature |
+| **Repository definition** | operational mathematical object introduced for this research program |
+| **Repository theorem** | proved statement under explicit assumptions |
+| **Controlled experiment** | reproducible numerical illustration or diagnostic tied to a declared model and parameter set |
 
-This classification is essential for professional attribution. A citation to an external source never implies that the source contains the repository's later theorem, and a repository theorem never implies that the declared physical model is universally correct.
+This classification keeps source provenance and mathematical status visible throughout the documentation.
 
 ---
 
 # 16. Citation standard
 
-Use the following attribution rule throughout the project:
+The attribution rule used throughout the project is:
 
-> **Cite conceptual lineage explicitly; identify repository definitions as definitions; identify repository theorems as original results in this codebase; cite external mathematical tools for the role they actually play; and never use a citation to imply endorsement.**
+> **Cite conceptual lineage explicitly; identify repository definitions as definitions; identify repository theorems through their proof records; and cite external mathematical tools at the point where they enter the derivation.**
 
 The complete reference record is maintained in:
 
@@ -595,8 +640,8 @@ The complete reference record is maintained in:
 - [`references.bib`](../references.bib)
 - [`CITATION.cff`](../CITATION.cff)
 
-For the primary conceptual source, use:
+Primary conceptual citation:
 
 **Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270. DOI: 10.1016/j.chaos.2015.03.014.**
 
-For repository results, cite **Spatiotemporal Observer Mathematics** using [`CITATION.cff`](../CITATION.cff), together with the external method citation appropriate to the theorem being used.
+Repository-specific results should cite **Spatiotemporal Observer Mathematics** through [`CITATION.cff`](../CITATION.cff), together with the external method citation appropriate to the theorem being used.
