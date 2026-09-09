@@ -154,6 +154,9 @@ def build_record() -> dict[str, object]:
             "transformed_operator_lipschitz_bound_per_second": (
                 robust.transformed_operator_lipschitz_bound
             ),
+            "transformed_normalization_lipschitz_bound_per_second": (
+                robust.transformed_normalization_lipschitz_bound
+            ),
             "transformed_eigenvalue_covering_radius": (
                 robust.transformed_eigenvalue_covering_radius
             ),
@@ -193,10 +196,15 @@ def build_record() -> dict[str, object]:
                 "propagated through a single midpoint innovation whitener and still yields "
                 "a uniform target covariance radius below one on the Experiment AP schedule."
             ),
-            "conservatism": (
-                "The theorem uses ||W||_2^2 times the raw covariance Lipschitz bound and "
-                "then residual_rank times the transformed operator radius for projected-trace "
-                "uncertainty. These are deliberately conservative deterministic inequalities."
+            "operator_cover": (
+                "The transformed eigenvalue cover uses ||W||_2^2 times the raw covariance "
+                "operator-Lipschitz bound."
+            ),
+            "normalization_cover": (
+                "Projected-trace uncertainty is certified separately from the operator "
+                "cover by differentiating tr(P_G W R_tau W^T) and bounding its derivative "
+                "entrywise over the full relaxation-time interval. This is rigorous and "
+                "substantially tighter than residual_rank times the operator radius."
             ),
             "scope": (
                 "The certificate remains conditional on the declared separable Gaussian "
