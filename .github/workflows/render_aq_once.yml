@@ -1,0 +1,30 @@
+name: render-aq-once
+
+on:
+  push:
+    branches:
+      - prop56-innovation-whitened-target-covariance
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    if: github.event.head_commit.message == 'Run temporary AQ renderer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: prop56-innovation-whitened-target-covariance
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: python examples/render_innovation_whitened_target_covariance.py
+      - name: Commit rendered figure
+        run: |
+          git config user.name "Mahsa Keikha"
+          git config user.email "mahsa.keikha@gmail.com"
+          git add docs/innovation_whitened_target_covariance.svg
+          git commit -m "Render Experiment AQ figure from committed JSON"
+          git push origin HEAD:prop56-innovation-whitened-target-covariance
