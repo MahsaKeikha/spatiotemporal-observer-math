@@ -1,64 +1,54 @@
 # Visual research guide
 
-This page is the visual entry point to **Spatiotemporal Observer Mathematics**.
+This page is the visual atlas for **Spatiotemporal Observer Mathematics**.
 
 > **If a subsystem is allowed to move through a larger physical system, when can its boundary be inferred from the dynamics rather than fixed in advance?**
 
-The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). This repository develops a separate mathematical program for time-dependent subsystem boundaries, recovery, identifiability, finite-sample measurement certification, physical-time calibration, innovation inference, and covariance-to-world-tube recovery.
+The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). The present research develops a time-dependent mathematical program for subsystem boundaries, recovery, identifiability, finite-sample measurement certification, physical-time calibration, innovation inference, and covariance-to-world-tube recovery.
 
-The word `observer` is operational. None of the figures on this page prove consciousness or subjective experience. See the [Interpretation Protocol](interpretation_protocol.md).
-
-## How to use this page
-
-Each figure is shown with three pieces of information:
-
-- **What you are seeing:** the quantity displayed by the visual.
-- **Why it matters:** the scientific question the figure answers.
-- **Verify:** the theorem, experiment, or documentation page that supports the visual.
-
-For equations and source provenance, use the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md). For physical meaning and units, use the [Physics Guide](physics_guide.md).
+For equations and source provenance, use the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md). For physical meaning and units, use the [Physics Guide](physics_guide.md). For the theorem sequence, use the [Research Index](research_index.md).
 
 ---
 
-# 1. Complete physics-to-inference pipeline
+# 1. The complete physics-to-inference pipeline
 
 [![Physics to inference pipeline](physics_pipeline.svg)](physics_guide.md)
 
-**What you are seeing:** the full logic from physical observables to effective dynamics, temporal-memory modeling, covariance certification, moving-boundary scoring, path optimization, identifiability, and interpretation.
+**What this figure shows.** The full conceptual flow from measured physical observables to effective dynamics, covariance geometry, candidate moving boundaries, world-tube optimization, finite-sample certification, and interpretation.
 
-**Why it matters:** it keeps the theorem sequence tied to one physical inference problem instead of reading like unrelated statistical lemmas.
+**Why it matters.** It is the shortest visual summary of how the physics and mathematics fit together.
 
-**Verify:** [Physics Guide](physics_guide.md) and [README](../README.md).
+**Verify.** [Physics Guide](physics_guide.md) | [Research Overview](research_overview.md) | [Equation provenance](physics_mathematics_citation_map.md)
 
 ---
 
 # 2. Phase I: moving-boundary recovery
 
-## 2.1 Baseline world-tube recovery
+## 2.1 Baseline moving world-tube
 
 [![World-tube baseline](worldtube_baseline.png)](reproducible_results.md)
 
-**What you are seeing:** candidate scores and the globally recovered path for a planted moving module.
+**What this figure shows.** Candidate scores across time together with the recovered moving subsystem path.
 
-**Why it matters:** this is the simplest visible demonstration that identity can persist while coordinate membership changes.
+**Physical question.** Can a coherent subsystem be tracked when the coordinates representing it change through time?
 
-Planted path:
+**Mathematical object.** The optimized world-tube
 
-```text
-(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
-```
+\[
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+\]
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 2.2 Recovery phase diagram
 
 [![World-tube phase diagram](worldtube_phase_diagram.png)](reproducible_results.md)
 
-**What you are seeing:** regions where the planted path remains recoverable as model and scoring parameters vary.
+**What this figure shows.** The region of parameter space in which the planted moving path remains optimal.
 
-**Why it matters:** path recovery is not a yes-or-no property of the algorithm alone. It depends on dynamical separation and the chosen objective geometry.
+**Why it matters.** It visualizes where dynamical support is sufficient for path recovery and where competing paths become indistinguishable or superior.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ---
 
@@ -68,31 +58,31 @@ Planted path:
 
 [![Finite-sample benchmark](finite_sample_benchmark.png)](reproducible_results.md)
 
-**What you are seeing:** empirical finite-sample recovery behavior as covariance estimates replace population quantities.
+**What this figure shows.** Recovery behavior under finite covariance estimation rather than exact population covariances.
 
-**Why it matters:** the moving-boundary objective is only useful if its population structure survives estimation noise.
+**Why it matters.** It introduces the gap between population identifiability and finite-data certification.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 3.2 Symbolic recovery region
 
 [![Symbolic recovery region](symbolic_recovery_region.png)](reproducible_results.md)
 
-**What you are seeing:** a deterministic region in perturbation space where the population path remains protected.
+**What this figure shows.** A theorem-derived region in model parameters where the planted moving path is guaranteed to dominate structured alternatives.
 
-**Why it matters:** this separates an optimization margin from a finite-sample error budget.
+**Why it matters.** It connects closed-form model structure to path recovery without relying only on numerical optimization.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md) | [Proof record](proofs_and_conjectures.md)
 
 ## 3.3 Perturbed recovery region
 
 [![Perturbed recovery region](perturbed_recovery_region.png)](reproducible_results.md)
 
-**What you are seeing:** how path stability degrades under controlled score and covariance perturbations.
+**What this figure shows.** How admissible recovery changes under perturbations of transitions, forcing, and covariance geometry.
 
-**Why it matters:** it visualizes the margin logic used by the early recovery theorems.
+**Why it matters.** It visualizes the difference between exact planted structure and robust recovery under model deviations.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md) | [Proof record](proofs_and_conjectures.md)
 
 ---
 
@@ -102,95 +92,92 @@ Planted path:
 
 [![Gaussian screen calibration](gaussian_screen_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** calibration of a safe screening stage under the declared Gaussian model.
+**What this figure shows.** Finite-sample screening of candidate states under Gaussian covariance uncertainty.
 
-**Why it matters:** screening can reduce the candidate burden before the most expensive simultaneous certification step.
+**Why it matters.** It demonstrates how safe screening can reduce the candidate family while retaining paths that could still win within the uncertainty budget.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 4.2 Structural-null screen
 
 [![Structural-null screen](structural_null_screen.png)](reproducible_results.md)
 
-**What you are seeing:** screening behavior when structural null information is available independently of target noise.
+**What this figure shows.** The effect of exact structural integration nulls on candidate score uncertainty and retained graph size.
 
-**Why it matters:** exact structural zeros can sometimes sharpen inference without pretending noisy estimates are exact.
+**Why it matters.** Exact null structure can improve local perturbation rates when the null is physically and mathematically justified.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md) | [Assumption Ledger](assumption_ledger.md)
 
 ## 4.3 Trajectory-coupled screening
 
 [![Trajectory-coupled screening](trajectory_coupled_screen_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** a screen that respects path structure rather than treating time points as unrelated candidate lists.
+**What this figure shows.** Screening when time-indexed covariance estimates arise from the same ensemble of complete trajectories.
 
-**Why it matters:** the object of inference is a path, so candidate reduction should preserve path-level competitors.
+**Why it matters.** It separates within-trajectory dependence from independence across trajectories.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 4.4 Relative covariance calibration
 
 [![Relative covariance calibration](relative_covariance_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** covariance error after normalization by the population covariance geometry.
+**What this figure shows.** Calibration using population-whitened relative covariance error rather than absolute spectral error.
 
-**Why it matters:** the relative operator norm
+**Mathematical object.** The central event is
 
 \[
 \left\|
-\Sigma^{-1/2}
-(\widehat\Sigma-\Sigma)
-\Sigma^{-1/2}
+\Sigma^{-1/2}(\widehat\Sigma-\Sigma)\Sigma^{-1/2}
 \right\|_2
+\le\epsilon.
 \]
 
-is the central perturbation quantity used by the later certification chain.
-
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ---
 
 # 5. Phase IV: cross-fitting, drift, and changing populations
 
-## 5.1 Cross-fitted calibration
+## 5.1 Cross-fitted relative calibration
 
 [![Cross-fitted relative calibration](cross_fitted_relative_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** separation of pilot geometry from target evaluation.
+**What this figure shows.** Separation of pilot geometry from the data used for certification.
 
-**Why it matters:** using the same noise both to choose a structure and to certify it can invalidate nominal guarantees.
+**Why it matters.** It makes the statistical role of independent sample splitting explicit.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
-## 5.2 Drift-robust calibration
+## 5.2 Drift-robust relative calibration
 
 [![Drift-robust relative calibration](drift_robust_relative_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** covariance certification with controlled population drift.
+**What this figure shows.** Candidate uncertainty after both finite-sample covariance error and declared population drift are included.
 
-**Why it matters:** calibration and target distributions need not be identical, but mismatch must enter the uncertainty budget explicitly.
+**Why it matters.** A calibration population and target population need not have identical covariance geometry.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 5.3 Calibrated drift comparison
 
 [![Calibrated drift comparison](calibrated_drift_comparison.png)](reproducible_results.md)
 
-**What you are seeing:** direct comparison of different drift-aware calibration strategies.
+**What this figure shows.** Comparison among exact-oracle drift, statistically estimated drift, and refreshed reference geometry.
 
-**Why it matters:** the figure makes the cost of robustness visible rather than hiding it inside a theorem constant.
+**Why it matters.** It makes the cost of estimating population change visible rather than hiding it inside one radius.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 5.4 Multi-regime coupled calibration
 
 [![Multi-regime coupled calibration](multi_regime_coupled_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** calibration across multiple related regimes.
+**What this figure shows.** Recovery and screening behavior across multiple memory, coupling, and covariance-conditioning regimes.
 
-**Why it matters:** a physically changing population may require more than one stationary calibration block.
+**Why it matters.** It exposes where stronger population margins can coexist with harder finite-sample covariance certification.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ---
 
@@ -200,65 +187,69 @@ is the central perturbation quantity used by the later certification chain.
 
 [![Dependent Gaussian calibration](dependent_gaussian_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** finite-sample covariance behavior when repeated measurements are temporally correlated.
+**What this figure shows.** Relative covariance calibration when repeated measurements have temporal correlation.
 
-**Why it matters:** treating correlated samples as independent exaggerates effective information.
+**Why it matters.** Treating correlated observations as independent can substantially understate uncertainty.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 6.2 Unknown-mean dependent calibration
 
 [![Dependent centered Gaussian calibration](dependent_centered_gaussian_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** the same dependence problem after an unknown constant mean is removed.
+**What this figure shows.** Covariance inference after accounting for an unknown constant mean under temporal dependence.
 
-**Why it matters:** deterministic baseline uncertainty consumes degrees of freedom and changes the concentration geometry.
+**Why it matters.** Mean removal changes the temporal normalization and therefore the effective information available for covariance estimation.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md)
 
 ## 6.3 Estimated AR(1) calibration
 
 [![Estimated AR1 calibration](estimated_ar1_calibration.png)](reproducible_results.md)
 
-**What you are seeing:** temporal persistence estimated from data rather than treated as known.
+**What this figure shows.** Finite-sample estimation of a shared AR(1) temporal-correlation parameter and propagation of that uncertainty into covariance certification.
 
-**Why it matters:** physical-time uncertainty must be propagated instead of silently replaced by a point estimate.
+**Why it matters.** Temporal persistence is learned from data rather than supplied as an oracle parameter.
 
-**Verify:** [Reproducible Results](reproducible_results.md).
+**Verify.** [Reproducible results](reproducible_results.md) | [Proof record](proofs_and_conjectures.md)
 
 ---
 
-# 7. Phase VI: deterministic nuisance structure
+# 7. Phase VI: time-varying nuisance structure
 
 ## 7.1 Proposition 44 / Experiment AD
 
-[![Nuisance projection calibration](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
+[![Nuisance projection](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
-**What you are seeing:** covariance calibration after projection away from a predeclared nuisance subspace.
+**What this figure shows.** Covariance estimation after projecting out a fixed, predeclared temporal nuisance subspace.
 
-**Why it matters:** baseline and drift should not be mistaken for stochastic covariance.
+**Mathematical object.** For nuisance design \(H\),
 
-**Verify:** [Proposition 44](proposition_44_nuisance_projection.md).
+\[
+P_H=I-H(H^{\mathsf T}H)^{-1}H^{\mathsf T}.
+\]
+
+**Verify.** [Proposition 44](proposition_44_nuisance_projection.md)
 
 ## 7.2 Proposition 45 / Experiment AE
 
 [![Estimated AR1 nuisance projection](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
 
-**What you are seeing:** nuisance removal and temporal-memory estimation combined.
+**What this figure shows.** Joint uncertainty from estimated temporal correlation and nuisance projection.
 
-**Why it matters:** real target records can contain both deterministic structure and correlated stochastic residuals.
+**Why it matters.** It combines two measurement complications in one finite-sample certificate.
 
-**Verify:** [Proposition 45](proposition_45_estimated_ar1_nuisance_projection.md).
+**Verify.** [Proposition 45](proposition_45_estimated_ar1_nuisance_projection.md)
 
 ## 7.3 Proposition 46 / Experiment AF
 
 [![Design-specific AR1 envelope](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
 
-**What you are seeing:** a bound that uses the actual nuisance geometry rather than only its rank.
+**What this figure shows.** Design-specific temporal envelopes compared with rank-only bounds.
 
-**Why it matters:** structure-specific geometry can be much less pessimistic than generic worst-case compression.
+**Why it matters.** The actual nuisance geometry can be much less pessimistic than a bound depending only on nuisance rank.
 
-**Verify:** [Proposition 46](proposition_46_design_specific_ar1_envelope.md).
+**Verify.** [Proposition 46](proposition_46_design_specific_ar1_envelope.md)
 
 ---
 
@@ -268,31 +259,31 @@ is the central perturbation quantity used by the later certification chain.
 
 [![Weighted Wishart matrix Chernoff](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
 
-**What you are seeing:** direct matrix concentration for weighted Gaussian covariance contributions.
+**What this figure shows.** Direct matrix concentration for weighted Gaussian Wishart covariance using the projected temporal eigenvalue spectrum.
 
-**Why it matters:** the full projected temporal spectrum can be used instead of reducing everything to one effective sample-size scalar.
+**Why it matters.** It replaces a sphere-net reduction with a direct matrix-Laplace treatment.
 
-**Verify:** [Proposition 47](proposition_47_weighted_wishart_matrix_chernoff.md).
+**Verify.** [Proposition 47](proposition_47_weighted_wishart_matrix_chernoff.md) | [Tropp lineage](bibliography.md#tropp-2012)
 
 ## 8.2 Proposition 48 / Experiment AH
 
 [![Uniform matrix Chernoff AR1](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
 
-**What you are seeing:** a uniform matrix certificate over an interval of AR(1) persistence values.
+**What this figure shows.** Matrix concentration made uniform over an observed AR(1) confidence interval.
 
-**Why it matters:** parameter uncertainty must remain inside the target guarantee.
+**Why it matters.** The direct matrix theorem remains usable when temporal persistence is uncertain.
 
-**Verify:** [Proposition 48](proposition_48_uniform_matrix_chernoff_ar1.md).
+**Verify.** [Proposition 48](proposition_48_uniform_matrix_chernoff_ar1.md)
 
 ## 8.3 Proposition 49 / Experiment AI
 
 [![Compact temporal family](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
-**What you are seeing:** finite covering of a compact temporal covariance family.
+**What this figure shows.** A compact temporal covariance family covered by finitely many certified spectra plus a deterministic interpolation radius.
 
-**Why it matters:** it is the general bridge from deterministic temporal-family covers to uniform target covariance concentration.
+**Why it matters.** It abstracts the concentration theorem beyond a single AR(1) parameterization.
 
-**Verify:** [Proposition 49](proposition_49_compact_temporal_family.md).
+**Verify.** [Proposition 49](proposition_49_compact_temporal_family.md)
 
 ---
 
@@ -302,165 +293,194 @@ is the central perturbation quantity used by the later certification chain.
 
 [![Calibrated temporal family](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
 
-**What you are seeing:** an independently learned temporal covariance family propagated to the target theorem.
+**What this figure shows.** A data-calibrated two-parameter temporal family combining persistence and white-noise fraction.
 
-**Why it matters:** target covariance inference should account for uncertainty in the temporal law itself.
+**Why it matters.** The target theorem is conditioned on a family learned from calibration rather than a manually declared parameter point.
 
-**Verify:** [Proposition 50](proposition_50_calibrated_temporal_family.md).
+**Verify.** [Proposition 50](proposition_50_calibrated_temporal_family.md)
 
 ## 9.2 Proposition 51 / Experiment AK
 
 [![E-value temporal confidence set](evalue_temporal_confidence_set.svg)](proposition_51_evalue_temporal_confidence_set.md)
 
-**What you are seeing:** a finite-sample continuum confidence set constructed from likelihood-ratio e-values.
+**What this figure shows.** A continuum confidence set obtained by inverting finite-sample likelihood-ratio e-values.
 
-**Why it matters:** continuum parameter uncertainty can be handled without a parameterwise union bound.
+**Why it matters.** It replaces asymptotic parameter estimation with an explicit finite-sample confidence construction.
 
-**Verify:** [Proposition 51](proposition_51_evalue_temporal_confidence_set.md).
+**Verify.** [Proposition 51](proposition_51_evalue_temporal_confidence_set.md) | [E-value lineage](bibliography.md#vovk-and-wang-2021)
 
 ## 9.3 Proposition 52 / Experiment AL
 
 [![Certified e-value outer cover](certified_evalue_outer_cover.svg)](proposition_52_certified_evalue_outer_cover.md)
 
-**What you are seeing:** a deterministic finite outer cover of the continuum e-value confidence set.
+**What this figure shows.** A deterministic outer cover of the continuum e-value confidence set and its propagation into an independent target covariance theorem.
 
-**Why it matters:** the continuous calibration result becomes a finite object that can be safely propagated into the independent target theorem.
+**Why it matters.** It creates the bridge from calibration uncertainty to target measurement uncertainty.
 
-**Verify:** [Proposition 52](proposition_52_certified_evalue_outer_cover.md).
+**Verify.** [Proposition 52](proposition_52_certified_evalue_outer_cover.md)
 
 ---
 
-# 10. Phase IX: physical time and irregular sampling
+# 10. Phase IX: sampling consistency and physical-time calibration
 
-## 10.1 Proposition 53 / Experiment AM: sampling consistency
+## 10.1 Experiment AM: physical relaxation under changing sampling rate
 
 [![Physical relaxation sampling](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md)
 
-**What you are seeing:** how discrete correlation changes with sampling interval while the physical relaxation time \(\tau\) remains fixed.
+**What this figure shows.** One physical relaxation time \(\tau\) represented at different acquisition intervals.
 
-**Why it matters:** a parameter measured in physical time should not change merely because the acquisition rate changes.
+**Mathematical object.** The sampling-consistent covariance is
 
-**Verify:** [Proposition 53](proposition_53_physical_relaxation_time.md).
+\[
+K_\tau(t_i,t_j)=e^{-|t_i-t_j|/\tau}.
+\]
 
-## 10.2 Proposition 53: exact irregular-grid Markov structure
+**Verify.** [Proposition 53A](proposition_53_physical_relaxation_time.md)
 
-[![Physical relaxation Markov factorization](physical_relaxation_markov.svg)](proposition_53_physical_relaxation_time.md)
+## 10.2 Proposition 53A: irregular-grid Markov factorization
 
-**What you are seeing:** local transition coefficients, lower-bidiagonal innovation whitening, and tridiagonal precision structure on irregular timestamps.
+[![Irregular-grid Markov factorization](physical_relaxation_markov.svg)](proposition_53_physical_relaxation_time.md)
 
-**Why it matters:** exponential temporal memory can be converted into local innovations using the actual physical time gaps.
+**What this figure shows.** The exact local innovation structure on irregular timestamps.
 
-**Verify:** [Proposition 53](proposition_53_physical_relaxation_time.md).
+For
 
-## 10.3 Proposition 53B / Experiment AN
+\[
+\alpha_i=e^{-(t_{i+1}-t_i)/\tau},
+\]
 
-[![Irregular relaxation e-value calibration](irregular_relaxation_evalue_calibration.svg)](proposition_53b_irregular_tau_evalue.md)
+\[
+X_{i+1}=\alpha_iX_i+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\]
 
-**What you are seeing:** finite-sample calibration of physical \(\tau\) directly on irregular timestamps.
+**Verify.** [Proposition 53A](proposition_53_physical_relaxation_time.md)
 
-**Why it matters:** the physical timescale is inferred from the same temporal representation used by the target model.
+## 10.3 Experiment AN: irregular-time relaxation calibration
 
-**Verify:** [Proposition 53B](proposition_53b_irregular_tau_evalue.md).
+[![Irregular-time tau calibration](irregular_relaxation_evalue_calibration.svg)](proposition_53b_irregular_tau_evalue.md)
 
-## 10.4 Proposition 54 / Experiment AO
+**What this figure shows.** Finite-sample calibration of the physical relaxation time directly on irregular observation times.
 
-[![Two-scale irregular tau cover](two_scale_irregular_tau_cover.svg)](proposition_54_two_scale_irregular_tau_cover.md)
+**Why it matters.** The physical parameter is estimated in seconds rather than as a sampling-dependent one-step correlation coefficient.
 
-**What you are seeing:** different resolutions for calibration certification and target propagation.
+**Verify.** [Proposition 53B](proposition_53b_irregular_tau_evalue.md)
 
-**Why it matters:** calibration resolution and target computational burden are different mathematical roles and need not be tied to one grid.
+## 10.4 Experiment AO: two-scale relaxation cover
 
-**Verify:** [Proposition 54](proposition_54_two_scale_irregular_tau_cover.md).
+[![Two-scale relaxation cover](two_scale_irregular_tau_cover.svg)](proposition_54_two_scale_irregular_tau_cover.md)
 
-## 10.5 Proposition 55 / Experiment AP
+**What this figure shows.** Separate resolution for calibration-set geometry and target temporal-family covering.
+
+**Why it matters.** A fine calibration grid need not force an equally expensive target matrix cover.
+
+**Verify.** [Proposition 54](proposition_54_two_scale_irregular_tau_cover.md)
+
+## 10.5 Experiment AP: quadratic relaxation calibration
 
 [![Quadratic relaxation calibration](quadratic_relaxation_calibration.svg)](proposition_55_quadratic_relaxation_calibration.md)
 
-**What you are seeing:** local slope and curvature information tightening the finite-sample physical-time cover.
+**What this figure shows.** First-order and curvature-aware outer covers, target-radius progression, and the exact-\(\tau\) raw-time diagnostic.
 
-**Why it matters:** the retained \(\tau\) hull becomes much narrower, but the raw-time target radius remains above one. This negative result motivates a change of estimator rather than another calibration-only refinement.
+**Recorded result.** The calibrated hull contracts to width `0.1646875 s`; the raw-time target radius is `2.41488`, while the exact-\(\tau\) raw-time diagnostic remains `2.16725 > 1`.
 
-**Verify:** [Proposition 55](proposition_55_quadratic_relaxation_calibration.md).
+**Verify.** [Proposition 55](proposition_55_quadratic_relaxation_calibration.md) | [AP JSON](quadratic_relaxation_calibration.json)
 
 ---
 
-# 11. Phase X: exact innovation target inference
+# 11. Phase X: exact local innovation target inference
 
-## Proposition 56 / Experiment AQ
+## 11.1 Proposition 56 / Experiment AQ
 
 [![Innovation-whitened target covariance](innovation_whitened_target.svg)](proposition_56_innovation_whitened_target.md)
 
-**What you are seeing:** the known-\(\tau\) raw-time target radius compared with the exact innovation-whitened target radius, together with the local whitening geometry and seeded visibility diagnostics.
+**What this figure shows.** Target covariance concentration after transforming the physical-time process into exact local innovation coordinates.
 
-**Why it matters:** changing the representation before concentration reduces the scalar radius from about
-
-\[
-2.16725
-\]
-
-to
+With exact \(\tau\), after nuisance removal,
 
 \[
-\boxed{0.43647<1}.
+(N-q)\widehat\Gamma_{\mathrm{IW}}
+\sim\operatorname{Wishart}_d(\Gamma,N-q).
 \]
 
-**Verify:** [Proposition 56](proposition_56_innovation_whitened_target.md), [AQ JSON](innovation_whitened_target.json), and [AQ experiment](../examples/innovation_whitened_target.py).
+**Recorded result.** The scalar exact-\(\tau\) target radius contracts from approximately `2.16725` to `0.43647`.
+
+**Verify.** [Proposition 56](proposition_56_innovation_whitened_target.md) | [AQ JSON](innovation_whitened_target.json)
 
 ---
 
 # 12. Phase XI: robust innovation inference under calibrated physical time
 
-## Proposition 57 / Experiment AR
+## 12.1 Proposition 57 / Experiment AR
 
 [![Robust innovation-whitened target covariance](robust_innovation_whitened_target.svg)](proposition_57_robust_innovation_whitening.md)
 
-**What you are seeing:** the calibrated physical-time interval, one working whitener, comparison of P55/P56/P57 radii, separate operator and projected-trace covers, and pointwise diagnostics.
+**What this figure shows.** The Proposition 55 finite-sample relaxation-time interval propagated through one working innovation whitener.
 
-**Why it matters:** the exact-target-\(\tau\) assumption is removed while the uniform target theorem remains below one.
+The transformed family is
 
-Current tightened result:
+\[
+C_\tau=W_0R_\tau W_0^{\mathsf T}.
+\]
+
+The 0.47.1 tightening keeps the operator/eigenvalue cover unchanged and uses a direct trace-specific certificate for the projected normalization.
+
+**Current recorded result.**
 
 \[
 \boxed{
-\varepsilon_{57}=0.7195879984<1.
+\varepsilon_{57}=0.7195879984<1
 }
 \]
 
-The trace-specific normalization cover is
+at combined calibration-target confidence lower bound `0.950625`.
 
-\[
-\boxed{
-\delta_d=0.01419745,
-}
-\]
-
-and the reduction relative to the P55 calibrated raw-time target is about
-
-\[
-\boxed{70.2\%}.
-\]
-
-**Verify:** [Proposition 57](proposition_57_robust_innovation_whitening.md), [AR JSON](robust_innovation_whitened_target.json), [AR experiment](../examples/robust_innovation_whitened_target.py), and [AR renderer](../examples/render_robust_innovation_whitened_target.py).
+**Verify.** [Proposition 57](proposition_57_robust_innovation_whitening.md) | [AR JSON](robust_innovation_whitened_target.json) | [0.47.1 correction record](release_0_47_1.md)
 
 ---
 
 # 13. Phase XII: covariance uncertainty back to world-tube recovery
 
-## Proposition 58 / Experiment AS
+## 13.1 Proposition 58 / Experiment AS
 
 [![Observer-scale covariance-to-world-tube audit](observer_bridge_dimension_audit.svg)](proposition_58_observer_bridge.md)
 
-**What you are seeing:** the block dimension and simultaneous covariance burden that arise when scalar covariance theory is returned to the actual observer objective.
+**What this figure shows.** The dimensional bridge from scalar covariance success back to the full observer-scale moving-boundary problem.
 
-For the controlled benchmark,
+For future candidate \(S\),
 
 \[
+B_{t,S}=(X_t,X_{t+1}^{S}),
+\]
+
+with
+
+\[
+d_{\mathrm{obs}}=n+s.
+\]
+
+On the controlled benchmark,
+
+\[
+n=7,
+\qquad
+s=3,
+\qquad
+T=5,
+\qquad
+C=35,
+\]
+
+so
+
+\[
+\boxed{
 d_{\mathrm{obs}}=10,
 \qquad
 B_{\mathrm{obs}}=175.
+}
 \]
 
-At 118 residual innovation degrees, the current exact-\(\tau\) observer-scale matrix theorem gives
+At 118 residual innovation degrees, the exact-\(\tau\) observer-scale radius is
 
 \[
 \boxed{
@@ -468,36 +488,62 @@ At 118 residual innovation degrees, the current exact-\(\tau\) observer-scale ma
 }
 \]
 
-**Why it matters:** a successful scalar covariance theorem does not automatically certify the full moving-boundary problem. The current bottleneck is dimensional and structural.
+**Why it matters.** The current bottleneck is no longer scalar physical-time calibration. It is observer-scale dimension and structural propagation of covariance uncertainty through the full score.
 
-**Verify:** [Proposition 58](proposition_58_observer_bridge.md), [AS JSON](observer_bridge_dimension_audit.json), and [AS experiment](../examples/observer_bridge_dimension_audit.py).
-
----
-
-# 14. How to read the visual record scientifically
-
-The figures fall into four categories:
-
-| Visual type | What it can establish |
-| --- | --- |
-| controlled population experiment | whether the declared model and algorithm behave as designed in a known synthetic setting |
-| finite-sample diagnostic | the scale and conservatism of a theorem on a controlled benchmark |
-| certified theorem visualization | a visible representation of a mathematical certificate already proved elsewhere |
-| negative diagnostic | a rigorous or controlled indication of where the current theorem is still too conservative or structurally incomplete |
-
-No figure should be used to claim more than its category supports.
-
-The project deliberately preserves negative results, including radii above one and large conservatism gaps. Those results identify the next mathematical bottleneck and prevent the research record from becoming a sequence of only favorable plots.
+**Verify.** [Proposition 58](proposition_58_observer_bridge.md) | [AS JSON](observer_bridge_dimension_audit.json) | [Research Index](research_index.md)
 
 ---
 
-# 15. Recommended next pages
+# 14. Figure inventory
 
-After this visual guide:
+The 33 scientific result figures are distributed as follows:
 
-1. read the [Physics Guide](physics_guide.md) for physical meaning and units;
-2. read the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md) for equation provenance;
-3. read the [Research Overview](research_overview.md) for the scientific narrative;
-4. use the [Research Index](research_index.md) to enter the detailed theorem pages;
-5. use the [Bibliography and Citation Map](bibliography.md) to audit external sources;
-6. use the [Assumption Ledger](assumption_ledger.md) and [Interpretation Protocol](interpretation_protocol.md) before making physical or consciousness interpretations.
+| Phase | Figures | Count |
+| --- | --- | ---: |
+| I | baseline recovery, recovery phase diagram | 2 |
+| II | finite-sample benchmark, symbolic recovery, perturbed recovery | 3 |
+| III | Gaussian screen, structural null, trajectory coupling, relative covariance | 4 |
+| IV | cross-fitting, drift robustness, drift comparison, multi-regime calibration | 4 |
+| V | dependent Gaussian, centered dependent Gaussian, estimated AR(1) | 3 |
+| VI | nuisance projection, estimated AR(1) nuisance projection, design-specific envelope | 3 |
+| VII | weighted Wishart, uniform matrix Chernoff, compact temporal family | 3 |
+| VIII | calibrated temporal family, e-value confidence set, certified outer cover | 3 |
+| IX | physical relaxation sampling, Markov factorization, AN, AO, AP | 5 |
+| X | AQ | 1 |
+| XI | AR | 1 |
+| XII | AS | 1 |
+| **Total** |  | **33** |
+
+The explanatory `physics_pipeline.svg` is intentionally excluded from the scientific-result count.
+
+---
+
+# 15. Reading the atlas as one argument
+
+The visual sequence can be summarized as:
+
+```text
+moving path can be recovered
+        |
+finite data make recovery uncertain
+        |
+screening localizes the candidate family
+        |
+temporal dependence reduces effective information
+        |
+nuisance structure must be projected out
+        |
+direct matrix concentration improves covariance control
+        |
+temporal physics is calibrated from data
+        |
+physical time replaces sampling-index time
+        |
+innovation coordinates recover local information
+        |
+finite-sample tau uncertainty survives whitening
+        |
+observer-scale dimension becomes the new bottleneck
+```
+
+That progression is the visual structure of the current research program.
