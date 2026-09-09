@@ -44,6 +44,7 @@ class GaussianRobustInnovationWhitenedMatrixChernoffBound:
     raw_covariance_operator_lipschitz_bound: float
     whitening_operator_norm: float
     transformed_operator_lipschitz_bound: float
+    transformed_normalization_lipschitz_bound: float
     transformed_eigenvalue_covering_radius: float
     transformed_normalization_covering_radius: float
     covariance_normalization: float
@@ -89,6 +90,77 @@ def _validated_grid_size(value: int) -> int:
     return int(value)
 
 
+def _entrywise_relaxation_derivative_supremum(
+    distance: float,
+    lower_relaxation_time: float,
+    upper_relaxation_time: float,
+) -> float:
+    """Return sup_tau d exp(-d/tau)/tau^2 on one positive tau interval."""
+    if distance <= 0.0:
+        return 0.0
+    candidate = float(
+        np.clip(
+            0.5 * distance,
+            lower_relaxation_time,
+            upper_relaxation_time,
+        )
+    )
+    return float(distance * np.exp(-distance / candidate) / candidate**2)
+
+
+def _projected_trace_lipschitz_bound(
+    sample_times: np.ndarray,
+    whitening: np.ndarray,
+    transformed_design: np.ndarray,
+    lower_relaxation_time: float,
+    upper_relaxation_time: float,
+) -> float:
+    r"""Bound the derivative of the projected transformed temporal trace.
+
+    Let
+
+        C_tau = W0 R_tau W0.T
+
+    and let ``P_G`` be the orthogonal projector onto the complement of the
+    transformed nuisance design ``G=W0 H``. The normalization used by
+    Proposition 49 is
+
+        d(tau) = tr(P_G C_tau)
+               = tr(M R_tau),
+        M = W0.T P_G W0.
+
+    For ``r_ij(tau)=exp(-|t_i-t_j|/tau)``, the derivative magnitude is
+
+        |t_i-t_j| exp(-|t_i-t_j|/tau) / tau^2.
+
+    Its exact scalar supremum over a compact positive tau interval occurs at
+    ``tau=|t_i-t_j|/2`` clipped to that interval. Therefore
+
+        |d'(tau)|
+        <= sum_ij |M_ij| sup_tau |r'_ij(tau)|.
+
+    This trace-specific deterministic bound is generally much tighter than the
+    valid but crude rank-times-operator-radius inequality. It changes only the
+    normalization cover; the operator/eigenvalue cover remains unchanged.
+    """
+    nuisance_basis, _ = np.linalg.qr(transformed_design, mode="reduced")
+    projector = np.eye(sample_times.size) - nuisance_basis @ nuisance_basis.T
+    trace_matrix = whitening.T @ projector @ whitening
+
+    distances = np.abs(sample_times[:, None] - sample_times[None, :])
+    derivative_suprema = np.zeros_like(distances)
+    for row in range(sample_times.size):
+        for column in range(sample_times.size):
+            derivative_suprema[row, column] = (
+                _entrywise_relaxation_derivative_supremum(
+                    float(distances[row, column]),
+                    lower_relaxation_time,
+                    upper_relaxation_time,
+                )
+            )
+    return float(np.sum(np.abs(trace_matrix) * derivative_suprema))
+
+
 def gaussian_robust_innovation_whitened_matrix_chernoff_bound(
     sample_times: ArrayLike,
     nuisance_design: ArrayLike,
@@ -103,7 +175,7 @@ def gaussian_robust_innovation_whitened_matrix_chernoff_bound(
     upper_theta_grid_size: int = 256,
     lower_theta_grid_size: int = 256,
 ) -> GaussianRobustInnovationWhitenedMatrixChernoffBound:
-    """Certify one working innovation whitener over a compact true-tau interval.
+    r"""Certify one working innovation whitener over a compact true-tau interval.
 
     Let ``W0`` be the exact Proposition 53 whitener associated with a fixed
     working relaxation time ``tau0`` and let the true target covariance be
@@ -121,11 +193,19 @@ def gaussian_robust_innovation_whitened_matrix_chernoff_bound(
         <= ||W0||_2^2 L |tau-tau'|.
 
     For a uniform grid, half the maximum grid spacing times that transformed
-    Lipschitz constant is therefore a valid eigenvalue covering radius. The
-    projected trace changes by at most ``r`` times the same operator radius,
-    where ``r=N-q`` is the nuisance-complement rank. This deliberately uses a
-    conservative trace bound so the theorem remains finite-sample and uniform
-    over the complete interval.
+    Lipschitz constant is therefore a valid eigenvalue covering radius.
+
+    The projected trace is certified separately. If ``P_G`` projects onto the
+    transformed nuisance complement, then
+
+        d(tau) = tr(P_G W0 R_tau W0.T).
+
+    The implementation bounds ``|d'(tau)|`` directly using the exact scalar
+    derivative suprema of the exponential kernel and the fixed matrix
+    ``W0.T P_G W0``. Half the grid spacing times this trace-specific Lipschitz
+    constant is a valid normalization covering radius. This is tighter than
+    multiplying the operator radius by the full residual rank while preserving
+    the same finite-sample uniform guarantee.
 
     The covariance estimator associated with the returned certificate must use
     ``covariance_normalization`` rather than automatically dividing by ``N-q``.
@@ -171,8 +251,15 @@ def gaussian_robust_innovation_whitened_matrix_chernoff_bound(
     maximum_spacing = float(np.max(np.diff(tau_grid)))
     raw_lipschitz = exponential_relaxation_operator_lipschitz_bound(times, lower, upper)
     transformed_lipschitz = float(whitening_norm**2 * raw_lipschitz)
+    normalization_lipschitz = _projected_trace_lipschitz_bound(
+        times,
+        whitening,
+        transformed_design,
+        lower,
+        upper,
+    )
     eigenvalue_radius = float(0.5 * maximum_spacing * transformed_lipschitz)
-    normalization_radius = float(residual_rank * eigenvalue_radius)
+    normalization_radius = float(0.5 * maximum_spacing * normalization_lipschitz)
 
     covariance_bound = gaussian_compact_temporal_family_matrix_chernoff_bound(
         block_dimension=block_dimension,
@@ -201,6 +288,7 @@ def gaussian_robust_innovation_whitened_matrix_chernoff_bound(
         raw_covariance_operator_lipschitz_bound=raw_lipschitz,
         whitening_operator_norm=whitening_norm,
         transformed_operator_lipschitz_bound=transformed_lipschitz,
+        transformed_normalization_lipschitz_bound=normalization_lipschitz,
         transformed_eigenvalue_covering_radius=eigenvalue_radius,
         transformed_normalization_covering_radius=normalization_radius,
         covariance_normalization=float(
