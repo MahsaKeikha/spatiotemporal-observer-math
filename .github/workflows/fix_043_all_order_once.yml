@@ -1,0 +1,28 @@
+name: fix-0.43-export-order-once
+
+on:
+  push:
+    branches:
+      - prop54-second-order-reference-whitening
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.event.head_commit.message == 'Run temporary 0.43.0 export-order fix'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: prop54-second-order-reference-whitening
+          fetch-depth: 0
+      - name: Apply exact export ordering fix
+        run: python tools/fix_043_all_order_once.py
+      - name: Commit ordering fix
+        run: |
+          git config user.name "Mahsa Keikha"
+          git config user.email "mahsa.keikha@gmail.com"
+          git add src/observer_math/__init__.py
+          git commit -m "Sort Proposition 54 public exports"
+          git push origin HEAD:prop54-second-order-reference-whitening
