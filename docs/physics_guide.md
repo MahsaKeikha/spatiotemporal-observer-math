@@ -1,16 +1,20 @@
 # Physics guide
 
-This page explains the physical meaning of the mathematical objects used in the repository. It is intended to be read before the theorem ladder if the equations feel detached from the physical problem.
+This page explains the physical meaning of the mathematical objects used in **Spatiotemporal Observer Mathematics**. It is written for a reader who wants to understand the physics before reading the theorem ladder.
 
-The main purpose is simple:
+The guiding rule is:
 
-> **Before asking whether a moving subsystem can be identified mathematically, state what is physically moving, what is being measured, what interactions couple the measurements, what fluctuations are unresolved, and what evidence could falsify the model.**
+> **Before asking whether a moving subsystem can be identified mathematically, state what is physically moving, what is measured, what interactions couple the measurements, what fluctuations remain unresolved, and what evidence could falsify the model.**
 
-The mathematics in this repository is conditional on a declared physical observation model. It does not turn a statistical pattern into a physical object by itself, and it does not identify consciousness by notation alone.
+The mathematics is conditional on a declared physical observation model. A statistical pattern is not converted into a physical object merely by notation, and the word `observer` does not mean conscious subject by definition.
 
-## 1. The physical problem in one picture
+For a compact equation-by-equation provenance view, use the **[Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md)**. For the full external literature record, use the **[Bibliography and Citation Map](bibliography.md)** and [`references.bib`](../references.bib).
 
-Imagine a large dynamical system with many measurable degrees of freedom. Depending on the application, those degrees of freedom could be:
+---
+
+# 1. The physical problem in one picture
+
+Imagine a dynamical system with many measurable degrees of freedom. Depending on the application, those coordinates could be:
 
 - voltages on an electrical network;
 - displacements or velocities in a mechanical array;
@@ -20,332 +24,825 @@ Imagine a large dynamical system with many measurable degrees of freedom. Depend
 - positions and internal states in a multi-agent system;
 - generic sensor channels in a coupled physical process.
 
-The full measured state at time `t` is written
+The full measured state at time `t` is
 
 \[
+\boxed{
 X_t=(X_t^{(1)},\ldots,X_t^{(n)}).
+}
 \]
 
-The repository does **not** assume in advance that the same coordinates always form the subsystem of interest. Instead, it asks whether the dynamics support a moving candidate set
+The repository does not assume that the same coordinates always form the subsystem of interest. Instead, it asks whether the dynamics support a moving candidate set
 
 \[
+\boxed{
 S_t\subseteq\{1,\ldots,n\}.
+}
 \]
 
-The sequence
+Its changing history is
 
 \[
-\mathcal W=(S_0,S_1,\ldots,S_{T-1})
+\boxed{
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}),
+}
 \]
 
-is called an observer world-tube.
+called an **observer world-tube** in this repository.
 
-The word `world-tube` is an analogy to the history of an extended object through time. It is not a claim that the construction is a relativistic spacetime world tube. Here the object being followed is a changing set of measured coordinates.
+The term `world-tube` is an analogy to the history of an extended object through time. It is not a claim that the construction is a relativistic spacetime world tube. Here the object being followed is a changing set of measured coordinates.
 
-A useful concrete mental model is a coherent structure moving across a sensor field. A vortex moving across a fluid sensor array, a localized mechanical mode moving through a lattice, or a coordinated activity pattern moving across measurement channels can all produce a changing subset of coordinates that remains dynamically related even though its physical membership changes.
+A useful physical picture is a coherent structure moving across a sensor field. A vortex moving across a fluid array, a localized mechanical mode moving through a lattice, or a coordinated activity pattern moving across channels can remain dynamically coherent even while the sensors that represent it change.
 
-![Physics pipeline](physics_pipeline.svg)
+[![Physics pipeline](physics_pipeline.svg)](../README.md#2-the-complete-physical-problem-in-one-picture)
 
-## 2. The population dynamics and their physical meaning
+## Conceptual lineage
 
-The main exact model is
+The primary conceptual starting point is Max Tegmark's ["Consciousness as a State of Matter"](bibliography.md#tegmark-2015), which asks why an observer should correspond to one factorization of the physical world rather than another and discusses information, integration, independence, and dynamics as organizing principles.
+
+The present repository takes that observer-factorization question in a separate mathematical direction: the boundary is allowed to change with time and must be inferred as a persistent dynamical path. The time-dependent boundary `S_t`, the world-tube objective, the recovery theorems, and the finite-sample measurement program are repository developments rather than results attributed to Tegmark.
+
+---
+
+# 2. Effective dynamics and fluctuation geometry
+
+The main analytical observation model is
 
 \[
+\boxed{
 X_{t+1}=A_tX_t+\varepsilon_t,
 \qquad
-\varepsilon_t\sim\mathcal N(0,Q_t).
+\varepsilon_t\sim\mathcal N(0,Q_t),
+\qquad
+\varepsilon_t\perp X_t.
+}
 \]
 
-This equation is a local stochastic dynamical model.
+This is a local stochastic dynamical model.
 
 | Symbol | Mathematical role | Physical reading |
 | --- | --- | --- |
-| \(X_t\) | measured state vector | the physical observables recorded at time `t` |
-| \(A_t\) | linear transition operator | effective coupling and propagation between measured degrees of freedom over one sampling interval |
-| \(\varepsilon_t\) | unresolved random input | unresolved environmental forcing, omitted degrees of freedom, process noise, or other stochastic input represented by the model |
-| \(Q_t\) | innovation covariance | covariance structure of that unresolved input |
-| \(S_t\) | candidate coordinate set | a proposed physical subsystem boundary at time `t` |
+| \(X_t\) | measured state vector | physical observables recorded at time `t` |
+| \(A_t\) | transition operator | effective coupling and propagation over one sampling interval |
+| \(\varepsilon_t\) | unresolved stochastic input | omitted degrees of freedom, environmental forcing, process noise, or other unresolved input represented by the model |
+| \(Q_t\) | innovation covariance | covariance geometry of the unresolved input |
+| \(S_t\) | candidate coordinate set | proposed subsystem boundary at time `t` |
 
-The matrix \(A_t\) should not be interpreted as a fundamental law unless the application justifies that interpretation. In many experiments it is an effective linearization of more complicated dynamics over a chosen sampling interval.
-
-Likewise, Gaussian noise is a modeling assumption, not a statement that microscopic physics is Gaussian. It is used because it makes conditional information, covariance propagation, and finite-sample concentration analytically tractable.
-
-## 3. What makes a candidate subsystem physically interesting?
-
-The implemented objective uses four structural ideas. Their physical interpretation is more important than their names.
-
-### Internal integration
-
-A candidate should contain components that are not merely sitting next to one another. Its internal parts should carry predictive information about one another.
-
-Physical reading: the proposed subsystem contains coupled degrees of freedom that participate in a common dynamical organization.
-
-A random collection of unrelated sensors should score poorly even if the sensors are individually active.
-
-### Environmental insulation
-
-A candidate should not require the rest of the measured system to explain every next-step change.
-
-Physical reading: after the candidate's own state is known, the external coordinates should add comparatively little predictive information about the candidate's immediate evolution.
-
-This does **not** require physical isolation. Open systems exchange matter, energy, and information with their surroundings. The operational question is whether the candidate has enough internal predictive closure to be distinguished from an arbitrary cut through the full system.
-
-### Persistence
-
-A candidate's present state should retain predictive structure into its future state.
-
-Physical reading: the organization is not a one-frame fluctuation. Some collective modes survive long enough to define a temporally persistent structure.
-
-### Transport
-
-If the physical structure moves, the identity of the relevant coordinates may change. The information carried by the old coordinates should be transferred into the new coordinates.
-
-Physical reading: a persistent pattern can move through a medium or sensor array without requiring the same measurement channels to belong to it forever.
-
-This is the reason a moving boundary is needed at all.
-
-## 4. Why covariance appears everywhere
-
-For a multivariate fluctuating system, covariance describes how measured deviations co-vary:
+If
 
 \[
-\Sigma=\mathbb E[(X-\mu)(X-\mu)^\top].
+\Sigma_t=\operatorname{Cov}(X_t),
 \]
 
-The diagonal entries measure fluctuation variance in individual coordinates. The off-diagonal entries measure how pairs fluctuate together.
+then
 
-The eigenvectors of \(\Sigma\) identify collective fluctuation directions, while the eigenvalues quantify variance along those directions.
+\[
+\boxed{
+\Sigma_{t+1}=A_t\Sigma_tA_t^{\mathsf T}+Q_t
+}
+\]
 
-It is safer to call these quantities **fluctuation modes** or **variance modes**. They are not automatically physical energy modes. An energy interpretation requires an additional physical model connecting the measured coordinates and covariance to a Hamiltonian, temperature, power spectrum, or other energetic quantity.
+and
 
-Covariance is central here because, in a Gaussian model, many predictive information quantities can be written exactly in terms of covariance blocks. That makes it possible to propagate measurement uncertainty all the way into boundary scores and path recovery.
+\[
+\boxed{
+\operatorname{Cov}(X_t,X_{t+1})=\Sigma_tA_t^{\mathsf T}.
+}
+\]
 
-## 5. Why repeated measurements are not independent
+Therefore the adjacent-state covariance is
 
-A physical system has memory. If a sensor is high now, it is often likely to remain high a moment later. Treating every time sample as independent would therefore exaggerate how much information a finite record contains.
+\[
+\boxed{
+\operatorname{Cov}
+\begin{pmatrix}
+X_t\\X_{t+1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\Sigma_t & \Sigma_tA_t^{\mathsf T}\\
+A_t\Sigma_t & A_t\Sigma_tA_t^{\mathsf T}+Q_t
+\end{pmatrix}.
+}
+\]
 
-A simple temporal model is AR(1):
+This joint covariance is the fluctuation geometry from which the Gaussian information quantities are computed.
+
+`A_t` should not be interpreted as a fundamental law unless an application justifies that reading. In many experiments it is an effective linearization over a chosen time interval. Gaussianity is likewise a modeling assumption used because it makes information quantities, covariance propagation, and finite-sample certification analytically tractable.
+
+---
+
+# 3. Gaussian information quantities
+
+For a Gaussian vector `Z` of dimension `k`,
+
+\[
+h(Z)
+=
+\frac{1}{2}\log_2\left[(2\pi e)^k\det\Sigma_Z\right].
+\]
+
+For subvectors `X` and `Y`,
+
+\[
+\boxed{
+I(X;Y)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_X\det\Sigma_Y}{\det\Sigma_{XY}}.
+}
+\]
+
+For conditioning vector `Z`,
+
+\[
+\boxed{
+I(X;Y\mid Z)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_{XZ}\det\Sigma_{YZ}}
+{\det\Sigma_Z\det\Sigma_{XYZ}}.
+}
+\]
+
+These formulas are standard Gaussian information theory; see [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006).
+
+**Physical reading:** mutual information and conditional mutual information quantify statistical dependence in the declared probability model. They are not automatically thermodynamic entropy, free energy, causal influence, semantic information, or subjective information.
+
+---
+
+# 4. Four operational properties of a candidate subsystem
+
+The implemented score uses four distinct ideas: integration, insulation, persistence, and transport. Their equations and physical meanings should be read together.
+
+## 4.1 Internal integration
+
+For a nontrivial bipartition
+
+\[
+S=U\sqcup V,
+\]
+
+define directed cross-prediction
+
+\[
+J_t(U,V)
+=
+I(X_U^{t+1};X_V^t\mid X_U^t)
++
+I(X_V^{t+1};X_U^t\mid X_V^t).
+\]
+
+The weakest internal cut is
+
+\[
+\boxed{
+\mathcal J_t(S)
+=
+\frac{1}{|S|}
+\min_{U\sqcup V=S}J_t(U,V).
+}
+\]
+
+The normalized integration factor is
+
+\[
+\boxed{
+G_t(S)=1-2^{-\mathcal J_t(S)}.
+}
+\]
+
+**Physical reading:** the candidate contains components whose present states add predictive information about one another's future even after each side's own present is known.
+
+The broader integration lineage includes [Tegmark 2015](bibliography.md#tegmark-2015), [Tegmark 2016](bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The particular directed minimum-cut definition above is a repository operational definition, not a Tegmark theorem and not IIT Phi.
+
+## 4.2 Environmental insulation
+
+Let `\bar S` denote the measured variables outside `S`. Define leakage
+
+\[
+\boxed{
+\mathcal L_t(S)
+=
+\frac{1}{|S|}
+I(X_S^{t+1};X_{\bar S}^t\mid X_S^t).
+}
+\]
+
+and insulation factor
+
+\[
+\boxed{
+K_t(S)=2^{-\mathcal L_t(S)}.
+}
+\]
+
+**Physical reading:** after the candidate's own present is known, the rest of the measured system adds comparatively limited predictive information about its immediate future.
+
+This does not require physical isolation. Open systems exchange matter, energy, and information with their surroundings. The operational question is whether the candidate has enough relative predictive closure to be distinguished from an arbitrary cut through the measured system.
+
+## 4.3 Persistence
+
+For vectors `X` and `Y`, form the whitened cross-covariance
+
+\[
+M
+=
+\Sigma_X^{-1/2}
+\operatorname{Cov}(X,Y)
+\Sigma_Y^{-1/2}.
+\]
+
+Let `\rho_i` be its singular values. Define
+
+\[
+\boxed{
+P(X,Y)
+=
+\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
+\qquad
+r=\min(\dim X,\dim Y).
+}
+\]
+
+For a fixed candidate,
+
+\[
+X=X_S^t,
+\qquad
+Y=X_S^{t+1}.
+\]
+
+**Physical reading:** collective fluctuation directions in the candidate persist predictively into the next time step.
+
+The canonical-correlation lineage is [Hotelling 1936](bibliography.md#hotelling-1936); relevant matrix tools are summarized under [Bhatia 1997](bibliography.md#bhatia-1997). The particular averaging convention is a repository modeling choice.
+
+## 4.4 Transport across a changing boundary
+
+For source `S` at time `t` and target `R` at time `t+1`, define
+
+\[
+P_t(S\to R)=P(X_S^t,X_R^{t+1}),
+\]
+
+\[
+L_t(S\to R)
+=
+\frac{1}{|R|}
+I(X_R^{t+1};X_{\bar S}^t\mid X_S^t),
+\]
+
+and
+
+\[
+\boxed{
+\Theta_t(S\to R)
+=
+\sqrt{P_t(S\to R)\,2^{-L_t(S\to R)}}.
+}
+\]
+
+**Physical reading:** a persistent organization may move into different measured coordinates while retaining predictive structure and remaining comparatively insulated from the rest of the measured system.
+
+This is why a moving boundary is needed at all.
+
+---
+
+# 5. Local score and world-tube objective
+
+The local candidate score is
+
+\[
+\boxed{
+\Omega_t(S)
+=
+\left[
+G_t(S)K_t(S)P(X_S^t,X_S^{t+1})
+\right]^{1/3}.
+}
+\]
+
+For finite candidate family
+
+\[
+\mathcal C=\{S^{(1)},\ldots,S^{(C)}\}
+\]
+
+and path `p=(j_0,\ldots,j_{T-1})`, the complete moving-boundary objective is
+
+\[
+\boxed{
+A(p)=
+\sum_{t=0}^{T-1}\Omega_t(S^{(j_t)})
++\chi\sum_{t=0}^{T-2}\Theta_t(S^{(j_t)}\to S^{(j_{t+1})})
+-\lambda\sum_{t=0}^{T-2}d_J(S^{(j_t)},S^{(j_{t+1})}).
+}
+\]
+
+The continuity geometry is
+
+\[
+\boxed{
+d_J(S,R)=1-\frac{|S\cap R|}{|S\cup R|}.
+}
+\]
+
+The Jaccard lineage is [Jaccard 1901](bibliography.md#jaccard-1901). This use of Jaccard distance is a modeling choice, not a claim that it is the unique physically correct boundary geometry.
+
+The exact finite-horizon optimizer uses dynamic programming in the lineage of [Bellman 1952](bibliography.md#bellman-1952). If `V_t(j)` is the best partial objective ending at candidate `j`,
+
+\[
+V_0(j)=\Omega_0(S^{(j)}),
+\]
+
+\[
+\boxed{
+V_t(j)=
+\Omega_t(S^{(j)})+
+\max_i\left[
+V_{t-1}(i)
++\chi\Theta_{t-1}(S^{(i)}\to S^{(j)})
+-\lambda d_J(S^{(i)},S^{(j)})
+\right].
+}
+\]
+
+Backpointers recover the global optimum, and the repository's two-best extension recovers the exact runner-up path.
+
+The term `action margin` refers to the optimization difference between the best and competing paths. It is not physical action in joule-seconds.
+
+---
+
+# 6. Why covariance is the measurement bottleneck
+
+For a multivariate fluctuating system,
+
+\[
+\boxed{
+\Sigma=\mathbb E[(X-\mu)(X-\mu)^\mathsf T].
+}
+\]
+
+The diagonal entries are coordinate variances, the off-diagonal entries are co-fluctuations, and the eigenvectors and eigenvalues describe collective variance directions and their strengths.
+
+These eigenvalues are **not automatically physical energies**. An energy interpretation requires an additional physical model connecting the measured coordinates and covariance to a Hamiltonian, temperature, power spectrum, or other physically defined energetic quantity.
+
+Covariance matters because, under the Gaussian model, integration, leakage, persistence, and transport are functions of covariance blocks. If those blocks are estimated badly, the candidate scores and recovered world-tube can be wrong.
+
+The central finite-sample quantity is the relative covariance radius
+
+\[
+\boxed{
+\left\|
+\Sigma^{-1/2}
+(\widehat\Sigma-\Sigma)
+\Sigma^{-1/2}
+\right\|_2
+\le\epsilon.
+}
+\]
+
+**Physical reading:** after scaling by the population fluctuation geometry, every collective direction is distorted by at most `\epsilon` in operator norm.
+
+When `\epsilon<1`, inverse-covariance and conditional-information perturbation calculations remain in a controlled regime. The value one is a mathematical perturbation threshold, not a physical phase transition.
+
+Gaussian covariance laws trace to [Wishart 1928](bibliography.md#wishart-1928). Matrix concentration uses the matrix-Laplace and Chernoff lineage of [Tropp 2012](bibliography.md#tropp-2012), with matrix-analysis tools summarized under [Bhatia 1997](bibliography.md#bhatia-1997).
+
+---
+
+# 7. Temporal memory: from AR(1) to physical relaxation time
+
+Repeated measurements from a physical system are generally not independent. Treating every time sample as independent can greatly exaggerate the amount of information in a finite record.
+
+An early model in the repository is AR(1):
 
 \[
 R_\phi(i,j)=\phi^{|i-j|},
-\qquad 0\le\phi<1.
+\qquad
+0\le\phi<1.
 \]
 
-Here \(\phi\) controls persistence.
-
-- \(\phi=0\): neighboring samples have no modeled temporal correlation.
-- moderate \(\phi\): disturbances relax over several samples.
-- \(\phi\) close to 1: the process has long temporal memory.
-
-If samples are separated by a physical interval \(\Delta t\), a useful AR(1) relaxation-time interpretation is
+But `\phi` depends on sampling interval. To express temporal memory in physical time, the later theorem chain uses
 
 \[
-\tau=-\frac{\Delta t}{\log\phi},
+\boxed{
+K_\tau(t_i,t_j)
+=
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+}
 \]
 
-when the AR(1) model is physically appropriate.
-
-The two-parameter family used in recent propositions is
+Under uniform sampling interval `\Delta t`,
 
 \[
-R_{\phi,\eta}
-=(1-\eta)R_\phi+\eta I.
+\boxed{
+\phi_{\Delta t}=e^{-\Delta t/\tau},
+\qquad
+\tau=-\frac{\Delta t}{\log\phi_{\Delta t}}.
+}
 \]
 
-The parameter \(\eta\) is a temporally uncorrelated fraction inside this model family.
+**Physical reading:** `\tau` is the declared relaxation timescale, while the discrete one-step correlation changes when the acquisition interval changes.
 
-Physical reading:
+The physical stochastic-process lineage is [Uhlenbeck and Ornstein 1930](bibliography.md#uhlenbeck-and-ornstein-1930) and the Gaussian Markov-process context of [Doob 1942](bibliography.md#doob-1942). Proposition 53 derives the exact formulas used by this repository from the declared exponential covariance kernel.
 
-- \(\phi\) controls the persistence timescale of the correlated part;
-- \(\eta\) controls how much variance is assigned to a fast, uncorrelated component.
+A real physical system may require multiple relaxation times, oscillatory kernels, nonstationarity, colored noise, or continuous spectral models. One exponential timescale is a declared model, not a universal physical law.
 
-This is still an effective temporal model. A real physical system may require multiple relaxation times, oscillatory kernels, colored noise, nonstationarity, or a continuous spectral density. Those are natural future generalizations.
+---
 
-## 6. What the nuisance subspace means physically
+# 8. Irregular-grid local innovations
 
-A measured record can contain large deterministic trends that are not the fluctuating dynamics we want to infer.
-
-The recent theory writes such a trend as
+For adjacent irregular gaps
 
 \[
-HB,
+\Delta_i=t_{i+1}-t_i,
+\qquad
+\alpha_i=e^{-\Delta_i/\tau},
 \]
 
-where the columns of \(H\) are declared temporal shapes.
-
-Examples include:
-
-- a constant sensor baseline;
-- linear drift from temperature or calibration;
-- slow polynomial drift;
-- known acquisition artifacts;
-- a predeclared motion or stimulation profile.
-
-The projector
+Proposition 53 gives the local transition representation
 
 \[
-P_H=I-H(H^\top H)^{-1}H^\top
+\boxed{
+X_{i+1}
+=
+\alpha_iX_i+
+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+}
 \]
 
-removes those declared shapes exactly.
+It also constructs a lower-bidiagonal temporal whitener
 
-Physical reading: before estimating stochastic fluctuation geometry, subtract only the deterministic modes that were declared in advance as nuisance structure.
+\[
+\boxed{
+W_\tau R_\tau W_\tau^{\mathsf T}=I,
+\qquad
+R_\tau^{-1}=W_\tau^{\mathsf T}W_\tau.
+}
+\]
 
-This matters because a large drift can create enormous apparent covariance even when the underlying fluctuating process has not changed.
+**Physical reading:** the predictable part of the declared exponential relaxation is removed locally, leaving innovation coordinates that represent new stochastic information under the model.
 
-The nuisance design must be fixed before examining the same stochastic record unless a separate adaptive-selection argument is provided. Otherwise the projection itself can overfit the noise.
+This is a representation change driven by the declared temporal physics, not an assertion that correlation creates information.
 
-## 7. What Propositions 41 through 52 are doing physically
+---
 
-The recent theorem sequence can be read as a single measurement-physics problem rather than as twelve unrelated inequalities.
+# 9. Deterministic nuisance structure and covariance-aware fitting
 
-| Proposition | Mathematical step | Physical question |
+A measured record may contain deterministic trends that should not be mistaken for stochastic dynamics. Write
+
+\[
+Y=HB+E,
+\]
+
+where the columns of `H` are predeclared temporal shapes such as a baseline, linear drift, known stimulation profile, or acquisition artifact.
+
+In raw coordinates, the orthogonal projector is
+
+\[
+P_H=I-H(H^{\mathsf T}H)^{-1}H^{\mathsf T}.
+\]
+
+When the temporal covariance is known, Proposition 56 first moves into innovation coordinates:
+
+\[
+Z=W_\tau Y,
+\qquad
+G=W_\tau H,
+\]
+
+then uses
+
+\[
+P_G=I-G(G^{\mathsf T}G)^{-1}G^{\mathsf T}.
+\]
+
+The innovation-whitened covariance estimator is
+
+\[
+\boxed{
+\widehat\Gamma_{\mathrm{IW}}
+=
+\frac{1}{N-q}Z^{\mathsf T}P_GZ.
+}
+\]
+
+Under the declared separable Gaussian model,
+
+\[
+\boxed{
+(N-q)\widehat\Gamma_{\mathrm{IW}}
+\sim
+\operatorname{Wishart}_d(\Gamma,N-q).
+}
+\]
+
+**Physical reading:** remove deterministic nuisance modes in the covariance geometry implied by the temporal model, then estimate fluctuation covariance from the remaining innovations.
+
+The generalized least-squares lineage is [Aitken 1936](bibliography.md#aitken-1936), and the exact Gaussian covariance law is [Wishart 1928](bibliography.md#wishart-1928). The irregular-grid local whitening construction is a repository result built from Proposition 53.
+
+The nuisance design must be fixed before examining the same stochastic target noise unless a separate adaptive-selection argument is provided.
+
+---
+
+# 10. Finite-sample calibration of physical time
+
+The later physical-time sequence does not assume that `\tau` is known. It uses an independent calibration record and finite-sample e-value inference.
+
+For tested parameter `\tau`, an e-value is nonnegative and satisfies
+
+\[
+\mathbb E_\tau[e_\tau]\le1.
+\]
+
+Markov's inequality yields a finite-sample test, and inversion yields a confidence set for `\tau`.
+
+The e-value lineage is [Vovk and Wang 2021](bibliography.md#vovk-and-wang-2021), [Shafer 2021](bibliography.md#shafer-2021), and [Vovk and Wang 2023](bibliography.md#vovk-and-wang-2023).
+
+Propositions 51-55 specialize and certify this strategy for the declared temporal models used in the repository.
+
+On Experiment AP, Proposition 55 produces the calibrated physical-time hull
+
+\[
+\boxed{
+\tau\in[0.686875,0.8515625]\ \mathrm{s}
+}
+\]
+
+at calibration confidence `0.975`.
+
+---
+
+# 11. Robust innovation inference when physical time is uncertain
+
+Proposition 56 assumes exact target `\tau`. Proposition 57 removes that assumption.
+
+Choose one calibration-derived working timescale `\tau_0` and let `W_0` be its exact whitener. For every still-admissible true `\tau`, the transformed temporal covariance is
+
+\[
+\boxed{
+C_\tau=W_0R_\tau W_0^{\mathsf T}.
+}
+\]
+
+A certified finite cover of this compact transformed family is propagated through matrix concentration.
+
+On Experiment AR,
+
+\[
+\tau\in[0.686875,0.8515625]\ \mathrm{s},
+\qquad
+\tau_0=0.76921875\ \mathrm{s},
+\]
+
+and the uniform scalar target covariance radius is
+
+\[
+\boxed{
+\epsilon_{57}=0.8677117535<1.
+}
+\]
+
+With calibration and target confidence both `0.975`, the combined lower bound is
+
+\[
+\boxed{0.950625}.
+\]
+
+This result is conditional on the declared separable Gaussian one-timescale exponential model and on calibration-target separation.
+
+---
+
+# 12. Returning covariance uncertainty to the moving observer problem
+
+The original goal is not scalar covariance estimation. It is moving-boundary inference.
+
+For a future candidate `S`, Proposition 58 defines the observer covariance block
+
+\[
+\boxed{
+B_{t,S}=(X_t,X_{t+1}^{S}).
+}
+\]
+
+Its dimension is
+
+\[
+\boxed{
+d_{\mathrm{obs}}=n+s.
+}
+\]
+
+For candidate count `C` and horizon `T`, the simultaneous target-indexed block count is
+
+\[
+\boxed{
+B_{\mathrm{obs}}=TC.
+}
+\]
+
+One such block contains the covariance submatrices required for the candidate's local information factors and every incoming transport edge.
+
+Proposition 58 then propagates simultaneous relative covariance uncertainty through integration, insulation, persistence, transport, and the complete path objective without spending another probability budget.
+
+Experiment AS reveals an important negative result. On the seven-coordinate benchmark,
+
+\[
+n=7,
+\qquad
+s=3,
+\qquad
+T=5,
+\qquad
+C=35,
+\]
+
+so
+
+\[
+\boxed{
+d_{\mathrm{obs}}=10,
+\qquad
+B_{\mathrm{obs}}=175.
+}
+\]
+
+At 118 residual innovation degrees of freedom, even the exact-`\tau` observer-scale matrix theorem gives
+
+\[
+\boxed{
+\epsilon_{\mathrm{observer}}=1.8573569119>1.
+}
+\]
+
+This shows that scalar covariance success does not automatically imply observer-scale certification. The current bottleneck is dimensional and structural.
+
+[![Observer-scale covariance-to-world-tube audit](observer_bridge_dimension_audit.svg)](proposition_58_observer_bridge.md)
+
+---
+
+# 13. The theorem sequence as one physical measurement problem
+
+The later theorem ladder should be read as one coherent sequence rather than isolated inequalities.
+
+| Result | Mathematical step | Physical question |
 | ---: | --- | --- |
-| 41 | dependent Gaussian covariance concentration | How much independent information is really present when the measured process has memory? |
-| 42 | mean-centered normalization | How does removing an unknown baseline change the amount of usable fluctuation information? |
-| 43 | AR(1) calibration from increments | Can the temporal persistence timescale be learned from the record instead of assumed? |
-| 44 | nuisance-subspace projection | Can known drift shapes be removed without corrupting the fluctuation covariance? |
-| 45 | estimated dependence plus nuisance projection | Can temporal-memory uncertainty and deterministic drift removal be handled together? |
-| 46 | design-specific temporal geometry | Can the actual drift geometry replace a crude rank-only worst case? |
-| 47 | direct Gaussian matrix concentration | Can the whole covariance matrix be certified using its physical fluctuation modes rather than a loose directional net? |
-| 48 | uniform matrix bound over AR(1) uncertainty | Does the covariance certificate remain valid when the relaxation parameter is not known exactly? |
-| 49 | compact temporal-family cover | Can the same reasoning cover a whole physically admissible family of temporal kernels? |
-| 50 | two-parameter calibration | Can both persistence and fast uncorrelated variance be learned from independent calibration data? |
-| 51 | full-likelihood e-value set | Can all calibration residuals define a joint finite-sample region of physically compatible temporal parameters? |
-| 52 | certified outer cover and target composition | Can that continuum calibration region be converted into a finite safe family and propagated into an independent target covariance certificate? |
+| P41 | dependent Gaussian covariance concentration | How much independent information remains when measurements have memory? |
+| P42 | mean-centered normalization | How does removing an unknown baseline change usable fluctuation information? |
+| P43 | AR(1) calibration from increments | Can temporal persistence be learned rather than assumed? |
+| P44 | nuisance-subspace projection | Can declared deterministic drift be removed without treating it as covariance? |
+| P45 | estimated dependence plus nuisance projection | Can temporal-memory uncertainty and nuisance removal be handled together? |
+| P46 | design-specific temporal geometry | Can the actual nuisance geometry replace a rank-only worst case? |
+| P47 | direct Gaussian matrix concentration | Can the full covariance matrix be certified without a loose directional net? |
+| P48 | uniform matrix bound over AR(1) uncertainty | Does the covariance guarantee remain valid when persistence is uncertain? |
+| P49 | compact temporal-family cover | Can a whole admissible family of temporal kernels be certified? |
+| P50 | two-parameter temporal calibration | Can persistence and fast uncorrelated variance be learned from independent calibration? |
+| P51 | likelihood-ratio e-value confidence set | Can all calibration residuals define a finite-sample temporal parameter region? |
+| P52 | certified outer cover and target composition | Can a continuum confidence set be propagated safely to an independent target theorem? |
+| P53 | physical relaxation time + exact irregular-grid Markov structure | Can temporal dependence be parameterized in physical time rather than sampling units? |
+| P53B | irregular-time finite-sample `\tau` calibration | Can physical relaxation time be calibrated directly on irregular timestamps? |
+| P54 | two-scale physical-time cover | Can calibration resolution and target-cover resolution be separated? |
+| P55 | local e-value slope and curvature | Can the finite-sample `\tau` outer cover be tightened without another probability budget? |
+| P56 | exact innovation-whitened covariance | If `\tau` is known, can the local temporal law change the estimator and recover innovation degrees of freedom? |
+| P57 | robust innovation whitening | How much of that gain survives finite-sample uncertainty in `\tau`? |
+| P58 | covariance-to-world-tube bridge | Can measurement uncertainty be propagated back to the actual moving-boundary objective? |
 
-The important point is that these propositions are **measurement-certification machinery**. They are not a separate theory of consciousness. Their job is to prevent temporal memory, drift, calibration uncertainty, and finite record length from creating a false observer boundary later in the pipeline.
+The important point is that P41-P58 are **measurement-certification machinery supporting the observer-boundary problem**. They are not a separate theory of consciousness.
 
-## 8. Why the relative covariance radius matters
+---
 
-Many recent theorems control a quantity of the form
+# 14. A complete physical reading of the pipeline
 
-\[
-\left\|
-\Sigma^{-1/2}(\widehat\Sigma-\Sigma)\Sigma^{-1/2}
-\right\|_2
-\le\epsilon.
-\]
+The project should be read from left to right.
 
-This is a relative operator-norm statement.
-
-Physical reading: every collective fluctuation direction is estimated with a controlled multiplicative distortion after scaling by the true covariance geometry.
-
-When \(\epsilon<1\), several important facts become available:
-
-- the empirical covariance cannot cross through zero along a direction that has positive true variance;
-- inverse covariance quantities remain perturbatively controllable;
-- Gaussian conditional-information calculations can be stabilized;
-- downstream score changes can be bounded instead of guessed.
-
-The value `1` is therefore not a magical physical phase transition. It is a mathematical threshold that makes a useful perturbation regime available.
-
-## 9. A complete physical reading of the pipeline
-
-The project can be read from left to right as follows.
-
-### Step 1: choose physical observables
+## Step 1: choose physical observables
 
 Specify what each coordinate measures, its units, sensor bandwidth, sampling interval, and spatial or functional location.
 
-### Step 2: write an effective dynamical model
+## Step 2: declare an effective dynamical model
 
-Specify which couplings are represented by \(A_t\), which unresolved processes are represented by \(Q_t\), and over what timescale the linear approximation is intended to hold.
+Specify which couplings are represented by `A_t`, which unresolved processes are represented by `Q_t`, and over what timescale the linear approximation is intended to hold.
 
-### Step 3: separate deterministic nuisance structure from fluctuations
+## Step 3: separate nuisance structure from stochastic fluctuations
 
-Declare the nuisance design \(H\) before using the same record for stochastic inference.
+Declare the nuisance design `H` before using the same record for stochastic inference.
 
-### Step 4: characterize temporal memory
+## Step 4: characterize temporal memory in physical units
 
-Estimate or constrain the family \(R_\theta\) describing correlation across repeated samples.
+Estimate or constrain the family `R_\theta`, preferably using physical time when the model supports it.
 
-### Step 5: certify fluctuation covariance
+## Step 5: certify fluctuation covariance
 
-Use finite-sample matrix probability to bound how far \(\widehat\Sigma\) can be from the population covariance.
+Use finite-sample matrix probability to bound how far `\widehat\Sigma` can be from the population covariance.
 
-### Step 6: score candidate physical boundaries
+## Step 6: score candidate physical boundaries
 
-Evaluate internal integration, environmental insulation, persistence, and transport for each allowed candidate subsystem.
+Evaluate integration, insulation, persistence, and transport for each physically admissible candidate subsystem.
 
-### Step 7: follow the best boundary through time
+## Step 7: optimize the complete moving path
 
-Optimize the complete path \(\mathcal W\), not each frame independently.
+Infer `\mathcal W`, not each frame independently.
 
-### Step 8: quantify ambiguity
+## Step 8: quantify ambiguity
 
-Compare the best path with the strongest competitor. If the margin is small, the data do not strongly distinguish the proposed boundary.
+Compare the best path with its strongest competitors. A small margin means the data do not strongly distinguish the proposed boundary.
 
-### Step 9: test identifiability
+## Step 9: test identifiability
 
-Ask whether a different physical model could produce the same observables while implying a different boundary. If yes, passive observation alone cannot resolve the ambiguity.
+Ask whether another physical model could produce the same observables while implying a different boundary. If so, passive observation alone cannot resolve the ambiguity.
 
-### Step 10: only then discuss interpretation
+## Step 10: only then discuss interpretation
 
-A persistent, identifiable observer-like subsystem is still a dynamical structure. Any statement about consciousness requires additional bridge hypotheses and independent empirical tests.
+A persistent, identifiable observer-like subsystem is still a dynamical structure. Any claim about consciousness requires additional bridge hypotheses and empirical evidence.
 
-## 10. A concrete thought experiment
+---
 
-Consider a two-dimensional grid of sensors measuring a fluctuating physical medium. A localized coherent pattern moves from left to right.
+# 15. Concrete thought experiment
 
-At one time the strongest internally coupled region may involve sensors `(0,1,2)`. A moment later the same physical pattern may be best represented by `(1,2,3)`, then `(2,3,4)`.
+Consider a two-dimensional sensor grid measuring a fluctuating medium. A localized coherent pattern moves from left to right.
 
-A fixed-boundary analysis can miss the persistence because it insists that identity means identical sensor membership.
+At one time the best-supported region may involve sensors
 
-The world-tube approach instead asks whether there is a path of changing coordinate sets for which:
+```text
+(0,1,2)
+```
+
+then
+
+```text
+(1,2,3)
+```
+
+then
+
+```text
+(2,3,4).
+```
+
+A fixed-boundary analysis can miss persistence because it equates identity with permanent sensor membership.
+
+The world-tube approach instead asks whether there is a changing path for which:
 
 1. internal measurements predict one another strongly;
-2. outside measurements add comparatively little predictive information;
-3. the internal state predicts its own future organization;
-4. information is transported into the next physical location;
-5. the path remains distinguishable from competing paths after finite-sample uncertainty is included.
+2. external measurements add comparatively limited predictive information;
+3. the candidate predicts its own future organization;
+4. predictive structure is transported into the next physical location;
+5. the path remains separated from competitors after finite-sample uncertainty is included.
 
 That is the operational physical problem the repository is solving.
 
-It is general enough to apply to many coupled systems, but any application must supply its own physical mapping from coordinates to observables.
+---
 
-## 11. Terminology that should not be over-interpreted
+# 16. Terminology that should not be over-interpreted
 
-### Observer
+## Observer
 
-Means a candidate persistent subsystem under the declared objective. It does not mean a conscious subject by definition.
+A candidate persistent subsystem under the declared objective. It does not mean conscious subject by definition.
 
-### World-tube
+## World-tube
 
-Means a time-indexed path of candidate coordinate sets. It is inspired by the language of extended objects through time, but it is not automatically a relativistic construction.
+A time-indexed path of candidate coordinate sets. It is not automatically a relativistic spacetime construction.
 
-### Action and action margin
+## Action and action margin
 
-The repository uses an optimization objective and the difference between the best and competing paths. This is **not** physical action in units of joule-seconds unless a future derivation explicitly connects the objective to a physical action functional.
+An optimization objective and the difference between competing paths. It is not physical action in units of joule-seconds unless a future derivation establishes such a connection.
 
-### Information
+## Information
 
-Mutual information and related quantities measure statistical dependence. They are not automatically thermodynamic entropy, free energy, causal influence, semantic information, or subjective information.
+Statistical dependence in the declared probability model. It is not automatically thermodynamic entropy, free energy, causality, semantics, or subjective information.
 
-### Integration
+## Integration
 
-Means a declared statistical property of the candidate dynamics. It should not be equated with phenomenal unity without an additional tested hypothesis.
+A declared statistical property of the candidate dynamics. It should not be equated with phenomenal unity without an additional tested hypothesis.
 
-## 12. Units and dimensional accountability
+## Covariance eigenvalue
+
+Variance along a collective fluctuation direction. It is not automatically energy.
+
+---
+
+# 17. Units and dimensional accountability
 
 A physical application should state units explicitly.
 
-- \(X_t\) carries the units of the measured observables.
+- `X_t` carries the units of the measured observables.
 - covariance carries squared observable units.
-- \(Q_t\) carries the same covariance units.
-- \(A_t\) maps units at one sample to units at the next and may be dimensionless only when the coordinate convention permits it.
-- correlation coefficients, canonical correlations, and normalized covariance errors are dimensionless.
-- mutual information is dimensionless when measured in nats or bits.
+- `Q_t` carries covariance units.
+- `A_t` maps units at one sample to units at the next and is dimensionless only when the coordinate convention permits it.
+- `\tau` carries physical time units.
+- correlation coefficients and canonical correlations are dimensionless.
+- normalized covariance errors are dimensionless.
+- mutual information is measured in bits in the implementation because the logarithms are base two.
 
-If different physical observables with different units are combined, the coordinate scaling must be declared. A result that changes under arbitrary unit conversion without an explicit reason is physically suspect.
+If observables with different physical units are combined, coordinate scaling must be declared. A result that changes under arbitrary unit conversion without an explicit reason is physically suspect.
 
-This is one reason representation-invariance results are an important structural frontier for the project.
+---
 
-## 13. Physics accountability checklist
+# 18. Physics accountability checklist
 
 Before applying the framework to an experimental system, document all of the following.
 
-### Observables
+## Observables
 
 - What does each coordinate measure?
 - What are its units?
@@ -353,67 +850,97 @@ Before applying the framework to an experimental system, document all of the fol
 - What is the sensor bandwidth and filtering pipeline?
 - Is the coordinate basis physically meaningful or chosen for convenience?
 
-### Dynamics
+## Dynamics
 
-- What physical interaction is represented by \(A_t\)?
+- What physical interaction is represented by `A_t`?
 - Over what time interval is linearization plausible?
-- Which omitted mechanisms are absorbed into \(Q_t\)?
+- Which omitted mechanisms are absorbed into `Q_t`?
 - Are there conservation laws or symmetries the fitted model should obey?
 
-### Boundary
+## Boundary geometry
 
-- What makes a candidate coordinate set physically contiguous or admissible?
-- May membership change arbitrarily, or only through local transport?
-- Does the candidate family encode actual geometry?
+- What makes a candidate coordinate set physically admissible?
+- May membership change arbitrarily or only through local transport?
+- Does the candidate family encode physical geometry or adjacency?
 
-### Temporal statistics
+## Temporal statistics
 
-- Is AR(1) physically adequate?
-- Is one relaxation time enough?
+- Is one exponential relaxation time adequate?
 - Is the process stationary during the analyzed window?
-- Are oscillations, long-memory effects, or colored noise visible in residual diagnostics?
+- Are oscillations, long-memory effects, or multiple timescales visible?
+- Do innovation residuals remain temporally correlated after whitening?
 
-### Nuisance structure
+## Nuisance structure
 
 - Which trends are removed?
 - Were they declared before inspecting the same stochastic residuals?
 - Could the projection remove genuine physical dynamics?
 
-### Validation
+## Distributional assumptions
 
-- Does the fitted model reproduce held-out correlation structure?
-- Do residuals violate Gaussianity or stationarity strongly enough to matter?
+- Are Gaussian residuals a reasonable approximation?
+- Is space-time covariance approximately separable when a theorem assumes separability?
+- Are heavy tails or outliers strong enough to invalidate the Gaussian theorem being used?
+
+## Validation
+
+- Does the model reproduce held-out correlation structure?
 - Does the inferred boundary survive changes in sampling rate, units, sensors, and coordinate representation?
-- Can an intervention perturb the proposed subsystem differently from a competing boundary?
+- Does calibration transfer to the target population?
+- Can an intervention distinguish the proposed subsystem from a competing boundary?
 
-If these questions are not answered, the mathematics may still be correct for the stated model, but the physical interpretation is incomplete.
+If these questions are not answered, the mathematics may still be correct for its stated model, but the physical interpretation remains incomplete.
 
-## 14. Where the consciousness question enters, and where it does not
+---
+
+# 19. Where the consciousness question enters, and where it does not
 
 The present physics layer asks whether a persistent subsystem can be operationally identified from dynamical organization and finite measurements.
 
-That is already a difficult physical inference problem.
+A consciousness interpretation requires substantially more. At minimum, a bridge would need to explain why particular observer-like dynamical properties should correspond to conscious properties and then produce predictions that distinguish that bridge from alternatives.
 
-A consciousness interpretation would require substantially more. At minimum, one would need a bridge explaining why specific observer-like dynamical properties should correspond to conscious properties, and then test predictions that distinguish that bridge from competing explanations.
-
-The repository therefore keeps three statements separate:
+The repository therefore separates three statements:
 
 1. **Mathematical statement:** a theorem follows from explicit assumptions.
 2. **Physical statement:** an experimental system is adequately described by those assumptions and mapped observables.
-3. **Consciousness statement:** an additional bridge connects the physical structure to conscious experience.
+3. **Consciousness statement:** an additional theory connects the physical structure to conscious experience.
 
 Only the first is established by proof alone. The second requires physical validation. The third requires a separate scientific theory and evidence.
 
-See the [interpretation protocol](interpretation_protocol.md) for the formal obligations placed on any future bridge.
+See the [Interpretation Protocol](interpretation_protocol.md) and [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question).
 
-## 15. How to read the repository from here
+---
 
-If you are approaching the project from physics, the recommended order is:
+# 20. Citation and provenance standard
 
-1. this Physics Guide;
-2. the [research overview](research_overview.md);
-3. the moving-boundary figures on the [front page](../README.md);
-4. the [assumption ledger](assumption_ledger.md);
-5. only then the detailed proposition proofs.
+Every important object in the repository should be identifiable as one of four types:
+
+| Type | Meaning |
+| --- | --- |
+| External foundation | a standard concept, identity, distribution, or method from cited literature |
+| Repository definition | a modeling or scoring choice introduced for this research program |
+| Repository theorem | a mathematical statement proved in the repository under explicit assumptions |
+| Controlled experiment | a reproducible numerical illustration or diagnostic; not a substitute for proof |
+
+The citation rule is:
+
+> **Cite conceptual lineage explicitly; identify repository definitions as definitions; identify repository theorems as repository results; cite external mathematical tools for the role they actually play; and never use a citation to imply endorsement.**
+
+Use the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md) for equation-level provenance and the [Bibliography and Citation Map](bibliography.md) for full references.
+
+---
+
+# 21. Recommended reading order
+
+For a physics-first reading:
+
+1. [Physics pipeline on the main page](../README.md#2-the-complete-physical-problem-in-one-picture)
+2. this Physics Guide
+3. [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md)
+4. [Visual Research Guide](visual_research_guide.md)
+5. [Research Overview](research_overview.md)
+6. [Assumption Ledger](assumption_ledger.md)
+7. [Bibliography and Citation Map](bibliography.md)
+8. detailed proposition proofs only after the physical objects and assumptions are clear
 
 The theorem pages should be read as certification layers supporting the physical inference pipeline, not as isolated equations.
