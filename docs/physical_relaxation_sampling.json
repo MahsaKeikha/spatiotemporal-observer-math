@@ -22,6 +22,21 @@
     "maximum_covariance_eigenvalue": 5.889657305960541,
     "time_unit_invariance_max_abs_error": 1.1102230246251565e-16
   },
+  "irregular_markov_factorization": {
+    "step_intervals_seconds": [0.04, 0.07, 0.08, 0.14, 0.19, 0.24, 0.25, 0.28, 0.29000000000000004, 0.33999999999999986, 0.3900000000000001, 0.43999999999999995],
+    "step_correlations": [0.951229424500714, 0.9162188716508776, 0.9048374180359595, 0.8394570207692074, 0.7885968909810767, 0.7408182206817179, 0.7316156289466418, 0.7046880897187134, 0.695934313678642, 0.6537697851298474, 0.6141598762237377, 0.5769498103804868],
+    "innovation_variances": [0.09516258196404041, 0.16054297923079267, 0.18126924692201812, 0.2953119102812866, 0.37811494353497993, 0.45118836390597356, 0.4647385714810098, 0.5034146962085905, 0.5156754310446375, 0.5725850680512732, 0.6228076464368432, 0.6671289163019204],
+    "maximum_covariance_product_error": 1.1102230246251565e-16,
+    "precision_inverse_max_abs_error": 1.8989977694541263e-15,
+    "whitening_identity_max_abs_error": 8.31969856447478e-16,
+    "precision_gram_max_abs_error": 1.7763568394002505e-15,
+    "covariance_log_determinant_from_innovations": -12.428066890444603,
+    "covariance_log_determinant_dense": -12.428066890444601,
+    "log_determinant_absolute_error": 1.7763568394002505e-15,
+    "precision_nonzero_count": 37,
+    "precision_total_entry_count": 169,
+    "precision_nonzero_fraction": 0.21893491124260356
+  },
   "relaxation_time_cover": {
     "interval_seconds": [0.55, 1.05],
     "operator_lipschitz_bound_per_second": 6.655816710823423,
@@ -36,6 +51,7 @@
   },
   "interpretation": {
     "theorem_role": "The physical parameter is tau. The discrete coefficient phi changes with the sampling interval, while tau remains invariant under the declared exponential model.",
+    "markov_role": "On arbitrary increasing timestamps, the same kernel has an exact nearest-neighbor Gaussian Markov factorization with independent innovation coordinates.",
     "diagnostic_role": "Dense grid evaluation checks numerical scale only. The continuum guarantee comes from the analytic operator Lipschitz bound in Proposition 53.",
     "not_established": "The experiment does not establish that a real system has one exponential relaxation time or that the temporal model is universally valid."
   }

@@ -3,8 +3,9 @@
 This experiment is deterministic. It illustrates Proposition 53 by showing that
 one physical relaxation time generates different discrete AR(1) coefficients at
 different sampling rates, while the recovered relaxation time remains invariant.
-It also records irregular-sampling covariance geometry and the certified operator
-covering radius for a declared relaxation-time interval.
+It also records irregular-sampling covariance geometry, the certified operator
+covering radius for a declared relaxation-time interval, and the exact irregular-
+grid Gaussian Markov factorization of the exponential kernel.
 """
 
 from __future__ import annotations
@@ -16,6 +17,7 @@ import numpy as np
 
 from observer_math.physical_relaxation import (
     exponential_relaxation_covariance,
+    exponential_relaxation_markov_factorization,
     exponential_relaxation_operator_lipschitz_bound,
     relaxation_autocorrelation,
     relaxation_time_from_autocorrelation,
@@ -46,6 +48,69 @@ def _dense_cover_error(
         )
         maximum_error = max(maximum_error, error)
     return maximum_error
+
+
+def _markov_record(sample_times: np.ndarray, relaxation_time: float) -> dict[str, object]:
+    covariance = exponential_relaxation_covariance(sample_times, relaxation_time)
+    factorization = exponential_relaxation_markov_factorization(
+        sample_times,
+        relaxation_time,
+    )
+
+    maximum_product_error = 0.0
+    for left in range(sample_times.size):
+        for right in range(left + 1, sample_times.size):
+            product = float(np.prod(factorization.step_correlations[left:right]))
+            maximum_product_error = max(
+                maximum_product_error,
+                abs(product - float(covariance[left, right])),
+            )
+
+    precision_inverse_error = float(
+        np.max(np.abs(factorization.precision_matrix @ covariance - np.eye(sample_times.size)))
+    )
+    whitening_error = float(
+        np.max(
+            np.abs(
+                factorization.whitening_matrix
+                @ covariance
+                @ factorization.whitening_matrix.T
+                - np.eye(sample_times.size)
+            )
+        )
+    )
+    gram_error = float(
+        np.max(
+            np.abs(
+                factorization.precision_matrix
+                - factorization.whitening_matrix.T @ factorization.whitening_matrix
+            )
+        )
+    )
+    sign, dense_log_determinant = np.linalg.slogdet(covariance)
+    if sign <= 0.0:
+        raise RuntimeError("exponential relaxation covariance must be positive definite")
+
+    nonzero_count = int(np.count_nonzero(factorization.precision_matrix))
+    return {
+        "step_intervals_seconds": factorization.step_intervals.tolist(),
+        "step_correlations": factorization.step_correlations.tolist(),
+        "innovation_variances": factorization.innovation_variances.tolist(),
+        "maximum_covariance_product_error": maximum_product_error,
+        "precision_inverse_max_abs_error": precision_inverse_error,
+        "whitening_identity_max_abs_error": whitening_error,
+        "precision_gram_max_abs_error": gram_error,
+        "covariance_log_determinant_from_innovations": (
+            factorization.covariance_log_determinant
+        ),
+        "covariance_log_determinant_dense": float(dense_log_determinant),
+        "log_determinant_absolute_error": abs(
+            factorization.covariance_log_determinant - float(dense_log_determinant)
+        ),
+        "precision_nonzero_count": nonzero_count,
+        "precision_total_entry_count": int(sample_times.size**2),
+        "precision_nonzero_fraction": nonzero_count / float(sample_times.size**2),
+    }
 
 
 def build_record() -> dict[str, object]:
@@ -135,6 +200,7 @@ def build_record() -> dict[str, object]:
                 np.max(np.abs(covariance_seconds - covariance_milliseconds))
             ),
         },
+        "irregular_markov_factorization": _markov_record(irregular_times, true_tau),
         "relaxation_time_cover": {
             "interval_seconds": [lower_tau, upper_tau],
             "operator_lipschitz_bound_per_second": lipschitz,
@@ -145,6 +211,10 @@ def build_record() -> dict[str, object]:
             "theorem_role": (
                 "The physical parameter is tau. The discrete coefficient phi changes with the "
                 "sampling interval, while tau remains invariant under the declared exponential model."
+            ),
+            "markov_role": (
+                "On arbitrary increasing timestamps, the same kernel has an exact nearest-neighbor "
+                "Gaussian Markov factorization with independent innovation coordinates."
             ),
             "diagnostic_role": (
                 "Dense grid evaluation checks numerical scale only. The continuum guarantee comes "

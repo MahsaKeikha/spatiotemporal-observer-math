@@ -235,15 +235,17 @@ The target composition deliberately carries separate eigenvalue and normalizatio
 
 See [Proposition 52](proposition_52_certified_evalue_outer_cover.md), [Experiment AL](certified_evalue_outer_cover.json), and the [physics-first figure](certified_evalue_outer_cover.svg).
 
-## Proposition 53: physical relaxation time and sampling consistency
+## Proposition 53: physical relaxation time, sampling consistency, and exact Markov structure
 
 Proposition 53 lives in the dedicated public module `observer_math.physical_relaxation`.
 
 ```python
 from observer_math.physical_relaxation import (
+    ExponentialRelaxationMarkovFactorization,
     ExponentialRelaxationTemporalCover,
     GaussianRelaxationTimeMatrixChernoffBound,
     exponential_relaxation_covariance,
+    exponential_relaxation_markov_factorization,
     exponential_relaxation_operator_lipschitz_bound,
     exponential_relaxation_temporal_cover,
     gaussian_relaxation_time_matrix_chernoff_bound,
@@ -294,6 +296,49 @@ The covariance uses actual elapsed time:
 R_{ij}=\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
 \]
 
+### Factor an irregular record into exact local innovations
+
+```python
+factor = exponential_relaxation_markov_factorization(
+    sample_times,
+    relaxation_time=0.8,
+)
+
+alpha = factor.step_correlations
+innovation_variances = factor.innovation_variances
+W = factor.whitening_matrix
+Q = factor.precision_matrix
+logdet = factor.covariance_log_determinant
+```
+
+For every adjacent gap,
+
+\[
+\alpha_i
+=
+\exp\left(-\frac{t_{i+1}-t_i}{\tau}\right).
+\]
+
+The returned object satisfies the exact identities
+
+\[
+W R_\tau W^\mathsf T=I,
+\qquad
+Q=R_\tau^{-1}=W^\mathsf T W,
+\]
+
+with tridiagonal `Q`, and
+
+\[
+\log\det R_\tau
+=
+\sum_i\log(1-\alpha_i^2).
+\]
+
+For a separable multivariate record with temporal factor \(R_\tau\), apply `W` along the temporal axis to obtain independent temporal innovations while preserving the spatial covariance factor.
+
+The exact whitener is also a model diagnostic: if a fitted \(\tau\) is appropriate, the transformed residual record should not retain systematic temporal dependence under the declared Gaussian model.
+
 ### Build a certified relaxation-time family cover
 
 ```python
@@ -325,7 +370,7 @@ bound = gaussian_relaxation_time_matrix_chernoff_bound(
 
 The deterministic \(\tau\)-grid is geometry, not a collection of stochastic tests. Refining it changes approximation tightness, not the confidence accounting.
 
-See [Proposition 53](proposition_53_physical_relaxation_time.md), [Experiment AM](physical_relaxation_sampling.json), and the [sampling-physics figure](physical_relaxation_sampling.svg).
+See [Proposition 53](proposition_53_physical_relaxation_time.md), [Experiment AM](physical_relaxation_sampling.json), the [sampling-physics figure](physical_relaxation_sampling.svg), and the [irregular-grid Markov figure](physical_relaxation_markov.svg).
 
 ## Confidence accounting summary
 

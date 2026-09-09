@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.41.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.41.1-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one dynamical question:
@@ -161,7 +161,7 @@ R_{\phi,\eta}=(1-\eta)R_\phi+\eta I.
 
 **Physical meaning:** \(\phi\) controls sample-to-sample persistence and \(\eta\) represents a temporally uncorrelated variance fraction inside the effective model.
 
-## 2.6 Physical relaxation time
+## 2.6 Physical relaxation time and local irregular-grid dynamics
 
 Proposition 53 makes the sampling dependence explicit. For physical timestamps \(t_i\),
 
@@ -183,24 +183,50 @@ Under uniform sampling interval \(\Delta t\),
 }.
 \]
 
-**Physical meaning:** \(\tau\) has units of time and belongs to the declared exponential relaxation model. The discrete coefficient \(\phi\) depends on the sampling schedule.
+On an arbitrary increasing time grid, define
 
-A real system may require several relaxation times, oscillatory kernels, colored forcing, or nonstationary temporal laws. Proposition 53 makes one model physically consistent; it does not claim that model is universal.
+\[
+\alpha_i=e^{-(t_{i+1}-t_i)/\tau}.
+\]
+
+The same covariance has the exact local Gaussian representation
+
+\[
+\boxed{
+X_{i+1}=\alpha_iX_i+\sqrt{1-\alpha_i^2}\,\varepsilon_i
+}
+\]
+
+and an exact temporal whitener \(W_\tau\) satisfying
+
+\[
+\boxed{
+W_\tau R_\tau W_\tau^\mathsf T=I,
+\qquad
+R_\tau^{-1}=W_\tau^\mathsf T W_\tau.
+}
+\]
+
+The precision matrix is tridiagonal even though the covariance is dense.
+
+**Physical meaning:** \(\tau\) has units of time and belongs to the declared exponential relaxation model. The discrete coefficients \(\phi\) and \(\alpha_i\) belong to the sampling schedule. Missing or irregular samples change local transition coefficients, not the underlying \(\tau\).
+
+A real system may require several relaxation times, oscillatory kernels, colored forcing, or nonstationary temporal laws. Proposition 53 makes one model physically consistent and exposes its exact local structure; it does not claim that model is universal.
 
 ---
 
 # 3. Current verified research record
 
-| Research record | 0.41.0 state |
+| Research record | 0.41.1 state |
 | --- | ---: |
 | Proved statements | **53 propositions** |
 | Reproducible studies | **39 experiments, A-Z and AA-AM** |
-| Scientific result figures | **26 figures** |
-| Claim-level tests | **183 tests** |
+| Scientific result figures | **27 figures** |
+| Claim-level tests | **188 tests** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software version | **0.41.0** |
+| Research-software version | **0.41.1** |
 
-The physics pipeline is an explanatory diagram and is not included in the 26 scientific-result figure count.
+The physics pipeline is an explanatory diagram and is not included in the 27 scientific-result figure count.
 
 ---
 
@@ -330,13 +356,15 @@ If temporal memory is not known in advance, can an independent calibration exper
 
 **Physics interpretation:** these results do not identify one exact temporal law. They propagate uncertainty over temporal models that the calibration record has not ruled out.
 
-## Phase IX. Sampling consistency and physical time
+## Phase IX. Sampling consistency, physical time, and exact local structure
 
 ### Physical question
 
-Does a temporal parameter describe the physical process itself, or does it change because the experimenter changed the sampling clock?
+Does a temporal parameter describe the physical process itself, or does it change because the experimenter changed the sampling clock? On an irregular record, what local stochastic structure corresponds exactly to the dense physical-time covariance?
 
-[![Experiment AM: physical relaxation time](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md)
+| Sampling consistency | Irregular-grid Markov factorization |
+| --- | --- |
+| [![Experiment AM: physical relaxation time](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Proposition 53: irregular-grid Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
 
 For the controlled exponential model,
 
@@ -346,7 +374,7 @@ For the controlled exponential model,
 
 Sampling at 40 Hz, 20 Hz, 10 Hz, 5 Hz, and 2.5 Hz produces different one-step correlations, but every value maps back to the same \(0.8\) s relaxation time.
 
-The exact consistency rule is
+The exact uniform-grid consistency rule is
 
 \[
 \boxed{
@@ -354,9 +382,21 @@ The exact consistency rule is
 }.
 \]
 
-**How to read the figure:** panel A shows that \(\phi\) changes with acquisition rate. Panel B shows that recovered \(\tau\) remains fixed. Panel C compares the analytic continuum-cover radius with a dense numerical visibility check. Panel D shows that irregular timestamps use actual elapsed physical time.
+For irregular gaps, local transitions obey
 
-**What the figure does not establish:** it does not show that every physical system has one exponential timescale. A real application must test for multiple timescales, oscillations, nonstationarity, and other temporal structure.
+\[
+\boxed{
+\alpha_i=e^{-(t_{i+1}-t_i)/\tau}
+}
+\]
+
+and multiply to the exact long-range covariance. The corresponding temporal precision matrix is tridiagonal, and the innovation whitener makes the temporal covariance identity exactly.
+
+**How to read the left figure:** panel A shows that \(\phi\) changes with acquisition rate. Panel B shows that recovered \(\tau\) remains fixed. Panel C compares the analytic continuum-cover radius with a dense numerical visibility check. Panel D shows that irregular timestamps use actual elapsed physical time.
+
+**How to read the right figure:** panel A maps irregular elapsed gaps to local transition correlations. Panel B shows the exact tridiagonal precision pattern. Panel C records whitening and inverse identities at floating-point precision. Panel D shows the exact determinant factorization from local innovation variances.
+
+**What these figures do not establish:** they do not show that every physical system has one exponential timescale or a nearest-neighbor temporal precision graph. Those conclusions are conditional on the declared exponential Gaussian model and must be tested in a real application.
 
 ---
 
@@ -436,7 +476,7 @@ Direct proof pages: [P44](docs/proposition_44_nuisance_projection.md), [P45](doc
 
 | Proposition | Mathematical question | Physical question |
 | ---: | --- | --- |
-| 53 | Can the exponential temporal family be parameterized by a physical relaxation time on uniform and irregular grids? | Does the inferred timescale survive changes in sampling rate and time units? |
+| 53 | Can the exponential temporal family be parameterized by a physical relaxation time and factorized exactly on arbitrary increasing timestamps? | Does the inferred timescale survive sampling changes, and does the same physical model retain a local transition law under irregular or missing observations? |
 
 [Full Proposition 53 proof](docs/proposition_53_physical_relaxation_time.md).
 
@@ -444,7 +484,9 @@ Direct proof pages: [P44](docs/proposition_44_nuisance_projection.md), [P45](doc
 
 # 6. Latest physical result, Proposition 53 and Experiment AM
 
-[![Experiment AM](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md)
+| Sampling invariance | Exact irregular-grid local structure |
+| --- | --- |
+| [![Experiment AM](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Proposition 53 Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
 
 The theorem starts from actual sample times:
 
@@ -454,14 +496,19 @@ R_\tau(i,j)
 \exp\left(-\frac{|t_i-t_j|}{\tau}\right).
 \]
 
-It proves:
+It now proves:
 
 - exact equivalence with uniformly sampled AR(1) covariance;
 - exact coarse-sampling consistency;
 - invariance under a change of time units;
 - positive-semidefinite covariance on irregular timestamps;
 - an analytic operator-Lipschitz bound over a declared \(\tau\)-interval;
-- a deterministic finite cover that composes with Proposition 49.
+- a deterministic finite cover that composes with Proposition 49;
+- an exact irregular-grid Gaussian transition factorization;
+- an exact lower-bidiagonal temporal whitener;
+- an exact tridiagonal temporal precision matrix;
+- an exact determinant and log-determinant factorization;
+- exact transition and innovation composition when intermediate samples are missing.
 
 For Experiment AM, \(\tau=0.8\) s and the observed one-step coefficients are approximately:
 
@@ -481,9 +528,21 @@ For the irregular-grid cover over
 
 the certified operator radius decreases from about `0.4160` with 5 grid points to about `0.0260` with 65 grid points. Dense numerical evaluation remains below the analytic certificate at every recorded resolution.
 
-The dense evaluation is a visibility check. The continuum guarantee comes from the analytic derivative bound.
+For the 13-time-point irregular Markov diagnostic at \(\tau=0.8\) s:
 
-[Full proof](docs/proposition_53_physical_relaxation_time.md) | [Machine-readable results](docs/physical_relaxation_sampling.json) | [Experiment script](examples/physical_relaxation_sampling.py) | [Figure renderer](examples/render_physical_relaxation_sampling.py) | [Claim-level tests](tests/test_physical_relaxation.py)
+| Exact identity diagnostic | Maximum numerical error |
+| --- | ---: |
+| long-range covariance from local step products | `1.11e-16` |
+| tridiagonal precision times dense covariance | `1.90e-15` |
+| temporal whitening to identity | `8.32e-16` |
+| precision as \(W_\tau^\mathsf T W_\tau\) | `1.78e-15` |
+| local innovation log determinant vs dense log determinant | `1.78e-15` |
+
+Only **37 of 169** entries of the exact temporal precision matrix are nonzero.
+
+The numerical evaluations are visibility checks. The continuum guarantee comes from the analytic derivative bound, and the Markov, whitening, precision, and determinant identities come from the exact Proposition 53 derivation.
+
+[Full proof](docs/proposition_53_physical_relaxation_time.md) | [0.41.1 research record](docs/release_0_41_1.md) | [Machine-readable results](docs/physical_relaxation_sampling.json) | [Experiment script](examples/physical_relaxation_sampling.py) | [Sampling renderer](examples/render_physical_relaxation_sampling.py) | [Markov renderer](examples/render_physical_relaxation_markov.py) | [Claim-level tests](tests/test_physical_relaxation.py)
 
 ---
 
@@ -574,11 +633,15 @@ Under its stated assumptions, the repository provides a conditional mathematical
 - turning that continuum set into a certified finite outer cover;
 - propagating retained temporal uncertainty into an independent target covariance certificate;
 - representing a single exponential temporal model by a physical relaxation time;
-- preserving that model across uniform, coarse, irregular, and unit-rescaled time coordinates.
+- preserving that model across uniform, coarse, irregular, missing-sample, and unit-rescaled time coordinates;
+- factorizing the irregular-grid exponential covariance into exact local Gaussian innovations;
+- whitening its temporal dependence exactly under the declared model;
+- expressing its inverse covariance as an exact tridiagonal precision matrix;
+- evaluating its determinant from local innovation variances.
 
 ## What is not established
 
-The repository does not establish that every physical system has a unique observer boundary. It does not establish that Gaussianity, separability, the exponential relaxation model, or the current temporal families hold in a particular experiment without validation. It does not establish consciousness.
+The repository does not establish that every physical system has a unique observer boundary. It does not establish that Gaussianity, separability, the exponential relaxation model, nearest-neighbor temporal precision, or the current temporal families hold in a particular experiment without validation. It does not establish consciousness.
 
 Any future observer-to-consciousness interpretation must enter as an additional bridge hypothesis and satisfy the falsifiability, invariance, identifiability, causal, and competing-explanation requirements in the [Interpretation Protocol](docs/interpretation_protocol.md).
 
@@ -598,7 +661,7 @@ Any future observer-to-consciousness interpretation must enter as an additional 
 | Assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
 | Public temporal and sampling API | [Temporal Calibration API](docs/api_temporal_calibration.md) |
 | Recent release history | [Recent Release History](docs/recent_release_history.md) |
-| Release 0.41.0 audit | [0.41.0 Research Record](docs/release_0_41_0.md) |
+| Release 0.41.1 audit | [0.41.1 Research Record](docs/release_0_41_1.md) |
 | Rules for any future consciousness interpretation | [Interpretation Protocol](docs/interpretation_protocol.md) |
 
 ---
@@ -632,15 +695,16 @@ ruff check .
 
 # 13. Current frontier
 
-Proposition 53 addresses one important physical representation issue: the temporal parameter of the declared exponential model can now be expressed in physical time rather than as an arbitrary sample-to-sample correlation coefficient.
+Proposition 53 now addresses two related physical representation issues. First, the temporal parameter of the declared exponential model is expressed in physical time rather than as an arbitrary sample-to-sample correlation coefficient. Second, the same physical-time kernel has an exact local Gaussian representation on arbitrary increasing timestamps, including exact innovation whitening and sparse temporal precision.
 
-The next physics-facing questions are:
+That makes the next questions sharper:
 
+- can \(\tau\) itself be calibrated on irregular timestamps with a finite-sample confidence construction that exploits the exact innovation likelihood rather than dense covariance algebra;
+- how should the one-timescale exponential model be tested against multiple relaxation times, oscillatory kernels, and other non-Markov temporal laws;
 - which observer-like quantities survive invertible changes of sensor coordinates;
 - which coordinate transformations preserve the physical meaning of a boundary;
 - how spatial resolution and coarse graining alter the candidate family;
-- how richer temporal kernels change the timescale picture;
-- which distinctions require intervention rather than passive observation.
+- which distinctions require intervention rather than passive observations.
 
 The next statistical frontier is to preserve finite-sample calibration while moving beyond one-timescale exponential or AR(1)-based temporal families.
 
@@ -658,7 +722,7 @@ The **primary conceptual source and starting point for this research program** i
 
 **Tegmark, M. (2015).** [*Consciousness as a State of Matter*](https://doi.org/10.1016/j.chaos.2015.03.014). *Chaos, Solitons & Fractals*, **76**, 238-270. Technical preprint: [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
 
-The complete literature record, including the role of every major external source used in the conceptual framing, information-theoretic definitions, canonical correlation, dynamic programming, Gaussian concentration, random-matrix concentration, e-value statistics, and physical relaxation model, is maintained in the **[Bibliography and Citation Map](docs/bibliography.md)**.
+The complete literature record, including the role of every major external source used in the conceptual framing, information-theoretic definitions, canonical correlation, dynamic programming, Gaussian concentration, random-matrix concentration, e-value statistics, physical relaxation, and Gaussian Markov-process lineage, is maintained in the **[Bibliography and Citation Map](docs/bibliography.md)**.
 
 Machine-readable BibTeX: [`references.bib`](references.bib).
 

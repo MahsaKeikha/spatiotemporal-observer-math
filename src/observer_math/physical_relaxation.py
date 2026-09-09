@@ -3,7 +3,9 @@
 Proposition 53 replaces the sample-index AR(1) coefficient by a physical
 relaxation time whenever an exponential covariance model is appropriate. The
 same relaxation time generates consistent covariance matrices on uniform,
-coarse, and irregular sampling grids.
+coarse, and irregular sampling grids. On an irregular grid, the exponential
+kernel also has an exact Gaussian Markov factorization with independent
+innovation coordinates.
 """
 
 from __future__ import annotations
@@ -42,6 +44,20 @@ class GaussianRelaxationTimeMatrixChernoffBound:
 
     temporal_cover: ExponentialRelaxationTemporalCover
     covariance_bound: GaussianCompactTemporalFamilyMatrixChernoffBound
+
+
+@dataclass(frozen=True)
+class ExponentialRelaxationMarkovFactorization:
+    """Exact irregular-grid Markov and whitening representation of the kernel."""
+
+    sample_times: np.ndarray
+    relaxation_time: float
+    step_intervals: np.ndarray
+    step_correlations: np.ndarray
+    innovation_variances: np.ndarray
+    whitening_matrix: np.ndarray
+    precision_matrix: np.ndarray
+    covariance_log_determinant: float
 
 
 def _validated_positive(value: float, name: str) -> float:
@@ -105,6 +121,62 @@ def uniform_exponential_relaxation_covariance(
     interval = _validated_positive(sample_interval, "sample_interval")
     times = interval * np.arange(sample_count, dtype=float)
     return exponential_relaxation_covariance(times, relaxation_time)
+
+
+def exponential_relaxation_markov_factorization(
+    sample_times: ArrayLike,
+    relaxation_time: float,
+) -> ExponentialRelaxationMarkovFactorization:
+    """Factor the irregular exponential kernel into exact Gaussian innovations.
+
+    If ``alpha_i = exp(-(t_{i+1}-t_i)/tau)``, then a standardized process with
+    covariance ``exp(-|t_i-t_j|/tau)`` admits the transition representation
+
+        X_{i+1} = alpha_i X_i + sqrt(1-alpha_i^2) epsilon_i,
+
+    where the innovation coordinates are independent standard Gaussians. The
+    returned lower-bidiagonal whitening matrix ``W`` satisfies ``W K W.T = I``.
+    Its Gram matrix ``W.T W`` is the exact tridiagonal precision matrix.
+    """
+    times = _validated_sample_times(sample_times)
+    tau = _validated_positive(relaxation_time, "relaxation_time")
+    intervals = np.diff(times)
+    correlations = np.exp(-intervals / tau)
+    innovation_variances = -np.expm1(-2.0 * intervals / tau)
+
+    sample_count = times.size
+    whitening = np.zeros((sample_count, sample_count), dtype=float)
+    whitening[0, 0] = 1.0
+    for row in range(1, sample_count):
+        index = row - 1
+        scale = float(np.sqrt(innovation_variances[index]))
+        whitening[row, row - 1] = -correlations[index] / scale
+        whitening[row, row] = 1.0 / scale
+
+    precision = np.zeros((sample_count, sample_count), dtype=float)
+    reciprocal_variances = 1.0 / innovation_variances
+    precision[0, 0] = reciprocal_variances[0]
+    precision[-1, -1] = reciprocal_variances[-1]
+    for index in range(1, sample_count - 1):
+        precision[index, index] = (
+            reciprocal_variances[index - 1]
+            + correlations[index] ** 2 * reciprocal_variances[index]
+        )
+    off_diagonal = -correlations * reciprocal_variances
+    for index, value in enumerate(off_diagonal):
+        precision[index, index + 1] = value
+        precision[index + 1, index] = value
+
+    return ExponentialRelaxationMarkovFactorization(
+        sample_times=times.copy(),
+        relaxation_time=tau,
+        step_intervals=intervals,
+        step_correlations=correlations,
+        innovation_variances=innovation_variances,
+        whitening_matrix=whitening,
+        precision_matrix=precision,
+        covariance_log_determinant=float(np.sum(np.log(innovation_variances))),
+    )
 
 
 def _entrywise_relaxation_derivative_supremum(

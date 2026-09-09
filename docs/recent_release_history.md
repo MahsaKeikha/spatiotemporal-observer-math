@@ -2,6 +2,24 @@
 
 This page continues the older root changelog for the newest theorem releases. It keeps the recent sequence compact and points directly to proof and experiment records rather than duplicating every derivation.
 
+## 0.41.1 - 2026-09-08
+
+**Proposition 53 extension, Experiment AM extension**
+
+- Kept the research record at Proposition 53 rather than introducing a new proposition for consequences of the same exponential physical-time kernel.
+- Derived the exact irregular-grid transition law with local coefficients \(\alpha_i=\exp(-(t_{i+1}-t_i)/\tau)\).
+- Proved that products of local transition coefficients reproduce every long-range exponential covariance entry exactly.
+- Constructed an exact lower-bidiagonal temporal whitening matrix.
+- Derived the exact tridiagonal temporal precision matrix \(R_\tau^{-1}=W_\tau^\mathsf T W_\tau\).
+- Derived the exact determinant and log-determinant factorization from local innovation variances.
+- Proved that deleting intermediate samples composes both transitions and innovation variances exactly.
+- Extended Experiment AM with irregular-grid Markov diagnostics and added a second visible Proposition 53 figure.
+- Added five claim-level tests, taking the verified record to 188 tests.
+- Added Doob 1942 as historical Gaussian Markov-process lineage while keeping the new formulas self-contained in the Proposition 53 proof.
+- Updated the research record to 53 propositions, 39 experiments, 27 scientific result figures, and 188 tests.
+
+[Proposition 53](proposition_53_physical_relaxation_time.md) · [Experiment AM data](physical_relaxation_sampling.json) · [Markov figure](physical_relaxation_markov.svg) · [Release record](release_0_41_1.md)
+
 ## 0.41.0 - 2026-09-08
 
 **Proposition 53, Experiment AM**

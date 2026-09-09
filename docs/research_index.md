@@ -10,9 +10,9 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 | --- | ---: |
 | Propositions | **53** |
 | Reproducible experiments | **39, A-Z and AA-AM** |
-| Scientific result figures | **26** |
-| Claim-level tests | **183** |
-| Research-software version | **0.41.0** |
+| Scientific result figures | **27** |
+| Claim-level tests | **188** |
+| Research-software version | **0.41.1** |
 
 The physics pipeline is an explanatory diagram and is not included in the scientific-result figure count.
 
@@ -28,7 +28,8 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 | See the complete visual history | [Repository front page](../README.md) |
 | Audit Propositions 1-43 | [Proof record](proofs_and_conjectures.md) |
 | Audit Propositions 44-52 | Proposition-specific proof pages listed below |
-| Audit Proposition 53 | [Sampling-consistent physical relaxation time](proposition_53_physical_relaxation_time.md) |
+| Audit Proposition 53 | [Sampling-consistent physical relaxation time and irregular-grid Markov structure](proposition_53_physical_relaxation_time.md) |
+| Inspect the current patch release | [0.41.1 Research Record](release_0_41_1.md) |
 | Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
 | Inspect the temporal-calibration software interface | [Temporal Calibration API](api_temporal_calibration.md) |
 | Inspect requirements for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
@@ -103,9 +104,9 @@ continuum uncertainty must enter an independent target theorem
 
 Direct literature foundations for this layer include Laurent and Massart and Hsu, Kakade, and Zhang for quadratic-form concentration, Tropp for the matrix-Laplace concentration method, and Vovk and Wang and Shafer for the e-value literature. See the [proposition-to-literature map](bibliography.md#7-proposition-to-literature-map).
 
-## Layer E. Sampling-consistent physical time, Proposition 53
+## Layer E. Sampling-consistent physical time and exact irregular-grid structure, Proposition 53
 
-Proposition 53 changes the temporal parameterization from a sample-index coefficient to a physical time constant for the exponential relaxation model.
+Proposition 53 changes the temporal parameterization from a sample-index coefficient to a physical time constant for the exponential relaxation model and then derives its exact local Gaussian representation on arbitrary increasing timestamps.
 
 For physical sample times \(t_i\),
 
@@ -127,11 +128,29 @@ Under uniform sampling with interval \(\Delta t\),
 -\frac{\Delta t}{\log\phi_{\Delta t}}.
 \]
 
-The theorem proves exact coarse-sampling consistency, time-unit invariance, validity on irregular timestamps, and a deterministic operator cover over a declared \(\tau\)-interval that composes with Proposition 49.
+For irregular adjacent gaps, define
 
-The physical stochastic-process lineage is the classical Ornstein-Uhlenbeck exponential-relaxation model of Uhlenbeck and Ornstein. The repository does not assume that every physical process is Ornstein-Uhlenbeck or has one relaxation time.
+\[
+\alpha_i
+=
+\exp\left(-\frac{t_{i+1}-t_i}{\tau}\right).
+\]
 
-Direct source: [Proposition 53 proof](proposition_53_physical_relaxation_time.md). Literature context: [Bibliography](bibliography.md#6-physical-relaxation-and-continuous-time-stochastic-dynamics).
+The exact local transition law is
+
+\[
+X_{i+1}
+=
+\alpha_iX_i
++
+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\]
+
+The theorem proves exact coarse-sampling consistency, time-unit invariance, validity on irregular timestamps, a deterministic operator cover over a declared \(\tau\)-interval that composes with Proposition 49, exact innovation whitening, a tridiagonal temporal precision matrix, local determinant factorization, and exact missing-sample transition composition.
+
+The physical stochastic-process lineage is the classical Ornstein-Uhlenbeck exponential-relaxation model of Uhlenbeck and Ornstein. Doob 1942 is recorded as historical Gaussian Markov-process context. The irregular-grid formulas themselves are derived directly in Proposition 53.
+
+Direct source: [Proposition 53 proof](proposition_53_physical_relaxation_time.md). Release audit: [0.41.1 Research Record](release_0_41_1.md). Literature context: [Bibliography](bibliography.md#6-physical-relaxation-and-continuous-time-stochastic-dynamics).
 
 ---
 
@@ -156,23 +175,29 @@ Full commands and numerical records: [Reproducible Results](reproducible_results
 | AJ | 50 | Observable two-parameter calibration | More independent calibration narrows temporal uncertainty without changing the target record | [Proof](proposition_50_calibrated_temporal_family.md) |
 | AK | 51 | Full-likelihood e-value calibration | The full residual record defines a continuum set of compatible temporal models | [Proof](proposition_51_evalue_temporal_confidence_set.md) |
 | AL | 52 | Certified outer cover and target composition | Every calibration-compatible temporal model is carried into an independent target covariance certificate | [Proof](proposition_52_certified_evalue_outer_cover.md) |
-| AM | 53 | Sampling-consistent physical relaxation time | Different acquisition rates produce different \(\phi\) values but the same physical \(\tau\) | [Proof](proposition_53_physical_relaxation_time.md) · [JSON](physical_relaxation_sampling.json) · [script](../examples/physical_relaxation_sampling.py) |
+| AM | 53 | Sampling-consistent physical relaxation and irregular-grid factorization | Sampling changes local coefficients while the same \(\tau\) generates exact local innovations and sparse temporal precision | [Proof](proposition_53_physical_relaxation_time.md) · [JSON](physical_relaxation_sampling.json) · [script](../examples/physical_relaxation_sampling.py) |
 
-### Latest figure
+### Proposition 53 figures
 
-[![Experiment AM](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md)
+| Sampling consistency | Exact irregular-grid Markov factorization |
+| --- | --- |
+| [![Experiment AM](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md) | [![Markov factorization](physical_relaxation_markov.svg)](proposition_53_physical_relaxation_time.md) |
 
-For \(\tau=0.8\) s, the controlled record uses sampling rates from 2.5 Hz through 40 Hz. The corresponding one-step correlations differ substantially, but each maps back to the same relaxation time. The figure also shows irregular timestamps and the deterministic continuum cover over \(\tau\in[0.55,1.05]\) s.
+For \(\tau=0.8\) s, the controlled record uses sampling rates from 2.5 Hz through 40 Hz. The corresponding one-step correlations differ substantially, but each maps back to the same relaxation time.
 
-The figure is a visibility aid. The exact sampling identities and continuum bound are the theorem.
+On the 13-point irregular record, the exact precision matrix has only 37 nonzero entries out of 169. The covariance-product, inverse, whitening, precision-Gram, and determinant identities all agree numerically to approximately \(10^{-15}\) or better.
+
+The figures are visibility aids. The exact sampling, Markov, whitening, precision, determinant, and semigroup identities are the theorem.
 
 ---
 
 # Current frontier
 
-Proposition 53 closes one representation issue: under the declared exponential model, temporal memory can be parameterized by a physical relaxation time rather than an arbitrary sample-to-sample coefficient.
+Proposition 53 now closes two representation issues under the declared one-timescale exponential Gaussian model: temporal memory is parameterized by a physical relaxation time rather than an arbitrary sample-to-sample coefficient, and that same physical-time model has an exact local transition representation under irregular or missing observations.
 
-The next physics questions are therefore more structural:
+The next question inside this temporal line is whether \(\tau\) can be calibrated directly on irregular timestamps with a finite-sample confidence construction that exploits the exact innovation likelihood.
+
+The broader next physics questions remain:
 
 - which observer scores survive invertible changes of sensor coordinates;
 - which transformations preserve the physical meaning of a candidate boundary;
