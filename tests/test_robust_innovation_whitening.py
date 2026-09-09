@@ -1,3 +1,5 @@
+from itertools import pairwise
+
 import numpy as np
 
 from observer_math.innovation_whitening import (
@@ -94,7 +96,7 @@ def test_transformed_operator_cover_contains_dense_midpoint_checks() -> None:
     whitening = exponential_relaxation_markov_factorization(times, working).whitening_matrix
     tau_grid = np.linspace(lower, upper, grid_size)
     radius = bound.transformed_eigenvalue_covering_radius
-    for left, right in zip(tau_grid[:-1], tau_grid[1:]):
+    for left, right in pairwise(tau_grid):
         tau = 0.5 * (left + right)
         nearest = left
         transformed = whitening @ exponential_relaxation_covariance(times, tau) @ whitening.T
