@@ -1,0 +1,38 @@
+{
+  "experiment": "AQ",
+  "title": "Innovation-whitened target covariance and restored Gaussian degrees of freedom",
+  "model": {
+    "relaxation_time_seconds": 0.78,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2,
+    "residual_degrees_of_freedom": 118,
+    "covariance_confidence": 0.975,
+    "block_dimension": 1,
+    "block_count": 1
+  },
+  "certificate_comparison": {
+    "raw_space_known_tau_oracle_relative_error": 2.167136193997473,
+    "raw_space_projected_degrees_lower_bound": 84.34348989587866,
+    "innovation_whitened_matrix_relative_error": 0.43643844034822693,
+    "innovation_whitened_residual_degrees": 118,
+    "innovation_whitened_exact_scalar_relative_error": 0.3142366148262574,
+    "exact_scalar_lower_variance_ratio": 0.7311633508199835,
+    "exact_scalar_upper_variance_ratio": 1.3142366148262574,
+    "matrix_reduction_fraction_vs_raw_oracle": 0.7986105157778857,
+    "scalar_reduction_fraction_vs_raw_oracle": 0.8549991386343743
+  },
+  "visibility_trials": {
+    "trial_count": 256,
+    "median_absolute_relative_error": 0.07704982028955165,
+    "q95_absolute_relative_error": 0.2324178368027294,
+    "maximum_absolute_relative_error": 0.37414671347209993,
+    "exact_interval_covered_count": 252,
+    "exact_interval_coverage_fraction": 0.984375,
+    "maximum_nuisance_invariance_error": 4.6629367034256575e-15
+  },
+  "interpretation": {
+    "whitening_role": "Exact temporal whitening exposes the independent innovation coordinates already implied by the declared temporal model. It does not create additional observations.",
+    "nuisance_role": "The nuisance design is transformed by the same whitener before projection, so only its declared rank is removed from the independent innovation coordinates.",
+    "scope": "This experiment assumes the target temporal covariance is known exactly. Robust use under an estimated relaxation time requires an additional uncertainty theorem."
+  }
+}
