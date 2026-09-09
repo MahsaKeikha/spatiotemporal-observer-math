@@ -13,11 +13,10 @@ OUTPUT = ROOT / "docs" / "robust_innovation_whitened_target.svg"
 def _bar(x: float, y: float, width: float, value: float, maximum: float, label: str) -> str:
     scaled = width * value / maximum
     return f"""
-    <text x="{x:.1f}" y="{y - 8:.1f}" class="small">{label}</text>
-    <rect x="{x:.1f}" y="{y:.1f}" width="{width:.1f}" height="18" rx="4" class="track"/>
-    <rect x="{x:.1f}" y="{y:.1f}" width="{scaled:.1f}" height="18" rx="4" class="bar"/>
-    <text x="{x + width + 12:.1f}" y="{y + 14:.1f}" class="value">{value:.5f}</text>
-    """
+  <text x="{x:.1f}" y="{y - 8:.1f}" class="small">{label}</text>
+  <rect x="{x:.1f}" y="{y:.1f}" width="{width:.1f}" height="18" rx="4" class="track"/>
+  <rect x="{x:.1f}" y="{y:.1f}" width="{scaled:.1f}" height="18" rx="4" class="bar"/>
+  <text x="{x + width + 12:.1f}" y="{y + 14:.1f}" class="value">{value:.5f}</text>"""
 
 
 def build_svg(record: dict[str, object]) -> str:
@@ -40,7 +39,7 @@ def build_svg(record: dict[str, object]) -> str:
     def map_tau(tau: float) -> float:
         return x0 + (tau - tau_min) / (tau_max - tau_min) * (x1 - x0)
 
-    bars = "".join(
+    bars = "\n".join(
         [
             _bar(
                 690,
@@ -75,38 +74,27 @@ def build_svg(record: dict[str, object]) -> str:
     for x, row in zip(point_x, points):
         tau = float(row["true_relaxation_time_seconds"])
         radius = float(row["pointwise_relative_radius"])
-        h = 122.0 * radius / max_radius
+        height = 122.0 * radius / max_radius
         diagnostics += f"""
-        <rect x="{x:.1f}" y="{610 - h:.1f}" width="54" height="{h:.1f}" rx="5" class="bar2"/>
-        <text x="{x + 27:.1f}" y="628" text-anchor="middle" class="tiny">{tau:.3f}s</text>
-        <text x="{x + 27:.1f}" y="{595 - h:.1f}" text-anchor="middle" class="tiny">{radius:.3f}</text>
-        """
+  <rect x="{x:.1f}" y="{610 - height:.1f}" width="54" height="{height:.1f}" rx="5" class="bar2"/>
+  <text x="{x + 27:.1f}" y="628" text-anchor="middle" class="tiny">{tau:.3f}s</text>
+  <text x="{x + 27:.1f}" y="{595 - height:.1f}" text-anchor="middle" class="tiny">{radius:.3f}</text>"""
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
   <style>
-    .bg {{ fill: #ffffff; }}
-    .panel {{ fill: #f8fafc; stroke: #d7dee8; stroke-width: 1.2; }}
-    .title {{ font: 700 27px Arial, sans-serif; fill: #172033; }}
-    .subtitle {{ font: 400 14px Arial, sans-serif; fill: #526075; }}
-    .head {{ font: 700 17px Arial, sans-serif; fill: #172033; }}
-    .body {{ font: 400 13px Arial, sans-serif; fill: #39475a; }}
-    .small {{ font: 600 12px Arial, sans-serif; fill: #39475a; }}
-    .tiny {{ font: 600 10px Arial, sans-serif; fill: #526075; }}
-    .value {{ font: 700 12px Arial, sans-serif; fill: #172033; }}
-    .axis {{ stroke: #738096; stroke-width: 2; }}
-    .interval {{ stroke: #2563eb; stroke-width: 13; stroke-linecap: round; }}
-    .working {{ stroke: #0f766e; stroke-width: 3; }}
-    .truth {{ stroke: #b45309; stroke-width: 3; stroke-dasharray: 6 5; }}
-    .track {{ fill: #e7ecf3; }}
-    .bar {{ fill: #4f6f9f; }}
-    .bar2 {{ fill: #7c8fae; }}
-    .threshold {{ stroke: #a11d2e; stroke-width: 2; stroke-dasharray: 5 4; }}
-    .emph {{ font: 700 23px Arial, sans-serif; fill: #0f766e; }}
-    .eq {{ font: 600 15px Arial, sans-serif; fill: #172033; }}
+    .bg {{ fill: #ffffff; }} .panel {{ fill: #f8fafc; stroke: #d7dee8; stroke-width: 1.2; }}
+    .title {{ font: 700 27px Arial, sans-serif; fill: #172033; }} .subtitle {{ font: 400 14px Arial, sans-serif; fill: #526075; }}
+    .head {{ font: 700 17px Arial, sans-serif; fill: #172033; }} .body {{ font: 400 13px Arial, sans-serif; fill: #39475a; }}
+    .small {{ font: 600 12px Arial, sans-serif; fill: #39475a; }} .tiny {{ font: 600 10px Arial, sans-serif; fill: #526075; }}
+    .value {{ font: 700 12px Arial, sans-serif; fill: #172033; }} .axis {{ stroke: #738096; stroke-width: 2; }}
+    .interval {{ stroke: #2563eb; stroke-width: 13; stroke-linecap: round; }} .working {{ stroke: #0f766e; stroke-width: 3; }}
+    .truth {{ stroke: #b45309; stroke-width: 3; stroke-dasharray: 6 5; }} .track {{ fill: #e7ecf3; }} .bar {{ fill: #4f6f9f; }}
+    .bar2 {{ fill: #7c8fae; }} .threshold {{ stroke: #a11d2e; stroke-width: 2; stroke-dasharray: 5 4; }}
+    .emph {{ font: 700 23px Arial, sans-serif; fill: #0f766e; }} .eq {{ font: 600 15px Arial, sans-serif; fill: #172033; }}
   </style>
   <rect width="1200" height="720" class="bg"/>
   <text x="60" y="48" class="title">Experiment AR | Robust innovation whitening under calibrated physical-time uncertainty</text>
-  <text x="60" y="74" class="subtitle">One working whitener, one finite-sample tau interval, one uniform target covariance certificate</text>
+  <text x="60" y="74" class="subtitle">One working whitener, one finite-sample tau interval, separate operator and projected-trace certificates</text>
 
   <rect x="55" y="105" width="530" height="250" rx="12" class="panel"/>
   <text x="80" y="137" class="head">A. Calibration determines the admissible physical timescale</text>
@@ -117,31 +105,33 @@ def build_svg(record: dict[str, object]) -> str:
   <text x="{map_tau(lower):.1f}" y="278" text-anchor="middle" class="small">{lower:.6f}s</text>
   <text x="{map_tau(upper):.1f}" y="278" text-anchor="middle" class="small">{upper:.7f}s</text>
   <text x="{map_tau(working):.1f}" y="179" text-anchor="middle" class="small">working tau = {working:.8f}s</text>
-  <text x="{map_tau(true_tau):.1f}" y="296" text-anchor="middle" class="small">true tau = {true_tau:.2f}s</text>
-  <text x="80" y="329" class="body">Proposition 55 confidence: 0.975 | hull width: {float(cal['retained_width_seconds']):.7f}s</text>
+  <text x="{map_tau(true_tau):.1f}" y="296" text-anchor="middle" class="small">visibility tau = {true_tau:.2f}s</text>
+  <text x="80" y="329" class="body">Proposition 55 calibration confidence: {float(cal['calibration_confidence']):.3f} | retained hull width: {float(cal['retained_width_seconds']):.7f}s</text>
 
   <rect x="615" y="105" width="530" height="250" rx="12" class="panel"/>
-  <text x="640" y="137" class="head">B. The uncertain-tau target theorem stays below radius one</text>
-  {bars}
+  <text x="640" y="137" class="head">B. The calibrated-tau theorem remains below radius one</text>
+{bars}
   <line x1="690" y1="331" x2="1020" y2="331" class="threshold"/>
   <text x="1032" y="335" class="tiny">epsilon = 1 threshold</text>
   <text x="690" y="348" class="body">P57 reduction from P55 calibrated raw time: {100.0 * float(comp['reduction_from_raw_time_calibrated_fraction']):.1f}%</text>
 
   <rect x="55" y="380" width="530" height="280" rx="12" class="panel"/>
-  <text x="80" y="412" class="head">C. Certified transformed temporal geometry</text>
-  <text x="85" y="455" class="eq">C_tau = W0 R_tau W0^T</text>
-  <text x="85" y="490" class="body">||W0||2 = {float(cover['whitening_operator_norm']):.5f}</text>
-  <text x="85" y="518" class="body">transformed Lipschitz bound = {float(cover['transformed_operator_lipschitz_bound_per_second']):.3f} s^-1</text>
-  <text x="85" y="546" class="body">eigenvalue cover radius = {float(cover['transformed_eigenvalue_covering_radius']):.6f}</text>
-  <text x="85" y="574" class="body">projected normalization range = [{float(cert['projected_degrees_of_freedom_lower_bound']):.3f}, {float(cert['projected_degrees_of_freedom_upper_bound']):.3f}]</text>
-  <text x="85" y="602" class="body">reference normalization = {float(cert['covariance_normalization']):.3f}</text>
-  <text x="85" y="638" class="emph">uniform epsilon = {eps:.5f} &lt; 1</text>
+  <text x="80" y="412" class="head">C. Two deterministic covers, two different roles</text>
+  <text x="85" y="448" class="eq">C_tau = W0 R_tau W0^T</text>
+  <text x="85" y="478" class="body">||W0||2 = {float(cover['whitening_operator_norm']):.5f}</text>
+  <text x="85" y="502" class="body">operator Lipschitz bound = {float(cover['transformed_operator_lipschitz_bound_per_second']):.3f} s^-1</text>
+  <text x="85" y="526" class="body">eigenvalue cover radius = {float(cover['transformed_eigenvalue_covering_radius']):.6f}</text>
+  <text x="85" y="550" class="body">projected-trace Lipschitz bound = {float(cover['transformed_normalization_lipschitz_bound_per_second']):.3f} s^-1</text>
+  <text x="85" y="574" class="body">normalization cover radius = {float(cover['transformed_normalization_covering_radius']):.6f}</text>
+  <text x="85" y="598" class="body">projected normalization range = [{float(cert['projected_degrees_of_freedom_lower_bound']):.3f}, {float(cert['projected_degrees_of_freedom_upper_bound']):.3f}]</text>
+  <text x="85" y="622" class="body">reference normalization = {float(cert['covariance_normalization']):.3f}</text>
+  <text x="85" y="650" class="emph">uniform epsilon = {eps:.5f} &lt; 1</text>
 
   <rect x="615" y="380" width="530" height="280" rx="12" class="panel"/>
-  <text x="640" y="412" class="head">D. Pointwise diagnostics show where the uniform bound is conservative</text>
+  <text x="640" y="412" class="head">D. Pointwise diagnostics show remaining uniform conservatism</text>
   <line x1="670" y1="610" x2="1110" y2="610" class="axis"/>
-  {diagnostics}
-  <text x="640" y="652" class="body">Pointwise radii are diagnostics only. The theorem uses the complete continuum certificate.</text>
+{diagnostics}
+  <text x="640" y="652" class="body">Pointwise values are diagnostics only; the theorem protects the complete calibrated continuum.</text>
 
   <text x="60" y="699" class="subtitle">Combined calibration-target confidence lower bound: {float(model['combined_calibration_target_confidence']):.6f} | Conditional on the declared separable Gaussian one-timescale exponential model.</text>
 </svg>
