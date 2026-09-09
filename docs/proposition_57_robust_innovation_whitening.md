@@ -11,7 +11,7 @@ Proposition 56 established a sharp target covariance result when the physical re
 to
 
 \[
-0.4364662463<1.
+0.4364443814<1.
 \]
 
 The physically relevant question is harder:
@@ -42,7 +42,7 @@ This result removes the exact-target-\(\tau\) assumption from Proposition 56 for
 
 # 1. Research lineage and attribution
 
-The conceptual starting point of the repository is Max Tegmark's observer-factorization question in [Tegmark 2015](bibliography.md#tegmark-2015). The word `observer` is operational here: the project studies persistent moving subsystems inferred from dynamics, not subjective experience.
+The conceptual starting point of the repository is Max Tegmark's observer-factorization question in [Tegmark 2015](bibliography.md#tegmark-2015). The term `observer` refers here to the operational moving-subsystem construct defined by the repository's dynamical framework.
 
 Proposition 57 belongs to the measurement-certification chain required before a moving-subsystem score can be trusted:
 
@@ -64,7 +64,7 @@ Relevant external foundations are:
 - matrix perturbation tools: [Bhatia 1997](bibliography.md#bhatia-1997);
 - finite-sample e-value calibration used upstream: [Vovk and Wang 2021](bibliography.md#vovk-and-wang-2021), [Shafer 2021](bibliography.md#shafer-2021), and [Vovk and Wang 2023](bibliography.md#vovk-and-wang-2023).
 
-The fixed working whitener, transformed-family cover, and trace-specific normalization certificate below are repository constructions. No external citation is intended to attribute these particular statements to those authors.
+The fixed working whitener, transformed-family cover, and trace-specific normalization certificate below are repository constructions; the cited sources provide the mathematical, stochastic-process, and statistical foundations used in their derivation.
 
 ---
 
@@ -638,7 +638,7 @@ Therefore
 | --- | --- | ---: |
 | Proposition 55 raw-time calibrated target | finite-sample calibrated interval | 2.41488 |
 | Proposition 55 raw-time oracle diagnostic | exact true \(\tau\) supplied | 2.16725 |
-| Proposition 56 innovation target | exact true \(\tau\) supplied | 0.43647 |
+| Proposition 56 innovation target | exact true \(\tau\) supplied | 0.43644 |
 | **Proposition 57 robust innovation target** | **finite-sample calibrated interval** | **0.71959** |
 
 Relative to the Proposition 55 calibrated raw-time theorem,
@@ -690,18 +690,17 @@ On Experiment AR, enough of the advantage survives to keep the finite-sample cov
 
 ---
 
-# 13. What Proposition 57 does not claim
+# 13. Scope and extension points
 
-The theorem does not claim:
+Proposition 57 is a finite-sample covariance theorem for the declared one-timescale separable Gaussian measurement model. Its present scope assumes:
 
-- that one stationary exponential relaxation time is universal;
-- that the midpoint is the optimal working timescale for every design;
-- that the Proposition 55 hull is the smallest possible calibrated set;
-- that the current operator or trace envelopes are globally optimal;
-- that \(\varepsilon<1\) alone certifies world-tube recovery;
-- that covariance geometry identifies consciousness.
+- one stationary exponential relaxation family;
+- a calibration-derived working timescale, chosen as the midpoint in Experiment AR;
+- the Proposition 55 calibrated hull as the admissible physical-time set;
+- the current analytic operator and trace covers;
+- the relative covariance threshold as an intermediate measurement certificate rather than a complete world-tube recovery condition.
 
-It is a finite-sample covariance theorem conditional on the declared measurement model.
+Natural extensions include richer temporal covariance families, alternative calibration-derived working timescales, sharper continuum covers, and direct observer-scale concentration methods. The transition from covariance certification to full moving-boundary recovery is handled separately by Proposition 58.
 
 ---
 
