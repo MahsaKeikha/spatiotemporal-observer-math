@@ -12,6 +12,32 @@ This repository develops a mathematical and computational framework for **time-d
 
 The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). The development here makes the boundary explicitly time dependent and studies recovery, identifiability, physical-time calibration, and measurement certification.
 
+## Research continuation: from physical observer structure to the consciousness bridge
+
+This repository is the **physical-subsystem and observer-identification foundation** of a broader research program. Its role is to determine when a persistent, moving subsystem can be inferred and certified from measured dynamics.
+
+The next stage of the research is developed in **[Mathematical Consciousness Bridge](https://github.com/MahsaKeikha/mathematical-consciousness-bridge)**. That companion repository begins where the present one stops: it studies what additional mathematical, physical, causal, statistical, and empirical structure would be required to connect a certified physical subsystem to a formal consciousness-bridge problem.
+
+The intended research sequence is
+
+\[
+\boxed{
+\text{measured dynamics}
+\longrightarrow
+\text{time-dependent subsystem identification}
+\longrightarrow
+\text{certified physical observer structure}
+\longrightarrow
+\text{intervention-resolved causal structure}
+\longrightarrow
+\text{mathematical consciousness bridge}.
+}
+\]
+
+In this sequence, **Spatiotemporal Observer Mathematics** addresses the physical identification problem, while **Mathematical Consciousness Bridge** develops the subsequent physics-and-mathematics program concerning causal structure, identifiability, temporal continuation, composition, coarse-graining, empirical discrimination, and the formal bridge from physical structure toward experiential structure.
+
+**Continue the research:** [MahsaKeikha/mathematical-consciousness-bridge](https://github.com/MahsaKeikha/mathematical-consciousness-bridge)
+
 ## Abstract
 
 Many physical and statistical analyses begin by selecting a subsystem boundary first and studying its dynamics second. This project asks whether part of that order can be reversed. Given multivariate measurements of a larger dynamical system, can a candidate subsystem be identified from the way predictive organization persists, remains comparatively insulated from its measured exterior, and transports across changing coordinates through time?
@@ -27,6 +53,7 @@ The current research record contains **58 proposition-level statements, 45 repro
 | Understand the project visually | **[Visual Research Guide](docs/visual_research_guide.md)** |
 | Follow the physics and units | **[Physics Guide](docs/physics_guide.md)** |
 | Trace equations to sources and proofs | **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)** |
+| Continue to the next research stage | **[Mathematical Consciousness Bridge](https://github.com/MahsaKeikha/mathematical-consciousness-bridge)** |
 | Read the scientific narrative | [Research Overview](docs/research_overview.md) |
 | Audit every theorem and experiment | [Research Index](docs/research_index.md) |
 | Inspect assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
@@ -562,7 +589,6 @@ Proposition 58 returns covariance uncertainty to the original moving-boundary ob
 \boxed{
 B_{t,S}=(X_t,X_{t+1}^{S}).
 }
-\]
 
 On the controlled benchmark,
 
