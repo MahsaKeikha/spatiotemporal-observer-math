@@ -2,13 +2,15 @@
 
 This page explains the project as one scientific story rather than as a file list. If the equations feel detached from their physical meaning, start with the [Physics Guide](physics_guide.md). For the complete theorem and experiment map, use the [Research Index](research_index.md).
 
-The 0.44.0 research record targets 55 propositions, 42 reproducible experiments, 30 scientific result figures, and 206 claim-level tests. These counts become verified after the exact release candidate is merged and the resulting `main` workflow succeeds.
+The current 0.46.0 record contains **57 propositions, 44 reproducible experiments, 32 scientific result figures, and 219 claim-level tests** across Python 3.10, 3.11, and 3.12.
 
 ## Conceptual starting point
 
-One important conceptual source is Max Tegmark's paper ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014), which asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. The technical preprint is [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+The primary conceptual starting point is Max Tegmark's paper ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014), with technical preprint [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
 
-This repository is a separate research program. It does not reproduce Tegmark's results and does not imply his endorsement. It develops an operational moving-boundary formulation, recovery and identifiability theory, finite-sample certification, temporal calibration, and physical representation tests.
+Tegmark asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. This repository develops that factorization and observer-identification question in a separate operational direction: a subsystem boundary may change with time and must be inferred from dynamical organization rather than fixed in advance.
+
+The repository does not reproduce Tegmark's derivations and does not imply his endorsement. The word **observer** is operational here. It denotes a mathematically defined persistent moving subsystem. The results do not establish consciousness or subjective experience. Any future connection requires additional bridge assumptions under the [Interpretation Protocol](interpretation_protocol.md).
 
 ## The physical question
 
@@ -38,13 +40,11 @@ and a changing candidate history is
 
 called an **observer world-tube**.
 
-The term is operational. It tracks a moving subset of measured degrees of freedom. It is not a claim about relativistic spacetime and it is not a definition of consciousness.
+A useful physical picture is a coherent structure moving across a sensor field. The structure can persist while the sensor coordinates representing it change.
 
-A useful physical picture is a coherent structure moving across a sensor field. The structure can persist while the sensors representing it change.
+## Population model and operational score
 
-## The population model
-
-The main exact theory uses a nonstationary linear Gaussian model
+The main exact theory begins from a nonstationary linear Gaussian model
 
 \[
 X_{t+1}=A_tX_t+\varepsilon_t,
@@ -52,53 +52,32 @@ X_{t+1}=A_tX_t+\varepsilon_t,
 \varepsilon_t\sim\mathcal N(0,Q_t).
 \]
 
-Physically, \(A_t\) is treated as an effective one-step coupling or propagation operator, while \(Q_t\) describes unresolved stochastic forcing inside the model.
+Here \(A_t\) is treated as an effective one-step coupling or propagation operator and \(Q_t\) as unresolved stochastic forcing inside the declared model.
 
-This is an analytical model, not a claim that every physical system is fundamentally linear or Gaussian. A real application has to justify the measurement coordinates, physical units, sampling schedule, preprocessing, nuisance structure, and model adequacy.
+This is an analytical model, not a claim that every physical system is fundamentally linear or Gaussian. A real application must justify measurement coordinates, physical units, sampling schedule, preprocessing, nuisance structure, and model adequacy.
 
-## What makes a candidate boundary interesting?
+The implemented objective combines four operational ideas:
 
-The implemented objective combines four operational ideas.
+1. **Integration.** Internal parts of a candidate carry predictive information about one another.
+2. **Insulation.** After conditioning on the candidate state, exterior variables add comparatively limited predictive information about its immediate evolution.
+3. **Persistence.** The present candidate carries predictive structure into its future.
+4. **Transport.** When the physical organization moves, predictive structure can transfer into different measured coordinates.
 
-### Integration
+A dynamic program finds the globally maximizing path in the declared candidate family. A second calculation identifies the best competitor. Their objective difference drives robustness and recovery certificates.
 
-Internal parts of the candidate should carry predictive information about one another.
+The quantity called an `action margin` in the implementation is an optimization margin. It is not physical action in joule-seconds.
 
-Physical reading: the candidate contains coupled degrees of freedom participating in a common dynamical organization.
+---
 
-### Insulation
+# Why covariance certification became central
 
-Once the candidate's own state is known, outside variables should add comparatively limited predictive information about its immediate evolution.
+In the Gaussian model, the information factors entering integration, insulation, persistence, and transport are functions of covariance blocks.
 
-Physical reading: the candidate has some internal predictive closure without requiring physical isolation.
+If covariance is estimated badly, the score can be wrong and the recovered world-tube can be wrong. This creates a second problem underneath the boundary problem:
 
-### Persistence
+> **How accurately do finite, temporally correlated, drifting measurements determine the covariance geometry used by the moving-boundary objective?**
 
-The present candidate should carry predictive structure into its future.
-
-Physical reading: the organization is not a one-frame fluctuation.
-
-### Transport
-
-When the physical structure moves, predictive organization should transfer into the new coordinates representing it.
-
-Physical reading: identity of the organization need not be tied forever to the same sensors.
-
-A dynamic program finds the globally maximizing path in the declared candidate family. A second calculation identifies the best competitor. Their objective difference is used by the robustness theorems.
-
-The quantity called an `action margin` in the code is an optimization margin. It is not physical action in joule-seconds.
-
-## Why covariance certification became a major part of the project
-
-In the Gaussian model, the information quantities used in boundary scores are functions of covariance blocks.
-
-If covariance is estimated badly, then integration, insulation, persistence, transport, and ultimately the recovered boundary can also be wrong.
-
-This creates a second problem underneath the boundary problem:
-
-> **How accurately do finite, temporally correlated, drifting measurements determine the covariance geometry used by the observer-like objective?**
-
-A typical relative covariance guarantee has the form
+A typical relative covariance guarantee is
 
 \[
 \left\|
@@ -109,7 +88,7 @@ A typical relative covariance guarantee has the form
 \le\epsilon.
 \]
 
-The quantity \(\epsilon\) is statistical uncertainty under the stated model. It is not an energy, force, degree of consciousness, or physical phase variable.
+The quantity \(\epsilon\) is statistical uncertainty under the stated model. It is not an energy, force, degree of consciousness, or physical phase variable. The threshold \(\epsilon<1\) matters mathematically because inverse-covariance perturbation calculations remain in a controlled regime.
 
 ## Identifiability comes before interpretation
 
@@ -121,35 +100,33 @@ The standing rule is:
 
 > **Recovery is always relative to declared observables, model assumptions, candidate families, and admissible symmetries.**
 
-That rule matters for ordinary physical applications and becomes even more important for any later consciousness interpretation.
+That rule applies to ordinary physical applications and becomes even more important for any later consciousness interpretation.
 
 ---
 
 # How the proof program developed
 
-## Foundations, Propositions 1 through 14
+## Propositions 1 through 14: foundations and first recovery theory
 
-The first results establish covariance identities, information quantities, transport properties, path optimization, deterministic perturbation logic, finite-sample recovery, and identifiability limits.
+These results establish covariance identities, information quantities, transport properties, path optimization, deterministic perturbation logic, finite-sample recovery, and identifiability limits.
 
-## Structural compression, Propositions 15 through 31
+## Propositions 15 through 31: structural compression
 
-These results reduce the cost of robust path certification by exploiting near-competitor graphs, overlap classes, block sparsity, covariance influence cones, interval classes, structural residuals, and screened environmental structure.
+These results reduce robust path-certification cost by exploiting near-competitor graphs, overlap classes, block sparsity, covariance influence cones, interval classes, structural residuals, and screened environmental structure.
 
-## Statistical screening and drift, Propositions 32 through 40
+## Propositions 32 through 40: screening and population drift
 
-This layer introduces safe sample splitting, Gaussian screening, structural-null refinements, covariance-normalized concentration, reusable pilot geometry, and population-drift calibration.
+This layer introduces safe sample splitting, Gaussian screening, structural-null refinements, covariance-normalized concentration, reusable pilot geometry, and statistically calibrated population drift.
 
-## Temporally dependent measurements, Propositions 41 through 52
+## Propositions 41 through 52: temporally dependent measurements
 
-This layer addresses the physical fact that repeated measurements are temporally correlated and can contain deterministic nuisance trends.
+This layer addresses the fact that repeated measurements have temporal memory and can contain deterministic nuisance trends.
 
-The sequence moves from a known temporal covariance model to a calibrated continuum family that can be propagated into an independent target covariance certificate.
+The sequence moves from known temporal covariance to learned temporal uncertainty and finally to an independently calibrated continuum family that can be propagated into a target covariance theorem.
 
-## Sampling-consistent physical time, Proposition 53
+## Proposition 53: physical time and exact irregular-grid local structure
 
-This layer asks whether the temporal parameter survives a change in how the same physical process is sampled.
-
-Instead of treating the discrete AR(1) coefficient \(\phi\) as fundamental, Proposition 53 uses a physical relaxation time \(\tau\) for the exponential model:
+The discrete AR(1) coefficient depends on acquisition interval, so Proposition 53 parameterizes the exponential temporal model by a physical relaxation time \(\tau\):
 
 \[
 K_\tau(t,s)
@@ -157,7 +134,7 @@ K_\tau(t,s)
 \exp\left(-\frac{|t-s|}{\tau}\right).
 \]
 
-For uniform sampling interval \(\Delta t\),
+Under uniform sampling interval \(\Delta t\),
 
 \[
 \phi_{\Delta t}
@@ -165,155 +142,253 @@ For uniform sampling interval \(\Delta t\),
 \exp\left(-\frac{\Delta t}{\tau}\right).
 \]
 
-The discrete correlation changes when the acquisition interval changes. The declared physical relaxation time does not.
+The one-step correlation changes when the sampling interval changes; the declared physical relaxation time does not.
+
+For irregular adjacent gaps,
+
+\[
+\alpha_i
+=
+\exp\left(-\frac{t_{i+1}-t_i}{\tau}\right),
+\]
+
+and the model has the exact transition law
+
+\[
+X_{i+1}
+=
+\alpha_iX_i
++
+\sqrt{1-\alpha_i^2}\,\varepsilon_i.
+\]
+
+The same theorem gives an exact lower-bidiagonal innovation whitener and tridiagonal precision matrix:
+
+\[
+W_\tau R_\tau W_\tau^\mathsf T=I,
+\qquad
+R_\tau^{-1}=W_\tau^\mathsf T W_\tau.
+\]
+
+This exact local structure becomes decisive in Propositions 56 and 57.
 
 ---
 
-# The recent temporal and sampling sequence
+# The recent physical-time sequence
 
-## Proposition 41: temporal dependence changes effective information
+## Proposition 53B / Experiment AN: infer physical relaxation time directly
 
-The covariance radius depends on temporal Frobenius and spectral geometry rather than treating record length as an independent sample count.
+Proposition 53B uses the exact irregular-grid Gaussian innovation likelihood to construct a finite-sample continuum e-value confidence set for \(\tau\).
 
-Physical question: how much independent information is really contained in a record with memory?
+Experiment AN demonstrates direct physical-time inference on irregular timestamps, time-unit covariance, a certified finite outer cover, and independent target composition.
 
-## Proposition 42: mean removal changes normalization
+The remaining target covariance radius is `3.15549 > 1`, making the tightness problem visible rather than hiding it.
 
-Under temporal dependence, removing an unknown constant mean changes the quadratic form and its exact normalization.
+## Proposition 54 / Experiment AO: separate calibration and target resolution
 
-Physical question: how much fluctuation information remains after subtracting an unknown baseline?
+Proposition 54 separates the fine resolution used to certify the calibration continuum from the smaller cover propagated into the independent target theorem.
 
-## Proposition 43: estimate discrete AR(1) persistence
+The Experiment AN target radius improves from `3.15549` to `2.57207`, but remains above one.
 
-Increment energy produces an observable confidence interval for a shared nonnegative AR(1) coefficient.
-
-Physical question: can persistence be learned instead of assumed?
-
-## Propositions 44 through 46: nuisance structure and actual temporal geometry
-
-These propositions remove fixed time-varying nuisance subspaces, combine that projection with estimated temporal dependence, and replace a rank-only worst case with the actual declared nuisance geometry.
-
-[![Experiment AD](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
-
-[![Experiment AF](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
-
-## Propositions 47 through 49: direct matrix concentration over temporal families
-
-The earlier directional reduction is replaced by direct Gaussian matrix concentration using the full projected temporal spectrum, then extended from one known temporal covariance to compact temporal families.
-
-[![Experiment AG](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
-
-[![Experiment AI](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
-
-## Propositions 50 through 52: learn temporal uncertainty and carry it into a target record
-
-Proposition 50 builds a conservative two-parameter calibration region. Proposition 51 uses the complete residual likelihood to form a finite-sample continuum e-value confidence set. Proposition 52 certifies a finite outer cover of that continuum set and propagates it into an independent target covariance theorem.
-
-[![Experiment AK](evalue_temporal_confidence_set.svg)](proposition_51_evalue_temporal_confidence_set.md)
-
-[![Experiment AL](certified_evalue_outer_cover.svg)](proposition_52_certified_evalue_outer_cover.md)
-
-For Experiment AL the final target relative covariance radius is
-
-\[
-0.8998157009696983<1
-\]
-
-with combined confidence lower bound
-
-\[
-0.975^2=0.950625.
-\]
-
-The physical meaning is that every temporal-memory model still compatible with calibration is carried into the target covariance uncertainty rather than replacing calibration uncertainty by one fitted parameter.
-
-## Proposition 53: make the timescale physical
-
-[![Experiment AM](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md)
-
-Experiment AM uses one controlled relaxation time,
-
-\[
-\tau=0.8\ \mathrm{s},
-\]
-
-and samples the same exponential model at 40 Hz, 20 Hz, 10 Hz, 5 Hz, and 2.5 Hz.
-
-The one-step correlations range from about `0.9692` to `0.6065`, yet every value maps back to the same \(0.8\) s relaxation time.
-
-The exact coarse-sampling identity is
-
-\[
-\phi_{k\Delta t}=\phi_{\Delta t}^k.
-\]
-
-The theorem also supports irregular timestamps and proves an operator-Lipschitz continuum bound over a declared \(\tau\)-interval. This lets a physical relaxation-time family enter Proposition 49 directly.
-
-The important hierarchy is now explicit:
-
-\[
-\boxed{
-\text{physical timescale }\tau
-\longrightarrow
-\text{sampling schedule}
-\longrightarrow
-\text{discrete covariance representation}
-}
-\]
-
-rather than treating a sample-index coefficient as if it were automatically an intrinsic physical constant.
-
-## Propositions 54 and 55: separate calibration resolution, then use local curvature
-
-[![Experiment AO](two_scale_irregular_tau_cover.svg)](proposition_54_two_scale_irregular_tau_cover.md)
+## Proposition 55 / Experiment AP: use local likelihood curvature
 
 [![Experiment AP](quadratic_relaxation_calibration.svg)](proposition_55_quadratic_relaxation_calibration.md)
 
-Proposition 54 separates the fine grid needed to certify the continuum calibration set from the smaller target covariance cover. Proposition 55 then uses the exact observed-data e-value slope and a rigorous local curvature bound to tighten the calibration enclosure itself.
+Proposition 55 uses the exact observed-data log-evalue slope plus a rigorous cell-local second-derivative bound to tighten the finite-sample physical-time outer cover without spending an additional probability budget.
 
-At 160 calibration cells, the certified physical-time width falls from `0.6109375 s` to `0.1646875 s`. The target covariance radius improves to `2.4148799294`.
+At 160 calibration cells, the retained hull becomes
 
-The known-tau oracle radius is still `2.1672468952 > 1`. This identifies the next bottleneck: target covariance concentration rather than calibration uncertainty.
+\[
+\boxed{
+[0.686875,0.8515625]\ \mathrm{s}
+}
+\]
+
+with width `0.1646875 s`, about 73% narrower than the corresponding first-order enclosure.
+
+The target covariance radius improves to
+
+\[
+2.4148799294.
+\]
+
+But an intentionally unrealistic known-\(\tau\) oracle still gives
+
+\[
+2.1672468952>1.
+\]
+
+That negative diagnostic is important: calibration uncertainty is no longer the dominant bottleneck on this benchmark. Improving calibration alone cannot cross the perturbative threshold.
+
+## Proposition 56 / Experiment AQ: change the target representation
+
+[![Experiment AQ](innovation_whitened_target.svg)](proposition_56_innovation_whitened_target.md)
+
+Proposition 56 uses the exact Proposition 53 innovation coordinates before nuisance fitting and target covariance concentration.
+
+For
+
+\[
+Y=HB+E,
+\qquad
+\operatorname{vec}(E)\sim\mathcal N(0,R_\tau\otimes\Gamma),
+\]
+
+with exact \(\tau\), define
+
+\[
+Z=W_\tau Y,
+\qquad
+G=W_\tau H,
+\]
+
+and residualize with
+
+\[
+P_G=I-G(G^\mathsf TG)^{-1}G^\mathsf T.
+\]
+
+Then
+
+\[
+\widehat\Gamma_{\mathrm{IW}}
+=
+\frac{1}{N-q}Z^\mathsf TP_GZ
+\]
+
+satisfies
+
+\[
+\boxed{
+(N-q)\widehat\Gamma_{\mathrm{IW}}
+\sim\operatorname{Wishart}_d(\Gamma,N-q).
+}
+\]
+
+For the controlled target, \(N=120\), \(q=2\), so the target contains exactly 118 residual Gaussian innovation degrees of freedom.
+
+The radius changes from the old known-\(\tau\) raw-time oracle
+
+\[
+2.1672468952
+\]
+
+to
+
+\[
+\boxed{0.4364443814<1}.
+\]
+
+The approximately 79.86% reduction comes from changing the statistical representation before concentration, not from another calibration refinement.
+
+The remaining limitation is exact knowledge of target \(\tau\).
+
+## Proposition 57 / Experiment AR: retain the innovation advantage under calibrated tau uncertainty
+
+[![Experiment AR](robust_innovation_whitened_target.svg)](proposition_57_robust_innovation_whitening.md)
+
+Proposition 57 removes the exact-target-\(\tau\) assumption on the same controlled benchmark.
+
+Starting from the independently calibrated Proposition 55 interval
+
+\[
+\tau\in[0.686875,0.8515625]\ \mathrm{s},
+\]
+
+choose one working relaxation time
+
+\[
+\tau_0=0.76921875\ \mathrm{s}
+\]
+
+and let \(W_0\) be its exact Proposition 53 whitener.
+
+For every admissible true \(\tau\), the target covariance in working innovation coordinates is
+
+\[
+C_\tau=W_0R_\tau W_0^\mathsf T.
+\]
+
+The Proposition 53 operator-Lipschitz envelope gives
+
+\[
+\|C_\tau-C_{\tau'}\|_2
+\le
+\|W_0\|_2^2L_R|\tau-\tau'|.
+\]
+
+A deterministic finite cover of this transformed family, together with Weyl control and a conservative projected-normalization envelope, feeds directly into Proposition 49 matrix concentration.
+
+The resulting uniform target covariance radius is
+
+\[
+\boxed{
+\varepsilon_{57}=0.8677117535<1.
+}
+\]
+
+Calibration and target confidence are each `0.975`, giving combined confidence lower bound
+
+\[
+\boxed{0.950625}.
+\]
+
+The comparison on the same target schedule is:
+
+| Target representation | Physical-time information | Relative covariance radius |
+| --- | --- | ---: |
+| Proposition 55 raw-time target | finite-sample calibrated interval | 2.41488 |
+| Proposition 55 raw-time oracle | exact true tau | 2.16725 |
+| Proposition 56 innovation target | exact true tau | 0.43647 |
+| **Proposition 57 robust innovation target** | **finite-sample calibrated interval** | **0.86771** |
+
+Thus the price of physical-time uncertainty is explicit rather than ignored. The radius grows relative to the exact-\(\tau\) theorem, but remains below one and is about 64.1% smaller than the calibrated raw-time theorem.
 
 ---
 
 # What the project now establishes
 
-Under its stated assumptions, the repository provides a conditional mathematical pipeline from nonstationary Gaussian measurements to moving-boundary optimization and finite-sample recovery certification.
+Under its stated assumptions, the repository provides a conditional mathematical pipeline from measured stochastic dynamics to moving-boundary optimization and finite-sample recovery certification.
 
-The current statistical and physical-accountability layers can handle:
+The current statistical and physical-accountability layers include:
 
 - temporally dependent Gaussian sampling;
 - unknown constant and fixed-subspace nuisance means;
 - estimated temporal persistence;
-- actual nuisance-design geometry;
+- design-specific nuisance geometry;
 - direct matrix concentration using the full projected temporal spectrum;
 - compact multi-parameter temporal covariance families;
-- independently calibrated temporal uncertainty;
-- a finite-sample continuum confidence set from the full residual likelihood;
-- a certified finite outer cover of that continuum set;
-- independent-target covariance certification over the complete retained temporal family;
-- a physical relaxation-time representation for the exponential kernel;
-- uniform, coarse, and irregular sampling schedules;
-- invariance under a change of time units;
-- a certified continuum cover over a declared physical \(\tau\)-interval.
+- finite-sample continuum e-value calibration;
+- certified outer covers propagated to independent target records;
+- sampling-consistent physical relaxation time;
+- exact irregular-grid Markov factorization and innovation whitening;
+- exact known-\(\tau\) innovation-whitened target covariance concentration;
+- uniform robust innovation-whitened covariance concentration over a finite-sample calibrated \(\tau\)-interval.
 
-## What remains open
+These are mathematical statements conditional on declared models. They do not by themselves validate those models for a real physical system.
 
-The current theory still depends on explicit model assumptions, including Gaussian calibration where invoked, a correct declared temporal family, target separability, fixed nuisance structure, and a declared candidate family.
+## Why negative results remain part of the record
 
-The next temporal frontier is to move beyond one exponential relaxation time toward richer kernels or spectral-density families while preserving finite-sample calibration and transparent physical units.
+The project deliberately keeps impossibility results, failed parameter regimes, conservative bounds, and model diagnostics visible.
 
-The next representation frontier is sensor-coordinate geometry: determine which observer-like conclusions survive invertible sensor transformations, which transformations preserve the meaning of a boundary, and how coarse graining or spatial resolution changes the candidate family.
+Experiment AP's known-\(\tau\) radius `2.16725 > 1` was not a failure to hide. It identified the wrong target representation and directly motivated Proposition 56.
 
-The structural frontier remains intervention-sensitive observer quantities and impossibility theorems for distinctions that passive measurements cannot identify.
+Proposition 57 also records its remaining conservatism: pointwise diagnostic radii on Experiment AR are roughly `0.404` to `0.580`, while the uniform theorem reports `0.86771`. The gap identifies where a sharper transformed-family normalization theorem could improve the certificate without changing the estimator.
 
-Any consciousness interpretation remains a separate bridge problem under the [Interpretation Protocol](interpretation_protocol.md). It is not a hidden consequence of observer notation.
+---
 
-## Why negative results matter
+# Current frontiers
 
-The project keeps impossibility results, failed parameter regimes, conservative bounds, and model diagnostics visible. A theorem describing what cannot be identified can be more useful than a broad positive claim because it tells us which additional observables, interventions, or assumptions are mathematically necessary.
+The immediate conceptual frontier returns to the original moving-boundary problem:
 
-## Proposition 55 oracle bottleneck
+> **Can the certified post-whitening covariance uncertainty be propagated through integration, insulation, persistence, transport, and world-tube path recovery without discarding its structure in an unnecessarily large generic bound?**
 
-Experiment AP includes a known-tau diagnostic that removes temporal calibration uncertainty completely. The current target concentration theorem still gives relative radius `2.1672468952 > 1`. This is a negative but actionable result: further calibration refinement alone cannot solve this target benchmark. The next theorem should attack the target concentration layer or derive explicit information requirements for entering the `epsilon < 1` regime.
+A parallel statistical frontier is to tighten Proposition 57's conservative projected-normalization envelope using the actual transformed nuisance geometry.
+
+The physical-model frontier is to move beyond one stationary exponential relaxation time toward richer kernels or spectral-density families while preserving finite-sample calibration, explicit physical units, and falsifiability.
+
+The representation frontier remains sensor-coordinate geometry, spatial coarse graining, and intervention-sensitive identifiability.
+
+Any future consciousness interpretation remains a separate bridge problem under the [Interpretation Protocol](interpretation_protocol.md). It is not a hidden consequence of observer notation or covariance certification.
+
+For the complete audit trail, see the [Research Index](research_index.md), [Assumption Ledger](assumption_ledger.md), [Bibliography and Citation Map](bibliography.md), and [0.46.0 Research Record](release_0_46.md).
