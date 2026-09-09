@@ -178,6 +178,11 @@ from .relaxation_curvature import (
     gaussian_irregular_relaxation_log_evalue_second_derivative_bound,
     gaussian_irregular_relaxation_quadratic_outer_cover,
 )
+from .robust_innovation_whitening import (
+    GaussianRobustInnovationWhitenedMatrixChernoffBound,
+    gaussian_robust_innovation_whitened_matrix_chernoff_bound,
+    separable_gaussian_robust_innovation_whitened_covariance,
+)
 from .sampling import (
     adjacent_sample_covariances,
     regularized_sample_covariance,
@@ -264,6 +269,7 @@ __all__ = [
     "GaussianPathRecoveryBound",
     "GaussianProjectedTemporalEnvelope",
     "GaussianRelativeNearCompetitorScreen",
+    "GaussianRobustInnovationWhitenedMatrixChernoffBound",
     "GaussianSafeNearCompetitorScreen",
     "GaussianTemporalCorrelationEnvelope",
     "GaussianWeightedWishartMatrixBound",
@@ -360,6 +366,7 @@ __all__ = [
     "gaussian_relative_null_cmi_covariance_error_bound",
     "gaussian_relative_null_integration_factor_error_bound",
     "gaussian_relative_structural_null_near_competitor_screen",
+    "gaussian_robust_innovation_whitened_matrix_chernoff_bound",
     "gaussian_safe_near_competitor_screen",
     "gaussian_structural_null_near_competitor_screen",
     "gaussian_weighted_wishart_matrix_bound",
@@ -399,6 +406,7 @@ __all__ = [
     "separable_gaussian_estimated_ar1_projected_covariance",
     "separable_gaussian_innovation_whitened_covariance",
     "separable_gaussian_projected_covariance",
+    "separable_gaussian_robust_innovation_whitened_covariance",
     "simulate_gaussian_ensemble",
     "structural_transport",
     "structured_residual_class_path_recovery_bound",
