@@ -260,7 +260,7 @@ For a manuscript that uses a specific theorem, experiment, or implementation fro
 
 A minimal repository citation is:
 
-> Mahsa Keikha. _Spatiotemporal Observer Mathematics_. Version 0.41.0. 2026. https://github.com/MahsaKeikha/spatiotemporal-observer-math
+> Mahsa Keikha. _Spatiotemporal Observer Mathematics_. Version 0.41.1. 2026. https://github.com/MahsaKeikha/spatiotemporal-observer-math
 
 If discussing the conceptual origin of the project, cite Tegmark 2015 explicitly in addition to the repository.
 
