@@ -114,12 +114,13 @@ def build_svg(record: dict[str, object]) -> str:
     gauge_y = bottom + 120
     gauge_w = 440
     gauge_scale = 0.48
+
     def gx(value: float) -> float:
         return gauge_x + gauge_w * value / gauge_scale
 
     parts += [
         _text(left + 22, bottom + 32, "C. Seeded scalar visibility check", "ptitle"),
-        _text(left + 22, bottom + 62, f"512 / 512 recorded errors lie below the Proposition 56 radius", "label"),
+        _text(left + 22, bottom + 62, "512 / 512 recorded errors lie below the Proposition 56 radius", "label"),
         f'<line x1="{gauge_x}" y1="{gauge_y}" x2="{gauge_x+gauge_w}" y2="{gauge_y}" class="axis" />',
         _rect(gauge_x, gauge_y - 18, gx(median) - gauge_x, 16, "good", rx=3),
         f'<line x1="{gx(q95)}" y1="{gauge_y-32}" x2="{gx(q95)}" y2="{gauge_y+12}" class="axis" />',
@@ -154,7 +155,7 @@ def build_svg(record: dict[str, object]) -> str:
             parts.append(_rect(mx2 + (i - 1) * cell, my + i * cell, 12, 12, "matrix2", rx=1))
             parts.append(_rect(mx2 + i * cell, my + (i - 1) * cell, 12, 12, "matrix2", rx=1))
     parts += [
-        _text(right + 22, bottom + 234, f"239 nonzeros in W_tau; 358 in the 120 x 120 precision matrix", "small"),
+        _text(right + 22, bottom + 234, "239 nonzeros in W_tau; 358 in the 120 x 120 precision matrix", "small"),
         _text(right + 22, bottom + 257, f"whitening identity operator error {float(white['whitening_identity_operator_error']):.2e}", "small"),
         _text(right + 22, bottom + 278, "The predictable temporal step is removed locally before nuisance fitting and covariance estimation.", "small"),
         "</svg>",
