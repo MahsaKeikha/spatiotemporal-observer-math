@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="940" viewBox="0 0 1400 940">
+<rect width="1400" height="940" fill="#0d1117"/>
+<text x="64" y="70" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="750" fill="#e6edf3">Experiment AQ | Innovation-whitened target covariance</text>
+<text x="64" y="105" font-family="Inter,Arial,sans-serif" font-size="19" fill="#9da7b3">Exact temporal whitening exposes independent innovations before nuisance projection.</text>
+<rect x="55" y="145" width="635" height="330" rx="18" fill="#111820" stroke="#30363d" stroke-width="2"/>
+<text x="83" y="187" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="650" fill="#e6edf3">A. Same target, different covariance certificate</text>
+<text x="90" y="197" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Raw-space known-tau theorem</text>
+<rect x="90" y="205" width="410" height="24" rx="7" fill="#202a35"/>
+<rect x="90" y="205" width="378.10" height="24" rx="7" fill="#58a6ff"/>
+<text x="518" y="225" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="650" fill="#e6edf3">2.167</text>
+<text x="90" y="253" font-family="Inter,Arial,sans-serif" font-size="14" fill="#9da7b3">Existing P49 oracle geometry</text>
+<text x="90" y="292" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Whitened matrix certificate</text>
+<rect x="90" y="300" width="410" height="24" rx="7" fill="#202a35"/>
+<rect x="90" y="300" width="76.14" height="24" rx="7" fill="#58a6ff"/>
+<text x="518" y="320" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="650" fill="#e6edf3">0.436</text>
+<text x="90" y="348" font-family="Inter,Arial,sans-serif" font-size="14" fill="#9da7b3">Ordinary Wishart after exact whitening</text>
+<text x="90" y="387" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Whitened exact scalar</text>
+<rect x="90" y="395" width="410" height="24" rx="7" fill="#202a35"/>
+<rect x="90" y="395" width="54.82" height="24" rx="7" fill="#58a6ff"/>
+<text x="518" y="415" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="650" fill="#e6edf3">0.314</text>
+<text x="90" y="443" font-family="Inter,Arial,sans-serif" font-size="14" fill="#9da7b3">Exact chi-square law for p = 1</text>
+<line x1="264.47" y1="190" x2="264.47" y2="445" stroke="#f2cc60" stroke-width="3" stroke-dasharray="8 7"/>
+<text x="272.468085106383" y="458" font-family="Inter,Arial,sans-serif" font-size="14" fill="#9da7b3">relative-error threshold = 1</text>
+<rect x="710" y="145" width="635" height="330" rx="18" fill="#111820" stroke="#30363d" stroke-width="2"/>
+<text x="738" y="187" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="650" fill="#e6edf3">B. Temporal information exposed by whitening</text>
+<text x="750" y="215" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Raw projected normalization lower bound</text>
+<rect x="750" y="232" width="445" height="34" rx="8" fill="#202a35"/>
+<rect x="750" y="232" width="312.77" height="34" rx="8" fill="#8b949e"/>
+<text x="1215" y="258" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="650" fill="#e6edf3">84.34</text>
+<text x="750" y="315" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Independent residual degrees after W then P_WH</text>
+<rect x="750" y="332" width="445" height="34" rx="8" fill="#202a35"/>
+<rect x="750" y="332" width="437.58" height="34" rx="8" fill="#3fb950"/>
+<text x="1215" y="358" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="650" fill="#e6edf3">118</text>
+<text x="750" y="415" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">N = 120, nuisance rank q = 2, so N - q = 118</text>
+<text x="750" y="444" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Whitening changes coordinates. It does not create observations.</text>
+<rect x="55" y="500" width="635" height="365" rx="18" fill="#111820" stroke="#30363d" stroke-width="2"/>
+<text x="83" y="542" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="650" fill="#e6edf3">C. 256 target visibility trials</text>
+<text x="95" y="570" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="600" fill="#e6edf3">Median absolute relative error   0.077</text>
+<text x="95" y="615" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="600" fill="#e6edf3">95th percentile                  0.232</text>
+<text x="95" y="660" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="600" fill="#e6edf3">Maximum                           0.374</text>
+<text x="95" y="715" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="600" fill="#e6edf3">Exact interval coverage           98.44%</text>
+<text x="95" y="755" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">252 / 256 displayed trials inside the exact 97.5% interval</text>
+<text x="95" y="795" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Maximum nuisance invariance error: 4.66e-15</text>
+<text x="95" y="830" font-family="Inter,Arial,sans-serif" font-size="15" fill="#9da7b3">Trials illustrate scale. The theorem comes from the exact Wishart law.</text>
+<rect x="710" y="500" width="635" height="365" rx="18" fill="#111820" stroke="#30363d" stroke-width="2"/>
+<text x="738" y="542" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="650" fill="#e6edf3">D. Physical inference pipeline</text>
+<rect x="750" y="533" width="535" height="43" rx="10" fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>
+<text x="768" y="561" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="550" fill="#e6edf3">temporally dependent target X</text>
+<line x1="1018" y1="577" x2="1018" y2="592" stroke="#9da7b3" stroke-width="2"/>
+<path d="M1012 587 L1018 594 L1024 587" fill="none" stroke="#9da7b3" stroke-width="2"/>
+<rect x="750" y="593" width="535" height="43" rx="10" fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>
+<text x="768" y="621" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="550" fill="#e6edf3">apply exact physical-time whitener W</text>
+<line x1="1018" y1="637" x2="1018" y2="652" stroke="#9da7b3" stroke-width="2"/>
+<path d="M1012 647 L1018 654 L1024 647" fill="none" stroke="#9da7b3" stroke-width="2"/>
+<rect x="750" y="653" width="535" height="43" rx="10" fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>
+<text x="768" y="681" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="550" fill="#e6edf3">transform nuisance design H to W H</text>
+<line x1="1018" y1="697" x2="1018" y2="712" stroke="#9da7b3" stroke-width="2"/>
+<path d="M1012 707 L1018 714 L1024 707" fill="none" stroke="#9da7b3" stroke-width="2"/>
+<rect x="750" y="713" width="535" height="43" rx="10" fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>
+<text x="768" y="741" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="550" fill="#e6edf3">project transformed nuisance modes</text>
+<line x1="1018" y1="757" x2="1018" y2="772" stroke="#9da7b3" stroke-width="2"/>
+<path d="M1012 767 L1018 774 L1024 767" fill="none" stroke="#9da7b3" stroke-width="2"/>
+<rect x="750" y="773" width="535" height="43" rx="10" fill="#16202a" stroke="#58a6ff" stroke-width="1.5"/>
+<text x="768" y="801" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="550" fill="#e6edf3">118 iid Gaussian residual rows -&gt; Wishart</text>
+<text x="64" y="910" font-family="Inter,Arial,sans-serif" font-size="16" fill="#9da7b3">Scope: exact target temporal covariance is assumed known. Robust whitening under temporal uncertainty is a separate theorem.</text>
+</svg>
