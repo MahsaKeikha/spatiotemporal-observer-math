@@ -1,3 +1,7 @@
+## 0.44.0
+
+Proposition 55 / Experiment AP replaces the first-order calibration enclosure by an exact local log-evalue slope plus a rigorous cell-local curvature certificate. At 160 cells the certified tau width contracts by about `73.0%`, and the target radius improves to `2.41488`. A known-tau oracle radius of `2.16725 > 1` shows that target covariance concentration, not calibration uncertainty, is now the dominant bottleneck. See [release record](release_0_44.md).
+
 ## 0.43.0
 
 Proposition 54 / Experiment AO separates fine irregular-time calibration certification from target temporal-cover resolution. The exact AN benchmark radius decreases from `3.15549` to `2.57207` but remains above the perturbative threshold one. See [release record](release_0_43.md).

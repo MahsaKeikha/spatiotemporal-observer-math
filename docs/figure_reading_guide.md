@@ -418,6 +418,22 @@ It does not show that every physical system has one exponential relaxation time.
 
 ---
 
+# Proposition 55, Experiment AP
+
+Figure: `quadratic_relaxation_calibration.svg`
+
+**Panel A** compares certified physical-time width under the first-order and quadratic calibration enclosures. The shrinking orange curve means the deterministic representation of the same finite-sample confidence set is tighter. It does not mean the physical process changed.
+
+**Panel B** shows the declared interval, the first-order retained interval, the quadratic retained interval, and the controlled true relaxation time. The interval is a confidence enclosure for a model parameter measured in seconds.
+
+**Panel C** compares downstream target covariance theorem radii. The line at one is a mathematical perturbation threshold, not a physical phase transition.
+
+**Panel D** highlights the key negative diagnostic: even exact knowledge of tau leaves the current target theorem at radius about `2.167`. Therefore calibration uncertainty is no longer the dominant bottleneck on this benchmark.
+
+The figure does not measure energy, consciousness, integration, or physical organization directly.
+
+---
+
 # How to read any future figure
 
 Before interpreting a chart, ask five questions.

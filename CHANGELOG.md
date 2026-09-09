@@ -7,6 +7,14 @@
 
 # Changelog
 
+## 0.44.0
+
+- Added Proposition 55, a quadratic finite-sample outer cover for irregular-time physical relaxation calibration using exact local log-evalue slope and a rigorous cell-local curvature bound.
+- Added Experiment AP and a deterministic visible SVG comparing first-order versus quadratic calibration, the target-radius ladder, and the known-tau oracle floor.
+- Added a known-tau diagnostic showing the current target concentration theorem remains at relative radius `2.1672468952 > 1`, so calibration refinement alone cannot close this benchmark.
+- Added public API exports, proof documentation, assumptions, figure interpretation, machine-readable results, and exact figure reproducibility testing.
+- Updated the intended release record to 55 propositions, 42 experiments, 30 scientific-result figures, and 206 claim-level tests.
+
 
 ## 0.42.0 : 2026-09-08
 

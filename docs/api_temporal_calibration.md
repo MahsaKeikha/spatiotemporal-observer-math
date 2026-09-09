@@ -405,3 +405,22 @@ Public result types:
 - `GaussianOptimizedIrregularRelaxationTwoScaleTargetBound`
 
 The first function certifies a fine calibration outer cover and then covers its retained physical-time interval with a separately chosen target grid. The second selects the target grid size from a declared candidate set using calibration-derived geometry and target design information only. No target observations are used for that selection.
+
+## Proposition 55: quadratic relaxation calibration
+
+Public package-root imports:
+
+```python
+from observer_math import (
+    GaussianIrregularRelaxationQuadraticOuterCover,
+    GaussianIrregularRelaxationQuadraticTargetBound,
+    gaussian_irregular_relaxation_log_evalue_derivative,
+    gaussian_irregular_relaxation_log_evalue_second_derivative_bound,
+    gaussian_irregular_relaxation_quadratic_outer_cover,
+    gaussian_irregular_relaxation_quadratic_target_bound,
+)
+```
+
+The quadratic outer cover is a deterministic enclosure of the already valid Proposition 53B continuum e-value set. It uses the exact observed-data derivative at each cell center and a rigorous cell-local second-derivative bound. It does not consume an additional probability budget.
+
+The quadratic target helper composes the retained interval with the existing target covariance machinery. Experiment AP shows that this improves the target radius but does not remove the known-tau oracle floor of the current concentration theorem.

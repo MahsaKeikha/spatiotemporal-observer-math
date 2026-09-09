@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860">
+<rect width="1200" height="860" fill="#0d1117"/>
+<text x="60" y="55" fill="#e6edf3" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Proposition 55 | Experiment AP</text>
+<text x="60" y="84" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="16">Quadratic finite-sample relaxation calibration and the target-concentration bottleneck</text>
+<rect x="50" y="115" width="535" height="300" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+<rect x="615" y="115" width="535" height="300" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+<rect x="50" y="445" width="535" height="350" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+<rect x="615" y="445" width="535" height="350" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+<text x="75" y="150" fill="#e6edf3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">A. Certified interval width</text>
+<text x="75" y="174" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="13">Same finite-sample confidence, tighter deterministic enclosure</text>
+<line x1="105" y1="360" x2="535" y2="360" stroke="#30363d"/>
+<line x1="105" y1="205" x2="105" y2="360" stroke="#30363d"/>
+<text x="105.0" y="382" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">40</text>
+<text x="212.5" y="382" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">80</text>
+<text x="320.0" y="382" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">160</text>
+<text x="427.5" y="382" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">320</text>
+<text x="535.0" y="382" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">640</text>
+<line x1="100" y1="360.0" x2="105" y2="360.0" stroke="#30363d"/>
+<text x="95" y="364.0" text-anchor="end" fill="#8b949e" font-family="Arial" font-size="11">0.0</text>
+<line x1="100" y1="308.3333333333333" x2="105" y2="308.3333333333333" stroke="#30363d"/>
+<text x="95" y="312.3333333333333" text-anchor="end" fill="#8b949e" font-family="Arial" font-size="11">0.3</text>
+<line x1="100" y1="256.6666666666667" x2="105" y2="256.6666666666667" stroke="#30363d"/>
+<text x="95" y="260.6666666666667" text-anchor="end" fill="#8b949e" font-family="Arial" font-size="11">0.6</text>
+<line x1="100" y1="205.0" x2="105" y2="205.0" stroke="#30363d"/>
+<text x="95" y="209.0" text-anchor="end" fill="#8b949e" font-family="Arial" font-size="11">0.9</text>
+<polyline points="105.0,213.6 212.5,213.6 320.0,254.8 427.5,283.6 535.0,302.8" fill="none" stroke="#58a6ff" stroke-width="3"/>
+<polyline points="105.0,316.1 212.5,327.1 320.0,331.6 427.5,333.0 535.0,333.5" fill="none" stroke="#f0883e" stroke-width="3"/>
+<circle cx="105.0" cy="213.61111111111111" r="4" fill="#58a6ff"/>
+<circle cx="105.0" cy="316.08333333333337" r="4" fill="#f0883e"/>
+<circle cx="212.5" cy="213.61111111111111" r="4" fill="#58a6ff"/>
+<circle cx="212.5" cy="327.0625" r="4" fill="#f0883e"/>
+<circle cx="320.0" cy="254.78298611111114" r="4" fill="#58a6ff"/>
+<circle cx="320.0" cy="331.63715277777777" r="4" fill="#f0883e"/>
+<circle cx="427.5" cy="283.6032986111111" r="4" fill="#58a6ff"/>
+<circle cx="427.5" cy="333.0095486111111" r="4" fill="#f0883e"/>
+<circle cx="535.0" cy="302.81684027777777" r="4" fill="#58a6ff"/>
+<circle cx="535.0" cy="333.4670138888889" r="4" fill="#f0883e"/>
+<text x="325" y="397" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="12">calibration cells</text>
+<rect x="355" y="188" width="12" height="3" fill="#58a6ff"/><text x="373" y="193" fill="#8b949e" font-family="Arial" font-size="11">first-order</text>
+<rect x="447" y="188" width="12" height="3" fill="#f0883e"/><text x="465" y="193" fill="#8b949e" font-family="Arial" font-size="11">quadratic</text>
+<text x="640" y="150" fill="#e6edf3" font-family="Arial" font-size="20" font-weight="700">B. Physical-time interval at 160 cells</text>
+<text x="640" y="174" fill="#8b949e" font-family="Arial" font-size="13">Seconds, with the controlled true value shown as a marker</text>
+<text x="640" y="230" fill="#e6edf3" font-family="Arial" font-size="13">declared</text>
+<line x1="680.0" y1="225" x2="1105.0" y2="225" stroke="#8b949e" stroke-width="12" stroke-linecap="round"/>
+<text x="680.0" y="250" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">0.400</text>
+<text x="1105.0" y="250" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">1.250</text>
+<text x="640" y="290" fill="#e6edf3" font-family="Arial" font-size="13">first-order</text>
+<line x1="727.8125" y1="285" x2="1033.28125" y2="285" stroke="#58a6ff" stroke-width="12" stroke-linecap="round"/>
+<text x="727.8125" y="310" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">0.496</text>
+<text x="1033.28125" y="310" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">1.107</text>
+<text x="640" y="350" fill="#e6edf3" font-family="Arial" font-size="13">quadratic</text>
+<line x1="823.4375" y1="345" x2="905.78125" y2="345" stroke="#f0883e" stroke-width="12" stroke-linecap="round"/>
+<text x="823.4375" y="370" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">0.687</text>
+<text x="905.78125" y="370" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="10">0.852</text>
+<line x1="870.0" y1="195" x2="870.0" y2="370" stroke="#3fb950" stroke-width="2" stroke-dasharray="5 5"/>
+<text x="876.0" y="205" fill="#3fb950" font-family="Arial" font-size="12">true τ = 0.78 s</text>
+<text x="900" y="397" text-anchor="middle" fill="#f0883e" font-family="Arial" font-size="13" font-weight="700">73.0% width contraction at equal cell count</text>
+<text x="75" y="480" fill="#e6edf3" font-family="Arial" font-size="20" font-weight="700">C. Downstream target covariance radius</text>
+<text x="75" y="504" fill="#8b949e" font-family="Arial" font-size="13">Smaller is tighter. The horizontal line at 1 is a mathematical usability threshold.</text>
+<line x1="90" y1="689.1" x2="550" y2="689.1" stroke="#f85149" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="548" y="683.1" text-anchor="end" fill="#f85149" font-family="Arial" font-size="11">ε = 1</text>
+<rect x="110" y="568.7" width="70" height="176.3" rx="5" fill="#58a6ff" opacity="0.88"/>
+<text x="145" y="560.7" text-anchor="middle" fill="#e6edf3" font-family="Arial" font-size="12" font-weight="700">3.155</text>
+<text x="145" y="767" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="11">P53B</text>
+<rect x="210" y="601.3" width="70" height="143.7" rx="5" fill="#bc8cff" opacity="0.88"/>
+<text x="245" y="593.3" text-anchor="middle" fill="#e6edf3" font-family="Arial" font-size="12" font-weight="700">2.572</text>
+<text x="245" y="767" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="11">P54</text>
+<rect x="310" y="610.1" width="70" height="134.9" rx="5" fill="#f0883e" opacity="0.88"/>
+<text x="345" y="602.1" text-anchor="middle" fill="#e6edf3" font-family="Arial" font-size="12" font-weight="700">2.415</text>
+<text x="345" y="767" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="11">P55</text>
+<rect x="410" y="623.9" width="70" height="121.1" rx="5" fill="#3fb950" opacity="0.88"/>
+<text x="445" y="615.9" text-anchor="middle" fill="#e6edf3" font-family="Arial" font-size="12" font-weight="700">2.167</text>
+<text x="445" y="767" text-anchor="middle" fill="#8b949e" font-family="Arial" font-size="11">known-τ oracle</text>
+<text x="640" y="480" fill="#e6edf3" font-family="Arial" font-size="20" font-weight="700">D. What Experiment AP changes</text>
+<text x="650" y="525" fill="#3fb950" font-family="Arial" font-size="16" font-weight="700">Calibration geometry is now much tighter.</text>
+<text x="650" y="554" fill="#e6edf3" font-family="Arial" font-size="14">Quadratic cell certificates use exact local slope plus a rigorous</text>
+<text x="650" y="576" fill="#e6edf3" font-family="Arial" font-size="14">second-order remainder. They do not spend extra probability budget.</text>
+<text x="650" y="620" fill="#f0883e" font-family="Arial" font-size="16" font-weight="700">But calibration is no longer the dominant bottleneck.</text>
+<text x="650" y="649" fill="#e6edf3" font-family="Arial" font-size="14">Even if τ were known exactly, the current target theorem gives</text>
+<text x="650" y="676" fill="#e6edf3" font-family="Arial" font-size="24" font-weight="700">εoracle = 2.167 &gt; 1</text>
+<text x="650" y="716" fill="#8b949e" font-family="Arial" font-size="13">Next proof target: sharpen target covariance concentration or increase</text>
+<text x="650" y="738" fill="#8b949e" font-family="Arial" font-size="13">effective target information. More calibration alone cannot close this benchmark.</text>
+<text x="650" y="775" fill="#8b949e" font-family="Arial" font-size="11">These are theorem radii under the declared Gaussian exponential-relaxation model.</text>
+</svg>

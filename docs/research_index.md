@@ -8,11 +8,11 @@ A numerical experiment is not presented as a proof. A theorem is not presented a
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **53** |
-| Reproducible experiments | **39, A-Z and AA-AM** |
-| Scientific result figures | **27** |
-| Claim-level tests | **188** |
-| Research-software version | **0.41.1** |
+| Propositions | **55** |
+| Reproducible experiments | **42, A-Z and AA-AP** |
+| Scientific result figures | **30** |
+| Claim-level tests | **206** |
+| Research-software version | **0.44.0** |
 
 The physics pipeline is an explanatory diagram and is not included in the scientific-result figure count.
 
@@ -231,3 +231,13 @@ Proposition 53B uses the exact irregular-grid innovation likelihood from Proposi
 **Experiment AO.** On the Experiment AN problem, the target covariance radius decreases from `3.1554895445` to `2.5720746948`, an `18.49%` reduction, but remains above one.
 
 [Proof](proposition_54_two_scale_irregular_tau_cover.md) | [Machine record](two_scale_irregular_tau_cover.json)
+
+## Proposition 55 and Experiment AP
+
+**Mathematical question.** Can exact local slope and certified likelihood curvature replace a first-order worst case when enclosing the Proposition 53B continuum confidence set?
+
+**Physical question.** How sharply does the observed irregular calibration record constrain nearby physical relaxation times, and when does calibration stop being the dominant source of uncertainty?
+
+At 160 calibration cells, the first-order width `0.6109375 s` contracts to `0.1646875 s`. The target covariance radius improves to `2.4148799294`, while the known-tau oracle radius remains `2.1672468952 > 1`.
+
+[Proof](proposition_55_quadratic_relaxation_calibration.md) | [Figure](quadratic_relaxation_calibration.svg) | [JSON](quadratic_relaxation_calibration.json) | [Release record](release_0_44.md)

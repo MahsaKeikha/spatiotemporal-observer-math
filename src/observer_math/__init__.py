@@ -89,6 +89,10 @@ from .nuisance import (
     separable_gaussian_projected_covariance,
     temporal_nuisance_projector,
 )
+from .quadratic_relaxation_target import (
+    GaussianIrregularRelaxationQuadraticTargetBound,
+    gaussian_irregular_relaxation_quadratic_target_bound,
+)
 from .recovery import (
     ClassCompressedPathRecoveryBound,
     ComponentwiseRecoveryBound,
@@ -162,6 +166,12 @@ from .recovery import (
     screened_structural_class_path_recovery_bound,
     separable_gaussian_centered_covariance,
     structured_residual_class_path_recovery_bound,
+)
+from .relaxation_curvature import (
+    GaussianIrregularRelaxationQuadraticOuterCover,
+    gaussian_irregular_relaxation_log_evalue_derivative,
+    gaussian_irregular_relaxation_log_evalue_second_derivative_bound,
+    gaussian_irregular_relaxation_quadratic_outer_cover,
 )
 from .sampling import (
     adjacent_sample_covariances,
@@ -240,6 +250,8 @@ __all__ = [
     "GaussianIrregularRelaxationEValueGrid",
     "GaussianIrregularRelaxationEValueModel",
     "GaussianIrregularRelaxationEValueOuterCover",
+    "GaussianIrregularRelaxationQuadraticOuterCover",
+    "GaussianIrregularRelaxationQuadraticTargetBound",
     "GaussianIrregularRelaxationTargetBound",
     "GaussianIrregularRelaxationTwoScaleTargetBound",
     "GaussianOptimizedIrregularRelaxationTwoScaleTargetBound",
@@ -322,8 +334,12 @@ __all__ = [
     "gaussian_irregular_relaxation_evalue_model",
     "gaussian_irregular_relaxation_evalue_outer_cover",
     "gaussian_irregular_relaxation_log_evalue",
+    "gaussian_irregular_relaxation_log_evalue_derivative",
+    "gaussian_irregular_relaxation_log_evalue_second_derivative_bound",
     "gaussian_irregular_relaxation_log_likelihood_kernel",
     "gaussian_irregular_relaxation_log_likelihood_lipschitz_bound",
+    "gaussian_irregular_relaxation_quadratic_outer_cover",
+    "gaussian_irregular_relaxation_quadratic_target_bound",
     "gaussian_irregular_relaxation_target_matrix_chernoff_bound",
     "gaussian_irregular_relaxation_two_scale_target_bound",
     "gaussian_null_cmi_covariance_error_bound",
