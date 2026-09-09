@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+<style>
+.bg{fill:#f8fafc}.panel{fill:#ffffff;stroke:#cbd5e1;stroke-width:1.5}
+.title{font:700 28px Arial,sans-serif;fill:#0f172a}.subtitle{font:15px Arial,sans-serif;fill:#475569}
+.ptitle{font:700 18px Arial,sans-serif;fill:#0f172a}.label{font:14px Arial,sans-serif;fill:#334155}
+.small{font:12px Arial,sans-serif;fill:#64748b}.value{font:700 17px Arial,sans-serif;fill:#0f172a}
+.old{fill:#94a3b8}.new{fill:#2563eb}.good{fill:#059669}.warn{fill:#dc2626}.guide{stroke:#94a3b8;stroke-width:1.5;stroke-dasharray:6 5}
+.axis{stroke:#cbd5e1;stroke-width:1}.matrix{fill:#dbeafe;stroke:#2563eb;stroke-width:.7}.matrix2{fill:#dcfce7;stroke:#059669;stroke-width:.7}
+</style>
+<rect x="0" y="0" width="1200" height="820" rx="0" class="bg" />
+<text x="35" y="48" text-anchor="start" class="title">Experiment AQ - exact innovation-whitened target covariance</text>
+<text x="35" y="78" text-anchor="start" class="subtitle">Proposition 56 changes the target estimator: local physical-time innovations first, covariance concentration second.</text>
+<text x="35" y="106" text-anchor="start" class="value">Known-tau raw oracle 2.167  -&gt;  innovation-whitened 0.436  (79.86% reduction)</text>
+<rect x="35" y="150" width="550" height="285" rx="8" class="panel" />
+<rect x="615" y="150" width="550" height="285" rx="8" class="panel" />
+<rect x="35" y="465" width="550" height="285" rx="8" class="panel" />
+<rect x="615" y="465" width="550" height="285" rx="8" class="panel" />
+<text x="57" y="182" text-anchor="start" class="ptitle">A. Target covariance radius</text>
+<line x1="80" y1="370" x2="520" y2="370" class="axis" />
+<line x1="263.33333333333337" y1="215" x2="263.33333333333337" y2="375" class="guide" />
+<text x="268.33333333333337" y="228" text-anchor="start" class="small">epsilon = 1</text>
+<text x="80" y="265" text-anchor="start" class="label">Raw known-tau oracle</text>
+<rect x="80" y="275" width="397.3285974442611" height="34" rx="4" class="old" />
+<text x="469.3285974442611" y="299" text-anchor="end" class="value">2.167</text>
+<text x="80" y="340" text-anchor="start" class="label">Innovation-whitened</text>
+<rect x="80" y="350" width="80.01480326343805" height="34" rx="4" class="new" />
+<text x="152.01480326343807" y="374" text-anchor="end" class="value">0.436</text>
+<text x="57" y="410" text-anchor="start" class="small">The new theorem enters the perturbative epsilon &lt; 1 regime on the same 120-sample target.</text>
+<text x="637" y="182" text-anchor="start" class="ptitle">B. Concentration geometry</text>
+<text x="643" y="222" text-anchor="start" class="label">Raw-time projected temporal spectrum</text>
+<text x="925" y="222" text-anchor="start" class="label">Innovation spectrum</text>
+<text x="643" y="254" text-anchor="start" class="value">trace = 84.343</text>
+<text x="643" y="284" text-anchor="start" class="value">max eigenvalue = 14.525</text>
+<text x="925" y="254" text-anchor="start" class="value">trace = 118</text>
+<text x="925" y="284" text-anchor="start" class="value">max eigenvalue = 1</text>
+<text x="643" y="328" text-anchor="start" class="small">strong leading temporal weight</text>
+<text x="925" y="328" text-anchor="start" class="small">118 equal unit weights</text>
+<rect x="657" y="290" width="14" height="92" rx="2" class="old" />
+<rect x="679" y="321" width="14" height="61" rx="2" class="old" />
+<rect x="701" y="337" width="14" height="45" rx="2" class="old" />
+<rect x="723" y="349" width="14" height="33" rx="2" class="old" />
+<rect x="745" y="356" width="14" height="26" rx="2" class="old" />
+<rect x="767" y="361" width="14" height="21" rx="2" class="old" />
+<rect x="789" y="365" width="14" height="17" rx="2" class="old" />
+<rect x="811" y="368" width="14" height="14" rx="2" class="old" />
+<rect x="945" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="967" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="989" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="1011" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="1033" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="1055" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="1077" y="335" width="14" height="47" rx="2" class="new" />
+<rect x="1099" y="335" width="14" height="47" rx="2" class="new" />
+<text x="637" y="410" text-anchor="start" class="small">Whitening uses the temporal law to change the estimator instead of paying a worst-case dependence penalty.</text>
+<text x="57" y="497" text-anchor="start" class="ptitle">C. Seeded scalar visibility check</text>
+<text x="57" y="527" text-anchor="start" class="label">512 / 512 recorded errors lie below the Proposition 56 radius</text>
+<line x1="80" y1="585" x2="520" y2="585" class="axis" />
+<rect x="80" y="567" width="81.72550407911024" height="16" rx="3" class="good" />
+<line x1="325.14446321699955" y1="553" x2="325.14446321699955" y2="597" class="axis" />
+<line x1="345.9024945882853" y1="547" x2="345.9024945882853" y2="603" class="axis" />
+<line x1="441.31851432499275" y1="541" x2="441.31851432499275" y2="609" class="warn" />
+<line x1="480.0740163171903" y1="531" x2="480.0740163171903" y2="615" class="guide" />
+<text x="80" y="629" text-anchor="start" class="small">median 0.089</text>
+<text x="325.14446321699955" y="629" text-anchor="middle" class="small">95% 0.267</text>
+<text x="345.9024945882853" y="649" text-anchor="middle" class="small">97.5% 0.290</text>
+<text x="441.31851432499275" y="533" text-anchor="middle" class="small">max 0.394</text>
+<text x="480.0740163171903" y="519" text-anchor="middle" class="small">theorem 0.436</text>
+<text x="57" y="709" text-anchor="start" class="small">Dimension-one exact chi-square reference: 0.314. The public theorem stays matrix-valued.</text>
+<text x="637" y="497" text-anchor="start" class="ptitle">D. Local physical-time structure</text>
+<text x="637" y="529" text-anchor="start" class="label">W_tau is lower bidiagonal</text>
+<text x="907" y="529" text-anchor="start" class="label">R_tau^-1 is tridiagonal</text>
+<rect x="685" y="557" width="12" height="12" rx="1" class="matrix" />
+<rect x="955" y="557" width="12" height="12" rx="1" class="matrix2" />
+<rect x="703" y="575" width="12" height="12" rx="1" class="matrix" />
+<rect x="685" y="575" width="12" height="12" rx="1" class="matrix" />
+<rect x="973" y="575" width="12" height="12" rx="1" class="matrix2" />
+<rect x="955" y="575" width="12" height="12" rx="1" class="matrix2" />
+<rect x="973" y="557" width="12" height="12" rx="1" class="matrix2" />
+<rect x="721" y="593" width="12" height="12" rx="1" class="matrix" />
+<rect x="703" y="593" width="12" height="12" rx="1" class="matrix" />
+<rect x="991" y="593" width="12" height="12" rx="1" class="matrix2" />
+<rect x="973" y="593" width="12" height="12" rx="1" class="matrix2" />
+<rect x="991" y="575" width="12" height="12" rx="1" class="matrix2" />
+<rect x="739" y="611" width="12" height="12" rx="1" class="matrix" />
+<rect x="721" y="611" width="12" height="12" rx="1" class="matrix" />
+<rect x="1009" y="611" width="12" height="12" rx="1" class="matrix2" />
+<rect x="991" y="611" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1009" y="593" width="12" height="12" rx="1" class="matrix2" />
+<rect x="757" y="629" width="12" height="12" rx="1" class="matrix" />
+<rect x="739" y="629" width="12" height="12" rx="1" class="matrix" />
+<rect x="1027" y="629" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1009" y="629" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1027" y="611" width="12" height="12" rx="1" class="matrix2" />
+<rect x="775" y="647" width="12" height="12" rx="1" class="matrix" />
+<rect x="757" y="647" width="12" height="12" rx="1" class="matrix" />
+<rect x="1045" y="647" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1027" y="647" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1045" y="629" width="12" height="12" rx="1" class="matrix2" />
+<rect x="793" y="665" width="12" height="12" rx="1" class="matrix" />
+<rect x="775" y="665" width="12" height="12" rx="1" class="matrix" />
+<rect x="1063" y="665" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1045" y="665" width="12" height="12" rx="1" class="matrix2" />
+<rect x="1063" y="647" width="12" height="12" rx="1" class="matrix2" />
+<text x="637" y="699" text-anchor="start" class="small">239 nonzeros in W_tau; 358 in the 120 x 120 precision matrix</text>
+<text x="637" y="722" text-anchor="start" class="small">whitening identity operator error 5.20e-15</text>
+<text x="637" y="743" text-anchor="start" class="small">The predictable temporal step is removed locally before nuisance fitting and covariance estimation.</text>
+</svg>
