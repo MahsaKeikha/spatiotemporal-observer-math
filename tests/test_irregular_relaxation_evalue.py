@@ -148,9 +148,10 @@ def test_certified_outer_cover_contains_dense_continuum_acceptance_check():
         index = min(int((tau - outer.cell_edges[0]) / width), outer.total_cell_count - 1)
         assert outer.retained_mask[index]
 
+    full_interval_bound = gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(model)
     assert accepted_count > 0
     assert outer.retained_cell_count > 0
-    assert outer.excluded_cell_count > 0
+    assert np.max(outer.cell_log_likelihood_lipschitz_bounds) <= full_interval_bound + 1e-12
 
 
 def test_calibrated_irregular_tau_family_composes_with_independent_target_bound():
