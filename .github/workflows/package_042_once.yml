@@ -10,19 +10,19 @@ permissions:
 
 jobs:
   package:
-    if: github.event.head_commit.message == 'Run temporary 0.42.0 packaging workflow'
+    if: github.event.head_commit.message == 'Fix 0.42.0 README figure count'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: prop53-irregular-tau-evalue
           fetch-depth: 0
-      - name: Apply release packaging
-        run: python tools/package_042_once.py
-      - name: Commit packaging changes
+      - name: Correct stale explanatory count
+        run: python tools/fix_042_readme_once.py
+      - name: Commit README correction
         run: |
           git config user.name "Mahsa Keikha"
           git config user.email "mahsa.keikha@gmail.com"
-          git add README.md src/observer_math/__init__.py docs CHANGELOG.md 2>/dev/null || true
-          git commit -m "Apply 0.42.0 release packaging"
+          git add README.md
+          git commit -m "Correct 0.42.0 figure-count note"
           git push origin HEAD:prop53-irregular-tau-evalue
