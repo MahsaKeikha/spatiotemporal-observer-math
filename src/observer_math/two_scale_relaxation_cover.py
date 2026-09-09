@@ -8,8 +8,8 @@ span without forcing Proposition 49 to union over every fine calibration cell.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable
 
 import numpy as np
 from numpy.typing import ArrayLike
