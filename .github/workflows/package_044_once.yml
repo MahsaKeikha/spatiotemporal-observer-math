@@ -1,0 +1,28 @@
+name: package-0.44-once
+
+on:
+  push:
+    branches:
+      - prop55-local-curvature-relaxation-cover
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    if: github.event.head_commit.message == 'Run temporary 0.44.0 release packager'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: prop55-local-curvature-relaxation-cover
+          fetch-depth: 0
+      - name: Apply asserted release patch
+        run: python tools/package_044_once.py
+      - name: Commit release integration
+        run: |
+          git config user.name "Mahsa Keikha"
+          git config user.email "mahsa.keikha@gmail.com"
+          git add README.md CHANGELOG.md CITATION.cff pyproject.toml src/observer_math/__init__.py tests/test_quadratic_relaxation_calibration_artifact.py docs/research_overview.md docs/research_index.md docs/api_temporal_calibration.md docs/assumption_ledger.md docs/figure_reading_guide.md docs/recent_release_history.md
+          git commit -m "Integrate Proposition 55 release 0.44.0"
+          git push origin HEAD:prop55-local-curvature-relaxation-cover
