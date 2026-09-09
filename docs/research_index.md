@@ -216,3 +216,7 @@ Any future consciousness interpretation remains a separate bridge problem under 
 A result is considered complete in this repository when the relevant pieces exist together: physical question, declared measurement model, mathematical statement, assumptions, proof, implementation, claim-level tests, reproducible numerical record when useful, visible figure when useful, explicit failure conditions, discoverable links, and attribution to any external theorem, method, or physical model materially used.
 
 The documentation style check rejects Unicode en dash and em dash characters in Markdown files.
+
+## Proposition 53B and Experiment AN : finite-sample physical tau calibration
+
+Proposition 53B uses the exact irregular-grid innovation likelihood from Proposition 53A to construct a finite-sample continuum e-value confidence set for physical relaxation time `tau`. Experiment AN records the 97.5% calibration result, its certified cell-local outer cover, seconds/milliseconds invariance, and independent target composition. See [the proof](proposition_53b_irregular_tau_evalue.md), [the figure](irregular_relaxation_evalue_calibration.svg), and [the machine-readable record](irregular_relaxation_evalue_calibration.json).

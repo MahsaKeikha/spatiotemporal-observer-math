@@ -197,3 +197,7 @@ Before reporting a certificate or confidence set, record:
 12. for Proposition 53, the physical timestamp units, declared \(\tau\)-interval, sampling-consistency diagnostics, and evidence for or against a single exponential timescale;
 13. the physical units, sampling interval, preprocessing, nuisance interpretation, and residual diagnostics relevant to the application;
 14. whether any interpretation goes beyond the proved observer-structure claim and, if so, which additional bridge assumptions it uses.
+
+## Proposition 53B calibration assumptions
+
+The finite-sample irregular-time `tau` confidence set assumes independent calibration channels, Gaussianity, known zero mean, unit marginal variance, one common stationary exponential relaxation time, a predeclared positive `tau` interval, and a mixture numerator fixed before inspecting the calibration record. Target composition additionally assumes calibration and target records are independent and inherits Proposition 49's target covariance assumptions. The current theorem does not cover unknown calibration means, non-Gaussian innovations, multiple relaxation times, oscillatory kernels, or adaptive mixture selection from the same calibration data.
