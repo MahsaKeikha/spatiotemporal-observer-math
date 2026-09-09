@@ -620,3 +620,130 @@ The broader physics frontiers remain sensor-coordinate geometry, spatial coarse 
 The guiding question remains the same:
 
 > **When does the dynamics itself justify a moving subsystem boundary, and when does the available evidence remain insufficient to identify one?**
+
+---
+
+# 13. Relationship to Tegmark's observer-factorization question
+
+This section makes the intellectual relationship to the project's primary conceptual source explicit. It is not a claim that the results below appear in Tegmark's paper, and it does not imply endorsement by Max Tegmark.
+
+## 13.1 Primary source
+
+The primary conceptual starting point is:
+
+**Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270.**
+
+- [DOI: 10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
+- [Technical preprint: arXiv:1401.1219](https://arxiv.org/abs/1401.1219)
+- [Repository bibliography entry and role map](docs/bibliography.md#tegmark-2015)
+
+Tegmark studies the problem of factorizing the physical world into subsystems and asks why an observer should correspond to one factorization rather than another. Information, integration, independence, and dynamics are among the organizing ideas considered in that program.
+
+The present work begins from that observer-factorization question and asks a different mathematical question that is not developed as the central construction in Tegmark 2015:
+
+> **What if the subsystem boundary itself is time dependent, and must be inferred as a persistent dynamical object rather than selected once as a static partition?**
+
+That question leads to the moving boundary
+
+\[
+S_t\subseteq\{1,\ldots,n\}
+\]
+
+and the world-tube
+
+\[
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+\]
+
+The main object of inference is therefore not one partition alone, but a path through a candidate subsystem space.
+
+## 13.2 What is inherited conceptually and what is developed here
+
+| Scientific element | Tegmark 2015 lineage | This repository |
+| --- | --- | --- |
+| Observer-factorization problem | Primary conceptual source | Adopted as the starting question |
+| Information and integration as organizing ideas | Central conceptual background | Used as operational score ingredients |
+| Independence from the environment | Central conceptual background | Represented operationally through conditional predictive insulation |
+| Dynamics as relevant to observer structure | Conceptual motivation | Made explicit through time-indexed subsystem recovery |
+| Time-dependent subsystem boundary \(S_t\) | Not claimed here as a Tegmark result | Central mathematical object developed here |
+| World-tube \(\mathcal W=(S_t)_t\) | Not attributed to Tegmark | Defined and optimized in this repository |
+| Exact finite-horizon path recovery and runner-up margin | Not attributed to Tegmark | Developed here using dynamic programming and perturbation analysis |
+| Recovery modulo symmetry and impossibility under observational equivalence | Not attributed to Tegmark | Formalized in Propositions 13 and 14 |
+| Finite-sample covariance-to-path certification | Not attributed to Tegmark | Developed through the statistical theorem chain |
+| Physical-time calibration and irregular-grid innovation inference | Not part of the Tegmark factorization derivation | Added here as measurement-certification machinery |
+| Claim of consciousness | Tegmark discusses consciousness as a physical-state problem | **Not claimed by this repository** |
+
+This distinction matters. The conceptual lineage is direct, while the mathematical development after the starting question is an independent research program.
+
+## 13.3 The mathematical extension in one picture
+
+```text
+Tegmark observer-factorization question
+                |
+                v
+Which subsystem decomposition is physically distinguished?
+                |
+                v
+This repository adds explicit time dependence
+                |
+                v
+S_0 -> S_1 -> ... -> S_{T-1}
+                |
+                v
+integration + insulation + persistence + transport
+                |
+                v
+world-tube optimization
+                |
+                v
+identifiability + finite-sample recovery
+                |
+                v
+physical measurement certification
+```
+
+The central extension is therefore not "a new measure of consciousness." It is a mathematical program for **dynamically inferred, time-dependent subsystem boundaries** with explicit recovery, uncertainty, and falsification conditions.
+
+## 13.4 Why the later statistical machinery belongs to the same question
+
+Once a moving subsystem score is defined from covariance-dependent information quantities, finite measurements create an unavoidable physical-statistical problem: the world-tube cannot be trusted unless the covariance geometry feeding the score is itself certified.
+
+That is why the later propositions on temporally dependent measurements, nuisance removal, physical relaxation time, e-value calibration, matrix concentration, and innovation whitening are part of the same research program. They are not separate claims about consciousness. They answer the measurement question underneath the observer-boundary problem:
+
+> **When the data are finite, correlated, irregularly sampled, and subject to nuisance structure, how much confidence can be placed in the dynamical boundary inferred from them?**
+
+Proposition 58 makes that connection explicit by returning simultaneous covariance uncertainty to the integration, insulation, persistence, transport, and complete world-tube objective.
+
+## 13.5 Related Tegmark work
+
+A second relevant source is:
+
+**Max Tegmark. "Improved Measures of Integrated Information." _PLoS Computational Biology_ 12(11) (2016): e1005123.**
+
+- [DOI: 10.1371/journal.pcbi.1005123](https://doi.org/10.1371/journal.pcbi.1005123)
+- [Preprint: arXiv:1601.02626](https://arxiv.org/abs/1601.02626)
+- [Repository bibliography entry and role map](docs/bibliography.md#related-tegmark-work-tegmark-2016)
+
+That work is relevant background for classifying integrated-information measures and factorization choices. It is not the primary source of the world-tube construction, transport term, recovery theorems, or the finite-sample measurement program developed here.
+
+## 13.6 Interpretation boundary
+
+The repository deliberately separates three statements:
+
+1. **Mathematical statement:** a persistent moving subsystem can be defined, optimized, and under stated assumptions sometimes recovered or certified from dynamical data.
+2. **Physical modeling statement:** a real application must validate its observables, dynamics, covariance model, temporal law, nuisance structure, and candidate geometry.
+3. **Consciousness statement:** no theorem in this repository establishes that the recovered subsystem is conscious or that its score measures subjective experience.
+
+Any future bridge from operational observer structure to consciousness requires assumptions beyond the mathematics proved here. Those assumptions are tracked in the [Interpretation Protocol](docs/interpretation_protocol.md).
+
+## 13.7 Citation and attribution
+
+For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository itself together with the external mathematical sources used by the particular theorem.
+
+The complete proposition-to-literature map is maintained in the [Bibliography and Citation Map](docs/bibliography.md), with machine-readable entries in [`references.bib`](references.bib).
+
+Repository citation metadata are maintained in [`CITATION.cff`](CITATION.cff). GitHub can render that file into standard citation formats.
+
+The attribution rule throughout the project is:
+
+> **Conceptual lineage is cited explicitly; original derivations are identified as repository results; related literature is cited for the methods it supplies; no citation is used to imply endorsement.**
