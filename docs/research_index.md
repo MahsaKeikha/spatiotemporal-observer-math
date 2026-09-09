@@ -220,3 +220,12 @@ The documentation style check rejects Unicode en dash and em dash characters in 
 ## Proposition 53B and Experiment AN : finite-sample physical tau calibration
 
 Proposition 53B uses the exact irregular-grid innovation likelihood from Proposition 53A to construct a finite-sample continuum e-value confidence set for physical relaxation time `tau`. Experiment AN records the 97.5% calibration result, its certified cell-local outer cover, seconds/milliseconds invariance, and independent target composition. See [the proof](proposition_53b_irregular_tau_evalue.md), [the figure](irregular_relaxation_evalue_calibration.svg), and [the machine-readable record](irregular_relaxation_evalue_calibration.json).
+
+## Proposition 54 and Experiment AO: second-order physical-time reference whitening
+
+Proposition 54 sharpens the Proposition 53B continuum tau cover with a second-order interpolation remainder, then fixes the exact Proposition 53A irregular-time whitener at a calibration-derived reference tau. The independent target nuisance design is transformed by the same whitener and Proposition 49 is applied to a certified near-identity temporal family.
+
+Experiment AO retains 31 of 160 tau cells, uses reference tau `0.76921875 s`, and achieves relative target covariance radius `0.6899552435608669 < 1` at combined confidence `0.950625`.
+
+Proof: [Proposition 54](proposition_54_second_order_reference_whitening.md). Machine-readable record: [Experiment AO JSON](second_order_reference_whitening.json).
+

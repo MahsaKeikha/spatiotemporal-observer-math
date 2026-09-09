@@ -390,3 +390,8 @@ These APIs calibrate temporal covariance and observer-like dynamical structure u
 ## Physical-time irregular calibration API : Proposition 53B
 
 The `observer_math.irregular_relaxation_evalue` module exposes exact irregular-time likelihood, continuum e-value evaluation, cell-local certified outer covers, and independent target-family composition. The principal public symbols are `GaussianIrregularRelaxationEValueModel`, `GaussianIrregularRelaxationEValueGrid`, `GaussianIrregularRelaxationEValueOuterCover`, `GaussianIrregularRelaxationTargetBound`, `gaussian_irregular_relaxation_evalue_model`, `gaussian_irregular_relaxation_log_evalue`, `gaussian_irregular_relaxation_evalue_grid`, `gaussian_irregular_relaxation_evalue_outer_cover`, and `gaussian_irregular_relaxation_target_matrix_chernoff_bound`. They are also exported from the package root in release 0.42.0.
+
+## Proposition 54 public API
+
+`GaussianIrregularRelaxationSecondOrderOuterCover` records the curvature-certified tau cells. `gaussian_irregular_relaxation_log_likelihood_second_derivative` evaluates the exact calibration likelihood curvature, while `gaussian_irregular_relaxation_log_likelihood_second_derivative_bound` certifies it on a subinterval. `gaussian_irregular_relaxation_second_order_outer_cover` constructs the finite continuum outer cover. `GaussianReferenceWhitenedRelaxationTargetBound` and `gaussian_reference_whitened_irregular_relaxation_target_matrix_chernoff_bound` propagate the retained physical-time family through a calibration-derived Proposition 53A reference whitener and then into Proposition 49.
+

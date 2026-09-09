@@ -201,3 +201,8 @@ Before reporting a certificate or confidence set, record:
 ## Proposition 53B calibration assumptions
 
 The finite-sample irregular-time `tau` confidence set assumes independent calibration channels, Gaussianity, known zero mean, unit marginal variance, one common stationary exponential relaxation time, a predeclared positive `tau` interval, and a mixture numerator fixed before inspecting the calibration record. Target composition additionally assumes calibration and target records are independent and inherits Proposition 49's target covariance assumptions. The current theorem does not cover unknown calibration means, non-Gaussian innovations, multiple relaxation times, oscillatory kernels, or adaptive mixture selection from the same calibration data.
+
+## Proposition 54: second-order physical-time reference whitening
+
+Additional obligations beyond Proposition 53B are: the target record is independent of calibration; the target nuisance design is fixed before target-data inspection; the separable Gaussian target model uses the same exponential relaxation family; the calibration-derived reference tau is chosen without target data; and the projected normalization stays positive over the certified transformed temporal family. The theorem is conditional on these assumptions and does not establish that a real system follows one exponential timescale.
+

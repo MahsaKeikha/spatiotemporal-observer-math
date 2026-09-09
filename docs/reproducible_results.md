@@ -1243,3 +1243,8 @@ aggregates are stored in
 ## Experiment AN : finite-sample irregular-time relaxation calibration
 
 The deterministic Experiment AN script calibrates `tau = 0.78 s` from 96 independent Gaussian channels on 32 irregular timestamps. The 2001-point diagnostic accepted span is `[0.69155, 0.84455] s`; the certified 160-cell outer cover retains `[0.495625, 1.1065625] s`. Seconds-versus-milliseconds log-e-value discrepancy is at most `2.05e-12`. The independent target composition has confidence `0.950625` and target covariance relative-error radius `3.1554895445`, which is valid but above the downstream `epsilon < 1` regime. See `irregular_relaxation_evalue_calibration.json` and `irregular_relaxation_evalue_calibration.svg`.
+
+## Experiment AO: second-order physical-time reference whitening
+
+The same controlled calibration and target geometry as Experiment AN is reused. The second-order tau cover retains 31 of 160 cells with certified extremes `[0.686875, 0.8515625] s`. The calibration-derived reference whitener gives a transformed temporal covering radius `0.008495864441166266`, normalization radius `0.46699818384400943`, and final target relative covariance radius `0.6899552435608669 < 1` at combined confidence `0.950625`. The committed JSON and deterministic SVG are `second_order_reference_whitening.json` and `second_order_reference_whitening.svg`.
+

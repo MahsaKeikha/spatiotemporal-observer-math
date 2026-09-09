@@ -95,3 +95,8 @@ The root [`CHANGELOG.md`](../CHANGELOG.md) records releases through 0.36.0 in de
 ## 0.42.0
 
 Proposition 53B adds direct finite-sample inference for physical relaxation time on irregular timestamps. Experiment AN records continuum e-value calibration, a certified finite outer cover, time-unit invariance, and independent target composition. The release intentionally exposes the remaining tightness gap: target covariance radius `3.1554895445 > 1`. See [the 0.42.0 research record](release_0_42.md).
+
+## 0.43.0
+
+Proposition 54 and Experiment AO add second-order continuum certification and calibration-derived reference whitening for irregular physical time. The release closes the controlled above-one target covariance bottleneck from Experiment AN, reaching `0.6899552435608669 < 1` at combined confidence `0.950625`. See [release 0.43.0](release_0_43_0.md).
+

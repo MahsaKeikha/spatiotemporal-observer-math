@@ -613,3 +613,11 @@
 - Added the discrete observer world-tube optimizer.
 - Added a planted moving-module experiment and figure.
 - Added the initial mathematical framework and ongoing research documentation.
+
+## 0.43.0
+
+- add Proposition 54 second-order physical-time continuum certification;
+- add calibration-derived exact irregular-time reference whitening for independent target covariance certification;
+- add Experiment AO, machine-readable results, deterministic SVG, proof, tests, public API, and release record;
+- on the controlled Experiment AN target geometry, reduce the certified relative covariance radius from `3.1554895445` to `0.6899552436 < 1` at combined confidence `0.950625`.
+

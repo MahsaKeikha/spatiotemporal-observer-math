@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.42.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.43.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one dynamical question:
@@ -217,16 +217,16 @@ A real system may require several relaxation times, oscillatory kernels, colored
 
 # 3. Current verified research record
 
-| Research record | 0.42.0 state |
+| Research record | 0.43.0 state |
 | --- | ---: |
-| Proved statements | **53 propositions** |
-| Reproducible studies | **40 experiments, A-Z and AA-AN** |
-| Scientific result figures | **28 figures** |
-| Claim-level tests | **195 tests** |
+| Proved statements | **54 propositions** |
+| Reproducible studies | **41 experiments, A-Z and AA-AO** |
+| Scientific result figures | **29 figures** |
+| Claim-level tests | **202 tests** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software version | **0.42.0** |
+| Research-software version | **0.43.0** |
 
-The physics pipeline is an explanatory diagram and is not included in the 28 scientific-result figure count.
+The physics pipeline is an explanatory diagram and is not included in the 29 scientific-result figure count.
 
 ---
 
@@ -370,6 +370,10 @@ Does a temporal parameter describe the physical process itself, or does it chang
 
 **Proposition 53B / Experiment AN:** the same physical-time parameter is now calibrated directly from an irregular record with a finite-sample continuum e-value. The visible likelihood-compatible region is approximately `[0.69155, 0.84455] s`, while the certified outer cover is `[0.495625, 1.1065625] s`. The difference is an explicit tightness gap, not a coverage failure.
 
+[![Experiment AO: second-order reference whitening](docs/second_order_reference_whitening.svg)](docs/proposition_54_second_order_reference_whitening.md)
+
+**Proposition 54 / Experiment AO:** second-order calibration geometry contracts the retained physical-time cover to `[0.686875, 0.8515625] s`. A calibration-derived reference whitener then transforms the independent target temporal family close to identity. On the same controlled target geometry as Experiment AN, the certified relative covariance radius moves from `3.1554895445` to **`0.6899552436 < 1`** at combined confidence `0.950625`.
+
 For the controlled exponential model,
 
 \[
@@ -404,7 +408,7 @@ and multiply to the exact long-range covariance. The corresponding temporal prec
 
 ---
 
-# 5. Complete theorem roadmap, Proposition 1 to Proposition 53
+# 5. Complete theorem roadmap, Proposition 1 to Proposition 54
 
 The project did not begin with temporal calibration. The recent results sit on top of a longer recovery, identifiability, and finite-sample program.
 
@@ -476,18 +480,37 @@ Detailed proofs: [Propositions 15 to 31](docs/proofs_and_conjectures.md).
 
 Direct proof pages: [P44](docs/proposition_44_nuisance_projection.md), [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md), [P46](docs/proposition_46_design_specific_ar1_envelope.md), [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md), [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md), [P49](docs/proposition_49_compact_temporal_family.md), [P50](docs/proposition_50_calibrated_temporal_family.md), [P51](docs/proposition_51_evalue_temporal_confidence_set.md), [P52](docs/proposition_52_certified_evalue_outer_cover.md).
 
-## Layer E. Sampling-consistent physical representation and inference, Proposition 53
+## Layer E. Sampling-consistent physical representation and inference, Propositions 53 to 54
 
 | Proposition | Mathematical question | Physical question |
 | ---: | --- | --- |
 | 53A | Can the exponential temporal family be parameterized by a physical relaxation time and factorized exactly on arbitrary increasing timestamps? | Does the inferred timescale survive sampling changes, and does the same physical model retain a local transition law under irregular or missing observations? |
 | 53B | Can the physical relaxation time itself be calibrated with finite-sample coverage directly on irregular timestamps? | Which physical timescales remain compatible with an irregular calibration record, independent of the target experiment's sampling schedule? |
+| 54 | Can second-order calibration geometry and a calibration-derived exact reference whitener preserve finite-sample target certification under strong temporal dependence? | Can physical-time uncertainty be propagated through irregular-time whitening strongly enough to recover a subunit covariance regime? |
 
-[Proposition 53A proof](docs/proposition_53_physical_relaxation_time.md) | [Proposition 53B proof](docs/proposition_53b_irregular_tau_evalue.md).
+[Proposition 53A proof](docs/proposition_53_physical_relaxation_time.md) | [Proposition 53B proof](docs/proposition_53b_irregular_tau_evalue.md) | [Proposition 54 proof](docs/proposition_54_second_order_reference_whitening.md).
 
 ---
 
-# 6. Latest physical-statistical result, Proposition 53B and Experiment AN
+# 6. Latest physical-statistical result, Proposition 54 and Experiment AO
+
+[![Experiment AO](docs/second_order_reference_whitening.svg)](docs/proposition_54_second_order_reference_whitening.md)
+
+Proposition 54 keeps Proposition 53B's finite-sample physical-time calibration event and sharpens its deterministic geometry. The second-order outer cover retains 31 of 160 cells, with certified extremes `[0.686875, 0.8515625] s`. A reference relaxation time `0.76921875 s` is chosen from calibration alone, and the exact Proposition 53A irregular-time whitener is fixed before the independent target record is used.
+
+On the Experiment AO target geometry, the transformed temporal family has certified operator radius `0.0084958644`. The final Proposition 49 relative covariance radius is
+
+\[
+\boxed{0.6899552435608669<1}
+\]
+
+at combined confidence `0.950625`. The exact whitening identity is satisfied numerically to about `1.9e-15`. A dense visibility check reaches about 50.7 percent of the temporal operator certificate and 99.996 percent of the normalization certificate.
+
+This is the first result in the physical-time branch that closes the specific above-one covariance-certification bottleneck exposed by Experiment AN. It does so by propagating calibrated uncertainty through exact model-based temporal whitening, not by treating correlated raw samples as independent.
+
+[Full Proposition 54 proof](docs/proposition_54_second_order_reference_whitening.md) | [0.43.0 research record](docs/release_0_43_0.md) | [Experiment AO JSON](docs/second_order_reference_whitening.json) | [Experiment AO script](examples/second_order_reference_whitening.py) | [AO renderer](examples/render_second_order_reference_whitening.py) | [Claim-level tests](tests/test_second_order_relaxation.py)
+
+### Previous physical-time result: Proposition 53B and Experiment AN
 
 [![Experiment AN](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
 

@@ -169,6 +169,14 @@ from .sampling import (
     simulate_gaussian_ensemble,
 )
 from .search import Candidate, rank_subsystems
+from .second_order_relaxation import (
+    GaussianIrregularRelaxationSecondOrderOuterCover,
+    GaussianReferenceWhitenedRelaxationTargetBound,
+    gaussian_irregular_relaxation_log_likelihood_second_derivative,
+    gaussian_irregular_relaxation_log_likelihood_second_derivative_bound,
+    gaussian_irregular_relaxation_second_order_outer_cover,
+    gaussian_reference_whitened_irregular_relaxation_target_matrix_chernoff_bound,
+)
 from .symbolic import (
     APrioriSupportMovingCliqueRecoveryBound,
     BlockSparseMovingCliqueRecoveryBound,
@@ -237,6 +245,8 @@ __all__ = [
     "GaussianIrregularRelaxationTargetBound",
     "GaussianPathRecoveryBound",
     "GaussianProjectedTemporalEnvelope",
+    "GaussianIrregularRelaxationSecondOrderOuterCover",
+    "GaussianReferenceWhitenedRelaxationTargetBound",
     "GaussianRelativeNearCompetitorScreen",
     "GaussianSafeNearCompetitorScreen",
     "GaussianTemporalCorrelationEnvelope",
@@ -316,6 +326,9 @@ __all__ = [
     "gaussian_irregular_relaxation_log_evalue",
     "gaussian_irregular_relaxation_log_likelihood_kernel",
     "gaussian_irregular_relaxation_log_likelihood_lipschitz_bound",
+    "gaussian_irregular_relaxation_log_likelihood_second_derivative",
+    "gaussian_irregular_relaxation_log_likelihood_second_derivative_bound",
+    "gaussian_irregular_relaxation_second_order_outer_cover",
     "gaussian_irregular_relaxation_target_matrix_chernoff_bound",
     "gaussian_null_cmi_covariance_error_bound",
     "gaussian_null_integration_factor_error_bound",
@@ -326,6 +339,7 @@ __all__ = [
     "gaussian_relative_cmi_covariance_error_bound",
     "gaussian_relative_null_cmi_covariance_error_bound",
     "gaussian_relative_null_integration_factor_error_bound",
+    "gaussian_reference_whitened_irregular_relaxation_target_matrix_chernoff_bound",
     "gaussian_relative_structural_null_near_competitor_screen",
     "gaussian_safe_near_competitor_screen",
     "gaussian_structural_null_near_competitor_screen",
