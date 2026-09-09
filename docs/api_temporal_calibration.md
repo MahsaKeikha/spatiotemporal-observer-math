@@ -386,3 +386,7 @@ See [Proposition 53](proposition_53_physical_relaxation_time.md), [Experiment AM
 ## Interpretation rule
 
 These APIs calibrate temporal covariance and observer-like dynamical structure under explicit probabilistic assumptions. They do not measure or prove consciousness. Any later bridge to consciousness must be introduced separately under the [Interpretation Protocol](interpretation_protocol.md).
+
+## Physical-time irregular calibration API — Proposition 53B
+
+The `observer_math.irregular_relaxation_evalue` module exposes exact irregular-time likelihood, continuum e-value evaluation, cell-local certified outer covers, and independent target-family composition. The principal public symbols are `GaussianIrregularRelaxationEValueModel`, `GaussianIrregularRelaxationEValueGrid`, `GaussianIrregularRelaxationEValueOuterCover`, `GaussianIrregularRelaxationTargetBound`, `gaussian_irregular_relaxation_evalue_model`, `gaussian_irregular_relaxation_log_evalue`, `gaussian_irregular_relaxation_evalue_grid`, `gaussian_irregular_relaxation_evalue_outer_cover`, and `gaussian_irregular_relaxation_target_matrix_chernoff_bound`. They are also exported from the package root in release 0.42.0.

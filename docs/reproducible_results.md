@@ -1239,3 +1239,7 @@ aggregates are stored in
 - joint spatial-whitening and temporal-correlation estimation from one record
 - time-varying-mean corrections
 - nonseparable multivariate sliding-window constructions
+
+## Experiment AN — finite-sample irregular-time relaxation calibration
+
+The deterministic Experiment AN script calibrates `tau = 0.78 s` from 96 independent Gaussian channels on 32 irregular timestamps. The 2001-point diagnostic accepted span is `[0.69155, 0.84455] s`; the certified 160-cell outer cover retains `[0.495625, 1.1065625] s`. Seconds-versus-milliseconds log-e-value discrepancy is at most `2.05e-12`. The independent target composition has confidence `0.950625` and target covariance relative-error radius `3.1554895445`, which is valid but above the downstream `epsilon < 1` regime. See `irregular_relaxation_evalue_calibration.json` and `irregular_relaxation_evalue_calibration.svg`.

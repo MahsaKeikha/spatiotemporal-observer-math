@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.41.1-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.42.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one dynamical question:
@@ -217,14 +217,14 @@ A real system may require several relaxation times, oscillatory kernels, colored
 
 # 3. Current verified research record
 
-| Research record | 0.41.1 state |
+| Research record | 0.42.0 state |
 | --- | ---: |
 | Proved statements | **53 propositions** |
-| Reproducible studies | **39 experiments, A-Z and AA-AM** |
-| Scientific result figures | **27 figures** |
-| Claim-level tests | **188 tests** |
+| Reproducible studies | **40 experiments, A-Z and AA-AN** |
+| Scientific result figures | **28 figures** |
+| Claim-level tests | **195 tests** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software version | **0.41.1** |
+| Research-software version | **0.42.0** |
 
 The physics pipeline is an explanatory diagram and is not included in the 27 scientific-result figure count.
 
@@ -366,6 +366,10 @@ Does a temporal parameter describe the physical process itself, or does it chang
 | --- | --- |
 | [![Experiment AM: physical relaxation time](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Proposition 53: irregular-grid Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
 
+[![Experiment AN: finite-sample irregular-time tau calibration](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
+
+**Proposition 53B / Experiment AN:** the same physical-time parameter is now calibrated directly from an irregular record with a finite-sample continuum e-value. The visible likelihood-compatible region is approximately `[0.69155, 0.84455] s`, while the certified outer cover is `[0.495625, 1.1065625] s`. The difference is an explicit tightness gap, not a coverage failure.
+
 For the controlled exponential model,
 
 \[
@@ -472,17 +476,22 @@ Detailed proofs: [Propositions 15 to 31](docs/proofs_and_conjectures.md).
 
 Direct proof pages: [P44](docs/proposition_44_nuisance_projection.md), [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md), [P46](docs/proposition_46_design_specific_ar1_envelope.md), [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md), [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md), [P49](docs/proposition_49_compact_temporal_family.md), [P50](docs/proposition_50_calibrated_temporal_family.md), [P51](docs/proposition_51_evalue_temporal_confidence_set.md), [P52](docs/proposition_52_certified_evalue_outer_cover.md).
 
-## Layer E. Sampling-consistent physical representation, Proposition 53
+## Layer E. Sampling-consistent physical representation and inference, Proposition 53
 
 | Proposition | Mathematical question | Physical question |
 | ---: | --- | --- |
-| 53 | Can the exponential temporal family be parameterized by a physical relaxation time and factorized exactly on arbitrary increasing timestamps? | Does the inferred timescale survive sampling changes, and does the same physical model retain a local transition law under irregular or missing observations? |
+| 53A | Can the exponential temporal family be parameterized by a physical relaxation time and factorized exactly on arbitrary increasing timestamps? | Does the inferred timescale survive sampling changes, and does the same physical model retain a local transition law under irregular or missing observations? |
+| 53B | Can the physical relaxation time itself be calibrated with finite-sample coverage directly on irregular timestamps? | Which physical timescales remain compatible with an irregular calibration record, independent of the target experiment's sampling schedule? |
 
-[Full Proposition 53 proof](docs/proposition_53_physical_relaxation_time.md).
+[Proposition 53A proof](docs/proposition_53_physical_relaxation_time.md) | [Proposition 53B proof](docs/proposition_53b_irregular_tau_evalue.md).
 
 ---
 
-# 6. Latest physical result, Proposition 53 and Experiment AM
+# 6. Latest physical-statistical result, Proposition 53B and Experiment AN
+
+[![Experiment AN](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
+
+Proposition 53 now has two linked stages: **53A** establishes sampling-consistent physical time and exact irregular-grid Markov structure; **53B** uses that structure to calibrate the physical relaxation time directly with a finite-sample continuum e-value.
 
 | Sampling invariance | Exact irregular-grid local structure |
 | --- | --- |
@@ -543,6 +552,18 @@ Only **37 of 169** entries of the exact temporal precision matrix are nonzero.
 The numerical evaluations are visibility checks. The continuum guarantee comes from the analytic derivative bound, and the Markov, whitening, precision, and determinant identities come from the exact Proposition 53 derivation.
 
 [Full proof](docs/proposition_53_physical_relaxation_time.md) | [0.41.1 research record](docs/release_0_41_1.md) | [Machine-readable results](docs/physical_relaxation_sampling.json) | [Experiment script](examples/physical_relaxation_sampling.py) | [Sampling renderer](examples/render_physical_relaxation_sampling.py) | [Markov renderer](examples/render_physical_relaxation_markov.py) | [Claim-level tests](tests/test_physical_relaxation.py)
+
+### Proposition 53B: finite-sample physical-time calibration
+
+For Experiment AN, the true value is `tau = 0.78 s`. At 97.5% calibration confidence the continuum e-value diagnostic accepts approximately `[0.69155, 0.84455] s` on a 2001-point visibility grid. A deterministic cell-local derivative certificate safely retains `[0.495625, 1.1065625] s`, with 115 of 160 cells retained and 45 excluded.
+
+Changing seconds to milliseconds changes the checked log e-values by at most `2.05e-12`, confirming that the inference geometry is about physical time rather than the numerical unit used to write it.
+
+The retained family composes with Proposition 49 on a different independent 120-sample target timestamp grid. With calibration and target covariance confidence both `0.975`, the combined confidence is `0.950625`.
+
+The current target relative covariance radius is **`3.1554895445 > 1`**. This is an important limitation: the finite-sample calibration theorem is valid, but the current deterministic cover is still too conservative for downstream inverse-covariance perturbation theorems that require `epsilon < 1`. Tightening that cover is the next proof target.
+
+[Proposition 53B proof](docs/proposition_53b_irregular_tau_evalue.md) | [0.42.0 research record](docs/release_0_42.md) | [Experiment AN JSON](docs/irregular_relaxation_evalue_calibration.json) | [Experiment AN script](examples/irregular_relaxation_evalue_calibration.py) | [AN renderer](examples/render_irregular_relaxation_evalue.py) | [53B theorem tests](tests/test_irregular_relaxation_evalue.py)
 
 ---
 
@@ -633,6 +654,8 @@ Under its stated assumptions, the repository provides a conditional mathematical
 - turning that continuum set into a certified finite outer cover;
 - propagating retained temporal uncertainty into an independent target covariance certificate;
 - representing a single exponential temporal model by a physical relaxation time;
+- calibrating that physical relaxation time directly on irregular timestamps with finite-sample continuum coverage;
+- certifying a finite outer cover of the retained physical-time family and propagating it to an independent target grid;
 - preserving that model across uniform, coarse, irregular, missing-sample, and unit-rescaled time coordinates;
 - factorizing the irregular-grid exponential covariance into exact local Gaussian innovations;
 - whitening its temporal dependence exactly under the declared model;
@@ -661,7 +684,8 @@ Any future observer-to-consciousness interpretation must enter as an additional 
 | Assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
 | Public temporal and sampling API | [Temporal Calibration API](docs/api_temporal_calibration.md) |
 | Recent release history | [Recent Release History](docs/recent_release_history.md) |
-| Release 0.41.1 audit | [0.41.1 Research Record](docs/release_0_41_1.md) |
+| Release 0.42.0 audit | [0.42.0 Research Record](docs/release_0_42.md) |
+| Previous 0.41.1 audit | [0.41.1 Research Record](docs/release_0_41_1.md) |
 | Rules for any future consciousness interpretation | [Interpretation Protocol](docs/interpretation_protocol.md) |
 
 ---

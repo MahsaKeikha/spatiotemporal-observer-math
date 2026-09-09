@@ -91,3 +91,7 @@ This page continues the older root changelog for the newest theorem releases. It
 ## Earlier releases
 
 The root [`CHANGELOG.md`](../CHANGELOG.md) records releases through 0.36.0 in detail. This recent-history page continues that sequence for the newer temporal-family theorem releases.
+
+## 0.42.0
+
+Proposition 53B adds direct finite-sample inference for physical relaxation time on irregular timestamps. Experiment AN records continuum e-value calibration, a certified finite outer cover, time-unit invariance, and independent target composition. The release intentionally exposes the remaining tightness gap: target covariance radius `3.1554895445 > 1`. See [the 0.42.0 research record](release_0_42.md).
