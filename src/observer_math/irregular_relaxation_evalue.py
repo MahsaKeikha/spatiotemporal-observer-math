@@ -71,6 +71,7 @@ class GaussianIrregularRelaxationEValueOuterCover:
     cell_centers: np.ndarray
     cell_radius: float
     log_evalues_at_centers: np.ndarray
+    cell_log_likelihood_lipschitz_bounds: np.ndarray
     log_likelihood_lipschitz_bound: float
     retained_mask: np.ndarray
     retained_cell_count: int
@@ -155,7 +156,10 @@ def _transition_statistics(values: np.ndarray) -> tuple[np.ndarray, np.ndarray, 
     return sum_xx, sum_xy, sum_yy
 
 
-def _transition_parameters(sample_times: np.ndarray, relaxation_time: float) -> tuple[np.ndarray, np.ndarray]:
+def _transition_parameters(
+    sample_times: np.ndarray,
+    relaxation_time: float,
+) -> tuple[np.ndarray, np.ndarray]:
     tau = float(relaxation_time)
     if not np.isfinite(tau) or tau <= 0.0:
         raise ValueError("relaxation_time must be finite and positive")
@@ -216,10 +220,10 @@ def gaussian_irregular_relaxation_evalue_model(
 ) -> GaussianIrregularRelaxationEValueModel:
     """Build the exact irregular-time e-value model for a physical tau interval.
 
-    Assumptions are intentionally explicit. Calibration channels must be
-    independent standardized zero-mean Gaussian realizations with unit marginal
-    variance, a common exponential relaxation time, and the supplied common
-    timestamp grid. Unknown mean handling is not included in this theorem.
+    Calibration channels must be independent standardized zero-mean Gaussian
+    realizations with unit marginal variance, a common exponential relaxation
+    time, and the supplied common timestamp grid. Unknown mean handling is not
+    included in this theorem.
     """
     times = _validated_times(sample_times)
     lower, upper = _validated_relaxation_interval(
@@ -350,8 +354,11 @@ def _alpha_derivative_supremum(distance: float, lower: float, upper: float) -> f
 
 def gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(
     model: GaussianIrregularRelaxationEValueModel,
+    *,
+    lower_relaxation_time: float | None = None,
+    upper_relaxation_time: float | None = None,
 ) -> float:
-    """Return a data-dependent uniform bound on |d log p_tau / d tau|.
+    """Bound |d log p_tau / d tau| on a declared subinterval.
 
     The bound is deterministic conditional on the observed calibration record.
     It is used only for geometric containment of the already valid continuum
@@ -359,8 +366,24 @@ def gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(
     """
     if not isinstance(model, GaussianIrregularRelaxationEValueModel):
         raise TypeError("model has the wrong type")
-    lower = model.declared_relaxation_time_lower_bound
-    upper = model.declared_relaxation_time_upper_bound
+    lower = (
+        model.declared_relaxation_time_lower_bound
+        if lower_relaxation_time is None
+        else float(lower_relaxation_time)
+    )
+    upper = (
+        model.declared_relaxation_time_upper_bound
+        if upper_relaxation_time is None
+        else float(upper_relaxation_time)
+    )
+    if not (
+        model.declared_relaxation_time_lower_bound
+        <= lower
+        <= upper
+        <= model.declared_relaxation_time_upper_bound
+    ):
+        raise ValueError("requested Lipschitz interval lies outside the declared model")
+
     distances = np.diff(model.sample_times)
     total = 0.0
     for index, distance in enumerate(distances):
@@ -371,7 +394,9 @@ def gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(
         sum_xy_abs = abs(float(model.transition_sum_xy[index]))
         sum_yy = float(model.transition_sum_yy[index])
         residual_upper = (
-            sum_yy + 2.0 * alpha_max * sum_xy_abs + alpha_max * alpha_max * sum_xx
+            sum_yy
+            + 2.0 * alpha_max * sum_xy_abs
+            + alpha_max * alpha_max * sum_xx
         )
         first_term = (
             model.channel_count * alpha_max + alpha_max * sum_xx + sum_xy_abs
@@ -386,7 +411,12 @@ def gaussian_irregular_relaxation_evalue_outer_cover(
     *,
     cell_count: int = 200,
 ) -> GaussianIrregularRelaxationEValueOuterCover:
-    """Certify a finite outer cover of the continuum e-value confidence set."""
+    """Certify a finite outer cover of the continuum e-value confidence set.
+
+    Each cell uses a derivative bound computed only over that cell. A cell is
+    excluded only when the center log e-value minus the maximum possible
+    within-cell decrease still exceeds the rejection threshold everywhere.
+    """
     if not isinstance(model, GaussianIrregularRelaxationEValueModel):
         raise TypeError("model has the wrong type")
     if model.declared_relaxation_time_lower_bound == model.declared_relaxation_time_upper_bound:
@@ -403,8 +433,18 @@ def gaussian_irregular_relaxation_evalue_outer_cover(
         [gaussian_irregular_relaxation_log_evalue(model, float(tau)) for tau in centers],
         dtype=float,
     )
-    lipschitz = gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(model)
-    lower_log_evalue = log_evalues - lipschitz * cell_radius
+    cell_lipschitz = np.asarray(
+        [
+            gaussian_irregular_relaxation_log_likelihood_lipschitz_bound(
+                model,
+                lower_relaxation_time=float(edges[index]),
+                upper_relaxation_time=float(edges[index + 1]),
+            )
+            for index in range(count)
+        ],
+        dtype=float,
+    )
+    lower_log_evalue = log_evalues - cell_lipschitz * cell_radius
     retained = lower_log_evalue < model.log_evalue_threshold
     retained_count = int(np.sum(retained))
     if retained_count:
@@ -419,7 +459,8 @@ def gaussian_irregular_relaxation_evalue_outer_cover(
         cell_centers=centers,
         cell_radius=cell_radius,
         log_evalues_at_centers=log_evalues,
-        log_likelihood_lipschitz_bound=lipschitz,
+        cell_log_likelihood_lipschitz_bounds=cell_lipschitz,
+        log_likelihood_lipschitz_bound=float(np.max(cell_lipschitz)),
         retained_mask=retained,
         retained_cell_count=retained_count,
         excluded_cell_count=int(count - retained_count),
