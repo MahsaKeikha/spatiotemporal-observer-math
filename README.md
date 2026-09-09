@@ -1020,9 +1020,9 @@ The guiding question remains:
 
 ---
 
-# 12. Reproducibility and audit trail
+# 12. Reproducibility, citations, and audit trail
 
-A result is documented with the relevant combination of assumptions, theorem or operational definition, derivation, implementation, tests, machine-readable numerical data, and visible figure.
+A result is documented with the relevant combination of assumptions, theorem or operational definition, derivation, implementation, tests, machine-readable numerical data, visible figure, and source provenance.
 
 Repository-local Markdown and image targets are checked automatically in the test suite.
 
@@ -1043,9 +1043,7 @@ ruff check .
 
 For a complete audit, use the [Research Index](docs/research_index.md), [Assumption Ledger](docs/assumption_ledger.md), [Reproducible Results](docs/reproducible_results.md), and [Visual Research Guide](docs/visual_research_guide.md).
 
----
-
-# 13. Citations and bibliography
+## 12.2 Citation architecture
 
 The repository separates three forms of provenance:
 
@@ -1060,7 +1058,7 @@ The repository separates three forms of provenance:
 | [`CITATION.cff`](CITATION.cff) | citation metadata for this repository |
 | [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md) | equation-by-equation provenance |
 
-## 13.1 Source-role map
+### 12.2.1 Source-role map
 
 | Source | Role in this research |
 | --- | --- |
@@ -1072,21 +1070,50 @@ The repository separates three forms of provenance:
 | [Jaccard 1901](docs/bibliography.md#jaccard-1901) | set-overlap continuity geometry |
 | [Bellman 1952](docs/bibliography.md#bellman-1952) | dynamic-programming lineage |
 | [Wishart 1928](docs/bibliography.md#wishart-1928) | Gaussian covariance sampling law |
+| [Aitken 1936](docs/bibliography.md#aitken-1936) | generalized least-squares lineage |
 | [Bhatia 1997](docs/bibliography.md#bhatia-1997) | matrix perturbation and matrix-analysis tools |
+| [Davidson and Szarek 2001](docs/bibliography.md#davidson-and-szarek-2001) | Gaussian random-matrix concentration context |
+| [Laurent and Massart 2000](docs/bibliography.md#laurent-and-massart-2000) | chi-square concentration |
+| [Hsu, Kakade, and Zhang 2012](docs/bibliography.md#hsu-kakade-and-zhang-2012) | quadratic-form concentration |
 | [Tropp 2012](docs/bibliography.md#tropp-2012) | matrix concentration methodology |
 | [Uhlenbeck and Ornstein 1930](docs/bibliography.md#uhlenbeck-and-ornstein-1930) | physical stochastic relaxation context |
 | [Doob 1942](docs/bibliography.md#doob-1942) | Gaussian Markov-process context |
 | [Vovk and Wang 2021](docs/bibliography.md#vovk-and-wang-2021) | e-value calibration methodology |
-| [Shafer 2021](docs/bibliography.md#shafer-2021) | e-value statistical context |
-| [Vovk and Wang 2023](docs/bibliography.md#vovk-and-wang-2023) | later e-value methodology used in the calibration chain |
+| [Shafer 2021](docs/bibliography.md#shafer-2021) | betting/e-value statistical context |
+| [Vovk and Wang 2023](docs/bibliography.md#vovk-and-wang-2023) | confidence-set context for e-values |
 
-Exact source roles are maintained in the bibliography rather than treated as a generic reference list.
+## 12.3 References cited in the main research narrative
+
+1. **Tegmark, M.** "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270. DOI: [10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014). Preprint: [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
+2. **Tegmark, M.** "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123. DOI: [10.1371/journal.pcbi.1005123](https://doi.org/10.1371/journal.pcbi.1005123).
+3. **Tononi, G.** "An Information Integration Theory of Consciousness." _BMC Neuroscience_ 5 (2004): 42. DOI: [10.1186/1471-2202-5-42](https://doi.org/10.1186/1471-2202-5-42).
+4. **Balduzzi, D., and Tononi, G.** "Integrated Information in Discrete Dynamical Systems: Motivation and Theoretical Framework." _PLOS Computational Biology_ 4(6) (2008): e1000091. DOI: [10.1371/journal.pcbi.1000091](https://doi.org/10.1371/journal.pcbi.1000091).
+5. **Oizumi, M., Albantakis, L., and Tononi, G.** "From the Phenomenology to the Mechanisms of Consciousness: Integrated Information Theory 3.0." _PLOS Computational Biology_ 10(5) (2014): e1003588. DOI: [10.1371/journal.pcbi.1003588](https://doi.org/10.1371/journal.pcbi.1003588).
+6. **Shannon, C. E.** "A Mathematical Theory of Communication." _Bell System Technical Journal_ 27 (1948), Parts I and II. DOI Part I: [10.1002/j.1538-7305.1948.tb01338.x](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x).
+7. **Cover, T. M., and Thomas, J. A.** _Elements of Information Theory_, 2nd ed. Wiley, 2006. DOI: [10.1002/047174882X](https://doi.org/10.1002/047174882X).
+8. **Hotelling, H.** "Relations Between Two Sets of Variates." _Biometrika_ 28(3-4) (1936): 321-377. DOI: [10.1093/biomet/28.3-4.321](https://doi.org/10.1093/biomet/28.3-4.321).
+9. **Jaccard, P.** "Etude comparative de la distribution florale dans une portion des Alpes et du Jura." _Bulletin de la Societe Vaudoise des Sciences Naturelles_ 37(142) (1901): 547-579. DOI: [10.5169/seals-266450](https://doi.org/10.5169/seals-266450).
+10. **Bellman, R.** "On the Theory of Dynamic Programming." _Proceedings of the National Academy of Sciences_ 38(8) (1952): 716-719. DOI: [10.1073/pnas.38.8.716](https://doi.org/10.1073/pnas.38.8.716).
+11. **Wishart, J.** "The Generalised Product Moment Distribution in Samples from a Normal Multivariate Population." _Biometrika_ 20A(1-2) (1928): 32-52. DOI: [10.1093/biomet/20a.1-2.32](https://doi.org/10.1093/biomet/20a.1-2.32).
+12. **Aitken, A. C.** "On Least Squares and Linear Combination of Observations." _Proceedings of the Royal Society of Edinburgh_ 55 (1936): 42-48. DOI: [10.1017/S0370164600014346](https://doi.org/10.1017/S0370164600014346).
+13. **Bhatia, R.** _Matrix Analysis_. Graduate Texts in Mathematics 169. Springer, 1997. DOI: [10.1007/978-1-4612-0653-8](https://doi.org/10.1007/978-1-4612-0653-8).
+14. **Davidson, K. R., and Szarek, S. J.** "Local Operator Theory, Random Matrices and Banach Spaces." In _Handbook of the Geometry of Banach Spaces_, Vol. 1, 317-366. Elsevier, 2001. DOI: [10.1016/S1874-5849(01)80010-3](https://doi.org/10.1016/S1874-5849(01)80010-3).
+15. **Laurent, B., and Massart, P.** "Adaptive Estimation of a Quadratic Functional by Model Selection." _The Annals of Statistics_ 28(5) (2000): 1302-1338. DOI: [10.1214/aos/1015957395](https://doi.org/10.1214/aos/1015957395).
+16. **Hsu, D., Kakade, S. M., and Zhang, T.** "A Tail Inequality for Quadratic Forms of Subgaussian Random Vectors." _Electronic Communications in Probability_ 17(52) (2012): 1-6. DOI: [10.1214/ECP.v17-2079](https://doi.org/10.1214/ECP.v17-2079).
+17. **Tropp, J. A.** "User-Friendly Tail Bounds for Sums of Random Matrices." _Foundations of Computational Mathematics_ 12 (2012): 389-434. DOI: [10.1007/s10208-011-9099-z](https://doi.org/10.1007/s10208-011-9099-z).
+18. **Vovk, V., and Wang, R.** "E-values: Calibration, Combination, and Applications." _The Annals of Statistics_ 49(3) (2021): 1736-1754. DOI: [10.1214/20-AOS2020](https://doi.org/10.1214/20-AOS2020).
+19. **Shafer, G.** "Testing by Betting: A Strategy for Statistical and Scientific Communication." _Journal of the Royal Statistical Society: Series A_ 184(2) (2021): 407-431. DOI: [10.1111/rssa.12647](https://doi.org/10.1111/rssa.12647).
+20. **Vovk, V., and Wang, R.** "Confidence and Discoveries with E-values." _Statistical Science_ 38(2) (2023): 329-354. DOI: [10.1214/22-STS874](https://doi.org/10.1214/22-STS874).
+21. **Uhlenbeck, G. E., and Ornstein, L. S.** "On the Theory of the Brownian Motion." _Physical Review_ 36 (1930): 823-841. DOI: [10.1103/PhysRev.36.823](https://doi.org/10.1103/PhysRev.36.823).
+22. **Doob, J. L.** "The Brownian Movement and Stochastic Equations." _Annals of Mathematics_ 43(2) (1942): 351-369. DOI: [10.2307/1968873](https://doi.org/10.2307/1968873).
+
+The wider proposition-to-literature map, including Helmert contrasts and additional theorem-specific sources, is maintained in the [Bibliography and Citation Map](docs/bibliography.md) and [`references.bib`](references.bib).
 
 ---
 
-# 14. Relationship to Tegmark's observer-factorization question
+# 13. Relationship to Tegmark's observer-factorization question
 
-## 14.1 Primary conceptual source
+## 13.1 Primary conceptual source
 
 **Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270.**
 
@@ -1106,7 +1133,7 @@ S_0\to S_1\to\cdots\to S_{T-1}.
 
 The central object is therefore not one selected partition but a path through candidate subsystem space.
 
-## 14.2 Conceptual lineage and mathematical development
+## 13.2 Conceptual lineage and mathematical development
 
 | Scientific element | Tegmark 2015 lineage | Development in this repository |
 | --- | --- | --- |
@@ -1125,7 +1152,7 @@ The central object is therefore not one selected partition but a path through ca
 
 The conceptual lineage begins with the factorization question. The subsequent work develops a time-dependent inference and certification framework around that question.
 
-## 14.3 Mathematical extension in one picture
+## 13.3 Mathematical extension in one picture
 
 ```text
 Tegmark observer-factorization question
@@ -1154,7 +1181,7 @@ physical measurement certification
 
 The extension developed here is a mathematical program for **dynamically inferred, time-dependent subsystem boundaries** with explicit recovery, uncertainty, identifiability, and falsification conditions.
 
-## 14.4 Related Tegmark work
+## 13.4 Related Tegmark work
 
 **Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123.**
 
@@ -1164,7 +1191,7 @@ The extension developed here is a mathematical program for **dynamically inferre
 
 This work provides relevant context on integrated-information measures and factorization choices. The world-tube construction, transport functional, recovery theorems, and finite-sample measurement program are developed separately in this repository.
 
-## 14.5 Interpretive scope and citation practice
+## 13.5 Interpretive scope and citation practice
 
 The formal results here concern operational subsystem identification, dynamical persistence, recovery, identifiability, and measurement certification. A physical application must separately validate the observation model and its assumptions. Further interpretation requires additional bridge assumptions and empirical evidence.
 
