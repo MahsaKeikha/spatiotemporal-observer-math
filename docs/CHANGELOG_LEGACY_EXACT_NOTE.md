@@ -1,0 +1,1 @@
+Legacy changelog exact archival is maintained by repository history.
