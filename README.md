@@ -4,300 +4,383 @@
 [![version](https://img.shields.io/badge/version-0.47.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
-An open mathematical research program by **Mahsa Keikha, PhD** built around one dynamical question:
+**Mahsa Keikha, PhD**
 
 > **If a subsystem is allowed to move through a larger physical system, when can its boundary be inferred from the dynamics rather than fixed in advance?**
 
-The project starts from a moving-boundary physical problem and develops the mathematics needed to make that inference accountable: recovery, identifiability, finite-sample covariance certification, temporal-memory calibration, sampling-consistent physical time, innovation inference, and finally a deterministic bridge from covariance uncertainty back to the complete moving world-tube objective.
+This repository develops a mathematical and computational framework for **time-dependent subsystem identification**. The object of inference is not one static partition, but a moving path of candidate boundaries whose internal organization, environmental insulation, persistence, and transport are supported by the measured dynamics.
+
+The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). The mathematics developed here is an independent extension to time-dependent boundaries, finite-sample recovery, identifiability, physical-time calibration, and measurement certification. No endorsement by Tegmark is implied, and no theorem in this repository establishes consciousness.
 
 ## Start here
 
 | Reader goal | Best entry point |
 | --- | --- |
-| Understand the whole project visually | **[Visual Research Guide](docs/visual_research_guide.md)** |
-| Understand the physics and units | [Physics Guide](docs/physics_guide.md) |
-| See physics, equations, provenance, and citations side by side | **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)** |
+| Understand the entire project visually | **[Visual Research Guide](docs/visual_research_guide.md)** |
+| Understand the physics, units, and model assumptions | **[Physics Guide](docs/physics_guide.md)** |
+| See equations, physical meaning, and citations side by side | **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)** |
 | Read the scientific story in prose | [Research Overview](docs/research_overview.md) |
-| Audit every proposition and experiment | [Research Index](docs/research_index.md) |
+| Audit every theorem and experiment | [Research Index](docs/research_index.md) |
 | Check assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
-| Trace external literature and citations | [Bibliography and Citation Map](docs/bibliography.md) |
+| Trace every external source | [Bibliography and Citation Map](docs/bibliography.md) |
+| Read machine-readable references | [`references.bib`](references.bib) |
 | Understand the interpretation boundary | [Interpretation Protocol](docs/interpretation_protocol.md) |
 
 ---
 
-# Latest result at a glance: Proposition 58 / Experiment AS
+# 1. Scientific thesis in one minute
 
-[![Experiment AS: observer-scale covariance-to-world-tube certification audit](docs/observer_bridge_dimension_audit.svg)](docs/proposition_58_observer_bridge.md)
+Most analyses begin by choosing a subsystem boundary and then studying its dynamics. This project reverses part of that order.
 
-The recent physical-time sequence solved an important scalar covariance problem. Proposition 56 showed that exact local innovation coordinates can reduce the scalar target covariance radius from approximately `2.16725` to `0.43644`. Proposition 57 retained a uniform scalar radius `0.86771 < 1` even when the physical relaxation time was known only through a finite-sample calibrated interval.
-
-**Proposition 58 returns that measurement theory to the original observer problem.** It asks whether simultaneous relative covariance uncertainty on the blocks actually used by the observer score can be propagated through integration, insulation, persistence, transport, and the complete moving world-tube objective without spending another probability budget.
-
-For a future candidate boundary \(S\), define the observer covariance block
+At time \(t\), let the measured state be
 
 \[
 \boxed{
-B_{t,S}=(X_t,X_{t+1}^{S})
+X_t=(X_t^{(1)},\ldots,X_t^{(n)}).
 }
-\]
-
-with dimension
-
-\[
-\boxed{d_{\mathrm{obs}}=n+s.}
-\]
-
-On the controlled seven-coordinate moving-module benchmark,
-
-\[
-n=7,\qquad s=3,\qquad T=5,\qquad C={7\choose3}=35,
-\]
-
-so the observer problem requires
-
-\[
-\boxed{d_{\mathrm{obs}}=10,\qquad B_{\mathrm{obs}}=TC=175.}
-\]
-
-The 4,900 candidate edges reuse these same target-indexed covariance blocks. They do not require 4,900 distinct covariance matrices.
-
-The planted and recovered population path is
-
-```text
-(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
-```
-
-with population action margin
-
-\[
-0.1264216185.
-\]
-
-The crucial observer-scale diagnostic is negative and scientifically informative. Even when the true physical relaxation time is supplied exactly, the current matrix theorem at 118 residual innovation degrees gives
-
-\[
-\boxed{
-\varepsilon_{\mathrm{observer}}=1.8573569119>1.
-}
-\]
-
-The same theorem first enters the relative perturbation regime at 346 residual innovation degrees, where
-
-\[
-\varepsilon=0.9991303523<1.
-\]
-
-But crossing one is not sufficient to certify the full world-tube. The current generic end-to-end factor-perturbation chain requires a much smaller uniform covariance radius, approximately
-
-\[
-1.11\times10^{-4}.
-\]
-
-The corresponding enormous residual-degree calculation is explicitly a **conservatism diagnostic, not a physical sample requirement**.
-
-This identifies the next theorem frontier cleanly: factor-specific covariance blocks, screen-first simultaneity reduction, candidate-local radii, and direct score-margin concentration. The bottleneck is now dimensional and structural, not another refinement of physical-time calibration.
-
-[Full Proposition 58](docs/proposition_58_observer_bridge.md) | [Experiment AS JSON](docs/observer_bridge_dimension_audit.json) | [Experiment AS script](examples/observer_bridge_dimension_audit.py) | [AS renderer](examples/render_observer_bridge_dimension_audit.py) | [Claim-level tests](tests/test_observer_bridge.py)
-
----
-
-# 1. Research lineage and interpretation boundary
-
-The **primary conceptual source and starting point** is Max Tegmark's paper [**"Consciousness as a State of Matter"**](https://doi.org/10.1016/j.chaos.2015.03.014), with technical preprint [arXiv:1401.1219](https://arxiv.org/abs/1401.1219).
-
-Tegmark asks why observers perceive a particular factorization of the physical world and studies information, integration, independence, and dynamics as candidate organizing principles. This repository takes that factorization and observer-identification question in a separate operational direction: the relevant subsystem boundary may change with time and must be inferred from dynamical organization rather than fixed in advance.
-
-The propositions and experiments here are not reproductions of Tegmark's derivations, and no endorsement by Tegmark is implied. The later mathematics also draws on information theory, canonical correlation, dynamic programming, Gaussian and random-matrix concentration, e-value statistics, and classical stochastic relaxation. See the [Bibliography and Citation Map](docs/bibliography.md), the [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md), and [`references.bib`](references.bib).
-
-The word **observer** is operational here. It means a mathematically defined persistent moving subsystem. The results do **not** prove consciousness or subjective experience. Any future observer-to-consciousness interpretation requires additional bridge assumptions under the [Interpretation Protocol](docs/interpretation_protocol.md).
-
----
-
-# 2. The complete physical problem in one picture
-
-[![Physics to inference pipeline](docs/physics_pipeline.svg)](docs/physics_guide.md)
-
-The figure is the shortest route through the project:
-
-```text
-physical observables
-        |
-effective dynamics
-        |
-nuisance and temporal memory
-        |
-certified covariance geometry
-        |
-candidate boundary S_t
-        |
-integration + insulation + persistence + transport
-        |
-world-tube optimization
-        |
-margin + identifiability + finite-sample recovery
-        |
-interpretation boundary
-```
-
-At time \(t\), write the measured state as
-
-\[
-X_t=(X_t^{(1)},\ldots,X_t^{(n)}),
-\]
-
-with local effective dynamics
-
-\[
-X_{t+1}=A_tX_t+\varepsilon_t,
-\qquad
-\varepsilon_t\sim\mathcal N(0,Q_t).
 \]
 
 A candidate subsystem is
 
 \[
+\boxed{
 S_t\subseteq\{1,\ldots,n\},
+}
 \]
 
-and its changing history is
+and its moving history is
 
 \[
-\mathcal W=(S_0,S_1,\ldots,S_{T-1}),
+\boxed{
+\mathcal W=(S_0,S_1,\ldots,S_{T-1}).
+}
 \]
 
-called an **observer world-tube** in this repository.
+The central question is whether the data support one such path more strongly than its alternatives after finite-sample uncertainty, temporal memory, nuisance structure, and identifiability limits are included.
 
-The operational score uses four ideas:
+The operational score uses four distinct dynamical ideas:
 
-1. **Integration:** internal parts predict one another.
-2. **Insulation:** outside variables add comparatively limited predictive information after conditioning on the candidate state.
-3. **Persistence:** the organization carries predictive structure into its future.
-4. **Transport:** the organization can move into new measured coordinates without losing dynamical continuity.
+| Property | Physical question | Mathematical role |
+| --- | --- | --- |
+| **Integration** | Do internal parts add predictive information about one another? | directed conditional-information cut |
+| **Insulation** | Does the measured exterior add comparatively limited next-step prediction? | conditional environmental leakage |
+| **Persistence** | Does collective organization survive into the future? | canonical-correlation persistence |
+| **Transport** | Can organization move into different measured coordinates? | cross-boundary predictive continuity |
 
-These are stochastic-dynamical properties, not definitions of consciousness.
+The inferred world-tube is therefore a **dynamically supported moving subsystem**, not a fixed coordinate convention.
 
 ---
 
-# 3. Seven equations that organize the program
+# 2. Physics first: observation model and fluctuation geometry
 
-## 3.1 Adjacent-state covariance
+The main analytical observation model is
 
 \[
+\boxed{
+X_{t+1}=A_tX_t+\varepsilon_t,
+\qquad
+\varepsilon_t\sim\mathcal N(0,Q_t),
+\qquad
+\varepsilon_t\perp X_t.
+}
+\]
+
+Here \(A_t\) is an effective one-step coupling or propagation operator in the chosen measured coordinates, while \(Q_t\) represents unresolved stochastic forcing inside the declared model.
+
+If
+
+\[
+\Sigma_t=\operatorname{Cov}(X_t),
+\]
+
+then
+
+\[
+\boxed{
+\Sigma_{t+1}=A_t\Sigma_tA_t^{\mathsf T}+Q_t
+}
+\]
+
+and
+
+\[
+\boxed{
+\operatorname{Cov}(X_t,X_{t+1})=\Sigma_tA_t^{\mathsf T}.
+}
+\]
+
+Therefore
+
+\[
+\boxed{
 \operatorname{Cov}
 \begin{pmatrix}
 X_t\\X_{t+1}
 \end{pmatrix}
 =
 \begin{pmatrix}
-\Sigma_t & \Sigma_tA_t^\mathsf T\\
-A_t\Sigma_t & A_t\Sigma_tA_t^\mathsf T+Q_t
+\Sigma_t & \Sigma_tA_t^{\mathsf T}\\
+A_t\Sigma_t & A_t\Sigma_tA_t^{\mathsf T}+Q_t
 \end{pmatrix}.
+}
 \]
 
-This is the fluctuation geometry from which the Gaussian information quantities are computed.
+This joint covariance is the fluctuation geometry from which the Gaussian information quantities are computed.
 
-## 3.2 Canonical transport
+[![Physics to inference pipeline](docs/physics_pipeline.svg)](docs/physics_guide.md)
+
+The model is an analytical approximation, not a claim that all physical systems are fundamentally linear, Gaussian, stationary, or separable. A physical application must validate its observables, units, sampling, nuisance structure, temporal law, and candidate geometry. See the [Physics Guide](docs/physics_guide.md).
+
+---
+
+# 3. Core mathematics and provenance
+
+## 3.1 Gaussian information quantities
+
+For Gaussian subvectors \(X\) and \(Y\),
 
 \[
-C=\Sigma_X^{-1/2}\Sigma_{XY}\Sigma_Y^{-1/2}.
+\boxed{
+I(X;Y)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_X\det\Sigma_Y}{\det\Sigma_{XY}}.
+}
 \]
 
-Whitening removes raw coordinate scale so singular values of \(C\) describe predictive transport between collective fluctuation directions.
+For conditioning vector \(Z\),
 
-## 3.3 Moving world-tube objective
+\[
+\boxed{
+I(X;Y\mid Z)
+=
+\frac{1}{2}\log_2
+\frac{\det\Sigma_{XZ}\det\Sigma_{YZ}}
+{\det\Sigma_Z\det\Sigma_{XYZ}}.
+}
+\]
+
+**Lineage:** [Shannon 1948](docs/bibliography.md#shannon-1948) and [Cover and Thomas 2006](docs/bibliography.md#cover-and-thomas-2006).
+
+## 3.2 Integration
+
+For a nontrivial bipartition \(S=U\sqcup V\),
+
+\[
+J_t(U,V)
+=
+I(X_U^{t+1};X_V^t\mid X_U^t)
++
+I(X_V^{t+1};X_U^t\mid X_V^t),
+\]
+
+\[
+\boxed{
+\mathcal J_t(S)
+=
+\frac{1}{|S|}
+\min_{U\sqcup V=S}J_t(U,V),
+}
+\]
+
+\[
+\boxed{
+G_t(S)=1-2^{-\mathcal J_t(S)}.
+}
+\]
+
+The broader conceptual lineage includes [Tegmark 2015](docs/bibliography.md#tegmark-2015), [Tegmark 2016](docs/bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The directed minimum-cut score above is a **repository definition**, not IIT Phi and not a Tegmark theorem.
+
+## 3.3 Environmental insulation
+
+Let \(\bar S\) denote measured coordinates outside \(S\). Define
+
+\[
+\boxed{
+\mathcal L_t(S)
+=
+\frac{1}{|S|}
+I(X_S^{t+1};X_{\bar S}^t\mid X_S^t),
+}
+\]
+
+\[
+\boxed{
+K_t(S)=2^{-\mathcal L_t(S)}.
+}
+\]
+
+This measures relative predictive closure, not thermodynamic isolation.
+
+## 3.4 Persistence
+
+For vectors \(X\) and \(Y\),
+
+\[
+C
+=
+\Sigma_X^{-1/2}
+\operatorname{Cov}(X,Y)
+\Sigma_Y^{-1/2}.
+\]
+
+Let \(\rho_i\) be the singular values of \(C\). Define
+
+\[
+\boxed{
+P(X,Y)=\frac{1}{r}\sum_{i=1}^{r}\rho_i^2,
+\qquad
+r=\min(\dim X,\dim Y).
+}
+\]
+
+**Lineage:** canonical correlation from [Hotelling 1936](docs/bibliography.md#hotelling-1936), with matrix-analysis tools from [Bhatia 1997](docs/bibliography.md#bhatia-1997).
+
+## 3.5 Transport
+
+For source \(S\) at time \(t\) and target \(R\) at time \(t+1\),
+
+\[
+P_t(S\to R)=P(X_S^t,X_R^{t+1}),
+\]
+
+\[
+L_t(S\to R)
+=
+\frac{1}{|R|}
+I(X_R^{t+1};X_{\bar S}^t\mid X_S^t),
+\]
+
+\[
+\boxed{
+\Theta_t(S\to R)
+=
+\sqrt{P_t(S\to R)2^{-L_t(S\to R)}}.
+}
+\]
+
+This repository definition allows the organization to persist even when the measured coordinates representing it change.
+
+## 3.6 Local score and world-tube objective
+
+\[
+\boxed{
+\Omega_t(S)
+=
+\left[
+G_t(S)K_t(S)P(X_S^t,X_S^{t+1})
+\right]^{1/3}.
+}
+\]
 
 For path \(p=(j_0,\ldots,j_{T-1})\),
 
 \[
-A(p)
-=
-\sum_t\ell_t(j_t)
-+\chi\sum_t\theta_t(j_t,j_{t+1})
--\lambda\sum_t d(j_t,j_{t+1}).
+\boxed{
+A(p)=
+\sum_{t=0}^{T-1}\Omega_t(S^{(j_t)})
++
+\chi\sum_{t=0}^{T-2}\Theta_t(S^{(j_t)}\to S^{(j_{t+1})})
+-
+\lambda\sum_{t=0}^{T-2}d_J(S^{(j_t)},S^{(j_{t+1})}).
+}
 \]
 
-The first term rewards local candidate quality, the second rewards predictive continuity, and the third penalizes implausibly discontinuous boundary motion.
-
-The quantity called an `action margin` is an optimization margin. It is not physical action in joule-seconds.
-
-## 3.4 Relative covariance certification
+with
 
 \[
+\boxed{
+d_J(S,R)
+=
+1-
+\frac{|S\cap R|}{|S\cup R|}.
+}
+\]
+
+**Lineage:** Jaccard geometry from [Jaccard 1901](docs/bibliography.md#jaccard-1901); exact finite-horizon optimization uses dynamic programming in the lineage of [Bellman 1952](docs/bibliography.md#bellman-1952). The complete world-tube objective is a repository definition.
+
+The term `action margin` is an optimization margin. It is not physical action in joule-seconds.
+
+## 3.7 Relative covariance certification
+
+The central finite-sample event is
+
+\[
+\boxed{
 \left\|
 \Sigma^{-1/2}
 (\widehat\Sigma-\Sigma)
 \Sigma^{-1/2}
 \right\|_2
 \le\epsilon.
+}
 \]
 
 When \(\epsilon<1\), inverse-covariance perturbation calculations remain in a controlled regime. The value one is a mathematical threshold, not a physical phase transition.
 
-## 3.5 Sampling-consistent physical relaxation
+**Lineage:** [Wishart 1928](docs/bibliography.md#wishart-1928), [Tropp 2012](docs/bibliography.md#tropp-2012), and [Bhatia 1997](docs/bibliography.md#bhatia-1997).
+
+## 3.8 Physical relaxation time and local innovations
+
+The sampling-consistent temporal model is
 
 \[
+\boxed{
 K_\tau(t_i,t_j)
 =
-\exp\left(-\frac{|t_i-t_j|}{\tau}\right),
-\qquad
-\phi_{\Delta t}=e^{-\Delta t/\tau}.
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+}
 \]
 
-The physical relaxation time \(\tau\) remains fixed while the discrete one-step correlation changes with acquisition interval.
-
-## 3.6 Exact irregular-grid innovation structure
-
-For
+For irregular adjacent gaps,
 
 \[
 \alpha_i=e^{-(t_{i+1}-t_i)/\tau},
 \]
 
-Proposition 53 gives
+and Proposition 53 gives
 
 \[
+\boxed{
 X_{i+1}
 =
 \alpha_iX_i+
 \sqrt{1-\alpha_i^2}\,\varepsilon_i,
+}
 \]
 
-and an exact lower-bidiagonal temporal whitener
+with exact local whitener
 
 \[
-W_\tau R_\tau W_\tau^\mathsf T=I,
+\boxed{
+W_\tau R_\tau W_\tau^{\mathsf T}=I,
 \qquad
-R_\tau^{-1}=W_\tau^\mathsf T W_\tau.
+R_\tau^{-1}=W_\tau^{\mathsf T}W_\tau.
+}
 \]
 
-## 3.7 Observer-scale covariance bridge
+**Physical lineage:** [Uhlenbeck and Ornstein 1930](docs/bibliography.md#uhlenbeck-and-ornstein-1930) and Gaussian Markov-process context from [Doob 1942](docs/bibliography.md#doob-1942). The irregular-grid formulas used by this project are proved directly in Proposition 53.
 
-For future candidate \(S\), Proposition 58 uses
+## 3.9 Equation provenance summary
 
-\[
-B_{t,S}=(X_t,X_{t+1}^{S}),
-\]
-
-which contains the covariance submatrices needed for that candidate's local factors and all incoming transport edges. A simultaneous covariance certificate on these blocks can therefore be propagated deterministically to a world-tube path certificate without spending a new probability budget.
-
-## 3.8 Equation provenance at a glance
-
-The full derivations and source roles are collected in the **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)**. The table below separates external foundations from repository definitions and theorems.
-
-| Mathematical object | Physical role | Provenance / citation |
+| Object | Status | Main source or proof |
 | --- | --- | --- |
-| Adjacent-state covariance | fluctuation geometry generated by the declared effective dynamics | repository observation model + standard covariance propagation; [Derivations](docs/derivations.md) |
-| Gaussian mutual and conditional information | predictive statistical dependence | [Shannon 1948](docs/bibliography.md#shannon-1948); [Cover and Thomas 2006](docs/bibliography.md#cover-and-thomas-2006) |
-| Integration and environmental insulation | internal predictive coupling and relative predictive closure | repository operational definitions built on Gaussian information theory; [Derivations §§3-4](docs/derivations.md#internal-directed-integration) |
-| Canonical persistence and transport | predictive continuity of collective fluctuation directions | [Hotelling 1936](docs/bibliography.md#hotelling-1936); matrix tools [Bhatia 1997](docs/bibliography.md#bhatia-1997) |
-| Jaccard continuity + world-tube dynamic program | weak material continuity and exact finite-horizon path optimization | [Jaccard 1901](docs/bibliography.md#jaccard-1901); [Bellman 1952](docs/bibliography.md#bellman-1952); complete objective is a repository definition |
-| Relative covariance concentration | finite-sample control of fluctuation geometry | [Wishart 1928](docs/bibliography.md#wishart-1928); [Tropp 2012](docs/bibliography.md#tropp-2012); [Bhatia 1997](docs/bibliography.md#bhatia-1997) |
-| Physical relaxation + irregular-grid innovations | sampling-consistent temporal memory and local stochastic innovations | [Uhlenbeck and Ornstein 1930](docs/bibliography.md#uhlenbeck-and-ornstein-1930); [Doob 1942](docs/bibliography.md#doob-1942); exact repository formulas in P53 |
-| Covariance-aware nuisance removal | remove declared deterministic modes in the temporal covariance geometry | generalized least-squares lineage [Aitken 1936](docs/bibliography.md#aitken-1936); exact Wishart reduction in P56 |
-| E-value calibration of physical time | finite-sample confidence set for temporal parameters | [Vovk and Wang 2021](docs/bibliography.md#vovk-and-wang-2021); [Shafer 2021](docs/bibliography.md#shafer-2021); [Vovk and Wang 2023](docs/bibliography.md#vovk-and-wang-2023) |
-| Covariance-to-world-tube bridge | propagate measurement uncertainty to the full moving-boundary objective | repository Proposition 58, using matrix-perturbation background from [Bhatia 1997](docs/bibliography.md#bhatia-1997) |
+| observer-factorization question | external conceptual starting point | [Tegmark 2015](docs/bibliography.md#tegmark-2015) |
+| \(S_t\), \(\mathcal W\) | repository definitions | [Derivations](docs/derivations.md) |
+| Gaussian MI and CMI | standard identities | [Shannon 1948](docs/bibliography.md#shannon-1948), [Cover and Thomas 2006](docs/bibliography.md#cover-and-thomas-2006) |
+| integration and insulation scores | repository definitions | [Derivations](docs/derivations.md) |
+| canonical persistence | standard CCA ingredient + repository averaging | [Hotelling 1936](docs/bibliography.md#hotelling-1936) |
+| transport score | repository definition | [Derivations](docs/derivations.md) |
+| Jaccard continuity | standard set geometry used by repository | [Jaccard 1901](docs/bibliography.md#jaccard-1901) |
+| dynamic program | standard optimization method | [Bellman 1952](docs/bibliography.md#bellman-1952) |
+| Gaussian covariance law | external foundation | [Wishart 1928](docs/bibliography.md#wishart-1928) |
+| matrix concentration | external method specialized here | [Tropp 2012](docs/bibliography.md#tropp-2012) |
+| e-value calibration | external statistical method specialized here | [Vovk and Wang 2021](docs/bibliography.md#vovk-and-wang-2021) |
+| physical relaxation and innovation factorization | declared model + repository theorem | [P53](docs/proposition_53_physical_relaxation_time.md) |
+| robust uncertain-\(\tau\) whitening | repository theorem | [P57](docs/proposition_57_robust_innovation_whitening.md) |
+| covariance-to-world-tube bridge | repository theorem | [P58](docs/proposition_58_observer_bridge.md) |
 
-This provenance table is intentionally explicit: **external citations identify the ideas or methods they actually supply; repository definitions and theorems are not attributed to those sources.**
+For the detailed equation-level map, see **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)**.
 
 ---
 
@@ -312,27 +395,171 @@ This provenance table is intentionally explicit: **external citations identify t
 | CI matrix | **Python 3.10, 3.11, 3.12** |
 | Research-software version | **0.47.0** |
 
-The physics pipeline is an explanatory diagram and is not included in the 33 scientific-result figure count.
+The explanatory physics pipeline is not included in the count of 33 scientific result figures.
 
 ---
 
-# 5. Complete visual research history
+# 5. Latest result: Proposition 58 / Experiment AS
 
-The main page keeps the scientific visual record visible. Each figure links to the documentation that explains what it measures, what theorem or experiment it belongs to, what assumptions it uses, and what it does not establish.
+[![Experiment AS: observer-scale covariance-to-world-tube certification audit](docs/observer_bridge_dimension_audit.svg)](docs/proposition_58_observer_bridge.md)
 
-For a curated explanation of every figure, use the **[Visual Research Guide](docs/visual_research_guide.md)**.
+Proposition 58 returns the measurement-certification program to the original moving-boundary question.
+
+For future candidate \(S\), define the observer covariance block
+
+\[
+\boxed{
+B_{t,S}=(X_t,X_{t+1}^{S}).
+}
+\]
+
+Its dimension is
+
+\[
+\boxed{
+d_{\mathrm{obs}}=n+s.
+}
+\]
+
+On the controlled benchmark,
+
+\[
+n=7,
+\qquad
+s=3,
+\qquad
+T=5,
+\qquad
+C={7\choose3}=35,
+\]
+
+so
+
+\[
+\boxed{
+d_{\mathrm{obs}}=10,
+\qquad
+B_{\mathrm{obs}}=TC=175.
+}
+\]
+
+The planted and recovered population path is
+
+```text
+(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
+```
+
+with population optimization margin
+
+\[
+0.1264216185.
+\]
+
+The observer-scale diagnostic is deliberately negative. Even when the true relaxation time is supplied exactly, the current matrix theorem at 118 residual innovation degrees gives
+
+\[
+\boxed{
+\varepsilon_{\mathrm{observer}}=1.8573569119>1.
+}
+\]
+
+The current theorem first enters the relative perturbation regime at 346 residual innovation degrees:
+
+\[
+\varepsilon_{346}=0.9991303523<1.
+\]
+
+But crossing one is not enough to certify the complete world-tube. The current generic end-to-end factor-perturbation chain requires a much smaller covariance radius, approximately
+
+\[
+1.11\times10^{-4}.
+\]
+
+The corresponding large residual-degree calculation is a **conservatism diagnostic**, not a claimed physical sample requirement.
+
+This identifies the current frontier: observer-scale dimension and structural worst-case propagation, not another calibration-only refinement.
+
+[Full P58 proof](docs/proposition_58_observer_bridge.md) | [AS JSON](docs/observer_bridge_dimension_audit.json) | [AS experiment](examples/observer_bridge_dimension_audit.py) | [AS renderer](examples/render_observer_bridge_dimension_audit.py) | [tests](tests/test_observer_bridge.py)
+
+---
+
+# 6. Physical-time sequence: P53 to P58
+
+The recent theorem sequence is one scientific argument. Each step answers a limitation exposed by the previous step.
+
+| Result | Physical or statistical question | Controlled result |
+| --- | --- | ---: |
+| P53 / AM | Can temporal memory be parameterized in physical time? | sampling-consistent \(\tau\), exact irregular-grid Markov structure |
+| P53B / AN | Can \(\tau\) be calibrated directly on irregular timestamps? | finite-sample continuum e-value confidence set |
+| P54 / AO | Can calibration and target resolutions be separated? | target radius `3.15549 -> 2.57207` |
+| P55 / AP | Can local likelihood curvature tighten the physical-time set? | retained hull width `0.1646875 s`; raw-time target radius `2.41488` |
+| P56 / AQ | Can exact local innovations change the estimator? | exact-\(\tau\) scalar radius `2.16725 -> 0.43647` |
+| **P57 / AR** | **Does the gain survive finite-sample \(\tau\) uncertainty?** | **uniform scalar radius `0.71959 < 1`** |
+| P58 / AS | Can covariance uncertainty return to the full moving-boundary objective? | deterministic bridge; observer-scale current radius `1.85736 > 1` at 118 residual degrees |
+
+## P57 trace-specific tightening
+
+For one calibration-derived working whitener \(W_0\),
+
+\[
+C_\tau=W_0R_\tau W_0^{\mathsf T}.
+\]
+
+P57 uses an operator cover for the eigenvalue geometry and a separate trace-functional cover for the normalization
+
+\[
+\boxed{
+d(\tau)=\operatorname{tr}(P_GC_\tau).
+}
+\]
+
+Writing
+
+\[
+M=W_0^{\mathsf T}P_GW_0,
+\]
+
+we have
+
+\[
+d(\tau)=\operatorname{tr}(MR_\tau),
+\]
+
+and for exponential covariance entry
+
+\[
+R_\tau(i,j)=e^{-D_{ij}/\tau},
+\]
+
+\[
+\frac{\partial R_\tau(i,j)}{\partial\tau}
+=
+\frac{D_{ij}}{\tau^2}e^{-D_{ij}/\tau}.
+\]
+
+This gives a direct deterministic Lipschitz bound on \(d(\tau)\), avoiding the much looser residual-rank-times-operator bound.
+
+On Experiment AR:
+
+\[
+\boxed{
+\varepsilon_{57}=0.7195879984<1,
+}
+\]
+
+which is a **70.2% reduction** relative to the P55 calibrated raw-time theorem. The full derivation is in [Proposition 57](docs/proposition_57_robust_innovation_whitening.md).
+
+---
+
+# 7. Complete visual research atlas
+
+Every scientific result figure is visible below and links to the documentation that explains what it measures, what assumptions it uses, and what it does not establish. For a curated figure-by-figure explanation, use the **[Visual Research Guide](docs/visual_research_guide.md)**.
 
 ## Phase I. Moving-boundary recovery
 
 | Candidate scores and recovered path | Recovery landscape |
 | --- | --- |
 | [![World-tube baseline](docs/worldtube_baseline.png)](docs/reproducible_results.md) | [![World-tube phase diagram](docs/worldtube_phase_diagram.png)](docs/reproducible_results.md) |
-
-A planted module moves through the coordinate system as
-
-```text
-(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
-```
 
 ## Phase II. Finite-sample and perturbation recovery
 
@@ -372,7 +599,7 @@ A planted module moves through the coordinate system as
 
 ## Phase VI. Time-varying nuisance structure
 
-| Proposition 44, Experiment AD | Proposition 45, Experiment AE |
+| Proposition 44 / Experiment AD | Proposition 45 / Experiment AE |
 | --- | --- |
 | [![Nuisance projection](docs/nuisance_projection_calibration.svg)](docs/proposition_44_nuisance_projection.md) | [![Estimated AR1 nuisance projection](docs/estimated_ar1_nuisance_projection.svg)](docs/proposition_45_estimated_ar1_nuisance_projection.md) |
 
@@ -380,7 +607,7 @@ A planted module moves through the coordinate system as
 
 ## Phase VII. Direct matrix concentration
 
-| Proposition 47, Experiment AG | Proposition 48, Experiment AH |
+| Proposition 47 / Experiment AG | Proposition 48 / Experiment AH |
 | --- | --- |
 | [![Weighted Wishart matrix Chernoff](docs/weighted_wishart_matrix_chernoff.svg)](docs/proposition_47_weighted_wishart_matrix_chernoff.md) | [![Uniform matrix Chernoff AR1](docs/uniform_matrix_chernoff_ar1.svg)](docs/proposition_48_uniform_matrix_chernoff_ar1.md) |
 
@@ -388,7 +615,7 @@ A planted module moves through the coordinate system as
 
 ## Phase VIII. Learning temporal physics from calibration data
 
-| Proposition 50, Experiment AJ | Proposition 51, Experiment AK |
+| Proposition 50 / Experiment AJ | Proposition 51 / Experiment AK |
 | --- | --- |
 | [![Calibrated temporal family](docs/calibrated_temporal_family.svg)](docs/proposition_50_calibrated_temporal_family.md) | [![E-value temporal confidence set](docs/evalue_temporal_confidence_set.svg)](docs/proposition_51_evalue_temporal_confidence_set.md) |
 
@@ -398,211 +625,91 @@ A planted module moves through the coordinate system as
 
 | Sampling consistency | Irregular-grid Markov factorization |
 | --- | --- |
-| [![Experiment AM: physical relaxation time](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Proposition 53: irregular-grid Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
+| [![Physical relaxation sampling](docs/physical_relaxation_sampling.svg)](docs/proposition_53_physical_relaxation_time.md) | [![Irregular-grid Markov factorization](docs/physical_relaxation_markov.svg)](docs/proposition_53_physical_relaxation_time.md) |
 
-[![Experiment AN: finite-sample irregular-time tau calibration](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
+[![Experiment AN: irregular-time tau calibration](docs/irregular_relaxation_evalue_calibration.svg)](docs/proposition_53b_irregular_tau_evalue.md)
 
-[![Experiment AO: two-scale certified relaxation cover](docs/two_scale_irregular_tau_cover.svg)](docs/proposition_54_two_scale_irregular_tau_cover.md)
+[![Experiment AO: two-scale relaxation cover](docs/two_scale_irregular_tau_cover.svg)](docs/proposition_54_two_scale_irregular_tau_cover.md)
 
-[![Experiment AP: quadratic finite-sample relaxation calibration](docs/quadratic_relaxation_calibration.svg)](docs/proposition_55_quadratic_relaxation_calibration.md)
-
-Experiment AP showed why calibration-only tightening was no longer enough: even exact knowledge of \(\tau\) left the old target concentration radius at `2.16725 > 1`.
+[![Experiment AP: quadratic relaxation calibration](docs/quadratic_relaxation_calibration.svg)](docs/proposition_55_quadratic_relaxation_calibration.md)
 
 ## Phase X. Exact local innovation target inference
 
 [![Experiment AQ: innovation-whitened target covariance](docs/innovation_whitened_target.svg)](docs/proposition_56_innovation_whitened_target.md)
 
-**Proposition 56 / Experiment AQ:** applying the exact physical-time whitener before nuisance fitting and covariance concentration changes the scalar known-\(\tau\) radius from `2.16725` to approximately `0.43644` on the same 120-sample target.
-
 ## Phase XI. Robust innovation inference under calibrated physical time
 
 [![Experiment AR: robust innovation-whitened target covariance](docs/robust_innovation_whitened_target.svg)](docs/proposition_57_robust_innovation_whitening.md)
 
-**Proposition 57 / Experiment AR:** the complete finite-sample Proposition 55 interval is propagated through one fixed working whitener. The scalar target radius becomes
+**Current tightened AR certificate:**
 
 \[
-\boxed{0.86771<1}
+\boxed{
+\varepsilon_{57}=0.71959<1.
+}
 \]
-
-at combined calibration-target confidence lower bound `0.950625`.
 
 ## Phase XII. Covariance uncertainty back to world-tube recovery
 
 [![Experiment AS: observer-scale covariance-to-world-tube audit](docs/observer_bridge_dimension_audit.svg)](docs/proposition_58_observer_bridge.md)
 
-**Proposition 58 / Experiment AS:** the deterministic bridge from simultaneous covariance uncertainty to the world-tube objective is explicit. The experiment then shows that scalar covariance success does not automatically imply observer-scale certification. The next bottleneck is dimensional and structural.
-
 ---
 
-# 6. Theorem roadmap, Proposition 1 to Proposition 58
+# 8. Theorem roadmap
 
 | Layer | Propositions | Main role |
 | --- | ---: | --- |
-| A | 1-14 | Foundations, transport, recovery, finite-sample stability, identifiability |
-| B | 15-31 | Structural compression, moving partitions, overlap classes, localized recovery |
-| C | 32-40 | Sample splitting, screening, adaptive calibration, population drift |
-| D | 41-52 | Dependent measurements, nuisance projection, matrix concentration, temporal-family calibration |
-| E | 53A-53B | Sampling-consistent physical relaxation and irregular-time finite-sample calibration |
-| F | 54 | Two-scale physical-time uncertainty propagation |
-| G | 55 | Local likelihood slope and curvature for sharper physical-time calibration |
-| H | 56 | Exact innovation-whitened target covariance concentration |
-| I | 57 | Uniform robust innovation whitening over calibrated physical-time uncertainty |
-| J | 58 | Relative covariance uncertainty propagated to observer world-tube recovery |
+| A | 1-14 | foundations, transport, recovery, finite-sample stability, identifiability |
+| B | 15-31 | structural compression, moving partitions, overlap classes, localized recovery |
+| C | 32-40 | sample splitting, screening, adaptive calibration, population drift |
+| D | 41-52 | dependent measurements, nuisance projection, matrix concentration, temporal-family calibration |
+| E | 53A-53B | sampling-consistent physical relaxation and irregular-time finite-sample calibration |
+| F | 54 | two-scale physical-time uncertainty propagation |
+| G | 55 | local likelihood slope and curvature for sharper physical-time calibration |
+| H | 56 | exact innovation-whitened target covariance concentration |
+| I | 57 | uniform robust innovation whitening over calibrated physical-time uncertainty |
+| J | 58 | relative covariance uncertainty propagated to observer world-tube recovery |
 
 Detailed proof navigation:
 
-- [Propositions 1 to 43 proof record](docs/proofs_and_conjectures.md)
-- [Proposition 44](docs/proposition_44_nuisance_projection.md)
-- [Proposition 45](docs/proposition_45_estimated_ar1_nuisance_projection.md)
-- [Proposition 46](docs/proposition_46_design_specific_ar1_envelope.md)
-- [Proposition 47](docs/proposition_47_weighted_wishart_matrix_chernoff.md)
-- [Proposition 48](docs/proposition_48_uniform_matrix_chernoff_ar1.md)
-- [Proposition 49](docs/proposition_49_compact_temporal_family.md)
-- [Proposition 50](docs/proposition_50_calibrated_temporal_family.md)
-- [Proposition 51](docs/proposition_51_evalue_temporal_confidence_set.md)
-- [Proposition 52](docs/proposition_52_certified_evalue_outer_cover.md)
-- [Proposition 53A](docs/proposition_53_physical_relaxation_time.md)
-- [Proposition 53B](docs/proposition_53b_irregular_tau_evalue.md)
-- [Proposition 54](docs/proposition_54_two_scale_irregular_tau_cover.md)
-- [Proposition 55](docs/proposition_55_quadratic_relaxation_calibration.md)
-- [Proposition 56](docs/proposition_56_innovation_whitened_target.md)
-- [Proposition 57](docs/proposition_57_robust_innovation_whitening.md)
-- [Proposition 58](docs/proposition_58_observer_bridge.md)
+- [Propositions 1-43](docs/proofs_and_conjectures.md)
+- [P44](docs/proposition_44_nuisance_projection.md)
+- [P45](docs/proposition_45_estimated_ar1_nuisance_projection.md)
+- [P46](docs/proposition_46_design_specific_ar1_envelope.md)
+- [P47](docs/proposition_47_weighted_wishart_matrix_chernoff.md)
+- [P48](docs/proposition_48_uniform_matrix_chernoff_ar1.md)
+- [P49](docs/proposition_49_compact_temporal_family.md)
+- [P50](docs/proposition_50_calibrated_temporal_family.md)
+- [P51](docs/proposition_51_evalue_temporal_confidence_set.md)
+- [P52](docs/proposition_52_certified_evalue_outer_cover.md)
+- [P53A](docs/proposition_53_physical_relaxation_time.md)
+- [P53B](docs/proposition_53b_irregular_tau_evalue.md)
+- [P54](docs/proposition_54_two_scale_irregular_tau_cover.md)
+- [P55](docs/proposition_55_quadratic_relaxation_calibration.md)
+- [P56](docs/proposition_56_innovation_whitened_target.md)
+- [P57](docs/proposition_57_robust_innovation_whitening.md)
+- [P58](docs/proposition_58_observer_bridge.md)
 
 ---
 
-# 7. Recent physical-time and observer-bridge sequence
-
-| Result | Main question | Controlled result |
-| --- | --- | ---: |
-| P53B / AN | Can physical relaxation time be calibrated directly on irregular timestamps? | certified finite-sample continuum confidence set |
-| P54 / AO | Can calibration and target cover resolutions be separated? | target radius `3.15549 -> 2.57207` |
-| P55 / AP | Can likelihood curvature tighten the physical-time set? | calibrated hull width `0.1646875 s`; target radius `2.41488` |
-| P56 / AQ | Can exact innovations change the target representation? | scalar `2.16725 -> 0.43644` |
-| P57 / AR | Does the gain survive finite-sample \(\tau\) uncertainty? | scalar uniform radius `0.86771` |
-| P58 / AS | Can covariance uncertainty return to the full observer objective? | deterministic bridge; observer-scale oracle radius `1.85736 > 1` at current N |
-
-The sequence matters because each new theorem responds to a limitation exposed by the previous one. Negative diagnostics are retained rather than hidden.
-
----
-
-# 8. What Proposition 58 adds mathematically
-
-Suppose each declared observer block satisfies a simultaneous relative covariance event
-
-\[
-\left\|
-\Sigma_{t,S}^{-1/2}
-(\widehat\Sigma_{t,S}-\Sigma_{t,S})
-\Sigma_{t,S}^{-1/2}
-\right\|_2
-\le\delta_{t,S}<1.
-\]
-
-Proposition 58 propagates these candidate-local radii through the operational observer factors.
-
-Let
-
-\[
-L(\delta)=-\log(1-\delta).
-\]
-
-The generic integration-factor radius is
-
-\[
-e_I(\delta)=\min\{1,4L(\delta)\},
-\]
-
-and the environmental-independence radius is
-
-\[
-e_E(\delta)=
-\min\left\{
-1,
-\frac{n+2s}{s}L(\delta)
-\right\}.
-\]
-
-Persistence uses the existing relative-covariance canonical-correlation perturbation bound. The local observer score
-
-\[
-\ell=(g_Ig_Eg_P)^{1/3}
-\]
-
-and transport score
-
-\[
-\theta=(g_Eg_P)^{1/2}
-\]
-
-then inherit deterministic error radii through the repository's product-root perturbation theorem.
-
-The complete world-tube action is bounded path by path. If the resulting recovery slack is positive, the population path is certified on the same simultaneous covariance event. **Proposition 58 spends no additional probability budget.**
-
-Exact structural integration nulls can use a sharper null-specific refinement when those nulls are declared independently of covariance noise.
-
----
-
-# 9. What covariance means physically
-
-For a fluctuating multivariate system,
-
-\[
-\Sigma=\mathbb E[(X-\mu)(X-\mu)^\top]
-\]
-
-describes fluctuation geometry.
-
-- diagonal entries are coordinate variances;
-- off-diagonal entries describe co-fluctuation;
-- eigenvectors describe collective fluctuation directions;
-- eigenvalues describe variance along those directions.
-
-These eigenvalues are **not automatically physical energies**. An energy interpretation requires a separate physical derivation connecting the measured coordinates and covariance to a Hamiltonian, temperature, power spectrum, or another physically defined energetic quantity.
-
-See the [Physics Guide](docs/physics_guide.md), the [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md), and the [Figure Reading Guide](docs/figure_reading_guide.md).
-
----
-
-# 10. What the repository establishes and does not establish
-
-Under stated assumptions, the repository provides a conditional mathematical pipeline from measured stochastic dynamics to moving-boundary optimization, identifiability, finite-sample covariance certification, and deterministic propagation of covariance uncertainty to world-tube recovery.
-
-It does not establish that every physical system has a unique observer boundary. It does not establish Gaussianity, separability, one exponential relaxation time, or a particular nuisance model in a real experiment without validation. It does not establish consciousness.
-
-Relevant falsification diagnostics include:
-
-- residual temporal correlation inconsistent with the declared or certified temporal family;
-- multiple or drifting relaxation times;
-- oscillatory or nonmonotone temporal dependence;
-- heavy-tailed or non-Gaussian innovations;
-- nonseparable space-time covariance;
-- calibration-to-target mismatch;
-- nuisance modes selected adaptively from the same target noise;
-- candidate geometry that does not correspond to physically admissible subsystem boundaries.
-
-A narrow mathematical certificate is meaningful only when the declared physical model survives those checks.
-
----
-
-# 11. Reproducibility and audit standard
+# 9. Reproducibility standard
 
 A result is considered complete only when the relevant pieces exist together:
 
-- a physical question when a physical reading is intended;
-- a declared measurement model;
-- a precise mathematical statement;
-- assumptions stated close to the claim;
+- physical question when a physical reading is intended;
+- declared mathematical model;
+- precise theorem or operational definition;
+- assumptions stated near the claim;
 - proof or derivation;
 - implementation;
 - claim-level tests;
-- reproducible experiment when a numerical comparison is useful;
-- machine-readable numerical results;
-- visible figure when a figure improves understanding;
-- explicit limitations and falsification conditions;
-- front-page and index links so the result is discoverable.
+- reproducible experiment when numerical comparison is useful;
+- machine-readable result data;
+- visible figure when visualization improves understanding;
+- limitations and falsification conditions;
+- correct links from the main page and research index.
 
-For the newest chain:
+For the current frontier:
 
 | Result | Proof | Data | Experiment | Tests | Figure |
 | --- | --- | --- | --- | --- | --- |
@@ -610,8 +717,6 @@ For the newest chain:
 | P56 / AQ | [proof](docs/proposition_56_innovation_whitened_target.md) | [JSON](docs/innovation_whitened_target.json) | [script](examples/innovation_whitened_target.py) | [tests](tests/test_innovation_whitening.py) | [figure](docs/innovation_whitened_target.svg) |
 | P57 / AR | [proof](docs/proposition_57_robust_innovation_whitening.md) | [JSON](docs/robust_innovation_whitened_target.json) | [script](examples/robust_innovation_whitened_target.py) | [tests](tests/test_robust_innovation_whitening.py) | [figure](docs/robust_innovation_whitened_target.svg) |
 | P58 / AS | [proof](docs/proposition_58_observer_bridge.md) | [JSON](docs/observer_bridge_dimension_audit.json) | [script](examples/observer_bridge_dimension_audit.py) | [tests](tests/test_observer_bridge.py) | [figure](docs/observer_bridge_dimension_audit.svg) |
-
-The Markdown style guard rejects Unicode en dash and em dash characters.
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -621,81 +726,154 @@ ruff check .
 
 ---
 
-# 12. Current frontier
+# 10. What the repository establishes and does not establish
 
-Proposition 58 changes the next research question.
+## Established under stated assumptions
 
-The project no longer needs another calibration-only theorem as its immediate step. The current observer-scale bottleneck is the combination of block dimension, simultaneous block count, and generic factor-by-factor perturbation.
+The repository provides a conditional mathematical pipeline from measured stochastic dynamics to:
+
+- time-dependent candidate subsystem scores;
+- exact finite-horizon world-tube optimization;
+- runner-up margins and robustness analysis;
+- identifiability and observational-equivalence limits;
+- finite-sample covariance certification;
+- temporally dependent and nuisance-contaminated measurement models;
+- finite-sample temporal-parameter calibration;
+- physical relaxation-time representation;
+- exact and robust innovation-whitened target inference;
+- deterministic propagation of simultaneous covariance uncertainty back to the full world-tube objective.
+
+## Not established
+
+The repository does **not** establish:
+
+- that every physical system has a unique subsystem boundary;
+- that Gaussianity is universal;
+- that one exponential relaxation time is universal;
+- that covariance eigenvalues are physical energies without an additional derivation;
+- that \(\epsilon<1\) by itself guarantees world-tube recovery;
+- that the repository score is a measure of consciousness;
+- that a recovered operational observer is conscious.
+
+## Falsification and model checks
+
+Relevant diagnostics include:
+
+- residual temporal correlation inconsistent with the declared temporal family;
+- multiple or drifting relaxation times;
+- oscillatory or nonmonotone temporal dependence;
+- heavy-tailed or non-Gaussian innovations;
+- nonseparable space-time covariance;
+- calibration-to-target mismatch;
+- nuisance modes selected adaptively from the same target noise;
+- candidate geometry inconsistent with physically admissible boundaries;
+- inferred boundaries that fail under changes of sampling rate, units, sensors, or held-out data.
+
+A theorem can be mathematically correct while its physical model is wrong for a particular experiment. Those are separate questions.
+
+---
+
+# 11. Current frontier
+
+Proposition 58 changes the immediate research direction.
+
+The dominant observer-scale bottleneck is now the combination of block dimension, simultaneous block count, and generic worst-case propagation through multiple score factors.
 
 The next rigorous directions are:
 
-1. **Factor-specific covariance blocks:** certify only the covariance geometry required by each information factor instead of using one maximum-dimensional block everywhere.
+1. **Factor-specific covariance blocks:** certify only the covariance geometry actually used by each information factor.
 2. **Screen-first simultaneity reduction:** use safe screening and near-competitor structure so distant candidates do not consume the strongest simultaneous guarantee.
-3. **Candidate-local radii:** preserve heterogeneous uncertainty rather than replacing it by one global worst case.
-4. **Direct score-margin concentration:** control the observer score or action difference more directly rather than repeatedly passing through generic intermediate bounds.
-5. **Richer temporal physics after the structural bottleneck is understood:** move beyond one stationary exponential timescale without losing finite-sample accountability.
+3. **Candidate-local uncertainty radii:** preserve heterogeneous uncertainty instead of replacing it by one global worst case.
+4. **Direct score-margin concentration:** control score or action differences more directly rather than repeatedly passing through generic intermediate bounds.
+5. **Richer temporal physics:** after the structural bottleneck is understood, extend beyond one stationary exponential timescale without losing finite-sample accountability.
 
-The broader physics frontiers remain sensor-coordinate geometry, spatial coarse graining, intervention-sensitive identifiability, and direct falsification on real measurement systems.
-
-The guiding question remains the same:
+The guiding question remains:
 
 > **When does the dynamics itself justify a moving subsystem boundary, and when does the available evidence remain insufficient to identify one?**
 
 ---
 
+# 12. Citations, bibliography, and attribution standard
+
+The repository maintains three complementary citation layers:
+
+| Citation layer | Purpose |
+| --- | --- |
+| [Bibliography and Citation Map](docs/bibliography.md) | full references plus the role each source plays |
+| [`references.bib`](references.bib) | machine-readable BibTeX |
+| [`CITATION.cff`](CITATION.cff) | citation metadata for the repository itself |
+
+The citation rule is:
+
+> **Cite conceptual lineage explicitly; identify repository definitions as definitions; identify repository theorems as repository results; cite external mathematical tools for the role they actually play; and never use a citation to imply endorsement.**
+
+Major external foundations include:
+
+- Tegmark 2015 for the primary observer-factorization question;
+- Tegmark 2016 and the integrated-information literature for related integration context;
+- Shannon and Cover-Thomas for information theory;
+- Hotelling for canonical correlation;
+- Jaccard for set-overlap geometry;
+- Bellman for dynamic programming;
+- Wishart for Gaussian covariance laws;
+- Aitken for generalized least squares;
+- Bhatia for matrix analysis;
+- Tropp for matrix concentration;
+- Vovk-Wang and Shafer for e-value methodology;
+- Uhlenbeck-Ornstein and Doob for physical stochastic-relaxation and Gaussian Markov context.
+
+See the **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md)** for the equation-by-equation provenance table.
+
+---
+
 # 13. Relationship to Tegmark's observer-factorization question
 
-This section makes the intellectual relationship to the project's primary conceptual source explicit. It is not a claim that the results below appear in Tegmark's paper, and it does not imply endorsement by Max Tegmark.
+This section is intentionally explicit because the repository began from Tegmark's question but develops its own mathematical program afterward.
 
-## 13.1 Primary source
-
-The primary conceptual starting point is:
+## 13.1 Primary conceptual source
 
 **Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270.**
 
 - [DOI: 10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
 - [Technical preprint: arXiv:1401.1219](https://arxiv.org/abs/1401.1219)
-- [Repository bibliography entry and role map](docs/bibliography.md#tegmark-2015)
+- [Repository bibliography entry](docs/bibliography.md#tegmark-2015)
 
-Tegmark studies the problem of factorizing the physical world into subsystems and asks why an observer should correspond to one factorization rather than another. Information, integration, independence, and dynamics are among the organizing ideas considered in that program.
+Tegmark asks why an observer should correspond to one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles.
 
-The present work begins from that observer-factorization question and asks a different mathematical question that is not developed as the central construction in Tegmark 2015:
+This repository begins from that factorization problem and asks a different mathematical question:
 
-> **What if the subsystem boundary itself is time dependent, and must be inferred as a persistent dynamical object rather than selected once as a static partition?**
+> **What if the relevant subsystem boundary is time dependent and must be inferred as a persistent dynamical path rather than selected once as a static partition?**
 
-That question leads to the moving boundary
-
-\[
-S_t\subseteq\{1,\ldots,n\}
-\]
-
-and the world-tube
+That produces the central objects
 
 \[
+S_t\subseteq\{1,\ldots,n\},
+\qquad
 \mathcal W=(S_0,S_1,\ldots,S_{T-1}).
 \]
 
-The main object of inference is therefore not one partition alone, but a path through a candidate subsystem space.
+The main object of inference is therefore a path through subsystem space.
 
-## 13.2 What is inherited conceptually and what is developed here
+## 13.2 What is inherited and what is developed here
 
 | Scientific element | Tegmark 2015 lineage | This repository |
 | --- | --- | --- |
-| Observer-factorization problem | Primary conceptual source | Adopted as the starting question |
-| Information and integration as organizing ideas | Central conceptual background | Used as operational score ingredients |
-| Independence from the environment | Central conceptual background | Represented operationally through conditional predictive insulation |
-| Dynamics as relevant to observer structure | Conceptual motivation | Made explicit through time-indexed subsystem recovery |
-| Time-dependent subsystem boundary \(S_t\) | Not claimed here as a Tegmark result | Central mathematical object developed here |
-| World-tube \(\mathcal W=(S_t)_t\) | Not attributed to Tegmark | Defined and optimized in this repository |
-| Exact finite-horizon path recovery and runner-up margin | Not attributed to Tegmark | Developed here using dynamic programming and perturbation analysis |
-| Recovery modulo symmetry and impossibility under observational equivalence | Not attributed to Tegmark | Formalized in Propositions 13 and 14 |
-| Finite-sample covariance-to-path certification | Not attributed to Tegmark | Developed through the statistical theorem chain |
-| Physical-time calibration and irregular-grid innovation inference | Not part of the Tegmark factorization derivation | Added here as measurement-certification machinery |
-| Claim of consciousness | Tegmark discusses consciousness as a physical-state problem | **Not claimed by this repository** |
+| observer-factorization question | primary conceptual source | adopted as starting question |
+| information and integration as organizing ideas | conceptual background | used as operational score ingredients |
+| environmental independence | conceptual background | operationalized as conditional predictive insulation |
+| dynamics as relevant to observer structure | conceptual motivation | made explicit through time-indexed boundary recovery |
+| time-dependent boundary \(S_t\) | not attributed here to Tegmark | central repository definition |
+| world-tube \(\mathcal W\) | not attributed to Tegmark | defined and optimized here |
+| transport between changing boundaries | not attributed to Tegmark | repository operational definition |
+| exact finite-horizon path recovery | not attributed to Tegmark | repository theorem/algorithmic construction |
+| recovery modulo symmetry and observational equivalence | not attributed to Tegmark | formalized in P13-P14 |
+| finite-sample covariance-to-path certification | not attributed to Tegmark | developed in the statistical theorem chain |
+| physical-time calibration and innovation inference | not part of Tegmark's factorization derivation | added here as measurement-certification machinery |
+| claim of consciousness | Tegmark studies consciousness as a physical-state problem | **not claimed by this repository** |
 
-This distinction matters. The conceptual lineage is direct, while the mathematical development after the starting question is an independent research program.
+The conceptual lineage is direct. The later mathematical development is an independent research program.
 
-## 13.3 The mathematical extension in one picture
+## 13.3 The extension in one picture
 
 ```text
 Tegmark observer-factorization question
@@ -704,10 +882,10 @@ Tegmark observer-factorization question
 Which subsystem decomposition is physically distinguished?
                 |
                 v
-This repository adds explicit time dependence
+Explicit time dependence in this repository
                 |
                 v
-S_0 -> S_1 -> ... -> S_{T-1}
+S_0 -> S_1 -> ... -> S_(T-1)
                 |
                 v
 integration + insulation + persistence + transport
@@ -722,48 +900,34 @@ identifiability + finite-sample recovery
 physical measurement certification
 ```
 
-The central extension is therefore not "a new measure of consciousness." It is a mathematical program for **dynamically inferred, time-dependent subsystem boundaries** with explicit recovery, uncertainty, and falsification conditions.
+The central extension is **not a new measure of consciousness**. It is a mathematical program for dynamically inferred, time-dependent subsystem boundaries with explicit recovery, uncertainty, identifiability, and falsification conditions.
 
-## 13.4 Why the later statistical machinery belongs to the same question
-
-Once a moving subsystem score is defined from covariance-dependent information quantities, finite measurements create an unavoidable physical-statistical problem: the world-tube cannot be trusted unless the covariance geometry feeding the score is itself certified.
-
-That is why the later propositions on temporally dependent measurements, nuisance removal, physical relaxation time, e-value calibration, matrix concentration, and innovation whitening are part of the same research program. They are not separate claims about consciousness. They answer the measurement question underneath the observer-boundary problem:
-
-> **When the data are finite, correlated, irregularly sampled, and subject to nuisance structure, how much confidence can be placed in the dynamical boundary inferred from them?**
-
-Proposition 58 makes that connection explicit by returning simultaneous covariance uncertainty to the integration, insulation, persistence, transport, and complete world-tube objective.
-
-## 13.5 Related Tegmark work
+## 13.4 Related Tegmark work
 
 A second relevant source is:
 
-**Max Tegmark. "Improved Measures of Integrated Information." _PLoS Computational Biology_ 12(11) (2016): e1005123.**
+**Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123.**
 
 - [DOI: 10.1371/journal.pcbi.1005123](https://doi.org/10.1371/journal.pcbi.1005123)
 - [Preprint: arXiv:1601.02626](https://arxiv.org/abs/1601.02626)
-- [Repository bibliography entry and role map](docs/bibliography.md#related-tegmark-work-tegmark-2016)
+- [Repository bibliography entry](docs/bibliography.md#related-tegmark-work-tegmark-2016)
 
-That work is relevant background for classifying integrated-information measures and factorization choices. It is not the primary source of the world-tube construction, transport term, recovery theorems, or the finite-sample measurement program developed here.
+This paper is relevant background for classifying integrated-information measures and factorization choices. It is not the source of the world-tube construction, transport score, recovery theorems, or finite-sample measurement program developed here.
 
-## 13.6 Interpretation boundary
+## 13.5 Interpretation boundary
 
-The repository deliberately separates three statements:
+The repository deliberately separates three claims:
 
-1. **Mathematical statement:** a persistent moving subsystem can be defined, optimized, and under stated assumptions sometimes recovered or certified from dynamical data.
-2. **Physical modeling statement:** a real application must validate its observables, dynamics, covariance model, temporal law, nuisance structure, and candidate geometry.
-3. **Consciousness statement:** no theorem in this repository establishes that the recovered subsystem is conscious or that its score measures subjective experience.
+1. **Mathematical claim:** a persistent moving subsystem can be defined, optimized, and under stated assumptions sometimes recovered or certified from dynamical data.
+2. **Physical-modeling claim:** a real application must validate its observables, units, dynamics, covariance model, temporal law, nuisance structure, and candidate geometry.
+3. **Consciousness claim:** no theorem here establishes that the recovered subsystem is conscious or that its score measures subjective experience.
 
-Any future bridge from operational observer structure to consciousness requires assumptions beyond the mathematics proved here. Those assumptions are tracked in the [Interpretation Protocol](docs/interpretation_protocol.md).
+Any future bridge from operational observer structure to consciousness requires assumptions and evidence beyond the mathematics proved here. Those assumptions are tracked in the [Interpretation Protocol](docs/interpretation_protocol.md).
 
-## 13.7 Citation and attribution
+## 13.6 Citation and attribution
 
-For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository itself together with the external mathematical sources used by the particular theorem.
+For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository itself together with the external mathematical source appropriate to the method being used.
 
-The complete proposition-to-literature map is maintained in the [Bibliography and Citation Map](docs/bibliography.md), with machine-readable entries in [`references.bib`](references.bib).
-
-Repository citation metadata are maintained in [`CITATION.cff`](CITATION.cff). GitHub can render that file into standard citation formats.
-
-The attribution rule throughout the project is:
+The complete literature map is maintained in the [Bibliography and Citation Map](docs/bibliography.md), with machine-readable entries in [`references.bib`](references.bib). Repository metadata are maintained in [`CITATION.cff`](CITATION.cff).
 
 > **Conceptual lineage is cited explicitly; original derivations are identified as repository results; related literature is cited for the methods it supplies; no citation is used to imply endorsement.**
