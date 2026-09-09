@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this research software, please cite it using this metadata."
+message: "If you use this research software, please cite it using this metadata and cite the external mathematical or physical source appropriate to the specific theorem or method used."
 title: "Spatiotemporal Observer Mathematics"
 type: software
 authors:
@@ -9,11 +9,18 @@ version: 0.47.0
 date-released: 2026-09-08
 license: MIT
 repository-code: "https://github.com/MahsaKeikha/spatiotemporal-observer-math"
+abstract: "Research software and mathematical documentation for dynamically inferred time-dependent subsystem boundaries in stochastic physical systems. The project develops moving world-tube optimization, identifiability, finite-sample covariance certification, physical-time calibration, irregular-grid innovation inference, and deterministic propagation of measurement uncertainty back to the moving-boundary objective. The word observer is operational and the repository does not claim to establish consciousness."
 keywords:
+  - observer factorization
+  - moving subsystem boundary
+  - world-tube inference
   - information theory
   - dynamical systems
   - nonstationary Gaussian processes
+  - covariance concentration
+  - finite-sample inference
+  - physical relaxation time
+  - innovation whitening
   - integrated information
   - subsystem identification
-  - tensor factorization
   - reproducible research
