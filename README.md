@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.43.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.44.0-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 An open mathematical research program by **Mahsa Keikha, PhD** built around one dynamical question:
@@ -217,16 +217,16 @@ A real system may require several relaxation times, oscillatory kernels, colored
 
 # 3. Current verified research record
 
-| Research record | 0.43.0 state |
+| Research record | 0.44.0 state |
 | --- | ---: |
-| Proved statements | **54 propositions** |
-| Reproducible studies | **41 experiments, A-Z and AA-AO** |
-| Scientific result figures | **29 figures** |
-| Claim-level tests | **200 tests** |
+| Proved statements | **55 propositions** |
+| Reproducible studies | **42 experiments, A-Z and AA-AP** |
+| Scientific result figures | **30 figures** |
+| Claim-level tests | **206 tests** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software version | **0.43.0** |
+| Research-software version | **0.44.0** |
 
-The physics pipeline is an explanatory diagram and is not included in the 29 scientific-result figure count.
+The physics pipeline is an explanatory diagram and is not included in the 30 scientific-result figure count.
 
 ---
 
@@ -370,6 +370,10 @@ Does a temporal parameter describe the physical process itself, or does it chang
 
 [![Experiment AO: two-scale certified relaxation cover](docs/two_scale_irregular_tau_cover.svg)](docs/proposition_54_two_scale_irregular_tau_cover.md)
 
+[![Experiment AP: quadratic finite-sample relaxation calibration](docs/quadratic_relaxation_calibration.svg)](docs/proposition_55_quadratic_relaxation_calibration.md)
+
+**Proposition 55 / Experiment AP:** the observed local likelihood slope and a rigorous cell-local curvature bound contract the 160-cell certified tau width from `0.61094 s` to `0.16469 s`, about `73.0%`, without spending additional probability budget. The target radius improves to `2.41488`. A known-tau oracle calculation still gives `2.16725 > 1`, showing that calibration uncertainty is no longer the dominant bottleneck on this target configuration.
+
 **Proposition 54 / Experiment AO:** calibration certification and target temporal-cover resolution are now separated. Refining the calibration certificate from 160 to 2560 cells shrinks the certified tau width from `0.61094 s` to `0.21217 s`. On the exact Experiment AN target problem, the final relative covariance radius falls from `3.15549` to `2.57207`, an `18.49%` reduction. The radius remains above one, so the next bottleneck is the local temporal operator/likelihood envelope rather than cover-cardinality coupling.
 
 **Proposition 53B / Experiment AN:** the same physical-time parameter is now calibrated directly from an irregular record with a finite-sample continuum e-value. The visible likelihood-compatible region is approximately `[0.69155, 0.84455] s`, while the certified outer cover is `[0.495625, 1.1065625] s`. The difference is an explicit tightness gap, not a coverage failure.
@@ -408,7 +412,7 @@ and multiply to the exact long-range covariance. The corresponding temporal prec
 
 ---
 
-# 5. Complete theorem roadmap, Proposition 1 to Proposition 54
+# 5. Complete theorem roadmap, Proposition 1 to Proposition 55
 
 The project did not begin with temporal calibration. The recent results sit on top of a longer recovery, identifiability, and finite-sample program.
 
@@ -497,6 +501,14 @@ Direct proof pages: [P44](docs/proposition_44_nuisance_projection.md), [P45](doc
 | 54 | Can calibration certification resolution be separated from target temporal-cover resolution without losing finite-sample validity? | Can a physical timescale be certified finely while propagating only a compressed family into an independent target experiment? |
 
 [Proposition 54 proof](docs/proposition_54_two_scale_irregular_tau_cover.md).
+
+## Layer G. Local likelihood curvature, Proposition 55
+
+| Proposition | Mathematical question | Physical question |
+| ---: | --- | --- |
+| 55 | Can exact local likelihood slope and a certified second derivative replace a first-order worst case when enclosing the physical relaxation-time confidence set? | How sharply does the observed irregular calibration record constrain nearby physical timescales, and where does calibration stop being the dominant source of target uncertainty? |
+
+[Proposition 55 proof](docs/proposition_55_quadratic_relaxation_calibration.md).
 
 ---
 
@@ -594,7 +606,27 @@ The result is deliberately not presented as closing the downstream perturbation 
 
 ---
 
-# 8. Latest statistical certification result, Proposition 52 and Experiment AL
+# 8. Latest calibration-curvature result, Proposition 55 and Experiment AP
+
+[![Experiment AP](docs/quadratic_relaxation_calibration.svg)](docs/proposition_55_quadratic_relaxation_calibration.md)
+
+Proposition 55 replaces the first-order calibration-cell envelope by an exact observed-data log-evalue slope plus a rigorous cell-local second-order remainder. On the Experiment AP benchmark, the certified 160-cell physical-time width contracts from `0.6109375 s` to `0.1646875 s` while preserving the same finite-sample calibration confidence.
+
+The end-to-end radius improves from `3.1554895445` in Proposition 53B and `2.5720746948` in Proposition 54 to `2.4148799294`. The most important diagnostic is the known-tau oracle radius:
+
+\[
+\boxed{
+\varepsilon_{\mathrm{oracle}}=2.167246895150515>1
+}
+\]
+
+Thus further calibration tightening alone cannot make this target configuration enter the `epsilon < 1` perturbative regime. The next target is the covariance concentration layer itself.
+
+[Full Proposition 55 proof](docs/proposition_55_quadratic_relaxation_calibration.md) | [0.44.0 research record](docs/release_0_44.md) | [Experiment AP JSON](docs/quadratic_relaxation_calibration.json) | [Experiment AP script](examples/quadratic_relaxation_calibration.py) | [AP renderer](examples/render_quadratic_relaxation_calibration.py)
+
+---
+
+# 9. Latest statistical certification result, Proposition 52 and Experiment AL
 
 [![Experiment AL](docs/certified_evalue_outer_cover.svg)](docs/proposition_52_certified_evalue_outer_cover.md)
 
@@ -626,7 +658,7 @@ The target trials are diagnostics. The guarantee comes from the Proposition 51 e
 
 ---
 
-# 9. What covariance means physically
+# 10. What covariance means physically
 
 For a fluctuating multivariate system,
 
@@ -649,7 +681,7 @@ See the [Physics Guide](docs/physics_guide.md) and [Figure Reading Guide](docs/f
 
 ---
 
-# 10. Identifiability before interpretation
+# 11. Identifiability before interpretation
 
 Optimization is not identifiability.
 
@@ -663,7 +695,7 @@ A physically serious application should document observables, units, sampling sc
 
 ---
 
-# 11. What this repository establishes
+# 12. What this repository establishes
 
 Under its stated assumptions, the repository provides a conditional mathematical pipeline for:
 
@@ -697,7 +729,7 @@ Any future observer-to-consciousness interpretation must enter as an additional 
 
 ---
 
-# 12. How to read the repository
+# 13. How to read the repository
 
 | If you want to understand... | Start here |
 | --- | --- |
@@ -707,17 +739,19 @@ Any future observer-to-consciousness interpretation must enter as an additional 
 | The complete research story | [Research Overview](docs/research_overview.md) |
 | The proposition and experiment map | [Research Index](docs/research_index.md) |
 | Propositions 1 to 43 in full detail | [Proof record](docs/proofs_and_conjectures.md) |
-| Propositions 44 to 53 | [Research Index](docs/research_index.md) |
+| Propositions 44 to 55 | [Research Index](docs/research_index.md) |
 | Assumptions and failure conditions | [Assumption Ledger](docs/assumption_ledger.md) |
 | Public temporal and sampling API | [Temporal Calibration API](docs/api_temporal_calibration.md) |
 | Recent release history | [Recent Release History](docs/recent_release_history.md) |
+| Release 0.44.0 audit | [0.44.0 Research Record](docs/release_0_44.md) |
+| Release 0.43.0 audit | [0.43.0 Research Record](docs/release_0_43.md) |
 | Release 0.42.0 audit | [0.42.0 Research Record](docs/release_0_42.md) |
 | Previous 0.41.1 audit | [0.41.1 Research Record](docs/release_0_41_1.md) |
 | Rules for any future consciousness interpretation | [Interpretation Protocol](docs/interpretation_protocol.md) |
 
 ---
 
-# 13. Reproducibility standard
+# 14. Reproducibility standard
 
 A result is considered complete here only when the relevant pieces exist together:
 
@@ -744,30 +778,35 @@ ruff check .
 
 ---
 
-# 13. Current frontier
+# 15. Current frontier
 
-Proposition 53 now addresses two related physical representation issues. First, the temporal parameter of the declared exponential model is expressed in physical time rather than as an arbitrary sample-to-sample correlation coefficient. Second, the same physical-time kernel has an exact local Gaussian representation on arbitrary increasing timestamps, including exact innovation whitening and sparse temporal precision.
+Propositions 53B through 55 now separate three questions that were previously entangled: finite-sample calibration of a physical relaxation time, numerical compression of the retained temporal family, and local likelihood geometry.
 
-That makes the next questions sharper:
+Experiment AP shows that the calibration layer can now be made much tighter. At 160 cells the certified relaxation-time width contracts by about `73.0%` relative to the first-order enclosure.
 
-- can \(\tau\) itself be calibrated on irregular timestamps with a finite-sample confidence construction that exploits the exact innovation likelihood rather than dense covariance algebra;
-- how should the one-timescale exponential model be tested against multiple relaxation times, oscillatory kernels, and other non-Markov temporal laws;
-- which observer-like quantities survive invertible changes of sensor coordinates;
-- which coordinate transformations preserve the physical meaning of a boundary;
-- how spatial resolution and coarse graining alter the candidate family;
-- which distinctions require intervention rather than passive observations.
+The known-tau oracle calculation changes the research priority. Even when temporal-parameter uncertainty is removed completely, the current target covariance theorem gives
 
-The next statistical frontier is to preserve finite-sample calibration while moving beyond one-timescale exponential or AR(1)-based temporal families.
+\[
+\boxed{
+\varepsilon_{\mathrm{oracle}}=2.167246895150515>1.
+}
+\]
 
-The guiding question is becoming more precise:
+For this benchmark, additional calibration sharpening alone cannot cross the perturbative threshold one.
 
-> **Which inferred structures belong to the underlying dynamical organization, and which are artifacts of how the experiment was sampled, labeled, or represented?**
+The immediate statistical frontier is therefore the **target covariance concentration problem** itself. Candidate directions include a sharper design-specific matrix concentration theorem, a concentration argument that exploits the exact irregular-grid innovation whitening more directly, and explicit target-information requirements showing how sample duration, timestamp geometry, block dimension, and nuisance rank control the attainable radius.
+
+The broader physics frontiers remain model falsification beyond one exponential timescale, sensor-coordinate invariance, spatial coarse graining, and intervention-sensitive identifiability.
+
+The guiding question remains:
+
+> **Which inferred structures belong to the underlying dynamical organization, and which are artifacts of measurement representation or insufficient information?**
 
 That question remains separate from any claim about consciousness.
 
 ---
 
-# 14. Citation, bibliography, and conceptual source
+# 16. Citation, bibliography, and conceptual source
 
 The **primary conceptual source and starting point for this research program** is:
 

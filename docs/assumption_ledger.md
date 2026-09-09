@@ -201,3 +201,13 @@ Before reporting a certificate or confidence set, record:
 ## Proposition 53B calibration assumptions
 
 The finite-sample irregular-time `tau` confidence set assumes independent calibration channels, Gaussianity, known zero mean, unit marginal variance, one common stationary exponential relaxation time, a predeclared positive `tau` interval, and a mixture numerator fixed before inspecting the calibration record. Target composition additionally assumes calibration and target records are independent and inherits Proposition 49's target covariance assumptions. The current theorem does not cover unknown calibration means, non-Gaussian innovations, multiple relaxation times, oscillatory kernels, or adaptive mixture selection from the same calibration data.
+
+## Proposition 55: quadratic physical-time calibration
+
+**Assumptions.** The Proposition 53B calibration model remains in force: independent standardized Gaussian calibration channels, one stationary exponential physical relaxation time, strictly increasing timestamps, a mixture density fixed before calibration observations, and a declared finite relaxation-time interval. The target composition additionally requires an independent target record, fixed declared target timestamps, and a fixed nuisance design.
+
+**What the curvature theorem certifies.** The analytic first derivative and deterministic second-derivative bound give a valid quadratic lower enclosure of the observed continuum log e-value on every calibration cell. A cell is excluded only when the complete cell is proved rejected.
+
+**Failure modes.** Multi-timescale relaxation, oscillation, nonstationarity, heavy-tailed innovations, dependent calibration channels, or calibration-target mismatch can invalidate the physical model even when the mathematical cell certificate is computed correctly.
+
+**Oracle diagnostic.** The known-tau target calculation is not an implementable inference procedure. It is used only to identify whether temporal-parameter uncertainty is still the dominant source of the target theorem radius.

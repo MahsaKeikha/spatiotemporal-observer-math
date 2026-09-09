@@ -21,3 +21,8 @@ def test_experiment_ap_svg_is_valid_and_reproducible():
 
     record = json.loads(JSON_PATH.read_text(encoding="utf-8"))
     assert module.render(record) == svg_text
+
+    import observer_math
+
+    assert callable(observer_math.gaussian_irregular_relaxation_quadratic_outer_cover)
+    assert callable(observer_math.gaussian_irregular_relaxation_quadratic_target_bound)

@@ -2,7 +2,7 @@
 
 This page explains the project as one scientific story rather than as a file list. If the equations feel detached from their physical meaning, start with the [Physics Guide](physics_guide.md). For the complete theorem and experiment map, use the [Research Index](research_index.md).
 
-The 0.41.0 research record contains 53 propositions, 39 reproducible experiments, 26 scientific result figures, and 183 claim-level tests.
+The 0.44.0 research record targets 55 propositions, 42 reproducible experiments, 30 scientific result figures, and 206 claim-level tests. These counts become verified after the exact release candidate is merged and the resulting `main` workflow succeeds.
 
 ## Conceptual starting point
 
@@ -263,6 +263,18 @@ The important hierarchy is now explicit:
 
 rather than treating a sample-index coefficient as if it were automatically an intrinsic physical constant.
 
+## Propositions 54 and 55: separate calibration resolution, then use local curvature
+
+[![Experiment AO](two_scale_irregular_tau_cover.svg)](proposition_54_two_scale_irregular_tau_cover.md)
+
+[![Experiment AP](quadratic_relaxation_calibration.svg)](proposition_55_quadratic_relaxation_calibration.md)
+
+Proposition 54 separates the fine grid needed to certify the continuum calibration set from the smaller target covariance cover. Proposition 55 then uses the exact observed-data e-value slope and a rigorous local curvature bound to tighten the calibration enclosure itself.
+
+At 160 calibration cells, the certified physical-time width falls from `0.6109375 s` to `0.1646875 s`. The target covariance radius improves to `2.4148799294`.
+
+The known-tau oracle radius is still `2.1672468952 > 1`. This identifies the next bottleneck: target covariance concentration rather than calibration uncertainty.
+
 ---
 
 # What the project now establishes
@@ -301,3 +313,7 @@ Any consciousness interpretation remains a separate bridge problem under the [In
 ## Why negative results matter
 
 The project keeps impossibility results, failed parameter regimes, conservative bounds, and model diagnostics visible. A theorem describing what cannot be identified can be more useful than a broad positive claim because it tells us which additional observables, interventions, or assumptions are mathematically necessary.
+
+## Proposition 55 oracle bottleneck
+
+Experiment AP includes a known-tau diagnostic that removes temporal calibration uncertainty completely. The current target concentration theorem still gives relative radius `2.1672468952 > 1`. This is a negative but actionable result: further calibration refinement alone cannot solve this target benchmark. The next theorem should attack the target concentration layer or derive explicit information requirements for entering the `epsilon < 1` regime.
