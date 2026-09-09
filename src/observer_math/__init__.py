@@ -185,6 +185,12 @@ from .symbolic import (
     perturbed_moving_clique_recovery_bound,
     support_resolved_moving_clique_recovery_bound,
 )
+from .two_scale_relaxation_cover import (
+    GaussianIrregularRelaxationTwoScaleTargetBound,
+    GaussianOptimizedIrregularRelaxationTwoScaleTargetBound,
+    gaussian_irregular_relaxation_two_scale_target_bound,
+    gaussian_optimized_irregular_relaxation_two_scale_target_bound,
+)
 from .uniform_matrix_chernoff import (
     GaussianAR1UniformMatrixChernoffBound,
     GaussianCalibratedAR1UniformMatrixChernoffBound,
@@ -235,6 +241,8 @@ __all__ = [
     "GaussianIrregularRelaxationEValueModel",
     "GaussianIrregularRelaxationEValueOuterCover",
     "GaussianIrregularRelaxationTargetBound",
+    "GaussianIrregularRelaxationTwoScaleTargetBound",
+    "GaussianOptimizedIrregularRelaxationTwoScaleTargetBound",
     "GaussianPathRecoveryBound",
     "GaussianProjectedTemporalEnvelope",
     "GaussianRelativeNearCompetitorScreen",
@@ -317,8 +325,10 @@ __all__ = [
     "gaussian_irregular_relaxation_log_likelihood_kernel",
     "gaussian_irregular_relaxation_log_likelihood_lipschitz_bound",
     "gaussian_irregular_relaxation_target_matrix_chernoff_bound",
+    "gaussian_irregular_relaxation_two_scale_target_bound",
     "gaussian_null_cmi_covariance_error_bound",
     "gaussian_null_integration_factor_error_bound",
+    "gaussian_optimized_irregular_relaxation_two_scale_target_bound",
     "gaussian_path_recovery_bound",
     "gaussian_projected_relative_covariance_error_bound",
     "gaussian_projected_temporal_envelope",

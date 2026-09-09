@@ -1,3 +1,7 @@
+## 0.43.0
+
+Proposition 54 / Experiment AO separates fine irregular-time calibration certification from target temporal-cover resolution. The exact AN benchmark radius decreases from `3.15549` to `2.57207` but remains above the perturbative threshold one. See [release record](release_0_43.md).
+
 # Recent release history
 
 This page continues the older root changelog for the newest theorem releases. It keeps the recent sequence compact and points directly to proof and experiment records rather than duplicating every derivation.

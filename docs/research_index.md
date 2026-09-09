@@ -220,3 +220,14 @@ The documentation style check rejects Unicode en dash and em dash characters in 
 ## Proposition 53B and Experiment AN : finite-sample physical tau calibration
 
 Proposition 53B uses the exact irregular-grid innovation likelihood from Proposition 53A to construct a finite-sample continuum e-value confidence set for physical relaxation time `tau`. Experiment AN records the 97.5% calibration result, its certified cell-local outer cover, seconds/milliseconds invariance, and independent target composition. See [the proof](proposition_53b_irregular_tau_evalue.md), [the figure](irregular_relaxation_evalue_calibration.svg), and [the machine-readable record](irregular_relaxation_evalue_calibration.json).
+
+
+## Proposition 54: two-scale certified irregular-time relaxation cover
+
+**Question.** Can the numerical resolution needed to certify the calibration confidence set be separated from the number of temporal representatives carried into the target covariance theorem?
+
+**Result.** Yes. A fine Proposition 53B outer cover is enclosed by its retained physical-time interval, then a second target grid covers that interval with operator radius `L h / 2` and normalization radius `q L h / 2`. Target cover size may be selected using calibration-derived geometry and declared target design information without inspecting target observations.
+
+**Experiment AO.** On the Experiment AN problem, the target covariance radius decreases from `3.1554895445` to `2.5720746948`, an `18.49%` reduction, but remains above one.
+
+[Proof](proposition_54_two_scale_irregular_tau_cover.md) | [Machine record](two_scale_irregular_tau_cover.json)
