@@ -16,6 +16,7 @@ def test_experiment_ar_machine_readable_checkpoint() -> None:
     record = _record()
     calibration = record["calibration_input"]
     target = record["target_model"]
+    cover = record["certified_transformed_family_cover"]
     certificate = record["uniform_target_certificate"]
 
     assert record["experiment"] == "AR"
@@ -24,7 +25,11 @@ def test_experiment_ar_machine_readable_checkpoint() -> None:
     assert np.isclose(target["working_relaxation_time_seconds"], 0.76921875)
     assert target["residual_degrees_of_freedom"] == 118
     assert np.isclose(target["combined_calibration_target_confidence"], 0.950625)
-    assert np.isclose(certificate["covariance_relative_error"], 0.8677117534900387)
+    assert np.isclose(
+        cover["transformed_normalization_covering_radius"],
+        0.01419745251105296,
+    )
+    assert np.isclose(certificate["covariance_relative_error"], 0.719587998418578)
     assert certificate["crosses_relative_radius_one"] is True
 
 
@@ -36,7 +41,7 @@ def test_experiment_ar_records_the_expected_improvement() -> None:
     assert comparison["proposition_57_uncertain_tau_innovation_radius"] < 1.0
     assert np.isclose(
         comparison["reduction_from_raw_time_calibrated_fraction"],
-        0.6406812020281043,
+        0.7020191398966291,
     )
 
 
@@ -44,7 +49,8 @@ def test_experiment_ar_svg_contains_the_claim_level_labels() -> None:
     svg = SVG_PATH.read_text(encoding="utf-8")
 
     assert "Experiment AR" in svg
-    assert "0.86771" in svg
+    assert "0.71959" in svg
     assert "0.950625" in svg
-    assert "64.1%" in svg
-    assert "Pointwise radii are diagnostics only" in svg
+    assert "70.2%" in svg
+    assert "projected-trace Lipschitz bound" in svg
+    assert "Pointwise values are diagnostics only" in svg
