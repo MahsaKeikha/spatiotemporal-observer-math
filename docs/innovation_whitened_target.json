@@ -1,0 +1,50 @@
+{
+  "experiment": "AQ",
+  "title": "Exact innovation-whitened target covariance concentration",
+  "model": {
+    "relaxation_time_seconds": 0.78,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2,
+    "residual_degrees_of_freedom": 118,
+    "covariance_confidence": 0.975,
+    "block_dimension": 1,
+    "block_count": 1
+  },
+  "raw_known_tau_oracle": {
+    "covariance_relative_error": 2.167246895150515,
+    "projected_degrees_of_freedom_lower_bound": 84.34348989587866,
+    "projected_spectral_norm_bound": 14.524615089393357
+  },
+  "innovation_whitened": {
+    "covariance_relative_error": 0.4364443814369348,
+    "upper_deviation": 0.4364443814369348,
+    "lower_deviation": 0.3375758747813327,
+    "temporal_trace": 118.0,
+    "temporal_frobenius_norm": 10.862780491200215,
+    "temporal_spectral_norm": 1.0,
+    "whitening_nonzero_count": 239,
+    "precision_nonzero_count": 358,
+    "whitening_identity_operator_error": 5.196362831739472e-15,
+    "relative_radius_reduction_fraction": 0.7986180612769438,
+    "crosses_relative_radius_one": true
+  },
+  "scalar_exact_reference": {
+    "lower_variance_ratio": 0.7311633508199834,
+    "upper_variance_ratio": 1.3142366148262574,
+    "two_sided_relative_radius": 0.3142366148262574,
+    "role": "Scalar chi-square quantiles are reported only as a dimension-one reference. Proposition 56 uses the matrix-Chernoff route so the theorem remains matrix-valued."
+  },
+  "seeded_visibility_check": {
+    "trial_count": 512,
+    "covered_trial_count": 512,
+    "empirical_coverage_fraction": 1.0,
+    "median_relative_error": 0.08915509535902932,
+    "maximum_relative_error": 0.39416565199090114,
+    "quantile_95_relative_error": 0.26743032350945406,
+    "quantile_975_relative_error": 0.29007544864176577
+  },
+  "interpretation": {
+    "main_result": "On the exact Experiment AP target schedule, the current known-tau raw-time oracle radius is above one. Exact innovation whitening changes the estimator rather than merely tightening the same temporal cover and reduces the matrix concentration problem to N-q independent Gaussian residual coordinates.",
+    "scope": "The result is conditional on the declared one-timescale Gaussian exponential relaxation model and exact knowledge of tau on the target record. Uncertain tau requires a separate robustness theorem."
+  }
+}
