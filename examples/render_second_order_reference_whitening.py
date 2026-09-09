@@ -220,7 +220,6 @@ def render(record: dict[str, object]) -> str:
     threshold_y = _map(threshold, ymin, ymax, py0, py1)
     parts.append(_line(px0, threshold_y, px1, threshold_y, "#b54733", 1.8, "6 5"))
     parts.append(_text(px0 + 8, threshold_y - 8, "e-value threshold", 13, 700, "#b54733"))
-    parts.append(_circle(_map(true_tau, tau_low, tau_high, px0, px1), _map(float(diagnostic["log_evalues"])[0] if False else min(log_values, key=lambda _: 0), ymin, ymax, py0, py1), 0, "#7c3aed"))
     parts.append(
         _text(
             right_x + 24,
