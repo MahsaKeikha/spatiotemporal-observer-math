@@ -8,11 +8,11 @@ A numerical experiment is not a proof. A theorem is not evidence that its assump
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **56** |
-| Reproducible experiments | **43, A-Z and AA-AQ** |
-| Scientific result figures | **31** |
-| Claim-level tests | **211** |
-| Research-software version | **0.45.0** |
+| Propositions | **57** |
+| Reproducible experiments | **44, A-Z and AA-AR** |
+| Scientific result figures | **32** |
+| Claim-level tests | **219** |
+| Research-software version | **0.46.0** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
 
 The physics pipeline is an explanatory diagram and is not included in the scientific-result figure count.
@@ -31,8 +31,10 @@ The physics pipeline is an explanatory diagram and is not included in the scient
 | Audit Proposition 53B | [Irregular-time finite-sample tau calibration](proposition_53b_irregular_tau_evalue.md) |
 | Audit Proposition 54 | [Two-scale tau cover](proposition_54_two_scale_irregular_tau_cover.md) |
 | Audit Proposition 55 | [Quadratic relaxation calibration](proposition_55_quadratic_relaxation_calibration.md) |
-| Audit Proposition 56 | [Innovation-whitened target covariance](proposition_56_innovation_whitened_target.md) |
-| Inspect the current release | [0.45.0 Research Record](release_0_45.md) |
+| Audit Proposition 56 | [Exact innovation-whitened target covariance](proposition_56_innovation_whitened_target.md) |
+| Audit Proposition 57 | [Robust innovation whitening under calibrated tau](proposition_57_robust_innovation_whitening.md) |
+| Inspect Experiment AR | [Machine-readable AR record](robust_innovation_whitened_target.json) |
+| Inspect the current release | [0.46.0 Research Record](release_0_46.md) |
 | Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
 | Inspect temporal-calibration APIs | [Temporal Calibration API](api_temporal_calibration.md) |
 | Inspect rules for any future consciousness interpretation | [Interpretation Protocol](interpretation_protocol.md) |
@@ -148,9 +150,7 @@ That negative diagnostic identifies target covariance concentration, not calibra
 
 ## Layer H. Exact innovation-whitened target inference, Proposition 56
 
-Proposition 56 uses the exact local temporal law operationally before target covariance concentration.
-
-For
+For the target model
 
 \[
 Y=HB+E,
@@ -158,13 +158,13 @@ Y=HB+E,
 \operatorname{vec}(E)\sim\mathcal N(0,R_\tau\otimes\Gamma),
 \]
 
-let \(W_\tau R_\tau W_\tau^\mathsf T=I\), define \(Z=W_\tau Y\) and \(G=W_\tau H\), and residualize with
+Proposition 56 uses the exact physical-time whitener \(W_\tau\) before target covariance concentration. With \(Z=W_\tau Y\), \(G=W_\tau H\), and nuisance projector
 
 \[
-P_G=I-G(G^\mathsf TG)^{-1}G^\mathsf T.
+P_G=I-G(G^\mathsf TG)^{-1}G^\mathsf T,
 \]
 
-Then
+the estimator
 
 \[
 \widehat\Gamma_{\mathrm{IW}}
@@ -177,13 +177,11 @@ satisfies
 \[
 \boxed{
 (N-q)\widehat\Gamma_{\mathrm{IW}}
-\sim\operatorname{Wishart}_d(\Gamma,N-q)
-}.
+\sim\operatorname{Wishart}_d(\Gamma,N-q).
+}
 \]
 
-Thus Proposition 47 applies with exactly \(N-q\) unit temporal weights.
-
-On Experiment AQ, \(N=120\), \(q=2\), and the certified scalar block radius is
+On Experiment AQ, \(N=120\), \(q=2\), and the scalar block radius is
 
 \[
 \boxed{0.4364443814<1},
@@ -191,7 +189,53 @@ On Experiment AQ, \(N=120\), \(q=2\), and the certified scalar block radius is
 
 compared with the previous known-\(\tau\) raw-time oracle `2.1672468952`.
 
-[Proposition 56 proof](proposition_56_innovation_whitened_target.md) | [Experiment AQ JSON](innovation_whitened_target.json) | [Experiment script](../examples/innovation_whitened_target.py) | [Figure](innovation_whitened_target.svg)
+[Proposition 56 proof](proposition_56_innovation_whitened_target.md) | [Experiment AQ data](innovation_whitened_target.json) | [Figure](innovation_whitened_target.svg)
+
+## Layer I. Robust innovation whitening under calibrated physical time, Proposition 57
+
+Proposition 57 removes the exact-target-\(\tau\) assumption from Proposition 56 on the controlled benchmark.
+
+Proposition 55 gives
+
+\[
+\tau\in[0.686875,0.8515625]\ \mathrm{s}
+\]
+
+with calibration confidence `0.975`. Proposition 57 fixes a working value
+
+\[
+\tau_0=0.76921875\ \mathrm{s}
+\]
+
+from that independent calibration result and defines
+
+\[
+C_\tau=W_0R_\tau W_0^\mathsf T.
+\]
+
+The Proposition 53 operator-Lipschitz bound gives
+
+\[
+\|C_\tau-C_{\tau'}\|_2
+\le
+\|W_0\|_2^2L_R|\tau-\tau'|.
+\]
+
+This supplies a deterministic finite cover of the transformed temporal family. Proposition 49 then certifies one fixed-working-whitener covariance estimator uniformly over every admissible true \(\tau\).
+
+Experiment AR gives
+
+\[
+\boxed{
+\varepsilon_{57}=0.8677117535<1
+}
+\]
+
+at target confidence `0.975`; together with the independent `0.975` calibration event, the combined confidence lower bound is `0.950625`.
+
+Relative to Proposition 55's calibrated raw-time radius `2.41488`, this is a reduction of about `64.1%`.
+
+[Proposition 57 proof](proposition_57_robust_innovation_whitening.md) | [Experiment AR data](robust_innovation_whitened_target.json) | [Figure](robust_innovation_whitened_target.svg) | [Release record](release_0_46.md)
 
 ---
 
@@ -203,30 +247,31 @@ compared with the previous known-\(\tau\) raw-time oracle `2.1672468952`.
 | AO | 54 | Can calibration resolution be separated from target cover resolution? | Target radius `3.15549 -> 2.57207` | [Proof](proposition_54_two_scale_irregular_tau_cover.md) |
 | AP | 55 | Can local likelihood curvature tighten calibration? | 160-cell width contracts about 73%; target radius `2.41488`; known-\(\tau\) oracle `2.16725 > 1` | [Proof](proposition_55_quadratic_relaxation_calibration.md) |
 | AQ | 56 | Can exact local innovations remove the target temporal penalty when \(\tau\) is known? | Raw oracle `2.16725 -> 0.43644`, a 79.86% reduction and `epsilon < 1` | [Proof](proposition_56_innovation_whitened_target.md) |
+| AR | 57 | Does the innovation advantage survive finite-sample uncertainty in \(\tau\)? | Calibrated raw time `2.41488 -> 0.86771`; robust uncertain-\(\tau\) theorem remains below one | [Proof](proposition_57_robust_innovation_whitening.md) |
 
-### Experiment AQ figure
+### Experiment AR figure
 
-[![Experiment AQ](innovation_whitened_target.svg)](proposition_56_innovation_whitened_target.md)
+[![Experiment AR](robust_innovation_whitened_target.svg)](proposition_57_robust_innovation_whitening.md)
 
-The four panels show the theorem-radius transition, raw temporal spectrum versus unit innovation weights, seeded scalar visibility checks, and the lower-bidiagonal/tridiagonal local structure used by the theorem.
+The four panels show the calibrated physical-time interval and working whitener, the P55/P56/P57 radius comparison, the certified transformed temporal geometry, and pointwise diagnostics that expose where the uniform theorem is conservative.
 
 ---
 
 # 4. Current frontier
 
-The immediate frontier is no longer another calibration-only refinement.
+The exact-target-\(\tau\) limitation is no longer the immediate frontier on the controlled benchmark. Proposition 57 propagates the complete Proposition 55 calibrated hull through one fixed working innovation whitener and retains `epsilon < 1`.
 
-The exact-target-\(\tau\) theorem now crosses `epsilon < 1`. The next problem is to determine how much of that information gain survives when \(\tau\) is only known through the finite-sample Proposition 55 confidence set.
+The next conceptual bridge is back to the original moving-boundary problem:
 
-The required object is the whitening mismatch
+> **Can the certified post-whitening covariance uncertainty be propagated through integration, insulation, persistence, transport, and world-tube path recovery without replacing its structure by an unnecessarily large generic bound?**
+
+A parallel technical question is whether the Proposition 57 normalization envelope can be tightened. Its current proof uses the conservative residual-rank trace bound
 
 \[
-W_{\widetilde\tau}R_\tau W_{\widetilde\tau}^\mathsf T-I,
+(N-q)\delta_\lambda.
 \]
 
-uniformly over certified true and working timescales, together with the transformed nuisance design \(W_{\widetilde\tau}H\).
-
-A successful theorem would connect the finite-sample calibration side directly to the innovation-whitened target side without reverting to the earlier raw-time worst-case temporal penalty.
+The recorded pointwise radii are approximately `0.404` to `0.580`, while the uniform radius is `0.86771`. A design-specific transformed-family trace certificate may reduce that gap without changing the underlying estimator.
 
 The broader physics questions remain sensor-coordinate invariance, spatial coarse graining, richer temporal kernels, model falsification, and intervention-sensitive identifiability.
 
