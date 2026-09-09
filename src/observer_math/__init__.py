@@ -208,6 +208,15 @@ from .uniform_matrix_chernoff import (
     gaussian_calibrated_ar1_uniform_matrix_chernoff_bound,
     separable_gaussian_calibrated_ar1_uniform_matrix_covariance,
 )
+from .whitened_target_covariance import (
+    GaussianWhitenedProjectedCovarianceBound,
+    GaussianWhitenedScalarChiSquareBound,
+    exponential_relaxation_whitened_projected_covariance,
+    gaussian_whitened_projected_covariance_bound,
+    gaussian_whitened_scalar_chi_square_bound,
+    separable_gaussian_whitened_projected_covariance,
+    whitened_nuisance_projector,
+)
 from .worldtube import (
     WorldTubeCertificate,
     WorldTubeResult,
@@ -261,6 +270,8 @@ __all__ = [
     "GaussianSafeNearCompetitorScreen",
     "GaussianTemporalCorrelationEnvelope",
     "GaussianWeightedWishartMatrixBound",
+    "GaussianWhitenedProjectedCovarianceBound",
+    "GaussianWhitenedScalarChiSquareBound",
     "IntervalClassPathRecoveryBound",
     "LocalizedGaussianPathRecoveryBound",
     "MovingBlockCovarianceErrorEnvelope",
@@ -300,6 +311,7 @@ __all__ = [
     "covariance_preserving_moving_clique_bound",
     "covariance_preserving_moving_cliques",
     "covariance_radius_path_recovery_bound",
+    "exponential_relaxation_whitened_projected_covariance",
     "finite_sample_recovery_bound",
     "full_trajectory_covariance",
     "gaussian_ar1_centered_temporal_correlation_envelope",
@@ -356,6 +368,8 @@ __all__ = [
     "gaussian_safe_near_competitor_screen",
     "gaussian_structural_null_near_competitor_screen",
     "gaussian_weighted_wishart_matrix_bound",
+    "gaussian_whitened_projected_covariance_bound",
+    "gaussian_whitened_scalar_chi_square_bound",
     "gaussian_wishart_relative_covariance_error_bound",
     "independent_local_path",
     "interval_class_covariance_path_recovery_bound",
@@ -391,6 +405,7 @@ __all__ = [
     "separable_gaussian_estimated_ar1_design_projected_covariance",
     "separable_gaussian_estimated_ar1_projected_covariance",
     "separable_gaussian_projected_covariance",
+    "separable_gaussian_whitened_projected_covariance",
     "simulate_gaussian_ensemble",
     "structural_transport",
     "structured_residual_class_path_recovery_bound",
@@ -398,5 +413,6 @@ __all__ = [
     "temporal_nuisance_projector",
     "transport_metrics",
     "transport_metrics_from_covariances",
+    "whitened_nuisance_projector",
     "two_point_identifiability_bound",
 ]
