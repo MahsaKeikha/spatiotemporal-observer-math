@@ -1,0 +1,59 @@
+{
+  "experiment": "AO",
+  "title": "Second-order certified irregular-time relaxation cover",
+  "model": {
+    "true_relaxation_time_seconds": 0.78,
+    "declared_interval_seconds": [
+      0.4,
+      1.25
+    ],
+    "calibration_confidence": 0.975,
+    "covariance_confidence": 0.975,
+    "combined_confidence": 0.9506249999999999,
+    "calibration_channel_count": 96,
+    "calibration_sample_count": 32,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2,
+    "cell_count": 160,
+    "theta_grid_size": 1024
+  },
+  "diagnostic_continuum": {
+    "accepted_lower_seconds": 0.69155,
+    "accepted_upper_seconds": 0.84455,
+    "accepted_width_seconds": 0.15300000000000002
+  },
+  "first_order_certificate": {
+    "retained_cell_count": 115,
+    "excluded_cell_count": 45,
+    "retained_lower_seconds": 0.495625,
+    "retained_upper_seconds": 1.1065625,
+    "retained_width_seconds": 0.6109374999999999,
+    "target_covariance_relative_error": 3.155489544511118,
+    "target_eigenvalue_covering_radius": 0.10915683567772128,
+    "target_normalization_covering_radius": 0.21831367135544255
+  },
+  "second_order_certificate": {
+    "retained_cell_count": 31,
+    "excluded_cell_count": 129,
+    "retained_lower_seconds": 0.686875,
+    "retained_upper_seconds": 0.8515625,
+    "retained_width_seconds": 0.1646875,
+    "cover_width_reduction_fraction": 0.7304347826086957,
+    "target_covariance_relative_error": 2.420890128532944,
+    "target_radius_reduction_fraction": 0.23280045952172101,
+    "target_eigenvalue_covering_radius": 0.0795533556424159,
+    "target_normalization_covering_radius": 0.1591067112848318,
+    "target_projected_degrees_of_freedom_lower_bound": 81.73140519478031,
+    "target_projected_degrees_of_freedom_upper_bound": 87.8797189033688
+  },
+  "oracle_known_tau": {
+    "target_covariance_relative_error": 2.167246895150515,
+    "projected_degrees_of_freedom": 84.34348989587866,
+    "projected_spectral_norm": 14.524615089393357,
+    "interpretation": "This removes all tau-cover uncertainty. A radius above one here proves that cover tightening alone cannot reach the downstream perturbative regime for this target record."
+  },
+  "interpretation": {
+    "what_closed": "A cell-local Taylor certificate makes the finite outer cover track the exact continuum e-value geometry closely without changing the finite-sample coverage theorem.",
+    "remaining_bottleneck": "The target record is strongly temporally dependent. Even oracle knowledge of tau leaves the Proposition 49 covariance radius above one. The next theorem must exploit the exact irregular-time innovation whitener rather than only tighten tau uncertainty."
+  }
+}
