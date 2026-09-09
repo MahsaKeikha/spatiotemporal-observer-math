@@ -1,0 +1,28 @@
+name: sort-0.44-exports-once
+
+on:
+  push:
+    branches:
+      - prop55-local-curvature-relaxation-cover
+
+permissions:
+  contents: write
+
+jobs:
+  sort:
+    if: github.event.head_commit.message == 'Run temporary 0.44.0 export sorter'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: prop55-local-curvature-relaxation-cover
+          fetch-depth: 0
+      - name: Sort public exports
+        run: python tools/sort_044_exports_once.py
+      - name: Commit sorted exports
+        run: |
+          git config user.name "Mahsa Keikha"
+          git config user.email "mahsa.keikha@gmail.com"
+          git add src/observer_math/__init__.py
+          git commit -m "Sort Proposition 55 public exports"
+          git push origin HEAD:prop55-local-curvature-relaxation-cover
