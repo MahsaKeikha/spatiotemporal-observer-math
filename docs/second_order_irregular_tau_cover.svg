@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+<rect width="100%" height="100%" fill="#f7f9fc"/>
+<text x="60.0" y="62.0" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#162033">Experiment AO: second-order certification reveals the real bottleneck</text>
+<text x="60.0" y="98.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526277">The tau cover becomes nearly diagnostic, but raw target dependence still prevents an error radius below one.</text>
+<rect x="60.0" y="122.0" width="1320.0" height="66.0" rx="16" fill="#eaf2ff" stroke="#b9d1f6" stroke-width="1.5"/>
+<text x="88.0" y="164.0" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#1d4ed8">true tau = 0.78 s</text>
+<text x="330.0" y="164.0" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#0f766e">combined confidence = 95.0625%</text>
+<text x="800.0" y="164.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="500" fill="#162033">same calibration and target geometry as Experiment AN</text>
+<rect x="60.0" y="220.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="84.0" y="258.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">A. Certified physical-time interval</text>
+<text x="84.0" y="285.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#526277">Second-order Taylor control removes most of the geometric slack.</text>
+<line x1="140.0" y1="452.0" x2="660.0" y2="452.0" stroke="#8da0b6" stroke-width="1.8" stroke-linecap="round"/>
+<line x1="140.0" y1="446.0" x2="140.0" y2="458.0" stroke="#8da0b6" stroke-width="1.2" stroke-linecap="round"/>
+<text x="125.0" y="480.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">0.4</text>
+<line x1="262.4" y1="446.0" x2="262.4" y2="458.0" stroke="#8da0b6" stroke-width="1.2" stroke-linecap="round"/>
+<text x="247.4" y="480.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">0.6</text>
+<line x1="384.7" y1="446.0" x2="384.7" y2="458.0" stroke="#8da0b6" stroke-width="1.2" stroke-linecap="round"/>
+<text x="369.7" y="480.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">0.8</text>
+<line x1="507.1" y1="446.0" x2="507.1" y2="458.0" stroke="#8da0b6" stroke-width="1.2" stroke-linecap="round"/>
+<text x="492.1" y="480.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">1.0</text>
+<line x1="629.4" y1="446.0" x2="629.4" y2="458.0" stroke="#8da0b6" stroke-width="1.2" stroke-linecap="round"/>
+<text x="614.4" y="480.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#162033">1.2</text>
+<text x="84.0" y="332.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">first-order</text>
+<rect x="198.5" y="314.0" width="373.7" height="22.0" rx="5" fill="#cfe0ff" stroke="#77a5ee" stroke-width="1.5"/>
+<text x="84.0" y="377.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">second-order</text>
+<rect x="315.5" y="359.0" width="100.8" height="22.0" rx="5" fill="#bfe9dc" stroke="#49a98a" stroke-width="1.5"/>
+<text x="84.0" y="422.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">diagnostic</text>
+<rect x="318.4" y="404.0" width="93.6" height="22.0" rx="5" fill="#eadcff" stroke="#9d76d9" stroke-width="1.5"/>
+<line x1="372.5" y1="308.0" x2="372.5" y2="442.0" stroke="#7c3aed" stroke-width="2.0" stroke-linecap="round"/>
+<rect x="745.0" y="220.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="769.0" y="258.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">B. Cell certificate contraction</text>
+<text x="769.0" y="292.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#162033">First-order retained cells: 115 / 160</text>
+<text x="769.0" y="326.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#0f766e">Second-order retained cells: 31 / 160</text>
+<text x="769.0" y="370.0" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#0f766e">Certified width reduction: 73.0%</text>
+<text x="769.0" y="410.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#162033">First-order width: 0.610937 s</text>
+<text x="769.0" y="440.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#162033">Second-order width: 0.164687 s</text>
+<text x="769.0" y="470.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#162033">Diagnostic width: 0.153000 s</text>
+<rect x="60.0" y="545.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="84.0" y="583.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">C. Target covariance radius</text>
+<text x="84.0" y="610.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#526277">The cover improvement helps, but does not cross the perturbative threshold.</text>
+<line x1="353.5" y1="631.0" x2="353.5" y2="790.0" stroke="#c94d3f" stroke-width="2.0" stroke-linecap="round"/>
+<text x="329.5" y="815.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#b54733">radius = 1</text>
+<text x="84.0" y="662.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">first-order</text>
+<rect x="230.0" y="644.0" width="389.8" height="24.0" rx="5" fill="#7aa2e3" stroke="#7aa2e3" stroke-width="1.5"/>
+<text x="629.8" y="662.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">3.155</text>
+<text x="84.0" y="717.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">second-order</text>
+<rect x="230.0" y="699.0" width="299.1" height="24.0" rx="5" fill="#0f9d78" stroke="#0f9d78" stroke-width="1.5"/>
+<text x="539.1" y="717.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">2.421</text>
+<text x="84.0" y="772.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">oracle tau</text>
+<rect x="230.0" y="754.0" width="267.7" height="24.0" rx="5" fill="#7c3aed" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="507.7" y="772.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#162033">2.167</text>
+<rect x="745.0" y="545.0" width="635.0" height="285.0" rx="16" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="769.0" y="583.0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">D. What Proposition 54 changes</text>
+<text x="769.0" y="623.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#0f766e">Cover uncertainty is no longer the main limitation.</text>
+<text x="769.0" y="657.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">Even exact knowledge of tau leaves the raw target radius above one.</text>
+<text x="769.0" y="696.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#162033">Next theorem:</text>
+<text x="769.0" y="729.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">propagate calibrated tau uncertainty through the exact irregular-time</text>
+<text x="769.0" y="756.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#162033">innovation whitener, then concentrate the near-iid target innovations.</text>
+<rect x="769.0" y="780.0" width="587.0" height="34.0" rx="8" fill="#fff3cd" stroke="#e6b84c" stroke-width="1.5"/>
+<text x="785.0" y="803.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#8a5b00">The bottleneck has moved from calibration geometry to temporal dependence.</text>
+<text x="60.0" y="870.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#39485a">Proposition 54 preserves the 97.5% finite-sample calibration guarantee. The new cover is deterministic conditional on the observed calibration record.</text>
+</svg>
