@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "docs" / "innovation_whitened_target_covariance.json"
 SVG = ROOT / "docs" / "innovation_whitened_target_covariance.svg"

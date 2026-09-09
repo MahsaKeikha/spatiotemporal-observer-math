@@ -413,6 +413,6 @@ __all__ = [
     "temporal_nuisance_projector",
     "transport_metrics",
     "transport_metrics_from_covariances",
-    "whitened_nuisance_projector",
     "two_point_identifiability_bound",
+    "whitened_nuisance_projector",
 ]
