@@ -36,13 +36,36 @@ def build_svg(record: dict[str, object]) -> str:
 
     x0, x1 = 90.0, 530.0
     tau_min, tau_max = 0.65, 0.88
-    map_tau = lambda tau: x0 + (tau - tau_min) / (tau_max - tau_min) * (x1 - x0)
+
+    def map_tau(tau: float) -> float:
+        return x0 + (tau - tau_min) / (tau_max - tau_min) * (x1 - x0)
 
     bars = "".join(
         [
-            _bar(690, 166, 330, float(comp["proposition_55_raw_time_calibrated_radius"]), 2.5, "P55 raw-time calibrated"),
-            _bar(690, 226, 330, float(comp["proposition_56_exact_tau_innovation_radius"]), 2.5, "P56 exact-tau innovation"),
-            _bar(690, 286, 330, float(comp["proposition_57_uncertain_tau_innovation_radius"]), 2.5, "P57 calibrated-tau robust"),
+            _bar(
+                690,
+                166,
+                330,
+                float(comp["proposition_55_raw_time_calibrated_radius"]),
+                2.5,
+                "P55 raw-time calibrated",
+            ),
+            _bar(
+                690,
+                226,
+                330,
+                float(comp["proposition_56_exact_tau_innovation_radius"]),
+                2.5,
+                "P56 exact-tau innovation",
+            ),
+            _bar(
+                690,
+                286,
+                330,
+                float(comp["proposition_57_uncertain_tau_innovation_radius"]),
+                2.5,
+                "P57 calibrated-tau robust",
+            ),
         ]
     )
 
