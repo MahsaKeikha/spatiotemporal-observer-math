@@ -1,0 +1,139 @@
+{
+  "experiment": "AO",
+  "title": "Two-scale certified irregular-time relaxation cover",
+  "model": {
+    "true_relaxation_time_seconds": 0.78,
+    "declared_interval_seconds": [
+      0.4,
+      1.25
+    ],
+    "calibration_confidence": 0.975,
+    "covariance_confidence": 0.975,
+    "combined_confidence": 0.9506249999999999,
+    "calibration_channel_count": 96,
+    "calibration_sample_count": 32,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2
+  },
+  "calibration_resolution": [
+    {
+      "cell_count": 160,
+      "retained_cell_count": 115,
+      "excluded_cell_count": 45,
+      "retained_lower_seconds": 0.495625,
+      "retained_upper_seconds": 1.1065625,
+      "retained_width_seconds": 0.6109374999999999,
+      "cell_radius_seconds": 0.002656249999999999
+    },
+    {
+      "cell_count": 320,
+      "retained_cell_count": 167,
+      "excluded_cell_count": 153,
+      "retained_lower_seconds": 0.56203125,
+      "retained_upper_seconds": 1.005625,
+      "retained_width_seconds": 0.44359375,
+      "cell_radius_seconds": 0.0013281250000000133
+    },
+    {
+      "cell_count": 640,
+      "retained_cell_count": 250,
+      "excluded_cell_count": 390,
+      "retained_lower_seconds": 0.60984375,
+      "retained_upper_seconds": 0.941875,
+      "retained_width_seconds": 0.33203125,
+      "cell_radius_seconds": 0.0006640625000000067
+    },
+    {
+      "cell_count": 1280,
+      "retained_cell_count": 389,
+      "excluded_cell_count": 891,
+      "retained_lower_seconds": 0.643046875,
+      "retained_upper_seconds": 0.9013671875,
+      "retained_width_seconds": 0.2583203125,
+      "cell_radius_seconds": 0.00033203125000000333
+    },
+    {
+      "cell_count": 2560,
+      "retained_cell_count": 639,
+      "excluded_cell_count": 1921,
+      "retained_lower_seconds": 0.66396484375,
+      "retained_upper_seconds": 0.8761328125,
+      "retained_width_seconds": 0.21216796875,
+      "cell_radius_seconds": 0.0001660156249999878
+    }
+  ],
+  "target_cover_search": {
+    "calibration_outer_cover_cell_count": 1280,
+    "candidate_results": [
+      {
+        "target_cover_point_count": 5,
+        "approximate_covariance_relative_error": 2.9763059234090745
+      },
+      {
+        "target_cover_point_count": 7,
+        "approximate_covariance_relative_error": 2.8245141029665923
+      },
+      {
+        "target_cover_point_count": 9,
+        "approximate_covariance_relative_error": 2.7536898067458884
+      },
+      {
+        "target_cover_point_count": 13,
+        "approximate_covariance_relative_error": 2.6861965613307244
+      },
+      {
+        "target_cover_point_count": 17,
+        "approximate_covariance_relative_error": 2.653687669437431
+      },
+      {
+        "target_cover_point_count": 25,
+        "approximate_covariance_relative_error": 2.6219979540195135
+      },
+      {
+        "target_cover_point_count": 33,
+        "approximate_covariance_relative_error": 2.6064589056987546
+      },
+      {
+        "target_cover_point_count": 49,
+        "approximate_covariance_relative_error": 2.5911230001331758
+      },
+      {
+        "target_cover_point_count": 65,
+        "approximate_covariance_relative_error": 2.5835310559393014
+      }
+    ],
+    "selected_target_cover_point_count": 65
+  },
+  "legacy_proposition_53b": {
+    "calibration_outer_cover_cell_count": 160,
+    "retained_temporal_cover_point_count": 115,
+    "target_eigenvalue_covering_radius": 0.10915683567772128,
+    "target_normalization_covering_radius": 0.21831367135544255,
+    "target_covariance_relative_error": 3.155489544511118
+  },
+  "proposition_54_two_scale": {
+    "calibration_outer_cover_cell_count": 1280,
+    "retained_calibration_cell_count": 389,
+    "retained_lower_seconds": 0.643046875,
+    "retained_upper_seconds": 0.9013671875,
+    "retained_width_seconds": 0.2583203125,
+    "target_cover_point_count": 65,
+    "cover_compression_ratio": 5.984615384615385,
+    "target_parameter_covering_radius_seconds": 0.00201812744140625,
+    "target_operator_lipschitz_bound_per_second": 31.527618485255957,
+    "target_eigenvalue_covering_radius": 0.06362675202728199,
+    "target_normalization_covering_radius": 0.12725350405456398,
+    "target_covariance_relative_error": 2.572074694777741,
+    "projected_degrees_of_freedom_lower_bound": 79.96286509422559
+  },
+  "comparison": {
+    "absolute_radius_reduction": 0.5834148497333773,
+    "relative_radius_reduction_fraction": 0.18488885528022436,
+    "epsilon_below_one": false
+  },
+  "interpretation": {
+    "validity": "The calibration confidence set remains continuum-valued. Fine calibration cells certify containment, while a separate target grid covers only the resulting retained physical-time interval.",
+    "selection": "Target cover size is selected from calibration-derived geometry and declared target timestamps/design only. No target observations are used in the selection.",
+    "next_step_if_needed": "If the final radius remains above one, the remaining bottleneck is no longer forced coupling of calibration and target resolutions. The next theorem should tighten the calibration outer cover or the temporal operator envelope itself."
+  }
+}

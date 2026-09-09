@@ -390,3 +390,18 @@ These APIs calibrate temporal covariance and observer-like dynamical structure u
 ## Physical-time irregular calibration API : Proposition 53B
 
 The `observer_math.irregular_relaxation_evalue` module exposes exact irregular-time likelihood, continuum e-value evaluation, cell-local certified outer covers, and independent target-family composition. The principal public symbols are `GaussianIrregularRelaxationEValueModel`, `GaussianIrregularRelaxationEValueGrid`, `GaussianIrregularRelaxationEValueOuterCover`, `GaussianIrregularRelaxationTargetBound`, `gaussian_irregular_relaxation_evalue_model`, `gaussian_irregular_relaxation_log_evalue`, `gaussian_irregular_relaxation_evalue_grid`, `gaussian_irregular_relaxation_evalue_outer_cover`, and `gaussian_irregular_relaxation_target_matrix_chernoff_bound`. They are also exported from the package root in release 0.42.0.
+
+
+## Proposition 54 two-scale irregular relaxation cover
+
+Public functions:
+
+- `gaussian_irregular_relaxation_two_scale_target_bound`
+- `gaussian_optimized_irregular_relaxation_two_scale_target_bound`
+
+Public result types:
+
+- `GaussianIrregularRelaxationTwoScaleTargetBound`
+- `GaussianOptimizedIrregularRelaxationTwoScaleTargetBound`
+
+The first function certifies a fine calibration outer cover and then covers its retained physical-time interval with a separately chosen target grid. The second selects the target grid size from a declared candidate set using calibration-derived geometry and target design information only. No target observations are used for that selection.

@@ -1,3 +1,10 @@
+## 0.43.0 - 2026-09-08
+
+- Added Proposition 54, a two-scale certified physical relaxation-time cover that separates calibration-cell resolution from target temporal-cover resolution.
+- Added Experiment AO and its machine-readable/visual record.
+- Reduced the Experiment AN target covariance radius from `3.15549` to `2.57207` while retaining combined confidence `0.950625`; the release explicitly records that the radius remains above one.
+- Added public Proposition 54 API functions and result types.
+
 # Changelog
 
 

@@ -1243,3 +1243,12 @@ aggregates are stored in
 ## Experiment AN : finite-sample irregular-time relaxation calibration
 
 The deterministic Experiment AN script calibrates `tau = 0.78 s` from 96 independent Gaussian channels on 32 irregular timestamps. The 2001-point diagnostic accepted span is `[0.69155, 0.84455] s`; the certified 160-cell outer cover retains `[0.495625, 1.1065625] s`. Seconds-versus-milliseconds log-e-value discrepancy is at most `2.05e-12`. The independent target composition has confidence `0.950625` and target covariance relative-error radius `3.1554895445`, which is valid but above the downstream `epsilon < 1` regime. See `irregular_relaxation_evalue_calibration.json` and `irregular_relaxation_evalue_calibration.svg`.
+
+
+## Experiment AO: two-scale certified irregular-time relaxation cover
+
+Experiment AO reuses the Experiment AN physical-time problem and separates calibration certification resolution from target temporal-cover resolution.
+
+At 1280 calibration cells and selected target cover size `K=65`, the final relative covariance radius is `2.572074694777741`, compared with the Proposition 53B baseline `3.155489544511118`. This is an `18.49%` reduction. The value remains above one.
+
+[Proof](proposition_54_two_scale_irregular_tau_cover.md) | [JSON](two_scale_irregular_tau_cover.json) | [Figure](two_scale_irregular_tau_cover.svg)
