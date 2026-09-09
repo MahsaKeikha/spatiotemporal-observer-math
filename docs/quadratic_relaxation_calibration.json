@@ -1,0 +1,143 @@
+{
+  "experiment": "AP",
+  "title": "Quadratic irregular-time relaxation calibration and oracle target floor",
+  "model": {
+    "true_relaxation_time_seconds": 0.78,
+    "declared_interval_seconds": [
+      0.4,
+      1.25
+    ],
+    "calibration_confidence": 0.975,
+    "covariance_confidence": 0.975,
+    "combined_confidence": 0.9506249999999999,
+    "calibration_channel_count": 96,
+    "calibration_sample_count": 32,
+    "target_sample_count": 120,
+    "target_nuisance_rank": 2
+  },
+  "outer_cover_comparison": [
+    {
+      "cell_count": 40,
+      "first_order_retained_cells": 40,
+      "first_order_lower_seconds": 0.4,
+      "first_order_upper_seconds": 1.25,
+      "first_order_width_seconds": 0.85,
+      "quadratic_retained_cells": 12,
+      "quadratic_lower_seconds": 0.63375,
+      "quadratic_upper_seconds": 0.8887499999999999,
+      "quadratic_width_seconds": 0.2549999999999999
+    },
+    {
+      "cell_count": 80,
+      "first_order_retained_cells": 80,
+      "first_order_lower_seconds": 0.4,
+      "first_order_upper_seconds": 1.25,
+      "first_order_width_seconds": 0.85,
+      "quadratic_retained_cells": 18,
+      "quadratic_lower_seconds": 0.67625,
+      "quadratic_upper_seconds": 0.8674999999999999,
+      "quadratic_width_seconds": 0.19124999999999992
+    },
+    {
+      "cell_count": 160,
+      "first_order_retained_cells": 115,
+      "first_order_lower_seconds": 0.495625,
+      "first_order_upper_seconds": 1.1065625,
+      "first_order_width_seconds": 0.6109374999999999,
+      "quadratic_retained_cells": 31,
+      "quadratic_lower_seconds": 0.686875,
+      "quadratic_upper_seconds": 0.8515625,
+      "quadratic_width_seconds": 0.1646875
+    },
+    {
+      "cell_count": 320,
+      "first_order_retained_cells": 167,
+      "first_order_lower_seconds": 0.56203125,
+      "first_order_upper_seconds": 1.005625,
+      "first_order_width_seconds": 0.44359375,
+      "quadratic_retained_cells": 59,
+      "quadratic_lower_seconds": 0.6895312499999999,
+      "quadratic_upper_seconds": 0.84625,
+      "quadratic_width_seconds": 0.15671875000000002
+    },
+    {
+      "cell_count": 640,
+      "first_order_retained_cells": 250,
+      "first_order_lower_seconds": 0.60984375,
+      "first_order_upper_seconds": 0.941875,
+      "first_order_width_seconds": 0.33203125,
+      "quadratic_retained_cells": 116,
+      "quadratic_lower_seconds": 0.690859375,
+      "quadratic_upper_seconds": 0.844921875,
+      "quadratic_width_seconds": 0.1540625
+    }
+  ],
+  "quadratic_target_search": {
+    "calibration_cell_count": 160,
+    "candidate_results": [
+      {
+        "target_cover_point_count": 5,
+        "approximate_covariance_relative_error": 2.6408371083821938
+      },
+      {
+        "target_cover_point_count": 7,
+        "approximate_covariance_relative_error": 2.559671243047618
+      },
+      {
+        "target_cover_point_count": 9,
+        "approximate_covariance_relative_error": 2.52086464409602
+      },
+      {
+        "target_cover_point_count": 13,
+        "approximate_covariance_relative_error": 2.483232123187299
+      },
+      {
+        "target_cover_point_count": 17,
+        "approximate_covariance_relative_error": 2.4648538037792793
+      },
+      {
+        "target_cover_point_count": 25,
+        "approximate_covariance_relative_error": 2.446766211958887
+      },
+      {
+        "target_cover_point_count": 33,
+        "approximate_covariance_relative_error": 2.437831152327774
+      },
+      {
+        "target_cover_point_count": 49,
+        "approximate_covariance_relative_error": 2.4289684315812345
+      },
+      {
+        "target_cover_point_count": 65,
+        "approximate_covariance_relative_error": 2.4245641628243915
+      }
+    ],
+    "selected_target_cover_point_count": 65
+  },
+  "quadratic_target_final": {
+    "retained_calibration_cell_count": 31,
+    "retained_lower_seconds": 0.686875,
+    "retained_upper_seconds": 0.8515625,
+    "retained_width_seconds": 0.1646875,
+    "target_cover_point_count": 65,
+    "target_eigenvalue_covering_radius": 0.03853365663929522,
+    "target_normalization_covering_radius": 0.07706731327859044,
+    "target_covariance_relative_error": 2.4148799294322116
+  },
+  "oracle_known_tau_target": {
+    "temporal_cover_point_count": 1,
+    "eigenvalue_covering_radius": 0.0,
+    "normalization_covering_radius": 0.0,
+    "covariance_confidence": 0.975,
+    "target_covariance_relative_error": 2.167246895150515,
+    "projected_degrees_of_freedom_lower_bound": 84.34348989587866
+  },
+  "reference_radii": {
+    "proposition_53b": 3.155489544511118,
+    "proposition_54": 2.572074694777741
+  },
+  "interpretation": {
+    "quadratic_role": "The quadratic cover changes only deterministic containment of the already valid continuum e-value set. It spends no additional probability budget.",
+    "oracle_role": "The known-tau target bound is not an implementable calibration procedure. It is a diagnostic floor showing how much of the current radius remains even if temporal parameter uncertainty is removed completely."
+  }
+}
