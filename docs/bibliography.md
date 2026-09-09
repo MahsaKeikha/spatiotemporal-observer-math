@@ -1,20 +1,16 @@
 # Bibliography and citation map
 
-This page records the external literature that materially informs the conceptual framing, mathematical definitions, statistical tools, and physical interpretation used in this repository.
+This page records the literature that materially informs the conceptual framing, mathematical foundations, statistical methods, and physical-process models used in **Spatiotemporal Observer Mathematics**.
 
-It is intentionally more explicit than a conventional short reference list. Each source is assigned a role so a reader can distinguish:
+Each reference is assigned a specific role so the provenance of the research remains transparent. The source structure distinguishes:
 
-- the primary conceptual source that initiated the project;
-- related Tegmark work that is scientifically adjacent but not the source of the project;
-- broader consciousness and integrated-information lineage;
-- classical mathematical foundations used by definitions and algorithms;
-- Gaussian, random-matrix, and generalized least-squares foundations used by the finite-sample layers;
-- modern e-value literature relevant to continuum temporal confidence sets;
-- physical stochastic-process literature relevant to sampling-consistent relaxation and local innovations.
+- **conceptual lineage**, which motivates the scientific question;
+- **mathematical foundations**, which supply standard identities, geometry, probability laws, or algorithms;
+- **statistical methodology**, which supplies concentration, calibration, or confidence constructions;
+- **physical-process lineage**, which motivates the temporal stochastic models;
+- **repository development**, where definitions, propositions, proofs, and computational constructions are introduced in this research program.
 
-A citation on this page does not imply endorsement of this repository by the cited author. It also does not mean that every theorem here is contained in the cited source. The repository develops its own statements and proofs, and the role of each reference is stated below.
-
-Machine-readable BibTeX is available in [`references.bib`](../references.bib).
+Machine-readable BibTeX is maintained in [`references.bib`](../references.bib). Equation-level provenance is summarized in the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md).
 
 ---
 
@@ -27,24 +23,24 @@ Machine-readable BibTeX is available in [`references.bib`](../references.bib).
 - DOI: https://doi.org/10.1016/j.chaos.2015.03.014
 - Technical preprint: https://arxiv.org/abs/1401.1219
 
-**Role in this repository:** This is the primary conceptual source and starting point for the project. Tegmark asks why an observer perceives one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles. The present repository takes that factorization and observer-identification problem as its starting question and develops a separate operational program for time-dependent subsystem boundaries, moving world-tubes, finite-sample recovery, identifiability, temporal calibration, physical-time representation, innovation inference, and covariance-to-world-tube certification.
+**Role in this repository:** Primary conceptual source for the observer-factorization question. Tegmark asks why an observer should correspond to one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles. This repository takes that factorization problem as its starting point and develops a time-dependent inference framework for moving subsystem boundaries, world-tube optimization, recovery, identifiability, finite-sample measurement certification, physical-time calibration, innovation inference, and covariance-to-world-tube propagation.
 
-The current results are not reproductions of Tegmark's derivations, and no endorsement by Tegmark is implied. The relationship is primary conceptual lineage followed by independent mathematical development.
+The relationship is therefore one of **conceptual lineage followed by a distinct time-dependent mathematical development**. The detailed correspondence is given in [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question).
 
-## Related Tegmark work: Tegmark 2016
+## Tegmark 2016
 
-**Max Tegmark. "Improved Measures of Integrated Information." _PLoS Computational Biology_ 12(11) (2016): e1005123.**
+**Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016): e1005123.**
 
 - DOI: https://doi.org/10.1371/journal.pcbi.1005123
 - Preprint: https://arxiv.org/abs/1601.02626
 
-**Role:** Related Tegmark literature on how integrated-information measures can be classified by factorization choice, probability distributions, and comparison measures. This paper is useful context for the repository's decision to treat integration as one operational factor rather than identify a single integration functional with consciousness. It is not the primary source of this project and is not claimed as the source of the world-tube objective or later propositions.
+**Role:** Related work on the classification and construction of integrated-information measures across factorization choices, probability distributions, and comparison measures. It provides relevant context for treating integration as one ingredient in a broader dynamical subsystem score. The moving world-tube, transport functional, recovery theory, and finite-sample measurement program are developed separately in this repository.
 
 ---
 
-# 2. Integrated-information and consciousness lineage
+# 2. Integrated-information lineage
 
-These papers are included because Tegmark's 2015 paper explicitly builds on the integrated-information tradition and because the repository uses integration as one operational ingredient in its observer-like score. The repository does not implement IIT Phi and does not claim that its score is a measure of consciousness.
+The following sources provide historical and conceptual context for integration as an organizing principle in dynamical systems. The operational integration, insulation, persistence, and transport functionals used in this repository are defined separately in the mathematical framework.
 
 ## Tononi 2004
 
@@ -52,23 +48,23 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1186/1471-2202-5-42
 
-**Role:** Foundational integrated-information theory background. It motivates the scientific importance of asking whether information is both differentiated and integrated, but it is not the source of the repository's specific world-tube objective.
+**Role:** Foundational integrated-information theory background, establishing integration and differentiation as central conceptual themes.
 
 ## Balduzzi and Tononi 2008
 
-**David Balduzzi and Giulio Tononi. "Integrated Information in Discrete Dynamical Systems: Motivation and Theoretical Framework." _PLoS Computational Biology_ 4(6) (2008): e1000091.**
+**David Balduzzi and Giulio Tononi. "Integrated Information in Discrete Dynamical Systems: Motivation and Theoretical Framework." _PLOS Computational Biology_ 4(6) (2008): e1000091.**
 
 - DOI: https://doi.org/10.1371/journal.pcbi.1000091
 
-**Role:** Important dynamical-systems development of integrated-information ideas. It is useful context for the repository's emphasis on dynamical rather than purely static organization.
+**Role:** Dynamical-systems development of integrated-information ideas and useful context for analyzing organization through temporal rather than purely static structure.
 
 ## Oizumi, Albantakis, and Tononi 2014
 
-**Masafumi Oizumi, Larissa Albantakis, and Giulio Tononi. "From the Phenomenology to the Mechanisms of Consciousness: Integrated Information Theory 3.0." _PLoS Computational Biology_ 10(5) (2014): e1003588.**
+**Masafumi Oizumi, Larissa Albantakis, and Giulio Tononi. "From the Phenomenology to the Mechanisms of Consciousness: Integrated Information Theory 3.0." _PLOS Computational Biology_ 10(5) (2014): e1003588.**
 
 - DOI: https://doi.org/10.1371/journal.pcbi.1003588
 
-**Role:** Later IIT framework included for conceptual completeness and for clearly separating this repository's operational observer mathematics from formal IIT claims.
+**Role:** Later integrated-information framework providing conceptual context for distinguishing the repository's operational subsystem functionals from formal IIT measures.
 
 ---
 
@@ -81,7 +77,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 - Part I, 27(3): 379-423. DOI: https://doi.org/10.1002/j.1538-7305.1948.tb01338.x
 - Part II, 27(4): 623-656. DOI: https://doi.org/10.1002/j.1538-7305.1948.tb00917.x
 
-**Role:** Foundational information-theoretic source for entropy and mutual information. The Gaussian mutual-information and conditional-mutual-information expressions used by the repository are standard consequences of this framework together with multivariate Gaussian entropy formulas.
+**Role:** Foundational information-theoretic source for entropy and mutual information. The Gaussian mutual-information and conditional-mutual-information expressions used here are standard consequences of this framework together with multivariate Gaussian entropy identities.
 
 ## Cover and Thomas 2006
 
@@ -97,7 +93,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1093/biomet/28.3-4.321
 
-**Role:** Classical source for canonical correlation analysis. Canonical correlations are used in persistence and transport because they are invariant under invertible linear coordinate changes made separately inside the compared blocks.
+**Role:** Classical source for canonical correlation analysis. Canonical correlations enter the persistence and transport functionals because their whitened geometry is invariant under invertible linear coordinate changes made separately within the compared blocks.
 
 ## Jaccard 1901
 
@@ -105,7 +101,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.5169/seals-266450
 
-**Role:** Original source for the set-overlap coefficient now known as the Jaccard index. The repository uses Jaccard distance, one minus the overlap coefficient, as the declared material-continuity geometry between successive candidate memberships. This is a modeling choice, not a claim that Jaccard distance is uniquely physically correct.
+**Role:** Original source for the set-overlap coefficient now known as the Jaccard index. The repository uses Jaccard distance as the declared continuity geometry between successive candidate memberships.
 
 ## Bellman 1952
 
@@ -113,7 +109,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1073/pnas.38.8.716
 
-**Role:** Classical dynamic-programming foundation. The repository's finite-horizon world-tube optimizer uses a max-sum dynamic program and a two-best extension to recover the exact runner-up path.
+**Role:** Classical dynamic-programming foundation. The finite-horizon world-tube optimizer uses a max-sum dynamic program together with a two-best extension for exact runner-up recovery.
 
 ## Wishart 1928
 
@@ -121,7 +117,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1093/biomet/20a.1-2.32
 
-**Role:** Classical source for the Wishart distribution underlying exact Gaussian sample-covariance laws. Proposition 56 reduces the innovation-whitened residual covariance exactly to a Wishart law under its declared assumptions.
+**Role:** Classical source for the Wishart distribution underlying exact Gaussian sample-covariance laws. Proposition 56 reduces the innovation-whitened residual covariance to a Wishart law under its stated model.
 
 ## Aitken 1936
 
@@ -129,7 +125,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1017/S0370164600014346
 
-**Role:** Classical generalized least-squares lineage. Proposition 56's transformed nuisance removal is equivalent to fitting the declared nuisance model in the covariance geometry implied by the known temporal law. The repository derives its local innovation representation directly from Proposition 53; Aitken is cited as historical statistical context for covariance-aware least squares, not as the source of the repository's irregular-grid whitening theorem.
+**Role:** Classical generalized least-squares lineage relevant to covariance-aware nuisance fitting. Proposition 56 applies nuisance removal after transformation into the temporal covariance geometry supplied by the physical-time model.
 
 ## Lancaster 1965
 
@@ -137,7 +133,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1080/00029890.1965.11970483
 
-**Role:** Standard reference for Helmert matrices and orthogonal Helmert contrasts. Proposition 51 uses a fixed Helmert contrast to remove an arbitrary constant channel mean exactly before constructing the residual Gaussian likelihood and e-value confidence set.
+**Role:** Standard reference for Helmert matrices and orthogonal Helmert contrasts. Proposition 51 uses a fixed Helmert contrast to remove an arbitrary constant channel mean before constructing the residual Gaussian likelihood and e-value confidence set.
 
 ## Bhatia 1997
 
@@ -145,7 +141,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1007/978-1-4612-0653-8
 
-**Role:** Standard matrix-analysis reference for operator norms, eigenvalue perturbation, matrix functions, and related tools used repeatedly in covariance perturbation, temporal-family covering, and the Proposition 58 covariance-to-factor bridge.
+**Role:** Standard matrix-analysis reference for operator norms, eigenvalue perturbation, matrix functions, and related tools used throughout covariance perturbation, temporal-family covering, and the Proposition 58 covariance-to-factor bridge.
 
 ---
 
@@ -157,7 +153,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1016/S1874-5849(01)80010-3
 
-**Role:** Direct concentration source invoked in the early sample-covariance recovery route, including Proposition 9 and descendants.
+**Role:** Concentration source used in the early sample-covariance recovery route, including Proposition 9 and its descendants.
 
 ## Laurent and Massart 2000
 
@@ -165,7 +161,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1214/aos/1015957395
 
-**Role:** Direct source for chi-square concentration inequalities used in the temporally dependent Gaussian calibration layer.
+**Role:** Source for chi-square concentration inequalities used in the temporally dependent Gaussian calibration layer.
 
 ## Hsu, Kakade, and Zhang 2012
 
@@ -174,7 +170,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 - DOI: https://doi.org/10.1214/ECP.v17-2079
 - Preprint: https://arxiv.org/abs/1110.2842
 
-**Role:** Direct quadratic-form concentration reference for Gaussian and subgaussian temporal quadratic forms used in the dependent-sampling layer.
+**Role:** Quadratic-form concentration reference for Gaussian and subgaussian temporal quadratic forms used in the dependent-sampling layer.
 
 ## Tropp 2012
 
@@ -182,9 +178,7 @@ These papers are included because Tegmark's 2015 paper explicitly builds on the 
 
 - DOI: https://doi.org/10.1007/s10208-011-9099-z
 
-**Role:** Foundational reference for the matrix Laplace-transform and matrix Chernoff methodology used in Proposition 47 and propagated through Propositions 48, 49, 50, 52-57. Proposition 47 derives the particular Gaussian rank-one matrix moment used by this repository and then applies the matrix-Laplace strategy.
-
-Proposition 58 does not introduce a new random-matrix theorem. It deterministically propagates simultaneous covariance radii, which can be supplied by Proposition 47 or another valid covariance certificate, into the observer objective.
+**Role:** Matrix Laplace-transform and matrix Chernoff foundation used in Proposition 47 and propagated through Propositions 48, 49, 50, and 52-57. Proposition 47 derives the Gaussian rank-one matrix moment used by this repository and then applies the matrix-Laplace strategy. Proposition 58 subsequently propagates simultaneous covariance radii into the observer objective through a deterministic composition theorem.
 
 ---
 
@@ -197,7 +191,7 @@ Proposition 58 does not introduce a new random-matrix theorem. It deterministica
 - DOI: https://doi.org/10.1214/20-AOS2020
 - Preprint: https://arxiv.org/abs/1912.06116
 
-**Role:** Primary modern e-value reference relevant to Proposition 51 and the physical-time confidence-set sequence. The repository uses a likelihood-ratio e-value whose expectation under the tested parameter is one, then inverts the finite-sample test to obtain a continuum confidence set.
+**Role:** Primary modern e-value reference relevant to Proposition 51 and the physical-time confidence-set sequence. The repository constructs likelihood-ratio e-values and inverts the resulting finite-sample tests to obtain continuum parameter confidence sets.
 
 ## Shafer 2021
 
@@ -205,7 +199,7 @@ Proposition 58 does not introduce a new random-matrix theorem. It deterministica
 
 - DOI: https://doi.org/10.1111/rssa.12647
 
-**Role:** Broader conceptual and statistical background for interpreting nonnegative betting evidence and likelihood-ratio style e-values.
+**Role:** Broader statistical context for interpreting nonnegative betting evidence and likelihood-ratio style e-values.
 
 ## Vovk and Wang 2023
 
@@ -213,7 +207,7 @@ Proposition 58 does not introduce a new random-matrix theorem. It deterministica
 
 - DOI: https://doi.org/10.1214/22-STS874
 
-**Role:** Background for confidence regions obtained from e-values. Proposition 51 is self-contained, but this paper places e-value confidence sets in the broader statistical literature.
+**Role:** Context for confidence regions obtained from e-values and their place in the broader finite-sample statistical literature.
 
 ---
 
@@ -225,7 +219,7 @@ Proposition 58 does not introduce a new random-matrix theorem. It deterministica
 
 - DOI: https://doi.org/10.1103/PhysRev.36.823
 
-**Role:** Classical stochastic-relaxation lineage relevant to Proposition 53. The stationary Ornstein-Uhlenbeck process is the canonical continuous-time Gaussian process with exponential temporal correlation. Proposition 53 does not assume that every physical system is Ornstein-Uhlenbeck; it uses the exponential kernel as a declared model and proves sampling consistency for that model.
+**Role:** Classical stochastic-relaxation lineage relevant to Proposition 53. The stationary Ornstein-Uhlenbeck process provides the canonical continuous-time Gaussian setting with exponential temporal correlation. The repository adopts the exponential kernel as a declared physical-time covariance model and develops its irregular-grid inference consequences explicitly.
 
 ## Doob 1942
 
@@ -233,68 +227,58 @@ Proposition 58 does not introduce a new random-matrix theorem. It deterministica
 
 - DOI: https://doi.org/10.2307/1968873
 
-**Role:** Classical rigorous Gaussian Markov-process lineage relevant to the exact irregular-grid transition interpretation in Proposition 53. The repository does not import a Doob theorem to obtain its formulas: the transition, whitening, precision, determinant, and missing-sample identities are derived directly from the declared exponential covariance kernel.
+**Role:** Classical Gaussian Markov-process lineage relevant to the irregular-grid transition structure in Proposition 53. The transition, whitening, precision, determinant, and missing-sample identities used in this repository are derived from the declared exponential covariance kernel.
 
 ---
 
 # 7. Proposition-to-literature map
 
-"Background" means the repository uses a standard concept from that literature. "Direct" means a named inequality, distributional fact, geometry, or method materially enters a proof or algorithm. "Historical context" records scientific lineage without outsourcing the repository's proof.
+The table below identifies where external literature enters the current theorem program.
 
-| Repository layer | Main external sources | Role |
+| Repository layer | Main external sources | Source role |
 | --- | --- | --- |
-| Conceptual factorization and observer question | Tegmark 2015 | Primary conceptual source |
-| Integration-measure context | Tegmark 2016 | Related Tegmark background |
-| Integration and consciousness context | Tononi 2004; Balduzzi and Tononi 2008; Oizumi et al. 2014 | Background and conceptual lineage |
-| Gaussian information scores | Shannon 1948; Cover and Thomas 2006 | Background |
-| Canonical persistence and transport | Hotelling 1936; Bhatia 1997 | Background and matrix tools |
-| Material continuity between candidate memberships | Jaccard 1901 | Direct geometry used by the world-tube objective |
-| World-tube optimization and runner-up path | Bellman 1952 | Algorithmic foundation |
-| Early Gaussian covariance recovery, including P9 | Wishart 1928; Davidson and Szarek 2001 | Direct |
-| Dependent Gaussian concentration, P41-P46 | Laurent and Massart 2000; Hsu et al. 2012 | Direct |
-| Matrix concentration, P47-P50 and P52-P57 | Tropp 2012; Bhatia 1997 | Direct method and matrix background |
-| Fixed mean removal in P51 | Lancaster 1965 | Direct Helmert-contrast method |
-| E-value confidence construction, P51-P55 | Vovk and Wang 2021; Shafer 2021; Vovk and Wang 2023 | Direct statistical lineage and background |
+| Observer-factorization question | Tegmark 2015 | Primary conceptual source |
+| Integrated-information measure context | Tegmark 2016 | Related conceptual and mathematical context |
+| Integration lineage | Tononi 2004; Balduzzi and Tononi 2008; Oizumi et al. 2014 | Historical and conceptual context |
+| Gaussian information quantities | Shannon 1948; Cover and Thomas 2006 | Standard information-theoretic foundation |
+| Canonical persistence and transport | Hotelling 1936; Bhatia 1997 | Multivariate-statistics and matrix foundation |
+| Candidate-membership continuity | Jaccard 1901 | Set-overlap geometry |
+| World-tube optimization and runner-up path | Bellman 1952 | Dynamic-programming foundation |
+| Early Gaussian covariance recovery, including P9 | Wishart 1928; Davidson and Szarek 2001 | Gaussian covariance law and concentration |
+| Dependent Gaussian concentration, P41-P46 | Laurent and Massart 2000; Hsu et al. 2012 | Quadratic-form concentration |
+| Matrix concentration, P47-P50 and P52-P57 | Tropp 2012; Bhatia 1997 | Matrix-Laplace method and matrix analysis |
+| Fixed mean removal in P51 | Lancaster 1965 | Helmert-contrast construction |
+| E-value confidence construction, P51-P55 | Vovk and Wang 2021; Shafer 2021; Vovk and Wang 2023 | Finite-sample statistical methodology |
 | Sampling-consistent exponential relaxation, P53-P57 | Uhlenbeck and Ornstein 1930 | Physical stochastic-process lineage |
-| Irregular-grid Gaussian Markov structure, P53 | Doob 1942; Uhlenbeck and Ornstein 1930 | Historical Markov and relaxation lineage; proof is self-contained |
-| Covariance-aware nuisance fitting after exact whitening, P56 | Aitken 1936; Wishart 1928 | Historical generalized least-squares context plus exact Gaussian covariance law |
-| Robust transformed temporal-family cover, P57 | Bhatia 1997; Tropp 2012; P49/P53 internal results | Matrix perturbation and concentration lineage |
-| Covariance-to-world-tube bridge, P58 | Shannon 1948; Cover and Thomas 2006; Hotelling 1936; Bhatia 1997; Bellman 1952 | Existing information, canonical-correlation, matrix-perturbation, and optimization foundations; P58 itself is a new deterministic composition in this repository |
+| Irregular-grid Gaussian Markov structure, P53 | Doob 1942; Uhlenbeck and Ornstein 1930 | Gaussian Markov and relaxation context |
+| Covariance-aware nuisance fitting, P56 | Aitken 1936; Wishart 1928 | Generalized least-squares and Gaussian covariance context |
+| Robust transformed temporal-family cover, P57 | Bhatia 1997; Tropp 2012; P49/P53 internal results | Matrix perturbation and concentration methodology |
+| Covariance-to-world-tube bridge, P58 | Shannon 1948; Cover and Thomas 2006; Hotelling 1936; Bhatia 1997; Bellman 1952 | Standard ingredients combined by the repository theorem |
 
 ---
 
 # 8. How to cite this repository
 
-The software citation metadata are maintained in [`CITATION.cff`](../CITATION.cff). GitHub can render that file directly into common citation formats.
+Software citation metadata are maintained in [`CITATION.cff`](../CITATION.cff), which GitHub can render into standard citation formats.
 
 A minimal repository citation is:
 
-> Mahsa Keikha. _Spatiotemporal Observer Mathematics_. Version 0.47.0. 2026. https://github.com/MahsaKeikha/spatiotemporal-observer-math
+> Mahsa Keikha. _Spatiotemporal Observer Mathematics_. Version 0.47.1. 2026. https://github.com/MahsaKeikha/spatiotemporal-observer-math
 
-For a manuscript using a specific theorem or implementation, cite the repository and also cite the external source appropriate to the method when the scientific context calls for it.
+For manuscript use, cite the repository together with the external source corresponding to the method or conceptual lineage being used. In particular, Tegmark 2015 should accompany discussion of the observer-factorization origin; Shannon and Cover-Thomas support information-theoretic identities; Hotelling supports canonical-correlation geometry; Bellman supports the dynamic-programming lineage; Tropp supports the matrix-Laplace concentration framework; Vovk-Wang supports the e-value methodology; and Uhlenbeck-Ornstein and Doob provide the principal stochastic-process lineage for the physical-time sequence.
 
-- For the conceptual origin of the project, cite **Tegmark 2015**.
-- For broader integrated-information measure design, **Tegmark 2016** is useful related context.
-- For Gaussian mutual information and conditional mutual information, cite **Shannon 1948** and/or **Cover and Thomas 2006**.
-- For canonical correlation used in persistence and transport, cite **Hotelling 1936**.
-- For the continuity term, cite **Jaccard 1901** for the underlying overlap geometry.
-- For the world-tube dynamic program, cite **Bellman 1952**.
-- For Proposition 47 and matrix-concentration descendants, cite **Tropp 2012** for matrix-Laplace lineage.
-- For Proposition 51, cite **Lancaster 1965** for the Helmert contrast and **Vovk and Wang 2021** for e-value lineage.
-- For the physical exponential-relaxation model, cite **Uhlenbeck and Ornstein 1930**. For historical Gaussian Markov context, **Doob 1942** is also relevant.
-- For the covariance-aware least-squares interpretation of Proposition 56, **Aitken 1936** is appropriate historical context in addition to the repository's own Proposition 53 derivation and Proposition 56 proof.
-- For Proposition 58, the external citations support its information, canonical-correlation, matrix, and optimization ingredients; cite the repository itself for the covariance-to-world-tube composition theorem.
+Repository-specific definitions and propositions should be cited to this repository and, where appropriate, their dedicated proof records.
 
 ---
 
-# 9. Citation maintenance policy
+# 9. Citation maintenance standard
 
-This bibliography should be updated whenever a new proposition materially relies on an external theorem, statistical construction, physical model, or conceptual framework.
+The bibliography is updated whenever a proposition materially uses an external theorem, statistical construction, physical model, or conceptual framework.
 
-The repository distinguishes three citation statements:
+The citation architecture uses three primary source labels:
 
-1. **Primary conceptual source:** the work that directly motivated the research question.
-2. **Direct mathematical or statistical source:** a theorem, inequality, distributional fact, geometry, or method materially used in a derivation or algorithm.
-3. **Background lineage:** literature that places a concept in scientific history but is not claimed as the source of a new proposition.
+1. **Conceptual source:** motivates the scientific question or interpretation of a mathematical object.
+2. **Mathematical or statistical source:** supplies a standard theorem, identity, probability law, geometry, or method used in a derivation or algorithm.
+3. **Repository development:** identifies definitions, propositions, proofs, and computational constructions developed in this research program.
 
-That distinction is part of the audit trail. It keeps attribution complete without implying that the new results are copied from, endorsed by, or already contained in the cited literature.
+This provenance structure keeps the intellectual lineage and the repository's mathematical contribution visible at the point where each enters the work.
