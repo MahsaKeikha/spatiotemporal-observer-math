@@ -1,12 +1,14 @@
 # Figure reading guide
 
-This page explains what the main repository figures mean physically and statistically. It is a companion to the [Physics Guide](physics_guide.md).
+This page explains how to read the repository's scientific figures physically, mathematically, and statistically. It is a companion to the [Physics Guide](physics_guide.md) and the complete [Visual Research Guide](visual_research_guide.md).
 
-A recurring source of confusion is that several plots show **uncertainty about a mathematical quantity**, not a directly measured physical observable. A covariance radius, confidence region, or theorem bound should not be read as an energy, force, consciousness level, or physical phase unless an additional derivation establishes that meaning.
+A recurring source of confusion is that many plots show **uncertainty about a mathematical quantity**, not a directly measured physical observable. A covariance radius, confidence region, theorem bound, or recovery slack should not be read as an energy, force, consciousness level, or physical phase unless an additional derivation establishes that meaning.
 
-## Three kinds of figures in the repository
+---
 
-### 1. Structural figures
+# 1. Four kinds of figures
+
+## Structural figures
 
 These visualize the moving-boundary problem itself.
 
@@ -16,432 +18,509 @@ Examples:
 - recovered world-tube paths;
 - path-recovery phase diagrams.
 
-Physical question: **where is the dynamically coherent subsystem, and can its boundary move while remaining identifiable?**
+Physical question:
 
-### 2. Calibration figures
+> Where is the dynamically coherent subsystem, and can its boundary move while remaining identifiable?
 
-These visualize what temporal-memory models remain compatible with a calibration record.
+## Calibration figures
+
+These visualize which temporal-memory or physical-time models remain compatible with calibration data.
 
 Examples:
 
-- AR(1) confidence intervals;
-- two-parameter `phi, eta` regions;
-- e-value confidence-set geometry.
+- AR(1) intervals;
+- two-parameter temporal regions;
+- e-value confidence sets;
+- physical relaxation-time intervals.
 
-Physical question: **how strongly does the measured process remember its past, and how uncertain are we about that temporal-memory model?**
+Physical question:
 
-### 3. Certification figures
+> What temporal law is compatible with the measured record, and how uncertain is that law?
 
-These compare finite-sample theorem radii with empirical estimation error or with older, looser bounds.
+## Certification figures
 
-Physical question: **is the fluctuation covariance known accurately enough that downstream boundary scores can be trusted under the stated assumptions?**
+These compare finite-sample theorem radii with empirical error, older bounds, or exact-oracle diagnostics.
 
-The theorem radius is a guarantee under a model. It is not itself a physical state variable.
+Physical question:
+
+> Is the fluctuation covariance known accurately enough that downstream information and boundary scores can be trusted under the stated model?
+
+The theorem radius is a guarantee under assumptions. It is not a physical state variable.
+
+## Bottleneck figures
+
+These are deliberately designed to show where the current theorem fails to be selective or becomes too conservative.
+
+Examples include the known-tau oracle panel in Experiment AP and the observer-scale audit in Experiment AS.
+
+A negative diagnostic is not a failed experiment. It identifies which part of the proof or measurement design must improve next.
 
 ---
 
-# Moving-boundary figures
+# 2. Moving-boundary figures
 
-## Candidate scores over time
+## World-tube baseline
 
-File: `worldtube_baseline.png`
+File: [`worldtube_baseline.png`](worldtube_baseline.png)
 
-What it shows:
+[![World-tube baseline](worldtube_baseline.png)](reproducible_results.md)
 
-A controlled subsystem changes which coordinates represent it as time advances. Candidate scores indicate which coordinate set is preferred at each time.
+A controlled subsystem changes which coordinates represent it as time advances.
 
-Physical reading:
+The planted path is
 
-Imagine a coherent structure moving across a sensor array. The physical pattern persists, while the sensors representing it change.
+```text
+(0,1,2) -> (1,2,3) -> (2,3,4) -> (3,4,5) -> (4,5,6)
+```
+
+Physical reading: imagine a coherent structure moving across a sensor array. The physical pattern persists while the sensors representing it change.
 
 What to look for:
 
-- Does the highest-scoring candidate follow the planted moving structure?
-- Are alternative candidates close in score?
-- Does the preferred boundary jump in a physically implausible way?
+- whether the recovered path follows the planted structure;
+- how close the strongest competitors are;
+- whether continuity regularization supports plausible motion rather than forcing it.
 
-What it does not show:
-
-It does not show consciousness. It shows recovery of a planted dynamical boundary in a controlled model.
+What it does not show: consciousness. It shows recovery of a planted dynamical boundary in a controlled model.
 
 ## World-tube phase diagram
 
-File: `worldtube_phase_diagram.png`
+File: [`worldtube_phase_diagram.png`](worldtube_phase_diagram.png)
 
-What it shows:
+[![World-tube phase diagram](worldtube_phase_diagram.png)](reproducible_results.md)
 
-Regions where path recovery succeeds or fails as model or regularization parameters change.
+The figure shows regions where path recovery succeeds or fails as model and regularization parameters change.
 
-Physical reading:
-
-Continuity is useful because a physical structure normally does not teleport arbitrarily across coordinates. But too much continuity pressure can force the estimator to prefer a smooth path even when the dynamics support another boundary.
-
-The failure region is therefore physically informative. It shows that prior assumptions about motion can overwhelm measured evidence.
+Physical lesson: continuity can stabilize a moving physical structure, but excessive continuity pressure can overwhelm measured dynamical evidence.
 
 ---
 
-# Proposition 44, Experiment AD
+# 3. Finite-sample, screening, and drift figures
 
-Figure: `nuisance_projection_calibration.svg`
+The early and middle figures progressively ask whether the population moving-boundary result survives finite data, large candidate spaces, screening, reuse of pilot information, and changing populations.
 
-Mathematical question:
+Use the [Visual Research Guide](visual_research_guide.md#5-complete-scientific-figure-atlas) for the complete figure-by-figure atlas.
 
-Can a declared time-varying nuisance mean be removed without biasing covariance recovery?
+The central interpretation rule is:
 
-Physical picture:
-
-A sensor record contains a large deterministic baseline or linear drift on top of stochastic fluctuations.
-
-What the figure means:
-
-Ordinary centering leaves strong drift contamination as the nuisance amplitude grows. Projection onto the orthogonal complement of the declared nuisance design keeps the stochastic covariance estimate stable.
-
-Physical lesson:
-
-A deterministic trend can look like strong covariance even when the underlying fluctuation physics has not changed.
-
-What it does not mean:
-
-The theorem does not say every slow trend is nuisance. If a removed trend is genuine system dynamics, projecting it away would remove real physics.
+> A smaller statistical radius means a tighter theorem under the declared model. It does not mean the physical system itself became more organized.
 
 ---
 
-# Proposition 45, Experiment AE
+# 4. Proposition 44 / Experiment AD: nuisance projection
 
-Figure: `estimated_ar1_nuisance_projection.svg`
+Figure: [`nuisance_projection_calibration.svg`](nuisance_projection_calibration.svg)
 
-Mathematical question:
+[![Nuisance projection](nuisance_projection_calibration.svg)](proposition_44_nuisance_projection.md)
 
-Can uncertain temporal memory and time-varying nuisance drift be handled together?
+Mathematical question: can a declared time-varying nuisance mean be removed without biasing covariance recovery?
 
-Physical picture:
+Physical picture: a sensor record contains a large deterministic baseline or linear drift on top of stochastic fluctuations.
 
-The target system has both deterministic drift and temporally correlated fluctuations.
+The figure shows that ordinary centering can leave severe drift contamination, while projection against the declared nuisance design keeps the stochastic covariance estimate stable.
 
-What the correlation parameter means:
-
-Larger `phi` means a longer modeled persistence timescale. Neighboring samples contain more redundant information.
-
-What the theorem radius means:
-
-It is a bound on relative covariance estimation error after accounting for temporal dependence and nuisance removal.
-
-What it does not mean:
-
-A larger radius at stronger correlation does not mean the physical system is less organized. It means the finite record contains less independent information for estimating covariance under that model.
+What it does not mean: every slow trend is nuisance. If a removed mode is genuine system dynamics, projecting it away removes real physics.
 
 ---
 
-# Proposition 46, Experiment AF
+# 5. Proposition 45 / Experiment AE: estimated temporal memory plus nuisance projection
 
-Figure: `design_specific_ar1_envelope.svg`
+Figure: [`estimated_ar1_nuisance_projection.svg`](estimated_ar1_nuisance_projection.svg)
 
-Mathematical question:
+[![Estimated AR1 nuisance projection](estimated_ar1_nuisance_projection.svg)](proposition_45_estimated_ar1_nuisance_projection.md)
 
-Does nuisance rank alone describe how much stochastic information survives projection?
+Larger `phi` means longer modeled persistence and therefore more redundancy between neighboring observations.
 
-Physical picture:
-
-Two sets of removed drift modes can have the same number of columns but interact very differently with the temporal covariance modes of the measured process.
-
-What the figure means:
-
-Using only nuisance rank can declare a problem uninformative even when the actual removed temporal shapes leave substantial fluctuation information intact.
-
-Physical lesson:
-
-The geometry of what is removed matters, not only how many nuisance directions are removed.
+A larger covariance theorem radius at strong correlation does not mean the physical system is less organized. It means a finite record contains less independent information for covariance estimation under that model.
 
 ---
 
-# Proposition 47, Experiment AG
+# 6. Proposition 46 / Experiment AF: design-specific nuisance geometry
 
-Figure: `weighted_wishart_matrix_chernoff.svg`
+Figure: [`design_specific_ar1_envelope.svg`](design_specific_ar1_envelope.svg)
 
-Mathematical question:
+[![Design-specific AR1 envelope](design_specific_ar1_envelope.svg)](proposition_46_design_specific_ar1_envelope.md)
 
-Can covariance uncertainty be bounded directly using the complete temporal eigenvalue profile?
+Two nuisance designs with the same rank can interact very differently with the temporal covariance modes of the measured process.
 
-Physical picture:
+The figure shows why nuisance **geometry**, not only nuisance rank, matters for the information remaining after projection.
 
-The measured fluctuation record contains collective temporal modes with different strengths.
+---
 
-What the plotted radius means:
+# 7. Proposition 47 / Experiment AG: direct matrix concentration
 
-It measures worst-case relative covariance uncertainty under the theorem.
+Figure: [`weighted_wishart_matrix_chernoff.svg`](weighted_wishart_matrix_chernoff.svg)
 
-A smaller radius means the statistical certification is tighter. It does not mean the physical system itself has become quieter or more coherent.
+[![Weighted Wishart matrix Chernoff](weighted_wishart_matrix_chernoff.svg)](proposition_47_weighted_wishart_matrix_chernoff.md)
 
-Why `radius < 1` is highlighted:
+The plotted radius is a worst-case relative covariance uncertainty under the theorem.
 
-That threshold places covariance estimation inside a perturbative regime needed by later inverse-covariance and information calculations.
+Why the line at one matters:
+
+\[
+\epsilon<1
+\]
+
+places covariance estimation in the perturbative regime required by later inverse-covariance and information calculations.
 
 It is not a physical critical point.
 
 ---
 
-# Proposition 48, Experiment AH
+# 8. Proposition 48 / Experiment AH: uncertain AR(1)
 
-Figure: `uniform_matrix_chernoff_ar1.svg`
+Figure: [`uniform_matrix_chernoff_ar1.svg`](uniform_matrix_chernoff_ar1.svg)
 
-Mathematical question:
+[![Uniform matrix Chernoff AR1](uniform_matrix_chernoff_ar1.svg)](proposition_48_uniform_matrix_chernoff_ar1.md)
 
-Can the Proposition 47 covariance guarantee remain valid when `phi` is uncertain?
+The theorem remains valid over a calibrated interval of temporal persistence rather than plugging in one guessed coefficient.
 
-Physical picture:
-
-The experiment does not know the exact relaxation behavior, only a calibrated interval of possible temporal persistence.
-
-What the figure means:
-
-The theorem propagates that uncertainty through the complete projected temporal spectrum rather than plugging in one guessed correlation coefficient.
-
-Physical lesson:
-
-A covariance claim should remain valid over the range of temporal-memory models that the experiment cannot distinguish.
+Physical lesson: a covariance claim should survive all temporal models the calibration experiment has not ruled out.
 
 ---
 
-# Proposition 49, Experiment AI
+# 9. Proposition 49 / Experiment AI: compact temporal family
 
-Figure: `compact_temporal_family.svg`
+Figure: [`compact_temporal_family.svg`](compact_temporal_family.svg)
 
-Mathematical question:
+[![Compact temporal family](compact_temporal_family.svg)](proposition_49_compact_temporal_family.md)
 
-Can covariance concentration handle a whole multi-parameter family of temporal models?
+A finite mathematical cover represents a continuum family of temporal covariance matrices.
 
-Physical picture:
-
-A real experiment may not justify a single temporal kernel. Several combinations of persistence and fast noise can remain plausible.
-
-What cover refinement means:
-
-A finite mathematical cover is made geometrically finer so every physically admissible covariance in the declared family lies close to a represented cover point.
-
-What the falling radius means:
-
-The deterministic approximation of the temporal family is becoming tighter.
-
-It is not evidence that the underlying physical process changes when the grid is refined. Only the mathematical representation of uncertainty changes.
+When cover refinement lowers the radius, only the mathematical approximation of uncertainty has improved. The underlying physical process has not changed because the grid was refined.
 
 ---
 
-# Proposition 50, Experiment AJ
+# 10. Proposition 50 / Experiment AJ: learned temporal family
 
-Figure: `calibrated_temporal_family.svg`
+Figure: [`calibrated_temporal_family.svg`](calibrated_temporal_family.svg)
 
-Mathematical question:
+[![Calibrated temporal family](calibrated_temporal_family.svg)](proposition_50_calibrated_temporal_family.md)
 
-How does additional independent calibration data change uncertainty about temporal dynamics?
+More independent calibration information narrows uncertainty about temporal-memory parameters.
 
-Physical picture:
-
-The target physical system is held fixed. Only the amount of independent information used to estimate its temporal-memory parameters is increased.
-
-What the x-axis means:
-
-More calibration channels mean more independent realizations of the same controlled temporal process.
-
-What the falling covariance radius means:
-
-Temporal-model uncertainty is shrinking, so the target covariance can be certified more tightly.
-
-It does not mean the target system becomes physically more stable when calibration channels are added.
+The target physical system is held fixed. A falling covariance radius reflects better parameter knowledge, not increasing physical stability.
 
 ---
 
-# Proposition 51, Experiment AK
+# 11. Proposition 51 / Experiment AK: e-value temporal confidence set
 
-Figure: `evalue_temporal_confidence_set.svg`
+Figure: [`evalue_temporal_confidence_set.svg`](evalue_temporal_confidence_set.svg)
 
-Mathematical question:
+[![E-value temporal confidence set](evalue_temporal_confidence_set.svg)](proposition_51_evalue_temporal_confidence_set.md)
 
-Which combinations of `phi` and `eta` remain compatible with the complete calibration residual likelihood?
+Each point represents a temporal-memory model. The accepted region contains parameter values not rejected by the finite-sample e-value construction at the declared confidence level.
 
-Physical picture:
-
-Each point in the plane represents a different effective temporal-memory model.
-
-- horizontal direction: persistence parameter `phi`;
-- vertical direction: temporally uncorrelated fraction `eta`.
-
-The accepted region means:
-
-Those parameter values are not rejected by the finite-sample e-value construction at the declared confidence level.
-
-The region does **not** mean:
+The region is not:
 
 - a posterior probability density;
+- an energy landscape;
 - a consciousness landscape;
-- an energy surface;
-- a free-energy landscape;
 - a causal map.
 
-The plotted grid is a visualization of the exact continuum e-value function. Proposition 51's probability statement is not restricted to displayed grid points.
+The plotted grid visualizes a continuum e-value function. It is not the source of the probability guarantee.
 
 ---
 
-# Proposition 52, Experiment AL
+# 12. Proposition 52 / Experiment AL: certified e-value outer cover
 
-Figure: `certified_evalue_outer_cover.svg`
+Figure: [`certified_evalue_outer_cover.svg`](certified_evalue_outer_cover.svg)
 
-Mathematical question:
+[![Certified e-value outer cover](certified_evalue_outer_cover.svg)](proposition_52_certified_evalue_outer_cover.md)
 
-Can the exact Proposition 51 continuum confidence set be represented by a finite retained family that is safe to use in an independent target covariance theorem?
+The certified outer cover is intentionally wider than a dense plotted accepted region because it must safely contain the complete between-grid continuum confidence set.
 
-Physical picture:
+A retained cell is not declared true. It is simply not safe to exclude.
 
-A calibration experiment constrains the possible temporal memory of a physical process. A separate target record shares the same temporal parameters but also contains a declared affine nuisance drift. We want the target covariance certificate to remain valid for every temporal-memory model that the calibration experiment has not ruled out.
-
-### Panel 1: temporal-memory ranges
-
-The horizontal axis is `phi`, the persistence parameter in the effective AR(1) component.
-
-The declared family spans `0.30` to `0.70`. The P51 grid visualization accepts points whose displayed `phi` span is about `0.4233` to `0.58`. The P52 certified outer cover is intentionally wider, about `0.3733` to `0.69`, because it must safely contain the complete continuum P51 confidence set, including between-grid points.
-
-The wider P52 range is not a defect. It is the cost of replacing a picture by a theorem-certified finite enclosure.
-
-### Panel 2: retained and excluded cells
-
-The fixed `121 x 61` parameter grid contains 7,381 cells. Proposition 52 retains 5,325 and rigorously excludes 2,056.
-
-A retained cell is not declared true. It is simply not safe to rule out under the stated finite-sample criterion.
-
-An excluded cell is removed only after the likelihood perturbation bound proves that every parameter in that cell lies outside the exact Proposition 51 confidence set.
-
-### Panel 3: target covariance error
-
-The independent target visibility study shows median relative error about `0.116`, 95th percentile about `0.304`, and maximum about `0.544` across 128 controlled trials.
-
-The theorem radius is about `0.899816`.
-
-The observed trial errors are diagnostics. The theorem radius comes from the proof, not from fitting a bound around those 128 trials.
-
-The value one is shown because a radius below one places several later covariance perturbation formulas in their usable regime. It is not a physical phase transition.
-
-### Panel 4: physical inference chain
-
-The panel shows the intended use order:
-
-1. collect an independent temporal calibration record;
-2. build the P51 continuum confidence set;
-3. certify a P52 finite outer cover of every still-compatible temporal model;
-4. collect an independent target record;
-5. remove the predeclared nuisance drift;
-6. certify the target covariance over the complete retained temporal family.
-
-For Experiment AL the calibration and target confidence levels are both `0.975`, giving the product lower bound
-
-\[
-0.975^2=0.950625.
-\]
-
-What the figure does not show:
-
-It does not identify a consciousness state, an energy threshold, or an observer boundary. Proposition 52 certifies a measurement ingredient that later boundary calculations may use.
+A displayed trial error is a numerical visibility check. The theorem radius comes from the proof.
 
 ---
 
-# Proposition 53, Experiment AM
+# 13. Proposition 53 / Experiment AM: physical relaxation time
 
-Figure: `physical_relaxation_sampling.svg`
+Figure: [`physical_relaxation_sampling.svg`](physical_relaxation_sampling.svg)
 
-Mathematical question:
+[![Physical relaxation sampling](physical_relaxation_sampling.svg)](proposition_53_physical_relaxation_time.md)
 
-Can one temporal parameter describe the same exponential relaxation process when the acquisition rate, timestamp spacing, or time unit changes?
-
-Physical picture:
-
-A process has a declared relaxation time \(\tau=0.8\) s. We observe the same model using different sampling clocks.
-
-The exact relationship is
-
-\[
-\phi_{\Delta t}
-=
-\exp\left(-\frac{\Delta t}{\tau}\right).
-\]
-
-### Panel A: sampling rate versus one-step correlation
-
-The one-step AR(1) coefficient changes from about `0.6065` at 2.5 Hz to about `0.9692` at 40 Hz.
-
-This is expected. The sample-to-sample gap becomes shorter at higher sampling rates, so adjacent observations are more strongly correlated.
-
-The change in `phi` does not mean the underlying declared process changed.
-
-### Panel B: recovered physical relaxation time
-
-Each sampling rate maps back through
-
-\[
-\tau
-=
--\frac{\Delta t}{\log\phi_{\Delta t}}
-\]
-
-to the same value, `0.8 s`, up to floating-point roundoff.
-
-This is the physical invariance Proposition 53 is designed to expose.
-
-### Panel C: certified continuum cover in physical time
-
-The declared interval is
-
-\[
-\tau\in[0.55,1.05]\ \mathrm{s}.
-\]
-
-The orange curve is the analytic operator covering radius. The blue curve is a dense numerical evaluation used only to show scale.
-
-As the deterministic \(\tau\)-grid is refined from 5 to 65 points, the certified radius decreases from about `0.4160` to `0.0260`.
-
-The blue curve lying below the orange curve is a numerical consistency check. The theorem comes from the analytic derivative bound, not from the dense grid.
-
-### Panel D: irregular timestamps
-
-Each dot is an actual acquisition time. The covariance entry between two measurements is computed from their elapsed physical separation:
+The declared model is
 
 \[
 K_\tau(t_i,t_j)
 =
-\exp\left(-\frac{|t_i-t_j|}{\tau}\right).
+\exp\left(-\frac{|t_i-t_j|}{\tau}\right),
+\qquad
+\phi_{\Delta t}=e^{-\Delta t/\tau}.
 \]
 
-No integer lag is invented for missing or irregular samples.
+### Panel A
 
-The time-unit invariance error shown in the figure is at floating-point scale. Expressing the same timestamps and \(\tau\) in milliseconds instead of seconds leaves the covariance matrix unchanged.
+The one-step correlation changes with sampling rate. This is expected because adjacent samples are separated by different physical times.
 
-What the figure does not establish:
+### Panel B
 
-It does not show that every physical system has one exponential relaxation time. It does not show that a fitted \(\tau\) is a universal intrinsic constant. It does not identify an observer boundary or consciousness state. A real application must test the exponential kernel against multi-timescale, oscillatory, nonstationary, and other alternatives.
+Every sampling rate maps back to the same controlled \(\tau=0.8\) s.
 
----
+### Panel C
 
-# Proposition 55, Experiment AP
+The analytic continuum-cover radius shrinks as the deterministic \(\tau\)-grid is refined. The dense numerical curve is a scale check, not the proof.
 
-Figure: `quadratic_relaxation_calibration.svg`
+### Panel D
 
-**Panel A** compares certified physical-time width under the first-order and quadratic calibration enclosures. The shrinking orange curve means the deterministic representation of the same finite-sample confidence set is tighter. It does not mean the physical process changed.
+Irregular timestamps use actual elapsed physical time. No fictitious integer lag is inserted for missing samples.
 
-**Panel B** shows the declared interval, the first-order retained interval, the quadratic retained interval, and the controlled true relaxation time. The interval is a confidence enclosure for a model parameter measured in seconds.
-
-**Panel C** compares downstream target covariance theorem radii. The line at one is a mathematical perturbation threshold, not a physical phase transition.
-
-**Panel D** highlights the key negative diagnostic: even exact knowledge of tau leaves the current target theorem at radius about `2.167`. Therefore calibration uncertainty is no longer the dominant bottleneck on this benchmark.
-
-The figure does not measure energy, consciousness, integration, or physical organization directly.
+What it does not establish: that every physical system has one exponential timescale.
 
 ---
 
-# How to read any future figure
+# 14. Proposition 53: exact irregular-grid Markov structure
 
-Before interpreting a chart, ask five questions.
+Figure: [`physical_relaxation_markov.svg`](physical_relaxation_markov.svg)
 
-1. **What is measured?** Is the axis a physical observable, a model parameter, an estimation error, or a theorem bound?
+[![Physical relaxation Markov structure](physical_relaxation_markov.svg)](proposition_53_physical_relaxation_time.md)
+
+This figure visualizes the exact local representation behind the dense exponential covariance:
+
+\[
+X_{i+1}
+=
+\alpha_iX_i+
+\sqrt{1-\alpha_i^2}\,\varepsilon_i,
+\qquad
+\alpha_i=e^{-(t_{i+1}-t_i)/\tau}.
+\]
+
+The key visual facts are:
+
+- local transition coefficients depend on actual elapsed gaps;
+- the precision matrix is tridiagonal;
+- the innovation whitener is lower bidiagonal;
+- whitening and determinant identities hold at floating-point precision in the numerical verification.
+
+The sparsity is conditional on the one-timescale exponential Gaussian model. It is not asserted for arbitrary temporal physics.
+
+---
+
+# 15. Proposition 53B / Experiment AN: finite-sample irregular-time tau calibration
+
+Figure: [`irregular_relaxation_evalue_calibration.svg`](irregular_relaxation_evalue_calibration.svg)
+
+[![Irregular relaxation e-value calibration](irregular_relaxation_evalue_calibration.svg)](proposition_53b_irregular_tau_evalue.md)
+
+The figure separates two objects:
+
+- a dense numerical view of which \(\tau\) values are compatible with the observed likelihood-ratio e-value;
+- a certified deterministic outer enclosure of the complete continuum confidence set.
+
+The outer enclosure can be wider without any coverage failure. The width difference is a tightness gap.
+
+---
+
+# 16. Proposition 54 / Experiment AO: two-scale tau cover
+
+Figure: [`two_scale_irregular_tau_cover.svg`](two_scale_irregular_tau_cover.svg)
+
+[![Two-scale irregular tau cover](two_scale_irregular_tau_cover.svg)](proposition_54_two_scale_irregular_tau_cover.md)
+
+The figure separates fine calibration resolution from the target temporal-cover resolution.
+
+A finer calibration grid improves deterministic enclosure of the physical-time confidence set. It does not create more physical data and does not spend another confidence budget.
+
+---
+
+# 17. Proposition 55 / Experiment AP: quadratic physical-time calibration
+
+Figure: [`quadratic_relaxation_calibration.svg`](quadratic_relaxation_calibration.svg)
+
+[![Quadratic relaxation calibration](quadratic_relaxation_calibration.svg)](proposition_55_quadratic_relaxation_calibration.md)
+
+### Panel A
+
+First-order and quadratic certified interval widths are compared at the same calibration-cell counts. The tighter quadratic curve means better deterministic use of the same finite-sample likelihood information.
+
+### Panel B
+
+The declared interval, first-order enclosure, quadratic enclosure, and controlled true \(\tau\) are shown in seconds.
+
+### Panel C
+
+Downstream target covariance radii are compared with the mathematical threshold one.
+
+### Panel D
+
+The most important panel is the negative oracle diagnostic: even exact knowledge of \(\tau\) leaves the old raw-time target theorem around `2.16725 > 1`.
+
+That result redirects the next theorem from calibration to target representation.
+
+---
+
+# 18. Proposition 56 / Experiment AQ: exact innovation-whitened target
+
+Figure: [`innovation_whitened_target.svg`](innovation_whitened_target.svg)
+
+[![Innovation-whitened target](innovation_whitened_target.svg)](proposition_56_innovation_whitened_target.md)
+
+Physical question:
+
+> If the temporal law is known, should predictable temporal correlation be paid for again as worst-case dependence, or should the local dynamics be used before covariance estimation?
+
+Proposition 56 uses
+
+\[
+W_\tau R_\tau W_\tau^\mathsf T=I
+\]
+
+to convert the target into innovation coordinates before nuisance fitting.
+
+On the scalar benchmark, the radius changes from the old known-\(\tau\) raw-time value
+
+\[
+2.16725
+\]
+
+to approximately
+
+\[
+\boxed{0.43644<1}.
+\]
+
+The repeated seeded errors shown by the experiment are visibility checks. The finite-sample guarantee comes from the exact Wishart reduction and matrix concentration.
+
+What it does not establish: exact \(\tau\) is not available in a general application. That limitation motivates P57.
+
+---
+
+# 19. Proposition 57 / Experiment AR: robust innovation whitening
+
+Figure: [`robust_innovation_whitened_target.svg`](robust_innovation_whitened_target.svg)
+
+[![Robust innovation-whitened target](robust_innovation_whitened_target.svg)](proposition_57_robust_innovation_whitening.md)
+
+This figure answers whether the innovation advantage survives finite-sample physical-time uncertainty.
+
+### Calibration interval
+
+The Proposition 55 certified interval is
+
+\[
+[0.686875,0.8515625]\ \mathrm{s}.
+\]
+
+One working value
+
+\[
+\tau_0=0.76921875\ \mathrm{s}
+\]
+
+is used to define a fixed target whitener.
+
+### Radius ladder
+
+The key comparison is:
+
+| Representation | Relative radius |
+| --- | ---: |
+| calibrated raw time, P55 | 2.41488 |
+| exact-tau innovation, P56 | 0.43647 |
+| calibrated-tau robust innovation, P57 | 0.86771 |
+
+The difference between P56 and P57 is the explicit finite-sample price of uncertainty about physical relaxation time under the current robust envelope.
+
+### Pointwise versus uniform radii
+
+Pointwise diagnostic radii are smaller than the uniform theorem because the theorem must protect all still-admissible between-grid \(\tau\) values and normalization variation.
+
+That gap measures theorem conservatism. It is not a discrepancy in probability coverage.
+
+---
+
+# 20. Proposition 58 / Experiment AS: observer-scale covariance-to-world-tube audit
+
+Figure: [`observer_bridge_dimension_audit.svg`](observer_bridge_dimension_audit.svg)
+
+[![Observer-scale covariance-to-world-tube audit](observer_bridge_dimension_audit.svg)](proposition_58_observer_bridge.md)
+
+Experiment AS is a bottleneck figure. It returns to the original moving-boundary problem and asks whether the scalar covariance success is sufficient at the actual observer score scale.
+
+## Panel A: return to the moving world-tube
+
+The panel shows
+
+```text
+012 -> 123 -> 234 -> 345 -> 456
+```
+
+and records:
+
+- population action margin `0.1264216185`;
+- exact runner-up uniform score radius `0.0105351349`;
+- 35 candidates across 5 times, giving 175 observer covariance blocks;
+- observer block dimension \(n+s=10\).
+
+The 4,900 raw candidate edges reuse these target-indexed blocks.
+
+## Panel B: scalar success versus observer-scale certification
+
+Scalar exact-tau innovation radius:
+
+\[
+0.436444.
+\]
+
+Observer-scale exact-tau radius at dimension 10 and 175 simultaneous blocks:
+
+\[
+\boxed{1.857357>1.}
+\]
+
+This isolates a dimensional and simultaneous-certification bottleneck. Exact \(\tau\) is already supplied, so calibration uncertainty is not causing the failure.
+
+## Panel C: entry into the perturbative regime
+
+At 345 residual innovation degrees the current matrix theorem gives
+
+\[
+1.000746432,
+\]
+
+while at 346 it gives
+
+\[
+\boxed{0.999130352<1.}
+\]
+
+With nuisance rank two, this corresponds to 348 target rows merely to make the current relative perturbation layer admissible.
+
+Crossing one is not the same as certifying the path.
+
+## Panel D: end-to-end conservatism diagnostic
+
+The current generic covariance-to-factor-to-path chain certifies the controlled population path only at a uniform covariance radius around
+
+\[
+1.11\times10^{-4}.
+\]
+
+The very large residual-degree number displayed beside it is **not a physical sample requirement**. It is a diagnostic of conservatism in the present theorem composition.
+
+The scientific message is the next theorem direction:
+
+- factor-specific covariance blocks;
+- screen-first simultaneity reduction;
+- candidate-local radii;
+- direct score-margin concentration;
+- exact structural-null exploitation.
+
+---
+
+# 21. How to read any future figure
+
+Before interpreting a chart, ask six questions.
+
+1. **What is measured?** Is the axis a physical observable, model parameter, estimation error, theorem bound, optimization margin, or diagnostic?
 2. **What are the units?** If the quantity is dimensionless, why?
-3. **What changed physically?** Did the simulated system change, or did only sample size, calibration information, sampling schedule, or mathematical resolution change?
+3. **What changed physically?** Did the system change, or did only sample size, calibration information, sampling schedule, numerical resolution, or theorem representation change?
 4. **What is proved?** Is the figure illustrating a theorem, or is the visual pattern itself only empirical?
-5. **What conclusion is forbidden?** What physical or consciousness interpretation would require an additional bridge?
+5. **What is diagnostic?** Is a displayed failure or enormous number deliberately revealing proof conservatism rather than describing a physical requirement?
+6. **What conclusion is forbidden?** What physical or consciousness interpretation would require an additional bridge?
 
 This discipline is part of the repository's documentation standard.
