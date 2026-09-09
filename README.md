@@ -1,7 +1,7 @@
 # Spatiotemporal Observer Mathematics
 
 [![tests](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml/badge.svg)](https://github.com/MahsaKeikha/spatiotemporal-observer-math/actions/workflows/test.yml)
-[![version](https://img.shields.io/badge/version-0.47.0-2563eb)](CITATION.cff)
+[![version](https://img.shields.io/badge/version-0.47.1-2563eb)](CITATION.cff)
 [![license](https://img.shields.io/badge/license-MIT-059669)](LICENSE)
 
 **Mahsa Keikha, PhD**
@@ -10,7 +10,7 @@
 
 This repository develops a mathematical and computational framework for **time-dependent subsystem identification**. The object of inference is not one static partition, but a moving path of candidate boundaries whose internal organization, environmental insulation, persistence, and transport are supported by the measured dynamics.
 
-The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). The mathematics developed here is an independent extension to time-dependent boundaries, finite-sample recovery, identifiability, physical-time calibration, and measurement certification. No endorsement by Tegmark is implied, and no theorem in this repository establishes consciousness.
+The primary conceptual starting point is Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014). The mathematics developed here extends that question to time-dependent boundaries, finite-sample recovery, identifiability, physical-time calibration, and measurement certification.
 
 ## Start here
 
@@ -129,7 +129,7 @@ This joint covariance is the fluctuation geometry from which the Gaussian inform
 
 [![Physics to inference pipeline](docs/physics_pipeline.svg)](docs/physics_guide.md)
 
-The model is an analytical approximation, not a claim that all physical systems are fundamentally linear, Gaussian, stationary, or separable. A physical application must validate its observables, units, sampling, nuisance structure, temporal law, and candidate geometry. See the [Physics Guide](docs/physics_guide.md).
+The model is an analytical approximation. A physical application must validate its observables, units, sampling, nuisance structure, temporal law, and candidate geometry. See the [Physics Guide](docs/physics_guide.md).
 
 ---
 
@@ -189,7 +189,7 @@ G_t(S)=1-2^{-\mathcal J_t(S)}.
 }
 \]
 
-The broader conceptual lineage includes [Tegmark 2015](docs/bibliography.md#tegmark-2015), [Tegmark 2016](docs/bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The directed minimum-cut score above is a **repository definition**, not IIT Phi and not a Tegmark theorem.
+The broader conceptual lineage includes [Tegmark 2015](docs/bibliography.md#tegmark-2015), [Tegmark 2016](docs/bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The directed minimum-cut functional above is the operational definition used in this repository.
 
 ## 3.3 Environmental insulation
 
@@ -210,7 +210,7 @@ K_t(S)=2^{-\mathcal L_t(S)}.
 }
 \]
 
-This measures relative predictive closure, not thermodynamic isolation.
+This quantity represents conditional predictive insulation of the candidate subsystem from its measured exterior.
 
 ## 3.4 Persistence
 
@@ -259,7 +259,7 @@ I(X_R^{t+1};X_{\bar S}^t\mid X_S^t),
 }
 \]
 
-This repository definition allows the organization to persist even when the measured coordinates representing it change.
+This operational definition allows dynamical organization to persist while the measured coordinates representing it change.
 
 ## 3.6 Local score and world-tube objective
 
@@ -297,9 +297,9 @@ d_J(S,R)
 }
 \]
 
-**Lineage:** Jaccard geometry from [Jaccard 1901](docs/bibliography.md#jaccard-1901); exact finite-horizon optimization uses dynamic programming in the lineage of [Bellman 1952](docs/bibliography.md#bellman-1952). The complete world-tube objective is a repository definition.
+**Lineage:** Jaccard geometry from [Jaccard 1901](docs/bibliography.md#jaccard-1901); exact finite-horizon optimization uses dynamic programming in the lineage of [Bellman 1952](docs/bibliography.md#bellman-1952). The complete world-tube objective is defined in this repository.
 
-The term `action margin` is an optimization margin. It is not physical action in joule-seconds.
+The term `action margin` denotes an optimization margin throughout this work.
 
 ## 3.7 Relative covariance certification
 
@@ -316,7 +316,7 @@ The central finite-sample event is
 }
 \]
 
-When \(\epsilon<1\), inverse-covariance perturbation calculations remain in a controlled regime. The value one is a mathematical threshold, not a physical phase transition.
+When \(\epsilon<1\), inverse-covariance perturbation calculations remain in a controlled regime.
 
 **Lineage:** [Wishart 1928](docs/bibliography.md#wishart-1928), [Tropp 2012](docs/bibliography.md#tropp-2012), and [Bhatia 1997](docs/bibliography.md#bhatia-1997).
 
@@ -393,7 +393,7 @@ For the detailed equation-level map, see **[Physics + Mathematics + Citation Map
 | Scientific result figures | **33 figures** |
 | Claim-level tests | **223 tests** |
 | CI matrix | **Python 3.10, 3.11, 3.12** |
-| Research-software version | **0.47.0** |
+| Research-software version | **0.47.1** |
 
 The explanatory physics pipeline is not included in the count of 33 scientific result figures.
 
@@ -455,7 +455,7 @@ with population optimization margin
 0.1264216185.
 \]
 
-The observer-scale diagnostic is deliberately negative. Even when the true relaxation time is supplied exactly, the current matrix theorem at 118 residual innovation degrees gives
+At observer scale, even when the true relaxation time is supplied exactly, the current matrix theorem at 118 residual innovation degrees gives
 
 \[
 \boxed{
@@ -469,15 +469,15 @@ The current theorem first enters the relative perturbation regime at 346 residua
 \varepsilon_{346}=0.9991303523<1.
 \]
 
-But crossing one is not enough to certify the complete world-tube. The current generic end-to-end factor-perturbation chain requires a much smaller covariance radius, approximately
+For the complete world-tube certificate, the present generic factor-perturbation chain requires a substantially smaller covariance radius, approximately
 
 \[
 1.11\times10^{-4}.
 \]
 
-The corresponding large residual-degree calculation is a **conservatism diagnostic**, not a claimed physical sample requirement.
+The resulting large residual-degree calculation is used as a conservatism diagnostic for the current theorem chain.
 
-This identifies the current frontier: observer-scale dimension and structural worst-case propagation, not another calibration-only refinement.
+This identifies the current frontier: observer-scale dimension and structural worst-case propagation rather than calibration-only refinement.
 
 [Full P58 proof](docs/proposition_58_observer_bridge.md) | [AS JSON](docs/observer_bridge_dimension_audit.json) | [AS experiment](examples/observer_bridge_dimension_audit.py) | [AS renderer](examples/render_observer_bridge_dimension_audit.py) | [tests](tests/test_observer_bridge.py)
 
@@ -553,7 +553,7 @@ which is a **70.2% reduction** relative to the P55 calibrated raw-time theorem. 
 
 # 7. Complete visual research atlas
 
-Every scientific result figure is visible below and links to the documentation that explains what it measures, what assumptions it uses, and what it does not establish. For a curated figure-by-figure explanation, use the **[Visual Research Guide](docs/visual_research_guide.md)**.
+Every scientific result figure is visible below and links to the documentation that explains what it measures, what assumptions it uses, and where its numerical and mathematical record can be verified. For a curated figure-by-figure explanation, use the **[Visual Research Guide](docs/visual_research_guide.md)**.
 
 ## Phase I. Moving-boundary recovery
 
@@ -726,11 +726,9 @@ ruff check .
 
 ---
 
-# 10. What the repository establishes and does not establish
+# 10. Scope and model boundaries
 
-## Established under stated assumptions
-
-The repository provides a conditional mathematical pipeline from measured stochastic dynamics to:
+Under its stated assumptions, the repository provides a conditional mathematical pipeline from measured stochastic dynamics to:
 
 - time-dependent candidate subsystem scores;
 - exact finite-horizon world-tube optimization;
@@ -743,21 +741,9 @@ The repository provides a conditional mathematical pipeline from measured stocha
 - exact and robust innovation-whitened target inference;
 - deterministic propagation of simultaneous covariance uncertainty back to the full world-tube objective.
 
-## Not established
+The theorem set is conditional on the declared observation and stochastic models. Application to a physical system therefore requires independent validation of Gaussianity or its chosen replacement, temporal structure, sampling model, nuisance representation, covariance geometry, and candidate-boundary construction.
 
-The repository does **not** establish:
-
-- that every physical system has a unique subsystem boundary;
-- that Gaussianity is universal;
-- that one exponential relaxation time is universal;
-- that covariance eigenvalues are physical energies without an additional derivation;
-- that \(\epsilon<1\) by itself guarantees world-tube recovery;
-- that the repository score is a measure of consciousness;
-- that a recovered operational observer is conscious.
-
-## Falsification and model checks
-
-Relevant diagnostics include:
+Relevant model diagnostics include:
 
 - residual temporal correlation inconsistent with the declared temporal family;
 - multiple or drifting relaxation times;
@@ -769,7 +755,7 @@ Relevant diagnostics include:
 - candidate geometry inconsistent with physically admissible boundaries;
 - inferred boundaries that fail under changes of sampling rate, units, sensors, or held-out data.
 
-A theorem can be mathematically correct while its physical model is wrong for a particular experiment. Those are separate questions.
+Interpretation beyond operational subsystem identification is treated separately in the [Interpretation Protocol](docs/interpretation_protocol.md).
 
 ---
 
@@ -803,9 +789,9 @@ The repository maintains three complementary citation layers:
 | [`references.bib`](references.bib) | machine-readable BibTeX |
 | [`CITATION.cff`](CITATION.cff) | citation metadata for the repository itself |
 
-The citation rule is:
+The citation standard is:
 
-> **Cite conceptual lineage explicitly; identify repository definitions as definitions; identify repository theorems as repository results; cite external mathematical tools for the role they actually play; and never use a citation to imply endorsement.**
+> **Conceptual sources are cited for intellectual lineage; repository definitions are identified as such; repository theorems are cited to their proof records; and external mathematical tools are cited at the point where they enter the derivation.**
 
 Major external foundations include:
 
@@ -828,7 +814,7 @@ See the **[Physics + Mathematics + Citation Map](docs/physics_mathematics_citati
 
 # 13. Relationship to Tegmark's observer-factorization question
 
-This section is intentionally explicit because the repository began from Tegmark's question but develops its own mathematical program afterward.
+This section makes the conceptual and mathematical relationship to Tegmark's observer-factorization program explicit.
 
 ## 13.1 Primary conceptual source
 
@@ -840,7 +826,7 @@ This section is intentionally explicit because the repository began from Tegmark
 
 Tegmark asks why an observer should correspond to one factorization of the physical world rather than another and studies information, integration, independence, and dynamics as candidate organizing principles.
 
-This repository begins from that factorization problem and asks a different mathematical question:
+This repository begins from that factorization problem and develops the following time-dependent extension:
 
 > **What if the relevant subsystem boundary is time dependent and must be inferred as a persistent dynamical path rather than selected once as a static partition?**
 
@@ -854,24 +840,24 @@ S_t\subseteq\{1,\ldots,n\},
 
 The main object of inference is therefore a path through subsystem space.
 
-## 13.2 What is inherited and what is developed here
+## 13.2 Conceptual lineage and mathematical development
 
-| Scientific element | Tegmark 2015 lineage | This repository |
+| Scientific element | Tegmark 2015 lineage | Development in this repository |
 | --- | --- | --- |
-| observer-factorization question | primary conceptual source | adopted as starting question |
-| information and integration as organizing ideas | conceptual background | used as operational score ingredients |
-| environmental independence | conceptual background | operationalized as conditional predictive insulation |
-| dynamics as relevant to observer structure | conceptual motivation | made explicit through time-indexed boundary recovery |
-| time-dependent boundary \(S_t\) | not attributed here to Tegmark | central repository definition |
-| world-tube \(\mathcal W\) | not attributed to Tegmark | defined and optimized here |
-| transport between changing boundaries | not attributed to Tegmark | repository operational definition |
-| exact finite-horizon path recovery | not attributed to Tegmark | repository theorem/algorithmic construction |
-| recovery modulo symmetry and observational equivalence | not attributed to Tegmark | formalized in P13-P14 |
-| finite-sample covariance-to-path certification | not attributed to Tegmark | developed in the statistical theorem chain |
-| physical-time calibration and innovation inference | not part of Tegmark's factorization derivation | added here as measurement-certification machinery |
-| claim of consciousness | Tegmark studies consciousness as a physical-state problem | **not claimed by this repository** |
+| observer-factorization question | primary conceptual source | starting problem |
+| information and integration | organizing principles | operational score ingredients |
+| environmental independence | organizing principle | conditional predictive insulation |
+| dynamics and observer structure | conceptual motivation | explicit time-indexed boundary recovery |
+| time-dependent boundary \(S_t\) | conceptual extension point | central mathematical object |
+| world-tube \(\mathcal W\) | beyond the static factorization question | defined and optimized here |
+| transport between changing boundaries | beyond the static factorization question | operational transport functional |
+| exact finite-horizon path recovery | algorithmic extension | dynamic-programming recovery and runner-up margin |
+| symmetry and observational equivalence | identifiability extension | formalized in P13-P14 |
+| finite-sample covariance-to-path certification | statistical extension | developed across the recovery and concentration theorem chain |
+| physical-time calibration and innovation inference | measurement extension | developed in P53-P57 |
+| covariance-to-world-tube certification | end-to-end measurement extension | developed in P58 |
 
-The conceptual lineage is direct. The later mathematical development is an independent research program.
+The conceptual lineage begins with the factorization question. The subsequent work develops a time-dependent inference and certification framework around that question.
 
 ## 13.3 The extension in one picture
 
@@ -882,7 +868,7 @@ Tegmark observer-factorization question
 Which subsystem decomposition is physically distinguished?
                 |
                 v
-Explicit time dependence in this repository
+Explicit time dependence
                 |
                 v
 S_0 -> S_1 -> ... -> S_(T-1)
@@ -900,7 +886,7 @@ identifiability + finite-sample recovery
 physical measurement certification
 ```
 
-The central extension is **not a new measure of consciousness**. It is a mathematical program for dynamically inferred, time-dependent subsystem boundaries with explicit recovery, uncertainty, identifiability, and falsification conditions.
+The extension developed here is a mathematical program for **dynamically inferred, time-dependent subsystem boundaries** with explicit recovery, uncertainty, identifiability, and falsification conditions.
 
 ## 13.4 Related Tegmark work
 
@@ -912,22 +898,18 @@ A second relevant source is:
 - [Preprint: arXiv:1601.02626](https://arxiv.org/abs/1601.02626)
 - [Repository bibliography entry](docs/bibliography.md#related-tegmark-work-tegmark-2016)
 
-This paper is relevant background for classifying integrated-information measures and factorization choices. It is not the source of the world-tube construction, transport score, recovery theorems, or finite-sample measurement program developed here.
+This paper provides relevant background on integrated-information measures and factorization choices. The world-tube construction, transport functional, recovery theorems, and finite-sample measurement program are developed separately in this repository.
 
-## 13.5 Interpretation boundary
+## 13.5 Interpretive scope
 
-The repository deliberately separates three claims:
+The formal results in this repository concern operational subsystem identification, dynamical persistence, recovery, and measurement certification. A physical application must separately validate the observation model and its assumptions. Any further interpretation connecting the operational subsystem to consciousness would require additional bridge assumptions and empirical evidence beyond the present theorem set.
 
-1. **Mathematical claim:** a persistent moving subsystem can be defined, optimized, and under stated assumptions sometimes recovered or certified from dynamical data.
-2. **Physical-modeling claim:** a real application must validate its observables, units, dynamics, covariance model, temporal law, nuisance structure, and candidate geometry.
-3. **Consciousness claim:** no theorem here establishes that the recovered subsystem is conscious or that its score measures subjective experience.
-
-Any future bridge from operational observer structure to consciousness requires assumptions and evidence beyond the mathematics proved here. Those assumptions are tracked in the [Interpretation Protocol](docs/interpretation_protocol.md).
+The [Interpretation Protocol](docs/interpretation_protocol.md) records those distinctions explicitly.
 
 ## 13.6 Citation and attribution
 
-For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository itself together with the external mathematical source appropriate to the method being used.
+For the conceptual origin of the observer-factorization question, cite Tegmark 2015. For integrated-information measure context, cite Tegmark 2016 where relevant. For mathematical or computational results introduced in this repository, cite the repository together with the external mathematical source appropriate to the method being used.
 
 The complete literature map is maintained in the [Bibliography and Citation Map](docs/bibliography.md), with machine-readable entries in [`references.bib`](references.bib). Repository metadata are maintained in [`CITATION.cff`](CITATION.cff).
 
-> **Conceptual lineage is cited explicitly; original derivations are identified as repository results; related literature is cited for the methods it supplies; no citation is used to imply endorsement.**
+> **The citation structure distinguishes conceptual lineage, standard mathematical tools, and repository-specific derivations at the point where each enters the research program.**
