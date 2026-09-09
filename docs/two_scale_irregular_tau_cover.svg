@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940">
+<rect width="1440" height="940" fill="#f7f9fc"/>
+<text x="60" y="62" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" fill="#162033">Experiment AO: two-scale certified irregular-time tau cover</text>
+<text x="60" y="98" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#526277">Fine calibration certification is separated from the target matrix-cover resolution.</text>
+<rect x="60" y="122" width="1320" height="66" rx="18" fill="#eaf2ff" stroke="#b9d1f6" stroke-width="1.5"/>
+<text x="88" y="164" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1d4ed8">Proposition 53B radius: 3.1555</text>
+<text x="530" y="164" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#0f766e">Proposition 54 radius: 2.5721</text>
+<text x="1000" y="164" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#7c3aed">18.49% reduction</text>
+
+<rect x="60" y="220" width="635" height="300" rx="18" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="84" y="258" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">A. Fine calibration cells tighten the certified tau span</text>
+<text x="84" y="286" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#526277">Same finite-sample e-value theorem, finer deterministic containment.</text>
+<line x1="128" y1="464" x2="655" y2="464" stroke="#8da0b6" stroke-width="1.5"/>
+<line x1="128" y1="464" x2="128" y2="320" stroke="#8da0b6" stroke-width="1.5"/>
+<text x="82" y="326" font-family="Arial" font-size="13" fill="#526277">0.65</text>
+<text x="82" y="468" font-family="Arial" font-size="13" fill="#526277">0.20</text>
+<polyline points="128,333 260,386 392,421 524,444 655,459" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="128" cy="333" r="6" fill="#2563eb"/><circle cx="260" cy="386" r="6" fill="#2563eb"/><circle cx="392" cy="421" r="6" fill="#2563eb"/><circle cx="524" cy="444" r="6" fill="#2563eb"/><circle cx="655" cy="459" r="6" fill="#2563eb"/>
+<text x="116" y="490" font-family="Arial" font-size="13" fill="#526277">160</text><text x="246" y="490" font-family="Arial" font-size="13" fill="#526277">320</text><text x="378" y="490" font-family="Arial" font-size="13" fill="#526277">640</text><text x="505" y="490" font-family="Arial" font-size="13" fill="#526277">1280</text><text x="636" y="490" font-family="Arial" font-size="13" fill="#526277">2560</text>
+<text x="270" y="512" font-family="Arial" font-size="14" fill="#526277">calibration cell count</text>
+<text x="150" y="348" font-family="Arial" font-size="14" font-weight="700" fill="#2563eb">0.61094 s</text>
+<text x="548" y="446" font-family="Arial" font-size="14" font-weight="700" fill="#2563eb">0.21217 s</text>
+
+<rect x="745" y="220" width="635" height="300" rx="18" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="769" y="258" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">B. Target-cover refinement has diminishing returns</text>
+<text x="769" y="286" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#526277">Calibration fixed at 1280 cells; only target representatives K change.</text>
+<line x1="813" y1="464" x2="1340" y2="464" stroke="#8da0b6" stroke-width="1.5"/>
+<line x1="813" y1="464" x2="813" y2="320" stroke="#8da0b6" stroke-width="1.5"/>
+<text x="770" y="326" font-family="Arial" font-size="13" fill="#526277">3.00</text><text x="770" y="468" font-family="Arial" font-size="13" fill="#526277">2.55</text>
+<polyline points="813,328 830,377 847,399 881,421 915,431 983,441 1050,446 1185,451 1320,454" fill="none" stroke="#0f9d78" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="813" cy="328" r="5" fill="#0f9d78"/><circle cx="847" cy="399" r="5" fill="#0f9d78"/><circle cx="915" cy="431" r="5" fill="#0f9d78"/><circle cx="983" cy="441" r="5" fill="#0f9d78"/><circle cx="1050" cy="446" r="5" fill="#0f9d78"/><circle cx="1185" cy="451" r="5" fill="#0f9d78"/><circle cx="1320" cy="454" r="6" fill="#0f9d78"/>
+<text x="805" y="490" font-family="Arial" font-size="13" fill="#526277">5</text><text x="1038" y="490" font-family="Arial" font-size="13" fill="#526277">33</text><text x="1308" y="490" font-family="Arial" font-size="13" fill="#526277">65</text>
+<text x="1010" y="512" font-family="Arial" font-size="14" fill="#526277">target cover point count K</text>
+
+<rect x="60" y="545" width="635" height="300" rx="18" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="84" y="583" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">C. Where the improvement comes from</text>
+<text x="84" y="620" font-family="Arial" font-size="16" fill="#526277">Certified span at 1280 cells</text>
+<text x="410" y="620" font-family="Arial" font-size="18" font-weight="700" fill="#162033">0.64305 to 0.90137 s</text>
+<text x="84" y="662" font-family="Arial" font-size="16" fill="#526277">Target tau covering radius</text>
+<text x="410" y="662" font-family="Arial" font-size="18" font-weight="700" fill="#162033">0.002018 s</text>
+<text x="84" y="704" font-family="Arial" font-size="16" fill="#526277">Eigenvalue cover radius</text>
+<text x="410" y="704" font-family="Arial" font-size="18" font-weight="700" fill="#0f766e">0.10916 to 0.06363</text>
+<text x="84" y="746" font-family="Arial" font-size="16" fill="#526277">Retained cells / target points</text>
+<text x="410" y="746" font-family="Arial" font-size="18" font-weight="700" fill="#162033">389 / 65 = 5.98x compression</text>
+<text x="84" y="788" font-family="Arial" font-size="16" fill="#526277">Combined confidence</text>
+<text x="410" y="788" font-family="Arial" font-size="18" font-weight="700" fill="#0f766e">0.950625</text>
+
+<rect x="745" y="545" width="635" height="300" rx="18" fill="white" stroke="#d8e0ea" stroke-width="1.5"/>
+<text x="769" y="583" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#162033">D. The remaining bottleneck is now isolated</text>
+<line x1="800" y1="778" x2="1330" y2="778" stroke="#b54733" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="805" y="768" font-family="Arial" font-size="14" font-weight="700" fill="#b54733">epsilon = 1 threshold</text>
+<rect x="842" y="635" width="150" height="143" rx="10" fill="#dbe8ff" stroke="#77a5ee"/>
+<rect x="1110" y="661" width="150" height="117" rx="10" fill="#cdeee4" stroke="#49a98a"/>
+<text x="861" y="625" font-family="Arial" font-size="15" font-weight="700" fill="#1d4ed8">Prop 53B</text>
+<text x="1135" y="651" font-family="Arial" font-size="15" font-weight="700" fill="#0f766e">Prop 54</text>
+<text x="871" y="710" font-family="Arial" font-size="24" font-weight="700" fill="#1d4ed8">3.1555</text>
+<text x="1136" y="720" font-family="Arial" font-size="24" font-weight="700" fill="#0f766e">2.5721</text>
+<rect x="780" y="803" width="565" height="30" rx="8" fill="#fff3cd" stroke="#e6b84c"/>
+<text x="803" y="824" font-family="Arial" font-size="15" font-weight="700" fill="#8a5b00">Valid improvement, but epsilon remains above 1.</text>
+
+<text x="60" y="900" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#39485a">Conclusion: resolution coupling was not the dominant source of looseness. The next proof target is a sharper local curvature/operator certificate.</text>
+</svg>
