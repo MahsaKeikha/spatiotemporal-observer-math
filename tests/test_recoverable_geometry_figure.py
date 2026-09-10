@@ -1,6 +1,6 @@
+import pathlib
 import re
 import xml.etree.ElementTree as ET
-from pathlib import Path
 
 
 SVG_NS = {"svg": "http://www.w3.org/2000/svg"}
@@ -33,7 +33,7 @@ def _estimated_text_width(text: str, font_size: float) -> float:
 
 
 def test_recoverable_geometry_text_stays_inside_declared_blocks():
-    root = Path(__file__).resolve().parents[1]
+    root = pathlib.Path(__file__).resolve().parents[1]
     figure = root / "docs" / "recoverable_geometry_pipeline.svg"
     svg = ET.parse(figure).getroot()
 
@@ -73,7 +73,7 @@ def test_recoverable_geometry_text_stays_inside_declared_blocks():
 
 
 def test_recoverable_geometry_connectors_attach_to_block_boundaries():
-    root = Path(__file__).resolve().parents[1]
+    root = pathlib.Path(__file__).resolve().parents[1]
     figure = root / "docs" / "recoverable_geometry_pipeline.svg"
     svg = ET.parse(figure).getroot()
 
@@ -107,7 +107,7 @@ def test_recoverable_geometry_connectors_attach_to_block_boundaries():
 
 
 def test_recoverable_geometry_figure_uses_no_forbidden_dash_characters():
-    root = Path(__file__).resolve().parents[1]
+    root = pathlib.Path(__file__).resolve().parents[1]
     text = (root / "docs" / "recoverable_geometry_pipeline.svg").read_text(
         encoding="utf-8"
     )
