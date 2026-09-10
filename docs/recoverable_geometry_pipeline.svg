@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="560" viewBox="0 0 2000 560" role="img" aria-labelledby="title desc">
+  <title id="title">From algebraic relation to recoverable geometry</title>
+  <desc id="desc">A five-stage scientific pipeline from empirical second moments through invariant operators and spectral subspaces to latent-direction recovery and return to the original state-space coordinates.</desc>
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#cbd5e1"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-20%" width="130%" height="145%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#020617" flood-opacity="0.30"/>
+    </filter>
+    <style>
+      .title { font: 700 34px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #94a3b8; }
+      .box-title { font: 700 22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f8fafc; }
+      .body { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #cbd5e1; }
+      .math { font: 600 19px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #f8fafc; }
+      .note { font: 400 15px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #94a3b8; }
+      .flow { fill: none; stroke: #cbd5e1; stroke-width: 3; stroke-linecap: round; marker-end: url(#arrowhead); }
+      .block { fill: #111827; stroke-width: 2; filter: url(#shadow); }
+    </style>
+  </defs>
+
+  <rect width="2000" height="560" rx="24" fill="#020617"/>
+  <text x="60" y="62" class="title">From algebraic relation to recoverable geometry</text>
+  <text x="60" y="94" class="subtitle">Each stage exposes one auditable transformation. Equations are split across lines when needed so every label remains inside its block.</text>
+
+  <!-- Block 1 -->
+  <g id="block-moments" data-qa-block="true" data-x="45" data-y="155" data-width="300" data-height="285">
+    <rect class="block" x="45" y="155" width="300" height="285" rx="20" stroke="#3b82f6"/>
+    <text x="195" y="205" text-anchor="middle" class="box-title">Empirical second moments</text>
+    <text x="195" y="260" text-anchor="middle" class="math">Y = C^T C</text>
+    <text x="195" y="302" text-anchor="middle" class="math">M proportional to Y</text>
+    <text x="195" y="355" text-anchor="middle" class="body">Estimate the observable</text>
+    <text x="195" y="382" text-anchor="middle" class="body">quadratic structure.</text>
+  </g>
+
+  <!-- Block 2 -->
+  <g id="block-operator" data-qa-block="true" data-x="405" data-y="155" data-width="320" data-height="285">
+    <rect class="block" x="405" y="155" width="320" height="285" rx="20" stroke="#06b6d4"/>
+    <text x="565" y="205" text-anchor="middle" class="box-title">Build invariant operator</text>
+    <text x="565" y="260" text-anchor="middle" class="math">P = M^+</text>
+    <text x="565" y="302" text-anchor="middle" class="math">Q = I - M^+ M</text>
+    <text x="565" y="355" text-anchor="middle" class="body">Separate the supported and</text>
+    <text x="565" y="382" text-anchor="middle" class="body">null directions algebraically.</text>
+  </g>
+
+  <!-- Block 3 -->
+  <g id="block-spectral" data-qa-block="true" data-x="785" data-y="155" data-width="290" data-height="285">
+    <rect class="block" x="785" y="155" width="290" height="285" rx="20" stroke="#a855f7"/>
+    <text x="930" y="205" text-anchor="middle" class="box-title">Spectral split</text>
+    <text x="930" y="260" text-anchor="middle" class="math">Q gives U_null</text>
+    <text x="930" y="302" text-anchor="middle" class="math">M gives U_obs</text>
+    <text x="930" y="355" text-anchor="middle" class="body">Identify null and observable</text>
+    <text x="930" y="382" text-anchor="middle" class="body">subspaces from the spectrum.</text>
+  </g>
+
+  <!-- Block 4 -->
+  <g id="block-latent" data-qa-block="true" data-x="1135" data-y="155" data-width="390" data-height="285">
+    <rect class="block" x="1135" y="155" width="390" height="285" rx="20" stroke="#8b5cf6"/>
+    <text x="1330" y="205" text-anchor="middle" class="box-title">Recover latent directions</text>
+    <text x="1330" y="258" text-anchor="middle" class="math">Combine the identified</text>
+    <text x="1330" y="288" text-anchor="middle" class="math">null and observable subspaces</text>
+    <text x="1330" y="345" text-anchor="middle" class="body">Construct the recoverable</text>
+    <text x="1330" y="372" text-anchor="middle" class="body">latent geometry in its</text>
+    <text x="1330" y="399" text-anchor="middle" class="body">identified coordinate frame.</text>
+  </g>
+
+  <!-- Block 5 -->
+  <g id="block-state-space" data-qa-block="true" data-x="1585" data-y="155" data-width="370" data-height="285">
+    <rect class="block" x="1585" y="155" width="370" height="285" rx="20" stroke="#22c55e"/>
+    <text x="1770" y="205" text-anchor="middle" class="box-title">Map back to state space</text>
+    <text x="1770" y="260" text-anchor="middle" class="math">Apply the declared inverse</text>
+    <text x="1770" y="290" text-anchor="middle" class="math">coordinate transformation</text>
+    <text x="1770" y="345" text-anchor="middle" class="body">Express the recovered geometry</text>
+    <text x="1770" y="372" text-anchor="middle" class="body">in the original state-space</text>
+    <text x="1770" y="399" text-anchor="middle" class="body">coordinates.</text>
+  </g>
+
+  <!-- Connectors attach to block borders, not text. -->
+  <path class="flow" d="M345 297.5 H393" data-from="block-moments" data-to="block-operator"/>
+  <path class="flow" d="M725 297.5 H773" data-from="block-operator" data-to="block-spectral"/>
+  <path class="flow" d="M1075 297.5 H1123" data-from="block-spectral" data-to="block-latent"/>
+  <path class="flow" d="M1525 297.5 H1573" data-from="block-latent" data-to="block-state-space"/>
+
+  <text x="1000" y="505" text-anchor="middle" class="note">Scientific boundary: this diagram summarizes an algebraic recovery pipeline. It does not by itself establish physical identifiability outside the stated model assumptions.</text>
+</svg>
