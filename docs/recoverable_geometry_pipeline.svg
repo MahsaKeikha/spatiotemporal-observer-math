@@ -24,37 +24,37 @@
   <text x="60" y="62" class="title">From algebraic relation to recoverable geometry</text>
   <text x="60" y="94" class="subtitle">Each stage exposes one auditable transformation. Equations are split across lines when needed so every label remains inside its block.</text>
 
-  <!-- Block 1 -->
   <g id="block-moments" data-qa-block="true" data-x="45" data-y="155" data-width="300" data-height="285">
     <rect class="block" x="45" y="155" width="300" height="285" rx="20" stroke="#3b82f6"/>
-    <text x="195" y="205" text-anchor="middle" class="box-title">Empirical second moments</text>
-    <text x="195" y="260" text-anchor="middle" class="math">Y = C^T C</text>
-    <text x="195" y="302" text-anchor="middle" class="math">M proportional to Y</text>
+    <text x="195" y="193" text-anchor="middle" class="box-title">Empirical</text>
+    <text x="195" y="220" text-anchor="middle" class="box-title">second moments</text>
+    <text x="195" y="270" text-anchor="middle" class="math">Y = C^T C</text>
+    <text x="195" y="305" text-anchor="middle" class="math">M proportional to Y</text>
     <text x="195" y="355" text-anchor="middle" class="body">Estimate the observable</text>
     <text x="195" y="382" text-anchor="middle" class="body">quadratic structure.</text>
   </g>
 
-  <!-- Block 2 -->
   <g id="block-operator" data-qa-block="true" data-x="405" data-y="155" data-width="320" data-height="285">
     <rect class="block" x="405" y="155" width="320" height="285" rx="20" stroke="#06b6d4"/>
-    <text x="565" y="205" text-anchor="middle" class="box-title">Build invariant operator</text>
-    <text x="565" y="260" text-anchor="middle" class="math">P = M^+</text>
-    <text x="565" y="302" text-anchor="middle" class="math">Q = I - M^+ M</text>
-    <text x="565" y="355" text-anchor="middle" class="body">Separate the supported and</text>
-    <text x="565" y="382" text-anchor="middle" class="body">null directions algebraically.</text>
+    <text x="565" y="193" text-anchor="middle" class="box-title">Build invariant</text>
+    <text x="565" y="220" text-anchor="middle" class="box-title">operator</text>
+    <text x="565" y="270" text-anchor="middle" class="math">P = M^+</text>
+    <text x="565" y="305" text-anchor="middle" class="math">Q = I - M^+ M</text>
+    <text x="565" y="350" text-anchor="middle" class="body">Separate supported and</text>
+    <text x="565" y="375" text-anchor="middle" class="body">null directions</text>
+    <text x="565" y="400" text-anchor="middle" class="body">algebraically.</text>
   </g>
 
-  <!-- Block 3 -->
   <g id="block-spectral" data-qa-block="true" data-x="785" data-y="155" data-width="290" data-height="285">
     <rect class="block" x="785" y="155" width="290" height="285" rx="20" stroke="#a855f7"/>
     <text x="930" y="205" text-anchor="middle" class="box-title">Spectral split</text>
-    <text x="930" y="260" text-anchor="middle" class="math">Q gives U_null</text>
-    <text x="930" y="302" text-anchor="middle" class="math">M gives U_obs</text>
-    <text x="930" y="355" text-anchor="middle" class="body">Identify null and observable</text>
-    <text x="930" y="382" text-anchor="middle" class="body">subspaces from the spectrum.</text>
+    <text x="930" y="255" text-anchor="middle" class="math">Q gives U_null</text>
+    <text x="930" y="290" text-anchor="middle" class="math">M gives U_obs</text>
+    <text x="930" y="340" text-anchor="middle" class="body">Identify null and</text>
+    <text x="930" y="365" text-anchor="middle" class="body">observable subspaces</text>
+    <text x="930" y="390" text-anchor="middle" class="body">from the spectrum.</text>
   </g>
 
-  <!-- Block 4 -->
   <g id="block-latent" data-qa-block="true" data-x="1135" data-y="155" data-width="390" data-height="285">
     <rect class="block" x="1135" y="155" width="390" height="285" rx="20" stroke="#8b5cf6"/>
     <text x="1330" y="205" text-anchor="middle" class="box-title">Recover latent directions</text>
@@ -65,7 +65,6 @@
     <text x="1330" y="399" text-anchor="middle" class="body">identified coordinate frame.</text>
   </g>
 
-  <!-- Block 5 -->
   <g id="block-state-space" data-qa-block="true" data-x="1585" data-y="155" data-width="370" data-height="285">
     <rect class="block" x="1585" y="155" width="370" height="285" rx="20" stroke="#22c55e"/>
     <text x="1770" y="205" text-anchor="middle" class="box-title">Map back to state space</text>
@@ -76,7 +75,6 @@
     <text x="1770" y="399" text-anchor="middle" class="body">coordinates.</text>
   </g>
 
-  <!-- Connectors attach to block borders, not text. -->
   <path class="flow" d="M345 297.5 H393" data-from="block-moments" data-to="block-operator"/>
   <path class="flow" d="M725 297.5 H773" data-from="block-operator" data-to="block-spectral"/>
   <path class="flow" d="M1075 297.5 H1123" data-from="block-spectral" data-to="block-latent"/>
