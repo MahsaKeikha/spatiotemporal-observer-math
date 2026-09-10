@@ -1,6 +1,6 @@
-from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 
 SVG_NS = {"svg": "http://www.w3.org/2000/svg"}
