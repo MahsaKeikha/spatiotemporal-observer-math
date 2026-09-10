@@ -2,7 +2,6 @@ import pathlib
 import re
 import xml.etree.ElementTree as ET
 
-
 SVG_NS = {"svg": "http://www.w3.org/2000/svg"}
 FONT_SIZE = {
     "box-title": 22.0,
