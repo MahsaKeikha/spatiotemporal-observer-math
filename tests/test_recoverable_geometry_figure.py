@@ -1,5 +1,5 @@
-import re
 from pathlib import Path
+import re
 import xml.etree.ElementTree as ET
 
 
