@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="920" viewBox="0 0 1280 920" role="img" aria-labelledby="title desc">
   <title id="title">Physics to inference pipeline</title>
-  <desc id="desc">A diagram showing how physical observables move through dynamical modeling, nuisance removal, physical-time calibration, covariance certification, candidate boundary scoring, world-tube optimization, identifiability, and interpretation.</desc>
+  <desc id="desc">A publication-style diagram showing how physical observables move through dynamical modeling, nuisance removal, physical-time calibration, covariance certification, candidate boundary scoring, world-tube optimization, identifiability, and interpretation. All labels and equations are contained within their panels.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
@@ -9,10 +9,12 @@
       .title { font: 700 30px Arial, sans-serif; fill: #0f172a; }
       .subtitle { font: 400 16px Arial, sans-serif; fill: #475569; }
       .boxTitle { font: 700 18px Arial, sans-serif; fill: #0f172a; }
-      .boxText { font: 400 14px Arial, sans-serif; fill: #334155; }
-      .small { font: 400 12px Arial, sans-serif; fill: #475569; }
-      .math { font: 600 12px Arial, sans-serif; fill: #0f172a; }
-      .label { font: 700 13px Arial, sans-serif; fill: #1e3a8a; }
+      .boxText { font: 400 13px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 11.5px Arial, sans-serif; fill: #475569; }
+      .micro { font: 400 10.5px Arial, sans-serif; fill: #64748b; }
+      .math { font: 600 11.5px Arial, sans-serif; fill: #0f172a; }
+      .mathSmall { font: 600 10.5px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 12px Arial, sans-serif; fill: #1e3a8a; letter-spacing: .35px; }
       .arrow { stroke: #334155; stroke-width: 2.3; fill: none; marker-end: url(#arrow); }
     </style>
   </defs>
@@ -21,97 +23,109 @@
   <text x="70" y="58" class="title">Physics to inference: what the repository actually does</text>
   <text x="70" y="87" class="subtitle">Each physical step has a mathematical object, an uncertainty statement, and an explicit interpretation boundary.</text>
 
-  <rect x="70" y="130" width="310" height="112" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+  <rect x="70" y="130" width="310" height="120" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
   <text x="92" y="160" class="boxTitle">1. Physical observables</text>
   <text x="92" y="186" class="math">X_t = (X_t^(1), ..., X_t^(n))</text>
   <text x="92" y="207" class="boxText">Units, sensors, sampling interval, geometry</text>
-  <text x="92" y="228" class="small">Examples: voltage, displacement, pressure, neural signals</text>
+  <text x="92" y="226" class="small">Examples: voltage, displacement, pressure,</text>
+  <text x="92" y="242" class="small">neural signals</text>
 
-  <rect x="485" y="130" width="310" height="112" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="485" y="130" width="310" height="120" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
   <text x="507" y="160" class="boxTitle">2. Effective dynamics</text>
   <text x="507" y="188" class="math">X_(t+1) = A_t X_t + epsilon_t</text>
   <text x="507" y="210" class="boxText">A_t: effective coupling and propagation</text>
-  <text x="507" y="231" class="small">Q_t: unresolved forcing and innovation covariance</text>
+  <text x="507" y="230" class="small">Q_t: unresolved forcing and</text>
+  <text x="507" y="246" class="small">innovation covariance</text>
 
-  <rect x="900" y="130" width="310" height="112" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <rect x="900" y="130" width="310" height="120" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
   <text x="922" y="160" class="boxTitle">3. Measurement cleanup</text>
   <text x="922" y="188" class="math">P_H = I - H(H^T H)^(-1)H^T</text>
   <text x="922" y="210" class="boxText">Baseline, drift, known acquisition modes</text>
-  <text x="922" y="231" class="small">Do not let deterministic drift masquerade as covariance</text>
+  <text x="922" y="230" class="small">Do not let deterministic drift</text>
+  <text x="922" y="246" class="small">masquerade as covariance</text>
 
-  <path d="M380 186 L485 186" class="arrow"/>
-  <path d="M795 186 L900 186" class="arrow"/>
+  <path d="M380 190 L485 190" class="arrow"/>
+  <path d="M795 190 L900 190" class="arrow"/>
 
-  <rect x="70" y="310" width="310" height="122" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
-  <text x="92" y="340" class="boxTitle">4. Physical temporal memory</text>
-  <text x="92" y="368" class="math">K_tau(t,s) = exp(-|t-s|/tau)</text>
-  <text x="92" y="390" class="math">phi_Delta = exp(-Delta t/tau)</text>
-  <text x="92" y="411" class="small">P53-P57: calibrate and use physical relaxation time</text>
+  <rect x="70" y="315" width="310" height="126" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="2"/>
+  <text x="92" y="345" class="boxTitle">4. Physical temporal memory</text>
+  <text x="92" y="373" class="math">K_tau(t,s) = exp(-|t-s|/tau)</text>
+  <text x="92" y="395" class="math">phi_Delta = exp(-Delta t/tau)</text>
+  <text x="92" y="418" class="small">P53-P57: calibrate and use</text>
+  <text x="92" y="434" class="small">physical relaxation time</text>
 
-  <rect x="485" y="310" width="310" height="122" rx="16" fill="#fefce8" stroke="#fde047" stroke-width="2"/>
-  <text x="507" y="340" class="boxTitle">5. Certified covariance</text>
-  <text x="507" y="368" class="math">||Sigma^(-1/2)(Sigma_hat-Sigma)Sigma^(-1/2)||_2</text>
-  <text x="507" y="390" class="boxText">Finite-record uncertainty in fluctuation geometry</text>
-  <text x="507" y="411" class="small">P41-P58: certification machinery supporting the boundary problem</text>
+  <rect x="485" y="315" width="310" height="126" rx="16" fill="#fefce8" stroke="#fde047" stroke-width="2"/>
+  <text x="507" y="345" class="boxTitle">5. Certified covariance</text>
+  <text x="507" y="371" class="mathSmall">||Sigma^(-1/2)(Sigma_hat-Sigma)</text>
+  <text x="507" y="387" class="mathSmall">Sigma^(-1/2)||_2</text>
+  <text x="507" y="409" class="boxText">Finite-record uncertainty in fluctuation geometry</text>
+  <text x="507" y="427" class="small">P41-P58: certification machinery for</text>
+  <text x="507" y="439" class="micro">the boundary problem</text>
 
-  <rect x="900" y="310" width="310" height="122" rx="16" fill="#fdf4ff" stroke="#d8b4fe" stroke-width="2"/>
-  <text x="922" y="340" class="boxTitle">6. Candidate boundary S_t</text>
-  <text x="922" y="368" class="math">S_t subset {1, ..., n}</text>
-  <text x="922" y="390" class="boxText">Which measured coordinates belong together now?</text>
-  <text x="922" y="411" class="small">Candidate family must encode physically admissible choices</text>
+  <rect x="900" y="315" width="310" height="126" rx="16" fill="#fdf4ff" stroke="#d8b4fe" stroke-width="2"/>
+  <text x="922" y="345" class="boxTitle">6. Candidate boundary S_t</text>
+  <text x="922" y="373" class="math">S_t subset {1, ..., n}</text>
+  <text x="922" y="395" class="boxText">Which measured coordinates belong together?</text>
+  <text x="922" y="417" class="small">Candidate family must encode physically</text>
+  <text x="922" y="433" class="small">admissible choices</text>
 
-  <path d="M1055 242 L1055 274 L225 274 L225 310" class="arrow"/>
-  <path d="M380 371 L485 371" class="arrow"/>
-  <path d="M795 371 L900 371" class="arrow"/>
+  <path d="M1055 250 L1055 280 L225 280 L225 315" class="arrow"/>
+  <path d="M380 378 L485 378" class="arrow"/>
+  <path d="M795 378 L900 378" class="arrow"/>
 
-  <rect x="140" y="500" width="1000" height="160" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
-  <text x="170" y="532" class="boxTitle">7. Physical boundary evidence</text>
-  <line x1="390" y1="550" x2="390" y2="634" stroke="#cbd5e1" stroke-width="1.5"/>
-  <line x1="640" y1="550" x2="640" y2="634" stroke="#cbd5e1" stroke-width="1.5"/>
-  <line x1="890" y1="550" x2="890" y2="634" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="140" y="505" width="1000" height="178" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="170" y="537" class="boxTitle">7. Physical boundary evidence</text>
+  <line x1="390" y1="552" x2="390" y2="646" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="640" y1="552" x2="640" y2="646" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="890" y1="552" x2="890" y2="646" stroke="#cbd5e1" stroke-width="1.5"/>
 
-  <text x="170" y="570" class="label">INTEGRATION</text>
-  <text x="170" y="594" class="boxText">Internal parts predict one another</text>
-  <text x="170" y="619" class="math">J_t(S): weakest directed internal cut</text>
+  <text x="170" y="574" class="label">INTEGRATION</text>
+  <text x="170" y="598" class="boxText">Internal parts predict one another</text>
+  <text x="170" y="622" class="math">J_t(S)</text>
+  <text x="170" y="639" class="small">weakest directed internal cut</text>
 
-  <text x="420" y="570" class="label">INSULATION</text>
-  <text x="420" y="594" class="boxText">Outside adds limited next-step prediction</text>
-  <text x="420" y="619" class="math">L_t(S): conditional environmental leakage</text>
+  <text x="420" y="574" class="label">INSULATION</text>
+  <text x="420" y="598" class="boxText">Outside adds limited prediction</text>
+  <text x="420" y="622" class="math">L_t(S)</text>
+  <text x="420" y="639" class="small">conditional environmental leakage</text>
 
-  <text x="670" y="570" class="label">PERSISTENCE</text>
-  <text x="670" y="594" class="boxText">Organization survives through time</text>
-  <text x="670" y="619" class="math">P(X,Y): mean squared canonical correlation</text>
+  <text x="670" y="574" class="label">PERSISTENCE</text>
+  <text x="670" y="598" class="boxText">Organization survives through time</text>
+  <text x="670" y="622" class="math">P_t(S)</text>
+  <text x="670" y="639" class="small">mean squared canonical correlation</text>
 
-  <text x="920" y="570" class="label">TRANSPORT</text>
-  <text x="920" y="594" class="boxText">Structure can move to new coordinates</text>
-  <text x="920" y="619" class="math">Theta_t(S-&gt;R): persistence x insulation</text>
+  <text x="920" y="574" class="label">TRANSPORT</text>
+  <text x="920" y="598" class="boxText">Structure moves to new coordinates</text>
+  <text x="920" y="622" class="math">Theta_t(S-&gt;R)</text>
+  <text x="920" y="639" class="small">persistence x insulation</text>
 
-  <text x="170" y="646" class="small">Operational dynamical properties. Full equations and source lineage: docs/physics_mathematics_citation_map.md</text>
+  <text x="170" y="666" class="micro">Operational dynamical properties. Full equations and source lineage: docs/physics_mathematics_citation_map.md</text>
 
-  <path d="M1055 432 L1055 468 L640 468 L640 500" class="arrow"/>
+  <path d="M1055 441 L1055 473 L640 473 L640 505" class="arrow"/>
 
-  <rect x="140" y="720" width="280" height="110" rx="16" fill="#ecfeff" stroke="#67e8f9" stroke-width="2"/>
-  <text x="162" y="750" class="boxTitle">8. World-tube optimization</text>
-  <text x="162" y="776" class="math">A(p) = local + transport - continuity cost</text>
-  <text x="162" y="800" class="boxText">Choose the globally best moving path W</text>
-  <text x="162" y="820" class="small">Bellman dynamic program + exact runner-up</text>
+  <rect x="140" y="735" width="280" height="112" rx="16" fill="#ecfeff" stroke="#67e8f9" stroke-width="2"/>
+  <text x="162" y="765" class="boxTitle">8. World-tube optimization</text>
+  <text x="162" y="791" class="math">A(p) = local + transport</text>
+  <text x="162" y="807" class="math">- continuity cost</text>
+  <text x="162" y="827" class="boxText">Choose the globally best moving path W</text>
+  <text x="162" y="842" class="micro">Bellman dynamic program + exact runner-up</text>
 
-  <rect x="500" y="720" width="280" height="110" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
-  <text x="522" y="750" class="boxTitle">9. Margin and identifiability</text>
-  <text x="522" y="776" class="math">m = A(best) - A(runner-up)</text>
-  <text x="522" y="800" class="boxText">Is the inferred boundary distinguishable?</text>
-  <text x="522" y="820" class="small">Could another model fit the same observations?</text>
+  <rect x="500" y="735" width="280" height="112" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="522" y="765" class="boxTitle">9. Margin and identifiability</text>
+  <text x="522" y="791" class="math">m = A(best) - A(runner-up)</text>
+  <text x="522" y="817" class="boxText">Is the inferred boundary distinguishable?</text>
+  <text x="522" y="838" class="micro">Could another model fit the same observations?</text>
 
-  <rect x="860" y="720" width="280" height="110" rx="16" fill="#fff1f2" stroke="#fda4af" stroke-width="2"/>
-  <text x="882" y="750" class="boxTitle">10. Interpretation boundary</text>
-  <text x="882" y="776" class="boxText">Observer-like structure is not consciousness</text>
-  <text x="882" y="800" class="small">Mathematics, physical validation, and consciousness</text>
-  <text x="882" y="820" class="small">remain three separate scientific claims</text>
+  <rect x="860" y="735" width="280" height="112" rx="16" fill="#fff1f2" stroke="#fda4af" stroke-width="2"/>
+  <text x="882" y="765" class="boxTitle">10. Interpretation boundary</text>
+  <text x="882" y="791" class="boxText">Observer-like structure is not consciousness</text>
+  <text x="882" y="817" class="small">Mathematics, physical validation, and</text>
+  <text x="882" y="834" class="small">consciousness remain separate claims</text>
 
-  <path d="M640 660 L640 690 L280 690 L280 720" class="arrow"/>
-  <path d="M420 775 L500 775" class="arrow"/>
-  <path d="M780 775 L860 775" class="arrow"/>
+  <path d="M640 683 L640 706 L280 706 L280 735" class="arrow"/>
+  <path d="M420 791 L500 791" class="arrow"/>
+  <path d="M780 791 L860 791" class="arrow"/>
 
-  <text x="70" y="875" class="subtitle">Accountability rule: specify observables, units, dynamics, noise, sampling, candidate geometry, nuisance structure, citations, and model-failure tests.</text>
-  <text x="70" y="900" class="small">Equation provenance and citations: docs/physics_mathematics_citation_map.md | Full references: docs/bibliography.md</text>
+  <text x="70" y="884" class="subtitle">Accountability rule: specify observables, units, dynamics, noise, sampling, candidate geometry, nuisance structure, citations, and model-failure tests.</text>
+  <text x="70" y="906" class="micro">Equation provenance and citations: docs/physics_mathematics_citation_map.md | Full references: docs/bibliography.md</text>
 </svg>
