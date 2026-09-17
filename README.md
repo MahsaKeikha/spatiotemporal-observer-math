@@ -153,13 +153,33 @@ You do not need to read 58 propositions to understand the idea.
 
 ## Where the idea came from
 
-A conceptual starting point is Max Tegmark's question of why an observer should correspond to one factorization of a larger physical system rather than another in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014).
+Research I grew from two closely related questions in Max Tegmark's work: how observer-like physical organization depends on the factorization of a larger physical system, and how integration can be quantified across alternative partitions. These papers are acknowledged as important intellectual and mathematical context for the questions that motivated this research.
 
-This repository takes a specific mathematical step beyond a static factorization question: the candidate subsystem is allowed to **move through time**.
+### Foundational paper 1: observer factorization
 
-The project then asks what would be required to recover that moving structure from data without quietly assuming the answer: identifiability, global path optimization, perturbation stability, finite-sample uncertainty, temporal calibration, nuisance handling, and reproducible measurement certification.
+**Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015), 238-270.**
 
-For the exact relationship to prior literature and for equation-level provenance, see the [Bibliography](docs/bibliography.md) and [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md).
+- [DOI: 10.1016/j.chaos.2015.03.014](https://doi.org/10.1016/j.chaos.2015.03.014)
+- [Technical preprint: arXiv:1401.1219](https://arxiv.org/abs/1401.1219)
+
+This paper provides the primary conceptual starting point for the observer-factorization question: why one factorization of a larger physical system should be associated with observer-like structure rather than another.
+
+### Foundational paper 2: integrated-information measures
+
+**Max Tegmark. "Improved Measures of Integrated Information." _PLOS Computational Biology_ 12(11) (2016), e1005123.**
+
+- [DOI: 10.1371/journal.pcbi.1005123](https://doi.org/10.1371/journal.pcbi.1005123)
+- [Preprint: arXiv:1601.02626](https://arxiv.org/abs/1601.02626)
+
+This paper provides related mathematical context for comparing integrated-information measures across factorization choices and helps motivate treating integration as one declared ingredient in a broader operational subsystem criterion.
+
+### How Research I relates to this lineage
+
+Research I does not present the moving world-tube framework as a restatement of Tegmark's results. It takes the factorization problem into a different operational setting: the candidate subsystem boundary is allowed to change through time, and the research asks when measured dynamics and finite data support one moving path over its competitors. The resulting world-tube objective, transport functional, recovery theory, identifiability analysis, physical-time calibration, and finite-sample certification are developed and tested separately in this repository.
+
+**Scientific and scholarly note.** These two papers are cited with respect as foundational intellectual lineage for the questions that motivated Research I. The later mathematical, computational, and reproducibility claims are the responsibility of this research program and stand on their own stated assumptions, derivations, experiments, tests, and source record. Nothing here should be read as attributing those later results to Tegmark, or as implying that either cited paper establishes that a recovered world-tube is conscious or resolves the physical-to-experiential problem.
+
+For the broader relationship to prior literature and equation-level provenance, see the [Bibliography](docs/bibliography.md) and [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md).
 
 ---
 
