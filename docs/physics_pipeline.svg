@@ -2,8 +2,8 @@
   <title id="title">Physics to inference pipeline</title>
   <desc id="desc">A publication-style diagram showing how physical observables move through dynamical modeling, nuisance removal, physical-time calibration, covariance certification, candidate boundary scoring, world-tube optimization, identifiability, and interpretation. All labels and equations are contained within their panels.</desc>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    <marker id="arrow" viewBox="0 0 8 8" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7.2" refY="4" orient="auto">
+      <path d="M0.8,0.8 L7.2,4 L0.8,7.2 z" fill="#334155"/>
     </marker>
     <style>
       .title { font: 700 30px Arial, sans-serif; fill: #0f172a; }
