@@ -98,6 +98,88 @@ def ranked_worldtubes(
     )
 
 
+
+def top_two_worldtubes_dp(
+    local: np.ndarray,
+    candidates,
+    transport: np.ndarray,
+    *,
+    transport_weight=0.25,
+    continuity_weight=0.08,
+):
+    """Return the exact best and runner-up paths in O(T C^2) time.
+
+    For each terminal candidate, retain the two highest-scoring distinct
+    prefixes. Because the objective is additive and first-order in the
+    terminal candidate, any prefix ranked below second for the same terminal
+    state can never become the global best or runner-up after a common future
+    continuation.
+    """
+    t_count, c_count = local.shape
+    if t_count < 1 or c_count < 1:
+        raise ValueError("local must contain at least one time and candidate.")
+    if c_count ** t_count < 2:
+        raise ValueError("At least two world-tube paths are required.")
+
+    score = np.full((t_count, c_count, 2), -np.inf)
+    prev_state = np.full((t_count, c_count, 2), -1, dtype=int)
+    prev_rank = np.full((t_count, c_count, 2), -1, dtype=int)
+    score[0, :, 0] = local[0, :]
+
+    for t in range(1, t_count):
+        for j in range(c_count):
+            options = []
+            for i in range(c_count):
+                transition = (
+                    transport_weight * transport[t - 1, i, j]
+                    - continuity_weight
+                    * jaccard_distance(candidates[i], candidates[j])
+                )
+                for rank in (0, 1):
+                    if np.isfinite(score[t - 1, i, rank]):
+                        options.append(
+                            (
+                                float(
+                                    score[t - 1, i, rank]
+                                    + local[t, j]
+                                    + transition
+                                ),
+                                i,
+                                rank,
+                            )
+                        )
+            options.sort(key=lambda item: item[0], reverse=True)
+            for rank, (value, i, old_rank) in enumerate(options[:2]):
+                score[t, j, rank] = value
+                prev_state[t, j, rank] = i
+                prev_rank[t, j, rank] = old_rank
+
+    finals = [
+        (float(score[-1, j, rank]), j, rank)
+        for j in range(c_count)
+        for rank in (0, 1)
+        if np.isfinite(score[-1, j, rank])
+    ]
+    finals.sort(key=lambda item: item[0], reverse=True)
+
+    def trace(j, rank):
+        indices = [j]
+        for t in range(t_count - 1, 0, -1):
+            old_j = prev_state[t, j, rank]
+            old_rank = prev_rank[t, j, rank]
+            j, rank = int(old_j), int(old_rank)
+            indices.append(j)
+        indices.reverse()
+        return tuple(candidates[i] for i in indices)
+
+    best_score, best_j, best_rank = finals[0]
+    best_path = trace(best_j, best_rank)
+    for second_score, second_j, second_rank in finals[1:]:
+        second_path = trace(second_j, second_rank)
+        if second_path != best_path:
+            return best_path, best_score, second_path, second_score
+    raise ValueError("A distinct runner-up path could not be recovered.")
+
 def disagreement_weights(best_path, runner_up_path) -> np.ndarray:
     n = max(max(max(s) for s in best_path), max(max(s) for s in runner_up_path)) + 1
     weights = np.zeros(n)
@@ -138,7 +220,7 @@ def infer_competitors_and_target(
     dimension = states[0].shape[1]
     candidates = tuple(combinations(range(dimension), subset_size))
     local, transport = score_worldtube_arrays(states, candidates, ridge=ridge)
-    best, best_score, second, second_score = ranked_worldtubes(
+    best, best_score, second, second_score = top_two_worldtubes_dp(
         local, candidates, transport
     )
     sensor, utility = select_predictive_channel(
