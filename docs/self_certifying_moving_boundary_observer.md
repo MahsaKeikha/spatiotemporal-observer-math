@@ -426,3 +426,105 @@ The research-specific question is whether the covariance sensitivity of a
 *moving world-tube structural decision* can be coupled to competitor-specific
 sequential discrimination in one certifying acquisition rule, including
 explicit observational-equivalence and abstention behavior.
+
+
+## From covariance contraction to path-action certification
+
+Let \(\theta\) collect the covariance blocks on which a retained pairwise world-tube action difference depends, and define
+
+\[
+g_{p,r}(\theta)=A_\theta(p)-A_\theta(r).
+\]
+
+Suppose the current estimate is \(\widehat\theta_k\), and a valid confidence region after action \(a\) is
+
+\[
+\mathcal B_{k+1}(a)=\{\theta:\|\theta-\widehat\theta_{k+1}\|_{\mathsf M(a)}\le \rho_{k+1}(a)\}.
+\]
+
+Define the robust pairwise lower margin
+
+\[
+\underline g_{k+1}(p,r;a)=\inf_{\theta\in\mathcal B_{k+1}(a)}g_{p,r}(\theta).
+\]
+
+This is the appropriate structural-certification target: an action is useful when it improves the worst-case path ordering, not merely when it reduces an unrelated state covariance.
+
+### AM16: robust-margin certificate
+
+If, on an event \(E_{k+1}(a)\), the true covariance parameter \(\theta_\star\) belongs to \(\mathcal B_{k+1}(a)\), then
+
+\[
+\underline g_{k+1}(p,r;a)>0
+\]
+
+implies \(A_{\theta_\star}(p)>A_{\theta_\star}(r)\) on that event. If the same strict inequality holds for every retained \(r\ne p\), then \(p\) is the unique population-action maximizer over the retained family on \(E_{k+1}(a)\).
+
+**Proof.** Membership of \(\theta_\star\) in the confidence region gives
+
+\[
+g_{p,r}(\theta_\star)\ge
+\inf_{\theta\in\mathcal B_{k+1}(a)}g_{p,r}(\theta)
+=\underline g_{k+1}(p,r;a)>0.
+\]
+
+Apply this to every retained competitor.
+
+AM16 is distribution-agnostic after the confidence region has been established. The statistical burden is isolated in constructing a valid action-dependent region.
+
+## AM17: Lipschitz sufficient certificate
+
+Assume \(g_{p,r}\) is \(L_{p,r}\)-Lipschitz on the relevant confidence region:
+
+\[
+|g_{p,r}(\theta)-g_{p,r}(\theta')|\le L_{p,r}\|\theta-\theta'\|.
+\]
+
+If \(\|\theta-\widehat\theta_k\|\le\rho_k\), then
+
+\[
+g_{p,r}(\theta_\star)\ge g_{p,r}(\widehat\theta_k)-L_{p,r}\rho_k.
+\]
+
+Therefore
+
+\[
+\boxed{g_{p,r}(\widehat\theta_k)>L_{p,r}\rho_k}
+\]
+
+is sufficient to certify \(p\) over \(r\). Across all retained competitors, a sufficient singleton certificate is
+
+\[
+\min_{r\ne p}\left[g_{p,r}(\widehat\theta_k)-L_{p,r}\rho_k\right]>0.
+\]
+
+This can be sharper than a common \(2U_k\) bound when pair-specific sensitivities are available.
+
+## Certificate-directed value of a measurement
+
+Define expected robust-margin gain
+
+\[
+R_{\mathrm{cert}}(a)=
+\mathbb E\!\left[\min_{r\ne p}\underline g_{k+1}(p,r;a)\mid\mathcal F_k\right]
+-\min_{r\ne p}\underline g_k(p,r).
+\]
+
+A certificate-directed acquisition objective is
+
+\[
+a_{k+1}^\star\in\arg\max_{a\in\mathcal A}
+\left\{
+\eta_g R_{\mathrm{cert}}(a)
++\eta_s\min_{r\ne p}D_{\mathrm{KL}}(f_p^a\|f_r^a)
+-\lambda C(a)
+\right\}.
+\]
+
+Both terms now have direct certification meanings: one targets worst-case structural ordering, and the other targets sequential predictive evidence. This remains a proposed acquisition rule until action-dependent confidence regions and its performance properties are established.
+
+## What remains before an end-to-end theorem
+
+The principal unresolved mathematical step is now precise: construct an action-dependent confidence region for the covariance blocks used by the actual Research I observer factors under heterogeneous adaptive measurement, then bound \(L_{p,r}\) or the robust infimum tightly enough to be useful.
+
+A complete theorem would combine time-uniform confidence-region validity with a policy-dependent information condition that drives the robust retained-family margin positive whenever the true structure is identifiable. Observationally equivalent cases remain exempt by AM9 and AM13.
