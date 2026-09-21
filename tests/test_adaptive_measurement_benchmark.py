@@ -33,3 +33,9 @@ def test_predictive_policy_targets_hardest_competitor_best_channel():
         for k in range(len(TRUE_MEAN))
     ]
     assert j == int(np.argmax(kls))
+
+
+def test_observational_equivalence_accumulates_no_evidence():
+    result = run_equivalence_control("random", 12345)
+    assert result["correctly_unresolved"]
+    assert result["max_abs_evidence"] == 0.0
