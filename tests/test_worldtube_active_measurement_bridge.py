@@ -3,7 +3,7 @@ import numpy as np
 from examples.worldtube_active_measurement_bridge import (
     disagreement_weights,
     jaccard_distance,
-    ranked_worldtubes,
+    ranked_worldtubes,\n    top_two_worldtubes_dp,
     select_predictive_channel,
 )
 
@@ -51,3 +51,28 @@ def test_equivalent_predictive_laws_return_no_sensor():
     sensor, utility = select_predictive_channel(best, second, mu, mu, np.ones(3))
     assert sensor is None
     assert np.allclose(utility, 0.0)
+
+
+def test_top_two_dp_matches_exhaustive_reference():
+    rng = np.random.default_rng(20260921)
+    candidates = ((0,), (1,), (2,))
+    for _ in range(20):
+        local = rng.normal(size=(4, 3))
+        transport = rng.normal(size=(3, 3, 3))
+        ref = ranked_worldtubes(local, candidates, transport)
+        dp = top_two_worldtubes_dp(local, candidates, transport)
+        assert dp[0] == ref[0]
+        assert np.isclose(dp[1], ref[1])
+        assert dp[2] == ref[2]
+        assert np.isclose(dp[3], ref[3])
+
+
+def test_top_two_dp_margin_is_nonnegative():
+    candidates = ((0,), (1,))
+    local = np.array([[1.0, 0.5], [1.2, 0.4], [1.1, 0.8]])
+    transport = np.zeros((2, 2, 2))
+    best, best_score, second, second_score = top_two_worldtubes_dp(
+        local, candidates, transport
+    )
+    assert best != second
+    assert best_score >= second_score
