@@ -24,6 +24,7 @@ The explanatory physics pipeline is not included in the scientific-result figure
 | Follow the research as one scientific argument | **[Research Overview](research_overview.md)** |
 | Browse every scientific figure | **[Visual Research Guide](visual_research_guide.md)** |
 | Trace external literature | [Bibliography and Citation Map](bibliography.md) |
+| Distinguish Research I contributions from prior foundations | **[Contribution Provenance Ledger](contribution_provenance.md)** |
 | Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
 | Review interpretation boundaries | [Interpretation Protocol](interpretation_protocol.md) |
 | Inspect the current patch record | [Release 0.47.1](release_0_47_1.md) |
