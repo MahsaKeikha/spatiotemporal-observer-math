@@ -178,3 +178,8 @@ A useful adaptive policy must improve structural resolution **at equal or lower 
 This extension changes **how physical evidence is acquired** for the operational moving-boundary problem. It does not define a consciousness intervention and does not assume that a higher observer score corresponds to more subjective experience.
 
 The scientific question remains whether measured dynamics support a coherent, persistent, insulated, and transporting subsystem boundary. The new contribution is to let unresolved structure guide the next physical measurement.
+
+
+## 10. Gaussian specialization
+
+The predictive-discrimination target is developed explicitly in [Gaussian Predictive Discrimination for Active Measurement](gaussian_predictive_discrimination.md). That page derives the action-conditioned Gaussian KL expression, an exact optimal single-channel rule under equal predictive covariance, and a zero-discrimination impossibility condition for an admissible sensing action.
