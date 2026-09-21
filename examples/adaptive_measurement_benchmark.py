@@ -99,6 +99,37 @@ def run_policy(policy: str, seed: int) -> dict:
     }
 
 
+def run_equivalence_control(policy: str, seed: int) -> dict:
+    rng = np.random.default_rng(seed)
+    evidence = 0.0
+    max_abs_evidence = 0.0
+    for _ in range(HORIZON):
+        if policy == "random":
+            j = int(rng.integers(0, N_CHANNELS))
+        else:
+            j = 0
+        y = rng.normal(TRUE_MEAN[j], np.sqrt(TOTAL_VAR[j]))
+        evidence += llr_gaussian_equal_variance(
+            y, TRUE_MEAN[j], EQUIVALENT_COMPETITOR_MEAN[j], TOTAL_VAR[j]
+        )
+        max_abs_evidence = max(max_abs_evidence, abs(evidence))
+    return {
+        "final_evidence": float(evidence),
+        "max_abs_evidence": float(max_abs_evidence),
+        "correctly_unresolved": bool(max_abs_evidence == 0.0),
+    }
+
+
+def summarize_equivalence() -> dict:
+    rows = [run_equivalence_control("random", ROOT_SEED + 10000 + i) for i in range(N_TRIALS)]
+    return {
+        "description": "Distinct structural label, identical observable predictive law.",
+        "trials": N_TRIALS,
+        "correctly_unresolved_rate": float(np.mean([r["correctly_unresolved"] for r in rows])),
+        "max_abs_evidence_over_trials": float(max(r["max_abs_evidence"] for r in rows)),
+    }
+
+
 def summarize(policy: str) -> dict:
     rows = [run_policy(policy, ROOT_SEED + i) for i in range(N_TRIALS)]
     crossing = [r["crossing_step"] for r in rows if r["crossing_step"] is not None]
@@ -124,7 +155,7 @@ def main() -> None:
         "true_mean": TRUE_MEAN.tolist(),
         "competitor_means": COMPETITOR_MEANS.tolist(),
         "total_variance": TOTAL_VAR.tolist(),
-        "policies": [summarize(p) for p in ("predictive", "disagreement", "random", "fixed")],
+        "policies": [summarize(p) for p in ("predictive", "disagreement", "random", "fixed")],\n        "observational_equivalence_control": summarize_equivalence(),
         "interpretation": (
             "Synthetic mechanism benchmark only. Certification means all declared "
             "pairwise evidence thresholds were crossed under the specified Gaussian model."
