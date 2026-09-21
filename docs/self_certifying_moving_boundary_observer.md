@@ -237,3 +237,192 @@ judged at the level of the integrated moving-boundary certification problem,
 not by relabeling those ingredients as new.
 
 Priority or first-of-kind claims require a dedicated closest-literature audit.
+
+
+## Action-dependent structural uncertainty: exact Gaussian covariance update
+
+The dual-deficit objective requires a mathematically valid (R_U(a)), not a
+heuristic confidence bonus. A first exact case is available when the observer
+maintains a Gaussian covariance belief and a measurement action selects a
+linear observation.
+
+Let the current latent state satisfy
+
+[
+Xmidmathcal F_ksimmathcal N(m_k,P_k),
+]
+
+and let action (a) produce
+
+[
+Y=H_aX+V,qquad Vsimmathcal N(0,R_a),quad R_asucc0.
+]
+
+The posterior covariance is
+
+[
+P_k^+(a)
+=
+P_k-P_kH_a^	op
+(H_aP_kH_a^	op+R_a)^{-1}
+H_aP_k.
+]
+
+This covariance does not depend on the realized measurement value in the
+linear-Gaussian model.
+
+### AM14: positive-semidefinite uncertainty contraction
+
+For every admissible action,
+
+[
+0preceq P_k^+(a)preceq P_k.
+]
+
+Consequently, for every vector (v),
+
+[
+v^	op P_k^+(a)vle v^	op P_kv,
+]
+
+and every monotone spectral uncertainty functional, including
+(operatorname{tr}(P)) and (lambda_{max}(P)), cannot increase.
+
+**Proof.** The removed term is
+(P_kH_a^	op(H_aP_kH_a^	op+R_a)^{-1}H_aP_k), which is positive
+semidefinite. The remaining inequalities follow directly.
+
+This gives an exact action-dependent uncertainty reduction
+
+[
+R_{mathrm{tr}}(a)
+=
+operatorname{tr}(P_k)-operatorname{tr}(P_k^+(a))ge0.
+]
+
+It is an uncertainty reduction for the Gaussian latent-state covariance. It is
+not automatically the Research I complete path-action error radius (U_k).
+A theorem connecting the two requires sensitivity of the observer action to
+the covariance blocks used by the world-tube score.
+
+## Structural sensitivity map
+
+Let (g(Sigma)) denote a scalar world-tube action difference between the
+current leader and a retained competitor, evaluated from the relevant
+covariance blocks. At a covariance (Sigma_k), define a local sensitivity
+
+[
+G_k=
+abla_Sigma g(Sigma_k).
+]
+
+For a small covariance perturbation (E),
+
+[
+g(Sigma_k+E)-g(Sigma_k)
+=
+langle G_k,Eangle_F+o(|E|_F).
+]
+
+If a valid local remainder bound is available,
+
+[
+|o(|E|_F)|le c_k|E|_F^2,
+]
+
+then an action that preferentially reduces covariance uncertainty in directions
+aligned with (G_k) directly targets uncertainty in the structural decision,
+rather than merely reducing total covariance variance.
+
+This suggests the sensitivity-weighted criterion
+
+[
+R_G(a)
+=
+operatorname{tr}!left[
+G_k^	op G_k
+left(P_k-P_k^+(a)ight)
+ight],
+]
+
+when dimensions and the covariance parameterization make this contraction
+well-defined. This expression is presently a design target, not a theorem for
+the full Research I score.
+
+## AM15: scalar directional variance reduction
+
+For a scalar linear functional (Z=v^	op X), define its posterior variance
+under action (a) as
+
+[
+U_v^+(a)=v^	op P_k^+(a)v.
+]
+
+Then the exact reduction is
+
+[
+R_v(a)
+=
+v^	op P_kH_a^	op
+(H_aP_kH_a^	op+R_a)^{-1}
+H_aP_kv
+ge0.
+]
+
+Thus if a local structural decision is known to depend on a specific linear
+direction (v), maximizing (R_v(a)) exactly maximizes the one-step reduction
+of posterior variance in that direction within the declared Gaussian model.
+
+AM15 is deliberately narrower than a complete world-tube uncertainty theorem.
+Its role is to establish a rigorous building block from which score-specific
+sensitivity results can be derived.
+
+## The two-information geometry
+
+The closed-loop observer now exposes two distinct action-dependent geometries:
+
+[
+mathcal I_{mathrm{est}}(a)
+quad	ext{from covariance/Fisher-information contraction},
+]
+
+and
+
+[
+mathcal I_{mathrm{disc}}(a;r)
+=
+D_{mathrm{KL}}(f_p^a|f_r^a)
+quad	ext{from competitor discrimination}.
+]
+
+An action can be excellent for estimating the current state while poor for
+distinguishing world-tube competitors, or vice versa. The scientifically
+interesting acquisition problem is therefore not generic information
+maximization but allocation across these two geometries subject to structural
+disagreement and measurement cost.
+
+A future theorem should characterize the Pareto frontier
+
+[
+left(
+R_U(a),
+min_r D_{mathrm{KL}}(f_p^a|f_r^a),
+R_C(a)
+ight),qquad ainmathcal A,
+]
+
+and identify conditions under which one action improves all three quantities
+or a genuine tradeoff is unavoidable.
+
+## Literature boundary for the next theorem
+
+Adaptive experimental design already uses expected and observed Fisher
+information to improve estimator precision. Controlled sensing and active
+sequential hypothesis testing already use action-dependent information
+divergence to reduce decision delay. Therefore neither covariance contraction
+nor KL-directed sensing is claimed as new in isolation.
+
+The research-specific question is whether the covariance sensitivity of a
+*moving world-tube structural decision* can be coupled to competitor-specific
+sequential discrimination in one certifying acquisition rule, including
+explicit observational-equivalence and abstention behavior.
