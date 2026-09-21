@@ -140,6 +140,8 @@ evidence must be ambiguous while cross-time organizational transport remains
 informative. Otherwise the transport term adds estimation variance to a problem
 that local scoring already solves.
 
+That requirement is now formalized as a falsifiable [Transport-Value Stress Test](transport_value_stress_test.md). The protocol requires local-evidence-dominant, transport-informative, continuity-confounded, and transport-null families; a 2x2 transport/continuity ablation; frozen test seeds; weight-sensitivity analysis; and explicit criteria under which transport will *not* be promoted as an established practical advantage.
+
 The raw aggregated values, Wilson intervals, trial count, ridge, sample sizes,
 and root seed are stored in [`finite_sample_results.json`](finite_sample_results.json).
 
