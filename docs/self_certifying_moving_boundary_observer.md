@@ -528,3 +528,163 @@ Both terms now have direct certification meanings: one targets worst-case struct
 The principal unresolved mathematical step is now precise: construct an action-dependent confidence region for the covariance blocks used by the actual Research I observer factors under heterogeneous adaptive measurement, then bound \(L_{p,r}\) or the robust infimum tightly enough to be useful.
 
 A complete theorem would combine time-uniform confidence-region validity with a policy-dependent information condition that drives the robust retained-family margin positive whenever the true structure is identifiable. Observationally equivalent cases remain exempt by AM9 and AM13.
+
+
+## AM18: factorwise-to-path certificate under action-dependent radii
+
+The Research I path action is assembled from local observer scores, transport scores, and continuity terms. This structure permits a rigorous bridge from action-dependent uncertainty radii to the complete path decision without requiring a single undifferentiated covariance radius.
+
+Write
+
+\[
+A(p)=\sum_{t=0}^{T-1}\Omega_t(S_t)
++\chi\sum_{t=0}^{T-2}\Theta_t(S_t\to S_{t+1})
+-\lambda\sum_{t=0}^{T-2}d_J(S_t,S_{t+1}).
+\]
+
+The Jaccard term is deterministic once a candidate path is specified, so statistical uncertainty enters through \(\Omega\) and \(\Theta\).
+
+Suppose an admissible measurement design \(a\) yields simultaneous valid bounds
+
+\[
+|\widehat\Omega_t(S)-\Omega_t(S)|\le e_{\Omega,t,S}(a)
+\]
+
+and
+
+\[
+|\widehat\Theta_t(S\to R)-\Theta_t(S\to R)|
+\le e_{\Theta,t,S,R}(a)
+\]
+
+for every factor used by a retained candidate family.
+
+Define the path-specific action radius
+
+\[
+E_a(p)
+=
+\sum_{t=0}^{T-1}e_{\Omega,t,S_t}(a)
++
+|\chi|
+\sum_{t=0}^{T-2}e_{\Theta,t,S_t,S_{t+1}}(a).
+\]
+
+Then
+
+\[
+|\widehat A(p)-A(p)|\le E_a(p).
+\]
+
+### Proposition AM18
+
+For two retained paths \(p\) and \(r\), if
+
+\[
+\widehat A(p)-E_a(p)
+>
+\widehat A(r)+E_a(r),
+\]
+
+then \(A(p)>A(r)\) on the simultaneous factor-bound event.
+
+If
+
+\[
+\widehat A(p)-E_a(p)
+>
+\max_{r\ne p}\left[\widehat A(r)+E_a(r)\right],
+\]
+
+then \(p\) is the unique population-action maximizer over the retained family on that event.
+
+**Proof.** The factorwise triangle inequality gives
+\(A(p)\ge\widehat A(p)-E_a(p)\) and
+\(A(r)\le\widehat A(r)+E_a(r)\). The strict interval separation gives the pairwise ordering. Apply it to every retained competitor for the second claim.
+
+AM18 is important because it identifies exactly what an adaptive measurement must improve: not generic state variance, but the uncertainty radii of the specific local and transport factors appearing on the leading and competing world tubes.
+
+## Certificate pressure map
+
+For a leading path \(p\) and competitor \(r\), define their robust separation
+
+\[
+C_a(p,r)
+=
+\widehat A(p)-\widehat A(r)-E_a(p)-E_a(r).
+\]
+
+A negative value identifies an unresolved pair. Decompose its uncertainty burden over time and factors:
+
+\[
+B_{\Omega,t}(p,r;a)
+=
+e_{\Omega,t,S_t^p}(a)+e_{\Omega,t,S_t^r}(a),
+\]
+
+\[
+B_{\Theta,t}(p,r;a)
+=
+|\chi|\left[
+e_{\Theta,t,S_t^p,S_{t+1}^p}(a)
++
+e_{\Theta,t,S_t^r,S_{t+1}^r}(a)
+\right].
+\]
+
+These quantities form a certificate-pressure map over the moving world tubes. A measurement action should preferentially reduce the factor radii that dominate the hardest unresolved pair.
+
+This produces a structural analogue of competitor-directed sensing: the world-tube geometry tells the system not only which coordinates disagree, but which uncertain score factors currently prevent certification.
+
+## AM19: exact value of radius contraction for a fixed estimated margin
+
+Consider a one-step design comparison in which the current estimated path actions are held fixed while the candidate measurement design changes only the certified factor radii. For pair \(p,r\),
+
+\[
+C_a(p,r)=
+\widehat A(p)-\widehat A(r)-E_a(p)-E_a(r).
+\]
+
+For two designs \(a\) and \(b\),
+
+\[
+C_a(p,r)-C_b(p,r)
+=
+[E_b(p)+E_b(r)]-[E_a(p)+E_a(r)].
+\]
+
+Therefore, conditional on the same estimated action values, maximizing robust pairwise separation is exactly equivalent to minimizing the sum of the two path-specific uncertainty radii.
+
+This result is algebraic and deliberately conditional. In a genuine adaptive experiment, a new observation can change both the estimated actions and their radii. The end-to-end analysis must account for both effects.
+
+## Toward an action-dependent covariance-block radius
+
+Let \(Z_{t,S}\) denote the Gaussian vector used to compute a particular Research I factor, with covariance \(\Sigma_{t,S}\). Under a measurement design \(a\), suppose \(m_{t,S}(a)\) effective independent innovation samples are available after the declared temporal whitening/calibration step. A relative covariance event has the form
+
+\[
+\left\|
+\Sigma_{t,S}^{-1/2}
+(\widehat\Sigma_{t,S}-\Sigma_{t,S})
+\Sigma_{t,S}^{-1/2}
+\right\|_2
+\le
+\varepsilon_{t,S}(a).
+\]
+
+Existing Research I perturbation maps can then convert \(\varepsilon_{t,S}(a)\) into bounds for information and canonical-correlation factors. The active-measurement problem becomes scientifically concrete if the acquisition policy controls \(m_{t,S}(a)\), sensor noise, or block visibility and therefore changes \(\varepsilon_{t,S}(a)\).
+
+The next derivation must use the exact covariance-concentration inequality and factor perturbation functions already established in Research I rather than introducing an incompatible surrogate. The goal is an explicit computable map
+
+\[
+a
+\longmapsto
+\varepsilon_{t,S}(a)
+\longmapsto
+(e_{\Omega},e_{\Theta})
+\longmapsto
+E_a(p)
+\longmapsto
+C_a(p,r).
+\]
+
+Once this map is validated, certificate-directed sensing becomes an end-to-end consequence of the original observer mathematics rather than a parallel heuristic.
