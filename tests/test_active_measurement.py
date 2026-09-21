@@ -50,3 +50,30 @@ def test_invalid_radii_and_variance_rejected():
         path_action_radius([-0.1], [], transport_weight=1.0)
     with pytest.raises(ValueError):
         gaussian_equal_variance_kl(np.array([0.0]), np.array([1.0]), np.array([0.0]))
+
+
+def test_observer_factor_radii_vanish_at_zero_covariance_error():
+    from observer_math.active_measurement import observer_factor_radii_from_relative_covariance
+    radii = observer_factor_radii_from_relative_covariance(
+        subset_size=3,
+        ambient_size=7,
+        covariance_relative_error=0.0,
+        integration_factor=0.6,
+        insulation_factor=0.7,
+        persistence_factor=0.8,
+    )
+    assert all(value == 0.0 for value in radii.values())
+
+
+def test_observer_factor_radii_are_nonnegative_and_bounded():
+    from observer_math.active_measurement import observer_factor_radii_from_relative_covariance
+    radii = observer_factor_radii_from_relative_covariance(
+        subset_size=3,
+        ambient_size=7,
+        covariance_relative_error=0.05,
+        integration_factor=0.6,
+        insulation_factor=0.7,
+        persistence_factor=0.8,
+    )
+    assert set(radii) == {"integration", "insulation", "persistence", "observer_score"}
+    assert all(0.0 <= value <= 1.0 for value in radii.values())
