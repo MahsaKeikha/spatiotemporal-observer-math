@@ -242,28 +242,6 @@ The central question remains simple even when the mathematics becomes technical:
 
 ---
 
-## IEEE control-systems submission track
-
-Research I also has a dedicated **IEEE Transactions on Control Systems Technology (TCST) strengthening track**. This track does not replace the original moving-boundary research program. It asks a narrower engineering question: how the proved boundary-identification and finite-sample certification machinery can support estimation and supervisory control when the dynamically relevant coordinate subset changes with time.
-
-The submission track is deliberately evidence-gated. A control result is not promoted to an established contribution merely because it is plausible or performs well in one simulation. Closed-loop claims must have their own assumptions, proof or clearly labeled empirical status, deterministic implementation, tests, baselines, machine-readable results, and manuscript traceability.
-
-| Reviewer question | Repository evidence |
-| --- | --- |
-| What is mathematically proved? | [Canonical proof record](docs/proofs_and_conjectures.md) |
-| Which proved results support the IEEE manuscript? | [TCST strengthening record](docs/tcst_submission_strengthening.md) |
-| Which assumptions and limitations matter? | [Assumption ledger](docs/assumption_ledger.md) |
-| Can the existing experiments be reproduced? | [Reproducible results](docs/reproducible_results.md) |
-| Where does the current theory stop? | [Current frontier](docs/proposition_58_observer_bridge.md) |
-
-**Current control-theoretic boundary.** The repository proves moving-boundary identification, robustness, identifiability limits, and finite-sample certification under declared models. It does not yet claim a general closed-loop stability theorem for a controller driven by an estimated moving boundary. That result will be claimed only if a separate theorem, implementation, tests, and closed-loop validation are added and pass the submission-integrity gates.
-
-This separation is intentional: it makes it possible for a reviewer to distinguish proved theory, reproducible computation, empirical control performance, and open work without relying on manuscript rhetoric.
-
-[Audit the IEEE TCST strengthening track ->](docs/tcst_submission_strengthening.md)
-
----
-
 ## Citation and license
 
 Repository citation metadata: [`CITATION.cff`](CITATION.cff)  
