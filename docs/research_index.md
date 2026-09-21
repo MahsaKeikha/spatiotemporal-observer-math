@@ -276,3 +276,5 @@ The next directions are:
 The guiding question remains:
 
 > **When does the dynamics itself justify a moving subsystem boundary, and when does the available evidence remain insufficient to identify one?**
+
+- [Self-certifying moving-boundary observer](self_certifying_moving_boundary_observer.md): unified observer state, dual-deficit acquisition, joint certification, equivalence-aware abstention, and falsification program.
