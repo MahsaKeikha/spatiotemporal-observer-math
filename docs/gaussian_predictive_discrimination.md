@@ -246,3 +246,8 @@ Report boundary recovery, candidate-set contraction, accumulated pairwise discri
 ## 10. Scientific boundary
 
 AM2 and AM3 are results about discrimination between declared Gaussian predictive models. They do not establish that either model is a biological theory of consciousness. Their role is narrower and operational: once Research I has produced competing structural hypotheses, the physical measurement device can choose observations that are mathematically informative for resolving those hypotheses.
+
+
+## 11. Sequential evidence extension
+
+The one-step Gaussian discrimination score now feeds a separate [Sequential Evidence for Adaptive Measurement](sequential_adaptive_evidence.md) layer. That development proves an adaptive expected-evidence decomposition, the likelihood-ratio martingale identity under predictable sensing actions, and an anytime-valid threshold for rejecting a declared competing predictive model. Stronger claims about expected stopping time, composite hypotheses, misspecification, and physical-device stability remain explicit open problems.
