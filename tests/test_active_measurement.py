@@ -77,3 +77,43 @@ def test_observer_factor_radii_are_nonnegative_and_bounded():
     )
     assert set(radii) == {"integration", "insulation", "persistence", "observer_score"}
     assert all(0.0 <= value <= 1.0 for value in radii.values())
+
+
+def test_transport_radius_vanishes_at_zero_error():
+    from observer_math.active_measurement import transport_score_radius_from_relative_covariance
+    radii = transport_score_radius_from_relative_covariance(
+        subset_size=3,
+        ambient_size=7,
+        covariance_relative_error=0.0,
+        insulation_factor=0.7,
+        persistence_factor=0.8,
+    )
+    assert all(value == 0.0 for value in radii.values())
+
+
+def test_complete_path_radius_is_zero_for_exact_covariances():
+    from observer_math.active_measurement import complete_path_radius_from_relative_covariance
+    radius = complete_path_radius_from_relative_covariance(
+        [0.0, 0.0],
+        [0.0],
+        [[0.6, 0.7, 0.8], [0.5, 0.8, 0.9]],
+        [[0.7, 0.8]],
+        subset_size=3,
+        ambient_size=7,
+        transport_weight=0.25,
+    )
+    assert radius == 0.0
+
+
+def test_complete_path_radius_grows_positive_with_covariance_error():
+    from observer_math.active_measurement import complete_path_radius_from_relative_covariance
+    radius = complete_path_radius_from_relative_covariance(
+        [0.02, 0.03],
+        [0.025],
+        [[0.6, 0.7, 0.8], [0.5, 0.8, 0.9]],
+        [[0.7, 0.8]],
+        subset_size=3,
+        ambient_size=7,
+        transport_weight=0.25,
+    )
+    assert radius > 0.0
