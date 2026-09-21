@@ -334,3 +334,114 @@ These propositions certify evidence accumulation between declared predictive mod
 ## 12. Device supervisory layer
 
 The sequential evidence process now feeds a [Certification-Aware Measurement Automaton](certification_aware_measurement_automaton.md). The automaton separates DISCOVER, RESOLVE, TRACK, and ABSTAIN measurement modes, defines an explicit evidence gate and resolution deficit, and keeps TRACK reversible when later measurements indicate structural change or model inadequacy.
+
+
+## AM8: KL drift of the signed certification gap
+
+For a fixed retained competitor (r), let
+
+[
+h_r=log(1/alpha_r),qquad
+S_k(r)=h_r-L_k(p,r).
+]
+
+The quantity (S_k(r)) is a signed distance to the pairwise evidence threshold.
+It is positive before the threshold is crossed and nonpositive after crossing.
+
+**Proposition AM8.** Under the declared generating law (p), predictable action
+selection, and the same integrability conditions used in AM4,
+
+[
+mathbb E_p[S_{k+1}(r)midmathcal F_k]
+=
+S_k(r)
+-
+D_{mathrm{KL}}!left(
+f_{p,k+1}^{a_{k+1}}
+middle|
+f_{r,k+1}^{a_{k+1}}
+ight).
+]
+
+Hence
+
+[
+S_k(r)-mathbb E_p[S_{k+1}(r)midmathcal F_k]
+=
+D_{mathrm{KL}}!left(
+f_{p,k+1}^{a_{k+1}}
+middle|
+f_{r,k+1}^{a_{k+1}}
+ight)ge 0.
+]
+
+**Proof.** By definition,
+(S_{k+1}(r)=S_k(r)-ell_{k+1}(p,r)). Conditional on
+(mathcal F_k), the action (a_{k+1}) is fixed because it is predictable.
+AM4 gives
+(mathbb E_p[ell_{k+1}(p,r)midmathcal F_k]
+=D_{mathrm{KL}}(f_p^{a_{k+1}}|f_r^{a_{k+1}})).
+Substitution proves the identity.
+
+This result gives a precise interpretation of KL-directed measurement:
+for a fixed competitor, maximizing the conditional KL divergence exactly
+maximizes the expected one-step reduction of the signed evidence gap. It does
+not by itself establish globally optimal sensing, minimum stopping time, or
+optimality when the identity of the active competitor changes.
+
+## AM9: observational-equivalence impossibility under adaptive sensing
+
+Let (p) and (r) be two retained structural hypotheses. Suppose that for
+every time (k), every history reached by the policy, and every admissible
+action selected there,
+
+[
+f_{p,k}(cdotmidmathcal F_{k-1},a_k)
+=
+f_{r,k}(cdotmidmathcal F_{k-1},a_k)
+quad	ext{almost surely}.
+]
+
+**Proposition AM9.** Under this condition,
+
+[
+ell_k(p,r)=0quad	ext{a.s.},qquad
+L_N(p,r)=0quad	ext{a.s. for every }N.
+]
+
+Consequently, no positive likelihood-ratio threshold
+(log(1/alpha)), (0<alpha<1), can be crossed by evidence between the
+pair using any policy restricted to those admissible actions.
+
+**Proof.** Equality of the action-conditioned predictive densities makes their
+likelihood ratio one almost surely at every step. Its logarithm is zero.
+Summation gives (L_N=0). Since (log(1/alpha)>0), threshold crossing is
+impossible.
+
+AM9 is deliberately an impossibility result. Adaptivity cannot create
+information that is absent from every admissible observation kernel. In the
+measurement automaton, such a pair must remain unresolved, be represented by
+an observational equivalence class, or trigger ABSTAIN.
+
+## Relation to established controlled-sensing theory
+
+KL-directed experiment selection and adaptive sequential hypothesis testing
+are established ideas. The contribution pursued here is therefore not a claim
+to have invented KL-maximizing sensing or likelihood-ratio stopping. The
+research-specific object is the composition
+
+[
+	ext{moving world-tube inference}
+	o
+	ext{runner-up structural geometry}
+	o
+	ext{action-conditioned discrimination}
+	o
+	ext{sequential evidence}
+	o
+	ext{certify or abstain}.
+]
+
+The novelty question for this composition must be evaluated against the
+closest controlled-sensing, active-hypothesis-testing, dynamic-support, and
+time-varying-structure literature before any priority claim is made.
