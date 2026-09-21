@@ -201,3 +201,8 @@ That question provides a direct bridge from the mathematical consciousness-measu
 ## Evidence boundary
 
 This page defines the adaptive-measurement architecture and the mathematical objects that connect it to Research I. Performance, stability, information gain, and device-level advantages become established results only when the corresponding derivations and reproducible experiments are added to the research record.
+
+
+## Next mathematical layer
+
+The first concrete policy derived from this architecture is the [Competitor-Directed Active Measurement](competitor_directed_active_measurement.md) construction. It converts the disagreement geometry of retained world-tube hypotheses into a budgeted sensing objective, proves the exact optimizer for the basic cardinality-constrained case, and separates set-disagreement coverage from true statistical discriminability.
