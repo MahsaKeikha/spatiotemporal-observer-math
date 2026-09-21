@@ -445,3 +445,131 @@ research-specific object is the composition
 The novelty question for this composition must be evaluated against the
 closest controlled-sensing, active-hypothesis-testing, dynamic-support, and
 time-varying-structure literature before any priority claim is made.
+
+
+## AM10: information budget for closing a certified evidence gap
+
+AM8 gives a one-step drift identity. Iterating it gives a finite-horizon
+information accounting law.
+
+Fix a retained competitor (r) and define the signed gap
+(S_k(r)=h_r-L_k(p,r)), where (h_r=log(1/alpha_r)). For a predictable
+sequence of future measurement actions (a_{k+1:k+m}), define the conditional
+cumulative discrimination budget
+
+[
+B_{k,m}(r)
+=
+sum_{i=1}^{m}
+mathbb E_p!left[
+D_{mathrm{KL}}!left(
+f_{p,k+i}^{a_{k+i}}middle|f_{r,k+i}^{a_{k+i}}
+ight)
+middle|mathcal F_k
+ight].
+]
+
+**Proposition AM10.** Under the assumptions of AM8,
+
+[
+mathbb E_p[S_{k+m}(r)midmathcal F_k]
+=
+S_k(r)-B_{k,m}(r).
+]
+
+Therefore (B_{k,m}(r)ge S_k(r)) is necessary and sufficient for the
+*expected signed gap* at horizon (k+m) to be nonpositive.
+
+**Proof.** Apply AM8 at each future step, take conditional expectations with
+respect to (mathcal F_k), and telescope.
+
+This is an expectation statement, not a threshold-crossing probability bound.
+It does not imply that the evidence threshold is crossed by time (k+m) with
+high probability.
+
+For a finite retained competitor set (mathcal R_k), define
+
+[
+S_k^{max}=max_{rinmathcal R_k} S_k(r).
+]
+
+A sensing plan that aims to close every expected pairwise gap must allocate
+enough action-conditioned information that
+(B_{k,m}(r)ge S_k(r)) for every retained (r). This exposes a measurable
+resource requirement: unresolved structural alternatives consume an explicit
+future discrimination budget.
+
+## AM11: a lower bound under bounded per-measurement discrimination
+
+Suppose for a fixed competitor (r) every admissible action satisfies
+
+[
+D_{mathrm{KL}}!left(f_p^amiddle|f_r^aight)le kappa_r
+]
+
+almost surely for some finite (kappa_r). Then after (m) additional
+measurements,
+
+[
+B_{k,m}(r)le mkappa_r.
+]
+
+**Proposition AM11.** If the current signed gap is (S_k(r)>0), any policy
+whose expected signed gap is nonpositive after (m) additional measurements
+must satisfy
+
+[
+mge rac{S_k(r)}{kappa_r}.
+]
+
+For integer measurement counts,
+
+[
+mge leftlceilrac{S_k(r)}{kappa_r}ightceil.
+]
+
+If (kappa_r=0), AM9 applies and no finite number of admissible measurements
+can close the gap.
+
+This is a resource lower bound under the declared predictive models. It is not
+a minimax lower bound over all possible models, and it is not a guarantee on
+the realized stopping time.
+
+## Connecting structural margin and evidence state
+
+Research I already separates the population path margin from uncertainty in
+the estimated path action. The active-measurement layer should preserve that
+separation. Let
+
+[
+widehatDelta_{A,k}
+=
+widehat A_k(p^{(1)})-widehat A_k(p^{(2)})
+]
+
+be the current empirical winner-versus-runner-up action margin, and let
+(U_k) denote a valid bound on the complete path-action uncertainty under the
+chosen covariance-certification construction. A deterministic structural
+certificate has the generic form
+
+[
+widehatDelta_{A,k}>2U_k,
+]
+
+provided (U_k) bounds the absolute action error of each compared path under
+the exact assumptions of the corresponding Research I perturbation result.
+
+This condition and the sequential evidence gate answer different questions:
+
+- the action-margin certificate asks whether covariance/score uncertainty can
+  reverse the inferred structural ordering;
+- the sequential likelihood evidence asks whether future observations
+  discriminate the retained predictive hypotheses.
+
+A strong closed-loop device should require both when both are scientifically
+relevant. It should not substitute a large likelihood ratio for a failed
+structural uncertainty certificate, or vice versa.
+
+This distinction creates the next testable target: quantify how an admissible
+measurement action changes (U_k), (widehatDelta_{A,k}), and the
+competitor-specific evidence gaps simultaneously.
