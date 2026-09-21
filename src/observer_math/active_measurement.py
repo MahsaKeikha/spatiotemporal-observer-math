@@ -159,3 +159,96 @@ def observer_factor_radii_from_relative_covariance(
         "persistence": float(persistence_radius),
         "observer_score": float(omega_radius),
     }
+
+
+def transport_score_radius_from_relative_covariance(
+    *,
+    subset_size: int,
+    ambient_size: int,
+    covariance_relative_error: float,
+    insulation_factor: float,
+    persistence_factor: float,
+) -> dict[str, float]:
+    """Propagate a relative covariance radius to Research I transport Theta.
+
+    Research I transport is the square root of an insulation-like factor and
+    a canonical-persistence factor. This function mirrors the relative-radius
+    propagation already used by the recovery machinery.
+    """
+    from .recovery import (
+        canonical_persistence_relative_covariance_error_bound,
+        gaussian_relative_cmi_covariance_error_bound,
+        product_root_error_bound,
+    )
+    if subset_size < 1 or ambient_size <= subset_size:
+        raise ValueError("require 1 <= subset_size < ambient_size")
+    delta = float(covariance_relative_error)
+    cmi = gaussian_relative_cmi_covariance_error_bound(
+        subset_size,
+        ambient_size - subset_size,
+        subset_size,
+        covariance_relative_error=delta,
+    )
+    leakage_bits = cmi / subset_size
+    insulation_radius = min(1.0, np.log(2.0) * leakage_bits)
+    persistence_radius = canonical_persistence_relative_covariance_error_bound(
+        covariance_relative_error=delta
+    )
+    theta_radius = product_root_error_bound(
+        [insulation_factor, persistence_factor],
+        [insulation_radius, persistence_radius],
+    )
+    return {
+        "insulation": float(insulation_radius),
+        "persistence": float(persistence_radius),
+        "transport_score": float(theta_radius),
+    }
+
+
+def complete_path_radius_from_relative_covariance(
+    local_relative_errors,
+    transport_relative_errors,
+    local_factors,
+    transport_factors,
+    *,
+    subset_size: int,
+    ambient_size: int,
+    transport_weight: float,
+) -> float:
+    """Compose relative covariance radii into the AM18 complete path radius.
+
+    local_factors has shape (T, 3): integration, insulation, persistence.
+    transport_factors has shape (T-1, 2): insulation, persistence.
+    """
+    local_relative_errors = np.asarray(local_relative_errors, dtype=float)
+    transport_relative_errors = np.asarray(transport_relative_errors, dtype=float)
+    local_factors = np.asarray(local_factors, dtype=float)
+    transport_factors = np.asarray(transport_factors, dtype=float)
+    if local_factors.shape != (local_relative_errors.size, 3):
+        raise ValueError("local_factors must have shape (T, 3)")
+    if transport_factors.shape != (transport_relative_errors.size, 2):
+        raise ValueError("transport_factors must have shape (T-1, 2)")
+    local_radii = [
+        observer_factor_radii_from_relative_covariance(
+            subset_size=subset_size,
+            ambient_size=ambient_size,
+            covariance_relative_error=float(delta),
+            integration_factor=float(factors[0]),
+            insulation_factor=float(factors[1]),
+            persistence_factor=float(factors[2]),
+        )["observer_score"]
+        for delta, factors in zip(local_relative_errors, local_factors)
+    ]
+    transport_radii = [
+        transport_score_radius_from_relative_covariance(
+            subset_size=subset_size,
+            ambient_size=ambient_size,
+            covariance_relative_error=float(delta),
+            insulation_factor=float(factors[0]),
+            persistence_factor=float(factors[1]),
+        )["transport_score"]
+        for delta, factors in zip(transport_relative_errors, transport_factors)
+    ]
+    return path_action_radius(
+        local_radii, transport_radii, transport_weight=transport_weight
+    )
