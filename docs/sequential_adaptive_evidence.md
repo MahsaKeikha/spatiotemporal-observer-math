@@ -329,3 +329,8 @@ The simulation must also include a deliberately observationally equivalent pair.
 ## 11. Consciousness research boundary
 
 These propositions certify evidence accumulation between declared predictive models of physical measurements. They do not certify consciousness itself. Their role in the broader program is to make the measurement process responsive to unresolved structure while preserving the distinction between operational dynamical evidence and phenomenological interpretation.
+
+
+## 12. Device supervisory layer
+
+The sequential evidence process now feeds a [Certification-Aware Measurement Automaton](certification_aware_measurement_automaton.md). The automaton separates DISCOVER, RESOLVE, TRACK, and ABSTAIN measurement modes, defines an explicit evidence gate and resolution deficit, and keeps TRACK reversible when later measurements indicate structural change or model inadequacy.
