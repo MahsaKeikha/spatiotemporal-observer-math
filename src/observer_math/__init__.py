@@ -1,3 +1,9 @@
+from .finite_sample_observer import (
+    FiniteSampleObserverStep,
+    finite_sample_observer_step,
+    first_joint_certificate,
+    sample_count_trajectory,
+)
 from .repair_semantics import (
     RepairAction,
     RepairEffect,
