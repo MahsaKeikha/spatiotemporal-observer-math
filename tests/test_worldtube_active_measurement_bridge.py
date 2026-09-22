@@ -3,7 +3,8 @@ import numpy as np
 from examples.worldtube_active_measurement_bridge import (
     disagreement_weights,
     jaccard_distance,
-    ranked_worldtubes,\n    top_two_worldtubes_dp,
+    ranked_worldtubes,
+    top_two_worldtubes_dp,
     select_predictive_channel,
 )
 
