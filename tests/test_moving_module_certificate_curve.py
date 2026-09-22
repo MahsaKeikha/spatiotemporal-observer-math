@@ -16,3 +16,9 @@ def test_path_factor_extraction_matches_horizon():
     assert np.isfinite(value)
     assert a.shape==(len(planted),3)
     assert b.shape==(len(planted)-1,2)
+
+
+def test_factor_products_reproduce_scores():
+    planted,candidates,local,lf,transport,tf=analytical_scores()
+    np.testing.assert_allclose(np.prod(lf,axis=2)**(1/3),local,rtol=1e-12,atol=1e-12)
+    np.testing.assert_allclose(np.sqrt(np.prod(tf,axis=3)),transport,rtol=1e-12,atol=1e-12)
