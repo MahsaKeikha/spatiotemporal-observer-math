@@ -688,3 +688,43 @@ C_a(p,r).
 \]
 
 Once this map is validated, certificate-directed sensing becomes an end-to-end consequence of the original observer mathematics rather than a parallel heuristic.
+
+
+## Executable certificate pipeline
+
+The adaptive extension now has a package-level implementation in
+\`observer_math.active_measurement\`. The implementation deliberately reuses
+the established Research I relative-covariance perturbation machinery rather
+than introducing a second uncertainty calculus.
+
+For a retained path \(p\), candidate-local relative covariance radii are mapped
+to local observer-score radii \(e_{\Omega,t}\), while edge radii are mapped to
+transport-score radii \(e_{\Theta,t}\). The complete action uncertainty is
+
+\[
+E_a(p)=\sum_t e_{\Omega,t}(a)+|\chi|\sum_t e_{\Theta,t}(a).
+\]
+
+For leader \(p\) and retained competitor \(r\), define the robust separation
+
+\[
+C_a(p,r)=\widehat A(p)-E_a(p)-\widehat A(r)-E_a(r).
+\]
+
+A positive value certifies ordering of that pair whenever the supplied
+simultaneous covariance events and their propagated factor bounds hold. A
+singleton structural certificate requires positive separation against every
+retained competitor and valid candidate-family coverage.
+
+This structural certificate is intentionally distinct from predictive
+evidence. The current executable benchmark therefore requires both robust
+structural separation and a positive sequential evidence gate. Exact
+observational equivalence blocks singleton certification even when covariance
+uncertainty contracts.
+
+The matched-budget benchmark in
+\`examples/matched_budget_certification_benchmark.py\` compares fixed, random,
+KL-directed, certificate-pressure-directed, and joint acquisition under an
+identical scalar-measurement budget. It is a synthetic methodological test,
+not a biological model. Numerical claims should be reported only after the
+benchmark and its tests have been executed in a verified environment.
