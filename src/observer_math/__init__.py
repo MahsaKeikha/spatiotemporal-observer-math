@@ -1,3 +1,10 @@
+from .reacquisition_ledger import (
+    MeasurementLedger,
+    acquire_certification_samples,
+    acquire_predictive_evidence,
+    apply_targeted_repair,
+    evaluate_ledger,
+)
 from .finite_sample_observer import (
     FiniteSampleObserverStep,
     finite_sample_observer_step,
