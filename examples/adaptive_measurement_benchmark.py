@@ -163,8 +163,7 @@ def main() -> None:
         ),
     }
     out = Path(__file__).resolve().parents[1] / "docs" / "adaptive_measurement_benchmark.json"
-    out.write_text(json.dumps(results, indent=2) + "
-", encoding="utf-8")
+    out.write_text(json.dumps(results, indent=2) + "\\n", encoding="utf-8")
     print(json.dumps(results, indent=2))
 
 
