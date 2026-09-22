@@ -155,14 +155,16 @@ def main() -> None:
         "true_mean": TRUE_MEAN.tolist(),
         "competitor_means": COMPETITOR_MEANS.tolist(),
         "total_variance": TOTAL_VAR.tolist(),
-        "policies": [summarize(p) for p in ("predictive", "disagreement", "random", "fixed")],\n        "observational_equivalence_control": summarize_equivalence(),
+        "policies": [summarize(p) for p in ("predictive", "disagreement", "random", "fixed")],
+        "observational_equivalence_control": summarize_equivalence(),
         "interpretation": (
             "Synthetic mechanism benchmark only. Certification means all declared "
             "pairwise evidence thresholds were crossed under the specified Gaussian model."
         ),
     }
     out = Path(__file__).resolve().parents[1] / "docs" / "adaptive_measurement_benchmark.json"
-    out.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(results, indent=2) + "
+", encoding="utf-8")
     print(json.dumps(results, indent=2))
 
 
