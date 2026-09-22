@@ -20,3 +20,20 @@ def test_nonrestoring_action_is_unrecoverable():
 
 def test_reacquisition_budget_terminates_loop():
     assert states(budget_exhaustion_trajectory())[-1]=="ABSTAIN_UNRECOVERABLE"
+
+
+def test_targeted_repairs_reset_only_dependent_records():
+    x=targeted_repair_trajectory()
+    assert x["covariance"]["reset_structural"]
+    assert not x["covariance"]["reset_evidence"]
+    assert x["predictive"]["reset_evidence"]
+    assert not x["predictive"]["reset_structural"]
+    assert x["temporal"]["reset_structural"] and x["temporal"]["reset_evidence"]
+    assert x["coverage"]["reset_candidates"]
+    assert x["coverage"]["reset_structural"] and x["coverage"]["reset_evidence"]
+
+def test_reset_records_cannot_immediately_recertify():
+    x=targeted_repair_trajectory()
+    for case in x.values():
+        if case["reset_structural"] or case["reset_evidence"]:
+            assert case["post_repair"]["state"]!="CERTIFY"
