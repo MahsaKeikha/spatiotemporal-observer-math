@@ -35,7 +35,8 @@ def diagnose_certificate_state(
         raise ValueError("available_kl must be a nonempty finite nonnegative vector")
     if evidence_threshold <= 0 or kl_tolerance < 0:
         raise ValueError("require positive evidence_threshold and nonnegative kl_tolerance")
-    structural_deficit=max(0.0,-float(robust_separation))
+    separation=float(robust_separation)
+    structural_deficit=max(0.0,-separation)
     evidence_deficit=max(0.0,float(evidence_threshold)-float(log_evidence))
     best=float(np.max(kl))
     identifiable=best > kl_tolerance
@@ -43,7 +44,7 @@ def diagnose_certificate_state(
         decision="ABSTAIN_INVALID_ASSUMPTIONS"
     elif not identifiable and evidence_deficit > 0:
         decision="ABSTAIN_UNIDENTIFIABLE"
-    elif structural_deficit == 0.0 and evidence_deficit == 0.0:
+    elif separation > 0.0 and evidence_deficit == 0.0:
         decision="CERTIFY"
     else:
         decision="MEASURE_MORE"
