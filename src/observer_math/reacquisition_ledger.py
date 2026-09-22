@@ -1,15 +1,16 @@
 """Closed-loop reacquisition ledger for finite-sample certification.
 
-The ledger separates certification samples from predictive evidence. Targeted
-repairs explicitly reset only records whose validity is lost, then new
-measurements rebuild the corresponding quantities.
+Repairs accumulate stale-state flags. A stale structural record is cleared only
+by an explicit rebuild, never by merely appending samples. Predictive
+log-likelihood increments are signed random quantities and may be negative.
 """
 from __future__ import annotations
 from dataclasses import dataclass, replace
+import math
 from .assumption_audit import AssumptionAudit
 from .repair_semantics import RepairAction, apply_repair
 from .finite_sample_observer import finite_sample_observer_step
-from .data_split import DataSplitLedger, certification_sample_count
+from .data_split import DataSplitLedger, certification_effective_dof
 
 @dataclass(frozen=True)
 class MeasurementLedger:
@@ -25,40 +26,56 @@ def apply_targeted_repair(ledger:MeasurementLedger, action:RepairAction)->Measur
         certification_samples=ledger.certification_samples,
         log_evidence=0.0 if effect.reset_evidence else ledger.log_evidence,
         audit=effect.audit,
-        structural_stale=effect.reset_structural,
-        evidence_stale=effect.reset_evidence)
+        structural_stale=ledger.structural_stale or effect.reset_structural,
+        evidence_stale=ledger.evidence_stale or effect.reset_evidence)
 
 def acquire_certification_samples(ledger:MeasurementLedger,count:int)->MeasurementLedger:
+    """Append raw observations without claiming a stale certificate was rebuilt."""
     if count<=0: raise ValueError("count must be positive")
-    return replace(ledger,certification_samples=ledger.certification_samples+count,
-                   structural_stale=False)
+    return replace(ledger,certification_samples=ledger.certification_samples+count)
+
+def mark_structural_rebuilt(ledger:MeasurementLedger)->MeasurementLedger:
+    """Declare completion of the structural estimator/certificate rebuild."""
+    if not ledger.audit.certificate_valid:
+        raise ValueError("cannot rebuild while certificate assumptions are invalid")
+    return replace(ledger,structural_stale=False)
 
 def acquire_predictive_evidence(ledger:MeasurementLedger,log_likelihood_increment:float
                                )->MeasurementLedger:
-    if log_likelihood_increment<0:
-        raise ValueError("this ledger accepts nonnegative evidence increments")
+    """Accumulate a finite signed log-likelihood-ratio increment."""
+    if not math.isfinite(log_likelihood_increment):
+        raise ValueError("log-likelihood increment must be finite")
     return replace(ledger,log_evidence=ledger.log_evidence+log_likelihood_increment,
                    evidence_stale=False)
 
+def _evaluate(ledger, sample_count, *, evidence_threshold, available_kl, certificate_kwargs):
+    """Separate recoverable stale records from genuinely invalid assumptions."""
+    if not ledger.audit.certificate_valid:
+        return finite_sample_observer_step(
+            sample_count=sample_count,log_evidence=ledger.log_evidence,
+            evidence_threshold=evidence_threshold,available_kl=available_kl,
+            assumptions_valid=False,certificate_kwargs=certificate_kwargs)
+    # Staleness means reacquisition is incomplete, not that the model is invalid.
+    if ledger.structural_stale or ledger.evidence_stale:
+        step=finite_sample_observer_step(
+            sample_count=sample_count,log_evidence=ledger.log_evidence,
+            evidence_threshold=evidence_threshold,available_kl=available_kl,
+            assumptions_valid=True,certificate_kwargs=certificate_kwargs)
+        return replace(step,decision="MEASURE_MORE",certified_structurally=(
+            step.certified_structurally and not ledger.structural_stale))
+    return finite_sample_observer_step(
+        sample_count=sample_count,log_evidence=ledger.log_evidence,
+        evidence_threshold=evidence_threshold,available_kl=available_kl,
+        assumptions_valid=True,certificate_kwargs=certificate_kwargs)
+
 def evaluate_ledger(ledger:MeasurementLedger,*,evidence_threshold:float,
                     available_kl,certificate_kwargs):
-    """Fail closed while a repair-invalidated record remains stale."""
-    valid=ledger.audit.certificate_valid and not ledger.structural_stale and not ledger.evidence_stale
-    return finite_sample_observer_step(
-        sample_count=ledger.certification_samples,log_evidence=ledger.log_evidence,
-        evidence_threshold=evidence_threshold,available_kl=available_kl,
-        assumptions_valid=valid,certificate_kwargs=certificate_kwargs)
-
+    return _evaluate(ledger,ledger.certification_samples,evidence_threshold=evidence_threshold,
+                     available_kl=available_kl,certificate_kwargs=certificate_kwargs)
 
 def evaluate_independent_split(ledger:MeasurementLedger,split:DataSplitLedger,*,
                                evidence_threshold:float,available_kl,certificate_kwargs):
-    """Evaluate only with an auditable independent certification stream."""
-    n=certification_sample_count(split)
-    if ledger.structural_stale or ledger.evidence_stale:
-        valid=False
-    else:
-        valid=ledger.audit.certificate_valid
-    return finite_sample_observer_step(
-        sample_count=n,log_evidence=ledger.log_evidence,
-        evidence_threshold=evidence_threshold,available_kl=available_kl,
-        assumptions_valid=valid,certificate_kwargs=certificate_kwargs)
+    """Evaluate with the effective innovation degrees of freedom of the held-out stream."""
+    r=certification_effective_dof(split)
+    return _evaluate(ledger,r,evidence_threshold=evidence_threshold,
+                     available_kl=available_kl,certificate_kwargs=certificate_kwargs)
