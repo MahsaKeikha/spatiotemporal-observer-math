@@ -13,6 +13,7 @@ from .data_split import (
     add_certification_samples,
     add_design_samples,
     certification_sample_count,
+    certification_effective_dof,
     lock_design,
     new_design_epoch,
 )
@@ -21,6 +22,7 @@ from .reacquisition_ledger import (
     acquire_certification_samples,
     acquire_predictive_evidence,
     apply_targeted_repair,
+    mark_structural_rebuilt,
     evaluate_ledger,
 )
 from .finite_sample_observer import (
