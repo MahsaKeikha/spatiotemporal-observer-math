@@ -1,4 +1,5 @@
 from .certificate_sensitivity import (
+    primitive_factor_pressure,
     BurdenSensitivity,
     burden_sensitivity,
     counterfactual_tightening,
