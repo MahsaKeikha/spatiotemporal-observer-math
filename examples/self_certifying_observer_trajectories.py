@@ -7,6 +7,8 @@ reacquisition, recovery, non-identifiability, and unrecoverable invalidity.
 from __future__ import annotations
 import json
 from pathlib import Path
+from observer_math.assumption_audit import AssumptionAudit
+from observer_math.repair_semantics import canonical_repair_actions, execute_repair_plan
 from observer_math.reacquisition import ReacquisitionAction
 from observer_math.self_certifying_observer import transition
 
@@ -26,6 +28,32 @@ def state(t,sep,llr,kl,valid,actions=(),steps=0,budget=3):
     )
     return dict(t=t,separation=sep,llr=llr,assumptions_valid=valid,
                 state=s.state.value,action=s.action,reason=s.reason)
+
+
+def repaired_record(t,audit,sep,llr,kl):
+    """Apply assumption-specific repair and invalidate stale records."""
+    effect=execute_repair_plan(audit)
+    repaired_sep=0.0 if effect.reset_structural else sep
+    repaired_llr=0.0 if effect.reset_evidence else llr
+    return {
+        "repair_plan":[a.name for a in canonical_repair_actions()
+                       if a in __import__("observer_math.repair_semantics",fromlist=["deterministic_repair_plan"]).deterministic_repair_plan(audit)],
+        "reset_structural":effect.reset_structural,
+        "reset_evidence":effect.reset_evidence,
+        "reset_candidates":effect.reset_candidates,
+        "post_repair":state(t,repaired_sep,repaired_llr,kl,effect.audit.certificate_valid),
+    }
+
+def targeted_repair_trajectory():
+    """Exercise covariance-only, predictive, temporal, and coverage repairs."""
+    cases={
+        "covariance":AssumptionAudit(True,False,True,True),
+        "predictive":AssumptionAudit(True,True,True,False),
+        "temporal":AssumptionAudit(True,True,False,True),
+        "coverage":AssumptionAudit(False,True,True,True),
+    }
+    return {name:repaired_record(i,a,.12,5.2,[.7])
+            for i,(name,a) in enumerate(cases.items())}
 
 def recoverable_trajectory():
     a=recovery_action()
@@ -71,6 +99,7 @@ def main():
         "unidentifiable":unidentifiable_trajectory(),
         "unrecoverable":unrecoverable_trajectory(),
         "budget_exhaustion":budget_exhaustion_trajectory(),
+        "targeted_repairs":targeted_repair_trajectory(),
     }
     out=Path("docs/self_certifying_observer_trajectories.json")
     out.write_text(json.dumps(payload,indent=2)+"\n")
