@@ -9,6 +9,7 @@ from dataclasses import dataclass, replace
 from .assumption_audit import AssumptionAudit
 from .repair_semantics import RepairAction, apply_repair
 from .finite_sample_observer import finite_sample_observer_step
+from .data_split import DataSplitLedger, certification_sample_count
 
 @dataclass(frozen=True)
 class MeasurementLedger:
@@ -45,5 +46,19 @@ def evaluate_ledger(ledger:MeasurementLedger,*,evidence_threshold:float,
     valid=ledger.audit.certificate_valid and not ledger.structural_stale and not ledger.evidence_stale
     return finite_sample_observer_step(
         sample_count=ledger.certification_samples,log_evidence=ledger.log_evidence,
+        evidence_threshold=evidence_threshold,available_kl=available_kl,
+        assumptions_valid=valid,certificate_kwargs=certificate_kwargs)
+
+
+def evaluate_independent_split(ledger:MeasurementLedger,split:DataSplitLedger,*,
+                               evidence_threshold:float,available_kl,certificate_kwargs):
+    """Evaluate only with an auditable independent certification stream."""
+    n=certification_sample_count(split)
+    if ledger.structural_stale or ledger.evidence_stale:
+        valid=False
+    else:
+        valid=ledger.audit.certificate_valid
+    return finite_sample_observer_step(
+        sample_count=n,log_evidence=ledger.log_evidence,
         evidence_threshold=evidence_threshold,available_kl=available_kl,
         assumptions_valid=valid,certificate_kwargs=certificate_kwargs)
