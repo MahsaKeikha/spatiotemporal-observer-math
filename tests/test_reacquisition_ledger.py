@@ -1,9 +1,11 @@
 import numpy as np
+import pytest
 from observer_math.assumption_audit import AssumptionAudit
+from observer_math.data_split import DataSplitLedger,add_certification_samples,lock_design
 from observer_math.repair_semantics import canonical_repair_actions
 from observer_math.reacquisition_ledger import (
     MeasurementLedger,acquire_certification_samples,acquire_predictive_evidence,
-    apply_targeted_repair,evaluate_ledger,
+    apply_targeted_repair,evaluate_ledger,evaluate_independent_split,
 )
 LOCAL=np.array([[.7,.8,.75],[.72,.78,.77],[.74,.8,.76]])
 TRANS=np.array([[.8,.75],[.79,.76]])
@@ -41,3 +43,20 @@ def test_coverage_change_requires_both_records_to_be_rebuilt():
     assert x.evidence_stale
     x=acquire_predictive_evidence(x,5.)
     assert not x.structural_stale and not x.evidence_stale
+
+
+def test_independent_split_drives_certificate_sample_count():
+    ledger=MeasurementLedger(999999,7.,valid())
+    split=add_certification_samples(lock_design(DataSplitLedger(design_samples=20)),
+                                    200,independent_of_design=True)
+    out=evaluate_independent_split(ledger,split,evidence_threshold=4.,
+                                   available_kl=[1.],certificate_kwargs=KW)
+    assert out.sample_count==200
+
+def test_nonindependent_split_cannot_enter_certificate_evaluator():
+    ledger=MeasurementLedger(20000,7.,valid())
+    split=add_certification_samples(lock_design(DataSplitLedger(design_samples=20)),
+                                    200,independent_of_design=False)
+    with pytest.raises(ValueError):
+        evaluate_independent_split(ledger,split,evidence_threshold=4.,
+                                   available_kl=[1.],certificate_kwargs=KW)
