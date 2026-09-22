@@ -29,6 +29,9 @@ from .repair_semantics import (
     required_repairs,
 )
 from .finite_sample_certificate import (
+    minimum_wishart_sample_count_for_radius,
+    first_certifying_sample_count_binary,
+    critical_relative_covariance_radius,
     FiniteSamplePathCertificate,
     finite_sample_pair_certificate,
     first_certifying_sample_count,
