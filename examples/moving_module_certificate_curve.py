@@ -75,7 +75,7 @@ def main():
     A1,i1=path_action(leader,candidates,local,transport)
     A2,i2=path_action(runner,candidates,local,transport)
     l1,t1=extract(i1,lf,tf); l2,t2=extract(i2,lf,tf)
-    ambient=systems[0][0].shape[0] if False else 7
+    ambient=max(max(candidate) for candidate in candidates)+1
     subset=len(candidates[0])
     block_dimension=ambient+subset
     block_count=len(local)*len(candidates)
