@@ -21,6 +21,7 @@ from observer_math.finite_sample_certificate import (
     minimum_wishart_sample_count_for_radius,
 )
 from observer_math.certificate_decomposition import pair_certificate_decomposition
+from observer_math.certificate_sensitivity import burden_sensitivity, counterfactual_tightening
 from observer_math.active_measurement import (
     observer_factor_radii_from_relative_covariance,
     transport_score_radius_from_relative_covariance,
@@ -99,6 +100,17 @@ def main():
         leader_local_factors=l1,leader_transport_factors=t1,
         competitor_local_factors=l2,competitor_transport_factors=t2,
         subset_size=subset,ambient_size=ambient,transport_weight=TRANSPORT_WEIGHT)
+    sensitivity=burden_sensitivity(
+        covariance_relative_error=delta_crit,
+        leader_local_factors=l1,leader_transport_factors=t1,
+        competitor_local_factors=l2,competitor_transport_factors=t2,
+        subset_size=subset,ambient_size=ambient,transport_weight=TRANSPORT_WEIGHT)
+    tightening=counterfactual_tightening(
+        empirical_margin=A1-A2,tightening_fraction=.25,
+        covariance_relative_error=delta_crit,
+        leader_local_factors=l1,leader_transport_factors=t1,
+        competitor_local_factors=l2,competitor_transport_factors=t2,
+        subset_size=subset,ambient_size=ambient,transport_weight=TRANSPORT_WEIGHT)
     n_crit=minimum_wishart_sample_count_for_radius(
         target_radius=delta_crit,block_dimension=block_dimension,
         block_count=block_count,confidence=CONFIDENCE)
@@ -127,6 +139,10 @@ def main():
                  "pair_total_burden":burden["pair_total_burden"],
                  "leader_factor_error_sums":burden["leader"]["factor_error_sums"],
                  "runner_up_factor_error_sums":burden["competitor"]["factor_error_sums"]},
+             "critical_radius_sensitivity":{
+                 "local_fraction":sensitivity.local_fraction,
+                 "transport_fraction":sensitivity.transport_fraction,
+                 "quarter_tightening":tightening},
              "rows":rows}
     out=Path("docs/moving_module_certificate_curve.json")
     out.write_text(json.dumps(payload,indent=2)+"\n")
