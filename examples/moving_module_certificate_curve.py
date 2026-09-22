@@ -20,6 +20,7 @@ from observer_math.finite_sample_certificate import (
     finite_sample_pair_certificate,
     minimum_wishart_sample_count_for_radius,
 )
+from observer_math.certificate_decomposition import pair_certificate_decomposition
 from observer_math.active_measurement import (
     observer_factor_radii_from_relative_covariance,
     transport_score_radius_from_relative_covariance,
@@ -93,6 +94,11 @@ def main():
         competitor_local_factors=l2,competitor_transport_factors=t2,
         subset_size=subset,ambient_size=ambient,
         transport_weight=TRANSPORT_WEIGHT)
+    burden=pair_certificate_decomposition(
+        covariance_relative_error=delta_crit,
+        leader_local_factors=l1,leader_transport_factors=t1,
+        competitor_local_factors=l2,competitor_transport_factors=t2,
+        subset_size=subset,ambient_size=ambient,transport_weight=TRANSPORT_WEIGHT)
     n_crit=minimum_wishart_sample_count_for_radius(
         target_radius=delta_crit,block_dimension=block_dimension,
         block_count=block_count,confidence=CONFIDENCE)
@@ -114,7 +120,14 @@ def main():
              "dp_leader_action":leader_dp_action,"dp_runner_up_action":runner_dp_action,
              "block_dimension":block_dimension,"block_count":block_count,
              "confidence":CONFIDENCE,"critical_covariance_radius":delta_crit,
-             "minimum_effective_certification_count":n_crit,"rows":rows}
+             "minimum_effective_certification_count":n_crit,
+             "critical_radius_burden_decomposition":{
+                 "pair_local_burden":burden["pair_local_burden"],
+                 "pair_transport_burden":burden["pair_transport_burden"],
+                 "pair_total_burden":burden["pair_total_burden"],
+                 "leader_factor_error_sums":burden["leader"]["factor_error_sums"],
+                 "runner_up_factor_error_sums":burden["competitor"]["factor_error_sums"]},
+             "rows":rows}
     out=Path("docs/moving_module_certificate_curve.json")
     out.write_text(json.dumps(payload,indent=2)+"\n")
     print(json.dumps(payload,indent=2))
