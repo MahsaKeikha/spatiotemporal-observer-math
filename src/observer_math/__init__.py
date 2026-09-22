@@ -1,5 +1,17 @@
 """Mathematical tools for detecting spatiotemporal observer-like subsystems."""
 
+from .active_measurement import (
+    PathCertificate,
+    certificate_pressure,
+    complete_path_radius_from_relative_covariance,
+    gaussian_equal_variance_kl,
+    minimum_expected_measurements,
+    observer_factor_radii_from_relative_covariance,
+    path_action_radius,
+    robust_pairwise_certificate,
+    signed_evidence_gap,
+    transport_score_radius_from_relative_covariance,
+)
 from .baselines import BaselinePath, best_fixed_boundary, independent_local_path
 from .calibrated_temporal_family import (
     GaussianAR1WhiteNoiseParameterInterval,
@@ -227,6 +239,16 @@ from .worldtube import (
 )
 
 __all__ = [
+    "PathCertificate",
+    "certificate_pressure",
+    "complete_path_radius_from_relative_covariance",
+    "gaussian_equal_variance_kl",
+    "minimum_expected_measurements",
+    "observer_factor_radii_from_relative_covariance",
+    "path_action_radius",
+    "robust_pairwise_certificate",
+    "signed_evidence_gap",
+    "transport_score_radius_from_relative_covariance",
     "APrioriSupportMovingCliqueRecoveryBound",
     "BaselinePath",
     "BlockCovarianceErrorEnvelope",
