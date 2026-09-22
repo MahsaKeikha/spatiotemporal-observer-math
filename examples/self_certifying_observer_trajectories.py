@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from observer_math.assumption_audit import AssumptionAudit
-from observer_math.repair_semantics import canonical_repair_actions, execute_repair_plan
+from observer_math.repair_semantics import deterministic_repair_plan, execute_repair_plan
 from observer_math.reacquisition import ReacquisitionAction
 from observer_math.self_certifying_observer import transition
 
@@ -36,8 +36,7 @@ def repaired_record(t,audit,sep,llr,kl):
     repaired_sep=0.0 if effect.reset_structural else sep
     repaired_llr=0.0 if effect.reset_evidence else llr
     return {
-        "repair_plan":[a.name for a in canonical_repair_actions()
-                       if a in __import__("observer_math.repair_semantics",fromlist=["deterministic_repair_plan"]).deterministic_repair_plan(audit)],
+        "repair_plan":[a.name for a in deterministic_repair_plan(audit)],
         "reset_structural":effect.reset_structural,
         "reset_evidence":effect.reset_evidence,
         "reset_candidates":effect.reset_candidates,
