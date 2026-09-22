@@ -39,13 +39,13 @@ def analytical_scores():
         for i,S in enumerate(candidates):
             m=observer_metrics_from_covariances(cov[t],joint,S)
             local[t,i]=m.observer_score
-            local_factors[t,i]=[m.integration_factor,m.insulation_factor,m.persistence]
+            local_factors[t,i]=[m.integration_strength,m.independence,m.persistence]
         if t<T-1:
             for i,S in enumerate(candidates):
                 for j,R in enumerate(candidates):
                     m=transport_metrics_from_covariances(cov[t],joint,S,R)
                     transport[t,i,j]=m.transport_score
-                    transport_factors[t,i,j]=[m.insulation_factor,m.persistence]
+                    transport_factors[t,i,j]=[m.independence,m.persistence]
     return planted,candidates,local,local_factors,transport,transport_factors
 
 def path_action(path,candidates,local,transport):
@@ -69,15 +69,13 @@ def main():
                             transport_weight=TRANSPORT_WEIGHT,continuity_weight=CONTINUITY_WEIGHT)
     # Exact runner-up by excluding the best path via exhaustive DP helper.
     from examples.worldtube_active_measurement_bridge import top_two_worldtubes_dp
-    ranked=top_two_worldtubes_dp(local,candidates,transport,
-                                 transport_weight=TRANSPORT_WEIGHT,
-                                 continuity_weight=CONTINUITY_WEIGHT)
-    leader,runner=ranked[0].path,ranked[1].path
+    leader,leader_dp_action,runner,runner_dp_action=top_two_worldtubes_dp(
+        local,candidates,transport,transport_weight=TRANSPORT_WEIGHT,
+        continuity_weight=CONTINUITY_WEIGHT)
     A1,i1=path_action(leader,candidates,local,transport)
     A2,i2=path_action(runner,candidates,local,transport)
     l1,t1=extract(i1,lf,tf); l2,t2=extract(i2,lf,tf)
-    d=systems_dimension=len(candidates[0])+len(candidates[0])+1  # overwritten below
-    ambient=systems_dimension=7
+    ambient=systems[0][0].shape[0] if False else 7
     subset=len(candidates[0])
     block_dimension=ambient+subset
     block_count=len(local)*len(candidates)
@@ -94,7 +92,8 @@ def main():
     payload={"scope":"analytical moving-module finite-sample certificate curve",
              "planted":[list(x) for x in planted],"leader":[list(x) for x in leader],
              "runner_up":[list(x) for x in runner],"leader_action":A1,
-             "runner_up_action":A2,"empirical_population_margin":A1-A2,
+             "runner_up_action":A2,"population_margin":A1-A2,
+             "dp_leader_action":leader_dp_action,"dp_runner_up_action":runner_dp_action,
              "block_dimension":block_dimension,"block_count":block_count,
              "confidence":CONFIDENCE,"rows":rows}
     out=Path("docs/moving_module_certificate_curve.json")
