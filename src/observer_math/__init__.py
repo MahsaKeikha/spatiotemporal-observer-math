@@ -1,3 +1,8 @@
+from .certificate_sensitivity import (
+    BurdenSensitivity,
+    burden_sensitivity,
+    counterfactual_tightening,
+)
 from .certificate_decomposition import (
     pair_certificate_decomposition,
     path_radius_decomposition,
