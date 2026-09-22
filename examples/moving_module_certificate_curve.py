@@ -14,7 +14,8 @@ import numpy as np
 
 from observer_math import moving_module_systems, optimize_worldtube
 from observer_math.gaussian import stationary_covariance
-from observer_math.metrics import observer_metrics_from_covariances, transport_metrics_from_covariances
+from observer_math.metrics import observer_metrics_from_covariances
+from observer_math.nonstationary import transport_metrics_from_covariances
 from observer_math.finite_sample_certificate import (
     critical_relative_covariance_radius,
     finite_sample_pair_certificate,
