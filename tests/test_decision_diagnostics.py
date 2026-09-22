@@ -26,3 +26,17 @@ def test_complete_valid_gates_certify():
 
 def test_expected_evidence_budget_lower_bound():
     assert evidence_measurement_lower_bound(4.6,.5)==10
+
+
+def test_zero_structural_separation_does_not_certify():
+    x=diagnose_certificate_state(
+        robust_separation=0.0,log_evidence=10.0,evidence_threshold=4.0,
+        available_kl=[1.0],assumptions_valid=True)
+    assert x.decision=="MEASURE_MORE"
+    assert x.structural_deficit==0.0
+
+def test_positive_structural_separation_can_certify():
+    x=diagnose_certificate_state(
+        robust_separation=1e-12,log_evidence=4.0,evidence_threshold=4.0,
+        available_kl=[1.0],assumptions_valid=True)
+    assert x.decision=="CERTIFY"
