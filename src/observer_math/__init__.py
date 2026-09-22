@@ -1,3 +1,7 @@
+from .certificate_decomposition import (
+    pair_certificate_decomposition,
+    path_radius_decomposition,
+)
 from .data_split import (
     DataSplitLedger,
     add_certification_samples,
