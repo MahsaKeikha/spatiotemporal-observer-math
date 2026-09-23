@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **58** |
-| Reproducible experiments | **47, A-Z and AA-AU** |
+| Reproducible experiments | **48, A-Z and AA-AV** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -197,6 +197,14 @@ Proposition 61 begins the formal connection from Research I subsystem identifica
 
 ---
 
+## Layer N. Boundary confidence-set propagation: P62
+
+P62 keeps physical-boundary ambiguity visible downstream. A Research I confidence set of admissible world-tubes is mapped to one downstream descriptor and evidence variable per path. The robust evidence is the infimum across the retained paths, so a downstream rejection requires every still-admissible physical boundary to cross the declared evidence threshold. Boundary noncoverage and downstream testing receive separate, explicit error budgets.
+
+[P62 theorem](proposition_62_boundary_confidence_set_propagation.md)
+
+---
+
 # 3. Recent experiment sequence
 
 | Experiment | Proposition | Scientific question | Main recorded result | Visual |
@@ -210,6 +218,7 @@ Proposition 61 begins the formal connection from Research I subsystem identifica
 | AS | 58 | Does scalar covariance success imply observer-scale certification? | observer-scale exact-\(\tau\) radius `1.85736 > 1` at current N | [Figure](observer_bridge_dimension_audit.svg) |
 | AT | 59 | Which covariance variables are actually required by each observer factor? | integration/persistence dimension `10 -> 6`; leakage remains `10`; six-dimensional radius `1.40911 > 1` at 118 residual degrees | [Record](factor_specific_covariance_audit.json) |
 | AU | 60 | When may environmental measurement dimension be reduced without changing leakage? | exact reduction requires zero omitted conditional information; reduced dimensions are treated as engineering designs until separately certified | [Experiment](leakage_engineering_audit.json) |
+| AV | 62 | Does physical-boundary ambiguity materially change a downstream conclusion? | selected-path evidence can be strong while robust evidence remains weak until every admissible path crosses the threshold | [Record](boundary_robust_evidence_audit.json) |
 
 For the complete 33-figure record, use the [Visual Research Guide](visual_research_guide.md).
 
