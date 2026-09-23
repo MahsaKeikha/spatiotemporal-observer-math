@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **58** |
-| Reproducible experiments | **45, A-Z and AA-AS** |
+| Reproducible experiments | **46, A-Z and AA-AT** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -173,6 +173,14 @@ and contains the covariance geometry used by the local observer factors and inco
 
 [Proof](proposition_58_observer_bridge.md) | [Experiment AS](observer_bridge_dimension_audit.json) | [Figure](observer_bridge_dimension_audit.svg)
 
+## Layer K. Factor-specific covariance geometry: P59
+
+Proposition 59 decomposes the observer score by the covariance variables actually required by each factor. Integration and persistence use \(2s\)-dimensional present/future candidate blocks, while environmental leakage retains the \(n+s\)-dimensional block because the source and its present environment partition the full measured state.
+
+On the seven-coordinate, three-node benchmark, this changes the integration/persistence dimension from 10 to 6, reducing the exact-\(\tau\) 118-degree diagnostic radius from \(1.85736\) to \(1.40911\). The six-dimensional family enters the relative regime at 215 residual innovation degrees, but leakage remains ten-dimensional. This isolates environmental conditioning as the next structural bottleneck.
+
+[Proof](proposition_59_factor_specific_covariance_geometry.md) | [Experiment AT](factor_specific_covariance_audit.json)
+
 ---
 
 # 3. Recent experiment sequence
@@ -186,6 +194,7 @@ and contains the covariance geometry used by the local observer factors and inco
 | AQ | 56 | Can exact innovations remove the raw-time temporal penalty? | `2.16725 -> 0.43647` | [Figure](innovation_whitened_target.svg) |
 | AR | 57 | Does the innovation advantage survive finite-sample \(\tau\) uncertainty? | corrected robust radius `0.71959 < 1` | [Figure](robust_innovation_whitened_target.svg) |
 | AS | 58 | Does scalar covariance success imply observer-scale certification? | observer-scale exact-\(\tau\) radius `1.85736 > 1` at current N | [Figure](observer_bridge_dimension_audit.svg) |
+| AT | 59 | Which covariance variables are actually required by each observer factor? | integration/persistence dimension `10 -> 6`; leakage remains `10`; six-dimensional radius `1.40911 > 1` at 118 residual degrees | [Record](factor_specific_covariance_audit.json) |
 
 For the complete 33-figure record, use the [Visual Research Guide](visual_research_guide.md).
 
@@ -262,13 +271,13 @@ Software tests verify code and artifact consistency. Physical validity is assess
 
 # 7. Current research frontier
 
-The immediate mathematical frontier is no longer temporal calibration alone. Proposition 58 shows that the dominant difficulty is observer-scale dimension and structural propagation of covariance uncertainty.
+The immediate mathematical frontier is no longer temporal calibration alone. Proposition 58 shows the observer-scale dimension bottleneck, and Proposition 59 localizes it further: integration and persistence can use smaller covariance blocks, while environmental leakage still requires the full present-state conditioning geometry under the current definition.
 
 The next directions are:
 
-1. factor-specific covariance blocks;
-2. safe screen-first reduction of the simultaneous family;
-3. candidate-local uncertainty radii;
+1. safe, predeclared reduction of the environment entering leakage calculations;
+2. conditional-sparsity certificates that preserve the intended leakage quantity;
+3. screen-first reduction of the simultaneous candidate family with valid probability accounting;
 4. direct score-margin or action-margin concentration;
 5. richer physical temporal models once the observer-scale structural bottleneck is better understood.
 
