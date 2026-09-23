@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **58** |
-| Reproducible experiments | **46, A-Z and AA-AT** |
+| Reproducible experiments | **47, A-Z and AA-AU** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -181,6 +181,12 @@ On the seven-coordinate, three-node benchmark, this changes the integration/pers
 
 [Proof](proposition_59_factor_specific_covariance_geometry.md) | [Experiment AT](factor_specific_covariance_audit.json)
 
+## Layer L. Leakage measurement architecture: P60
+
+Proposition 60 turns the P59 leakage bottleneck into an explicit engineering constraint. The exact leakage block remains \(n+s\). A reduced environmental block preserves the original conditional-information quantity only when the omitted coordinates have zero conditional contribution given the retained environment and candidate present state. Experiment AU sweeps the resulting measurement dimensions as engineering what-if designs while explicitly separating exact rows from structure-dependent rows.
+
+[Proof](proposition_60_leakage_engineering_architecture.md) | [Experiment AU](leakage_engineering_audit.json)
+
 ---
 
 # 3. Recent experiment sequence
@@ -195,6 +201,7 @@ On the seven-coordinate, three-node benchmark, this changes the integration/pers
 | AR | 57 | Does the innovation advantage survive finite-sample \(\tau\) uncertainty? | corrected robust radius `0.71959 < 1` | [Figure](robust_innovation_whitened_target.svg) |
 | AS | 58 | Does scalar covariance success imply observer-scale certification? | observer-scale exact-\(\tau\) radius `1.85736 > 1` at current N | [Figure](observer_bridge_dimension_audit.svg) |
 | AT | 59 | Which covariance variables are actually required by each observer factor? | integration/persistence dimension `10 -> 6`; leakage remains `10`; six-dimensional radius `1.40911 > 1` at 118 residual degrees | [Record](factor_specific_covariance_audit.json) |
+| AU | 60 | When may environmental measurement dimension be reduced without changing leakage? | exact reduction requires zero omitted conditional information; reduced dimensions are treated as engineering designs until separately certified | [Experiment](leakage_engineering_audit.json) |
 
 For the complete 33-figure record, use the [Visual Research Guide](visual_research_guide.md).
 
