@@ -38,6 +38,8 @@ This is an operational mathematical framework for subsystem identification. It i
 
 The submitted manuscript presents the moving-boundary inference problem as an operational control-and-inference framework. It connects exact finite-horizon world-tube optimization, population recovery margins, observational identifiability, covariance-to-score perturbation, finite-sample path certification, and controlled moving-module evaluation. The repository remains the auditable computational and mathematical record behind that work. Submission status is stated explicitly so that repository material is not mistaken for a peer-reviewed publication.
 
+**Submission provenance:** [TAC submission record](docs/tac_submission_record.md)  
+
 **Reproducibility route:** [research overview](docs/research_overview.md) · [proof record](docs/proofs_and_conjectures.md) · [reproducible results](docs/reproducible_results.md) · [assumption ledger](docs/assumption_ledger.md) · [tests](tests)
 
 ---
