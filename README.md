@@ -16,7 +16,7 @@ Given measurements of a larger dynamical system, can the data themselves support
 
 That question leads to the central object of this research: a **spatiotemporal world-tube**, a sequence of candidate subsystem boundaries that can change from one time step to the next.
 
-This is an operational mathematical framework for subsystem identification. It is inspired by Max Tegmark's observer-factorization question, but it does **not** claim that an inferred subsystem is consciousness or that the present mathematics solves the physical-to-experiential problem.
+This is an operational mathematical framework for subsystem identification. The research record is organized so that a reader can distinguish definitions, proved statements, numerical experiments, statistical certificates, assumptions, and open problems without having to infer which kind of claim is being made. It is inspired by Max Tegmark's observer-factorization question, but it does **not** claim that an inferred subsystem is consciousness or that the present mathematics solves the physical-to-experiential problem.
 
 <p align="center">
   <a href="docs/visual_research_guide.md">
@@ -41,6 +41,22 @@ The submitted manuscript presents the moving-boundary inference problem as an op
 **Submission provenance:** [TAC submission record](docs/tac_submission_record.md)  
 
 **Reproducibility route:** [research overview](docs/research_overview.md) · [proof record](docs/proofs_and_conjectures.md) · [reproducible results](docs/reproducible_results.md) · [assumption ledger](docs/assumption_ledger.md) · [tests](tests)
+
+---
+
+## How to read the scientific record
+
+This repository is meant to be read as a research record, not as a promotional summary. Each major claim should be traceable to one of four places: a mathematical statement and proof, an executable experiment, a declared assumption or limitation, or a cited source. When those categories differ, the text keeps them separate.
+
+A useful reading order is:
+
+1. **Question and model:** start with the [Research Overview](docs/research_overview.md).
+2. **What is proved:** use the [Proof Record](docs/proofs_and_conjectures.md) and [Research Index](docs/research_index.md).
+3. **What is observed computationally:** use [Reproducible Results](docs/reproducible_results.md) and the [Visual Research Guide](docs/visual_research_guide.md).
+4. **Where conclusions can fail:** read the [Assumption Ledger](docs/assumption_ledger.md) before transferring a certificate to a new system or dataset.
+5. **Where equations and prior work come from:** use the [Physics + Mathematics + Citation Map](docs/physics_mathematics_citation_map.md) and [Bibliography](docs/bibliography.md).
+
+The project deliberately reports negative and incomplete results as well as successful ones. A failed sufficient certificate is not rewritten as a failed physical phenomenon; a synthetic benchmark is not described as experimental validation; and a theorem under a declared stochastic model is not presented as universal physical truth. This separation is part of the scientific method of the project.
 
 ---
 
