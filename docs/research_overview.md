@@ -4,7 +4,7 @@
 
 > **When can a moving subsystem boundary be inferred from the dynamics of a larger measured physical system?**
 
-The project begins from Max Tegmark's observer-factorization question in ["Consciousness as a State of Matter"](https://doi.org/10.1016/j.chaos.2015.03.014) and develops a time-dependent inference framework built around moving subsystem boundaries, recovery, identifiability, finite-sample measurement certification, physical relaxation time, innovation inference, and observer-scale uncertainty propagation.
+The project develops a time-dependent inference framework built around moving subsystem boundaries, recovery, identifiability, finite-sample measurement certification, physical relaxation time, innovation inference, and observer-scale uncertainty propagation. External sources are maintained in the [Bibliography and Citation Map](bibliography.md).
 
 For a visual first reading, use the [Visual Research Guide](visual_research_guide.md). For physical meaning and units, use the [Physics Guide](physics_guide.md). For equation-level provenance, use the [Physics + Mathematics + Citation Map](physics_mathematics_citation_map.md). For theorem-by-theorem navigation, use the [Research Index](research_index.md).
 
@@ -48,7 +48,6 @@ observer-factorization question
         -> finite-sample measurement certification
 ```
 
-The explicit relationship to Tegmark's 2015 and 2016 work is documented in [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question) and the [Bibliography and Citation Map](bibliography.md).
 
 ---
 
