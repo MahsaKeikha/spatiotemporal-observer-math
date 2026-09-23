@@ -12,4 +12,4 @@ The experiment separates two questions: whether graph ambiguity can be reduced c
 
 Scientific boundary: BD is a population benchmark plus declared covariance-radius sweep. It does not convert these radii into raw sensor sample counts. P67/P47 address finite-sample covariance radii under their own stated innovation assumptions.
 
-Generator: `../examples/full_benchmark_scalable_certification.py`. Machine-readable record: `full_benchmark_scalable_certification.json`.
+Generator: `../examples/full_benchmark_scalable_certification.py`. Machine-readable record: `full_benchmark_scalable_certification.json`. The same generator creates `full_benchmark_scalable_certification.svg`, plotting retained node and edge fractions against the declared covariance radius. The figure is generated from the JSON-producing computation rather than manually transcribed values.
