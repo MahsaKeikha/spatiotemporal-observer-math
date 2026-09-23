@@ -2,9 +2,13 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from examples.full_benchmark_scalable_certification import population_problem
 from observer_math.ambiguity_count import count_retained_paths
@@ -12,7 +16,6 @@ from observer_math.observer_bridge import relative_covariance_worldtube_recovery
 from observer_math.research_tradeoff import ResearchTradeoffPoint, pareto_frontier
 from observer_math.score_interval_graph import compress_score_interval_graph
 
-ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "docs" / "empirical_precision_ambiguity_frontier.json"
 FIGURE = ROOT / "docs" / "empirical_precision_ambiguity_frontier.svg"
 
