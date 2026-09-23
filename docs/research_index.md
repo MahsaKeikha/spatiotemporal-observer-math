@@ -6,8 +6,8 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **68** |
-| Reproducible experiments | **53, A-Z and AA-BB** |
+| Propositions | **69** |
+| Reproducible experiments | **54, A-Z and AA-BC** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -258,6 +258,14 @@ P68 composes a valid P67 retained physical-boundary set with the P62/P66 worst-c
 BB executes the complete controlled P47 -> P58 -> P64 -> P63 -> P68/P66 chain. It records when finite measurement information merely enters the perturbative regime, when it reduces physical ambiguity, and when removal of a weak-evidence retained competitor changes the robust downstream threshold status. The path-specific e-values remain controlled inputs so the experiment isolates physical-boundary uncertainty.
 
 [Experiment BB documentation](experiment_bb_finite_information_to_robust_evidence.md) | [BB generator](../examples/finite_information_to_robust_evidence_audit.py)
+
+---
+
+## Layer U. Polynomial-time certified graph compression: P69
+
+P69 replaces explicit exponential world-tube enumeration with forward/backward max-plus interval dynamic programming. It safely prunes nodes and edges whose upper max-marginals cannot reach the best certified lower path action. The theorem uses O(T C^2) arithmetic while preserving every eta-near-optimal true path on the simultaneous interval event. Experiment BC audits graph-level compression on an implicit 12^8 path family.
+
+[P69 theorem](proposition_69_certified_graph_compression.md) | [Experiment BC](experiment_bc_certified_graph_compression.md) | [BC generator](../examples/certified_graph_compression_audit.py)
 
 ---
 
