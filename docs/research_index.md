@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **69** |
-| Reproducible experiments | **55, A-Z and AA-BD** |
+| Reproducible experiments | **56, A-Z and AA-BE** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -274,6 +274,14 @@ P69 replaces explicit exponential world-tube enumeration with forward/backward m
 BD applies P58 -> P70 -> P69 to the canonical n=7, s=3, T=5, C=35 moving-module population benchmark. The graph represents 35^5 = 52,521,875 possible world-tubes without enumerating them. A declared covariance-radius sweep records retained nodes and edges alongside the stronger P58 unique-recovery certificate.
 
 [Experiment BD](experiment_bd_full_benchmark_scalable_certification.md) | [BD generator](../examples/full_benchmark_scalable_certification.py)
+
+---
+
+## Layer V. Exact residual ambiguity counting: P71
+
+P71 counts every complete world-tube remaining in the P69 certified graph by dynamic programming, without enumerating those paths. Experiment BE applies the count to the full C=35, T=5 Research I benchmark across the BD uncertainty sweep. This distinguishes node/edge compression from the more meaningful number of complete physical alternatives that remain.
+
+[P71 theorem](proposition_71_certified_ambiguity_path_count.md) | [BE generator](../examples/certified_ambiguity_path_count.py)
 
 ---
 
