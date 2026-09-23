@@ -20,6 +20,7 @@ from observer_math.score_interval_graph import compress_score_interval_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "docs" / "full_benchmark_scalable_certification.json"
+FIGURE = ROOT / "docs" / "full_benchmark_scalable_certification.svg"
 
 def population_problem():
     node_count = 7
@@ -44,6 +45,32 @@ def population_problem():
                 m = transport_metrics(covariances[t], transition, noise, source, target)
                 transport_factors[t, i, j] = (m.independence, m.persistence)
     return planted, candidates, local_factors, transport_factors
+
+def render_figure(rows) -> None:
+    import matplotlib.pyplot as plt
+
+    x = np.array([row["covariance_relative_radius"] for row in rows])
+    node_fraction = np.array([
+        row["retained_nodes"] / row["total_nodes"] for row in rows
+    ])
+    edge_fraction = np.array([
+        row["retained_edges"] / row["total_edges"] for row in rows
+    ])
+    order = np.argsort(x)
+    figure, axis = plt.subplots(figsize=(7.4, 4.8))
+    axis.plot(x[order], node_fraction[order], marker="o", label="Retained nodes")
+    axis.plot(x[order], edge_fraction[order], marker="s", label="Retained edges")
+    axis.set_xscale("log")
+    axis.set_xlabel("Simultaneous relative covariance radius")
+    axis.set_ylabel("Retained fraction")
+    axis.set_ylim(-0.03, 1.03)
+    axis.set_title("Certified ambiguity in the full moving-module graph")
+    axis.grid(alpha=0.25)
+    axis.legend()
+    figure.tight_layout()
+    figure.savefig(FIGURE)
+    plt.close(figure)
+
 
 def main() -> None:
     planted, candidates, local_factors, transport_factors = population_problem()
@@ -85,7 +112,9 @@ def main() -> None:
         "scientific_boundary": "BD uses the population moving-module benchmark and declared simultaneous relative covariance radii. It audits P58 to P70 to P69 scalability; the radii are not asserted to arise from a particular raw sensor sample count.",
     }
     OUTPUT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    render_figure(rows)
     print(json.dumps(record, indent=2))
+    print("Figure:", FIGURE)
 
 if __name__ == "__main__":
     main()
