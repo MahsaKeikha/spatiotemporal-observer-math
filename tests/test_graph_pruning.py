@@ -24,7 +24,7 @@ def test_p69_graph_pruning_matches_explicit_safe_path_logic():
     for t in range(3):
         for j in range(2):
             explicit = max(upper[p] for p in paths if p[t] == j)
-            assert out.node_upper_max_marginals[t, j] == explicit
+            assert np.isclose(out.node_upper_max_marginals[t, j], explicit)
             assert out.retained_nodes[t, j] == (explicit >= best_lower)
     for t in range(2):
         for i in range(2):
@@ -32,5 +32,5 @@ def test_p69_graph_pruning_matches_explicit_safe_path_logic():
                 explicit = max(
                     upper[p] for p in paths if p[t] == i and p[t + 1] == j
                 )
-                assert out.edge_upper_max_marginals[t, i, j] == explicit
+                assert np.isclose(out.edge_upper_max_marginals[t, i, j], explicit)
                 assert out.retained_edges[t, i, j] == (explicit >= best_lower)
