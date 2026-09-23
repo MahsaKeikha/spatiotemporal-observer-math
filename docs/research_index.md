@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **68** |
-| Reproducible experiments | **52, A-Z and AA-BA** |
+| Reproducible experiments | **53, A-Z and AA-BB** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -250,6 +250,14 @@ P67 replaces the controlled covariance-radius input of AY with the existing Prop
 P68 composes a valid P67 retained physical-boundary set with the P62/P66 worst-case e-evidence envelope. If the covariance certificate is outside the current perturbative regime, the interface returns no downstream robust conclusion rather than silently selecting a boundary. A retained weak-evidence competitor remains binding.
 
 [P68 theorem](proposition_68_finite_sample_to_robust_evidence.md)
+
+---
+
+## Experiment BB. Finite information to robust conclusion
+
+BB executes the complete controlled P47 -> P58 -> P64 -> P63 -> P68/P66 chain. It records when finite measurement information merely enters the perturbative regime, when it reduces physical ambiguity, and when removal of a weak-evidence retained competitor changes the robust downstream threshold status. The path-specific e-values remain controlled inputs so the experiment isolates physical-boundary uncertainty.
+
+[Experiment BB documentation](experiment_bb_finite_information_to_robust_evidence.md) | [BB generator](../examples/finite_information_to_robust_evidence_audit.py)
 
 ---
 
