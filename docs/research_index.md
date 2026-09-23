@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **69** |
-| Reproducible experiments | **54, A-Z and AA-BC** |
+| Reproducible experiments | **55, A-Z and AA-BD** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -266,6 +266,14 @@ BB executes the complete controlled P47 -> P58 -> P64 -> P63 -> P68/P66 chain. I
 P69 replaces explicit exponential world-tube enumeration with forward/backward max-plus interval dynamic programming. It safely prunes nodes and edges whose upper max-marginals cannot reach the best certified lower path action. The theorem uses O(T C^2) arithmetic while preserving every eta-near-optimal true path on the simultaneous interval event. Experiment BC audits graph-level compression on an implicit 12^8 path family.
 
 [P69 theorem](proposition_69_certified_graph_compression.md) | [Experiment BC](experiment_bc_certified_graph_compression.md) | [BC generator](../examples/certified_graph_compression_audit.py)
+
+---
+
+## Experiment BD. Full moving-module scalable certification
+
+BD applies P58 -> P70 -> P69 to the canonical n=7, s=3, T=5, C=35 moving-module population benchmark. The graph represents 35^5 = 52,521,875 possible world-tubes without enumerating them. A declared covariance-radius sweep records retained nodes and edges alongside the stronger P58 unique-recovery certificate.
+
+[Experiment BD](experiment_bd_full_benchmark_scalable_certification.md) | [BD generator](../examples/full_benchmark_scalable_certification.py)
 
 ---
 

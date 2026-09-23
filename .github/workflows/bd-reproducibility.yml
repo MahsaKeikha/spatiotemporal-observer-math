@@ -1,0 +1,36 @@
+name: BD reproducibility
+
+on:
+  pull_request:
+    paths:
+      - "examples/full_benchmark_scalable_certification.py"
+      - "src/observer_math/**"
+      - "tests/test_full_benchmark_scalable_certification.py"
+      - ".github/workflows/bd-reproducibility.yml"
+  workflow_dispatch:
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e ".[dev]"
+      - run: python examples/full_benchmark_scalable_certification.py
+      - name: Validate machine-readable record
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("docs/full_benchmark_scalable_certification.json")
+          d = json.loads(p.read_text())
+          assert d["experiment"] == "BD"
+          assert d["implicit_path_count"] == 35**5
+          assert len(d["rows"]) == 8
+          assert Path("docs/full_benchmark_scalable_certification.svg").exists()
+          assert all(r["retained_nodes"] <= r["total_nodes"] for r in d["rows"])
+          assert all(r["retained_edges"] <= r["total_edges"] for r in d["rows"])
+          print(json.dumps(d, indent=2))
+          PY
