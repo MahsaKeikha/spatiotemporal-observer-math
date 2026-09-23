@@ -29,6 +29,7 @@ jobs:
           assert d["experiment"] == "BD"
           assert d["implicit_path_count"] == 35**5
           assert len(d["rows"]) == 8
+          assert Path("docs/full_benchmark_scalable_certification.svg").exists()
           assert all(r["retained_nodes"] <= r["total_nodes"] for r in d["rows"])
           assert all(r["retained_edges"] <= r["total_edges"] for r in d["rows"])
           print(json.dumps(d, indent=2))
