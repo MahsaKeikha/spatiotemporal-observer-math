@@ -197,6 +197,14 @@ Proposition 61 begins the formal connection from Research I subsystem identifica
 
 ---
 
+## Layer N. Boundary confidence-set propagation: P62
+
+P62 keeps physical-boundary ambiguity visible downstream. A Research I confidence set of admissible world-tubes is mapped to one downstream descriptor and evidence variable per path. The robust evidence is the infimum across the retained paths, so a downstream rejection requires every still-admissible physical boundary to cross the declared evidence threshold. Boundary noncoverage and downstream testing receive separate, explicit error budgets.
+
+[P62 theorem](proposition_62_boundary_confidence_set_propagation.md)
+
+---
+
 # 3. Recent experiment sequence
 
 | Experiment | Proposition | Scientific question | Main recorded result | Visual |
