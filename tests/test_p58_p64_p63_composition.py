@@ -1,7 +1,6 @@
-from examples.p58_p64_p63_composition_audit import controlled_factors
-
 import numpy as np
 
+from examples.p58_p64_p63_composition_audit import controlled_factors
 from observer_math.observer_bridge import relative_covariance_worldtube_recovery_bound
 
 
