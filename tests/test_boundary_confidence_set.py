@@ -1,4 +1,5 @@
 import pytest
+
 from observer_math.boundary_confidence_set import BoundaryEvidenceEnvelope
 
 
