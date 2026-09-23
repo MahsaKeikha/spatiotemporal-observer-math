@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **58** |
-| Reproducible experiments | **48, A-Z and AA-AV** |
+| Reproducible experiments | **49, A-Z and AA-AW** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -202,6 +202,14 @@ Proposition 61 begins the formal connection from Research I subsystem identifica
 P62 keeps physical-boundary ambiguity visible downstream. A Research I confidence set of admissible world-tubes is mapped to one downstream descriptor and evidence variable per path. The robust evidence is the infimum across the retained paths, so a downstream rejection requires every still-admissible physical boundary to cross the declared evidence threshold. Boundary noncoverage and downstream testing receive separate, explicit error budgets.
 
 [P62 theorem](proposition_62_boundary_confidence_set_propagation.md)
+
+---
+
+## Layer O. Certified path-space compression: P63
+
+P63 uses simultaneous world-tube action intervals to remove only paths whose upper bounds cannot approach the best certified lower bound. The retained set provably contains every eta-near-optimal path on the interval-coverage event. Experiment AW measures the resulting reduction in downstream P62 evaluations while retaining overlapping competitors.
+
+[P63 theorem](proposition_63_certified_path_space_compression.md) | [Experiment AW](certified_path_compression_audit.json)
 
 ---
 
