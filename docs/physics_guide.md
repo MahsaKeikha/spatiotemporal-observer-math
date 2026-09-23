@@ -46,9 +46,9 @@ The physical picture is a coherent organization that can move through the coordi
 
 ## Conceptual lineage
 
-The primary conceptual starting point is Max Tegmark's observer-factorization question in [Tegmark 2015](bibliography.md#tegmark-2015). This repository develops a separate mathematical direction in which the subsystem boundary is explicitly time dependent and must be inferred as a dynamical path.
+The repository studies a mathematical setting in which the subsystem boundary is explicitly time dependent and must be inferred as a dynamical path. External conceptual and mathematical sources are collected in the bibliography.
 
-The world-tube, transport score, recovery theorems, finite-sample certification program, physical-time calibration, and covariance-to-world-tube bridge are repository developments, not results attributed to Tegmark.
+The world-tube, transport score, recovery theorems, finite-sample certification program, physical-time calibration, and covariance-to-world-tube bridge are developments of this research program.
 
 ---
 
@@ -184,7 +184,7 @@ G_t(S)=1-2^{-\mathcal J_t(S)}.
 
 **Physical reading:** internal parts add predictive information about one another's future after each side's own present is known.
 
-The broader conceptual lineage includes [Tegmark 2015](bibliography.md#tegmark-2015), [Tegmark 2016](bibliography.md#related-tegmark-work-tegmark-2016), and the integrated-information literature. The particular directed minimum-cut functional is a repository definition.
+Broader conceptual and mathematical lineage is documented in the [Bibliography](bibliography.md).
 
 ## 4.2 Environmental insulation
 
@@ -792,7 +792,7 @@ The repository separates three scientific claims:
 
 Proof establishes only the first. The second requires experiment and model validation. The third requires a separate bridge theory and evidence.
 
-See [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question) and the [Interpretation Protocol](interpretation_protocol.md).
+See the [Interpretation Protocol](interpretation_protocol.md) for scientific boundaries.
 
 ---
 

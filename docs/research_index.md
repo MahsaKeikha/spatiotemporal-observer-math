@@ -33,7 +33,7 @@ The explanatory physics pipeline is not included in the scientific-result figure
 
 # 1. Conceptual and citation architecture
 
-The primary conceptual starting point is Max Tegmark's 2015 paper *Consciousness as a State of Matter*, which frames the observer-factorization question that motivates this program.
+Conceptual and mathematical sources are documented in the [Bibliography and Citation Map](bibliography.md). The theorem and experiment record below is organized by the claims developed and tested in this repository.
 
 The repository distinguishes three kinds of source relationship:
 
