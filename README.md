@@ -28,6 +28,20 @@ This is an operational mathematical framework for subsystem identification. It i
 
 ---
 
+## IEEE TAC submission record
+
+**Manuscript:** *Inferring Moving Subsystem Boundaries From Stochastic Dynamics: Recovery and Finite-Sample Certification of Spatiotemporal World-Tubes*  
+**Author:** Mahsa Keikha, Member, IEEE  
+**Venue:** IEEE Transactions on Automatic Control, Full Paper  
+**Submission:** 26-2855, submitted 22 September 2026  
+**Status:** submitted for peer review; not accepted or published.
+
+The submitted manuscript presents the moving-boundary inference problem as an operational control-and-inference framework. It connects exact finite-horizon world-tube optimization, population recovery margins, observational identifiability, covariance-to-score perturbation, finite-sample path certification, and controlled moving-module evaluation. The repository remains the auditable computational and mathematical record behind that work. Submission status is stated explicitly so that repository material is not mistaken for a peer-reviewed publication.
+
+**Reproducibility route:** [research overview](docs/research_overview.md) · [proof record](docs/proofs_and_conjectures.md) · [reproducible results](docs/reproducible_results.md) · [assumption ledger](docs/assumption_ledger.md) · [tests](tests)
+
+---
+
 ## The idea in one minute
 
 Imagine observing a complex system whose meaningful organization does not stay attached to the same coordinates forever.
