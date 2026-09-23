@@ -49,3 +49,15 @@ Every numerical result intended for a future manuscript should have a generator 
 4. Add negative controls where improved measurement does not change the conclusion and where unresolved ambiguity correctly prevents a strong conclusion.
 5. Add computational scaling results for candidate/path count.
 6. Only then decide whether the theorem and experiment package is mature enough for a full manuscript.
+
+## Finite-sample extension
+
+### P67 and P68
+
+P67 replaces the controlled covariance-radius input with Proposition 47 finite-sample Gaussian matrix concentration in the exact-whitening unit-weight setting. P68 carries the resulting retained physical-boundary set into the P62/P66 robust evidence envelope.
+
+### Experiment BB
+
+BB is the first complete controlled finite-information-to-robust-evidence composition. It deliberately keeps downstream path-specific e-values controlled so that the effect of physical-boundary uncertainty can be audited separately from downstream evidence-generation uncertainty.
+
+The next paper-level requirement is a computationally scalable graph certificate that avoids explicit path enumeration when the candidate graph is large.
