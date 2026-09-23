@@ -6,7 +6,7 @@ The research program began with a moving-boundary question:
 
 > If a subsystem is allowed to move through a larger physical system, when can its boundary be inferred from the dynamics rather than fixed in advance?
 
-The primary conceptual starting point is Tegmark's factorization and observer-identification question in [Tegmark 2015](bibliography.md#tegmark-2015). Propositions 41 through 57 then developed a finite-sample measurement layer for temporal dependence, physical relaxation time, irregular sampling, and innovation-whitened covariance certification.
+Propositions 41 through 57 developed a finite-sample measurement layer for temporal dependence, physical relaxation time, irregular sampling, and innovation-whitened covariance certification. External conceptual and mathematical sources are maintained in the bibliography.
 
 Proposition 57 reached a relative covariance radius below one for a scalar target block even when the physical relaxation time was known only through the finite-sample Proposition 55 calibration interval.
 
