@@ -1,0 +1,13 @@
+{
+  "experiment": "AU",
+  "title": "Engineering leakage-dimension design audit",
+  "status": "generator-defined",
+  "generator": "examples/leakage_engineering_audit.py",
+  "scientific_boundary": "Reduced environmental blocks are design cases only. They are not exact replacements for the original leakage quantity without an independently justified conditional-screening certificate.",
+  "exact_geometry": {
+    "node_count": 7,
+    "subset_size": 3,
+    "environment_size": 4,
+    "covariance_dimension": 10
+  }
+}
