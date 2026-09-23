@@ -6,8 +6,8 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **66** |
-| Reproducible experiments | **51, A-Z and AA-AZ** |
+| Propositions | **67** |
+| Reproducible experiments | **52, A-Z and AA-BA** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -234,6 +234,14 @@ P65 proves that under a declared common scaling of valid path-action radii, impr
 P66 composes the certified retained physical-boundary set with P62-style worst-case downstream e-evidence. Certified contraction of the retained set cannot weaken the robust evidence envelope, while any weak-evidence retained competitor remains binding. Experiment AZ is an explicit negative control: selected-path evidence can exceed the declared threshold while robust evidence correctly remains below it.
 
 [P66 theorem](proposition_66_boundary_set_to_robust_evidence.md) | [Experiment AZ](boundary_ambiguity_to_robust_evidence_audit.json)
+
+---
+
+## Layer S. Finite-sample information to boundary workload: P67
+
+P67 replaces the controlled covariance-radius input of AY with the existing Proposition 47 finite-sample Gaussian matrix concentration radius in the exact-whitening unit-weight setting. It explicitly separates entry into the relative perturbation regime, useful path compression, and unique population-path certification. Experiment BA sweeps residual innovation counts and records those transitions.
+
+[P67 theorem](proposition_67_finite_sample_boundary_workload.md) | [Experiment BA generator](../examples/finite_sample_boundary_workload_audit.py)
 
 ---
 
