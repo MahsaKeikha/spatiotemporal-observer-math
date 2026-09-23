@@ -2071,6 +2071,35 @@ def gaussian_structural_null_near_competitor_screen(
     )
 
 
+def relative_covariance_factor_error_bounds(
+    covariance_relative_error: float,
+    node_count: int,
+    subset_size: int,
+    *,
+    transport: bool = False,
+) -> tuple[np.ndarray, bool]:
+    """Map one relative covariance radius to Research I factor-error bounds.
+
+    This is the public single-block counterpart of the vectorized screening
+    implementation. It is the canonical bridge for adaptive-measurement code.
+    """
+    if not np.isfinite(covariance_relative_error) or covariance_relative_error < 0:
+        raise ValueError("covariance_relative_error must be finite and nonnegative")
+    if isinstance(node_count, bool) or not isinstance(node_count, (int, np.integer)):
+        raise TypeError("node_count must be an integer")
+    if isinstance(subset_size, bool) or not isinstance(subset_size, (int, np.integer)):
+        raise TypeError("subset_size must be an integer")
+    if node_count < 1 or subset_size < 1 or subset_size > node_count:
+        raise ValueError("require 1 <= subset_size <= node_count")
+    errors, valid = _factor_errors_from_relative_covariance(
+        np.asarray([float(covariance_relative_error)]),
+        node_count,
+        subset_size,
+        transport=transport,
+    )
+    return errors[0].copy(), bool(valid[0])
+
+
 def _factor_errors_from_relative_covariance(
     relative_errors: np.ndarray,
     node_count: int,

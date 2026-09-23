@@ -24,6 +24,7 @@ The explanatory physics pipeline is not included in the scientific-result figure
 | Follow the research as one scientific argument | **[Research Overview](research_overview.md)** |
 | Browse every scientific figure | **[Visual Research Guide](visual_research_guide.md)** |
 | Trace external literature | [Bibliography and Citation Map](bibliography.md) |
+| Follow the adaptive measurement extension | **[Adaptive Measurement Extension](adaptive_measurement_extension.md)** |
 | Inspect assumptions and failure conditions | [Assumption Ledger](assumption_ledger.md) |
 | Review interpretation boundaries | [Interpretation Protocol](interpretation_protocol.md) |
 | Inspect the current patch record | [Release 0.47.1](release_0_47_1.md) |
@@ -308,3 +309,5 @@ The next directions are:
 The guiding question remains:
 
 > **When does the dynamics itself justify a moving subsystem boundary, and when does the available evidence remain insufficient to identify one?**
+
+- [Self-certifying moving-boundary observer](self_certifying_moving_boundary_observer.md): unified observer state, dual-deficit acquisition, joint certification, equivalence-aware abstention, and falsification program.

@@ -1,5 +1,80 @@
+from .certificate_sensitivity import (
+    primitive_factor_pressure,
+    BurdenSensitivity,
+    burden_sensitivity,
+    counterfactual_tightening,
+)
+from .certificate_decomposition import (
+    pair_certificate_decomposition,
+    path_radius_decomposition,
+)
+from .data_split import (
+    DataSplitLedger,
+    add_certification_samples,
+    add_design_samples,
+    certification_sample_count,
+    certification_effective_dof,
+    lock_design,
+    new_design_epoch,
+)
+from .reacquisition_ledger import (
+    MeasurementLedger,
+    acquire_certification_samples,
+    acquire_predictive_evidence,
+    apply_targeted_repair,
+    mark_structural_rebuilt,
+    evaluate_ledger,
+)
+from .finite_sample_observer import (
+    FiniteSampleObserverStep,
+    finite_sample_observer_step,
+    first_joint_certificate,
+    sample_count_trajectory,
+)
+from .repair_semantics import (
+    RepairAction,
+    RepairEffect,
+    apply_repair,
+    canonical_repair_actions,
+    deterministic_repair_plan,
+    execute_repair_plan,
+    required_repairs,
+)
+from .finite_sample_certificate import (
+    minimum_wishart_sample_count_for_radius,
+    first_certifying_sample_count_binary,
+    critical_relative_covariance_radius,
+    FiniteSamplePathCertificate,
+    finite_sample_pair_certificate,
+    first_certifying_sample_count,
+    wishart_path_radius,
+)
+from .self_certifying_observer import (
+    ObserverState,
+    ObserverStep,
+    recovery_transition,
+    transition,
+)
+from .reacquisition import (
+    ReacquisitionAction,
+    ReacquisitionPlan,
+    bounded_reacquisition_status,
+    select_reacquisition_action,
+)
 """Mathematical tools for detecting spatiotemporal observer-like subsystems."""
 
+from .active_measurement import (
+    PathCertificate,
+    certificate_pressure,
+    complete_path_radius_from_relative_covariance,
+    gaussian_equal_variance_kl,
+    minimum_expected_measurements,
+    observer_factor_radii_from_relative_covariance,
+    path_action_radius,
+    robust_pairwise_certificate,
+    signed_evidence_gap,
+    transport_score_radius_from_relative_covariance,
+)
 from .baselines import BaselinePath, best_fixed_boundary, independent_local_path
 from .calibrated_temporal_family import (
     GaussianAR1WhiteNoiseParameterInterval,
@@ -227,6 +302,16 @@ from .worldtube import (
 )
 
 __all__ = [
+    "PathCertificate",
+    "certificate_pressure",
+    "complete_path_radius_from_relative_covariance",
+    "gaussian_equal_variance_kl",
+    "minimum_expected_measurements",
+    "observer_factor_radii_from_relative_covariance",
+    "path_action_radius",
+    "robust_pairwise_certificate",
+    "signed_evidence_gap",
+    "transport_score_radius_from_relative_covariance",
     "APrioriSupportMovingCliqueRecoveryBound",
     "BaselinePath",
     "BlockCovarianceErrorEnvelope",
