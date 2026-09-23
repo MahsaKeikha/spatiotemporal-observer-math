@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **69** |
-| Reproducible experiments | **56, A-Z and AA-BE** |
+| Reproducible experiments | **57, A-Z and AA-BF** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -282,6 +282,14 @@ BD applies P58 -> P70 -> P69 to the canonical n=7, s=3, T=5, C=35 moving-module 
 P71 counts every complete world-tube remaining in the P69 certified graph by dynamic programming, without enumerating those paths. Experiment BE applies the count to the full C=35, T=5 Research I benchmark across the BD uncertainty sweep. This distinguishes node/edge compression from the more meaningful number of complete physical alternatives that remain.
 
 [P71 theorem](proposition_71_certified_ambiguity_path_count.md) | [BE generator](../examples/certified_ambiguity_path_count.py)
+
+---
+
+## Layer W. Ambiguity cardinality versus robust evidence: P72
+
+P72 keeps P71 ambiguity cardinality separate from P62/P66 robust e-evidence. Reducing the number of retained physical alternatives does not itself strengthen evidence; robust evidence changes only when a binding weak-evidence alternative is removed or its own evidence changes. Experiment BF makes this negative result explicit.
+
+[P72 theorem](proposition_72_ambiguity_cardinality_and_robust_evidence.md) | [BF generator](../examples/ambiguity_vs_robust_evidence_audit.py)
 
 ---
 
