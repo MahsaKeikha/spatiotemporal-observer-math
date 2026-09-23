@@ -6,7 +6,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **58** |
+| Propositions | **64** |
 | Reproducible experiments | **49, A-Z and AA-AW** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
@@ -213,6 +213,14 @@ P63 uses simultaneous world-tube action intervals to remove only paths whose upp
 
 ---
 
+## Layer P. Measurement uncertainty to path-action intervals: P64
+
+P64 closes the deterministic gap between P58 and P63. Candidate-local score radii generated from the covariance uncertainty chain are accumulated along each world-tube to form a certified action interval. Those intervals can then be passed directly to P63 for safe path-space compression and onward to P62 for boundary-robust downstream evidence.
+
+[P64 theorem](proposition_64_measurement_to_path_action_intervals.md)
+
+---
+
 # 3. Recent experiment sequence
 
 | Experiment | Proposition | Scientific question | Main recorded result | Visual |
@@ -227,6 +235,7 @@ P63 uses simultaneous world-tube action intervals to remove only paths whose upp
 | AT | 59 | Which covariance variables are actually required by each observer factor? | integration/persistence dimension `10 -> 6`; leakage remains `10`; six-dimensional radius `1.40911 > 1` at 118 residual degrees | [Record](factor_specific_covariance_audit.json) |
 | AU | 60 | When may environmental measurement dimension be reduced without changing leakage? | exact reduction requires zero omitted conditional information; reduced dimensions are treated as engineering designs until separately certified | [Experiment](leakage_engineering_audit.json) |
 | AV | 62 | Does physical-boundary ambiguity materially change a downstream conclusion? | selected-path evidence can be strong while robust evidence remains weak until every admissible path crosses the threshold | [Record](boundary_robust_evidence_audit.json) |
+| AW | 63 | Can certified action intervals reduce downstream workload without deleting unresolved competitors? | controlled audit reduces 6 paths to 2 while retaining the overlapping competitor | [Record](certified_path_compression_audit.json) |
 
 For the complete 33-figure record, use the [Visual Research Guide](visual_research_guide.md).
 
