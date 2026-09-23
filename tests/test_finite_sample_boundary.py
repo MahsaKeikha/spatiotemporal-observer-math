@@ -18,12 +18,18 @@ def _factors():
 
 def test_p67_more_iid_residuals_tighten_covariance_radius():
     local, transport, candidates = _factors()
-    kwargs = dict(
-        block_dimension=5, block_count=6, confidence=0.95,
-        local_factors=local, transport_factors=transport, candidates=candidates,
-        paths={"W0": (0, 0, 0), "W1": (1, 1, 1)},
-        node_count=3, subset_size=2, transport_weight=0.25,
-    )
+    kwargs = {
+        "block_dimension": 5,
+        "block_count": 6,
+        "confidence": 0.95,
+        "local_factors": local,
+        "transport_factors": transport,
+        "candidates": candidates,
+        "paths": {"W0": (0, 0, 0), "W1": (1, 1, 1)},
+        "node_count": 3,
+        "subset_size": 2,
+        "transport_weight": 0.25,
+    }
     a = finite_sample_boundary_point(200, **kwargs)
     b = finite_sample_boundary_point(1000, **kwargs)
     assert b.covariance_radius < a.covariance_radius
