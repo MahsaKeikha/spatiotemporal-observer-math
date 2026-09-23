@@ -6,7 +6,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **67** |
+| Propositions | **68** |
 | Reproducible experiments | **52, A-Z and AA-BA** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
@@ -242,6 +242,14 @@ P66 composes the certified retained physical-boundary set with P62-style worst-c
 P67 replaces the controlled covariance-radius input of AY with the existing Proposition 47 finite-sample Gaussian matrix concentration radius in the exact-whitening unit-weight setting. It explicitly separates entry into the relative perturbation regime, useful path compression, and unique population-path certification. Experiment BA sweeps residual innovation counts and records those transitions.
 
 [P67 theorem](proposition_67_finite_sample_boundary_workload.md) | [Experiment BA generator](../examples/finite_sample_boundary_workload_audit.py)
+
+---
+
+## Layer T. Finite-sample boundary uncertainty to robust evidence: P68
+
+P68 composes a valid P67 retained physical-boundary set with the P62/P66 worst-case e-evidence envelope. If the covariance certificate is outside the current perturbative regime, the interface returns no downstream robust conclusion rather than silently selecting a boundary. A retained weak-evidence competitor remains binding.
+
+[P68 theorem](proposition_68_finite_sample_to_robust_evidence.md)
 
 ---
 
