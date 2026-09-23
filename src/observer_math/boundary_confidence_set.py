@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import inf
-from typing import Mapping
+from collections.abc import Mapping
 
 
 @dataclass(frozen=True)
