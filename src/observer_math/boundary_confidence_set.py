@@ -1,9 +1,9 @@
 """P62 boundary-confidence-set robust evidence utilities."""
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from math import inf
-from collections.abc import Mapping
 
 
 @dataclass(frozen=True)
