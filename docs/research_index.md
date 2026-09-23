@@ -6,8 +6,8 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **66** |
-| Reproducible experiments | **51, A-Z and AA-AZ** |
+| Propositions | **69** |
+| Reproducible experiments | **54, A-Z and AA-BC** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -234,6 +234,38 @@ P65 proves that under a declared common scaling of valid path-action radii, impr
 P66 composes the certified retained physical-boundary set with P62-style worst-case downstream e-evidence. Certified contraction of the retained set cannot weaken the robust evidence envelope, while any weak-evidence retained competitor remains binding. Experiment AZ is an explicit negative control: selected-path evidence can exceed the declared threshold while robust evidence correctly remains below it.
 
 [P66 theorem](proposition_66_boundary_set_to_robust_evidence.md) | [Experiment AZ](boundary_ambiguity_to_robust_evidence_audit.json)
+
+---
+
+## Layer S. Finite-sample information to boundary workload: P67
+
+P67 replaces the controlled covariance-radius input of AY with the existing Proposition 47 finite-sample Gaussian matrix concentration radius in the exact-whitening unit-weight setting. It explicitly separates entry into the relative perturbation regime, useful path compression, and unique population-path certification. Experiment BA sweeps residual innovation counts and records those transitions.
+
+[P67 theorem](proposition_67_finite_sample_boundary_workload.md) | [Experiment BA generator](../examples/finite_sample_boundary_workload_audit.py)
+
+---
+
+## Layer T. Finite-sample boundary uncertainty to robust evidence: P68
+
+P68 composes a valid P67 retained physical-boundary set with the P62/P66 worst-case e-evidence envelope. If the covariance certificate is outside the current perturbative regime, the interface returns no downstream robust conclusion rather than silently selecting a boundary. A retained weak-evidence competitor remains binding.
+
+[P68 theorem](proposition_68_finite_sample_to_robust_evidence.md)
+
+---
+
+## Experiment BB. Finite information to robust conclusion
+
+BB executes the complete controlled P47 -> P58 -> P64 -> P63 -> P68/P66 chain. It records when finite measurement information merely enters the perturbative regime, when it reduces physical ambiguity, and when removal of a weak-evidence retained competitor changes the robust downstream threshold status. The path-specific e-values remain controlled inputs so the experiment isolates physical-boundary uncertainty.
+
+[Experiment BB documentation](experiment_bb_finite_information_to_robust_evidence.md) | [BB generator](../examples/finite_information_to_robust_evidence_audit.py)
+
+---
+
+## Layer U. Polynomial-time certified graph compression: P69
+
+P69 replaces explicit exponential world-tube enumeration with forward/backward max-plus interval dynamic programming. It safely prunes nodes and edges whose upper max-marginals cannot reach the best certified lower path action. The theorem uses O(T C^2) arithmetic while preserving every eta-near-optimal true path on the simultaneous interval event. Experiment BC audits graph-level compression on an implicit 12^8 path family.
+
+[P69 theorem](proposition_69_certified_graph_compression.md) | [Experiment BC](experiment_bc_certified_graph_compression.md) | [BC generator](../examples/certified_graph_compression_audit.py)
 
 ---
 
