@@ -32,5 +32,6 @@ jobs:
           assert all(r["retained_path_count"] >= 1 for r in d["rows"])
           assert all(r["retained_edge_workload"] >= 0 for r in d["rows"])
           assert any(r["pareto_nondominated"] for r in d["rows"])
+          assert Path("docs/empirical_precision_ambiguity_frontier.svg").exists()
           print(json.dumps(d, indent=2))
           PY
