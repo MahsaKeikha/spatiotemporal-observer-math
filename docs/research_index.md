@@ -6,8 +6,8 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **64** |
-| Reproducible experiments | **49, A-Z and AA-AW** |
+| Propositions | **65** |
+| Reproducible experiments | **50, A-Z and AA-AX** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -218,6 +218,14 @@ P63 uses simultaneous world-tube action intervals to remove only paths whose upp
 P64 closes the deterministic gap between P58 and P63. Candidate-local score radii generated from the covariance uncertainty chain are accumulated along each world-tube to form a certified action interval. Those intervals can then be passed directly to P63 for safe path-space compression and onward to P62 for boundary-robust downstream evidence.
 
 [P64 theorem](proposition_64_measurement_to_path_action_intervals.md)
+
+---
+
+## Layer Q. Precision-to-ambiguity engineering law: P65
+
+P65 proves that under a declared common scaling of valid path-action radii, improving precision cannot increase the P63 retained path set. This gives measurement precision a direct operational meaning: tighter certified uncertainty preserves or reduces the physical ambiguity and downstream workload passed to Research II. Experiment AX records the controlled uncertainty-width to workload curve without interpreting it as a sensor sample-complexity law.
+
+[P65 theorem](proposition_65_precision_to_ambiguity_workload.md) | [Experiment AX generator](../examples/precision_ambiguity_workload_audit.py)
 
 ---
 
