@@ -1,0 +1,29 @@
+{
+  "experiment": "AT",
+  "title": "Factor-specific covariance geometry audit",
+  "benchmark": {
+    "node_count": 7,
+    "subset_size": 3,
+    "time_count": 5,
+    "candidate_count": 35,
+    "simultaneous_time_candidate_blocks": 175
+  },
+  "factor_dimensions": {
+    "integration": 6,
+    "local_persistence": 6,
+    "transport_persistence": 6,
+    "local_environmental_independence": 10,
+    "transport_environmental_independence": 10
+  },
+  "exact_tau_unit_weight_diagnostic": {
+    "residual_innovation_degrees": 118,
+    "confidence": 0.975,
+    "dimension_6_radius": 1.4091111265643517,
+    "dimension_10_radius": 1.8573569118880073,
+    "dimension_6_first_residual_degrees_below_one": 215,
+    "dimension_6_radius_at_entry": 0.998072882652475,
+    "dimension_10_first_residual_degrees_below_one": 346,
+    "dimension_10_radius_at_entry": 0.9991303523448438
+  },
+  "conclusion": "Integration and persistence admit smaller sufficient covariance blocks, but environmental leakage retains the full n+s block. Factor-specific geometry tightens the certificate without by itself resolving the observer-scale bottleneck."
+}
