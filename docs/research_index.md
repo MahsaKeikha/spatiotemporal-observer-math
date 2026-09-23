@@ -6,8 +6,8 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 
 | Record | Current state |
 | --- | ---: |
-| Propositions | **65** |
-| Reproducible experiments | **50, A-Z and AA-AX** |
+| Propositions | **66** |
+| Reproducible experiments | **51, A-Z and AA-AZ** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -226,6 +226,14 @@ P64 closes the deterministic gap between P58 and P63. Candidate-local score radi
 P65 proves that under a declared common scaling of valid path-action radii, improving precision cannot increase the P63 retained path set. This gives measurement precision a direct operational meaning: tighter certified uncertainty preserves or reduces the physical ambiguity and downstream workload passed to Research II. Experiment AX records the controlled uncertainty-width to workload curve without interpreting it as a sensor sample-complexity law.
 
 [P65 theorem](proposition_65_precision_to_ambiguity_workload.md) | [Experiment AX generator](../examples/precision_ambiguity_workload_audit.py)
+
+---
+
+## Layer R. Boundary ambiguity to robust evidence: P66
+
+P66 composes the certified retained physical-boundary set with P62-style worst-case downstream e-evidence. Certified contraction of the retained set cannot weaken the robust evidence envelope, while any weak-evidence retained competitor remains binding. Experiment AZ is an explicit negative control: selected-path evidence can exceed the declared threshold while robust evidence correctly remains below it.
+
+[P66 theorem](proposition_66_boundary_set_to_robust_evidence.md) | [Experiment AZ](boundary_ambiguity_to_robust_evidence_audit.json)
 
 ---
 
