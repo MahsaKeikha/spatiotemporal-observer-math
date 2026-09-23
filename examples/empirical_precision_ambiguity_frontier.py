@@ -14,6 +14,7 @@ from observer_math.score_interval_graph import compress_score_interval_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "docs" / "empirical_precision_ambiguity_frontier.json"
+FIGURE = ROOT / "docs" / "empirical_precision_ambiguity_frontier.svg"
 
 def main() -> None:
     planted, candidates, local_factors, transport_factors = population_problem()
@@ -38,7 +39,33 @@ def main() -> None:
         row["pareto_nondominated"] = (row["covariance_relative_radius"], row["retained_path_count"], row["retained_edge_workload"]) in frontier_keys
     record = {"experiment": "BG", "title": "Empirical precision-ambiguity-workload Pareto frontier", "benchmark": {"n": 7, "s": 3, "T": len(planted), "C": len(candidates)}, "evidence_coordinate": "held constant at 1.0 to isolate physical geometry", "rows": records, "scientific_boundary": "The frontier is descriptive and uses declared covariance radii. It does not assign utility weights, probabilities to paths, or application preferences."}
     OUTPUT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    import matplotlib.pyplot as plt
+
+    x = np.array([row["covariance_relative_radius"] for row in records])
+    y = np.array([row["retained_path_count"] for row in records], dtype=float)
+    w = np.array([row["retained_edge_workload"] for row in records], dtype=float)
+    order = np.argsort(x)
+    figure, axis = plt.subplots(figsize=(7.4, 4.8))
+    axis.plot(x[order], y[order], marker="o")
+    for index in order:
+        axis.annotate(
+            f"W={int(w[index])}",
+            (x[index], y[index]),
+            xytext=(4, 5),
+            textcoords="offset points",
+            fontsize=8,
+        )
+    axis.set_xscale("log")
+    axis.set_yscale("log")
+    axis.set_xlabel("Simultaneous relative covariance radius")
+    axis.set_ylabel("Certified retained world-tube count")
+    axis.set_title("Precision, physical ambiguity, and graph workload")
+    axis.grid(alpha=0.25)
+    figure.tight_layout()
+    figure.savefig(FIGURE)
+    plt.close(figure)
     print(json.dumps(record, indent=2))
+    print("Figure:", FIGURE)
 
 if __name__ == "__main__":
     main()
