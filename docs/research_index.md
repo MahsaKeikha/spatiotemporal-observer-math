@@ -189,6 +189,14 @@ Proposition 60 turns the P59 leakage bottleneck into an explicit engineering con
 
 ---
 
+## Layer M. Boundary-to-bridge inference interface: P61
+
+Proposition 61 begins the formal connection from Research I subsystem identification to Research II sufficiency testing. It proves the clean sample-split case: an arbitrarily selected world-tube may be frozen using pilot information without inflating a conditionally valid downstream level-alpha test, provided the certification outcomes do not select their own physical boundary and the declared conditional-validity assumptions hold.
+
+[P61 theorem](proposition_61_sample_split_boundary_freeze.md) | [Engineering handoff](research_i_to_ii_engineering_handoff.md)
+
+---
+
 # 3. Recent experiment sequence
 
 | Experiment | Proposition | Scientific question | Main recorded result | Visual |
