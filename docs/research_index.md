@@ -7,7 +7,7 @@ This page is the audit-oriented navigation layer for **Spatiotemporal Observer M
 | Record | Current state |
 | --- | ---: |
 | Propositions | **69** |
-| Reproducible experiments | **57, A-Z and AA-BF** |
+| Reproducible experiments | **58, A-Z and AA-BG** |
 | Scientific result figures | **33** |
 | Claim-level tests | **223** |
 | Research-software version | **0.47.1** |
@@ -290,6 +290,14 @@ P71 counts every complete world-tube remaining in the P69 certified graph by dyn
 P72 keeps P71 ambiguity cardinality separate from P62/P66 robust e-evidence. Reducing the number of retained physical alternatives does not itself strengthen evidence; robust evidence changes only when a binding weak-evidence alternative is removed or its own evidence changes. Experiment BF makes this negative result explicit.
 
 [P72 theorem](proposition_72_ambiguity_cardinality_and_robust_evidence.md) | [BF generator](../examples/ambiguity_vs_robust_evidence_audit.py)
+
+---
+
+## Experiment BG. Empirical precision-ambiguity-workload frontier
+
+BG applies P73 to the canonical n=7, s=3, T=5, C=35 benchmark. For each declared covariance radius it recomputes the P58 uncertainty, P70/P69 graph, P71 exact retained path count, and retained-edge workload. The downstream evidence coordinate is held constant so the experiment isolates the physical precision-ambiguity-workload geometry without inventing downstream evidence.
+
+[Experiment BG](experiment_bg_empirical_pareto_frontier.md) | [BG generator](../examples/empirical_precision_ambiguity_frontier.py)
 
 ---
 

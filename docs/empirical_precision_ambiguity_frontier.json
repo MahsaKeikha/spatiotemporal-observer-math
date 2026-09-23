@@ -1,0 +1,17 @@
+{
+  "experiment": "BG",
+  "title": "Empirical precision-ambiguity-workload Pareto frontier",
+  "benchmark": {"n": 7, "s": 3, "T": 5, "C": 35},
+  "evidence_coordinate": "held constant at 1.0 to isolate physical geometry",
+  "rows": [
+    {"covariance_relative_radius": 0.05, "retained_path_count": 52521875, "retained_edge_workload": 4900, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.02, "retained_path_count": 52521875, "retained_edge_workload": 4900, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.01, "retained_path_count": 52521875, "retained_edge_workload": 4900, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.005, "retained_path_count": 52521875, "retained_edge_workload": 4900, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.001, "retained_path_count": 52521875, "retained_edge_workload": 4900, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.0005, "retained_path_count": 52178875, "retained_edge_workload": 4892, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.0002, "retained_path_count": 720, "retained_edge_workload": 126, "p58_unique_recovery_certified": false, "pareto_nondominated": false},
+    {"covariance_relative_radius": 0.0001, "retained_path_count": 2, "retained_edge_workload": 5, "p58_unique_recovery_certified": false, "pareto_nondominated": true}
+  ],
+  "scientific_boundary": "The frontier is descriptive and uses declared covariance radii. It does not assign utility weights, probabilities to paths, or application preferences."
+}
