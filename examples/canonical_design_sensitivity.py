@@ -45,7 +45,7 @@ def evaluate(local_factors, transport_factors, candidates, delta_map):
         transport_weight=0.25, continuity_weight=0.08,
     )
     return {
-        "retained_paths": int(count_retained_paths(graph.retained_nodes, graph.retained_edges)),
+        "retained_paths": int(count_retained_paths(graph.retained_nodes, graph.retained_edges).total_paths),
         "retained_nodes": int(np.sum(graph.retained_nodes)),
         "retained_edges": int(np.sum(graph.retained_edges)),
         "unique_recovery": bool(bridge.guarantees_population_path),
