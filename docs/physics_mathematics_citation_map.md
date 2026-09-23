@@ -2,7 +2,7 @@
 
 This page is the compact equation-level provenance map for **Spatiotemporal Observer Mathematics**. Each major object is presented with four pieces of information: its physical interpretation, its mathematical definition, its source lineage, and the repository location where it is derived or verified.
 
-The project begins from Max Tegmark's observer-factorization question and develops a time-dependent mathematical framework for dynamically inferred subsystem boundaries.
+The project develops a time-dependent mathematical framework for dynamically inferred subsystem boundaries. External conceptual and mathematical sources are maintained in the bibliography.
 
 For complete references, see the [Bibliography and Citation Map](bibliography.md) and machine-readable [`references.bib`](../references.bib). For the full physical narrative, see the [Physics Guide](physics_guide.md).
 
@@ -14,7 +14,6 @@ The central physical question is
 
 > **If a coherent subsystem moves through the coordinates used to observe a larger physical system, when can its boundary be inferred from the dynamics rather than fixed in advance?**
 
-The conceptual starting point is [Tegmark 2015](bibliography.md#tegmark-2015), which examines the observer-factorization problem and considers information, integration, independence, and dynamics as organizing principles.
 
 The time-dependent objects studied here are
 
@@ -30,7 +29,7 @@ Here \(S_t\) is a candidate subsystem at time \(t\), and \(\mathcal W\) is its m
 
 **Mathematical status:** repository definition motivated by the observer-factorization question.
 
-**Verification:** [Derivations](derivations.md) | [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question)
+**Verification:** [Derivations](derivations.md)
 
 ---
 
@@ -170,7 +169,7 @@ G_t(S)=1-2^{-\mathcal J_t(S)}.
 
 **Physical reading:** internal components contribute predictive information about one another across the time step after each side's own present is conditioned upon.
 
-**Lineage:** information theory from [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006); conceptual integration context from [Tegmark 2015](bibliography.md#tegmark-2015), [Tegmark 2016](bibliography.md#tegmark-2016), and the integrated-information literature.
+**Lineage:** information theory from [Shannon 1948](bibliography.md#shannon-1948) and [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006); additional conceptual context is listed in the bibliography.
 
 **Mathematical status:** repository operational definition.
 
@@ -595,7 +594,6 @@ On Experiment AS, the current observer-scale exact-\(\tau\) concentration radius
 
 | Object | Physical role | Mathematical status | Primary lineage | Repository location |
 | --- | --- | --- | --- | --- |
-| Observer-factorization question | why one subsystem decomposition is distinguished | conceptual starting point | [Tegmark 2015](bibliography.md#tegmark-2015) | [README Section 13](../README.md#13-relationship-to-tegmarks-observer-factorization-question) |
 | \(S_t\), \(\mathcal W\) | moving subsystem boundary and history | repository definition | observer-factorization lineage | [Derivations](derivations.md) |
 | Gaussian MI / CMI | predictive statistical dependence | standard identity | [Shannon 1948](bibliography.md#shannon-1948); [Cover and Thomas 2006](bibliography.md#cover-and-thomas-2006) | [Derivations](derivations.md#gaussian-information-quantities) |
 | \(\mathcal J_t\), \(\mathcal L_t\) | internal integration and external leakage | repository operational definitions | information theory and integration lineage | [Derivations](derivations.md#internal-directed-integration) |
@@ -642,6 +640,5 @@ The complete reference record is maintained in:
 
 Primary conceptual citation:
 
-**Max Tegmark. "Consciousness as a State of Matter." _Chaos, Solitons & Fractals_ 76 (2015): 238-270. DOI: 10.1016/j.chaos.2015.03.014.**
 
 Repository-specific results should cite **Spatiotemporal Observer Mathematics** through [`CITATION.cff`](../CITATION.cff), together with the external method citation appropriate to the theorem being used.
