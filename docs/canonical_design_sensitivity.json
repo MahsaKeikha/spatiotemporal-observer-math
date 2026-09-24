@@ -1,0 +1,4933 @@
+{
+  "experiment": "BI",
+  "title": "Canonical moving-module single-block precision sensitivity",
+  "baseline_radius": 0.0005,
+  "baseline": {
+    "retained_paths": 52178875,
+    "retained_nodes": 175,
+    "retained_edges": 4892,
+    "unique_recovery": false
+  },
+  "candidate_radii": [
+    0.0002,
+    0.0001
+  ],
+  "interventions_evaluated": 350,
+  "best_by_ambiguity_then_edges": {
+    "time": 1,
+    "candidate_index": 34,
+    "candidate": [
+      4,
+      5,
+      6
+    ],
+    "radius": 0.0001,
+    "retained_paths": 50694525,
+    "retained_nodes": 175,
+    "retained_edges": 4844,
+    "unique_recovery": false
+  },
+  "rows": [
+    {
+      "time": 0,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51921625,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52137365,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52097080,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52055570,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52138590,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52097080,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52137365,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52011610,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52055570,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52138590,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52097080,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52051755,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52137365,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52097080,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52138590,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52138590,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52137365,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51927225,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51968875,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51970100,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52138590,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51966285,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51966285,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51926000,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007935,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52095855,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52095855,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050390,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51837940,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050390,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51923410,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51883265,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51965060,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52053120,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52095855,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51707810,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51408385,
+      "retained_nodes": 175,
+      "retained_edges": 4874,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51664795,
+      "retained_nodes": 175,
+      "retained_edges": 4880,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51408385,
+      "retained_nodes": 175,
+      "retained_edges": 4874,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51707390,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51408245,
+      "retained_nodes": 175,
+      "retained_edges": 4874,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51578625,
+      "retained_nodes": 175,
+      "retained_edges": 4878,
+      "unique_recovery": false
+    },
+    {
+      "time": 0,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51196495,
+      "retained_nodes": 175,
+      "retained_edges": 4868,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51974300,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52015950,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51708475,
+      "retained_nodes": 175,
+      "retained_edges": 4880,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52094490,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51879730,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51879730,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51932650,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51670500,
+      "retained_nodes": 175,
+      "retained_edges": 4879,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52052840,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52094490,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51879730,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51840775,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51840775,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51784425,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51631125,
+      "retained_nodes": 175,
+      "retained_edges": 4878,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007935,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51477685,
+      "retained_nodes": 175,
+      "retained_edges": 4874,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007935,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51554860,
+      "retained_nodes": 175,
+      "retained_edges": 4877,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51797305,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52011190,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51968315,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51926525,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51926525,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52012275,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51851415,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51840775,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51926525,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51926525,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51783620,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51021880,
+      "retained_nodes": 175,
+      "retained_edges": 4853,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51348745,
+      "retained_nodes": 175,
+      "retained_edges": 4871,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51750125,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51305870,
+      "retained_nodes": 175,
+      "retained_edges": 4870,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51414650,
+      "retained_nodes": 175,
+      "retained_edges": 4873,
+      "unique_recovery": false
+    },
+    {
+      "time": 1,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 50694525,
+      "retained_nodes": 175,
+      "retained_edges": 4844,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51878750,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51492875,
+      "retained_nodes": 175,
+      "retained_edges": 4876,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51931425,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51921625,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51741550,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51218475,
+      "retained_nodes": 175,
+      "retained_edges": 4864,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51817500,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51109450,
+      "retained_nodes": 175,
+      "retained_edges": 4860,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51744000,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 50986950,
+      "retained_nodes": 175,
+      "retained_edges": 4854,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51969400,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51810150,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51927750,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51878750,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52011050,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51627625,
+      "retained_nodes": 175,
+      "retained_edges": 4878,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51775850,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51601900,
+      "retained_nodes": 175,
+      "retained_edges": 4877,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52011050,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51501450,
+      "retained_nodes": 175,
+      "retained_edges": 4874,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51797305,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52011050,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52011575,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51754955,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51815050,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51815050,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51707250,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51492875,
+      "retained_nodes": 175,
+      "retained_edges": 4876,
+      "unique_recovery": false
+    },
+    {
+      "time": 2,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51114350,
+      "retained_nodes": 175,
+      "retained_edges": 4859,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51664375,
+      "retained_nodes": 175,
+      "retained_edges": 4880,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51878750,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51750125,
+      "retained_nodes": 175,
+      "retained_edges": 4882,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51578625,
+      "retained_nodes": 175,
+      "retained_edges": 4878,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51921625,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51835875,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050670,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51818060,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51931985,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51412480,
+      "retained_nodes": 175,
+      "retained_edges": 4871,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51661400,
+      "retained_nodes": 175,
+      "retained_edges": 4879,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050670,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51671200,
+      "retained_nodes": 175,
+      "retained_edges": 4879,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51506078,
+      "retained_nodes": 175,
+      "retained_edges": 4875,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093125,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51894010,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51797305,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 3,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51965200,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51836120,
+      "retained_nodes": 175,
+      "retained_edges": 4884,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 0,
+      "candidate": [
+        0,
+        1,
+        2
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51708230,
+      "retained_nodes": 175,
+      "retained_edges": 4881,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 1,
+      "candidate": [
+        0,
+        1,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007900,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 2,
+      "candidate": [
+        0,
+        1,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51964850,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 3,
+      "candidate": [
+        0,
+        1,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 4,
+      "candidate": [
+        0,
+        1,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51793000,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 5,
+      "candidate": [
+        0,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050670,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 6,
+      "candidate": [
+        0,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050530,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 7,
+      "candidate": [
+        0,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 8,
+      "candidate": [
+        0,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52050250,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 9,
+      "candidate": [
+        0,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52007935,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 10,
+      "candidate": [
+        0,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 11,
+      "candidate": [
+        0,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007515,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 15,
+      "candidate": [
+        1,
+        2,
+        3
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51879310,
+      "retained_nodes": 175,
+      "retained_edges": 4885,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 16,
+      "candidate": [
+        1,
+        2,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136000,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 17,
+      "candidate": [
+        1,
+        2,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093265,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52007375,
+      "retained_nodes": 175,
+      "retained_edges": 4888,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 18,
+      "candidate": [
+        1,
+        2,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51921975,
+      "retained_nodes": 175,
+      "retained_edges": 4886,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 19,
+      "candidate": [
+        1,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093405,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 20,
+      "candidate": [
+        1,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 21,
+      "candidate": [
+        1,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 22,
+      "candidate": [
+        1,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 23,
+      "candidate": [
+        1,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 24,
+      "candidate": [
+        1,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 25,
+      "candidate": [
+        2,
+        3,
+        4
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52093405,
+      "retained_nodes": 175,
+      "retained_edges": 4890,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 26,
+      "candidate": [
+        2,
+        3,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 27,
+      "candidate": [
+        2,
+        3,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 28,
+      "candidate": [
+        2,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52054345,
+      "retained_nodes": 175,
+      "retained_edges": 4889,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 29,
+      "candidate": [
+        2,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 30,
+      "candidate": [
+        2,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 52178875,
+      "retained_nodes": 175,
+      "retained_edges": 4892,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 52136140,
+      "retained_nodes": 175,
+      "retained_edges": 4891,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0002,
+      "retained_paths": 51964500,
+      "retained_nodes": 175,
+      "retained_edges": 4887,
+      "unique_recovery": false
+    },
+    {
+      "time": 4,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "radius": 0.0001,
+      "retained_paths": 51797305,
+      "retained_nodes": 175,
+      "retained_edges": 4883,
+      "unique_recovery": false
+    }
+  ],
+  "scientific_boundary": "BI is an in-silico certificate-design audit on the canonical population benchmark. A candidate-time covariance radius is a mathematical uncertainty block, not a physical sensor cost. The experiment tests whether localized precision can change the certified ambiguity graph before any hardware interpretation is made."
+}
