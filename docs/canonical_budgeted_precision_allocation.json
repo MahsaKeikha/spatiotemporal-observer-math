@@ -1,0 +1,281 @@
+{
+  "experiment": "BJ",
+  "title": "Canonical budgeted multi-block precision allocation",
+  "baseline_radius": 0.0005,
+  "target_radius": 0.0001,
+  "baseline": {
+    "retained_paths": 52178875,
+    "retained_nodes": 175,
+    "retained_edges": 4892,
+    "unique_recovery": false
+  },
+  "screened_library_size": 12,
+  "screening_rule": "top BI single-block path reduction, then edge reduction",
+  "pool": [
+    {
+      "intervention_id": "t1:c34",
+      "time": 1,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 1484350,
+      "single_block_edge_reduction": 48
+    },
+    {
+      "intervention_id": "t2:c14",
+      "time": 2,
+      "candidate_index": 14,
+      "candidate": [
+        0,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 1191925,
+      "single_block_edge_reduction": 38
+    },
+    {
+      "intervention_id": "t1:c31",
+      "time": 1,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "single_block_path_reduction": 1156995,
+      "single_block_edge_reduction": 39
+    },
+    {
+      "intervention_id": "t2:c13",
+      "time": 2,
+      "candidate_index": 13,
+      "candidate": [
+        0,
+        4,
+        6
+      ],
+      "single_block_path_reduction": 1069425,
+      "single_block_edge_reduction": 32
+    },
+    {
+      "intervention_id": "t2:c34",
+      "time": 2,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 1064525,
+      "single_block_edge_reduction": 33
+    },
+    {
+      "intervention_id": "t0:c34",
+      "time": 0,
+      "candidate_index": 34,
+      "candidate": [
+        4,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 982380,
+      "single_block_edge_reduction": 24
+    },
+    {
+      "intervention_id": "t2:c12",
+      "time": 2,
+      "candidate_index": 12,
+      "candidate": [
+        0,
+        4,
+        5
+      ],
+      "single_block_path_reduction": 960400,
+      "single_block_edge_reduction": 28
+    },
+    {
+      "intervention_id": "t1:c33",
+      "time": 1,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 873005,
+      "single_block_edge_reduction": 22
+    },
+    {
+      "intervention_id": "t1:c32",
+      "time": 1,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "single_block_path_reduction": 830130,
+      "single_block_edge_reduction": 21
+    },
+    {
+      "intervention_id": "t0:c33",
+      "time": 0,
+      "candidate_index": 33,
+      "candidate": [
+        3,
+        5,
+        6
+      ],
+      "single_block_path_reduction": 770630,
+      "single_block_edge_reduction": 18
+    },
+    {
+      "intervention_id": "t0:c31",
+      "time": 0,
+      "candidate_index": 31,
+      "candidate": [
+        3,
+        4,
+        5
+      ],
+      "single_block_path_reduction": 770490,
+      "single_block_edge_reduction": 18
+    },
+    {
+      "intervention_id": "t0:c32",
+      "time": 0,
+      "candidate_index": 32,
+      "candidate": [
+        3,
+        4,
+        6
+      ],
+      "single_block_path_reduction": 770490,
+      "single_block_edge_reduction": 18
+    }
+  ],
+  "stages": [
+    {
+      "budget": 1,
+      "exact_restricted": {
+        "intervention_ids": [
+          "t1:c34"
+        ],
+        "retained_paths": 50694525,
+        "retained_edges": 4844,
+        "path_reduction": 1484350,
+        "edge_reduction": 48,
+        "unique_recovery": false,
+        "feasible_subsets_evaluated": 13,
+        "sum_of_single_block_path_reductions": 1484350,
+        "interaction_gain": 0
+      },
+      "greedy_recomputed": {
+        "intervention_ids": [
+          "t1:c34"
+        ],
+        "retained_paths": 50694525,
+        "retained_edges": 4844,
+        "path_reduction": 1484350,
+        "edge_reduction": 48,
+        "unique_recovery": false
+      },
+      "static_single_rank": {
+        "intervention_ids": [
+          "t1:c34"
+        ],
+        "retained_paths": 50694525,
+        "retained_edges": 4844,
+        "path_reduction": 1484350,
+        "edge_reduction": 48,
+        "unique_recovery": false
+      }
+    },
+    {
+      "budget": 2,
+      "exact_restricted": {
+        "intervention_ids": [
+          "t1:c31",
+          "t1:c34"
+        ],
+        "retained_paths": 49542150,
+        "retained_edges": 4805,
+        "path_reduction": 2636725,
+        "edge_reduction": 87,
+        "unique_recovery": false,
+        "feasible_subsets_evaluated": 79,
+        "sum_of_single_block_path_reductions": 2641345,
+        "interaction_gain": -4620
+      },
+      "greedy_recomputed": {
+        "intervention_ids": [
+          "t1:c34",
+          "t1:c31"
+        ],
+        "retained_paths": 49542150,
+        "retained_edges": 4805,
+        "path_reduction": 2636725,
+        "edge_reduction": 87,
+        "unique_recovery": false
+      },
+      "static_single_rank": {
+        "intervention_ids": [
+          "t1:c34",
+          "t2:c14"
+        ],
+        "retained_paths": 49545475,
+        "retained_edges": 4807,
+        "path_reduction": 2633400,
+        "edge_reduction": 85,
+        "unique_recovery": false
+      }
+    },
+    {
+      "budget": 3,
+      "exact_restricted": {
+        "intervention_ids": [
+          "t1:c31",
+          "t1:c34",
+          "t2:c14"
+        ],
+        "retained_paths": 48435975,
+        "retained_edges": 4769,
+        "path_reduction": 3742900,
+        "edge_reduction": 123,
+        "unique_recovery": false,
+        "feasible_subsets_evaluated": 299,
+        "sum_of_single_block_path_reductions": 3833270,
+        "interaction_gain": -90370
+      },
+      "greedy_recomputed": {
+        "intervention_ids": [
+          "t1:c34",
+          "t1:c31",
+          "t2:c14"
+        ],
+        "retained_paths": 48435975,
+        "retained_edges": 4769,
+        "path_reduction": 3742900,
+        "edge_reduction": 123,
+        "unique_recovery": false
+      },
+      "static_single_rank": {
+        "intervention_ids": [
+          "t1:c34",
+          "t2:c14",
+          "t1:c31"
+        ],
+        "retained_paths": 48435975,
+        "retained_edges": 4769,
+        "path_reduction": 3742900,
+        "edge_reduction": 123,
+        "unique_recovery": false
+      }
+    }
+  ],
+  "joint_allocations_evaluated": 299,
+  "scientific_boundary": "BJ is exact only over the screened 12-block library with unit nominal costs and budgets one to three. It is not a global optimum over all 175 blocks and unit cost is not a hardware, acquisition-time, power, or monetary cost claim."
+}
