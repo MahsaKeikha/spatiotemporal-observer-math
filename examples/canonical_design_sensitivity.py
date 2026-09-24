@@ -17,7 +17,8 @@ from observer_math.observer_bridge import relative_covariance_worldtube_recovery
 from observer_math.score_interval_graph import compress_score_interval_graph
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "docs" / "canonical_design_sensitivity.json"\nFIGURE = ROOT / "docs" / "canonical_design_sensitivity.svg"
+OUTPUT = ROOT / "docs" / "canonical_design_sensitivity.json"
+FIGURE = ROOT / "docs" / "canonical_design_sensitivity.svg"
 
 
 def continuity_matrix(candidates):
