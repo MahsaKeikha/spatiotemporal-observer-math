@@ -17,7 +17,7 @@ from observer_math.observer_bridge import relative_covariance_worldtube_recovery
 from observer_math.score_interval_graph import compress_score_interval_graph
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "docs" / "canonical_design_sensitivity.json"
+OUTPUT = ROOT / "docs" / "canonical_design_sensitivity.json"\nFIGURE = ROOT / "docs" / "canonical_design_sensitivity.svg"
 
 
 def continuity_matrix(candidates):
@@ -52,7 +52,7 @@ def evaluate(local_factors, transport_factors, candidates, delta_map):
     }
 
 
-def main():
+def render(rows, baseline_paths):\n    import matplotlib.pyplot as plt\n    reductions = [baseline_paths - r["retained_paths"] for r in rows]\n    figure, axis = plt.subplots(figsize=(8.0, 4.8))\n    axis.scatter(range(len(rows)), reductions, s=14)\n    axis.set_xlabel("Single-block intervention index")\n    axis.set_ylabel("Reduction in retained complete paths")\n    axis.set_title("Canonical benchmark: localized precision interventions")\n    axis.grid(alpha=0.25)\n    figure.tight_layout()\n    figure.savefig(FIGURE)\n    plt.close(figure)\n\n\ndef main():
     planted, candidates, local_factors, transport_factors = population_problem()
     baseline = evaluate(local_factors, transport_factors, candidates, {})
     candidate_radii = (0.0002, 0.0001)
